@@ -7,15 +7,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{38D4746C-6C9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{BF4E3ADF-9CB3-45D6-ABCA-8CC6258761AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHSD.BuyingCatalogue.API", "src\NHSD.BuyingCatalogue.API\NHSD.BuyingCatalogue.API.csproj", "{6D4ADEFD-E673-4238-A3A7-089E06104A16}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.API", "src\NHSD.BuyingCatalogue.API\NHSD.BuyingCatalogue.API.csproj", "{6D4ADEFD-E673-4238-A3A7-089E06104A16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHSD.BuyingCatalogue.Application.Tests", "tests\NHSD.BuyingCatalogue.Application.Tests\NHSD.BuyingCatalogue.Application.Tests.csproj", "{D6E8B9C8-C7D7-4A48-B582-87B76CC180E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Application.Tests", "tests\NHSD.BuyingCatalogue.Application.Tests\NHSD.BuyingCatalogue.Application.Tests.csproj", "{D6E8B9C8-C7D7-4A48-B582-87B76CC180E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHSD.BuyingCatalogue.Application", "src\NHSD.BuyingCatalogue.Application\NHSD.BuyingCatalogue.Application.csproj", "{51A4C2FF-14F7-4F55-B276-00F0367B55F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Application", "src\NHSD.BuyingCatalogue.Application\NHSD.BuyingCatalogue.Application.csproj", "{51A4C2FF-14F7-4F55-B276-00F0367B55F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHSD.BuyingCatalogue.Domain", "src\NHSD.BuyingCatalogue.Domain\NHSD.BuyingCatalogue.Domain.csproj", "{841E23DC-E645-4E99-BC5D-2F10D9D1C580}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Domain", "src\NHSD.BuyingCatalogue.Domain\NHSD.BuyingCatalogue.Domain.csproj", "{841E23DC-E645-4E99-BC5D-2F10D9D1C580}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHSD.BuyingCatalogue.Persistence", "src\NHSD.BuyingCatalogue.Persistence\NHSD.BuyingCatalogue.Persistence.csproj", "{798DC232-7A6F-41D1-977B-C435591013B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Persistence", "src\NHSD.BuyingCatalogue.Persistence\NHSD.BuyingCatalogue.Persistence.csproj", "{798DC232-7A6F-41D1-977B-C435591013B8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solutions Items", "Solutions Items", "{0618B9B8-B0AC-42F7-8024-53A0FA3F1BBF}"
+	ProjectSection(SolutionItems) = preProject
+		.env = .env
+		docker-compose.development.yml = docker-compose.development.yml
+		docker-compose.production.yml = docker-compose.production.yml
+		docker-compose.yml = docker-compose.yml
+		Dockerfile = Dockerfile
+		Dockerfile-db = Dockerfile-db
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
