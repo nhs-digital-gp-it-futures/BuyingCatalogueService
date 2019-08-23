@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAll;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAll;
 
 namespace NHSD.BuyingCatalogue.API.Controllers
 {

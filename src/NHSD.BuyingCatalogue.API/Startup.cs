@@ -1,10 +1,10 @@
-﻿using NHSD.BuyingCatalogue.API.Extensions;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAll;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NHSD.BuyingCatalogue.API.Extensions;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAll;
 
 namespace NHSD.BuyingCatalogue.API
 {
@@ -36,7 +36,7 @@ namespace NHSD.BuyingCatalogue.API
 			services.AddCustomDbFactory()
 				.AddCustomRepositories()
 				.AddMediatR(typeof(GetAllSolutionSummariesQueryHandler).Assembly)
-				.AddCustomSwagger(Configuration)
+				.AddCustomSwagger()
 				.AddCustomMvc();
 		}
 

@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.Domain
 	/// </summary>
 	public class Solution : EntityBase<string>
 	{
-		private HashSet<Capability> _capabilities = new HashSet<Capability>();
+		private readonly HashSet<Capability> _capabilities = new HashSet<Capability>();
 
 		/// <summary>
 		/// Name of the solution, as displayed to a user.

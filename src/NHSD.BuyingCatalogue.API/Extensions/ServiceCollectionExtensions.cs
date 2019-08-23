@@ -43,9 +43,8 @@ namespace NHSD.BuyingCatalogue.API.Extensions
 		/// Adds the custom swagger settings for application.
 		/// </summary>
 		/// <param name="services">The collection of service descriptors.</param>
-		/// <param name="configuration"></param>
 		/// <returns>The extended service collection instance.</returns>
-		public static IServiceCollection AddCustomSwagger(this IServiceCollection services, IConfiguration configuration)
+		public static IServiceCollection AddCustomSwagger(this IServiceCollection services)
 		{
 			services.AddSwaggerGen(options =>
 			{

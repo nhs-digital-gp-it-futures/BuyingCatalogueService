@@ -1,0 +1,12 @@
+version: '3.5'
+
+services:
+
+  nhsd.buyingcatalogue.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ConnectionStrings:BuyingCatalogue=${NHSD_BUYINGCATALOGUE_DB:-Data Source=localhost;Initial Catalog=buyingcatalogue;MultipleActiveResultSets=True;User Id=sa;Password=P@$$w0RD}
+    network_mode: bridge
+    ports:
+      - "80:80"

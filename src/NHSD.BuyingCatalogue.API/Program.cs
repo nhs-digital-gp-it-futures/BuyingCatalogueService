@@ -36,6 +36,7 @@ namespace NHSD.BuyingCatalogue.API
 				.SetBasePath(Directory.GetCurrentDirectory())
 				.AddJsonFile("appsettings.json")
 				.AddUserSecrets<Program>()
+				.AddEnvironmentVariables()
 				.Build();
 		}
 	}
