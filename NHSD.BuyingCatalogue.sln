@@ -17,8 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Domain
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Persistence", "src\NHSD.BuyingCatalogue.Persistence\NHSD.BuyingCatalogue.Persistence.csproj", "{798DC232-7A6F-41D1-977B-C435591013B8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.API.Tests", "tests\NHSD.BuyingCatalogue.API.Tests\NHSD.BuyingCatalogue.API.Tests.csproj", "{74EE80BD-2130-4517-A209-2492B1712B60}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solutions Items", "Solutions Items", "{0618B9B8-B0AC-42F7-8024-53A0FA3F1BBF}"
 	ProjectSection(SolutionItems) = preProject
 		.env = .env
@@ -55,10 +53,6 @@ Global
 		{798DC232-7A6F-41D1-977B-C435591013B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{798DC232-7A6F-41D1-977B-C435591013B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{798DC232-7A6F-41D1-977B-C435591013B8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{74EE80BD-2130-4517-A209-2492B1712B60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74EE80BD-2130-4517-A209-2492B1712B60}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74EE80BD-2130-4517-A209-2492B1712B60}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74EE80BD-2130-4517-A209-2492B1712B60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,7 +63,6 @@ Global
 		{51A4C2FF-14F7-4F55-B276-00F0367B55F8} = {38D4746C-6C90-41BB-8EDD-BFE49144320E}
 		{841E23DC-E645-4E99-BC5D-2F10D9D1C580} = {38D4746C-6C90-41BB-8EDD-BFE49144320E}
 		{798DC232-7A6F-41D1-977B-C435591013B8} = {38D4746C-6C90-41BB-8EDD-BFE49144320E}
-		{74EE80BD-2130-4517-A209-2492B1712B60} = {BF4E3ADF-9CB3-45D6-ABCA-8CC6258761AC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B5E5ECC8-5558-45B1-83AC-F557B4DC8C57}
