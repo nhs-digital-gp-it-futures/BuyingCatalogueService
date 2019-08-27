@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using MediatR;
 using NHSD.BuyingCatalogue.Application.Persistence;
 using NHSD.BuyingCatalogue.Domain;
-using NHSD.BuyingCatalogue.Domain.Entities;
-using MediatR;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAll
 {
@@ -21,11 +21,17 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAll
 		public ISolutionRepository SolutionsRepository { get; }
 
 		/// <summary>
+		/// The mapper to convert one object into another type.
+		/// </summary>
+		public IMapper Mapper { get; }
+
+		/// <summary>
 		/// Initialises a new instance of the <see cref="GetAllSolutionSummariesQueryHandler"/> class.
 		/// </summary>
-		public GetAllSolutionSummariesQueryHandler(ISolutionRepository solutionsRepository)
+		public GetAllSolutionSummariesQueryHandler(ISolutionRepository solutionsRepository, IMapper mapper)
 		{
 			SolutionsRepository = solutionsRepository ?? throw new ArgumentNullException(nameof(solutionsRepository));
+			Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 		}
 
 		/// <summary>
@@ -40,66 +46,8 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAll
 
 			return new GetAllSolutionSummariesQueryResult
 			{
-				Solutions = solutionList.Select(Map).Where(item => item != null)
+				Solutions = Mapper.Map<IEnumerable<SolutionSummaryViewModel>>(solutionList.Where(item => item != null && item.Organisation != null && item.Capabilities != null && item.Capabilities.Any()))
 			};
-		}
-
-		private SolutionSummaryViewModel Map(Solution item)
-		{
-			if (item is null)
-			{
-				throw new ArgumentNullException(nameof(item));
-			}
-
-			SolutionSummaryViewModel returnSolutionSummaryViewModel = null;
-
-			OrganisationViewModel organisationViewModel = Map(item.Organisation);
-			IEnumerable<CapabilityViewModel> capabilityViewModelList = Map(item.Capabilities);
-
-			if (!(organisationViewModel is null) && capabilityViewModelList.Any())
-			{
-				returnSolutionSummaryViewModel = new SolutionSummaryViewModel
-				{
-					Id = item.Id,
-					Name = item.Name,
-					Summary = item.Summary,
-					Organisation = organisationViewModel,
-					Capabilities = capabilityViewModelList
-				};
-			}
-
-			return returnSolutionSummaryViewModel;
-		}
-
-		private OrganisationViewModel Map(Organisation organisation)
-		{
-			OrganisationViewModel returnOrganisationViewModel = null;
-
-			if (!(organisation is null))
-			{
-				returnOrganisationViewModel = new OrganisationViewModel
-				{
-					Id = organisation.Id,
-					Name = organisation.Name
-				};
-			}
-
-			return returnOrganisationViewModel;
-		}
-
-		private IEnumerable<CapabilityViewModel> Map(IEnumerable<Capability> capabilityList)
-		{
-			if (!(capabilityList is null) && capabilityList.Any())
-			{
-				foreach (Capability capability in capabilityList)
-				{
-					yield return new CapabilityViewModel
-					{
-						Id = capability.Id,
-						Name = capability.Name
-					};
-				}
-			}
 		}
 	}
 }

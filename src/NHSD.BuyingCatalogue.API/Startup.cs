@@ -1,9 +1,11 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NHSD.BuyingCatalogue.API.Extensions;
+using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAll;
 
 namespace NHSD.BuyingCatalogue.API
@@ -33,7 +35,8 @@ namespace NHSD.BuyingCatalogue.API
 		/// <remarks>This method gets called by the runtime. Use this method to add services to the container.</remarks>
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddCustomDbFactory()
+			services.AddAutoMapper(typeof(AutoMapperProfile).Assembly)
+				.AddCustomDbFactory()
 				.AddCustomRepositories()
 				.AddMediatR(typeof(GetAllSolutionSummariesQueryHandler).Assembly)
 				.AddCustomSwagger()
