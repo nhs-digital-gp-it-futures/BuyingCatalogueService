@@ -23,5 +23,17 @@ namespace NHSD.BuyingCatalogue.Domain.Entities
 		/// Description of the capability.
 		/// </summary>
 		public string Description { get; set; }
+
+		/// <summary>
+		/// A true or false value to determine whether or not this entity is part of the criteria to make a foundation solution.
+		/// </summary>
+		public bool IsFoundation { get; set; }
+
+		/// <summary>
+		/// Initialises a new instance of the <see cref="Capability"/> class.
+		/// </summary>
+		public Capability()
+		{
+		}
 	}
 }

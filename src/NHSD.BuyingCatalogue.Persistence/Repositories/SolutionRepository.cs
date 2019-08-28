@@ -3,11 +3,11 @@ using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Dapper;
 using NHSD.BuyingCatalogue.Application.Persistence;
 using NHSD.BuyingCatalogue.Domain;
 using NHSD.BuyingCatalogue.Domain.Entities;
 using NHSD.BuyingCatalogue.Persistence.Infrastructure;
-using Dapper;
 
 namespace NHSD.BuyingCatalogue.Persistence.Repositories
 {

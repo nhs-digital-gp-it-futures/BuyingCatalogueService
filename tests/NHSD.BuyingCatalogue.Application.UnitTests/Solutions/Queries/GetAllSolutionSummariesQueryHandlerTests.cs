@@ -1,18 +1,21 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using Moq;
 using NHSD.BuyingCatalogue.Application.Persistence;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAll;
-using NHSD.BuyingCatalogue.Application.Tests.Solutions.Data;
+using NHSD.BuyingCatalogue.Application.UnitTests.Data;
+using NHSD.BuyingCatalogue.Application.UnitTests.Infrastructure;
 using NHSD.BuyingCatalogue.Domain;
-using Moq;
 using Xunit;
 
-namespace NHSD.BuyingCatalogue.Application.Tests
+namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
 {
 	public class GetAllSolutionSummariesQueryHandlerTests
 	{
-		private Mock<ISolutionRepository> _solutionRepository;
+		private readonly Mock<ISolutionRepository> _solutionRepository;
+		private readonly IMapper _mapper;
 
 		/// <summary>
 		/// Initialises a new instance of the <see cref="GetAllSolutionSummariesQueryHandlerTests"/> class.
@@ -20,17 +23,18 @@ namespace NHSD.BuyingCatalogue.Application.Tests
 		public GetAllSolutionSummariesQueryHandlerTests()
 		{
 			_solutionRepository = new Mock<ISolutionRepository>();
+			_mapper = AutoMapperFactory.Create();
 		}
 
 		[Fact]
-		public async Task HandleSingleSolution_SingleSolutionSummaryReturned()
+		public async Task Handler_to_list_a_single_solution()
 		{
 			//ARRANGE
 			var solutionTestData = SolutionListTestData.One();
 
 			_solutionRepository.Setup(x => x.ListSolutionSummaryAsync(CancellationToken.None)).Returns(() => Task.FromResult(solutionTestData));
 
-			GetAllSolutionSummariesQueryHandler testObject = new GetAllSolutionSummariesQueryHandler(_solutionRepository.Object);
+			GetAllSolutionSummariesQueryHandler testObject = new GetAllSolutionSummariesQueryHandler(_solutionRepository.Object, _mapper);
 
 			//ACT
 			var result = await testObject.Handle(new GetAllSolutionSummariesQuery(), CancellationToken.None);
@@ -41,14 +45,14 @@ namespace NHSD.BuyingCatalogue.Application.Tests
 		}
 
 		[Fact]
-		public async Task HandleSolutionWithNoCapabilities_EmptySolutionSummaryList()
+		public async Task Handler_to_ignore_all_solutions_with_no_capabilities()
 		{
 			//ARRANGE
 			var solutionTestData = SolutionListTestData.OneWithNoCapabilities();
 
 			_solutionRepository.Setup(x => x.ListSolutionSummaryAsync(CancellationToken.None)).Returns(() => Task.FromResult(solutionTestData));
 
-			GetAllSolutionSummariesQueryHandler testObject = new GetAllSolutionSummariesQueryHandler(_solutionRepository.Object);
+			GetAllSolutionSummariesQueryHandler testObject = new GetAllSolutionSummariesQueryHandler(_solutionRepository.Object, _mapper);
 
 			//ACT
 			var result = await testObject.Handle(new GetAllSolutionSummariesQuery(), CancellationToken.None);
@@ -59,7 +63,7 @@ namespace NHSD.BuyingCatalogue.Application.Tests
 		}
 
 		[Fact]
-		public async Task HandleSolutionWithNoOrganisation_EmptySolutionSummaryList()
+		public async Task Handler_to_ignore_all_solutions_with_no_organisation()
 		{
 			//ARRANGE
 			var solutionTestData = SolutionTestData.Default();
@@ -67,7 +71,7 @@ namespace NHSD.BuyingCatalogue.Application.Tests
 
 			_solutionRepository.Setup(x => x.ListSolutionSummaryAsync(CancellationToken.None)).Returns(() => Task.FromResult<IEnumerable<Solution>>(new List<Solution> { solutionTestData }));
 
-			GetAllSolutionSummariesQueryHandler testObject = new GetAllSolutionSummariesQueryHandler(_solutionRepository.Object);
+			GetAllSolutionSummariesQueryHandler testObject = new GetAllSolutionSummariesQueryHandler(_solutionRepository.Object, _mapper);
 
 			//ACT
 			var result = await testObject.Handle(new GetAllSolutionSummariesQuery(), CancellationToken.None);
@@ -81,7 +85,7 @@ namespace NHSD.BuyingCatalogue.Application.Tests
 		}
 
 		[Fact]
-		public async Task HandleSolutionWithNoOrganisationAndCapabilities_EmptySolutionSummaryList()
+		public async Task Handler_to_ignore_all_solutions_with_no_capabilities_and_no_organisation()
 		{
 			//ARRANGE
 			var solutionTestData = SolutionTestData.DefaultWithNoCapabilites();
@@ -89,7 +93,7 @@ namespace NHSD.BuyingCatalogue.Application.Tests
 
 			_solutionRepository.Setup(x => x.ListSolutionSummaryAsync(CancellationToken.None)).Returns(() => Task.FromResult<IEnumerable<Solution>>(new List<Solution> { solutionTestData }));
 
-			GetAllSolutionSummariesQueryHandler testObject = new GetAllSolutionSummariesQueryHandler(_solutionRepository.Object);
+			GetAllSolutionSummariesQueryHandler testObject = new GetAllSolutionSummariesQueryHandler(_solutionRepository.Object, _mapper);
 
 			//ACT
 			var result = await testObject.Handle(new GetAllSolutionSummariesQuery(), CancellationToken.None);

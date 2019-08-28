@@ -1,11 +1,10 @@
-﻿using NHSD.BuyingCatalogue.API.Infrastructure.Filters;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using NHSD.BuyingCatalogue.API.Infrastructure.Filters;
 using NHSD.BuyingCatalogue.Application.Persistence;
 using NHSD.BuyingCatalogue.Persistence.Infrastructure;
 using NHSD.BuyingCatalogue.Persistence.Repositories;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace NHSD.BuyingCatalogue.API.Extensions
@@ -35,6 +34,7 @@ namespace NHSD.BuyingCatalogue.API.Extensions
 		public static IServiceCollection AddCustomRepositories(this IServiceCollection services)
 		{
 			services.AddSingleton<ISolutionRepository, SolutionRepository>();
+			services.AddSingleton<ICapabilityRepository, CapabilityRepository>();
 
 			return services;
 		}
@@ -43,9 +43,8 @@ namespace NHSD.BuyingCatalogue.API.Extensions
 		/// Adds the custom swagger settings for application.
 		/// </summary>
 		/// <param name="services">The collection of service descriptors.</param>
-		/// <param name="configuration"></param>
 		/// <returns>The extended service collection instance.</returns>
-		public static IServiceCollection AddCustomSwagger(this IServiceCollection services, IConfiguration configuration)
+		public static IServiceCollection AddCustomSwagger(this IServiceCollection services)
 		{
 			services.AddSwaggerGen(options =>
 			{
