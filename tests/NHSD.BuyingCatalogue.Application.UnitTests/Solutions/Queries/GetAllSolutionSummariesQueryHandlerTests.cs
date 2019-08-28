@@ -1,110 +1,97 @@
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using AutoMapper;
 using Moq;
 using NHSD.BuyingCatalogue.Application.Persistence;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAll;
 using NHSD.BuyingCatalogue.Application.UnitTests.Data;
-using NHSD.BuyingCatalogue.Application.UnitTests.Infrastructure;
 using NHSD.BuyingCatalogue.Domain;
 using NUnit.Framework;
+using Shouldly;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
 {
     [TestFixture]
-    public class GetAllSolutionSummariesQueryHandlerTests
+    public sealed class GetAllSolutionSummariesQueryHandlerTests
     {
-        private readonly Mock<ISolutionRepository> _solutionRepository;
-        private readonly IMapper _mapper;
+        private Mock<ISolutionRepository> _repository;
+        private Mock<IMapper> _mapper;
 
-        /// <summary>
-        /// Initialises a new instance of the <see cref="GetAllSolutionSummariesQueryHandlerTests"/> class.
-        /// </summary>
-        public GetAllSolutionSummariesQueryHandlerTests()
+        [SetUp]
+        public void SetUp()
         {
-            _solutionRepository = new Mock<ISolutionRepository>();
-            _mapper = AutoMapperFactory.Create();
+            _repository = new Mock<ISolutionRepository>();
+            _mapper = new Mock<IMapper>();
         }
 
         [Test]
-        public async Task Handler_to_list_a_single_solution()
+        public async Task Handle_CallsRepository_Once()
         {
             //ARRANGE
-            var solutionTestData = SolutionListTestData.One();
+            var testData = new [] { SolutionTestData.Default(), SolutionTestData.DefaultWithNoCapabilites() };
 
-            _solutionRepository.Setup(x => x.ListSolutionSummaryAsync(CancellationToken.None)).Returns(() => Task.FromResult(solutionTestData));
+            _repository.Setup(x => x.ListSolutionSummaryAsync(CancellationToken.None)).Returns(() => Task.FromResult<IEnumerable<Solution>>(testData));
 
-            GetAllSolutionSummariesQueryHandler testObject = new GetAllSolutionSummariesQueryHandler(_solutionRepository.Object, _mapper);
+            var testObject = new GetAllSolutionSummariesQueryHandler(_repository.Object, _mapper.Object);
+
+            //ACT
+            var _ = await testObject.Handle(new GetAllSolutionSummariesQuery(), CancellationToken.None);
+
+            //ASSERT
+            _repository.Verify(x => x.ListSolutionSummaryAsync(CancellationToken.None), Times.Once);
+        }
+
+        [Test]
+        public async Task Handle_CallsMapper_Once()
+        {
+            //ARRANGE
+            var testData = new [] { SolutionTestData.Default(), SolutionTestData.Default() };
+
+            _repository.Setup(x => x.ListSolutionSummaryAsync(CancellationToken.None)).Returns(() => Task.FromResult<IEnumerable<Solution>>(testData));
+
+            var testObject = new GetAllSolutionSummariesQueryHandler(_repository.Object, _mapper.Object);
+
+            //ACT
+            _ = await testObject.Handle(new GetAllSolutionSummariesQuery(), CancellationToken.None);
+
+            //ASSERT
+            _mapper.Verify(x => x.Map<IEnumerable<SolutionSummaryViewModel>>(It.Is<IEnumerable<Solution>>(src => Enumerable.SequenceEqual(src, testData))), Times.Once);
+        }
+
+        [Test]
+        public async Task Handle_NoData_ReturnsEmpty()
+        {
+            //ARRANGE
+            var testObject = new GetAllSolutionSummariesQueryHandler(_repository.Object, _mapper.Object);
 
             //ACT
             var result = await testObject.Handle(new GetAllSolutionSummariesQuery(), CancellationToken.None);
 
             //ASSERT
-            Assert.NotNull(result);
-            //Assert.Single(result.Solutions);
+            result.ShouldNotBeNull();
+            result.Solutions.ShouldBeEmpty();
         }
 
         [Test]
-        public async Task Handler_to_ignore_all_solutions_with_no_capabilities()
+        public async Task Handle_Data_ReturnsData()
         {
             //ARRANGE
-            var solutionTestData = SolutionListTestData.OneWithNoCapabilities();
+            var testData = new [] { SolutionTestData.Default(), SolutionTestData.DefaultWithNoCapabilites() };
+            var mapRes = new List<SolutionSummaryViewModel>();
 
-            _solutionRepository.Setup(x => x.ListSolutionSummaryAsync(CancellationToken.None)).Returns(() => Task.FromResult(solutionTestData));
+            _repository.Setup(x => x.ListSolutionSummaryAsync(CancellationToken.None)).Returns(() => Task.FromResult<IEnumerable<Solution>>(testData));
+            _mapper.Setup(x => x.Map<IEnumerable<SolutionSummaryViewModel>>(It.Is<IEnumerable<Solution>>(src => src == testData)))
+              .Returns(mapRes);
 
-            GetAllSolutionSummariesQueryHandler testObject = new GetAllSolutionSummariesQueryHandler(_solutionRepository.Object, _mapper);
+            var testObject = new GetAllSolutionSummariesQueryHandler(_repository.Object, _mapper.Object);
 
             //ACT
             var result = await testObject.Handle(new GetAllSolutionSummariesQuery(), CancellationToken.None);
 
             //ASSERT
-            Assert.NotNull(result);
-            //Assert.Empty(result.Solutions);
-        }
-
-        [Test]
-        public async Task Handler_to_ignore_all_solutions_with_no_organisation()
-        {
-            //ARRANGE
-            var solutionTestData = SolutionTestData.Default();
-            solutionTestData.Organisation = null;
-
-            _solutionRepository.Setup(x => x.ListSolutionSummaryAsync(CancellationToken.None)).Returns(() => Task.FromResult<IEnumerable<Solution>>(new List<Solution> { solutionTestData }));
-
-            GetAllSolutionSummariesQueryHandler testObject = new GetAllSolutionSummariesQueryHandler(_solutionRepository.Object, _mapper);
-
-            //ACT
-            var result = await testObject.Handle(new GetAllSolutionSummariesQuery(), CancellationToken.None);
-
-            //ASSERT
-            Assert.Null(solutionTestData.Organisation);
-
-            Assert.NotNull(result);
-            Assert.NotNull(result.Solutions);
-            //Assert.Empty(result.Solutions);
-        }
-
-        [Test]
-        public async Task Handler_to_ignore_all_solutions_with_no_capabilities_and_no_organisation()
-        {
-            //ARRANGE
-            var solutionTestData = SolutionTestData.DefaultWithNoCapabilites();
-            solutionTestData.Organisation = null;
-
-            _solutionRepository.Setup(x => x.ListSolutionSummaryAsync(CancellationToken.None)).Returns(() => Task.FromResult<IEnumerable<Solution>>(new List<Solution> { solutionTestData }));
-
-            GetAllSolutionSummariesQueryHandler testObject = new GetAllSolutionSummariesQueryHandler(_solutionRepository.Object, _mapper);
-
-            //ACT
-            var result = await testObject.Handle(new GetAllSolutionSummariesQuery(), CancellationToken.None);
-
-            //ASSERT
-            Assert.Null(solutionTestData.Organisation);
-
-            Assert.NotNull(result);
-            Assert.NotNull(result.Solutions);
-            //Assert.Empty(result.Solutions);
+            result.Solutions.ShouldBe(mapRes);
         }
     }
 }
