@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{BF4E3ADF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.API", "src\NHSD.BuyingCatalogue.API\NHSD.BuyingCatalogue.API.csproj", "{6D4ADEFD-E673-4238-A3A7-089E06104A16}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Application.Tests", "tests\NHSD.BuyingCatalogue.Application.Tests\NHSD.BuyingCatalogue.Application.Tests.csproj", "{D6E8B9C8-C7D7-4A48-B582-87B76CC180E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Application.UnitTests", "tests\NHSD.BuyingCatalogue.Application.UnitTests\NHSD.BuyingCatalogue.Application.UnitTests.csproj", "{D6E8B9C8-C7D7-4A48-B582-87B76CC180E3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Application", "src\NHSD.BuyingCatalogue.Application\NHSD.BuyingCatalogue.Application.csproj", "{51A4C2FF-14F7-4F55-B276-00F0367B55F8}"
 EndProject

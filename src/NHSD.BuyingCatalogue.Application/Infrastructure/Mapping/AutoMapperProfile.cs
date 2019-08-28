@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAll;
 using NHSD.BuyingCatalogue.Domain;
 using NHSD.BuyingCatalogue.Domain.Entities;
@@ -13,8 +14,10 @@ namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
 		public AutoMapperProfile()
 		{
 			CreateMap<Solution, SolutionSummaryViewModel>();
+			CreateMap<Capability, SolutionCapabilityViewModel>();
+			CreateMap<Organisation, SolutionOrganisationViewModel>();
+
 			CreateMap<Capability, CapabilityViewModel>();
-			CreateMap<Organisation, OrganisationViewModel>();
 		}
 	}
 }
