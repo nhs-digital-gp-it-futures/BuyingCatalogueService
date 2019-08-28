@@ -16,5 +16,12 @@ namespace NHSD.BuyingCatalogue.Domain.Entities
 		/// Summary of the entity.
 		/// </summary>
 		public string Summary { get; set; }
+
+		/// <summary>
+		/// Initialises a new instance of the <see cref="Organisation"/> class.
+		/// </summary>
+		public Organisation()
+		{
+		}
 	}
 }

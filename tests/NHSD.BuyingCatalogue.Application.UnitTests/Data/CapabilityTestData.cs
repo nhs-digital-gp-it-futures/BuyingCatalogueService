@@ -1,7 +1,7 @@
 ﻿using System;
 using NHSD.BuyingCatalogue.Domain.Entities;
 
-namespace NHSD.BuyingCatalogue.Application.Tests.Solutions.Data
+namespace NHSD.BuyingCatalogue.Application.UnitTests.Data
 {
 	internal static class CapabilityTestData
 	{
@@ -14,6 +14,7 @@ namespace NHSD.BuyingCatalogue.Application.Tests.Solutions.Data
 				Id = id,
 				Name = $"Capability {id}",
 				Description = $"Capability Description {id}",
+				IsFoundation = false
 			};
 		}
 	}

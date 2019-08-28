@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NHSD.BuyingCatalogue.Domain;
 
-namespace NHSD.BuyingCatalogue.Application.Tests.Solutions.Data
+namespace NHSD.BuyingCatalogue.Application.UnitTests.Data
 {
 	internal static class SolutionListTestData
 	{

@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Represents the details of an organisation specific for the view.
 	/// </summary>
-	public sealed class OrganisationViewModel
+	public sealed class SolutionOrganisationViewModel
 	{
 		/// <summary>
 		/// Identifier of organisation.

@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Provides the view representation for the <see cref="Capability"/> entity.
 	/// </summary>
-	public sealed class CapabilityViewModel
+	public sealed class SolutionCapabilityViewModel
 	{
 		/// <summary>
 		/// Identifier of the capability.

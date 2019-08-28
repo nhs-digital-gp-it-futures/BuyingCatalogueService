@@ -25,11 +25,11 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAll
 		/// <summary>
 		/// Details of the organisation associated with the solution.
 		/// </summary>
-		public OrganisationViewModel Organisation { get; set; }
+		public SolutionOrganisationViewModel Organisation { get; set; }
 
 		/// <summary>
 		/// List of capabilities linked with the solution.
 		/// </summary>
-		public IEnumerable<CapabilityViewModel> Capabilities { get; set; }
+		public IEnumerable<SolutionCapabilityViewModel> Capabilities { get; set; }
 	}
 }

@@ -34,6 +34,7 @@ namespace NHSD.BuyingCatalogue.API.Extensions
 		public static IServiceCollection AddCustomRepositories(this IServiceCollection services)
 		{
 			services.AddSingleton<ISolutionRepository, SolutionRepository>();
+			services.AddSingleton<ICapabilityRepository, CapabilityRepository>();
 
 			return services;
 		}

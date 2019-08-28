@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
 
-namespace NHSD.BuyingCatalogue.Application.Tests.Infrastructure
+namespace NHSD.BuyingCatalogue.Application.UnitTests.Infrastructure
 {
 	internal static class AutoMapperFactory
 	{
