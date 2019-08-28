@@ -1,66 +1,96 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Moq;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
 using NHSD.BuyingCatalogue.Application.Persistence;
 using NHSD.BuyingCatalogue.Application.UnitTests.Data;
-using NHSD.BuyingCatalogue.Application.UnitTests.Infrastructure;
 using NHSD.BuyingCatalogue.Domain.Entities;
-using Xunit;
+using NUnit.Framework;
+using Shouldly;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests.Capabilities.Queries
 {
-	public sealed class ListCapabilitiesQueryHandlerTests
-	{
-		private readonly Mock<ICapabilityRepository> _capabilityRepository;
-		private readonly IMapper _mapper;
+    [TestFixture]
+    public sealed class ListCapabilitiesQueryHandlerTests
+    {
+        private Mock<ICapabilityRepository> _capabilityRepository;
+        private Mock<IMapper> _mapper;
 
-		/// <summary>
-		/// Initialises a new instance of the <see cref="ListCapabilitiesQueryHandlerTests"/> class.
-		/// </summary>
-		public ListCapabilitiesQueryHandlerTests()
-		{
-			_capabilityRepository = new Mock<ICapabilityRepository>();
-			_mapper = AutoMapperFactory.Create();
-		}
+        [SetUp]
+        public void SetUp()
+        {
+            _capabilityRepository = new Mock<ICapabilityRepository>();
+            _mapper = new Mock<IMapper>();
+        }
 
-		[Fact]
-		public async Task Handler_to_list_all_capabilities()
-		{
-			//ARRANGE
-			var capabilityTestData = CapabilityListTestData.Two();
+        [Test]
+        public async Task Handle_CallsRepository_Once()
+        {
+            //ARRANGE
+            var capabilityTestData = CapabilityListTestData.Two();
 
-			_capabilityRepository.Setup(x => x.ListAsync(CancellationToken.None)).Returns(() => Task.FromResult(capabilityTestData));
+            _capabilityRepository.Setup(x => x.ListAsync(CancellationToken.None)).Returns(() => Task.FromResult(capabilityTestData));
 
-			ListCapabilitiesQueryHandler testObject = new ListCapabilitiesQueryHandler(_capabilityRepository.Object, _mapper);
+            var testObject = new ListCapabilitiesQueryHandler(_capabilityRepository.Object, _mapper.Object);
 
-			//ACT
-			var result = await testObject.Handle(new ListCapabilitiesQuery(), CancellationToken.None);
+            //ACT
+            var _ = await testObject.Handle(new ListCapabilitiesQuery(), CancellationToken.None);
 
-			//ASSERT
-			Assert.NotNull(result);
-			Assert.Equal(capabilityTestData.Count(), result.Capabilities.Count());
-		}
+            //ASSERT
+            _capabilityRepository.Verify(x => x.ListAsync(CancellationToken.None), Times.Once);
+        }
 
-		[Fact]
-		public async Task Handler_to_list_all_when_no_capabilities_exist()
-		{
-			//ARRANGE
-			IEnumerable<Capability> capabilityTestData = null;
+        [Test]
+        public async Task Handle_CallsMapper_Once()
+        {
+            //ARRANGE
+            var capabilityTestData = CapabilityListTestData.Two();
 
-			_capabilityRepository.Setup(x => x.ListAsync(CancellationToken.None)).Returns(() => Task.FromResult(capabilityTestData));
+            _capabilityRepository.Setup(x => x.ListAsync(CancellationToken.None)).Returns(() => Task.FromResult(capabilityTestData));
 
-			ListCapabilitiesQueryHandler testObject = new ListCapabilitiesQueryHandler(_capabilityRepository.Object, _mapper);
+            var testObject = new ListCapabilitiesQueryHandler(_capabilityRepository.Object, _mapper.Object);
 
-			//ACT
-			var result = await testObject.Handle(new ListCapabilitiesQuery(), CancellationToken.None);
+            //ACT
+            _ = await testObject.Handle(new ListCapabilitiesQuery(), CancellationToken.None);
 
-			//ASSERT
-			Assert.NotNull(result);
-			Assert.Empty(result.Capabilities);
-		}
-	}
+            //ASSERT
+            _mapper.Verify(x => x.Map<IEnumerable<CapabilityViewModel>>(It.Is<IEnumerable<Capability>>(src => src == capabilityTestData)), Times.Once);
+        }
+
+        [Test]
+        public async Task Handle_NoData_ReturnsEmpty()
+        {
+            //ARRANGE
+            var testObject = new ListCapabilitiesQueryHandler(_capabilityRepository.Object, _mapper.Object);
+
+            //ACT
+            var result = await testObject.Handle(new ListCapabilitiesQuery(), CancellationToken.None);
+
+            //ASSERT
+            result.ShouldNotBeNull();
+            result.Capabilities.ShouldBeEmpty();
+        }
+
+        [Test]
+        public async Task Handle_Data_ReturnsData()
+        {
+            //ARRANGE
+            var capabilityTestData = CapabilityListTestData.Two();
+            var capsRes = new List<CapabilityViewModel>();
+
+            _capabilityRepository.Setup(x => x.ListAsync(CancellationToken.None)).Returns(() => Task.FromResult(capabilityTestData));
+            _mapper.Setup(x => x.Map<IEnumerable<CapabilityViewModel>>(It.Is<IEnumerable<Capability>>(src => src == capabilityTestData)))
+              .Returns(capsRes);
+
+            var testObject = new ListCapabilitiesQueryHandler(_capabilityRepository.Object, _mapper.Object);
+
+            //ACT
+            var result = await testObject.Handle(new ListCapabilitiesQuery(), CancellationToken.None);
+
+            //ASSERT
+            result.Capabilities.ShouldBe(capsRes);
+        }
+    }
 }
