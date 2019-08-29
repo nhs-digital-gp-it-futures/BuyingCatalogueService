@@ -8,6 +8,7 @@ using NHSD.BuyingCatalogue.API.Extensions;
 using NHSD.BuyingCatalogue.Application.Infrastructure;
 using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAll;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using System;
 
 namespace NHSD.BuyingCatalogue.API
@@ -44,6 +45,7 @@ namespace NHSD.BuyingCatalogue.API
               .AddCustomDbFactory()
               .AddCustomRepositories()
               .AddMediatR(typeof(GetAllSolutionSummariesQueryHandler).Assembly)
+              .AddMediatR(typeof(GetSolutionByIdHandler).Assembly)
               .AddCustomSwagger()
               .AddCustomMvc();
         }

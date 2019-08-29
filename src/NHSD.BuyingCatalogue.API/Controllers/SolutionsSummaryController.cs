@@ -1,9 +1,11 @@
-﻿using System;
-using System.Net;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAll;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.API.Controllers
 {
@@ -37,6 +39,22 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         public async Task<ActionResult<GetAllSolutionSummariesQueryResult>> GetAllAsync()
         {
             return Ok(await Mediator.Send(new GetAllSolutionSummariesQuery()));
+        }
+
+        /// <summary>
+        /// Get a solution with specified unique identifier
+        /// </summary>
+        /// <param name="id">unique identifier of solution</param>
+        /// <returns>Solution with specified unique identifier</returns>
+        [HttpGet]
+        [Route("{id}")]
+        [ProducesResponseType(typeof(GetSolutionByIdResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult<GetSolutionByIdResult>> ById([FromRoute][Required]string id)
+        {
+            var result = await Mediator.Send(new GetSolutionByIdQuery(id));
+            return result.Solution == null ? (ActionResult)new NotFoundResult() : Ok(result);
         }
     }
 }
