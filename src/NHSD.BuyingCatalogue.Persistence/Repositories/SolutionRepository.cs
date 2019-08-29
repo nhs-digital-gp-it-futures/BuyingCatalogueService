@@ -88,7 +88,7 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                     solutionList = solutionList.Where(solution => capabilityIdList.Intersect(solution.Capabilities.Select(capability => capability.Id)).Count() == capabilityIdList.Count());
                 }
 
-                return solutionList.AsList();
+                return solutionList;
             }
 		}
 	}

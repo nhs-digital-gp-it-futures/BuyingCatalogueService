@@ -4,14 +4,6 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAllSolutionSumma
 {
     public sealed class GetAllSolutionSummariesQueryFilter
     {
-        public ISet<string> Capabilities { get; }
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="GetAllSolutionSummariesQueryFilter"/> class.
-        /// </summary>
-        public GetAllSolutionSummariesQueryFilter()
-        {
-            Capabilities = new HashSet<string>();
-        }
+        public ISet<string> Capabilities { get; } = new HashSet<string>();
     }
 }

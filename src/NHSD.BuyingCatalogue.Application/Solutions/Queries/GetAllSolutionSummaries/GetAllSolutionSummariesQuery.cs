@@ -17,7 +17,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAllSolutionSumma
         {
             get
             {
-                return Filter.Capabilities ?? new HashSet<string>();
+                return Filter.Capabilities;
             }
         }
 
