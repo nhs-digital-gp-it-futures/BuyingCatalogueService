@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAll;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAllSolutionSummaries;
 using NHSD.BuyingCatalogue.Domain;
 using NHSD.BuyingCatalogue.Domain.Entities;
 
 namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
 {
-	public sealed class AutoMapperProfile : Profile
+    public sealed class AutoMapperProfile : Profile
 	{
 		/// <summary>
 		/// Initialises a new instance of the <see cref="AutoMapperProfile"/> class.

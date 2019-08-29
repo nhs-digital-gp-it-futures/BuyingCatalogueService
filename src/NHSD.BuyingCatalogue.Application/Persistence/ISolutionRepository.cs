@@ -10,10 +10,10 @@ namespace NHSD.BuyingCatalogue.Application.Persistence
 	/// </summary>
 	public interface ISolutionRepository
 	{
-		/// <summary>
-		/// Gets a list of <see cref="Solution"/> objects.
-		/// </summary>
-		/// <returns>A list of <see cref="Solution"/> objects.</returns>
-		Task<IEnumerable<Solution>> ListSolutionSummaryAsync(CancellationToken cancellationToken);
+        /// <summary>
+        /// Gets a list of <see cref="Solution"/> objects.
+        /// </summary>
+        /// <returns>A list of <see cref="Solution"/> objects.</returns>
+        Task<IEnumerable<Solution>> ListSolutionSummaryAsync(ISet<string> capabilityIdList, CancellationToken cancellationToken);
 	}
 }
