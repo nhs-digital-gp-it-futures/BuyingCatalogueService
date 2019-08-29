@@ -1,16 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAll;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAllSolutionSummaries;
 
 namespace NHSD.BuyingCatalogue.API.Controllers
 {
-	/// <summary>
-	/// Provides the endpoint for the summary of <see cref="Solution"/> information.
-	/// </summary>
-	[Route("api/v1/[controller]")]
+    /// <summary>
+    /// Provides the endpoint for the summary of <see cref="Solution"/> information.
+    /// </summary>
+    [Route("api/v1/[controller]")]
 	[ApiController]
 	public sealed class SolutionsSummaryController : ControllerBase
 	{
@@ -38,5 +39,13 @@ namespace NHSD.BuyingCatalogue.API.Controllers
 		{
 			return Ok(await Mediator.Send(new GetAllSolutionSummariesQuery()));
 		}
+
+        [HttpPost]
+        [ProducesResponseType(typeof(GetAllSolutionSummariesQueryResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<ActionResult<GetAllSolutionSummariesQueryResult>> FindAsync([FromBody]GetAllSolutionSummariesQueryFilter filter)
+        {
+            return Ok(await Mediator.Send(new GetAllSolutionSummariesQuery(filter)));
+        }
 	}
 }

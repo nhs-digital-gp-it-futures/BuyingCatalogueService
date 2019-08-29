@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NHSD.BuyingCatalogue.API.Extensions;
 using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAll;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAllSolutionSummaries;
 
 namespace NHSD.BuyingCatalogue.API
 {

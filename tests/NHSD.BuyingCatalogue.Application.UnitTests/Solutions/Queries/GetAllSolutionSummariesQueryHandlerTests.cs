@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Moq;
 using NHSD.BuyingCatalogue.Application.Persistence;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAll;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAllSolutionSummaries;
 using NHSD.BuyingCatalogue.Application.UnitTests.Data;
 using NHSD.BuyingCatalogue.Application.UnitTests.Infrastructure;
 using NHSD.BuyingCatalogue.Domain;
@@ -32,8 +32,9 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
         {
             //ARRANGE
             var solutionTestData = SolutionListTestData.One();
+            var expectedCapabilityIdList = new HashSet<string>();
 
-            _solutionRepository.Setup(x => x.ListSolutionSummaryAsync(CancellationToken.None)).Returns(() => Task.FromResult(solutionTestData));
+            _solutionRepository.Setup(x => x.ListSolutionSummaryAsync(expectedCapabilityIdList, CancellationToken.None)).Returns(() => Task.FromResult(solutionTestData));
 
             GetAllSolutionSummariesQueryHandler testObject = new GetAllSolutionSummariesQueryHandler(_solutionRepository.Object, _mapper);
 
@@ -50,8 +51,9 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
         {
             //ARRANGE
             var solutionTestData = SolutionListTestData.OneWithNoCapabilities();
+            var expectedCapabilityIdList = new HashSet<string>();
 
-            _solutionRepository.Setup(x => x.ListSolutionSummaryAsync(CancellationToken.None)).Returns(() => Task.FromResult(solutionTestData));
+            _solutionRepository.Setup(x => x.ListSolutionSummaryAsync(expectedCapabilityIdList, CancellationToken.None)).Returns(() => Task.FromResult(solutionTestData));
 
             GetAllSolutionSummariesQueryHandler testObject = new GetAllSolutionSummariesQueryHandler(_solutionRepository.Object, _mapper);
 
@@ -70,7 +72,9 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
             var solutionTestData = SolutionTestData.Default();
             solutionTestData.Organisation = null;
 
-            _solutionRepository.Setup(x => x.ListSolutionSummaryAsync(CancellationToken.None)).Returns(() => Task.FromResult<IEnumerable<Solution>>(new List<Solution> { solutionTestData }));
+            var expectedCapabilityIdList = new HashSet<string>();
+
+            _solutionRepository.Setup(x => x.ListSolutionSummaryAsync(expectedCapabilityIdList, CancellationToken.None)).Returns(() => Task.FromResult<IEnumerable<Solution>>(new List<Solution> { solutionTestData }));
 
             GetAllSolutionSummariesQueryHandler testObject = new GetAllSolutionSummariesQueryHandler(_solutionRepository.Object, _mapper);
 
@@ -92,7 +96,9 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
             var solutionTestData = SolutionTestData.DefaultWithNoCapabilites();
             solutionTestData.Organisation = null;
 
-            _solutionRepository.Setup(x => x.ListSolutionSummaryAsync(CancellationToken.None)).Returns(() => Task.FromResult<IEnumerable<Solution>>(new List<Solution> { solutionTestData }));
+            var expectedCapabilityIdList = new HashSet<string>();
+
+            _solutionRepository.Setup(x => x.ListSolutionSummaryAsync(expectedCapabilityIdList, CancellationToken.None)).Returns(() => Task.FromResult<IEnumerable<Solution>>(new List<Solution> { solutionTestData }));
 
             GetAllSolutionSummariesQueryHandler testObject = new GetAllSolutionSummariesQueryHandler(_solutionRepository.Object, _mapper);
 
