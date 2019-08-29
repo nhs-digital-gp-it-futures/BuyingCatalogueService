@@ -33,8 +33,22 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
         /// Gets a list of <see cref="Solution"/> objects.
         /// </summary>
         /// <returns>A list of <see cref="Solution"/> objects.</returns>
-        public async Task<IEnumerable<Solution>> ListSolutionSummaryAsync(CancellationToken cancellationToken)
+        public Task<IEnumerable<Solution>> ListSolutionSummaryAsync(CancellationToken cancellationToken)
         {
+            return ListSolutionSummaryAsync(new HashSet<string>(), cancellationToken);
+        }
+
+        /// <summary>
+        /// Gets a list of <see cref="Solution"/> objects.
+        /// </summary>
+        /// <returns>A list of <see cref="Solution"/> objects.</returns>
+        public async Task<IEnumerable<Solution>> ListSolutionSummaryAsync(ISet<string> capabilityIdList, CancellationToken cancellationToken)
+		{
+            if (capabilityIdList is null)
+            {
+                throw new System.ArgumentNullException(nameof(capabilityIdList));
+            }
+
             using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
             {
                 const string sql = @"SELECT Solution.Id, 
@@ -68,7 +82,13 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                     return currentSolution;
                 });
 
-                return result.Distinct().AsList();
+                IEnumerable<Solution> solutionList = result.Distinct();
+                if (capabilityIdList.Any())
+                {
+                    solutionList = solutionList.Where(solution => capabilityIdList.Intersect(solution.Capabilities.Select(capability => capability.Id)).Count() == capabilityIdList.Count());
+                }
+
+                return solutionList;
             }
         }
 

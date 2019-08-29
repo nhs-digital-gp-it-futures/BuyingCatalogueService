@@ -1,21 +1,12 @@
 ﻿using AutoMapper;
 using Moq;
 using NHSD.BuyingCatalogue.Application.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAll;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Application.UnitTests.Data;
-using NHSD.BuyingCatalogue.Domain;
 using NUnit.Framework;
 using Shouldly;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using NHSD.BuyingCatalogue.Application.Persistence;
-using AutoMapper;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
 {

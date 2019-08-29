@@ -1,6 +1,7 @@
-﻿using MediatR;
+﻿using System.Collections.Generic;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAll;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAllSolutionSummaries;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -55,6 +56,14 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         {
             var result = await Mediator.Send(new GetSolutionByIdQuery(id));
             return result.Solution == null ? (ActionResult)new NotFoundResult() : Ok(result);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(GetAllSolutionSummariesQueryResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<ActionResult<GetAllSolutionSummariesQueryResult>> FindAsync([FromBody]GetAllSolutionSummariesQueryFilter filter)
+        {
+            return Ok(await Mediator.Send(new GetAllSolutionSummariesQuery(filter)));
         }
     }
 }
