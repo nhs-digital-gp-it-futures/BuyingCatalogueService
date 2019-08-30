@@ -1,4 +1,7 @@
-﻿using AutoMapper;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
 using Moq;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
 using NHSD.BuyingCatalogue.Application.Persistence;
@@ -6,14 +9,11 @@ using NHSD.BuyingCatalogue.Application.UnitTests.Data;
 using NHSD.BuyingCatalogue.Domain.Entities;
 using NUnit.Framework;
 using Shouldly;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests.Capabilities.Queries
 {
     [TestFixture]
-    public sealed class ListCapabilitiesQueryHandlerTests
+    public sealed class ListCapabilitiesHandlerTests
     {
         private Mock<ICapabilityRepository> _repository;
         private Mock<IMapper> _mapper;

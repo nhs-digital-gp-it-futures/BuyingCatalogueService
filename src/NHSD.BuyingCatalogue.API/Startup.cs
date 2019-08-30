@@ -7,8 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using NHSD.BuyingCatalogue.API.Extensions;
 using NHSD.BuyingCatalogue.Application.Infrastructure;
 using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAllSolutionSummaries;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
 using System;
 
 namespace NHSD.BuyingCatalogue.API
@@ -44,7 +44,7 @@ namespace NHSD.BuyingCatalogue.API
               .AddAutoMapper(typeof(AutoMapperProfile).Assembly)
               .AddCustomDbFactory()
               .AddCustomRepositories()
-              .AddMediatR(typeof(GetAllSolutionSummariesHandler).Assembly)
+              .AddMediatR(typeof(ListSolutionsQuery).Assembly)
               .AddCustomSwagger()
               .AddCustomMvc();
         }

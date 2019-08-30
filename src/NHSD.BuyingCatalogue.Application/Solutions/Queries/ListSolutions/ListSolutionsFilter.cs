@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 
-namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAllSolutionSummaries
+namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions
 {
     /// <summary>
-    /// Provides the filter criteria for the <see cref="GetAllSolutionSummariesQuery"/> query.
+    /// Provides the filter criteria for the <see cref="ListSolutionsQuery"/> query.
     /// </summary>
-    public sealed class GetAllSolutionSummariesFilter
+    public sealed class ListSolutionsFilter
     {
         /// <summary>
         /// A list of <see cref="Capability"/> IDs.

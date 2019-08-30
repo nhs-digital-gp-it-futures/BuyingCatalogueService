@@ -1,7 +1,7 @@
 using AutoMapper;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAllSolutionSummaries;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Domain;
 using NHSD.BuyingCatalogue.Domain.Entities;
 

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
-namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAllSolutionSummaries
+namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions
 {
     /// <summary>
     /// Represents the data to summarize a <see cref="Solution"/> entity and associated relationships.

@@ -1,4 +1,4 @@
-﻿namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAllSolutionSummaries
+namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions
 {
     /// <summary>
     /// Represents the details of an organisation specific for the view.

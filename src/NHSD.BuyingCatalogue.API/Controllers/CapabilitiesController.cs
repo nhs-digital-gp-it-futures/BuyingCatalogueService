@@ -20,7 +20,7 @@ namespace NHSD.BuyingCatalogue.API.Controllers
 		public IMediator Mediator { get; }
 
 		/// <summary>
-		/// Initialises a new instance of the <see cref="SolutionsSummaryController"/> class.
+		/// Initialises a new instance of the <see cref="SolutionsController"/> class.
 		/// </summary>
 		public CapabilitiesController(IMediator mediator)
 		{

@@ -33,7 +33,7 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
         /// Gets a list of <see cref="Solution"/> objects.
         /// </summary>
         /// <returns>A list of <see cref="Solution"/> objects.</returns>
-        public async Task<IEnumerable<Solution>> ListSolutionSummaryAsync(ISet<string> capabilityIdList, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Solution>> ListAsync(ISet<string> capabilityIdList, CancellationToken cancellationToken)
 		{
             if (capabilityIdList is null)
             {

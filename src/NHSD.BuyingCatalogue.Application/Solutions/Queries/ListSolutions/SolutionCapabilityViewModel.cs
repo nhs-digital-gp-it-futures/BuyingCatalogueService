@@ -1,4 +1,4 @@
-﻿namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAllSolutionSummaries
+namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions
 {
     /// <summary>
     /// Provides the view representation for the <see cref="Capability"/> entity.

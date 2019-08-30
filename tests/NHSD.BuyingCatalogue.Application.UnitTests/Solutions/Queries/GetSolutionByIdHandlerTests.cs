@@ -1,17 +1,17 @@
-﻿using AutoMapper;
+using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
 using Moq;
 using NHSD.BuyingCatalogue.Application.Persistence;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Application.UnitTests.Data;
 using NUnit.Framework;
 using Shouldly;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
 {
     [TestFixture]
-    public sealed class GetSolutionByIdHandler_Tests
+    public sealed class GetSolutionByIdHandlerTests
     {
         private Mock<ISolutionRepository> _repository;
         private Mock<IMapper> _mapper;
