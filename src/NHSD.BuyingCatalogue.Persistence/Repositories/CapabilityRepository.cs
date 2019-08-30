@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading;
@@ -36,11 +36,12 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
 		{
 			using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
 			{
-				const string sql = @"SELECT	CONVERT(VARCHAR(36), Capability.Id) AS Id, 
-											CapabilityName AS Name, 
-											IsFoundation 
-									FROM	Capability 
-											LEFT OUTER JOIN FrameworkCapabilities ON Capability.Id = FrameworkCapabilities.CapabilityId";
+				const string sql = @"SELECT  CONVERT(VARCHAR(36), Capability.Id) AS Id, 
+											 CapabilityName AS Name, 
+											 ISNULL(IsFoundation, 0) AS IsFoundation
+									FROM	 Capability 
+											 LEFT OUTER JOIN FrameworkCapabilities ON Capability.Id = FrameworkCapabilities.CapabilityId
+                                    ORDER BY IsFoundation DESC, UPPER(CapabilityName) ASC";
 
 				return (await databaseConnection.QueryAsync<Capability>(sql).ConfigureAwait(false)).ToList();
 			}
