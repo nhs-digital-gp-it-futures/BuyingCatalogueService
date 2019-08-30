@@ -35,7 +35,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
 
             _repository.Setup(x => x.ListSolutionSummaryAsync(capabilityIdList, CancellationToken.None)).Returns(() => Task.FromResult<IEnumerable<Solution>>(testData));
 
-            var testObject = new GetAllSolutionSummariesQueryHandler(_repository.Object, _mapper.Object);
+            var testObject = new GetAllSolutionSummariesHandler(_repository.Object, _mapper.Object);
 
             //ACT
             var _ = await testObject.Handle(new GetAllSolutionSummariesQuery(), CancellationToken.None);
@@ -53,7 +53,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
 
             _repository.Setup(x => x.ListSolutionSummaryAsync(capabilityIdList, CancellationToken.None)).Returns(() => Task.FromResult<IEnumerable<Solution>>(testData));
 
-            var testObject = new GetAllSolutionSummariesQueryHandler(_repository.Object, _mapper.Object);
+            var testObject = new GetAllSolutionSummariesHandler(_repository.Object, _mapper.Object);
 
             //ACT
             _ = await testObject.Handle(new GetAllSolutionSummariesQuery(), CancellationToken.None);
@@ -66,7 +66,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
         public async Task Handle_NoData_ReturnsEmpty()
         {
             //ARRANGE
-            var testObject = new GetAllSolutionSummariesQueryHandler(_repository.Object, _mapper.Object);
+            var testObject = new GetAllSolutionSummariesHandler(_repository.Object, _mapper.Object);
 
             //ACT
             var result = await testObject.Handle(new GetAllSolutionSummariesQuery(), CancellationToken.None);
@@ -88,7 +88,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
             _mapper.Setup(x => x.Map<IEnumerable<SolutionSummaryViewModel>>(It.Is<IEnumerable<Solution>>(src => src == testData)))
               .Returns(mapRes);
 
-            var testObject = new GetAllSolutionSummariesQueryHandler(_repository.Object, _mapper.Object);
+            var testObject = new GetAllSolutionSummariesHandler(_repository.Object, _mapper.Object);
 
             //ACT
             var result = await testObject.Handle(new GetAllSolutionSummariesQuery(), CancellationToken.None);

@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAllSolutionSummaries;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
@@ -7,6 +7,9 @@ using NHSD.BuyingCatalogue.Domain.Entities;
 
 namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
 {
+    /// <summary>
+    /// A profile for AutoMapper to define the mapping between objects.
+    /// </summary>
     public sealed class AutoMapperProfile : Profile
     {
         /// <summary>

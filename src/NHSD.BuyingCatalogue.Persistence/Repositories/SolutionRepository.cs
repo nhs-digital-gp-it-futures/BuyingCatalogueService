@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading;
@@ -19,7 +19,7 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
         /// <summary>
         /// Database connection factory to provide new connections.
         /// </summary>
-        public IDbConnectionFactory DbConnectionFactory { get; }
+        private IDbConnectionFactory DbConnectionFactory { get; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="SolutionRepository"/> class.
@@ -27,15 +27,6 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
         public SolutionRepository(IDbConnectionFactory dbConnectionFactory)
         {
             DbConnectionFactory = dbConnectionFactory ?? throw new System.ArgumentNullException(nameof(dbConnectionFactory));
-        }
-
-        /// <summary>
-        /// Gets a list of <see cref="Solution"/> objects.
-        /// </summary>
-        /// <returns>A list of <see cref="Solution"/> objects.</returns>
-        public Task<IEnumerable<Solution>> ListSolutionSummaryAsync(CancellationToken cancellationToken)
-        {
-            return ListSolutionSummaryAsync(new HashSet<string>(), cancellationToken);
         }
 
         /// <summary>
@@ -92,6 +83,12 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
             }
         }
 
+        /// <summary>
+        /// Gets a <see cref="Solution"/> matching the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of a <see cref="Solution"/>.</param>
+        /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
+        /// <returns>A task representing an operation to retrieve a <see cref="Solution"/> matching the specified ID.</returns>
         public async Task<Solution> ByIdAsync(string id, CancellationToken cancellationToken)
         {
             using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))

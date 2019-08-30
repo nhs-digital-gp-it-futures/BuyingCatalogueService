@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.API.Infrastructure.Filters;
@@ -9,10 +9,10 @@ using Swashbuckle.AspNetCore.Swagger;
 
 namespace NHSD.BuyingCatalogue.API.Extensions
 {
-	/// <summary>
-	/// Extends the functionality for the <see cref="IServiceCollection"/> class.
-	/// </summary>
-	public static class ServiceCollectionExtensions
+    /// <summary>
+    /// Extends the functionality for the <see cref="IServiceCollection"/> class.
+    /// </summary>
+    public static class ServiceCollectionExtensions
 	{
 		/// <summary>
 		/// Adds the project based database factory for the persistence layer.

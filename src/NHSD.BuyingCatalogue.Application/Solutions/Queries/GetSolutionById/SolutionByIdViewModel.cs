@@ -1,5 +1,8 @@
-﻿namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
+namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
 {
+    /// <summary>
+    /// A view representation of the <see cref="Solution"/> entity that matched a specific ID.
+    /// </summary>
     public sealed class SolutionByIdViewModel
     {
         /// <summary>

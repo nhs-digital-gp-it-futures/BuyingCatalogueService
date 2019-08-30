@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAllSolutionSummaries;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAllSolutionSummaries;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 
 namespace NHSD.BuyingCatalogue.API.Controllers
 {
@@ -35,11 +34,24 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         /// </summary>
         /// <returns>A result containing a list of solutions that includes information about the organisation and the associated capabilities.</returns>
         [HttpGet]
-        [ProducesResponseType(typeof(GetAllSolutionSummariesQueryResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(GetAllSolutionSummariesResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult<GetAllSolutionSummariesQueryResult>> GetAllAsync()
+        public async Task<ActionResult<GetAllSolutionSummariesResult>> GetAllAsync()
         {
             return Ok(await Mediator.Send(new GetAllSolutionSummariesQuery()));
+        }
+
+        /// <summary>
+        /// Find a list of Solutions that match the specified list of Capabilities.
+        /// </summary>
+        /// <param name="filter">The filter criteria to apply to the list of Solutions.</param>
+        /// <returns>A task representing an operation to retrieve a list of Solutions that match a set of Capabilities.</returns>
+        [HttpPost]
+        [ProducesResponseType(typeof(GetAllSolutionSummariesResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<ActionResult<GetAllSolutionSummariesResult>> FindAsync([FromBody][Required]GetAllSolutionSummariesFilter filter)
+        {
+            return Ok(await Mediator.Send(new GetAllSolutionSummariesQuery(filter)));
         }
 
         /// <summary>
@@ -56,14 +68,6 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         {
             var result = await Mediator.Send(new GetSolutionByIdQuery(id));
             return result.Solution == null ? (ActionResult)new NotFoundResult() : Ok(result);
-        }
-
-        [HttpPost]
-        [ProducesResponseType(typeof(GetAllSolutionSummariesQueryResult), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult<GetAllSolutionSummariesQueryResult>> FindAsync([FromBody]GetAllSolutionSummariesQueryFilter filter)
-        {
-            return Ok(await Mediator.Send(new GetAllSolutionSummariesQuery(filter)));
         }
     }
 }

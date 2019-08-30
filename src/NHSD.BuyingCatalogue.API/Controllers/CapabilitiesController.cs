@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using MediatR;
@@ -7,6 +7,9 @@ using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
 
 namespace NHSD.BuyingCatalogue.API.Controllers
 {
+    /// <summary>
+    /// Provides a set of endpoints for the information related to the entity <see cref="Capability"/>.
+    /// </summary>
 	[Route("api/v1/[controller]")]
     [ApiController]
     public class CapabilitiesController : ControllerBase
@@ -29,9 +32,9 @@ namespace NHSD.BuyingCatalogue.API.Controllers
 		/// </summary>
 		/// <returns>A result containing a list of capabilities.</returns>
 		[HttpGet]
-		[ProducesResponseType(typeof(ListCapabilitiesQueryResult), (int)HttpStatusCode.OK)]
+		[ProducesResponseType(typeof(ListCapabilitiesResult), (int)HttpStatusCode.OK)]
 		[ProducesResponseType((int)HttpStatusCode.BadRequest)]
-		public async Task<ActionResult<ListCapabilitiesQueryResult>> ListAsync()
+		public async Task<ActionResult<ListCapabilitiesResult>> ListAsync()
 		{
 			return Ok(await Mediator.Send(new ListCapabilitiesQuery()));
 		}

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using MediatR;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAllSolutionSummaries
@@ -6,9 +6,12 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAllSolutionSumma
     /// <summary>
     /// Represents the query paramters for the get all solutions request.
     /// </summary>
-    public sealed class GetAllSolutionSummariesQuery : IRequest<GetAllSolutionSummariesQueryResult>
+    public sealed class GetAllSolutionSummariesQuery : IRequest<GetAllSolutionSummariesResult>
     {
-        private GetAllSolutionSummariesQueryFilter Filter { get; }
+        /// <summary>
+        /// Gets the filter criteria for this query.
+        /// </summary>
+        private GetAllSolutionSummariesFilter Filter { get; }
 
         /// <summary>
         /// A list of capability Ids with no duplicates.
@@ -24,7 +27,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAllSolutionSumma
         /// <summary>
         /// Initialises a new instance of the <see cref="GetAllSolutionSummariesQuery"/> class.
         /// </summary>
-        public GetAllSolutionSummariesQuery() : this(new GetAllSolutionSummariesQueryFilter())
+        public GetAllSolutionSummariesQuery() : this(new GetAllSolutionSummariesFilter())
         {
         }
 
@@ -32,7 +35,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAllSolutionSumma
         /// Initialises a new instance of the <see cref="GetAllSolutionSummariesQuery"/> class.
         /// </summary>
         /// <param name="capabilityIdList">List of capability identifiers to filter on.</param>
-        public GetAllSolutionSummariesQuery(GetAllSolutionSummariesQueryFilter filter)
+        public GetAllSolutionSummariesQuery(GetAllSolutionSummariesFilter filter)
         {
             Filter = filter ?? throw new System.ArgumentNullException(nameof(filter));
         }

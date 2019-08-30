@@ -33,7 +33,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Capabilities.Queries
 
             _repository.Setup(x => x.ListAsync(CancellationToken.None)).Returns(() => Task.FromResult(testData));
 
-            var testObject = new ListCapabilitiesQueryHandler(_repository.Object, _mapper.Object);
+            var testObject = new ListCapabilitiesHandler(_repository.Object, _mapper.Object);
 
             //ACT
             var _ = await testObject.Handle(new ListCapabilitiesQuery(), CancellationToken.None);
@@ -50,7 +50,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Capabilities.Queries
 
             _repository.Setup(x => x.ListAsync(CancellationToken.None)).Returns(() => Task.FromResult(testData));
 
-            var testObject = new ListCapabilitiesQueryHandler(_repository.Object, _mapper.Object);
+            var testObject = new ListCapabilitiesHandler(_repository.Object, _mapper.Object);
 
             //ACT
             _ = await testObject.Handle(new ListCapabilitiesQuery(), CancellationToken.None);
@@ -63,7 +63,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Capabilities.Queries
         public async Task Handle_NoData_ReturnsEmpty()
         {
             //ARRANGE
-            var testObject = new ListCapabilitiesQueryHandler(_repository.Object, _mapper.Object);
+            var testObject = new ListCapabilitiesHandler(_repository.Object, _mapper.Object);
 
             //ACT
             var result = await testObject.Handle(new ListCapabilitiesQuery(), CancellationToken.None);
@@ -84,7 +84,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Capabilities.Queries
             _mapper.Setup(x => x.Map<IEnumerable<CapabilityViewModel>>(It.Is<IEnumerable<Capability>>(src => src == testData)))
               .Returns(mapRes);
 
-            var testObject = new ListCapabilitiesQueryHandler(_repository.Object, _mapper.Object);
+            var testObject = new ListCapabilitiesHandler(_repository.Object, _mapper.Object);
 
             //ACT
             var result = await testObject.Handle(new ListCapabilitiesQuery(), CancellationToken.None);

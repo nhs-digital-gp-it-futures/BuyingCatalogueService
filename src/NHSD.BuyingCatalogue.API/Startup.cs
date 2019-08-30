@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -44,7 +44,7 @@ namespace NHSD.BuyingCatalogue.API
               .AddAutoMapper(typeof(AutoMapperProfile).Assembly)
               .AddCustomDbFactory()
               .AddCustomRepositories()
-              .AddMediatR(typeof(GetAllSolutionSummariesQueryHandler).Assembly)
+              .AddMediatR(typeof(GetAllSolutionSummariesHandler).Assembly)
               .AddCustomSwagger()
               .AddCustomMvc();
         }
@@ -76,6 +76,9 @@ namespace NHSD.BuyingCatalogue.API
             app.UseMvc();
         }
 
+        /// <summary>
+        /// Output all the settings for this application.
+        /// </summary>
         private void DumpSettings()
         {
             Console.WriteLine("Settings:");
