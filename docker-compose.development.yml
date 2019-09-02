@@ -5,8 +5,8 @@ services:
   db:
     image: ${REGISTRY:-nhsd}/buying-catalogue-db:${TAG:-latest}
     build: 
-      context: .
-      dockerfile: Dockerfile-db
+      context: "../DataModel"
+      dockerfile: Dockerfile
     container_name: nhsd_bcdb
     volumes:
       - nhsd_bcvolume:/var/opt/mssql/

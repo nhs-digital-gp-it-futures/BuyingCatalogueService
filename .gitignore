@@ -331,6 +331,3 @@ ASALocalRun/
 
 #Visual Studio Code
 .vscode/*
-
-#Custom
-scripts/data/
