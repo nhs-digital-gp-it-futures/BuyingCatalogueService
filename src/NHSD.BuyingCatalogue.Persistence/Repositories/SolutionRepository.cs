@@ -43,13 +43,13 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
             using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
             {
                 const string sql = @"SELECT Solution.Id, 
-                                            Solution.SolutionName as Name, 
+                                            Solution.Name, 
                                             Solution.Summary, 
                                             Organisation.Id, 
-                                            Organisation.OrganisationName AS Name,
+                                            Organisation.Name,
                                             CONVERT(VARCHAR(36), Capability.Id) AS Id,
-                                            Capability.CapabilityName AS Name,
-                                            Capability.CapabilityDescription AS Description
+                                            Capability.Name,
+                                            Capability.Description
                                     FROM    Solution 
                                             INNER JOIN Organisation ON Organisation.Id = Solution.OrganisationId
                                             INNER JOIN SolutionCapability ON Solution.Id = SolutionCapability.SolutionId
@@ -93,15 +93,10 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
         {
             using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
             {
-                const string sql =
-@"SELECT
-    Solution.Id,
-    Solution.SolutionName as Name
-FROM
-    Solution
-WHERE
-    Solution.Id = @id
-";
+                const string sql = @"SELECT Solution.Id,
+                                            Solution.Name
+                                     FROM   Solution
+                                     WHERE  Solution.Id = @id";
 
                 var result = await databaseConnection.QueryAsync<Solution>(sql, new { id });
 

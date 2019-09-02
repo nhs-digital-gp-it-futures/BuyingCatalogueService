@@ -37,11 +37,11 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
 			using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
 			{
 				const string sql = @"SELECT  CONVERT(VARCHAR(36), Capability.Id) AS Id, 
-											 CapabilityName AS Name, 
+											 Name, 
 											 ISNULL(IsFoundation, 0) AS IsFoundation
 									FROM	 Capability 
 											 LEFT OUTER JOIN FrameworkCapabilities ON Capability.Id = FrameworkCapabilities.CapabilityId
-                                    ORDER BY IsFoundation DESC, UPPER(CapabilityName) ASC";
+                                    ORDER BY IsFoundation DESC, UPPER(Name) ASC";
 
 				return (await databaseConnection.QueryAsync<Capability>(sql).ConfigureAwait(false)).ToList();
 			}

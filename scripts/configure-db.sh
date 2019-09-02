@@ -21,6 +21,7 @@ echo "======= MSSQL SERVER STARTED ========" | tee -a ./config.log
 /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -d $DB_NAME -i "data/Tables.sql"
 /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -d $DB_NAME -i "data/Common Values.sql"
 /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -d $DB_NAME -i "data/Capabilities and Standards.sql"
-/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -d $DB_NAME -i "data/Sample Data.sql"
+/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -d $DB_NAME -i "data/Sample Data/Organisations.sql"
+/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -d $DB_NAME -i "data/Sample Data/Solutions.sql"
 
 echo "======= MSSQL CONFIG COMPLETE =======" | tee -a ./config.log
