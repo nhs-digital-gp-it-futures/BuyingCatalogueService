@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -8,12 +7,12 @@ using MediatR;
 using NHSD.BuyingCatalogue.Application.Persistence;
 using NHSD.BuyingCatalogue.Domain;
 
-namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAll
+namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions
 {
     /// <summary>
-    /// Defines the request handler for the <see cref="GetAllSolutionSummariesQuery"/>.
+    /// Defines the request handler for the <see cref="ListSolutionsQuery"/>.
     /// </summary>
-    public sealed class GetAllSolutionSummariesQueryHandler : IRequestHandler<GetAllSolutionSummariesQuery, GetAllSolutionSummariesQueryResult>
+    public sealed class ListSolutionsHandler : IRequestHandler<ListSolutionsQuery, ListSolutionsResult>
     {
         /// <summary>
         /// Access the persistence layer for the <see cref="Solution"/> entity.
@@ -26,9 +25,9 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAll
         private IMapper Mapper { get; }
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="GetAllSolutionSummariesQueryHandler"/> class.
+        /// Initialises a new instance of the <see cref="ListSolutionsHandler"/> class.
         /// </summary>
-        public GetAllSolutionSummariesQueryHandler(ISolutionRepository solutionsRepository, IMapper mapper)
+        public ListSolutionsHandler(ISolutionRepository solutionsRepository, IMapper mapper)
         {
             SolutionsRepository = solutionsRepository ?? throw new ArgumentNullException(nameof(solutionsRepository));
             Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -40,13 +39,13 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAll
         /// <param name="request">The query parameters.</param>
         /// <param name="cancellationToken">Token to cancel the request.</param>
         /// <returns>The result of the query.</returns>
-        public async Task<GetAllSolutionSummariesQueryResult> Handle(GetAllSolutionSummariesQuery request, CancellationToken cancellationToken)
+        public async Task<ListSolutionsResult> Handle(ListSolutionsQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<Solution> solutionList = await SolutionsRepository.ListSolutionSummaryAsync(cancellationToken).ConfigureAwait(false);
+            IEnumerable<Solution> solutionList = await SolutionsRepository.ListAsync(request.CapabilityIdList, cancellationToken).ConfigureAwait(false);
 
-            return new GetAllSolutionSummariesQueryResult
+            return new ListSolutionsResult
             {
-                Solutions = Mapper.Map<IEnumerable<SolutionSummaryViewModel>>(solutionList.Where(item => item != null && item.Organisation != null && item.Capabilities != null && item.Capabilities.Any()))
+                Solutions = Mapper.Map<IEnumerable<SolutionSummaryViewModel>>(solutionList)
             };
         }
     }

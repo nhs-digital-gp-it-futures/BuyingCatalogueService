@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading;
@@ -11,65 +11,97 @@ using NHSD.BuyingCatalogue.Persistence.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Persistence.Repositories
 {
-	/// <summary>
-	/// Represents the data access layer for the <see cref="Solution"/> entity.
-	/// </summary>
-	public sealed class SolutionRepository : ISolutionRepository
-	{
-		/// <summary>
-		/// Database connection factory to provide new connections.
-		/// </summary>
-		public IDbConnectionFactory DbConnectionFactory { get; }
+    /// <summary>
+    /// Represents the data access layer for the <see cref="Solution"/> entity.
+    /// </summary>
+    public sealed class SolutionRepository : ISolutionRepository
+    {
+        /// <summary>
+        /// Database connection factory to provide new connections.
+        /// </summary>
+        private IDbConnectionFactory DbConnectionFactory { get; }
 
-		/// <summary>
-		/// Initialises a new instance of the <see cref="SolutionRepository"/> class.
-		/// </summary>
-		public SolutionRepository(IDbConnectionFactory dbConnectionFactory)
+        /// <summary>
+        /// Initialises a new instance of the <see cref="SolutionRepository"/> class.
+        /// </summary>
+        public SolutionRepository(IDbConnectionFactory dbConnectionFactory)
+        {
+            DbConnectionFactory = dbConnectionFactory ?? throw new System.ArgumentNullException(nameof(dbConnectionFactory));
+        }
+
+        /// <summary>
+        /// Gets a list of <see cref="Solution"/> objects.
+        /// </summary>
+        /// <returns>A list of <see cref="Solution"/> objects.</returns>
+        public async Task<IEnumerable<Solution>> ListAsync(ISet<string> capabilityIdList, CancellationToken cancellationToken)
 		{
-			DbConnectionFactory = dbConnectionFactory ?? throw new System.ArgumentNullException(nameof(dbConnectionFactory));
-		}
+            if (capabilityIdList is null)
+            {
+                throw new System.ArgumentNullException(nameof(capabilityIdList));
+            }
 
-		/// <summary>
-		/// Gets a list of <see cref="Solution"/> objects.
-		/// </summary>
-		/// <returns>A list of <see cref="Solution"/> objects.</returns>
-		public async Task<IEnumerable<Solution>> ListSolutionSummaryAsync(CancellationToken cancellationToken)
-		{
-			using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
-			{
-				const string sql = @"SELECT	Solution.Id, 
-											Solution.SolutionName as Name, 
-											Solution.Summary, 
-											Organisation.Id, 
-											Organisation.OrganisationName AS Name,
-											CONVERT(VARCHAR(36), Capability.Id) AS Id,
-											Capability.CapabilityName AS Name,
-											Capability.CapabilityDescription AS Description
-									FROM	Solution 
-											INNER JOIN Organisation ON Organisation.Id = Solution.OrganisationId
-											INNER JOIN SolutionCapability ON Solution.Id = SolutionCapability.SolutionId
-											INNER JOIN Capability ON Capability.Id = SolutionCapability.CapabilityId";
+            using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
+            {
+                const string sql = @"SELECT Solution.Id, 
+                                            Solution.Name, 
+                                            Solution.Summary, 
+                                            Organisation.Id, 
+                                            Organisation.Name,
+                                            CONVERT(VARCHAR(36), Capability.Id) AS Id,
+                                            Capability.Name,
+                                            Capability.Description
+                                    FROM    Solution 
+                                            INNER JOIN Organisation ON Organisation.Id = Solution.OrganisationId
+                                            INNER JOIN SolutionCapability ON Solution.Id = SolutionCapability.SolutionId
+                                            INNER JOIN Capability ON Capability.Id = SolutionCapability.CapabilityId";
 
-				Dictionary<string, Solution> solutionDictionary = new Dictionary<string, Solution>();
+                Dictionary<string, Solution> solutionDictionary = new Dictionary<string, Solution>();
 
-				IEnumerable<Solution> result = await databaseConnection.QueryAsync<Solution, Organisation, Capability, Solution>(sql, (solution, organisation, capability) =>
-				{
-					string solutionId = solution.Id;
-					if (!solutionDictionary.TryGetValue(solutionId, out Solution currentSolution))
-					{
-						solution.Organisation = organisation;
-						solutionDictionary.Add(solutionId, solution);
+                IEnumerable<Solution> result = await databaseConnection.QueryAsync<Solution, Organisation, Capability, Solution>(sql, (solution, organisation, capability) =>
+                {
+                    string solutionId = solution.Id;
+                    if (!solutionDictionary.TryGetValue(solutionId, out Solution currentSolution))
+                    {
+                        solution.Organisation = organisation;
+                        solutionDictionary.Add(solutionId, solution);
 
-						currentSolution = solution;
-					}
+                        currentSolution = solution;
+                    }
 
-					currentSolution.AddCapability(capability);
+                    currentSolution.AddCapability(capability);
 
-					return currentSolution;
-				});
+                    return currentSolution;
+                });
 
-				return result.Distinct().AsList();
-			}
-		}
-	}
+                IEnumerable<Solution> solutionList = result.Distinct();
+                if (capabilityIdList.Any())
+                {
+                    solutionList = solutionList.Where(solution => capabilityIdList.Intersect(solution.Capabilities.Select(capability => capability.Id)).Count() == capabilityIdList.Count());
+                }
+
+                return solutionList;
+            }
+        }
+
+        /// <summary>
+        /// Gets a <see cref="Solution"/> matching the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of a <see cref="Solution"/>.</param>
+        /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
+        /// <returns>A task representing an operation to retrieve a <see cref="Solution"/> matching the specified ID.</returns>
+        public async Task<Solution> ByIdAsync(string id, CancellationToken cancellationToken)
+        {
+            using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
+            {
+                const string sql = @"SELECT Solution.Id,
+                                            Solution.Name
+                                     FROM   Solution
+                                     WHERE  Solution.Id = @id";
+
+                var result = await databaseConnection.QueryAsync<Solution>(sql, new { id });
+
+                return result.SingleOrDefault();
+            }
+        }
+    }
 }

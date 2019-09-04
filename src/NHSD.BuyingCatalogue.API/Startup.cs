@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,7 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using NHSD.BuyingCatalogue.API.Extensions;
 using NHSD.BuyingCatalogue.Application.Infrastructure;
 using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetAll;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
 using System;
 
 namespace NHSD.BuyingCatalogue.API
@@ -43,7 +44,7 @@ namespace NHSD.BuyingCatalogue.API
               .AddAutoMapper(typeof(AutoMapperProfile).Assembly)
               .AddCustomDbFactory()
               .AddCustomRepositories()
-              .AddMediatR(typeof(GetAllSolutionSummariesQueryHandler).Assembly)
+              .AddMediatR(typeof(ListSolutionsQuery).Assembly)
               .AddCustomSwagger()
               .AddCustomMvc();
         }
@@ -75,6 +76,9 @@ namespace NHSD.BuyingCatalogue.API
             app.UseMvc();
         }
 
+        /// <summary>
+        /// Output all the settings for this application.
+        /// </summary>
         private void DumpSettings()
         {
             Console.WriteLine("Settings:");

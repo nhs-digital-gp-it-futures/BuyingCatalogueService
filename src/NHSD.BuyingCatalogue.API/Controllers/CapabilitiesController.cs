@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.API.Controllers
 {
+    /// <summary>
+    /// Provides a set of endpoints for the information related to the entity <see cref="Capability"/>.
+    /// </summary>
     [Route("api/v1/[controller]")]
     [ApiController]
     [Produces("application/json")]
@@ -26,9 +29,9 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         /// </summary>
         /// <returns>A result containing a list of capabilities.</returns>
         [HttpGet]
-        [ProducesResponseType(typeof(ListCapabilitiesQueryResult), (int)HttpStatusCode.OK)]
+		[ProducesResponseType(typeof(ListCapabilitiesResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult<ListCapabilitiesQueryResult>> ListAsync()
+		public async Task<ActionResult<ListCapabilitiesResult>> ListAsync()
         {
             return Ok(await _mediator.Send(new ListCapabilitiesQuery()));
         }

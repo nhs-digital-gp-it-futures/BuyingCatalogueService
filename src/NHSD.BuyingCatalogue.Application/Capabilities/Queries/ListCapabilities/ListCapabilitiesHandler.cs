@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -8,7 +8,10 @@ using NHSD.BuyingCatalogue.Domain.Entities;
 
 namespace NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities
 {
-    public sealed class ListCapabilitiesQueryHandler : IRequestHandler<ListCapabilitiesQuery, ListCapabilitiesQueryResult>
+    /// <summary>
+	/// Defines the request handler for the <see cref="ListCapabilitiesQuery"/>.
+	/// </summary>
+    public sealed class ListCapabilitiesHandler : IRequestHandler<ListCapabilitiesQuery, ListCapabilitiesResult>
     {
         /// <summary>
         /// Data access layer for the <see cref="Capability"/> entity.
@@ -21,9 +24,9 @@ namespace NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities
         private IMapper Mapper { get; }
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="ListCapabilitiesQueryHandler"/> class.
+        /// Initialises a new instance of the <see cref="ListCapabilitiesHandler"/> class.
         /// </summary>
-        public ListCapabilitiesQueryHandler(ICapabilityRepository capabilityRepository, IMapper mapper)
+        public ListCapabilitiesHandler(ICapabilityRepository capabilityRepository, IMapper mapper)
         {
             CapabilityRepository = capabilityRepository ?? throw new System.ArgumentNullException(nameof(capabilityRepository));
             Mapper = mapper ?? throw new System.ArgumentNullException(nameof(mapper));
@@ -35,11 +38,11 @@ namespace NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities
         /// <param name="request">The query parameters.</param>
         /// <param name="cancellationToken">Token to cancel the request.</param>
         /// <returns>The result of the query.</returns>
-        public async Task<ListCapabilitiesQueryResult> Handle(ListCapabilitiesQuery request, CancellationToken cancellationToken)
+        public async Task<ListCapabilitiesResult> Handle(ListCapabilitiesQuery request, CancellationToken cancellationToken)
         {
             IEnumerable<Capability> capabilities = await CapabilityRepository.ListAsync(cancellationToken).ConfigureAwait(false);
 
-            return new ListCapabilitiesQueryResult
+            return new ListCapabilitiesResult
             {
                 Capabilities = Mapper.Map<IEnumerable<CapabilityViewModel>>(capabilities)
             };
