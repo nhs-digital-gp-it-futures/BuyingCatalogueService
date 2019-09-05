@@ -8,7 +8,7 @@ using NHSD.BuyingCatalogue.Domain.Entities;
 namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
 {
     /// <summary>
-    /// A profile for AutoMapper to define the mapping between objects.
+    /// A profile for AutoMapper to define the mapping between entities and view models.
     /// </summary>
     public sealed class AutoMapperProfile : Profile
     {
@@ -23,7 +23,8 @@ namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
 
             CreateMap<Capability, CapabilityViewModel>();
 
-            CreateMap<Solution, SolutionByIdViewModel>();
+            CreateMap<Solution, SolutionByIdViewModel>()
+                .ForMember(destination => destination.MarketingData, options => options.MapFrom(source => source.Features));
         }
     }
 }

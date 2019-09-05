@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using NHSD.BuyingCatalogue.Domain.Common;
 using NHSD.BuyingCatalogue.Domain.Entities;
 
@@ -36,6 +36,11 @@ namespace NHSD.BuyingCatalogue.Domain
 				return _capabilities;
 			}
 		}
+
+        /// <summary>
+        /// Gets or sets a blob of data representing a list of features.
+        /// </summary>
+        public string Features { get; set; }
 
 		/// <summary>
 		/// Initialises a new instance of the <see cref="Solution"/> class.
