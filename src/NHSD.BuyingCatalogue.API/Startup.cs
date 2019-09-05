@@ -1,15 +1,15 @@
+using System;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NHSD.BuyingCatalogue.API.Extensions;
 using NHSD.BuyingCatalogue.Application.Infrastructure;
 using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
-using System;
 
 namespace NHSD.BuyingCatalogue.API
 {
@@ -46,7 +46,8 @@ namespace NHSD.BuyingCatalogue.API
               .AddCustomRepositories()
               .AddMediatR(typeof(ListSolutionsQuery).Assembly)
               .AddCustomSwagger()
-              .AddCustomMvc();
+              .AddCustomMvc()
+              .AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         /// <summary>

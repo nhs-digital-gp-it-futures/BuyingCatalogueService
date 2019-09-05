@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
 using System;
@@ -18,10 +19,14 @@ namespace NHSD.BuyingCatalogue.API.Controllers
     public sealed class CapabilitiesController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IHttpContextAccessor _context;
 
-        public CapabilitiesController(IMediator mediator)
+        public CapabilitiesController(
+            IMediator mediator,
+            IHttpContextAccessor context)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         /// <summary>
@@ -29,11 +34,11 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         /// </summary>
         /// <returns>A result containing a list of capabilities.</returns>
         [HttpGet]
-		[ProducesResponseType(typeof(ListCapabilitiesResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ListCapabilitiesResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-		public async Task<ActionResult<ListCapabilitiesResult>> ListAsync()
+        public async Task<ActionResult<ListCapabilitiesResult>> ListAsync()
         {
-            return Ok(await _mediator.Send(new ListCapabilitiesQuery()));
+            return Ok(await _mediator.Send(new ListCapabilitiesQuery(_context)));
         }
     }
 }
