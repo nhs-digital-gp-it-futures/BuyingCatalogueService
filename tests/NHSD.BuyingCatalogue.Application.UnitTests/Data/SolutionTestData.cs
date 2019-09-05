@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using NHSD.BuyingCatalogue.Domain;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests.Data
@@ -31,8 +31,9 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Data
 				Id = id,
 				Name = $"Solution {id}",
 				Summary = $"Solution Summary {id}",
-				Organisation = OrganisationTestData.Default()
-			};
+				Organisation = OrganisationTestData.Default(),
+                Features = "{ \"features\":[\"Feature 1\",\"Feature 2\"]}"
+            };
 		}
 	}
 }

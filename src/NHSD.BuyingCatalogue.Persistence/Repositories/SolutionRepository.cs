@@ -94,8 +94,10 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
             using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
             {
                 const string sql = @"SELECT Solution.Id,
-                                            Solution.Name
+                                            Solution.Name,
+                                            MarketingDetail.Features As Features
                                      FROM   Solution
+                                            INNER JOIN MarketingDetail ON Solution.Id = MarketingDetail.SolutionId
                                      WHERE  Solution.Id = @id";
 
                 var result = await databaseConnection.QueryAsync<Solution>(sql, new { id });

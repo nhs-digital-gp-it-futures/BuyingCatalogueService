@@ -1,3 +1,4 @@
+
 namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
 {
     /// <summary>
@@ -14,5 +15,10 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
         /// Name of the solution.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Marketing data of the solution.
+        /// </summary>
+        public string MarketingData { get; set; }
     }
 }
