@@ -1,15 +1,21 @@
 using System;
+using System.Text;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using NHSD.BuyingCatalogue.API.Extensions;
 using NHSD.BuyingCatalogue.Application.Infrastructure;
+using NHSD.BuyingCatalogue.Application.Infrastructure.Authentication;
 using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
+using Swashbuckle.AspNetCore.Filters;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace NHSD.BuyingCatalogue.API
 {
@@ -22,13 +28,21 @@ namespace NHSD.BuyingCatalogue.API
         /// Application configuration.
         /// </summary>
         private IConfiguration Configuration { get; }
+        private IHostingEnvironment CurrentEnvironment { get; }
+        private IServiceProvider ServiceProvider { get; set; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="Startup"/> class.
         /// </summary>
-        public Startup(IConfiguration configuration)
+        public Startup(
+            IConfiguration configuration,
+            IHostingEnvironment env)
         {
             Configuration = configuration;
+
+            // Environment variable:
+            //    ASPNETCORE_ENVIRONMENT == Development
+            CurrentEnvironment = env;
 
             DumpSettings();
         }
@@ -47,7 +61,63 @@ namespace NHSD.BuyingCatalogue.API
               .AddMediatR(typeof(ListSolutionsQuery).Assembly)
               .AddCustomSwagger()
               .AddCustomMvc()
-              .AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+              .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
+              .AddSingleton<IBearerAuthentication, BearerAuthentication>();
+
+            services
+              .AddAuthentication(options =>
+              {
+                  options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                  options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+              })
+              .AddJwtBearer(options =>
+              {
+                  options.Authority = Configuration.Jwt_Authority();
+                  options.Audience = Configuration.Jwt_Audience();
+                  options.RequireHttpsMetadata = !CurrentEnvironment.IsDevelopment();
+                  options.Events = new JwtBearerEvents
+                  {
+                      OnMessageReceived = async context =>
+                      {
+                          var auth = ServiceProvider.GetService<IBearerAuthentication>();
+                          await auth.OnMessageReceived(context);
+                      },
+
+                      OnTokenValidated = async context =>
+                      {
+                          var auth = ServiceProvider.GetService<IBearerAuthentication>();
+                          await auth.OnTokenValidated(context);
+                      }
+                  };
+                  options.TokenValidationParameters = new TokenValidationParameters
+                  {
+                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.Jwt_IssuerSigningKey())),
+
+                      // remove as many restrictions as possible when in dev mode
+                      RequireExpirationTime = !CurrentEnvironment.IsDevelopment(),
+                      RequireSignedTokens = !CurrentEnvironment.IsDevelopment(),
+                      ValidateAudience = !CurrentEnvironment.IsDevelopment(),
+                      ValidateIssuer = !CurrentEnvironment.IsDevelopment(),
+                      ValidateLifetime = !CurrentEnvironment.IsDevelopment(),
+                      ValidateIssuerSigningKey = !CurrentEnvironment.IsDevelopment()
+                  };
+              });
+
+            if (CurrentEnvironment.IsDevelopment())
+            {
+                // Register the Swagger generator, defining one or more Swagger documents
+                services.AddSwaggerGen(options =>
+                {
+                    options.AddSecurityDefinition("oauth2", new ApiKeyScheme
+                    {
+                        Description = "Standard Authorization header using the Bearer scheme. Example: \"bearer {token}\"",
+                        In = "header",
+                        Name = "Authorization",
+                        Type = "apiKey"
+                    });
+                    options.OperationFilter<SecurityRequirementsOperationFilter>();
+                });
+            }
         }
 
         /// <summary>
@@ -57,6 +127,8 @@ namespace NHSD.BuyingCatalogue.API
         /// <param name="env">The hosting environment details.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            ServiceProvider = app.ApplicationServices;
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -83,8 +155,14 @@ namespace NHSD.BuyingCatalogue.API
         private void DumpSettings()
         {
             Console.WriteLine("Settings:");
-            Console.WriteLine($"  CONNECTIONSTRINGS:");
-            Console.WriteLine($"    BUYINGCATALOGUE: {Configuration.BuyingCatalogueConnectionString()}");
+            Console.WriteLine($"  ConnectionStrings:");
+            Console.WriteLine($"    ConnectionStrings:BuyingCatalogue   : {Configuration.BuyingCatalogueConnectionString()}");
+
+            Console.WriteLine($"  Jwt:");
+            Console.WriteLine($"    Jwt:UserInfo            : {Configuration.Jwt_UserInfo()}");
+            Console.WriteLine($"    Jwt:Authority           : {Configuration.Jwt_Authority()}");
+            Console.WriteLine($"    Jwt:Audience            : {Configuration.Jwt_Audience()}");
+            Console.WriteLine($"    Jwt:IssuerSigningKey    : {Configuration.Jwt_IssuerSigningKey()}");
         }
     }
 }

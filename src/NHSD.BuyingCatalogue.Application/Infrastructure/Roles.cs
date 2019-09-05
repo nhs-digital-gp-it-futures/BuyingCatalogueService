@@ -1,10 +1,15 @@
-﻿namespace NHSD.BuyingCatalogue.Application.Infrastructure
+namespace NHSD.BuyingCatalogue.Application.Infrastructure
 {
     /// <summary>
     /// User roles within Buying Catalog
     /// </summary>
     public static class Roles
     {
+        /// <summary>
+        /// An unauthenticated user ie Joe Public
+        /// </summary>
+        public const string Public = "Public";
+
         /// <summary>
         /// An entity purchasing a Solution
         /// </summary>
