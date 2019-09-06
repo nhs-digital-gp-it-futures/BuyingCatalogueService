@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using NHSD.BuyingCatalogue.Application.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.API.Infrastructure.Authentication
@@ -14,11 +15,14 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.Authentication
         private const string AltEmail = "email";
 
         private readonly IConfiguration _config;
+        private readonly ILogger<BearerAuthentication> _logger;
 
         public BearerAuthentication(
-          IConfiguration config)
+          IConfiguration config,
+          ILogger<BearerAuthentication> logger)
         {
             _config = config;
+            _logger = logger;
         }
 
         public Task OnMessageReceived(MessageReceivedContext context)
@@ -27,8 +31,11 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.Authentication
             if (authorization.ToString().StartsWith(JwtBearerDefaults.AuthenticationScheme, StringComparison.InvariantCultureIgnoreCase))
             {
                 // Bearer token, so use it
+                _logger.LogInformation($"Found bearer token: {authorization}");
                 return Task.CompletedTask;
             }
+
+            _logger.LogInformation("No bearer token found");
 
             // everyone is Joe Public with a blank email address
             var claims = new[]

@@ -2,6 +2,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NHSD.BuyingCatalogue.API.Infrastructure.Authentication;
 using NHSD.BuyingCatalogue.Application.Infrastructure;
@@ -14,11 +15,13 @@ namespace NHSD.BuyingCatalogue.API.UnitTests.Infrastructure.Authentication
     public sealed class BearerAuthentication_Tests
     {
         private Mock<IConfiguration> _config;
+        private Mock<ILogger<BearerAuthentication>> _logger;
 
         [SetUp]
         public void SetUp()
         {
             _config = new Mock<IConfiguration>();
+            _logger = new Mock<ILogger<BearerAuthentication>>();
         }
 
         [Test]
@@ -98,7 +101,9 @@ namespace NHSD.BuyingCatalogue.API.UnitTests.Infrastructure.Authentication
 
         private BearerAuthentication Create()
         {
-            return new BearerAuthentication(_config.Object);
+            return new BearerAuthentication(
+                _config.Object,
+                _logger.Object);
         }
     }
 }
