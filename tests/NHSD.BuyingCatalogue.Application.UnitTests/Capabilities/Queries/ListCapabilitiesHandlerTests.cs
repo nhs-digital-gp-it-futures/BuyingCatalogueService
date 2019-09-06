@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Moq;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
 using NHSD.BuyingCatalogue.Application.Persistence;
@@ -15,12 +16,14 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Capabilities.Queries
     [TestFixture]
     public sealed class ListCapabilitiesHandlerTests
     {
+        private Mock<IHttpContextAccessor> _context;
         private Mock<ICapabilityRepository> _repository;
         private Mock<IMapper> _mapper;
 
         [SetUp]
         public void SetUp()
         {
+            _context = new Mock<IHttpContextAccessor>();
             _repository = new Mock<ICapabilityRepository>();
             _mapper = new Mock<IMapper>();
         }
@@ -36,7 +39,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Capabilities.Queries
             var testObject = new ListCapabilitiesHandler(_repository.Object, _mapper.Object);
 
             //ACT
-            var _ = await testObject.Handle(new ListCapabilitiesQuery(), CancellationToken.None);
+            var _ = await testObject.Handle(new ListCapabilitiesQuery(_context.Object), CancellationToken.None);
 
             //ASSERT
             _repository.Verify(x => x.ListAsync(CancellationToken.None), Times.Once);
@@ -53,7 +56,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Capabilities.Queries
             var testObject = new ListCapabilitiesHandler(_repository.Object, _mapper.Object);
 
             //ACT
-            _ = await testObject.Handle(new ListCapabilitiesQuery(), CancellationToken.None);
+            _ = await testObject.Handle(new ListCapabilitiesQuery(_context.Object), CancellationToken.None);
 
             //ASSERT
             _mapper.Verify(x => x.Map<IEnumerable<CapabilityViewModel>>(It.Is<IEnumerable<Capability>>(src => src == testData)), Times.Once);
@@ -66,7 +69,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Capabilities.Queries
             var testObject = new ListCapabilitiesHandler(_repository.Object, _mapper.Object);
 
             //ACT
-            var result = await testObject.Handle(new ListCapabilitiesQuery(), CancellationToken.None);
+            var result = await testObject.Handle(new ListCapabilitiesQuery(_context.Object), CancellationToken.None);
 
             //ASSERT
             result.ShouldNotBeNull();
@@ -87,7 +90,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Capabilities.Queries
             var testObject = new ListCapabilitiesHandler(_repository.Object, _mapper.Object);
 
             //ACT
-            var result = await testObject.Handle(new ListCapabilitiesQuery(), CancellationToken.None);
+            var result = await testObject.Handle(new ListCapabilitiesQuery(_context.Object), CancellationToken.None);
 
             //ASSERT
             result.Capabilities.ShouldBe(mapRes);

@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Moq;
 using NHSD.BuyingCatalogue.Application.Persistence;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
@@ -13,12 +14,14 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
     [TestFixture]
     public sealed class GetSolutionByIdHandlerTests
     {
+        private Mock<IHttpContextAccessor> _context;
         private Mock<ISolutionRepository> _repository;
         private Mock<IMapper> _mapper;
 
         [SetUp]
         public void SetUp()
         {
+            _context = new Mock<IHttpContextAccessor>();
             _repository = new Mock<ISolutionRepository>();
             _mapper = new Mock<IMapper>();
         }
@@ -34,7 +37,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
             var testObject = new GetSolutionByIdHandler(_repository.Object, _mapper.Object);
 
             //ACT
-            var _ = await testObject.Handle(new GetSolutionByIdQuery(testData.Id), CancellationToken.None);
+            var _ = await testObject.Handle(new GetSolutionByIdQuery(_context.Object, testData.Id), CancellationToken.None);
 
             //ASSERT
             _repository.Verify(x => x.ByIdAsync(testData.Id, CancellationToken.None), Times.Once);
@@ -51,7 +54,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
             var testObject = new GetSolutionByIdHandler(_repository.Object, _mapper.Object);
 
             //ACT
-            _ = await testObject.Handle(new GetSolutionByIdQuery(testData.Id), CancellationToken.None);
+            _ = await testObject.Handle(new GetSolutionByIdQuery(_context.Object, testData.Id), CancellationToken.None);
 
             //ASSERT
             _mapper.Verify(x => x.Map<SolutionByIdViewModel>(testData), Times.Once);
@@ -64,7 +67,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
             var testObject = new GetSolutionByIdHandler(_repository.Object, _mapper.Object);
 
             //ACT
-            var result = await testObject.Handle(new GetSolutionByIdQuery("does not exist"), CancellationToken.None);
+            var result = await testObject.Handle(new GetSolutionByIdQuery(_context.Object, "does not exist"), CancellationToken.None);
 
             //ASSERT
             result.ShouldNotBeNull();
@@ -85,7 +88,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
             var testObject = new GetSolutionByIdHandler(_repository.Object, _mapper.Object);
 
             //ACT
-            var result = await testObject.Handle(new GetSolutionByIdQuery(testData.Id), CancellationToken.None);
+            var result = await testObject.Handle(new GetSolutionByIdQuery(_context.Object, testData.Id), CancellationToken.None);
 
             //ASSERT
             result.Solution.ShouldBe(mapRes);
