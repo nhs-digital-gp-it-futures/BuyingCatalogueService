@@ -5,8 +5,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
+using NHSD.BuyingCatalogue.Application.Infrastructure;
 
-namespace NHSD.BuyingCatalogue.Application.Infrastructure.Authentication
+namespace NHSD.BuyingCatalogue.API.Infrastructure.Authentication
 {
     public sealed class BearerAuthentication : IBearerAuthentication
     {
