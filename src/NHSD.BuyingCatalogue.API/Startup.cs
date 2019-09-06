@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using NHSD.BuyingCatalogue.API.Extensions;
 using NHSD.BuyingCatalogue.API.Infrastructure.Authentication;
 using NHSD.BuyingCatalogue.Application.Infrastructure;
+using NHSD.BuyingCatalogue.Application.Infrastructure.Authentication;
 using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
 using Swashbuckle.AspNetCore.Filters;
@@ -62,7 +63,8 @@ namespace NHSD.BuyingCatalogue.API
               .AddCustomSwagger()
               .AddCustomMvc()
               .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
-              .AddSingleton<IBearerAuthentication, BearerAuthentication>();
+              .AddSingleton<IBearerAuthentication, BearerAuthentication>()
+              .AddSingleton<IIdentityProvider, IdentityProvider>();
 
             services
               .AddAuthentication(options =>

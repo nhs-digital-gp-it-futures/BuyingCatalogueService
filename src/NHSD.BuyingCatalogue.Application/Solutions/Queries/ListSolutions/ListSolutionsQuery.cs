@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using NHSD.BuyingCatalogue.Application.Infrastructure.Authentication;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions
 {
@@ -9,7 +10,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions
     /// </summary>
     public sealed class ListSolutionsQuery : IRequest<ListSolutionsResult>
     {
-        public IHttpContextAccessor Context { get; }
+        public IIdentityProvider IdProvider { get; }
 
         /// <summary>
         /// Gets the filter criteria for this query.
@@ -30,17 +31,17 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions
         /// <summary>
         /// Initialises a new instance of the <see cref="ListSolutionsQuery"/> class.
         /// </summary>
-        public ListSolutionsQuery(IHttpContextAccessor context)
+        public ListSolutionsQuery(IIdentityProvider idProvider)
         {
-            Context = context;
+            IdProvider = idProvider;
         }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="ListSolutionsQuery"/> class.
         /// </summary>
         /// <param name="capabilityIdList">List of capability identifiers to filter on.</param>
-        public ListSolutionsQuery(IHttpContextAccessor context, ListSolutionsFilter filter) :
-            this(context)
+        public ListSolutionsQuery(IIdentityProvider idProvider, ListSolutionsFilter filter) :
+            this(idProvider)
         {
             Filter = filter ?? throw new System.ArgumentNullException(nameof(filter));
         }

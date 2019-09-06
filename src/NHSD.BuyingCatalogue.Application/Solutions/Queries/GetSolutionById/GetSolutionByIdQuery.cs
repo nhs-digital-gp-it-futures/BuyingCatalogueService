@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using NHSD.BuyingCatalogue.Application.Infrastructure.Authentication;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
 {
@@ -8,7 +9,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
     /// </summary>
     public sealed class GetSolutionByIdQuery : IRequest<GetSolutionByIdResult>
     {
-        public IHttpContextAccessor Context { get; }
+        public IIdentityProvider IdProvider { get; }
 
         /// <summary>
         /// The key information to identify a <see cref="Solution"/>.
@@ -18,9 +19,9 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
         /// <summary>
         /// Initialises a new instance of the <see cref="GetSolutionByIdQuery"/> class.
         /// </summary>
-        public GetSolutionByIdQuery(IHttpContextAccessor context, string id)
+        public GetSolutionByIdQuery(IIdentityProvider idProvider, string id)
         {
-            Context = context;
+            IdProvider = idProvider;
             Id = id;
         }
     }
