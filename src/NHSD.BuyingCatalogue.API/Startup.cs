@@ -72,6 +72,8 @@ namespace NHSD.BuyingCatalogue.API
               })
               .AddJwtBearer(options =>
               {
+                  var isDev = CurrentEnvironment.IsDevelopment();
+
                   options.Authority = Configuration.Jwt_Authority();
                   options.Audience = Configuration.Jwt_Audience();
                   options.RequireHttpsMetadata = !CurrentEnvironment.IsDevelopment();
@@ -94,12 +96,12 @@ namespace NHSD.BuyingCatalogue.API
                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.Jwt_IssuerSigningKey())),
 
                       // remove as many restrictions as possible when in dev mode
-                      RequireExpirationTime = !CurrentEnvironment.IsDevelopment(),
-                      RequireSignedTokens = !CurrentEnvironment.IsDevelopment(),
-                      ValidateAudience = !CurrentEnvironment.IsDevelopment(),
-                      ValidateIssuer = !CurrentEnvironment.IsDevelopment(),
-                      ValidateLifetime = !CurrentEnvironment.IsDevelopment(),
-                      ValidateIssuerSigningKey = !CurrentEnvironment.IsDevelopment()
+                      RequireExpirationTime = !isDev,
+                      RequireSignedTokens = !isDev,
+                      ValidateAudience = !isDev,
+                      ValidateIssuer = !isDev,
+                      ValidateLifetime = !isDev,
+                      ValidateIssuerSigningKey = !isDev
                   };
               });
 
