@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using NHSD.BuyingCatalogue.Application.Exceptions;
 
 namespace NHSD.BuyingCatalogue.API.Infrastructure.Filters
 {
@@ -41,7 +42,7 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.Filters
 
 			Exception exception = context.Exception;
 
-			object message;
+            object message;
 
 			if (HostingEnvironment.IsDevelopment())
 			{
@@ -63,9 +64,26 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.Filters
 			JsonResult json = new JsonResult(message);
 
 			context.HttpContext.Response.ContentType = "application/json";
-			context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            context.HttpContext.Response.StatusCode = ConvertToStatusCode(exception);
 			context.Result = json;
 			context.ExceptionHandled = true;
 		}
-	}
+
+        /// <summary>
+        /// Converts the specified exception into a HTTP status code. By default return <see cref="StatusCodes.Status500InternalServerError"/>.
+        /// </summary>
+        /// <param name="exception">Error details.</param>
+        /// <returns>The HTTP status code determined by the specified <paramref name="exception"/>.</returns>
+        private int ConvertToStatusCode(Exception exception)
+        {
+            int statusCode = StatusCodes.Status500InternalServerError;
+
+            if (exception is NotFoundException)
+            {
+                statusCode = StatusCodes.Status404NotFound;
+            }
+
+            return statusCode;
+        }
+    }
 }

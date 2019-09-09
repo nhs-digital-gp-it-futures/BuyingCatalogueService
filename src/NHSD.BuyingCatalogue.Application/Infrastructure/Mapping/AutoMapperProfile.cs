@@ -1,5 +1,6 @@
 using AutoMapper;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
+using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Domain;
@@ -25,6 +26,9 @@ namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
 
             CreateMap<Solution, SolutionByIdViewModel>()
                 .ForMember(destination => destination.MarketingData, options => options.MapFrom(source => source.Features));
+
+            CreateMap<UpdateSolutionViewModel, Solution>()
+                .ForMember(destination => destination.Features, options => options.MapFrom(source => source.MarketingData));
         }
     }
 }

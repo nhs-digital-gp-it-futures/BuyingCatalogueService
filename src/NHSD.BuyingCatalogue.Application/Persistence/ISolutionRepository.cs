@@ -23,5 +23,13 @@ namespace NHSD.BuyingCatalogue.Application.Persistence
         /// <param name="cancellationToken">A token to nofity if the task is cancelled.</param>
         /// <returns>A task representing an operation to retrieve a <see cref="Solution"/> matching the specified ID.</returns>
         Task<Solution> ByIdAsync(string id, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Updates the details of the solution.
+        /// </summary>
+        /// <param name="solution">The updated details of a solution to save to the data store.</param>
+        /// <param name="cancellationToken">A token to nofity if the task is cancelled.</param>
+        /// <returns>A task representing an operation to save the specified solution to the data store.</returns>
+        Task UpdateAsync(Solution solution, CancellationToken cancellationToken);
     }
 }

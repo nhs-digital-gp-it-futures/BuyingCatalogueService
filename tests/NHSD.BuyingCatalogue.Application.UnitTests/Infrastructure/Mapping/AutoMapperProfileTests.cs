@@ -4,6 +4,7 @@ using System.Linq;
 using AutoMapper.Configuration;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
 using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
+using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Domain;
@@ -33,6 +34,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Infrastructure.Mapping
             yield return new KeyValuePair<Type, Type>(typeof(Capability), typeof(CapabilityViewModel));
 
             yield return new KeyValuePair<Type, Type>(typeof(Solution), typeof(SolutionByIdViewModel));
+
+            yield return new KeyValuePair<Type, Type>(typeof(UpdateSolutionViewModel), typeof(Solution));
         }
 
         [Test]

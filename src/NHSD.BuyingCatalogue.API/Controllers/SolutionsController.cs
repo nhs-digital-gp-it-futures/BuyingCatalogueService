@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Application.Infrastructure;
 using NHSD.BuyingCatalogue.Application.Infrastructure.Authentication;
+using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
 
@@ -78,6 +79,24 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         {
             GetSolutionByIdResult result = await _mediator.Send(new GetSolutionByIdQuery(_idProvider, id));
             return result.Solution == null ? (ActionResult)new NotFoundResult() : Ok(result);
+        }
+
+        /// <summary>
+        /// Updates a solution matching the supplied ID.
+        /// </summary>
+        /// <param name="id">A value to uniquely identify a solution.</param>
+        /// <param name="updateSolutionViewModel">The details of a solution that includes any updated inforamtion.</param>
+        /// <returns>A task representing an operation to update the details of a solution.</returns>
+        [HttpPut]
+        [Route("{id}")]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult> UpdateAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionViewModel updateSolutionViewModel)
+        {
+            await _mediator.Send(new UpdateSolutionCommand(id, updateSolutionViewModel));
+
+            return NoContent();
         }
     }
 }

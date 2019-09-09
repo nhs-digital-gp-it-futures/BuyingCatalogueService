@@ -105,5 +105,33 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                 return result.SingleOrDefault();
             }
         }
+
+        /// <summary>
+        /// Updates the details of the solution.
+        /// </summary>
+        /// <param name="solution">The updated details of a solution to save to the data store.</param>
+        /// <returns>A task representing an operation to save the specified solution to the data store.</returns>
+        public async Task UpdateAsync(Solution solution, CancellationToken cancellationToken)
+        {
+            if (solution is null)
+            {
+                throw new System.ArgumentNullException(nameof(solution));
+            }
+
+            using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
+            {
+                using (IDbTransaction transaction = databaseConnection.BeginTransaction())
+                {
+                    const string updateMarketingDetailSql = @"
+                                         UPDATE  MarketingDetail
+                                         SET     MarketingDetail.Features = @features
+                                         WHERE   MarketingDetail.SolutionId = @solutionId;";
+
+                    await databaseConnection.ExecuteAsync(updateMarketingDetailSql, new { solutionId = solution.Id, features = solution.Features }, transaction);
+
+                    transaction.Commit();
+                }
+            }
+        }
     }
 }
