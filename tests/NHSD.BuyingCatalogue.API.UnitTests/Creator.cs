@@ -36,9 +36,10 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             return ctx;
         }
 
-        public static TokenValidatedContext GetTokenValidatedContext()
+        public static TokenValidatedContext GetTokenValidatedContext(
+            string email = "NHS-GPIT@WigglyAmps.com")
         {
-            var httpCtx = GetHttpContext();
+            var httpCtx = GetHttpContext(email: email);
             var scheme = GetAuthenticationScheme();
             var opts = new JwtBearerOptions();
             var ctx = new TokenValidatedContext(httpCtx, scheme, opts) { Principal = httpCtx.User };

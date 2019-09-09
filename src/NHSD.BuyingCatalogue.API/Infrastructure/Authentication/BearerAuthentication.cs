@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -7,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NHSD.BuyingCatalogue.Application.Infrastructure;
+using NHSD.BuyingCatalogue.Application.Infrastructure.Authentication;
 
 namespace NHSD.BuyingCatalogue.API.Infrastructure.Authentication
 {
@@ -15,13 +15,16 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.Authentication
         private const string AltEmail = "email";
 
         private readonly IConfiguration _config;
+        private readonly IRolesProvider _rolesProvider;
         private readonly ILogger<BearerAuthentication> _logger;
 
         public BearerAuthentication(
           IConfiguration config,
+          IRolesProvider rolesProvider,
           ILogger<BearerAuthentication> logger)
         {
             _config = config;
+            _rolesProvider = rolesProvider;
             _logger = logger;
         }
 
@@ -54,15 +57,7 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.Authentication
 
         public Task OnTokenValidated(TokenValidatedContext context)
         {
-            var claims = new List<Claim>
-            {
-                // everyone is Joe Public
-                new Claim(ClaimTypes.Role, Roles.Public)
-            };
-
             // TODO     validate JWT token against _config.Jwt_UserInfo();
-
-            // TODO     set roles based on email-->contact-->organisation-->org.PrimaryRoleId-->role
 
             // ClaimTypes.Email --> 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'
             // but some OIDC providers use 'email'
@@ -71,8 +66,9 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.Authentication
                     x.Type == ClaimTypes.Email ||
                     x.Type.ToLowerInvariant() == AltEmail)?.Value;
 
-            //claims.Add(new Claim(ClaimTypes.Role, Roles.Authority));
-            //claims.Add(new Claim(ClaimTypes.Role, Roles.Buyer));
+            var claims = _rolesProvider
+                .RolesByEmail(email)
+                .Select(role => new Claim(ClaimTypes.Role, role));
 
             context.Principal.AddIdentity(new ClaimsIdentity(claims));
 

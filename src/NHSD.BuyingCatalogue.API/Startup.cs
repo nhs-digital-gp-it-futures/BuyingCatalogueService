@@ -64,7 +64,8 @@ namespace NHSD.BuyingCatalogue.API
               .AddCustomMvc()
               .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
               .AddSingleton<IBearerAuthentication, BearerAuthentication>()
-              .AddSingleton<IIdentityProvider, IdentityProvider>();
+              .AddSingleton<IIdentityProvider, IdentityProvider>()
+              .AddSingleton<IRolesProvider, RolesProvider>();
 
             services
               .AddAuthentication(options =>
