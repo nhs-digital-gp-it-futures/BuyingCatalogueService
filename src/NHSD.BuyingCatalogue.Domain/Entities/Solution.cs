@@ -16,6 +16,11 @@ namespace NHSD.BuyingCatalogue.Domain
 		/// </summary>
 		public string Name { get; set; }
 
+        /// <summary>
+        /// Full description of the solution, as displayed to the user.
+        /// </summary>
+        public string Description { get; set; }
+
 		/// <summary>
 		/// Summary of the solution, as displayed to a user.
 		/// </summary>
@@ -42,10 +47,15 @@ namespace NHSD.BuyingCatalogue.Domain
         /// </summary>
         public string Features { get; set; }
 
-		/// <summary>
-		/// Initialises a new instance of the <see cref="Solution"/> class.
-		/// </summary>
-		public Solution()
+        /// <summary>
+        /// A link to provide more information about a solution.
+        /// </summary>
+        public string AboutUrl { get; set; }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="Solution"/> class.
+        /// </summary>
+        public Solution()
 		{
 		}
 

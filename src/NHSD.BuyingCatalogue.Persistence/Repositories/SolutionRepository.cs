@@ -95,6 +95,9 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
             {
                 const string sql = @"SELECT Solution.Id,
                                             Solution.Name,
+                                            Solution.Summary,
+                                            Solution.FullDescription AS Description,
+                                            MarketingDetail.AboutUrl AS AboutUrl,
                                             MarketingDetail.Features As Features
                                      FROM   Solution
                                             INNER JOIN MarketingDetail ON Solution.Id = MarketingDetail.SolutionId
@@ -122,12 +125,20 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
             {
                 using (IDbTransaction transaction = databaseConnection.BeginTransaction())
                 {
+                    const string updateSolutionSql = @"
+                                            UPDATE  Solution
+                                            SET     Solution.FullDescription = @description,
+                                                    Solution.Summary = @summary
+                                            WHERE   Solution.Id = @id;";
+
                     const string updateMarketingDetailSql = @"
                                          UPDATE  MarketingDetail
-                                         SET     MarketingDetail.Features = @features
+                                         SET     MarketingDetail.AboutUrl = @aboutUrl,
+                                                 MarketingDetail.Features = @features
                                          WHERE   MarketingDetail.SolutionId = @solutionId;";
 
-                    await databaseConnection.ExecuteAsync(updateMarketingDetailSql, new { solutionId = solution.Id, features = solution.Features }, transaction);
+                    await databaseConnection.ExecuteAsync(updateSolutionSql, new { id = solution.Id, description = solution.Description, summary = solution.Summary }, transaction);
+                    await databaseConnection.ExecuteAsync(updateMarketingDetailSql, new { solutionId = solution.Id, aboutUrl = solution.AboutUrl, features = solution.Features }, transaction);
 
                     transaction.Commit();
                 }

@@ -17,8 +17,23 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
         public string Name { get; set; }
 
         /// <summary>
+        /// Full description of the solution, as displayed to the user.
+        /// </summary>
+        public string Description { get; set; }
+
+        /// <summary>
+        /// Summary of the solution, as displayed to a user.
+        /// </summary>
+        public string Summary { get; set; }
+
+        /// <summary>
         /// Marketing data of the solution.
         /// </summary>
         public string MarketingData { get; set; }
+
+        /// <summary>
+        /// A link to provide more information about a solution.
+        /// </summary>
+        public string AboutUrl { get; set; }
     }
 }
