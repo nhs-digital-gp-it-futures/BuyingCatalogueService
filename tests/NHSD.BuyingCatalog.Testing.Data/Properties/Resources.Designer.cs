@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests.Properties {
+namespace NHSD.BuyingCatalog.Testing.Data.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NHSD.BuyingCatalogue.Persistence.DatabaseTests.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NHSD.BuyingCatalog.Testing.Data.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,6 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests.Properties {
         /// <summary>
         ///   Looks up a localized string similar to DELETE FROM [FrameworkCapabilities]
         ///DELETE FROM [Capability]
-        ///DELETE FROM [CapabilityStatus]
-        ///DELETE FROM [CapabilityCategory]
-        ///DELETE FROM [Framework]
         ///.
         /// </summary>
         internal static string Clear {
@@ -117,11 +114,11 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to DROP TABLE [FrameworkCapabilities]
-        ///DROP TABLE [Capability]
-        ///DROP TABLE [CapabilityStatus]
-        ///DROP TABLE [CapabilityCategory]
-        ///DROP TABLE [Framework]
+        ///   Looks up a localized string similar to INSERT [dbo].[Framework] ([Id], [Name], [Description], [Owner], [ActiveDate], [ExpiryDate]) VALUES (N&apos;NHSDGP001&apos;, N&apos;NHS Digital GP Futures Framework 1&apos;, NULL, NULL, NULL, NULL)
+        ///
+        ///INSERT INTO [dbo].[CapabilityStatus] ([Id] ,[Name]) VALUES (1,&apos;Effective&apos;)
+        ///
+        ///INSERT INTO [dbo].[CapabilityCategory] ([Id] ,[Name]) VALUES (0,&apos;Undefined&apos;)
         ///.
         /// </summary>
         internal static string ReferenceData {

@@ -1,6 +1,7 @@
 using System;
+using NHSD.BuyingCatalogue.Testing.Data.Entities;
 
-namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests.Entities
+namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 {
     public sealed class CapabilityEntityBuilder
     {

@@ -8,7 +8,9 @@ using Moq;
 using NHSD.BuyingCatalogue.Persistence.Infrastructure;
 using NHSD.BuyingCatalogue.Persistence.Repositories;
 using FluentAssertions;
-using NHSD.BuyingCatalogue.Persistence.DatabaseTests.Entities;
+using NHSD.BuyingCatalogue.Testing.Data.Entities;
+using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
+using NHSD.BuyingCatalogue.Testing.Data;
 using System.Collections.Generic;
 using System.Linq;
 

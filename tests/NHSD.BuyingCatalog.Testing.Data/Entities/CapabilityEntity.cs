@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests.Entities
+namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 {
     public sealed class CapabilityEntity
     {
@@ -30,7 +30,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests.Entities
             await SqlRunner.ExecuteAsync(Database.ConnectionString, InsertSql);
         }
 
-        private string InsertSql => @$"
+        private string InsertSql => $@"
         INSERT INTO [dbo].[Capability]
         ([Id]
         ,[CapabilityRef]

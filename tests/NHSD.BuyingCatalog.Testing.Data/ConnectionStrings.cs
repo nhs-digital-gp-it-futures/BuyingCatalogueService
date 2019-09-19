@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
-
-namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
+namespace NHSD.BuyingCatalogue.Testing.Data
 {
     internal static class ConnectionStrings
     {
@@ -12,9 +7,3 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         internal const string GPitFutures = @"Server=(LocalDB)\MSSQLLocalDB;Initial Catalog={0};Trusted_Connection=True;Integrated Security=SSPI;Persist Security Info=False;";
     }
 }
-
-
-
-
-
-

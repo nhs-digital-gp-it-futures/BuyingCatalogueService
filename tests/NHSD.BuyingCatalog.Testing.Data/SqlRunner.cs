@@ -1,7 +1,7 @@
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
-namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
+namespace NHSD.BuyingCatalogue.Testing.Data
 {
     internal static class SqlRunner
     {
