@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -35,7 +36,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
         {
             //ARRANGE
             var testData = new [] { SolutionTestData.Default(), SolutionTestData.DefaultWithNoCapabilites() };
-            var capabilityIdList = new HashSet<string>();
+            var capabilityIdList = new HashSet<Guid>();
 
             _repository.Setup(x => x.ListAsync(capabilityIdList, CancellationToken.None)).Returns(() => Task.FromResult<IEnumerable<Solution>>(testData));
 
@@ -53,7 +54,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
         {
             //ARRANGE
             var testData = new [] { SolutionTestData.Default(), SolutionTestData.Default() };
-            var capabilityIdList = new HashSet<string>();
+            var capabilityIdList = new HashSet<Guid>();
 
             _repository.Setup(x => x.ListAsync(capabilityIdList, CancellationToken.None)).Returns(() => Task.FromResult<IEnumerable<Solution>>(testData));
 
@@ -86,7 +87,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
             //ARRANGE
             var testData = new [] { SolutionTestData.Default(), SolutionTestData.DefaultWithNoCapabilites() };
             var mapRes = new List<SolutionSummaryViewModel>();
-            var capabilityIdList = new HashSet<string>();
+            var capabilityIdList = new HashSet<Guid>();
 
             _repository.Setup(x => x.ListAsync(capabilityIdList, CancellationToken.None)).Returns(() => Task.FromResult<IEnumerable<Solution>>(testData));
             _mapper.Setup(x => x.Map<IEnumerable<SolutionSummaryViewModel>>(It.Is<IEnumerable<Solution>>(src => src == testData)))

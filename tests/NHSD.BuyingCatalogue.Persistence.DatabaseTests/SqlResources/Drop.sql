@@ -1,0 +1,5 @@
+DROP TABLE [FrameworkCapabilities]
+DROP TABLE [Capability]
+DROP TABLE [CapabilityStatus]
+DROP TABLE [CapabilityCategory]
+DROP TABLE [Framework]

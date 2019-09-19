@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
         /// Gets a list of <see cref="Solution"/> objects.
         /// </summary>
         /// <returns>A list of <see cref="Solution"/> objects.</returns>
-        public async Task<IEnumerable<Solution>> ListAsync(ISet<string> capabilityIdList, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Solution>> ListAsync(ISet<Guid> capabilityIdList, CancellationToken cancellationToken)
 		{
             if (capabilityIdList is null)
             {
@@ -47,7 +48,7 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                                             Solution.Summary, 
                                             Organisation.Id, 
                                             Organisation.Name,
-                                            CONVERT(VARCHAR(36), Capability.Id) AS Id,
+                                            Capability.Id,
                                             Capability.Name,
                                             Capability.Description
                                     FROM    Solution 

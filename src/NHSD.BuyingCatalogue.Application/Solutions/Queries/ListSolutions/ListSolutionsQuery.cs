@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -20,7 +21,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions
         /// <summary>
         /// A list of capability Ids with no duplicates.
         /// </summary>
-        public ISet<string> CapabilityIdList
+        public ISet<Guid> CapabilityIdList
         {
             get
             {

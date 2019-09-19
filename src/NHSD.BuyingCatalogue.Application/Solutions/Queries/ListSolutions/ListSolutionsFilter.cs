@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions
@@ -10,6 +11,6 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions
         /// <summary>
         /// A list of <see cref="Capability"/> IDs.
         /// </summary>
-        public ISet<string> Capabilities { get; } = new HashSet<string>();
+        public ISet<Guid> Capabilities { get; } = new HashSet<Guid>();
     }
 }

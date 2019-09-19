@@ -36,7 +36,7 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
 		{
 			using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
 			{
-				const string sql = @"SELECT  CONVERT(VARCHAR(36), Capability.Id) AS Id, 
+				const string sql = @"SELECT Capability.Id, 
 											 Name, 
 											 ISNULL(IsFoundation, 0) AS IsFoundation
 									FROM	 Capability 

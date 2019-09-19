@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace NHSD.BuyingCatalogue.Application.Persistence
         /// Gets a list of <see cref="Solution"/> objects.
         /// </summary>
         /// <returns>A list of <see cref="Solution"/> objects.</returns>
-        Task<IEnumerable<Solution>> ListAsync(ISet<string> capabilityIdList, CancellationToken cancellationToken);
+        Task<IEnumerable<Solution>> ListAsync(ISet<Guid> capabilityIdList, CancellationToken cancellationToken);
 
         /// <summary>
         /// Gets a <see cref="Solution"/> matching the specified ID.
