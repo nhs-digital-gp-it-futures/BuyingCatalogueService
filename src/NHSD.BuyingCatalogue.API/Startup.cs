@@ -4,6 +4,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using NHSD.BuyingCatalogue.API.Extensions;
 using NHSD.BuyingCatalogue.API.Infrastructure.Authentication;
+using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
 using NHSD.BuyingCatalogue.Application.Infrastructure;
 using NHSD.BuyingCatalogue.Application.Infrastructure.Authentication;
 using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
@@ -35,14 +37,9 @@ namespace NHSD.BuyingCatalogue.API
         /// <summary>
         /// Initialises a new instance of the <see cref="Startup"/> class.
         /// </summary>
-        public Startup(
-            IConfiguration configuration,
-            IHostingEnvironment env)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
-
-            // Environment variable:
-            //    ASPNETCORE_ENVIRONMENT == Development
             CurrentEnvironment = env;
 
             DumpSettings();
@@ -60,6 +57,7 @@ namespace NHSD.BuyingCatalogue.API
               .AddCustomDbFactory()
               .AddCustomRepositories()
               .AddMediatR(typeof(ListSolutionsQuery).Assembly)
+              .AddCustomHealthCheck()
               .AddCustomSwagger()
               .AddCustomMvc()
               .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
@@ -133,6 +131,16 @@ namespace NHSD.BuyingCatalogue.API
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             ServiceProvider = app.ApplicationServices;
+
+            app.UseHealthChecks("/health/live", new HealthCheckOptions
+            {
+                Predicate = (healthCheckRegistration) => healthCheckRegistration.Tags.Contains(HealthCheckTags.Live)
+            });
+
+            app.UseHealthChecks("/health/dependencies", new HealthCheckOptions
+            {
+                Predicate = (healthCheckRegistration) => healthCheckRegistration.Tags.Contains(HealthCheckTags.Dependencies)
+            });
 
             if (env.IsDevelopment())
             {

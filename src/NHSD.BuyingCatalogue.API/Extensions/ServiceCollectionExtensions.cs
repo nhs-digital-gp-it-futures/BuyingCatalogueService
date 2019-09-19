@@ -1,8 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.API.Infrastructure.Filters;
+using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
+using NHSD.BuyingCatalogue.Application.Infrastructure.HealthChecks;
 using NHSD.BuyingCatalogue.Application.Persistence;
+using NHSD.BuyingCatalogue.Persistence.HealthChecks;
 using NHSD.BuyingCatalogue.Persistence.Infrastructure;
 using NHSD.BuyingCatalogue.Persistence.Repositories;
 using Swashbuckle.AspNetCore.Swagger;
@@ -80,5 +84,22 @@ namespace NHSD.BuyingCatalogue.API.Extensions
 
 			return services;
 		}
-	}
+
+        /// <summary>
+        /// Adds the custom health check middleware to provide feedback on the state of this application.
+        /// </summary>
+        /// <param name="services">The collection of service descriptors.</param>
+        /// <param name="configuration">The provider of application settings.</param>
+        /// <returns>The extended service collection instance.</returns>
+        public static IServiceCollection AddCustomHealthCheck(this IServiceCollection services)
+        {
+            services.AddSingleton<IRepositoryHealthCheck, RepositoryHealthCheck>();
+
+            services.AddHealthChecks()
+                .AddCheck("self", () => HealthCheckResult.Healthy(), tags: new[] { HealthCheckTags.Live })
+                .AddCheck<PersistenceLayerHealthCheck>("persistence", tags: new [] { HealthCheckTags.Dependencies });
+
+            return services;
+        }
+    }
 }
