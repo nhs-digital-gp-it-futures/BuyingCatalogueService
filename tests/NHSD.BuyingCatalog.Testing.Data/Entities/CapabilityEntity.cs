@@ -27,7 +27,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public async Task Insert()
         {
-            await SqlRunner.ExecuteAsync(Database.ConnectionString, InsertSql);
+            await SqlRunner.ExecuteAsync(Database.ConnectionStringSetup, InsertSql);
         }
 
         private string InsertSql => $@"
