@@ -32,8 +32,8 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         }
 
         [SetUp]
-		public void Setup()
-		{
+        public void Setup()
+        {
             Database.Clear();
         }
 
@@ -44,8 +44,8 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         }
 
         [Test]
-		public async Task ShouldReadCapabilities_NoCapabilities()
-		{
+        public async Task ShouldReadCapabilities_NoCapabilities()
+        {
             var capabilities = await _capabilityRepository.ListAsync(new CancellationToken());
 
             capabilities.Should().BeEmpty();
@@ -66,14 +66,57 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 
             capabilities.Should().BeEquivalentTo(capabilityEntities.Select(ce => new
             {
-                Id = ce.Id,
-                Name = ce.Name,
-                IsFoundation = false
+                Id = ce.Id, Name = ce.Name, IsFoundation = false
             }));
         }
 
-        //framework cap, is foundation
+        [Test]
+        public async Task ShouldReadCapabilities_WithFrameworks()
+        {
+            var capabilityEntities = new List<CapabilityEntity>
+            {
+                CapabilityEntityBuilder.Create().WithName("Cap1").Build(),
+                CapabilityEntityBuilder.Create().WithName("Cap2").Build(),
+                CapabilityEntityBuilder.Create().WithName("Cap3").Build()
+            };
 
-        //ordering , isfoundation, name
+            capabilityEntities.ForEach(async c => await c.Insert());
+
+            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Cap1").Id).WithIsFoundation(false).Build().Insert();
+            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Cap2").Id).WithIsFoundation(true).Build().Insert();
+
+            var capabilities = await _capabilityRepository.ListAsync(new CancellationToken());
+
+            capabilities.Should().BeEquivalentTo(capabilityEntities.Select(ce => new
+            {
+                Id = ce.Id,
+                Name = ce.Name,
+                IsFoundation = (ce.Name == "Cap2")
+            }));
+        }
+
+        [Test]
+        public async Task ShouldReadCapabilities_WithFrameworks_CorrectlyOrderedByIsFoundationAndName()
+        {
+            var capabilityEntities = new List<CapabilityEntity>
+            {
+                CapabilityEntityBuilder.Create().WithName("Alpha").Build(),
+                CapabilityEntityBuilder.Create().WithName("Bravo").Build(),
+                CapabilityEntityBuilder.Create().WithName("Charlie").Build(),
+                CapabilityEntityBuilder.Create().WithName("Delta").Build()
+            };
+
+            capabilityEntities.ForEach(async c => await c.Insert());
+
+            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Charlie").Id).WithIsFoundation(true).Build().Insert();
+            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Delta").Id).WithIsFoundation(true).Build().Insert();
+
+            var capabilities = (await _capabilityRepository.ListAsync(new CancellationToken())).ToList();
+
+            Assert.That(capabilities[0].Name, Is.EqualTo("Charlie"));
+            Assert.That(capabilities[1].Name, Is.EqualTo("Delta"));
+            Assert.That(capabilities[2].Name, Is.EqualTo("Alpha"));
+            Assert.That(capabilities[3].Name, Is.EqualTo("Bravo"));
+        }
     }
 }
