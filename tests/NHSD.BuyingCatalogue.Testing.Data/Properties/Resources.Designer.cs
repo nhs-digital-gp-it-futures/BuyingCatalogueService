@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NHSD.BuyingCatalog.Testing.Data.Properties {
+namespace NHSD.BuyingCatalogue.Testing.Data.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace NHSD.BuyingCatalog.Testing.Data.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NHSD.BuyingCatalog.Testing.Data.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NHSD.BuyingCatalogue.Testing.Data.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

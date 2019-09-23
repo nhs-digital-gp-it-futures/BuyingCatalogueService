@@ -17,19 +17,19 @@ namespace NHSD.BuyingCatalogue.Testing.Data
             _name = $"gpitfuture-db-dev.dbtests.{DateTime.Now.ToString("yyyyMMdd.HHmmss.fff")}";
 
             SqlRunner.ExecuteAsync(ConnectionStrings.Master, $"CREATE DATABASE {Name}").Wait();
-            SqlRunner.ExecuteAsync(ConnectionStringSetup, BuyingCatalog.Testing.Data.Properties.Resources.Permission).Wait();
+            SqlRunner.ExecuteAsync(ConnectionStringSetup, Properties.Resources.Permission).Wait();
             CreateObjects();
         }
 
         public static void CreateObjects()
         {
-            SqlRunner.ExecuteAsync(ConnectionStringSetup, BuyingCatalog.Testing.Data.Properties.Resources.Create).Wait();
-            SqlRunner.ExecuteAsync(ConnectionStringSetup, BuyingCatalog.Testing.Data.Properties.Resources.ReferenceData).Wait();
+            SqlRunner.ExecuteAsync(ConnectionStringSetup, Properties.Resources.Create).Wait();
+            SqlRunner.ExecuteAsync(ConnectionStringSetup, Properties.Resources.ReferenceData).Wait();
         }
 
         public static void Clear()
         {
-            SqlRunner.ExecuteAsync(ConnectionStringSetup, BuyingCatalog.Testing.Data.Properties.Resources.Clear).Wait();
+            SqlRunner.ExecuteAsync(ConnectionStringSetup, Properties.Resources.Clear).Wait();
         }
 
         public static void Drop()

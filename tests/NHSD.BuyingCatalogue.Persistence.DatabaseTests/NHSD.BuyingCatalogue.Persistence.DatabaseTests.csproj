@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.Persistence\NHSD.BuyingCatalogue.Persistence.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalog.Testing.Data\NHSD.BuyingCatalog.Testing.Data.csproj" />
+    <ProjectReference Include="..\NHSD.BuyingCatalogue.Testing.Data\NHSD.BuyingCatalogue.Testing.Data.csproj" />
   </ItemGroup>
 
 </Project>
