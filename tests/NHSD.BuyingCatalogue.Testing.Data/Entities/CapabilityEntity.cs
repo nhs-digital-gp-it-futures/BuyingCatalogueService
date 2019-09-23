@@ -1,9 +1,8 @@
 using System;
-using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 {
-    public sealed class CapabilityEntity
+    public sealed class CapabilityEntity : EntityBase
     {
         public Guid Id { get; set; }
 
@@ -25,12 +24,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public int CategoryId { get; set; }
 
-        public async Task Insert()
-        {
-            await SqlRunner.ExecuteAsync(Database.ConnectionStringSetup, InsertSql);
-        }
-
-        private string InsertSql => $@"
+        protected override string InsertSql  => $@"
         INSERT INTO [dbo].[Capability]
         ([Id]
         ,[CapabilityRef]
