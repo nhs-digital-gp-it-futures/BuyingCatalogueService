@@ -3,12 +3,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NHSD.BuyingCatalogue.Application.Infrastructure;
-using NHSD.BuyingCatalogue.Application.Infrastructure.Authentication;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
@@ -21,23 +17,17 @@ namespace NHSD.BuyingCatalogue.API.Controllers
     [Route("api/v1/[controller]")]
     [ApiController]
     [Produces("application/json")]
-    [Authorize(
-        Roles = Roles.Authority + "," + Roles.Buyer + "," + Roles.Public + "," + Roles.Supplier,
-        AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [AllowAnonymous]
     public sealed class SolutionsController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IIdentityProvider _idProvider;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="SolutionsController"/> class.
         /// </summary>
-        public SolutionsController(
-            IMediator mediator,
-            IIdentityProvider idProvider)
+        public SolutionsController(IMediator mediator)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-            _idProvider = idProvider ?? throw new ArgumentNullException(nameof(idProvider));
         }
 
         /// <summary>
@@ -49,7 +39,7 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<ListSolutionsResult>> ListAsync()
         {
-            return Ok(await _mediator.Send(new ListSolutionsQuery(_idProvider)));
+            return Ok(await _mediator.Send(new ListSolutionsQuery()));
         }
 
         /// <summary>
@@ -62,7 +52,7 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<ListSolutionsResult>> ListByFilterAsync([FromBody][Required]ListSolutionsFilter filter)
         {
-            return Ok(await _mediator.Send(new ListSolutionsQuery(_idProvider, filter)));
+            return Ok(await _mediator.Send(new ListSolutionsQuery(filter)));
         }
 
         /// <summary>
@@ -77,7 +67,7 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<GetSolutionByIdResult>> ById([FromRoute][Required]string id)
         {
-            GetSolutionByIdResult result = await _mediator.Send(new GetSolutionByIdQuery(_idProvider, id));
+            GetSolutionByIdResult result = await _mediator.Send(new GetSolutionByIdQuery(id));
             return result.Solution == null ? (ActionResult)new NotFoundResult() : Ok(result);
         }
 

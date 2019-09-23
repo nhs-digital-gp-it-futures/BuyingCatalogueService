@@ -2,7 +2,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
-using NHSD.BuyingCatalogue.Application.Infrastructure.Authentication;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -19,14 +18,10 @@ namespace NHSD.BuyingCatalogue.API.Controllers
     public sealed class CapabilitiesController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IIdentityProvider _idProvider;
 
-        public CapabilitiesController(
-            IMediator mediator,
-            IIdentityProvider idProvider)
+        public CapabilitiesController(IMediator mediator)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-            _idProvider = idProvider ?? throw new ArgumentNullException(nameof(idProvider));
         }
 
         /// <summary>
@@ -38,7 +33,7 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<ListCapabilitiesResult>> ListAsync()
         {
-            return Ok(await _mediator.Send(new ListCapabilitiesQuery(_idProvider)));
+            return Ok(await _mediator.Send(new ListCapabilitiesQuery()));
         }
     }
 }

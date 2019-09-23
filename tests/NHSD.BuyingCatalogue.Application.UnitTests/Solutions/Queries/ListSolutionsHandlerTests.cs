@@ -4,9 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Moq;
-using NHSD.BuyingCatalogue.Application.Infrastructure.Authentication;
 using NHSD.BuyingCatalogue.Application.Persistence;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Application.UnitTests.Data;
@@ -19,14 +17,12 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
     [TestFixture]
     public sealed class ListSolutionsHandlerTests
     {
-        private Mock<IIdentityProvider> _idProvider;
         private Mock<ISolutionRepository> _repository;
         private Mock<IMapper> _mapper;
 
         [SetUp]
         public void SetUp()
         {
-            _idProvider = new Mock<IIdentityProvider>();
             _repository = new Mock<ISolutionRepository>();
             _mapper = new Mock<IMapper>();
         }
@@ -43,7 +39,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
             var testObject = new ListSolutionsHandler(_repository.Object, _mapper.Object);
 
             //ACT
-            var _ = await testObject.Handle(new ListSolutionsQuery(_idProvider.Object), CancellationToken.None);
+            var _ = await testObject.Handle(new ListSolutionsQuery(), CancellationToken.None);
 
             //ASSERT
             _repository.Verify(x => x.ListAsync(capabilityIdList, CancellationToken.None), Times.Once);
@@ -61,7 +57,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
             var testObject = new ListSolutionsHandler(_repository.Object, _mapper.Object);
 
             //ACT
-            _ = await testObject.Handle(new ListSolutionsQuery(_idProvider.Object), CancellationToken.None);
+            _ = await testObject.Handle(new ListSolutionsQuery(), CancellationToken.None);
 
             //ASSERT
             _mapper.Verify(x => x.Map<IEnumerable<SolutionSummaryViewModel>>(It.Is<IEnumerable<Solution>>(src => Enumerable.SequenceEqual(src, testData))), Times.Once);
@@ -74,7 +70,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
             var testObject = new ListSolutionsHandler(_repository.Object, _mapper.Object);
 
             //ACT
-            var result = await testObject.Handle(new ListSolutionsQuery(_idProvider.Object), CancellationToken.None);
+            var result = await testObject.Handle(new ListSolutionsQuery(), CancellationToken.None);
 
             //ASSERT
             result.ShouldNotBeNull();
@@ -96,7 +92,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
             var testObject = new ListSolutionsHandler(_repository.Object, _mapper.Object);
 
             //ACT
-            var result = await testObject.Handle(new ListSolutionsQuery(_idProvider.Object), CancellationToken.None);
+            var result = await testObject.Handle(new ListSolutionsQuery(), CancellationToken.None);
 
             //ASSERT
             result.Solutions.ShouldBe(mapRes);
