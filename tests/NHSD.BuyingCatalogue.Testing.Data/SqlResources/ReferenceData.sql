@@ -3,3 +3,5 @@ INSERT [dbo].[Framework] ([Id], [Name], [Description], [Owner], [ActiveDate], [E
 INSERT INTO [dbo].[CapabilityStatus] ([Id] ,[Name]) VALUES (1,'Effective')
 
 INSERT INTO [dbo].[CapabilityCategory] ([Id] ,[Name]) VALUES (0,'Undefined')
+
+INSERT INTO [dbo].[SolutionCapabilityStatus] ([Id], [Name]) VALUES (1, 'Passed');

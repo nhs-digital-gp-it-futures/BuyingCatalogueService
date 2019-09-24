@@ -25,7 +25,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solutions Items", "Solution
 		docker-compose.production.yml = docker-compose.production.yml
 		docker-compose.yml = docker-compose.yml
 		Dockerfile = Dockerfile
-		Dockerfile-db = Dockerfile-db
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.API.UnitTests", "tests\NHSD.BuyingCatalogue.API.UnitTests\NHSD.BuyingCatalogue.API.UnitTests.csproj", "{F6E3EE51-7F18-440B-A882-3F6148068384}"

@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Logging;
 using NHSD.BuyingCatalogue.Application.Infrastructure.HealthChecks;
 
 namespace NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks
@@ -9,13 +10,15 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks
     public class PersistenceLayerHealthCheck : IHealthCheck
     {
         private readonly IRepositoryHealthCheck _repositoryHealthCheck;
+        private readonly ILogger<PersistenceLayerHealthCheck> _logger;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="PersistenceLayerHealthCheck"/> class.
         /// </summary>
-        public PersistenceLayerHealthCheck(IRepositoryHealthCheck repositoryHealthCheck)
+        public PersistenceLayerHealthCheck(IRepositoryHealthCheck repositoryHealthCheck, ILogger<PersistenceLayerHealthCheck> logger)
         {
             _repositoryHealthCheck = repositoryHealthCheck ?? throw new ArgumentNullException(nameof(repositoryHealthCheck));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <summary>
@@ -34,6 +37,8 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks
             }
             catch (Exception exception)
             {
+                _logger.LogError(exception, "Persistence layer health check failed.");
+
                 healthStatus = new HealthCheckResult(context.Registration.FailureStatus, exception: exception);
             }
 

@@ -103,3 +103,63 @@ REFERENCES [dbo].[Framework] ([Id])
 
 ALTER TABLE [dbo].[FrameworkCapabilities] CHECK CONSTRAINT [FK_FrameworkCapabilities_Framework]
 
+
+CREATE TABLE [dbo].[SolutionCapabilityStatus](
+	[Id] [int] NOT NULL,
+	[Name] [varchar](16) NOT NULL,
+ CONSTRAINT [PK_SolutionCapabilityStatus] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [IX_SolutionCapabilityStatusName] UNIQUE NONCLUSTERED 
+(
+	[Name] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+
+CREATE TABLE [dbo].[Solution](
+	[Id] [varchar](14) NOT NULL,
+	[OrganisationId] [varchar](8) NOT NULL,
+	[Name] [varchar](255) NOT NULL,
+	[Version] [varchar](10) NOT NULL,
+	[PublishedStatusId] [int] NOT NULL CONSTRAINT [DF_Solution_PublishedStatus] DEFAULT 1,
+	[AuthorityStatusId] [int] NOT NULL CONSTRAINT [DF_Solution_AuthorityStatus] DEFAULT 1,
+	[SupplierStatusId] [int] NOT NULL CONSTRAINT [DF_Solution_SupplierStatus] DEFAULT 1,
+	[ParentId] [varchar](14) NULL,	
+	[OnCatalogueVersion] [int] NOT NULL CONSTRAINT [DF_Solution_OnCatalogueVersion] DEFAULT 0,
+	[Summary] [varchar](300) NULL,
+	[FullDescription] [varchar](3000) NULL,
+ CONSTRAINT [PK_Solution] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+
+CREATE TABLE [dbo].[SolutionCapability](
+	[SolutionId] [varchar](14) NOT NULL,
+	[CapabilityId] [uniqueidentifier] NOT NULL,	
+	[StatusId] [int] NOT NULL,
+ CONSTRAINT [PK_SolutionCapability] PRIMARY KEY CLUSTERED 
+(
+	[SolutionId] ASC,
+	[CapabilityId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+ALTER TABLE [dbo].[SolutionCapability]  WITH CHECK ADD  CONSTRAINT [FK_SolutionCapability_Capability] FOREIGN KEY([CapabilityId])
+REFERENCES [dbo].[Capability] ([Id])
+
+ALTER TABLE [dbo].[SolutionCapability] CHECK CONSTRAINT [FK_SolutionCapability_Capability]
+
+ALTER TABLE [dbo].[SolutionCapability]  WITH CHECK ADD  CONSTRAINT [FK_SolutionCapability_Solution] FOREIGN KEY([SolutionId])
+REFERENCES [dbo].[Solution] ([Id])
+ON DELETE CASCADE
+
+ALTER TABLE [dbo].[SolutionCapability] CHECK CONSTRAINT [FK_SolutionCapability_Solution]
+
+ALTER TABLE [dbo].[SolutionCapability]  WITH CHECK ADD  CONSTRAINT [FK_SolutionCapability_SolutionCapabilityStatus] FOREIGN KEY([StatusId])
+REFERENCES [dbo].[SolutionCapabilityStatus] ([Id])
+
+ALTER TABLE [dbo].[SolutionCapability] CHECK CONSTRAINT [FK_SolutionCapability_SolutionCapabilityStatus]
