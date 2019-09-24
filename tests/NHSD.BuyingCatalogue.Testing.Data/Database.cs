@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Testing.Data
 {
@@ -8,36 +9,38 @@ namespace NHSD.BuyingCatalogue.Testing.Data
 
         internal static string Name => string.Format("[{0}]", _name);
 
-        public static string ConnectionString => string.Format(ConnectionStrings.GPitFutures, _name);
-
         internal static string ConnectionStringSetup => string.Format(ConnectionStrings.GPitFuturesSetup, _name);
 
-        public static void Create()
+        public static string ConnectionString => string.Format(ConnectionStrings.GPitFutures, _name);
+
+        public static string SAPassword => ConnectionStrings.SAPassword;
+
+        public static async Task Create()
         {
             _name = $"gpitfuture-db-dev.dbtests.{DateTime.Now.ToString("yyyyMMdd.HHmmss.fff")}";
 
-            SqlRunner.ExecuteAsync(ConnectionStrings.Master, $"CREATE DATABASE {Name}").Wait();
-            SqlRunner.ExecuteAsync(ConnectionStringSetup, Properties.Resources.Permission).Wait();
-            CreateObjects();
+            await SqlRunner.ExecuteAsync(ConnectionStrings.Master, $"CREATE DATABASE {Name}");
+            await SqlRunner.ExecuteAsync(ConnectionStringSetup, Properties.Resources.Permission);
+            await CreateObjects();
         }
 
-        public static void CreateObjects()
+        public static async Task CreateObjects()
         {
-            SqlRunner.ExecuteAsync(ConnectionStringSetup, Properties.Resources.Create).Wait();
-            SqlRunner.ExecuteAsync(ConnectionStringSetup, Properties.Resources.ReferenceData).Wait();
+            await SqlRunner.ExecuteAsync(ConnectionStringSetup, Properties.Resources.Create);
+            await SqlRunner.ExecuteAsync(ConnectionStringSetup, Properties.Resources.ReferenceData);
         }
 
-        public static void Clear()
+        public static async Task Clear()
         {
-            SqlRunner.ExecuteAsync(ConnectionStringSetup, Properties.Resources.Clear).Wait();
+            await SqlRunner.ExecuteAsync(ConnectionStringSetup, Properties.Resources.Clear);
         }
 
-        public static void Drop()
+        public static async Task Drop()
         {
-            SqlRunner.ExecuteAsync(ConnectionStringSetup, "DROP USER NHSD").Wait();
-            SqlRunner.ExecuteAsync(ConnectionStrings.Master, $"ALTER DATABASE {Name}  SET SINGLE_USER WITH ROLLBACK IMMEDIATE").Wait();
-            SqlRunner.ExecuteAsync(ConnectionStrings.Master, $"DROP DATABASE {Name}").Wait();
-            SqlRunner.ExecuteAsync(ConnectionStrings.Master, "DROP LOGIN NHSD").Wait();
+            await SqlRunner.ExecuteAsync(ConnectionStringSetup, "DROP USER NHSD");
+            await SqlRunner.ExecuteAsync(ConnectionStrings.Master, $"ALTER DATABASE {Name}  SET SINGLE_USER WITH ROLLBACK IMMEDIATE");
+            await SqlRunner.ExecuteAsync(ConnectionStrings.Master, $"DROP DATABASE {Name}");
+            await SqlRunner.ExecuteAsync(ConnectionStrings.Master, "DROP LOGIN NHSD");
         }
     }
 }

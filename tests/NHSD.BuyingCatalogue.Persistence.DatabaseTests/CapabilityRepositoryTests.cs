@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,33 +15,21 @@ using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 {
+    [TestFixture]
     public class CapabilityRepositoryTests
     {
         private Mock<IConfiguration> _configuration;
 
         private CapabilityRepository _capabilityRepository;
 
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
+        [SetUp]
+        public async Task Setup()
         {
-            Database.Create();
-
+            await Database.Clear();
             _configuration = new Mock<IConfiguration>();
             _configuration.Setup(a => a["ConnectionStrings:BuyingCatalogue"]).Returns(Database.ConnectionString);
 
             _capabilityRepository = new CapabilityRepository(new DbConnectionFactory(_configuration.Object));
-        }
-
-        [SetUp]
-        public void Setup()
-        {
-            Database.Clear();
-        }
-
-        [OneTimeTearDown]
-        public void TearDown()
-        {
-            Database.Drop();
         }
 
         [Test]
