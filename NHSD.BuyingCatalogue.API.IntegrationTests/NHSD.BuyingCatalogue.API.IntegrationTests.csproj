@@ -15,4 +15,8 @@
     <PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.1.21-beta" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\tests\NHSD.BuyingCatalogue.Testing.Data\NHSD.BuyingCatalogue.Testing.Data.csproj" />
+  </ItemGroup>
+
 </Project>
