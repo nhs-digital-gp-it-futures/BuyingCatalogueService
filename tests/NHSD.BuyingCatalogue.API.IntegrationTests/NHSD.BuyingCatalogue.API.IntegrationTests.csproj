@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\tests\NHSD.BuyingCatalogue.Testing.Data\NHSD.BuyingCatalogue.Testing.Data.csproj" />
+    <ProjectReference Include="..\NHSD.BuyingCatalogue.Testing.Data\NHSD.BuyingCatalogue.Testing.Data.csproj" />
   </ItemGroup>
 
 </Project>
