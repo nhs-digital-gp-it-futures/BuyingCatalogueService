@@ -1,0 +1,33 @@
+version: '3.5'
+
+services:
+
+  db:
+    image: microsoft/mssql-server-linux:latest
+    container_name: integration_db
+    networks:
+      - nhsd_bcnetwork
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${NHSD_BUYINGCATALOGUE_DB_PASSWORD:-Your_password123}
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
+
+  nhsd.buyingcatalogue.api:
+    container_name: integration_api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ConnectionStrings:BuyingCatalogue=${NHSD_BUYINGCATALOGUE_DB}
+    networks:
+      - nhsd_bcnetwork
+    depends_on:
+      - db
+    ports:
+      - "8080:80"
+
+networks: 
+  nhsd_bcnetwork:
+    name: nhsd_bcnetwork
+    driver: bridge
