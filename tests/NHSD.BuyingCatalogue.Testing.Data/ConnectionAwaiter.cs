@@ -6,7 +6,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data
 {
     public static class ConnectionAwaiter
     {
-        public static async Task AwaitConnectionAsync(int timeout = 30)
+        public static async Task AwaitConnectionAsync(string serverName, int timeout = 30)
         {
             var now = DateTime.Now;
 
@@ -14,7 +14,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data
             {
                 try
                 {
-                    using (var sqlConnection = new SqlConnection(ConnectionStrings.Master))
+                    using (var sqlConnection = new SqlConnection(string.Format(ConnectionStrings.Master, serverName)))
                     {
                         sqlConnection.Open();
                         return;
