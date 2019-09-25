@@ -8,16 +8,16 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 {
     internal class DockerSqlServer
     {
-        public static async Task Start(string serverName = "localhost")
+        public static async Task StartAsync()
         {
-            DockerComposeProcess.Create(AppDomain.CurrentDomain.BaseDirectory, "-f docker-compose.yml up -d", new KeyValuePair<string, string>("NHSD_BUYINGCATALOGUE_DB_PASSWORD", Database.SAPassword)).ExecuteAsync();
+            await DockerComposeProcess.Create(AppDomain.CurrentDomain.BaseDirectory, "-f docker-compose.yml up -d", new KeyValuePair<string, string>("NHSD_BUYINGCATALOGUE_DB_PASSWORD", Database.SAPassword)).ExecuteAsync();
 
-            await ConnectionAwaiter.AwaitConnectionAsync(serverName, 30);
+            await ConnectionAwaiter.AwaitConnectionAsync(30);
         }
 
-        internal static void Stop()
+        internal static async Task StopAsync()
         {
-            DockerComposeProcess.Create(AppDomain.CurrentDomain.BaseDirectory, "-f docker-compose.yml down -v").ExecuteAsync();
+            await DockerComposeProcess.Create(AppDomain.CurrentDomain.BaseDirectory, "-f docker-compose.yml down -v").ExecuteAsync();
         }
     }
 }

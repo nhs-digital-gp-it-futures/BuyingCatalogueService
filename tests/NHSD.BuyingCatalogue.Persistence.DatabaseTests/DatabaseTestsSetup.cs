@@ -8,17 +8,18 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
     internal sealed class DatabaseTestsSetup
     {
         [OneTimeSetUp]
-        public async Task OneTimeSetUp()
+        public async Task OneTimeSetUpAsync()
         {
-            await DockerSqlServer.Start();
+            await Database.InitialiseAsync();
+            await DockerSqlServer.StartAsync();
             await Database.Create();
         }
 
         [OneTimeTearDown]
-        public async Task TearDown()
+        public async Task OneTimeTearDownAsync()
         {
             await Database.Drop();
-            DockerSqlServer.Stop();
+            await DockerSqlServer.StopAsync();
         }
     }
 }

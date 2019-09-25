@@ -27,8 +27,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         private async Task InsertCapabilityAsync(CapabilityTable capabilityTable)
         {
             var capability = CapabilityEntityBuilder.Create().WithName(capabilityTable.CapabilityName).Build();
-            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capability.Id).WithIsFoundation(capabilityTable.IsFoundation).Build().Insert();
-            await capability.Insert();
+            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capability.Id).WithIsFoundation(capabilityTable.IsFoundation).Build().InsertAsync();
+            await capability.InsertAsync();
         }
 
         [Given(@"Organisations exist")]

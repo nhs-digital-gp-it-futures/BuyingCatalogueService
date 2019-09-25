@@ -6,7 +6,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
     {
         protected abstract string InsertSql { get; }
 
-        public async Task Insert()
+        public async Task InsertAsync()
         {
             await SqlRunner.ExecuteAsync(Database.ConnectionStringSetup, InsertSql);
         }

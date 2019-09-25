@@ -27,17 +27,17 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Controllers
         public async Task Get_ListSolutions_ReturnsData()
         {
             var expectedSolution = SolutionEntityBuilder.Create().WithName("Sol1").Build();
-            await expectedSolution.Insert();
+            await expectedSolution.InsertAsync();
 
             var expectedCapability = CapabilityEntityBuilder.Create().WithName("Cap1").Build();
-            await expectedCapability.Insert();
+            await expectedCapability.InsertAsync();
 
             var expectedSolutionCapabilityEntity = SolutionCapabilityEntityBuilder.Create()
                 .WithSolutionId(expectedSolution.Id)
                 .WithCapabilityId(expectedCapability.Id)
                 .Build();
 
-            await expectedSolutionCapabilityEntity.Insert();
+            await expectedSolutionCapabilityEntity.InsertAsync();
 
             var response = await Client.GetAsync(ListSolutionsUrl);
             var responseContent = await response.Content.ReadAsStringAsync();

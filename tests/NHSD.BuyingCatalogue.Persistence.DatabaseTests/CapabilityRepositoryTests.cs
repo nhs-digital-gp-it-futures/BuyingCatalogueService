@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -49,7 +50,10 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
                 CapabilityEntityBuilder.Create().WithName("Cap2").Build()
             };
 
-            capabilityEntities.ForEach(async c => await c.Insert());
+            foreach (var capabilityEntity in capabilityEntities)
+            {
+                await capabilityEntity.InsertAsync();
+            }
 
             var capabilities = await _capabilityRepository.ListAsync(new CancellationToken());
 
@@ -69,10 +73,14 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
                 CapabilityEntityBuilder.Create().WithName("Cap3").Build()
             };
 
-            capabilityEntities.ForEach(async c => await c.Insert());
+            foreach (var capabilityEntity in capabilityEntities)
+            {
+                await capabilityEntity.InsertAsync();
+            }
 
-            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Cap1").Id).WithIsFoundation(false).Build().Insert();
-            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Cap2").Id).WithIsFoundation(true).Build().Insert();
+
+            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Cap1").Id).WithIsFoundation(false).Build().InsertAsync();
+            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Cap2").Id).WithIsFoundation(true).Build().InsertAsync();
 
             var capabilities = await _capabilityRepository.ListAsync(new CancellationToken());
 
@@ -95,10 +103,13 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
                 CapabilityEntityBuilder.Create().WithName("Delta").Build()
             };
 
-            capabilityEntities.ForEach(async c => await c.Insert());
+            foreach (var capabilityEntity in capabilityEntities)
+            {
+                await capabilityEntity.InsertAsync();
+            }
 
-            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Charlie").Id).WithIsFoundation(true).Build().Insert();
-            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Delta").Id).WithIsFoundation(true).Build().Insert();
+            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Charlie").Id).WithIsFoundation(true).Build().InsertAsync();
+            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Delta").Id).WithIsFoundation(true).Build().InsertAsync();
 
             var capabilities = (await _capabilityRepository.ListAsync(new CancellationToken())).ToList();
 
