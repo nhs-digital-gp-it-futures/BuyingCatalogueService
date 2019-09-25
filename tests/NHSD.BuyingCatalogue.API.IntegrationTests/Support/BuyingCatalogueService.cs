@@ -1,49 +1,38 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Tools;
-using Shouldly;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Drivers
 {
-    public class BuyingCatalogueService
+    internal static class BuyingCatalogueService
     {
         private const string WaitServerUrl = "http://localhost:8080/health/dependencies";
 
-        private static readonly KeyValuePair<string, string> TagEnvironmentVariable = new KeyValuePair<string, string>("Tag", "test");
         private static readonly string SolutionWorkingDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..\\..\\"));
         private static readonly TimeSpan TestTimeout = TimeSpan.FromSeconds(60);
 
-        private readonly DockerComposeProcess _dockerComposeProcess;
-
-        public BuyingCatalogueService()
+        internal static async Task StartAsync()
         {
-            _dockerComposeProcess = new DockerComposeProcess(SolutionWorkingDirectory, new List<string> { "docker-compose.yml", "docker-compose.integration.yml" }
-            , new Dictionary<string, string>
-            {
-                { TagEnvironmentVariable.Key, TagEnvironmentVariable.Value },
-                { "NHSD_BUYINGCATALOGUE_DB", Database.ConnectionString },
-            });
+            await DockerComposeProcess.Create(SolutionWorkingDirectory, "-f docker-compose.yml -f docker-compose.integration.yml up -d"
+                , new KeyValuePair<string, string>("NHSD_BUYINGCATALOGUE_DB", Database.ConnectionString)
+                , new KeyValuePair<string, string>("NHSD_BUYINGCATALOGUE_DB_PASSWORD", Database.SAPassword)).ExecuteAsync();
         }
 
-        public void Start()
+        internal static async Task WaitAsync()
         {
-            _dockerComposeProcess.Start().ShouldBe(0);
-        }
-
-        public void Wait()
-        {
-            var started = HttpClientAwaiter.WaitForGetAsync(WaitServerUrl, TestTimeout).Result;
+            var started = await HttpClientAwaiter.WaitForGetAsync(WaitServerUrl, TestTimeout);
             if (!started)
             {
                 throw new Exception($"Start Buying Catalogue API failed, could not get a successful health status from '{WaitServerUrl}' after trying for '{TestTimeout}'");
             }
         }
 
-        internal void Stop()
+        internal static async Task StopAsync()
         {
-            _dockerComposeProcess.Stop().ShouldBe(0);
+            await DockerComposeProcess.Create(SolutionWorkingDirectory, "-f docker-compose.yml -f docker-compose.integration.yml down -v").ExecuteAsync();
         }
     }
 }

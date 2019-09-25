@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data
         {
             using (var sqlConnection = new SqlConnection(connectionString))
             {
-                sqlConnection.Open();
+                await sqlConnection.OpenAsync();
                 using (var command = new SqlCommand(sql, sqlConnection))
                 {
                     await command.ExecuteNonQueryAsync();

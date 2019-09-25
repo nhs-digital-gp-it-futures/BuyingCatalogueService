@@ -7,7 +7,7 @@ namespace NHSD.BuyingCatalogue.Testing.Tools
 	{
         public static ProcessStartInfo Create(string currentDirectory, string arguments)
         {
-            return Create(currentDirectory, arguments);
+            return Create(currentDirectory, arguments, new KeyValuePair<string, string>("sam", string.Empty));
         }
 
         public static ProcessStartInfo Create(string currentDirectory, string arguments, params KeyValuePair<string, string>[] environmentVariables)

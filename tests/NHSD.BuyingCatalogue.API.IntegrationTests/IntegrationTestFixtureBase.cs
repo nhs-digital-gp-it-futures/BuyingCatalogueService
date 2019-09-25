@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Drivers;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NUnit.Framework;
@@ -6,30 +7,28 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests
 {
     public abstract class IntegrationTestFixtureBase
     {
-        private readonly BuyingCatalogueService _service = new BuyingCatalogueService();
-
         [OneTimeSetUp]
-        public void OneTimeSetUp()
+        public async Task OneTimeSetUpAsync()
         {
-            _service.Start();
+            await BuyingCatalogueService.StartAsync();
 
-            Database.Create();
+            await ConnectionAwaiter.AwaitConnectionAsync("localhost", 30);
+            await Database.Create();
 
-            _service.Wait();
+            await BuyingCatalogueService.WaitAsync();
         }
 
         [SetUp]
-        public void SetUp()
+        public async Task SetUpAsync()
         {
-            Database.Clear();
+            await Database.Clear();
         }
 
         [OneTimeTearDown]
-        public void OneTimeTearDown()
+        public async Task OneTimeTearDownAsync()
         {
-            Database.Drop();
-
-            _service.Stop();
+            await Database.Drop();
+            await BuyingCatalogueService.StopAsync();
         }
     }
 }
