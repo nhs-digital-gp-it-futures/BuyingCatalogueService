@@ -10,8 +10,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests
         [OneTimeSetUp]
         public async Task OneTimeSetUpAsync()
         {
-            await Database.InitialiseAsync("db");
-            await BuyingCatalogueService.StartAsync();
+            await BuyingCatalogueService.StartAsync(ConnectionStrings.ServiceConnectionString("db"));
 
             await Database.CreateAsync();
 

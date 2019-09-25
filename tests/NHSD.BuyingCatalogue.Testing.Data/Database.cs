@@ -5,16 +5,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data
 {
     public static class Database
     {
-        private static string _serverName;
-
-        public static string ConnectionString => string.Format(ConnectionStrings.GPitFutures, _serverName, DataConstants.DatabaseName);
-
-        public static Task InitialiseAsync(string serverName = "localhost")
-        {
-            _serverName = serverName;
-            return Task.CompletedTask;
-        }
-
         public static async Task CreateAsync()
         {
             await ConnectionAwaiter.AwaitConnectionAsync(ConnectionStrings.Master, 30);

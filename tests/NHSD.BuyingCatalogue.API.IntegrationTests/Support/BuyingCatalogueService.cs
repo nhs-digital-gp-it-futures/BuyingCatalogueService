@@ -14,10 +14,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Drivers
         private static readonly string SolutionWorkingDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..\\..\\"));
         private static readonly TimeSpan TestTimeout = TimeSpan.FromSeconds(60);
 
-        internal static async Task StartAsync()
+        internal static async Task StartAsync(string serviceConnectionString)
         {
             await DockerComposeProcess.Create(SolutionWorkingDirectory, "-f docker-compose.yml -f docker-compose.integration.yml up -d"
-                , new KeyValuePair<string, string>("NHSD_BUYINGCATALOGUE_DB", Database.ConnectionString)
+                , new KeyValuePair<string, string>("NHSD_BUYINGCATALOGUE_DB", serviceConnectionString)
                 , new KeyValuePair<string, string>("NHSD_BUYINGCATALOGUE_DB_PASSWORD", DataConstants.SAPassword)).ExecuteAsync();
         }
 

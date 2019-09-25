@@ -28,7 +28,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         {
             await Database.ClearAsync();
             _configuration = new Mock<IConfiguration>();
-            _configuration.Setup(a => a["ConnectionStrings:BuyingCatalogue"]).Returns(Database.ConnectionString);
+            _configuration.Setup(a => a["ConnectionStrings:BuyingCatalogue"]).Returns(ConnectionStrings.ServiceConnectionString());
 
             _capabilityRepository = new CapabilityRepository(new DbConnectionFactory(_configuration.Object));
         }
