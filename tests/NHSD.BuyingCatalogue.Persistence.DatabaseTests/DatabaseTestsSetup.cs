@@ -12,13 +12,13 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         {
             await Database.InitialiseAsync();
             await DockerSqlServer.StartAsync();
-            await Database.Create();
+            await Database.CreateAsync();
         }
 
         [OneTimeTearDown]
         public async Task OneTimeTearDownAsync()
         {
-            await Database.Drop();
+            await Database.DropAsync();
             await DockerSqlServer.StopAsync();
         }
     }

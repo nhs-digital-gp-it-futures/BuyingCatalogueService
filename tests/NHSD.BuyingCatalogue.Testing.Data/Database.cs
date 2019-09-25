@@ -7,48 +7,39 @@ namespace NHSD.BuyingCatalogue.Testing.Data
     {
         private static string _serverName;
 
-        private static string _name = "gpitfuture-db-dev";
-
-        internal static string Name => string.Format("[{0}]", _name);
-
-        internal static string ConnectionStringSetup => string.Format(ConnectionStrings.GPitFuturesSetup, _name);
-
-        public static string ConnectionString => string.Format(ConnectionStrings.GPitFutures, _serverName, _name);
-
-        public static string SAPassword => ConnectionStrings.SAPassword;
+        public static string ConnectionString => string.Format(ConnectionStrings.GPitFutures, _serverName, DataConstants.DatabaseName);
 
         public static Task InitialiseAsync(string serverName = "localhost")
         {
             _serverName = serverName;
-            //_name = $"gpitfuture-db-dev.dbtests.{DateTime.Now.ToString("yyyyMMdd.HHmmss.fff")}";
             return Task.CompletedTask;
         }
 
-        public static async Task Create()
+        public static async Task CreateAsync()
         {
             await ConnectionAwaiter.AwaitConnectionAsync(ConnectionStrings.Master, 30);
-            await SqlRunner.ExecuteAsync(ConnectionStrings.Master, $"CREATE DATABASE {Name}");
-            await ConnectionAwaiter.AwaitConnectionAsync(ConnectionStringSetup, 30);
-            await SqlRunner.ExecuteAsync(ConnectionStringSetup, Properties.Resources.Permission);
-            await CreateObjects();
+            await SqlRunner.ExecuteAsync(ConnectionStrings.Master, $"CREATE DATABASE [{DataConstants.DatabaseName}]");
+            await BuildDatabaseAsync();
         }
 
-        public static async Task CreateObjects()
+        private static async Task BuildDatabaseAsync()
         {
-            await SqlRunner.ExecuteAsync(ConnectionStringSetup, Properties.Resources.Create);
-            await SqlRunner.ExecuteAsync(ConnectionStringSetup, Properties.Resources.ReferenceData);
+            await ConnectionAwaiter.AwaitConnectionAsync(ConnectionStrings.GPitFuturesSetup, 30);
+            await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, Properties.Resources.Permission);
+            await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, Properties.Resources.Create);
+            await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, Properties.Resources.ReferenceData);
         }
 
-        public static async Task Clear()
+        public static async Task ClearAsync()
         {
-            await SqlRunner.ExecuteAsync(ConnectionStringSetup, Properties.Resources.Clear);
+            await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, Properties.Resources.Clear);
         }
 
-        public static async Task Drop()
+        public static async Task DropAsync()
         {
-            await SqlRunner.ExecuteAsync(ConnectionStringSetup, "DROP USER NHSD");
-            await SqlRunner.ExecuteAsync(ConnectionStrings.Master, $"ALTER DATABASE {Name}  SET SINGLE_USER WITH ROLLBACK IMMEDIATE");
-            await SqlRunner.ExecuteAsync(ConnectionStrings.Master, $"DROP DATABASE {Name}");
+            await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, "DROP USER NHSD");
+            await SqlRunner.ExecuteAsync(ConnectionStrings.Master, $"ALTER DATABASE [{DataConstants.DatabaseName}]  SET SINGLE_USER WITH ROLLBACK IMMEDIATE");
+            await SqlRunner.ExecuteAsync(ConnectionStrings.Master, $"DROP DATABASE [{DataConstants.DatabaseName}]");
             await SqlRunner.ExecuteAsync(ConnectionStrings.Master, "DROP LOGIN NHSD");
         }
     }

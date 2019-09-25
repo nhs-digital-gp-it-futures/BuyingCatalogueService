@@ -26,7 +26,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         [SetUp]
         public async Task Setup()
         {
-            await Database.Clear();
+            await Database.ClearAsync();
             _configuration = new Mock<IConfiguration>();
             _configuration.Setup(a => a["ConnectionStrings:BuyingCatalogue"]).Returns(Database.ConnectionString);
 

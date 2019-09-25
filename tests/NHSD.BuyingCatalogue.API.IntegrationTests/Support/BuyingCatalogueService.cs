@@ -18,7 +18,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Drivers
         {
             await DockerComposeProcess.Create(SolutionWorkingDirectory, "-f docker-compose.yml -f docker-compose.integration.yml up -d"
                 , new KeyValuePair<string, string>("NHSD_BUYINGCATALOGUE_DB", Database.ConnectionString)
-                , new KeyValuePair<string, string>("NHSD_BUYINGCATALOGUE_DB_PASSWORD", Database.SAPassword)).ExecuteAsync();
+                , new KeyValuePair<string, string>("NHSD_BUYINGCATALOGUE_DB_PASSWORD", DataConstants.SAPassword)).ExecuteAsync();
         }
 
         internal static async Task WaitAsync()

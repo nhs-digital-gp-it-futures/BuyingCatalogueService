@@ -10,7 +10,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
     {
         public static async Task StartAsync()
         {
-            await DockerComposeProcess.Create(AppDomain.CurrentDomain.BaseDirectory, "-f docker-compose.yml up -d", new KeyValuePair<string, string>("NHSD_BUYINGCATALOGUE_DB_PASSWORD", Database.SAPassword)).ExecuteAsync();
+            await DockerComposeProcess.Create(AppDomain.CurrentDomain.BaseDirectory, "-f docker-compose.yml up -d", new KeyValuePair<string, string>("NHSD_BUYINGCATALOGUE_DB_PASSWORD", DataConstants.SAPassword)).ExecuteAsync();
         }
 
         internal static async Task StopAsync()

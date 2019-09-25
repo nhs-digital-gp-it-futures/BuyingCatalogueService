@@ -8,7 +8,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public async Task InsertAsync()
         {
-            await SqlRunner.ExecuteAsync(Database.ConnectionStringSetup, InsertSql);
+            await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, InsertSql);
         }
     }
 }

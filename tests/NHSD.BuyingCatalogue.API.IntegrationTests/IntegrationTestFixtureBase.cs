@@ -13,7 +13,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests
             await Database.InitialiseAsync("db");
             await BuyingCatalogueService.StartAsync();
 
-            await Database.Create();
+            await Database.CreateAsync();
 
             await BuyingCatalogueService.WaitAsync();
         }
@@ -21,13 +21,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests
         [SetUp]
         public async Task SetUpAsync()
         {
-            await Database.Clear();
+            await Database.ClearAsync();
         }
 
         [OneTimeTearDown]
         public async Task OneTimeTearDownAsync()
         {
-            await Database.Drop();
+            await Database.DropAsync();
             await BuyingCatalogueService.StopAsync();
         }
     }
