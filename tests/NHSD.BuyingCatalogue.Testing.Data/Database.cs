@@ -26,8 +26,9 @@ namespace NHSD.BuyingCatalogue.Testing.Data
 
         public static async Task Create()
         {
+            await ConnectionAwaiter.AwaitConnectionAsync(ConnectionStrings.Master, 30);
             await SqlRunner.ExecuteAsync(ConnectionStrings.Master, $"CREATE DATABASE {Name}");
-            await Task.Delay(2000);
+            await ConnectionAwaiter.AwaitConnectionAsync(ConnectionStringSetup, 30);
             await SqlRunner.ExecuteAsync(ConnectionStringSetup, Properties.Resources.Permission);
             await CreateObjects();
         }

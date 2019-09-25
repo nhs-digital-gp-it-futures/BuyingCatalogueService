@@ -13,7 +13,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests
             await Database.InitialiseAsync("db");
             await BuyingCatalogueService.StartAsync();
 
-            await ConnectionAwaiter.AwaitConnectionAsync(30);
             await Database.Create();
 
             await BuyingCatalogueService.WaitAsync();
