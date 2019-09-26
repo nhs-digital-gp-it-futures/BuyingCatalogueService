@@ -1,6 +1,7 @@
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
 {
@@ -16,6 +17,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
             }
 
             return response;
+        }
+
+        public static async Task<HttpResponseMessage> PostAsJsonAsync(string requestUrl, object content)
+        {
+            return await PostAsync(requestUrl, JsonConvert.SerializeObject(content));
         }
 
         public static async Task<HttpResponseMessage> PostAsync(string requestUrl, string content, string contentType = "application/json")

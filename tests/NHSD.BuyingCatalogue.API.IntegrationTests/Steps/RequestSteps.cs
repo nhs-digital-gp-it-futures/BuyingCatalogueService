@@ -1,29 +1,26 @@
+using System.Net.Http;
+using FluentAssertions;
 using TechTalk.SpecFlow;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
 {
     [Binding]
-    public sealed class RequestSteps
+    internal sealed class RequestSteps
     {
-        // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
-
         private readonly ScenarioContext _context;
 
-        public RequestSteps(ScenarioContext context)
+        private readonly Response _response;
+
+        public RequestSteps(ScenarioContext context, Response response)
         {
             _context = context;
-        }
-
-        [When(@"the request is made")]
-        public void WhenTheRequestIsMade()
-        {
-            _context.Pending();
+            _response = response;
         }
 
         [Then(@"a successful response is returned")]
         public void ThenASuccessfulResponseIsReturned()
         {
-            _context.Pending();
+            _response.Result.IsSuccessStatusCode.Should().BeTrue();
         }
     }
 }
