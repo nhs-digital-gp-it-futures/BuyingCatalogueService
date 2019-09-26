@@ -26,22 +26,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             _response = response;
         }
 
-        [Given(@"Capabilities exist")]
-        public async Task GivenCapabilitiesExist(Table table)
-        {
-            foreach (var capability in table.CreateSet<CapabilityTable>())
-            {
-                await InsertCapabilityAsync(capability);
-            }
-        }
-
-        private async Task InsertCapabilityAsync(CapabilityTable capabilityTable)
-        {
-            var capability = CapabilityEntityBuilder.Create().WithName(capabilityTable.CapabilityName).Build();
-            await capability.InsertAsync();
-            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capability.Id).WithIsFoundation(capabilityTable.IsFoundation).Build().InsertAsync();
-        }
-
         [Given(@"Organisations exist")]
         public async Task GivenOrganisationsExist(Table table)
         {
@@ -166,13 +150,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         public List<string> TransformToListOfString(string commaSeparatedList)
         {
             return commaSeparatedList.Split(",").Select(t => t.Trim()).ToList();
-        }
-
-        private class CapabilityTable
-        {
-            public string CapabilityName { get; set; }
-
-            public bool IsFoundation { get; set; }
         }
 
         private class SolutionTable
