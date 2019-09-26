@@ -163,3 +163,18 @@ ALTER TABLE [dbo].[SolutionCapability]  WITH CHECK ADD  CONSTRAINT [FK_SolutionC
 REFERENCES [dbo].[SolutionCapabilityStatus] ([Id])
 
 ALTER TABLE [dbo].[SolutionCapability] CHECK CONSTRAINT [FK_SolutionCapability_SolutionCapabilityStatus]
+
+CREATE TABLE [dbo].[Organisation](
+	[Id] [varchar](8) NOT NULL,
+	[Name] [varchar](255) NOT NULL,
+	[Summary] [varchar](1000) NULL,
+	[OrganisationUrl] [varchar](1000) NULL,
+	[OdsCode] [varchar](8) NULL,
+	[PrimaryRoleId] [varchar](8) NULL,
+	[CrmRef] [uniqueidentifier] NULL,
+ CONSTRAINT [PK_Organisation] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+

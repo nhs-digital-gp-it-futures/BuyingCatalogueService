@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 {
@@ -44,5 +47,21 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             ,'{Summary}'
             ,'{FullDescription}'
         )";
+
+        public static async Task<IEnumerable<SolutionEntity>> FetchAllAsync()
+        {
+            return await SqlRunner.FetchAllAsync<SolutionEntity>($@"SELECT [Id]
+                                ,[OrganisationId]
+                                ,[Name]
+	                            ,[Version]
+	                            ,[PublishedStatusId]
+	                            ,[AuthorityStatusId]
+	                            ,[SupplierStatusId]
+	                            ,[ParentId]
+	                            ,[OnCatalogueVersion]
+	                            ,[Summary]
+	                            ,[FullDescription]
+                                FROM Solution");
+        }
     }
 }

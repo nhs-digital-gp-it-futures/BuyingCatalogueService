@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 {
@@ -48,5 +50,20 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             ,'{SourceUrl}'
             ,'{EffectiveDate.ToString("dd-MMM-yyyy")}'
             ,{CategoryId})";
+
+        public static async Task<IEnumerable<CapabilityEntity>> FetchAllAsync()
+        {
+            return await SqlRunner.FetchAllAsync<CapabilityEntity>($@"SELECT [Id]
+                                ,[CapabilityRef]
+                                ,[Version]
+                                ,[PreviousVersion]
+                                ,[StatusId]
+                                ,[Name]
+                                ,[Description]
+                                ,[SourceUrl]
+                                ,[EffectiveDate]
+                                ,[CategoryId]
+                                FROM Capability");
+        }
     }
 }

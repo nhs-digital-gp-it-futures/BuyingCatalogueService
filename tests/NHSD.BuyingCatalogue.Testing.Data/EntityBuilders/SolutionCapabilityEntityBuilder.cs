@@ -17,7 +17,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             //Default
             _SolutionCapabilityEntity = new SolutionCapabilityEntity
             {
-                SolutionId = Guid.NewGuid().ToString(),
+                SolutionId = "SolutionId",
                 CapabilityId = Guid.NewGuid(),
                 StatusId = 1
             };

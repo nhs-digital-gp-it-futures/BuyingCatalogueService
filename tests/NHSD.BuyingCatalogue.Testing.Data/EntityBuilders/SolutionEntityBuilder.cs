@@ -15,7 +15,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
         public SolutionEntityBuilder()
         {
             //Default
-            string id = Guid.NewGuid().ToString();
+            var id = "SolutionId";
 
             _SolutionEntity = new SolutionEntity
             {
