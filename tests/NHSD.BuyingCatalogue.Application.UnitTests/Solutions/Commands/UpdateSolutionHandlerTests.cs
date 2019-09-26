@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Moq;
+using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Application.Exceptions;
 using NHSD.BuyingCatalogue.Application.Persistence;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
@@ -32,10 +33,10 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Commands
             //ARRANGE
             var expectedSolutionId = Guid.NewGuid().ToString();
             var testData = SolutionTestData.Default(expectedSolutionId);
-            var command = new UpdateSolutionCommand(testData.Id, new UpdateSolutionViewModel { MarketingData = "Update" });
+            var command = new UpdateSolutionCommand(testData.Id, new UpdateSolutionViewModel { MarketingData = BuildMarketingData() });
 
             var updatedSolution = SolutionTestData.Default(expectedSolutionId);
-            updatedSolution.Features = command.UpdateSolutionViewModel.MarketingData;
+            updatedSolution.Features = command.UpdateSolutionViewModel.MarketingData.ToString();
 
             _mapper.Setup(x => x.Map(command.UpdateSolutionViewModel, testData)).Returns(updatedSolution);
             _repository.Setup(x => x.ByIdAsync(testData.Id, CancellationToken.None)).ReturnsAsync(() => testData);
@@ -56,10 +57,10 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Commands
             //ARRANGE
             var expectedSolutionId = Guid.NewGuid().ToString();
             var testData = SolutionTestData.Default(expectedSolutionId);
-            var command = new UpdateSolutionCommand(testData.Id, new UpdateSolutionViewModel { MarketingData = "Update" });
+            var command = new UpdateSolutionCommand(testData.Id, new UpdateSolutionViewModel { MarketingData = BuildMarketingData() });
 
             var updatedSolution = SolutionTestData.Default(expectedSolutionId);
-            updatedSolution.Features = command.UpdateSolutionViewModel.MarketingData;
+            updatedSolution.Features = command.UpdateSolutionViewModel.MarketingData.ToString();
 
             _mapper.Setup(x => x.Map(command.UpdateSolutionViewModel, testData)).Returns(updatedSolution);
             _repository.Setup(x => x.ByIdAsync(testData.Id, CancellationToken.None)).ReturnsAsync(() => testData);
@@ -80,10 +81,10 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Commands
             //ARRANGE
             var expectedSolutionId = Guid.NewGuid().ToString();
             var testData = SolutionTestData.Default(expectedSolutionId);
-            var command = new UpdateSolutionCommand(testData.Id, new UpdateSolutionViewModel { MarketingData = "Update" });
+            var command = new UpdateSolutionCommand(testData.Id, new UpdateSolutionViewModel { MarketingData = BuildMarketingData() });
 
             var updatedSolution = SolutionTestData.Default(expectedSolutionId);
-            updatedSolution.Features = command.UpdateSolutionViewModel.MarketingData;
+            updatedSolution.Features = command.UpdateSolutionViewModel.MarketingData.ToString();
 
             _mapper.Setup(x => x.Map(command.UpdateSolutionViewModel, testData)).Returns(updatedSolution);
             _repository.Setup(x => x.ByIdAsync(testData.Id, CancellationToken.None)).ReturnsAsync(() => testData);
@@ -104,10 +105,10 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Commands
             //ARRANGE
             var expectedSolutionId = Guid.NewGuid().ToString();
             var testData = SolutionTestData.Default(expectedSolutionId);
-            var command = new UpdateSolutionCommand(testData.Id, new UpdateSolutionViewModel { MarketingData = "Update" });
+            var command = new UpdateSolutionCommand(testData.Id, new UpdateSolutionViewModel { MarketingData = BuildMarketingData() });
 
             var updatedSolution = SolutionTestData.Default(expectedSolutionId);
-            updatedSolution.Features = command.UpdateSolutionViewModel.MarketingData;
+            updatedSolution.Features = command.UpdateSolutionViewModel.MarketingData.ToString();
 
             _mapper.Setup(x => x.Map(command.UpdateSolutionViewModel, testData)).Returns(updatedSolution);
             _repository.Setup(x => x.ByIdAsync(testData.Id, CancellationToken.None)).ReturnsAsync(() => null);
@@ -119,6 +120,11 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Commands
 
             actual.ShouldNotBeNull();
             actual.Message.ShouldBe<string>($"Entity named '{nameof(Solution)}' could not be found matching the ID '{testData.Id}'.");
+        }
+
+        private static JObject BuildMarketingData()
+        {
+            return JObject.Parse(@"{ ""id"" : 1 }");
         }
     }
 }
