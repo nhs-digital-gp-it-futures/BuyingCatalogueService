@@ -1,15 +1,12 @@
-using System;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NHSD.BuyingCatalogue.API.Extensions;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
-using NHSD.BuyingCatalogue.Application.Infrastructure;
 using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
 
@@ -20,16 +17,11 @@ namespace NHSD.BuyingCatalogue.API
     /// </summary>
     public sealed class Startup
     {
-        private IConfiguration _configuration;
-
         /// <summary>
         /// Initialises a new instance of the <see cref="Startup"/> class.
         /// </summary>
-        public Startup(IConfiguration configuration)
+        public Startup()
         {
-            _configuration = configuration;
-
-            DumpSettings();
         }
 
         /// <summary>
@@ -87,16 +79,6 @@ namespace NHSD.BuyingCatalogue.API
 
                 endpoints.MapControllers();
             });
-        }
-
-        /// <summary>
-        /// Output all the settings for this application.
-        /// </summary>
-        private void DumpSettings()
-        {
-            Console.WriteLine("Settings:");
-            Console.WriteLine($"  ConnectionStrings:");
-            Console.WriteLine($"    ConnectionStrings:BuyingCatalogue   : {_configuration.BuyingCatalogueConnectionString()}");
         }
     }
 }
