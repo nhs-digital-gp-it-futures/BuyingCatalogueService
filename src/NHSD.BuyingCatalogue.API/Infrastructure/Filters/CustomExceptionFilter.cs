@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NHSD.BuyingCatalogue.Application.Exceptions;
 
@@ -13,23 +14,16 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.Filters
 	/// </summary>
 	internal sealed class CustomExceptionFilter : IExceptionFilter
 	{
-		/// <summary>
-		/// Hosting environment details.
-		/// </summary>
-		public IHostingEnvironment HostingEnvironment { get; }
-
-		/// <summary>
-		/// Provide logging for this instance.
-		/// </summary>
-		public ILogger<CustomExceptionFilter> Logger { get; }
+        private readonly IWebHostEnvironment _webhostEnvironment;
+        private readonly ILogger<CustomExceptionFilter> _logger;
 
 		/// <summary>
 		/// Initialises a new instance of the <see cref="CustomExceptionFilter"/> class.
 		/// </summary>
-		public CustomExceptionFilter(IHostingEnvironment hostingEnvironment, ILogger<CustomExceptionFilter> logger)
+		public CustomExceptionFilter(IWebHostEnvironment webhostEnvironment, ILogger<CustomExceptionFilter> logger)
 		{
-			HostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
-			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _webhostEnvironment = webhostEnvironment ?? throw new ArgumentNullException(nameof(webhostEnvironment));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		/// <summary>
@@ -38,13 +32,13 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.Filters
 		/// <param name="context">The Microsoft.AspNetCore.Mvc.Filters.ExceptionContext.</param>
 		public void OnException(ExceptionContext context)
 		{
-			Logger.LogError(new EventId(context.Exception.HResult), context.Exception, context.Exception.Message);
+            _logger.LogError(new EventId(context.Exception.HResult), context.Exception, context.Exception.Message);
 
 			Exception exception = context.Exception;
 
             object message;
 
-			if (HostingEnvironment.IsDevelopment())
+			if (_webhostEnvironment.IsDevelopment())
 			{
 				message = new
 				{

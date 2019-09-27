@@ -4,9 +4,9 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using NHSD.BuyingCatalogue.API.Extensions;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
 using NHSD.BuyingCatalogue.Application.Infrastructure;
@@ -20,20 +20,14 @@ namespace NHSD.BuyingCatalogue.API
     /// </summary>
     public sealed class Startup
     {
-        /// <summary>
-        /// Application configuration.
-        /// </summary>
-        private IConfiguration Configuration { get; }
-        private IHostingEnvironment CurrentEnvironment { get; }
-        private IServiceProvider ServiceProvider { get; set; }
+        private IConfiguration _configuration;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="Startup"/> class.
         /// </summary>
-        public Startup(IConfiguration configuration, IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
-            CurrentEnvironment = env;
+            _configuration = configuration;
 
             DumpSettings();
         }
@@ -52,17 +46,7 @@ namespace NHSD.BuyingCatalogue.API
                 .AddMediatR(typeof(ListSolutionsQuery).Assembly)
                 .AddCustomHealthCheck()
                 .AddCustomSwagger()
-                .AddCustomMvc()
-                .AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            if (CurrentEnvironment.IsDevelopment())
-            {
-                // Register the Swagger generator, defining one or more Swagger documents
-                services.AddSwaggerGen(options =>
-                {
-                    //NOP
-                });
-            }
+                .AddCustomMvc();
         }
 
         /// <summary>
@@ -70,19 +54,9 @@ namespace NHSD.BuyingCatalogue.API
         /// </summary>
         /// <param name="app">The application builder.</param>
         /// <param name="env">The hosting environment details.</param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            ServiceProvider = app.ApplicationServices;
-
-            app.UseHealthChecks("/health/live", new HealthCheckOptions
-            {
-                Predicate = (healthCheckRegistration) => healthCheckRegistration.Tags.Contains(HealthCheckTags.Live)
-            });
-
-            app.UseHealthChecks("/health/dependencies", new HealthCheckOptions
-            {
-                Predicate = (healthCheckRegistration) => healthCheckRegistration.Tags.Contains(HealthCheckTags.Dependencies)
-            });
+            app.UseRouting();
 
             if (env.IsDevelopment())
             {
@@ -99,9 +73,20 @@ namespace NHSD.BuyingCatalogue.API
                 app.UseHsts();
             }
 
-            //TODO : Restore HTTPS
-            //app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHealthChecks("/health/live", new HealthCheckOptions
+                {
+                    Predicate = (healthCheckRegistration) => healthCheckRegistration.Tags.Contains(HealthCheckTags.Live)
+                });
+
+                endpoints.MapHealthChecks("/health/dependencies", new HealthCheckOptions
+                {
+                    Predicate = (healthCheckRegistration) => healthCheckRegistration.Tags.Contains(HealthCheckTags.Dependencies)
+                });
+
+                endpoints.MapControllers();
+            });
         }
 
         /// <summary>
@@ -111,7 +96,7 @@ namespace NHSD.BuyingCatalogue.API
         {
             Console.WriteLine("Settings:");
             Console.WriteLine($"  ConnectionStrings:");
-            Console.WriteLine($"    ConnectionStrings:BuyingCatalogue   : {Configuration.BuyingCatalogueConnectionString()}");
+            Console.WriteLine($"    ConnectionStrings:BuyingCatalogue   : {_configuration.BuyingCatalogueConnectionString()}");
         }
     }
 }

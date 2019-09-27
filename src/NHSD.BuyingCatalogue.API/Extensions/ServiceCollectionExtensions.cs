@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.API.Infrastructure.Filters;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
@@ -52,8 +54,7 @@ namespace NHSD.BuyingCatalogue.API.Extensions
 		{
 			services.AddSwaggerGen(options =>
 			{
-				options.DescribeAllEnumsAsStrings();
-				options.SwaggerDoc("v1", new Info
+				options.SwaggerDoc("v1", new OpenApiInfo
 				{
 					Title = "Solutions API",
 					Version = "v1",
@@ -71,16 +72,17 @@ namespace NHSD.BuyingCatalogue.API.Extensions
 		/// <returns>The extended service collection instance.</returns>
 		public static IServiceCollection AddCustomMvc(this IServiceCollection services)
 		{
-			services.AddMvc(options => 
-			{
-				options.Filters.Add(typeof(CustomExceptionFilter));
-			})
-			.AddJsonOptions((jsonOptions) => 
-			{
-				jsonOptions.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-			})
-			.SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-			.AddControllersAsServices();
+            services
+                .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
+                .AddControllers(options =>
+                {
+                    options.Filters.Add(typeof(CustomExceptionFilter));
+                })
+                .AddNewtonsoftJson(jsonOptions =>
+                {
+                    jsonOptions.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
 			return services;
 		}
