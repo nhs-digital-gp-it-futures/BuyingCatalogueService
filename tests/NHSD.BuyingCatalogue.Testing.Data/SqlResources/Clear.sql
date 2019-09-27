@@ -1,4 +1,5 @@
 DELETE FROM [FrameworkCapabilities]
+DELETE FROM [MarketingDetail]
 DELETE FROM [SolutionCapability]
 DELETE FROM [Solution]
 DELETE FROM [Capability]

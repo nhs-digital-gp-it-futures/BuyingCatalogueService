@@ -178,3 +178,22 @@ CREATE TABLE [dbo].[Organisation](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
+CREATE TABLE [dbo].[MarketingDetail](
+	[SolutionId] [varchar](14) NOT NULL,
+	[AboutUrl] [varchar](1000) NULL,	
+	[Features] [nvarchar](max) NULL,
+	[ClientApplication] [nvarchar](max) NULL,
+	[Hosting] [nvarchar](max) NULL,
+	[RoadMap] [varchar](1000) NULL,
+	[RoadMapImageUrl] [varchar](1000) NULL,	
+ CONSTRAINT [PK_MarketingDetail] PRIMARY KEY CLUSTERED 
+(
+	[SolutionId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+ALTER TABLE [dbo].[MarketingDetail]  WITH CHECK ADD  CONSTRAINT [FK_MarketingDetail_Solution] FOREIGN KEY([SolutionId])
+REFERENCES [dbo].[Solution] ([Id])
+ON DELETE CASCADE
+
+ALTER TABLE [dbo].[MarketingDetail] CHECK CONSTRAINT [FK_MarketingDetail_Solution]

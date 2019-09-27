@@ -168,7 +168,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             public string Solution { get; set; }
 
             public string Capability { get; set; }
-
         }
 
         private class OrganisationTable
