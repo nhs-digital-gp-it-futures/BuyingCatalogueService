@@ -1,4 +1,6 @@
 
+using Newtonsoft.Json.Linq;
+
 namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
 {
     /// <summary>
@@ -29,7 +31,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
         /// <summary>
         /// Marketing data of the solution.
         /// </summary>
-        public string MarketingData { get; set; }
+        public JObject MarketingData { get; set; }
 
         /// <summary>
         /// A link to provide more information about a solution.

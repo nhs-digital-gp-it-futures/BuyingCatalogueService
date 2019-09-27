@@ -1,4 +1,5 @@
 using AutoMapper;
+using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
@@ -25,10 +26,10 @@ namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
             CreateMap<Capability, CapabilityViewModel>();
 
             CreateMap<Solution, SolutionByIdViewModel>()
-                .ForMember(destination => destination.MarketingData, options => options.MapFrom(source => source.Features));
+                .ForMember(destination => destination.MarketingData, options => options.MapFrom(source => JObject.Parse(source.Features)));
 
             CreateMap<UpdateSolutionViewModel, Solution>()
-                .ForMember(destination => destination.Features, options => options.MapFrom(source => source.MarketingData));
+                .ForMember(destination => destination.Features, options => options.MapFrom(source => source.MarketingData.ToString()));
         }
     }
 }

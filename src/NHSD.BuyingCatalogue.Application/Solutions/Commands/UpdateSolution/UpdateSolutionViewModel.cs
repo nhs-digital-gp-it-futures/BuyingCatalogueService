@@ -1,3 +1,5 @@
+using Newtonsoft.Json.Linq;
+
 namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution
 {
     public sealed class UpdateSolutionViewModel
@@ -20,6 +22,6 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution
         /// <summary>
         /// Marketing data of the solution.
         /// </summary>
-        public string MarketingData { get; set; }
+        public JObject MarketingData { get; set; }
     }
 }
