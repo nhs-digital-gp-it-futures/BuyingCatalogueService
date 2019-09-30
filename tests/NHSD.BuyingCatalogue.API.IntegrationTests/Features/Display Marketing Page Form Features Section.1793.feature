@@ -14,14 +14,17 @@ Background:
         | Sln2       | TakeTheRedPill | Eye opening experience         | Drs. Inc         |
         | Sln3       | PracticeMgr    | Fully fledged GP system        | Drs. Inc         |
     And MarketingDetail exist
-        | Solution | AboutUrl | Features  |
-        | Sln1     | UrlSln1  | Features1 |
-        | Sln2     | UrlSln2  | Features2 |
-        | Sln3     | UrlSln3  | Features3 |
+        | Solution | AboutUrl | Features                                            |
+        | Sln1     | UrlSln1  | { "customJson" : { "id" : 1, "name" : "feature1" }} |
+        | Sln2     | UrlSln2  | { "customJson" : { "id" : 2, "name" : "feature2" }} |
+        | Sln3     | UrlSln3  | { "customJson" : { "id" : 3, "name" : "feature3" }} |
 
 @1793
 Scenario: 1. Sections presented
     When a GET request is made for solution Sln3
     Then a successful response is returned
-    And the solution contains MarketingData of Features3 
+    And the solution contains MarketingData
+        | JsonPath        | Value    |
+        | customJson.id   | 3        |
+        | customJson.name | feature3 |
     And the solution contains AboutUrl of UrlSln3 

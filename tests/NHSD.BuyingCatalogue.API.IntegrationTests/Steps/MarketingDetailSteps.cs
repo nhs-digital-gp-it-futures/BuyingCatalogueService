@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
@@ -54,13 +55,24 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             content.SelectToken("solution.marketingData").ToString().Should().Be(marketingData);
         }
 
+        [Then(@"the solution contains MarketingData")]
+        public async Task ThenTheSolutionContainsMarketingData(Table table)
+        {
+            var content = await _response.ReadBody();
+            foreach (var marketingDetail in table.CreateSet<MarketingDataTable>())
+            {
+                var marketingDataJson = JObject.Parse(content.SelectToken("solution.marketingData").ToString());
+
+                marketingDataJson.SelectToken(marketingDetail.JsonPath).ToString().Should().Be(marketingDetail.Value);
+            }
+        }
+
         [Then(@"the solution contains AboutUrl of (.*)")]
         public async Task ThenTheSolutionContainsAboutUrlOfUrlSln(string aboutUrl)
         {
             var content = await _response.ReadBody();
             content.SelectToken("solution.aboutUrl").ToString().Should().Be(aboutUrl);
         }
-
         private class MarketingDetailTable
         {
             public string Solution { get; set; }
@@ -68,6 +80,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             public string AboutUrl { get; set; }
 
             public string Features { get; set; }
+        }
+
+        private class MarketingDataTable
+        {
+            public string JsonPath { get; set; }
+
+            public string Value { get; set; }
         }
     }
 }
