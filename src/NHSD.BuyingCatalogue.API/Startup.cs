@@ -59,11 +59,6 @@ namespace NHSD.BuyingCatalogue.API
                       options.SwaggerEndpoint("/swagger/v1/swagger.json", "Buying Catalog API V1");
                   });
             }
-            else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
 
             app.UseEndpoints(endpoints =>
             {
