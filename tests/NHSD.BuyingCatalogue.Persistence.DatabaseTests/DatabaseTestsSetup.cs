@@ -17,7 +17,6 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         [OneTimeTearDown]
         public async Task OneTimeTearDownAsync()
         {
-            await Database.DropAsync();
             await DockerSqlServer.StopAsync();
         }
     }

@@ -17,7 +17,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
 
         public static async Task StopAsync()
         {
-            await Database.DropAsync();
             await BuyingCatalogueService.StopAsync();
         }
     }
