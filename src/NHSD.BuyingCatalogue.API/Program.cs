@@ -1,7 +1,7 @@
-﻿using System.IO;
-using Microsoft.AspNetCore;
+using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 
 namespace NHSD.BuyingCatalogue.API
 {
@@ -9,21 +9,25 @@ namespace NHSD.BuyingCatalogue.API
 	{
 		public static void Main(string[] args)
 		{
-			CreateWebHostBuilder(args).Build().Run();
+			CreateHostBuilder(args).Build().Run();
 		}
 
-		/// <summary>
-		/// Creates the web host builder.
-		/// </summary>
-		/// <param name="args">A set of the application arguments.</param>
-		/// <returns>An instance of the <see cref="IWebHostBuilder"/>.</returns>
-		public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        /// <summary>
+        /// Creates the host builder.
+        /// </summary>
+        /// <param name="args">A set of the application arguments.</param>
+        /// <returns>An instance of the <see cref="IHostBuilder"/>.</returns>
+        public static IHostBuilder CreateHostBuilder(string[] args)
 		{
 			IConfigurationRoot configurationRoot = GetConfiguration();
 
-			return WebHost.CreateDefaultBuilder(args)
-				.UseConfiguration(configurationRoot)
-				.UseStartup<Startup>();
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder
+                    .UseConfiguration(configurationRoot)
+                    .UseStartup<Startup>();
+            });
 		}
 
 		/// <summary>

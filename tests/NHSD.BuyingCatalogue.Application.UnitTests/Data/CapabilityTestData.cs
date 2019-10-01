@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using NHSD.BuyingCatalogue.Domain.Entities;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests.Data
@@ -7,7 +7,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Data
 	{
 		internal static Capability Default()
 		{
-			var id = Guid.NewGuid().ToString();
+			var id = Guid.NewGuid();
 
 			return new Capability
 			{

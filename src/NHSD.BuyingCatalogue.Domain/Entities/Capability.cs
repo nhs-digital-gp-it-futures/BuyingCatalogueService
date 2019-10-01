@@ -1,4 +1,5 @@
-﻿using NHSD.BuyingCatalogue.Domain.Common;
+using System;
+using NHSD.BuyingCatalogue.Domain.Common;
 
 namespace NHSD.BuyingCatalogue.Domain.Entities
 {
@@ -12,7 +13,7 @@ namespace NHSD.BuyingCatalogue.Domain.Entities
 	/// Note that a ‘capability’ has a link to zero or one previous ‘capability’
 	/// Generally, only interested in current ‘capability’
 	/// </summary>
-	public class Capability : EntityBase<string>
+	public class Capability : EntityBase<Guid>
 	{
 		/// <summary>
 		/// Name of the capability.

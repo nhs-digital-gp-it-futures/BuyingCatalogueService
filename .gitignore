@@ -332,5 +332,5 @@ ASALocalRun/
 #Visual Studio Code
 .vscode/*
 
-#Custom
-scripts/data/
+#SpecFlow generated feature files
+*.feature.cs

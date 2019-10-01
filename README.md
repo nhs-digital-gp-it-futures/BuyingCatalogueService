@@ -33,11 +33,19 @@ The application is broken down into the following project libraries:
 
 <p>
 
-To run the application in a container in development mode, double click the batch file <b>run-docker-compose-up-for-development.cmd</b>.
+To run the application in a container in development mode, run the following command (from the buying catalogue directory):
+
+```
+docker-compose -f ".\docker-compose.yml" -f ".\docker-compose.development.yml" up -d
+```
 
 You can now access the API in your browser at 'http://localhost:8080/swagger/index.html'
 
-> To stop and delete the application from running in a container, double click the batch file <b>run-docker-compose-down-for-development.cmd</b>.
+To stop the application running in a container and to delete all the  associated resources run the command:
+
+```
+docker-compose -f ".\docker-compose.yml" -f ".\docker-compose.development.yml" down -v --rmi "all"
+```
 
 </p>
 

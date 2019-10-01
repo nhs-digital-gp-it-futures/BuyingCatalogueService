@@ -1,14 +1,12 @@
-﻿using MediatR;
+using MediatR;
 
 namespace NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities
 {
-	public sealed class ListCapabilitiesQuery : IRequest<ListCapabilitiesQueryResult>
-	{
-		/// <summary>
-		/// Initialises a new instance of the <see cref="ListCapabilitiesQuery"/> class.
-		/// </summary>
-		public ListCapabilitiesQuery()
-		{
-		}
-	}
+    /// <summary>
+    /// Represents the query to retrieve a list of capabilities.
+    /// </summary>
+    public sealed class ListCapabilitiesQuery : IRequest<ListCapabilitiesResult>
+    {
+
+    }
 }
