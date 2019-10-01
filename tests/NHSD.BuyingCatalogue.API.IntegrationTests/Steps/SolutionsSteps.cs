@@ -55,6 +55,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
                     .WithName(solutionTable.SolutionName)
                     .WithId(solutionTable.SolutionID)
                     .WithSummary(solutionTable.SummaryDescription)
+                    .WithFullDescription(solutionTable.FullDescription)
                     .WithOrganisationId(organisations.First(o => o.Name == solutionTable.OrganisationName).Id)
                     .Build()
                     .InsertAsync();
@@ -146,6 +147,20 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             }
         }
 
+        [Then(@"Solutions exist")]
+        public async Task ThenSolutionsExist(Table table)
+        {
+            var expectedSolutions = table.CreateSet<SolutionUpdatedTable>();
+            var solutions = await SolutionEntity.FetchAllAsync();
+            solutions.Select(s => new
+            {
+                SolutionID = s.Id,
+                SolutionName = s.Name,
+                SummaryDescription = s.Summary,
+                s.FullDescription
+            }).Should().BeEquivalentTo(expectedSolutions);
+        }
+
         [StepArgumentTransformation]
         public List<string> TransformToListOfString(string commaSeparatedList)
         {
@@ -161,6 +176,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             public string SummaryDescription { get; set; }
 
             public string OrganisationName { get; set; }
+
+            public string FullDescription { get; set; }
         }
 
         private class SolutionCapabilityTable
@@ -191,6 +208,17 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             public string OrganisationName { get; set; }
 
             public string Capabilities { get; set; }
+        }
+
+        private class SolutionUpdatedTable
+        {
+            public string SolutionID { get; set; }
+
+            public string SolutionName { get; set; }
+
+            public string SummaryDescription { get; set; }
+
+            public string FullDescription { get; set; }
         }
     }
 }

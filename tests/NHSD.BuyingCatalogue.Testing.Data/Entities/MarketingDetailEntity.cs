@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 {
@@ -35,5 +37,19 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             ,'{Hosting}'
             ,'{RoadMap}'
             ,'{RoadMapImageUrl}')";
+
+
+        public static async Task<IEnumerable<MarketingDetailEntity>> FetchAllAsync()
+        {
+            return await SqlRunner.FetchAllAsync<MarketingDetailEntity>($@"SELECT 
+                            [SolutionId]
+                            ,[AboutUrl]
+                            ,[Features]
+                            ,[ClientApplication]
+                            ,[Hosting]
+                            ,[RoadMap]
+                            ,[RoadMapImageUrl]
+                            FROM MarketingDetail");
+        }
     }
 }

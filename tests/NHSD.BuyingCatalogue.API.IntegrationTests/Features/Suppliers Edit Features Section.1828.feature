@@ -1,34 +1,37 @@
-@ignore
 Feature: Suppliers Edit Features Section
     As a Supplier
     I want to Edit the Features Section
     So that I can make sure the information is correct
 
-@1828
-Scenario: 1. Feature does not exceed maximum
-    Given the Supplier has entered a Feature
-    And it does not exceed the maximum character count
-    When the Supplier attempts to save 
-    Then the Section is saved
+Background:
+    Given Organisations exist
+        | Name     |
+        | GPs-R-Us |
+        | Drs. Inc |
+    And Solutions exist
+        | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | FullDescription     |
+        | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | Online medicine 1   |
+        | Sln2       | TakeTheRedPill | Eye opening experience         | Drs. Inc         | Eye opening6        |
+        | Sln3       | PracticeMgr    | Fully fledged GP system        | Drs. Inc         | Fully fledged GP 12 |
+    And MarketingDetail exist
+        | Solution | AboutUrl | Features                                            |
+        | Sln1     | UrlSln1  | { "customJson" : { "id" : 1, "name" : "feature1" }} |
+        | Sln2     | UrlSln2  | { "customJson" : { "id" : 2, "name" : "feature2" }} |
+        | Sln3     | UrlSln3  | { "customJson" : { "id" : 3, "name" : "feature3" }} |
 
 @1828
-Scenario: 2. Feature does exceed maximum
-    Given the Supplier has entered a Feature
-    And it does exceed the maximum character count
-    When the Supplier attempts to save 
-    Then the Section is not saved 
-    And an indication is given to the Supplier as to why
+Scenario: 1. Marketing Data is updated against the solution
+    Given a POST request is made to update solution Sln1 features
+        | Summary                | Description            | AboutUrl   | MarketingData                                                   |
+        | New type of medicine 3 | A new full description | UrlSln1New | { "differentJson" : { "customId" : 6, "customName" : "thing" }} |
+    Then Solutions exist
+        | SolutionID | SolutionName   | SummaryDescription      | FullDescription        |
+        | Sln1       | MedicOnline    | New type of medicine 3  | A new full description |
+        | Sln2       | TakeTheRedPill | Eye opening experience  | Eye opening6           |
+        | Sln3       | PracticeMgr    | Fully fledged GP system | Fully fledged GP 12    |
+    And MarketingDetail exist
+        | Solution | AboutUrl   | Features                                                        |
+        | Sln1     | UrlSln1New | { "differentJson" : { "customId" : 6, "customName" : "thing" }} |
+        | Sln2     | UrlSln2    | { "customJson" : { "id" : 2, "name" : "feature2" }}             |
+        | Sln3     | UrlSln3    | { "customJson" : { "id" : 3, "name" : "feature3" }}             |
 
-@1828
-Scenario: 3. Features Section marked as Complete No Mandatory Data
-    Given the Features Section has no Mandatory Data
-    And a Supplier has saved any data on the Features Section
-    When the Marketing Page Form is presented 
-    Then the Features Section is marked as Complete
-
-@1828
-Scenario: 4. Features Section marked as Incomplete No Data
-    Given the Features Section has no Mandatory Data
-    And a Supplier has not saved any data on the Features Section
-    When the Marketing Page Form is presented 
-    Then the Features Section is marked as Incomplete
