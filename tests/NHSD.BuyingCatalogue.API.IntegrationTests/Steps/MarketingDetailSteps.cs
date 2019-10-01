@@ -61,9 +61,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             var content = await _response.ReadBody();
             foreach (var marketingDetail in table.CreateSet<MarketingDataTable>())
             {
-                var marketingDataJson = JObject.Parse(content.SelectToken("solution.marketingData").ToString());
-
-                marketingDataJson.SelectToken(marketingDetail.JsonPath).ToString().Should().Be(marketingDetail.Value);
+                content.SelectToken(marketingDetail.JsonPath).ToString().Should().Be(marketingDetail.Value);
             }
         }
 

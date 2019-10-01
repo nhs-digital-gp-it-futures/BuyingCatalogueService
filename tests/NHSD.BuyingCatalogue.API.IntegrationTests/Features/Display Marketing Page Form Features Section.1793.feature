@@ -24,7 +24,7 @@ Scenario: 1. Sections presented
     When a GET request is made for solution Sln3
     Then a successful response is returned
     And the solution contains MarketingData
-        | JsonPath        | Value    |
-        | customJson.id   | 3        |
-        | customJson.name | feature3 |
+        | JsonPath                               | Value    |
+        | solution.marketingData.customJson.id   | 3        |
+        | solution.marketingData.customJson.name | feature3 |
     And the solution contains AboutUrl of UrlSln3 
