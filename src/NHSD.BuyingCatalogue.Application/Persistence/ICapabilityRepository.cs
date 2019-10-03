@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using NHSD.BuyingCatalogue.Domain.Entities;
+using NHSD.BuyingCatalogue.Domain.Entities.Capabilities;
 
 namespace NHSD.BuyingCatalogue.Application.Persistence
 {

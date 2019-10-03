@@ -5,15 +5,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using NHSD.BuyingCatalogue.Application.Persistence;
-using NHSD.BuyingCatalogue.Domain.Entities;
+using NHSD.BuyingCatalogue.Domain.Entities.Capabilities;
 using NHSD.BuyingCatalogue.Persistence.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Persistence.Repositories
 {
-	/// <summary>
-	/// Represents the data access layer for the <see cref="Capability"/> entity.
-	/// </summary>
-	public sealed class CapabilityRepository : ICapabilityRepository
+    /// <summary>
+    /// Represents the data access layer for the <see cref="Capability"/> entity.
+    /// </summary>
+    public sealed class CapabilityRepository : ICapabilityRepository
 	{
 		/// <summary>
 		/// Database connection factory to provide new connections.

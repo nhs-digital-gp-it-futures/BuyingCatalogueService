@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using NHSD.BuyingCatalogue.Domain;
+using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests.Data
 {
-	internal static class SolutionListTestData
+    internal static class SolutionListTestData
 	{
 		internal static IEnumerable<Solution> One()
 		{

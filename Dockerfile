@@ -13,6 +13,7 @@ COPY tests/NHSD.BuyingCatalogue.API.IntegrationTests/*.csproj ./tests/NHSD.Buyin
 COPY tests/NHSD.BuyingCatalogue.API.UnitTests/*.csproj ./tests/NHSD.BuyingCatalogue.API.UnitTests/
 COPY tests/NHSD.BuyingCatalogue.Application.UnitTests/*.csproj ./tests/NHSD.BuyingCatalogue.Application.UnitTests/
 COPY tests/NHSD.BuyingCatalogue.Persistence.DatabaseTests/*.csproj ./tests/NHSD.BuyingCatalogue.Persistence.DatabaseTests/
+COPY tests/NHSD.BuyingCatalogue.Domain.Tests/*.csproj ./tests/NHSD.BuyingCatalogue.Domain.Tests/
 COPY tests/NHSD.BuyingCatalogue.Testing.Data/*.csproj ./tests/NHSD.BuyingCatalogue.Testing.Data/
 COPY tests/NHSD.BuyingCatalogue.Testing.Tools/*.csproj ./tests/NHSD.BuyingCatalogue.Testing.Tools/
 
@@ -24,12 +25,10 @@ COPY . .
 RUN dotnet build
 
 FROM build AS testrunner
-WORKDIR /app/tests/NHSD.BuyingCatalogue.Application.UnitTests
 CMD ["dotnet", "test", "--logger:trx"]
 
 # run the unit tests
 FROM build AS test
-WORKDIR /app/tests/NHSD.BuyingCatalogue.Application.UnitTests
 RUN dotnet test --logger:trx
 
 # Publish the API

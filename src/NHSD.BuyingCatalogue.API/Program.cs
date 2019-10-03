@@ -1,4 +1,6 @@
+using System;
 using System.IO;
+using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -20,6 +22,11 @@ namespace NHSD.BuyingCatalogue.API
         public static IHostBuilder CreateHostBuilder(string[] args)
 		{
 			IConfigurationRoot configurationRoot = GetConfiguration();
+
+            foreach (var item in configurationRoot.AsEnumerable().OrderBy(item => item.Key))
+            {
+                Console.WriteLine($"Configuration Key='{item.Key}' Value='{item.Value}'");
+            }
 
             return Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>

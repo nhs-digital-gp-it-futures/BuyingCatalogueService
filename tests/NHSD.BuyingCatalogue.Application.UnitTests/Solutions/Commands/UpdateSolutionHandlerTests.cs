@@ -8,7 +8,7 @@ using NHSD.BuyingCatalogue.Application.Exceptions;
 using NHSD.BuyingCatalogue.Application.Persistence;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
 using NHSD.BuyingCatalogue.Application.UnitTests.Data;
-using NHSD.BuyingCatalogue.Domain;
+using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 using NUnit.Framework;
 using Shouldly;
 

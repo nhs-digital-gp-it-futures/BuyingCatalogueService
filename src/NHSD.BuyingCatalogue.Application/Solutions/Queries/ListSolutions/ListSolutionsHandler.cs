@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using NHSD.BuyingCatalogue.Application.Persistence;
-using NHSD.BuyingCatalogue.Domain;
+using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions
 {

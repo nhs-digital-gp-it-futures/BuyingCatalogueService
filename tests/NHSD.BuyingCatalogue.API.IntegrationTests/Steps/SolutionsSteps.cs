@@ -15,6 +15,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
     internal sealed class SolutionsSteps
     {
         private const string ListSolutionsUrl = "http://localhost:8080/api/v1/Solutions";
+        private const string SubmitForReviewSolutionsUrl = "http://localhost:8080/api/v1/Solutions/{0}/SubmitForReview";
 
         private readonly ScenarioContext _context;
 
@@ -145,6 +146,32 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
                 solution.SelectToken("organisation.name").ToString().Should().Be(expectedSolution.OrganisationName);
                 solution.SelectToken("capabilities").Select(t => t.SelectToken("name").ToString()).Should().BeEquivalentTo(expectedSolution.Capabilities.Split(",").Select(t => t.Trim()));
             }
+        }
+
+        [Given(@"a Solution (.*) exists")]
+        public async Task GivenASolutionSlnExists(string solutionId)
+        {
+            var solutionList = await SolutionEntity.FetchAllAsync();
+            solutionList.Select(x => x.Id).Should().Contain(solutionId);
+        }
+
+        [When(@"a request is made to submit Solution (.*) for review")]
+        public async Task WhenARequestIsMadeToSubmitSlnForReview(string solutionId)
+        {
+            _response.Result = await Client.PutAsync(string.Format(SubmitForReviewSolutionsUrl, solutionId));
+        }
+
+        [When(@"a request is made to submit Solution for review with no solution id")]
+        public async Task WhenARequestIsMadeToSubmitForReviewWithNoSolutionId()
+        {
+            _response.Result = await Client.PutAsync(string.Format(SubmitForReviewSolutionsUrl, " "));
+        }
+
+        [Given(@"a Solution (.*) does not exist")]
+        public async Task GivenASolutionSlnDoesNotExist(string solutionId)
+        {
+            var solutionList = await SolutionEntity.FetchAllAsync();
+            solutionList.Select(x => x.Id).Should().NotContain(solutionId);
         }
 
         [Then(@"Solutions exist")]

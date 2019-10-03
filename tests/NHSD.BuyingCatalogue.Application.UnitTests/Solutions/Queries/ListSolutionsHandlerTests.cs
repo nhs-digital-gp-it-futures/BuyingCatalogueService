@@ -8,7 +8,7 @@ using Moq;
 using NHSD.BuyingCatalogue.Application.Persistence;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Application.UnitTests.Data;
-using NHSD.BuyingCatalogue.Domain;
+using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 using NUnit.Framework;
 using Shouldly;
 

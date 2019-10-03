@@ -1,9 +1,9 @@
 using System;
-using NHSD.BuyingCatalogue.Domain;
+using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests.Data
 {
-	internal static class SolutionTestData
+    internal static class SolutionTestData
 	{
 		internal static Solution Default(string solutionId = null)
 		{

@@ -7,8 +7,9 @@ using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
-using NHSD.BuyingCatalogue.Domain;
-using NHSD.BuyingCatalogue.Domain.Entities;
+using NHSD.BuyingCatalogue.Domain.Entities.Capabilities;
+using NHSD.BuyingCatalogue.Domain.Entities.Organisations;
+using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 using NUnit.Framework;
 using Shouldly;
 

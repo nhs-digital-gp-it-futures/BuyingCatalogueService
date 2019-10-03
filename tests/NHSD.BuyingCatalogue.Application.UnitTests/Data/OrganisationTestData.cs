@@ -1,9 +1,9 @@
 ﻿using System;
-using NHSD.BuyingCatalogue.Domain.Entities;
+using NHSD.BuyingCatalogue.Domain.Entities.Organisations;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests.Data
 {
-	internal static class OrganisationTestData
+    internal static class OrganisationTestData
 	{
 		internal static Organisation Default()
 		{

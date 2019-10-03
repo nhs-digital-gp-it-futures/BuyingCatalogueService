@@ -1,9 +1,9 @@
 using System;
-using NHSD.BuyingCatalogue.Domain.Entities;
+using NHSD.BuyingCatalogue.Domain.Entities.Capabilities;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests.Data
 {
-	internal static class CapabilityTestData
+    internal static class CapabilityTestData
 	{
 		internal static Capability Default()
 		{

@@ -6,8 +6,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using NHSD.BuyingCatalogue.Application.Persistence;
-using NHSD.BuyingCatalogue.Domain;
-using NHSD.BuyingCatalogue.Domain.Entities;
+using NHSD.BuyingCatalogue.Domain.Entities.Capabilities;
+using NHSD.BuyingCatalogue.Domain.Entities.Organisations;
+using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 using NHSD.BuyingCatalogue.Persistence.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Persistence.Repositories
@@ -101,7 +102,7 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                                             MarketingDetail.AboutUrl AS AboutUrl,
                                             MarketingDetail.Features As Features
                                      FROM   Solution
-                                            INNER JOIN MarketingDetail ON Solution.Id = MarketingDetail.SolutionId
+                                            LEFT OUTER JOIN MarketingDetail ON Solution.Id = MarketingDetail.SolutionId
                                      WHERE  Solution.Id = @id";
 
                 var result = await databaseConnection.QueryAsync<Solution>(sql, new { id });
@@ -114,6 +115,7 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
         /// Updates the details of the solution.
         /// </summary>
         /// <param name="solution">The updated details of a solution to save to the data store.</param>
+        /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
         /// <returns>A task representing an operation to save the specified solution to the data store.</returns>
         public async Task UpdateAsync(Solution solution, CancellationToken cancellationToken)
         {
@@ -140,6 +142,40 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
 
                     await databaseConnection.ExecuteAsync(updateSolutionSql, new { id = solution.Id, description = solution.Description, summary = solution.Summary }, transaction);
                     await databaseConnection.ExecuteAsync(updateMarketingDetailSql, new { solutionId = solution.Id, aboutUrl = solution.AboutUrl, features = solution.Features }, transaction);
+
+                    transaction.Commit();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Updates the supplier status of the specified solution in the data store.
+        /// </summary>
+        /// <param name="solution">The solution to update.</param>
+        /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
+        /// <returns>A task representing an operation to update the supplier status of the specified solution in the data store.</returns>
+        public async Task UpdateSupplierStatusAsync(Solution solution, SupplierStatus supplierStatus, CancellationToken cancellationToken)
+        {
+            if (solution is null)
+            {
+                throw new ArgumentNullException(nameof(solution));
+            }
+
+            if (supplierStatus is null)
+            {
+                throw new ArgumentNullException(nameof(supplierStatus));
+            }
+
+            using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
+            {
+                using (IDbTransaction transaction = databaseConnection.BeginTransaction())
+                {
+                    const string updateSolutionSupplierStatusSql = @"
+                                            UPDATE  Solution
+                                            SET		Solution.SupplierStatusId = @supplierStatusId
+                                            WHERE   Solution.Id = @id;";
+
+                    await databaseConnection.ExecuteAsync(updateSolutionSupplierStatusSql, new { id = solution.Id, supplierStatusId = supplierStatus.Id }, transaction);
 
                     transaction.Commit();
                 }

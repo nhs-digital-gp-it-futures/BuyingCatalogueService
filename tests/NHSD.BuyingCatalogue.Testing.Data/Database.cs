@@ -27,10 +27,20 @@ namespace NHSD.BuyingCatalogue.Testing.Data
 
         public static async Task DropAsync()
         {
+            await DropUserAsync();
+            await DropDatabaseAsync();
+        }
+
+        public static async Task DropUserAsync()
+        {
             await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, "DROP USER NHSD");
+            await SqlRunner.ExecuteAsync(ConnectionStrings.Master, "DROP LOGIN NHSD");
+        }
+
+        private static async Task DropDatabaseAsync()
+        {
             await SqlRunner.ExecuteAsync(ConnectionStrings.Master, $"ALTER DATABASE [{DataConstants.DatabaseName}]  SET SINGLE_USER WITH ROLLBACK IMMEDIATE");
             await SqlRunner.ExecuteAsync(ConnectionStrings.Master, $"DROP DATABASE [{DataConstants.DatabaseName}]");
-            await SqlRunner.ExecuteAsync(ConnectionStrings.Master, "DROP LOGIN NHSD");
         }
     }
 }

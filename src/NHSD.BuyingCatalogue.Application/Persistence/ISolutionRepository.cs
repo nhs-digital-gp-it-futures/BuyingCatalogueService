@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using NHSD.BuyingCatalogue.Domain;
+using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
 namespace NHSD.BuyingCatalogue.Application.Persistence
 {
@@ -32,5 +32,14 @@ namespace NHSD.BuyingCatalogue.Application.Persistence
         /// <param name="cancellationToken">A token to nofity if the task is cancelled.</param>
         /// <returns>A task representing an operation to save the specified solution to the data store.</returns>
         Task UpdateAsync(Solution solution, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Updates the supplier status of the specified solution in the data store.
+        /// </summary>
+        /// <param name="solution">The solution to update.</param>
+        /// <param name="supplierStatus">The supplier status.</param>
+        /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
+        /// <returns>A task representing an operation to update the supplier status of the specified solution in the data store.</returns>
+        Task UpdateSupplierStatusAsync(Solution solution, SupplierStatus supplierStatus, CancellationToken cancellationToken);
     }
 }

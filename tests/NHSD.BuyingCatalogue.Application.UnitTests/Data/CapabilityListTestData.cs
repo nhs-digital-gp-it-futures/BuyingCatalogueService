@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using NHSD.BuyingCatalogue.Domain.Entities;
+using NHSD.BuyingCatalogue.Domain.Entities.Capabilities;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests.Data
 {
-	internal static class CapabilityListTestData
+    internal static class CapabilityListTestData
 	{
 		internal static IEnumerable<Capability> One()
 		{

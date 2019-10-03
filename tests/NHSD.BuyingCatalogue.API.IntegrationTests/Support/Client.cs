@@ -36,5 +36,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
             using HttpClient client = new HttpClient();
             return await client.PutAsync(requestUrl, new StringContent(content.ToString(), Encoding.UTF8, contentType));
         }
+
+        public static async Task<HttpResponseMessage> PutAsync(string requestUrl)
+        {
+            using HttpClient client = new HttpClient();
+            return await client.PutAsync(requestUrl, null);
+        }
     }
 }
