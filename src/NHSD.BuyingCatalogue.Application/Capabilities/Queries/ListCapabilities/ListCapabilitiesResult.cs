@@ -10,13 +10,14 @@ namespace NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities
 		/// <summary>
 		/// A list of capabilities.
 		/// </summary>
-		public IEnumerable<CapabilityViewModel> Capabilities { get; set; }
+		public IEnumerable<CapabilityViewModel> Capabilities { get; }
 
 		/// <summary>
 		/// Initialises a new instance of the <see cref="ListCapabilitiesResult"/> class.
 		/// </summary>
-		public ListCapabilitiesResult()
-		{
-		}
+		public ListCapabilitiesResult(IEnumerable<CapabilityViewModel> capabilities)
+        {
+            Capabilities = capabilities;
+        }
 	}
 }

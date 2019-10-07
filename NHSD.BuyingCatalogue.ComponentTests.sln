@@ -27,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.API.Un
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.API.IntegrationTests", "tests\NHSD.BuyingCatalogue.API.IntegrationTests\NHSD.BuyingCatalogue.API.IntegrationTests.csproj", "{C2B38A89-1FE7-4B00-A2C4-4CF6E7C7583A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHSD.BuyingCatalogue.Domain.Tests", "tests\NHSD.BuyingCatalogue.Domain.Tests\NHSD.BuyingCatalogue.Domain.Tests.csproj", "{0B60DF45-3CC7-498E-926F-A4A9D7671B25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Domain.Tests", "tests\NHSD.BuyingCatalogue.Domain.Tests\NHSD.BuyingCatalogue.Domain.Tests.csproj", "{0B60DF45-3CC7-498E-926F-A4A9D7671B25}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Contracts", "src\NHSD.BuyingCatalogue.Contracts\NHSD.BuyingCatalogue.Contracts.csproj", "{023BB017-676C-4B89-9F14-007A89622F60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +81,10 @@ Global
 		{0B60DF45-3CC7-498E-926F-A4A9D7671B25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B60DF45-3CC7-498E-926F-A4A9D7671B25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B60DF45-3CC7-498E-926F-A4A9D7671B25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{023BB017-676C-4B89-9F14-007A89622F60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{023BB017-676C-4B89-9F14-007A89622F60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{023BB017-676C-4B89-9F14-007A89622F60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{023BB017-676C-4B89-9F14-007A89622F60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,6 +101,7 @@ Global
 		{206FDA1D-0A94-4222-A932-AD27FE6DABF7} = {A76B93E9-DBCC-4588-9EDA-AD8668792C5C}
 		{C2B38A89-1FE7-4B00-A2C4-4CF6E7C7583A} = {A76B93E9-DBCC-4588-9EDA-AD8668792C5C}
 		{0B60DF45-3CC7-498E-926F-A4A9D7671B25} = {A76B93E9-DBCC-4588-9EDA-AD8668792C5C}
+		{023BB017-676C-4B89-9F14-007A89622F60} = {F3EA3704-BDA0-4378-9027-827EDA186F48}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7DA4FD44-32D4-4FE7-A05E-4C72D05F6476}

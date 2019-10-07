@@ -6,8 +6,11 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.API.Infrastructure.Filters;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
+using NHSD.BuyingCatalogue.Application;
+using NHSD.BuyingCatalogue.Application.Infrastructure;
 using NHSD.BuyingCatalogue.Application.Infrastructure.HealthChecks;
 using NHSD.BuyingCatalogue.Application.Persistence;
+using NHSD.BuyingCatalogue.Persistence;
 using NHSD.BuyingCatalogue.Persistence.HealthChecks;
 using NHSD.BuyingCatalogue.Persistence.Infrastructure;
 using NHSD.BuyingCatalogue.Persistence.Repositories;
@@ -40,9 +43,12 @@ namespace NHSD.BuyingCatalogue.API.Extensions
 		public static IServiceCollection AddCustomRepositories(this IServiceCollection services)
 		{
 			services.AddSingleton<ISolutionRepository, SolutionRepository>();
-			services.AddSingleton<ICapabilityRepository, CapabilityRepository>();
 
-			return services;
+            services
+                .RegisterApplication()
+                .RegisterPersistence();
+
+            return services;
 		}
 
 		/// <summary>

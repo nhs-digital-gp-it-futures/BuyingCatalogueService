@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using NHSD.BuyingCatalogue.Domain.Entities.Capabilities;
+using NHSD.BuyingCatalogue.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Application.Persistence
 {
@@ -14,6 +14,6 @@ namespace NHSD.BuyingCatalogue.Application.Persistence
 		/// Gets a list of <see cref="Capability"/> objects.
 		/// </summary>
 		/// <returns>A list of <see cref="Capability"/> objects.</returns>
-		Task<IEnumerable<Capability>> ListAsync(CancellationToken cancellationToken);
+		Task<IEnumerable<ICapabilityListResult>> ListAsync(CancellationToken cancellationToken);
 	}
 }
