@@ -62,7 +62,11 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to DELETE FROM [FrameworkCapabilities]
+        ///DELETE FROM [MarketingDetail]
+        ///DELETE FROM [SolutionCapability]
+        ///DELETE FROM [Solution]
         ///DELETE FROM [Capability]
+        ///DELETE FROM [Organisation]
         ///.
         /// </summary>
         internal static string Clear {
@@ -105,6 +109,11 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Properties {
         ///DROP TABLE [CapabilityStatus]
         ///DROP TABLE [CapabilityCategory]
         ///DROP TABLE [Framework]
+        ///DROP TABLE [MarketingDetail]
+        ///DROP TABLE [SolutionCapability]
+        ///DROP TABLE [Solution]
+        ///DROP TABLE [SolutionCapabilityStatus]
+        ///DROP TABLE [Organisation]
         ///.
         /// </summary>
         internal static string Drop {
@@ -114,11 +123,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CREATE LOGIN NHSD WITH PASSWORD = &apos;DisruptTheMarket1!&apos;
-        ///
-        ///CREATE USER NHSD FOR LOGIN NHSD
-        ///
-        ///ALTER SERVER ROLE sysadmin ADD MEMBER [NHSD]
+        ///   Looks up a localized string similar to ALTER SERVER ROLE sysadmin ADD MEMBER [NHSD];
         ///.
         /// </summary>
         internal static string Permission {
@@ -133,11 +138,24 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Properties {
         ///INSERT INTO [dbo].[CapabilityStatus] ([Id] ,[Name]) VALUES (1,&apos;Effective&apos;)
         ///
         ///INSERT INTO [dbo].[CapabilityCategory] ([Id] ,[Name]) VALUES (0,&apos;Undefined&apos;)
+        ///
+        ///INSERT INTO [dbo].[SolutionCapabilityStatus] ([Id], [Name]) VALUES (1, &apos;Passed&apos;);
         ///.
         /// </summary>
         internal static string ReferenceData {
             get {
                 return ResourceManager.GetString("ReferenceData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CREATE LOGIN NHSD WITH PASSWORD = &apos;DisruptTheMarket1!&apos;
+        ///CREATE USER NHSD FOR LOGIN NHSD
+        ///.
+        /// </summary>
+        internal static string User {
+            get {
+                return ResourceManager.GetString("User", resourceCulture);
             }
         }
     }

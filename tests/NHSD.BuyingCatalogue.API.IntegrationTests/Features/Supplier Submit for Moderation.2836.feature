@@ -13,7 +13,6 @@ Background:
 
 @2836
 Scenario: 1. Solution successfully submitted for review
-    Given a Solution Sln1 exists
     When a request is made to submit Solution Sln1 for review
     Then a response status of 204 is returned
 
@@ -24,15 +23,12 @@ Scenario: 2. Solution not found
     Then a response status of 404 is returned
 
 @2836
-Scenario: 3. Solution id not present in request
-    Given a Solution Sln1 exists
-    When a request is made to submit Solution for review with no solution id
-    Then a response status of 400 is returned
-
-@2836
-@ignore
-Scenario: 4. Service failure
-    Given a Solution Sln1 exists
-        And the call to the database to set the field fails
+Scenario: 3. Service failure
+    Given the call to the database to set the field will fail
     When a request is made to submit Solution Sln1 for review
     Then a response status of 500 is returned
+
+@2836
+Scenario: 4. Solution id not present in request
+    When a request is made to submit Solution for review with no solution id
+    Then a response status of 400 is returned

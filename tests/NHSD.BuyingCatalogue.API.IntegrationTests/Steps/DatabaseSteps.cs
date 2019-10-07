@@ -16,10 +16,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             _response = response;
         }
 
-        [Given(@"the call to the database to set the field fails")]
+        [Given(@"the call to the database to set the field will fail")]
         public async Task GivenTheCallToTheDatabaseToSetTheFieldFails()
         {
-            await Database.DropUserAsync();
+            await Database.DropServerRoleAsync();
         }
     }
 }

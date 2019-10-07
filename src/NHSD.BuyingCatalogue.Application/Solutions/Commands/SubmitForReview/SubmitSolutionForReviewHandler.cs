@@ -40,7 +40,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
         /// </summary>
         /// <param name="solutionId">The key information to identfy a <see cref="Solution"/>.</param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A task representing an operation to retrieve a solution.</returns>
         private async Task<Solution> GetSolution(string solutionId, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(solutionId))

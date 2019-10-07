@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Testing.Data
@@ -15,14 +14,21 @@ namespace NHSD.BuyingCatalogue.Testing.Data
         private static async Task BuildDatabaseAsync()
         {
             await ConnectionAwaiter.AwaitConnectionAsync(ConnectionStrings.GPitFuturesSetup, 30);
-            await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, Properties.Resources.Permission);
+            await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, Properties.Resources.User);
             await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, Properties.Resources.Create);
+            await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, Properties.Resources.Permission);
             await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, Properties.Resources.ReferenceData);
         }
 
         public static async Task ClearAsync()
         {
             await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, Properties.Resources.Clear);
+            await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, Properties.Resources.Permission);
+        }
+
+        public static async Task DropServerRoleAsync()
+        {
+            await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, "ALTER SERVER ROLE sysadmin DROP MEMBER [NHSD];");
         }
 
         public static async Task DropAsync()
@@ -31,7 +37,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data
             await DropDatabaseAsync();
         }
 
-        public static async Task DropUserAsync()
+        private static async Task DropUserAsync()
         {
             await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, "DROP USER NHSD");
             await SqlRunner.ExecuteAsync(ConnectionStrings.Master, "DROP LOGIN NHSD");
