@@ -15,7 +15,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution
         public UpdateSolutionViewModel UpdateSolutionViewModel { get; }
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="SubmitForModerationCommand"/> class.
+        /// Initialises a new instance of the <see cref="UpdateSolutionCommand"/> class.
         /// </summary>
         public UpdateSolutionCommand(string solutionId, UpdateSolutionViewModel updateSolutionViewModel)
         {

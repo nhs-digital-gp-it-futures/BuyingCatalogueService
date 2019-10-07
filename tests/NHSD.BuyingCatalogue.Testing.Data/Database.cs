@@ -16,14 +16,13 @@ namespace NHSD.BuyingCatalogue.Testing.Data
             await ConnectionAwaiter.AwaitConnectionAsync(ConnectionStrings.GPitFuturesSetup, 30);
             await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, Properties.Resources.User);
             await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, Properties.Resources.Create);
-            await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, Properties.Resources.Permission);
             await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, Properties.Resources.ReferenceData);
         }
 
         public static async Task ClearAsync()
         {
             await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, Properties.Resources.Clear);
-            await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, Properties.Resources.Permission);
+            await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, "ALTER SERVER ROLE sysadmin ADD MEMBER [NHSD];");
         }
 
         public static async Task DropServerRoleAsync()

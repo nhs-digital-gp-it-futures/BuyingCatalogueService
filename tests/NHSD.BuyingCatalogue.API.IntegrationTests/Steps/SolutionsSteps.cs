@@ -148,13 +148,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             }
         }
 
-        [Given(@"a Solution (.*) exists")]
-        public async Task GivenASolutionSlnExists(string solutionId)
-        {
-            var solutionList = await SolutionEntity.FetchAllAsync();
-            solutionList.Select(x => x.Id).Should().Contain(solutionId);
-        }
-
         [When(@"a request is made to submit Solution (.*) for review")]
         public async Task WhenARequestIsMadeToSubmitSlnForReview(string solutionId)
         {

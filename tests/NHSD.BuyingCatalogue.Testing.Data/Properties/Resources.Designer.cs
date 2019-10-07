@@ -123,16 +123,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ALTER SERVER ROLE sysadmin ADD MEMBER [NHSD];
-        ///.
-        /// </summary>
-        internal static string Permission {
-            get {
-                return ResourceManager.GetString("Permission", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to INSERT [dbo].[Framework] ([Id], [Name], [Description], [Owner], [ActiveDate], [ExpiryDate]) VALUES (N&apos;NHSDGP001&apos;, N&apos;NHS Digital GP Futures Framework 1&apos;, NULL, NULL, NULL, NULL)
         ///
         ///INSERT INTO [dbo].[CapabilityStatus] ([Id] ,[Name]) VALUES (1,&apos;Effective&apos;)
