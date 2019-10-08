@@ -8,8 +8,8 @@ Background:
         | Name     |
         | GPs-R-Us |
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | OrganisationName |
-        | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         |
+        | SolutionID | SolutionName | SummaryDescription             | OrganisationName | SupplierStatusId |
+        | Sln1       | MedicOnline  | An full online medicine system | GPs-R-Us         | 1                |
 
 @2836
 Scenario: 1. Solution successfully submitted for review

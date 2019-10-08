@@ -9,10 +9,10 @@ Background:
         | GPs-R-Us |
         | Drs. Inc |
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | FullDescription     |
-        | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | Online medicine 1   |
-        | Sln2       | TakeTheRedPill | Eye opening experience         | Drs. Inc         | Eye opening6        |
-        | Sln3       | PracticeMgr    | Fully fledged GP system        | Drs. Inc         | Fully fledged GP 12 |
+        | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | FullDescription     | SupplierStatusId |
+        | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | Online medicine 1   | 1                |
+        | Sln2       | TakeTheRedPill | Eye opening experience         | Drs. Inc         | Eye opening6        | 1                |
+        | Sln3       | PracticeMgr    | Fully fledged GP system        | Drs. Inc         | Fully fledged GP 12 | 1                |
     And MarketingDetail exist
         | Solution | AboutUrl | Features                                            |
         | Sln1     | UrlSln1  | { "customJson" : { "id" : 1, "name" : "feature1" }} |
@@ -25,10 +25,10 @@ Scenario: 1. Marketing Data is updated against the solution
         | Summary                | Description            | AboutUrl   | MarketingData                                                   |
         | New type of medicine 3 | A new full description | UrlSln1New | { "differentJson" : { "customId" : 6, "customName" : "thing" }} |
     Then Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription      | FullDescription        |
-        | Sln1       | MedicOnline    | New type of medicine 3  | A new full description |
-        | Sln2       | TakeTheRedPill | Eye opening experience  | Eye opening6           |
-        | Sln3       | PracticeMgr    | Fully fledged GP system | Fully fledged GP 12    |
+        | SolutionID | SolutionName   | SummaryDescription      | FullDescription        | SupplierStatusId |
+        | Sln1       | MedicOnline    | New type of medicine 3  | A new full description | 1                |
+        | Sln2       | TakeTheRedPill | Eye opening experience  | Eye opening6           | 1                |
+        | Sln3       | PracticeMgr    | Fully fledged GP system | Fully fledged GP 12    | 1                |
     And MarketingDetail exist
         | Solution | AboutUrl   | Features                                                        |
         | Sln1     | UrlSln1New | { "differentJson" : { "customId" : 6, "customName" : "thing" }} |

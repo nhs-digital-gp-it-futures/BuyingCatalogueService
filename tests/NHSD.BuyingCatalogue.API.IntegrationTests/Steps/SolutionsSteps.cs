@@ -58,6 +58,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
                     .WithSummary(solutionTable.SummaryDescription)
                     .WithFullDescription(solutionTable.FullDescription)
                     .WithOrganisationId(organisations.First(o => o.Name == solutionTable.OrganisationName).Id)
+                    .WithSupplierStatusId(solutionTable.SupplierStatusId)
                     .Build()
                     .InsertAsync();
             }
@@ -181,6 +182,15 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             }).Should().BeEquivalentTo(expectedSolutions);
         }
 
+        [Then(@"the field \[SupplierStatusId] for Solution (.*) should correspond to '(.*)'")]
+        public async Task ThenFieldSolutionSupplierStatusIdShouldCorrespondTo(string solutionId, string supplierStatusName)
+        {
+            var status = await SolutionSupplierStatusEntity.GetByNameAsync(supplierStatusName);
+            var solution = await SolutionEntity.GetByIdAsync(solutionId);
+
+            solution.SupplierStatusId.Should().Be(status.Id);
+        }
+
         [StepArgumentTransformation]
         public List<string> TransformToListOfString(string commaSeparatedList)
         {
@@ -198,6 +208,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             public string OrganisationName { get; set; }
 
             public string FullDescription { get; set; }
+
+            public int SupplierStatusId { get; set; }
         }
 
         private class SolutionCapabilityTable
