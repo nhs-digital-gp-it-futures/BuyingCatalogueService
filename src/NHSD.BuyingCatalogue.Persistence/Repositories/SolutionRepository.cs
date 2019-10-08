@@ -98,20 +98,24 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
             {
                 using (IDbTransaction transaction = databaseConnection.BeginTransaction())
                 {
-                    const string updateSolutionSql = @"
-                                            UPDATE  Solution
-                                            SET     Solution.FullDescription = @description,
-                                                    Solution.Summary = @summary
-                                            WHERE   Solution.Id = @id;";
+                    const string updateSql = @"
+                                        UPDATE  Solution
+                                        SET     Solution.FullDescription = @description,
+                                                Solution.Summary = @summary
+                                        WHERE   Solution.Id = @solutionId;
 
-                    const string updateMarketingDetailSql = @"
-                                         UPDATE  MarketingDetail
-                                         SET     MarketingDetail.AboutUrl = @aboutUrl,
-                                                 MarketingDetail.Features = @features
-                                         WHERE   MarketingDetail.SolutionId = @solutionId;";
+                                        MERGE MarketingDetail AS target  
+                                        USING (SELECT @solutionId, @aboutUrl, @features) AS source (SolutionId, AboutURL, Features)
+                                        ON (target.SolutionId = source.SolutionId)  
+                                        WHEN MATCHED THEN
+                                            UPDATE
+                                            SET     AboutURL = source.AboutURL,
+                	                    			Features = source.Features
+                                        WHEN NOT MATCHED THEN
+                                            INSERT (SolutionId, AboutURL, Features)  
+                                            VALUES (source.SolutionId, source.AboutURL, source.Features);";
 
-                    await databaseConnection.ExecuteAsync(updateSolutionSql, new { id = updateSolutionRequest.Id, description = updateSolutionRequest.Description, summary = updateSolutionRequest.Summary }, transaction);
-                    await databaseConnection.ExecuteAsync(updateMarketingDetailSql, new { solutionId = updateSolutionRequest.Id, aboutUrl = updateSolutionRequest.AboutUrl, features = updateSolutionRequest.Features }, transaction);
+                    await databaseConnection.ExecuteAsync(updateSql, new { solutionId = updateSolutionRequest.Id, description = updateSolutionRequest.Description, summary = updateSolutionRequest.Summary, aboutUrl = updateSolutionRequest.AboutUrl, features = updateSolutionRequest.Features }, transaction);
 
                     transaction.Commit();
                 }

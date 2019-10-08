@@ -49,7 +49,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             _response.Result = await Client.GetAsync(string.Format(ByIdSolutionsUrl, solutionId));
         }
 
-        [Given(@"a POST request is made to update solution (.*) features")]
+        [When(@"a POST request is made to update solution (.*) features")]
         public async Task GivenAPOSTRequestIsMadeToUpdateSolutionSlnFeatures(string solutionId, Table table)
         {
             var baseContent =  table.CreateInstance<MarketingDetailPostTable>();
@@ -100,6 +100,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
                 m.AboutUrl,
                 Features = JObject.Parse(m.Features).ToString()
             }).Should().BeEquivalentTo(expectedMarketingDetails);
+        }
+
+        [Given(@"a MarketingDetail (.*) does not exist")]
+        public async Task GivenAMarketingDetailDoesNotExist(string solutionId)
+        {
+            var marketingDetailList = await MarketingDetailEntity.FetchAllAsync();
+            marketingDetailList.Select(x => x.SolutionId).Should().NotContain(solutionId);
         }
 
         private class MarketingDetailTable

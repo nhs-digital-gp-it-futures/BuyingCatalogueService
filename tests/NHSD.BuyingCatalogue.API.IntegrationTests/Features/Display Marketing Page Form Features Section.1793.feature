@@ -27,4 +27,3 @@ Scenario: 1. Sections presented
         | JsonPath                               | Value    |
         | solution.marketingData.customJson.id   | 3        |
         | solution.marketingData.customJson.name | feature3 |
-    And the solution contains AboutUrl of UrlSln3 

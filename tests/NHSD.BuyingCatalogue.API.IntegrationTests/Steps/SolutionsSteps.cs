@@ -191,6 +191,20 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             solution.SupplierStatusId.Should().Be(status.Id);
         }
 
+        [Then(@"the solution contains SummaryDescription of '(.*)'")]
+        public async Task ThenTheSolutionContainsSummaryDescriptionOf(string summary)
+        {
+            var content = await _response.ReadBody();
+            content.SelectToken("solution.summary").ToString().Should().Be(summary);
+        }
+
+        [Then(@"the solution contains FullDescription of '(.*)'")]
+        public async Task ThenTheSolutionContainsFullDescriptionOf(string description)
+        {
+            var content = await _response.ReadBody();
+            content.SelectToken("solution.description").ToString().Should().Be(description);
+        }
+
         [StepArgumentTransformation]
         public List<string> TransformToListOfString(string commaSeparatedList)
         {
