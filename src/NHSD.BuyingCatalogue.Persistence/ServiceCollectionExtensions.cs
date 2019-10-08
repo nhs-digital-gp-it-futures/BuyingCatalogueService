@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using NHSD.BuyingCatalogue.Application.Persistence;
+using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Persistence.Repositories;
 
 namespace NHSD.BuyingCatalogue.Persistence
@@ -9,6 +9,7 @@ namespace NHSD.BuyingCatalogue.Persistence
         public static IServiceCollection RegisterPersistence(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<ICapabilityRepository, CapabilityRepository>();
+            serviceCollection.AddTransient<ISolutionRepository, SolutionRepository>();
             return serviceCollection;
         }
     }

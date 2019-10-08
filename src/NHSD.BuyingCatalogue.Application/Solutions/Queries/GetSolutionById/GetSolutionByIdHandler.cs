@@ -10,17 +10,17 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
     /// <summary>
     /// Defines the request handler for the <see cref="GetSolutionByIdQuery"/>.
     /// </summary>
-    public sealed class GetSolutionByIdHandler : IRequestHandler<GetSolutionByIdQuery, GetSolutionByIdResult>
+    internal sealed class GetSolutionByIdHandler : IRequestHandler<GetSolutionByIdQuery, GetSolutionByIdResult>
     {
-        private readonly ISolutionRepository _solutionsRepository;
+        private readonly SolutionReader _solutionReader;
         private readonly IMapper _mapper;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="GetSolutionByIdHandler"/> class.
         /// </summary>
-        public GetSolutionByIdHandler(ISolutionRepository solutionsRepository, IMapper mapper)
+        public GetSolutionByIdHandler(SolutionReader solutionReader, IMapper mapper)
         {
-            _solutionsRepository = solutionsRepository ?? throw new System.ArgumentNullException(nameof(solutionsRepository));
+            _solutionReader = solutionReader;
             _mapper = mapper ?? throw new System.ArgumentNullException(nameof(mapper));
         }
 
@@ -32,7 +32,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
         /// <returns>A task representing an operation to get the result of this query.</returns>
         public async Task<GetSolutionByIdResult> Handle(GetSolutionByIdQuery request, CancellationToken cancellationToken)
         {
-            Solution solution = await _solutionsRepository.ByIdAsync(request.Id, cancellationToken);
+            Solution solution = await _solutionReader.ByIdAsync(request.Id, cancellationToken);
 
             return new GetSolutionByIdResult
             {

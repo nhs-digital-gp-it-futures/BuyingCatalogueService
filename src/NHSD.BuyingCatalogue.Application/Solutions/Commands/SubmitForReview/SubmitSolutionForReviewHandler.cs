@@ -4,20 +4,23 @@ using System.Threading.Tasks;
 using MediatR;
 using NHSD.BuyingCatalogue.Application.Exceptions;
 using NHSD.BuyingCatalogue.Application.Persistence;
+using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
 {
-    public sealed class SubmitSolutionForReviewHandler : IRequestHandler<SubmitSolutionForReviewCommand>
+    internal sealed class SubmitSolutionForReviewHandler : IRequestHandler<SubmitSolutionForReviewCommand>
     {
-        private readonly ISolutionRepository _solutionsRepository;
+        private readonly SolutionReader _solutionReader;
+        private readonly ISolutionRepository _solutionRepository;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="SubmitSolutionForReviewHandler"/> class.
         /// </summary>
-        public SubmitSolutionForReviewHandler(ISolutionRepository solutionRepository)
+        public SubmitSolutionForReviewHandler(SolutionReader solutionReader, ISolutionRepository solutionRepository)
         {
-            _solutionsRepository = solutionRepository ?? throw new ArgumentNullException(nameof(solutionRepository));
+            _solutionReader = solutionReader;
+            _solutionRepository = solutionRepository;
         }
 
         /// <summary>
@@ -30,7 +33,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
         {
             Solution solution = await GetSolution(request.SolutionId, cancellationToken);
 
-            await _solutionsRepository.UpdateSupplierStatusAsync(solution, SupplierStatus.AuthorityReview, cancellationToken);
+            await _solutionRepository.UpdateSupplierStatusAsync(new UpdateSolutionSupplierStatusRequest { Id = solution.Id, SupplierStatusId = SupplierStatus.AuthorityReview.Id }, cancellationToken);
 
             return Unit.Value;
         }
@@ -48,7 +51,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
                 throw new ArgumentException($"{nameof(solutionId)} cannot be null or empty.", nameof(solutionId));
             }
 
-            Solution solution = await _solutionsRepository.ByIdAsync(solutionId, cancellationToken);
+            Solution solution = await _solutionReader.ByIdAsync(solutionId, cancellationToken);
             return solution ?? throw new NotFoundException(nameof(Solution), solutionId);
         }
     }

@@ -8,6 +8,9 @@ namespace NHSD.BuyingCatalogue.Application
         public static IServiceCollection RegisterApplication(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<CapabilityReader>();
+            serviceCollection.AddTransient<SolutionListReader>();
+            serviceCollection.AddTransient<SolutionReader>();
+            serviceCollection.AddTransient<SolutionUpdater>();
             return serviceCollection;
         }
     }

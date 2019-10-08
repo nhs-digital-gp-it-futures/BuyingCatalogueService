@@ -7,14 +7,10 @@ using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.API.Infrastructure.Filters;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
 using NHSD.BuyingCatalogue.Application;
-using NHSD.BuyingCatalogue.Application.Infrastructure;
-using NHSD.BuyingCatalogue.Application.Infrastructure.HealthChecks;
-using NHSD.BuyingCatalogue.Application.Persistence;
+using NHSD.BuyingCatalogue.Contracts.Infrastructure.HealthChecks;
 using NHSD.BuyingCatalogue.Persistence;
 using NHSD.BuyingCatalogue.Persistence.HealthChecks;
 using NHSD.BuyingCatalogue.Persistence.Infrastructure;
-using NHSD.BuyingCatalogue.Persistence.Repositories;
-using Swashbuckle.AspNetCore.Swagger;
 
 namespace NHSD.BuyingCatalogue.API.Extensions
 {
@@ -31,7 +27,6 @@ namespace NHSD.BuyingCatalogue.API.Extensions
 		public static IServiceCollection AddCustomDbFactory(this IServiceCollection services)
 		{
 			services.AddSingleton<IDbConnectionFactory, DbConnectionFactory>();
-
 			return services;
 		}
 
@@ -42,8 +37,6 @@ namespace NHSD.BuyingCatalogue.API.Extensions
 		/// <returns>The extended service collection instance.</returns>
 		public static IServiceCollection AddCustomRepositories(this IServiceCollection services)
 		{
-			services.AddSingleton<ISolutionRepository, SolutionRepository>();
-
             services
                 .RegisterApplication()
                 .RegisterPersistence();

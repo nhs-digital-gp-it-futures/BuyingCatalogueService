@@ -4,8 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Extensions.Configuration;
-using NHSD.BuyingCatalogue.Application.Infrastructure;
-using NHSD.BuyingCatalogue.Application.Infrastructure.HealthChecks;
+using NHSD.BuyingCatalogue.Contracts.Infrastructure;
+using NHSD.BuyingCatalogue.Contracts.Infrastructure.HealthChecks;
 using NHSD.BuyingCatalogue.Persistence.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Persistence.HealthChecks

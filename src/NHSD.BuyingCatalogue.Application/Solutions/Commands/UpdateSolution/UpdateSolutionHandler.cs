@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -8,18 +9,20 @@ using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution
 {
-    public sealed class UpdateSolutionHandler : IRequestHandler<UpdateSolutionCommand>
+    internal sealed class UpdateSolutionHandler : IRequestHandler<UpdateSolutionCommand>
     {
-        private readonly ISolutionRepository _solutionsRepository;
+        private readonly SolutionReader _solutionReader;
+        private readonly SolutionUpdater _solutionUpdater;
         private readonly IMapper _mapper;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="UpdateSolutionHandler"/> class.
         /// </summary>
-        public UpdateSolutionHandler(ISolutionRepository solutionRepository, IMapper mapper)
+        public UpdateSolutionHandler(SolutionReader solutionReader, SolutionUpdater solutionUpdater, IMapper mapper)
         {
-            _solutionsRepository = solutionRepository ?? throw new System.ArgumentNullException(nameof(solutionRepository));
-            _mapper = mapper ?? throw new System.ArgumentNullException(nameof(mapper));
+            _solutionReader = solutionReader;
+            _solutionUpdater = solutionUpdater;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -33,7 +36,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution
             UpdateSolutionViewModel updateSolutionViewModel = request.UpdateSolutionViewModel;
 
             string solutionId = request.SolutionId;
-            Solution solution = await _solutionsRepository.ByIdAsync(solutionId, cancellationToken);
+            Solution solution = await _solutionReader.ByIdAsync(solutionId, cancellationToken);
             if (solution is null)
             {
                 throw new NotFoundException(nameof(Solution), solutionId);
@@ -41,7 +44,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution
 
             Solution updatedSolution = _mapper.Map(updateSolutionViewModel, solution);
 
-            await _solutionsRepository.UpdateAsync(updatedSolution, cancellationToken);
+            await _solutionUpdater.UpdateAsync(updatedSolution, cancellationToken);
 
             return Unit.Value;
         }

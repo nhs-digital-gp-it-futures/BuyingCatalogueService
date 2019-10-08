@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace NHSD.BuyingCatalogue.Application.Infrastructure
+namespace NHSD.BuyingCatalogue.Contracts.Infrastructure
 {
     /// <summary>
     /// Provides the settings for the application.

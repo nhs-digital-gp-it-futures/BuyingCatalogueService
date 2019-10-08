@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using NHSD.BuyingCatalogue.Application.Infrastructure;
+using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Persistence.Infrastructure
 {

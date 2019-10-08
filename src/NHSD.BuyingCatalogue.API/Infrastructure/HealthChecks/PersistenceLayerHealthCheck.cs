@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
-using NHSD.BuyingCatalogue.Application.Infrastructure.HealthChecks;
+using NHSD.BuyingCatalogue.Contracts.Infrastructure.HealthChecks;
 
 namespace NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks
 {

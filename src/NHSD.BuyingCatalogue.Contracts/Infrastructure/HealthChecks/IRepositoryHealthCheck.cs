@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NHSD.BuyingCatalogue.Application.Infrastructure.HealthChecks
+namespace NHSD.BuyingCatalogue.Contracts.Infrastructure.HealthChecks
 {
     /// <summary>
     /// 

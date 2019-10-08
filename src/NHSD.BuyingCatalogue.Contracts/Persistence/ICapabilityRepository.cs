@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
 
-namespace NHSD.BuyingCatalogue.Application.Persistence
+namespace NHSD.BuyingCatalogue.Contracts.Persistence
 {
     /// <summary>
     /// Defines a data contract representing the functionality for the persistence layer specific to the <see cref="Capability"/> domain.

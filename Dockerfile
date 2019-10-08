@@ -3,6 +3,7 @@ WORKDIR /app
 
 # Copy application projects
 COPY *.sln .
+COPY src/NHSD.BuyingCatalogue.Contracts/*.csproj ./src/NHSD.BuyingCatalogue.Contracts/
 COPY src/NHSD.BuyingCatalogue.API/*.csproj ./src/NHSD.BuyingCatalogue.API/
 COPY src/NHSD.BuyingCatalogue.Application/*.csproj ./src/NHSD.BuyingCatalogue.Application/
 COPY src/NHSD.BuyingCatalogue.Domain/*.csproj ./src/NHSD.BuyingCatalogue.Domain/
