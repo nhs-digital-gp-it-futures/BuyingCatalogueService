@@ -9,28 +9,13 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Data
 		{
 			Solution solution = CreateDefaultSolution(solutionId);
 
-            throw new Exception("Bang");
-
-
-			//foreach (var capability in CapabilityListTestData.One())
-			//{
-			//	solution.AddCapability(capability);
-			//}
-
-			return solution;
-		}
+            return solution;
+        }
 
 		internal static Solution DefaultWithNoCapabilites(string solutionId = null)
 		{
 			return CreateDefaultSolution(solutionId);
 		}
-
-        private static Solution CreateDefaultSolution()
-        {
-            var id = Guid.NewGuid().ToString();
-
-            return CreateDefaultSolution(id);
-        }
 
         private static Solution CreateDefaultSolution(string solutionId)
 		{

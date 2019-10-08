@@ -31,7 +31,7 @@
 //        public async Task Handle_CallsRepository_Once()
 //        {
 //            //ARRANGE
-//            var testData = new [] { SolutionTestData.Default(), SolutionTestData.DefaultWithNoCapabilites() };
+//            var testData = new[] { SolutionTestData.Default(), SolutionTestData.DefaultWithNoCapabilites() };
 //            var capabilityIdList = new HashSet<Guid>();
 
 //            _repository.Setup(x => x.ListAsync(capabilityIdList, CancellationToken.None)).Returns(() => Task.FromResult<IEnumerable<Solution>>(testData));
@@ -49,7 +49,7 @@
 //        public async Task Handle_CallsMapper_Once()
 //        {
 //            //ARRANGE
-//            var testData = new [] { SolutionTestData.Default(), SolutionTestData.Default() };
+//            var testData = new[] { SolutionTestData.Default(), SolutionTestData.Default() };
 //            var capabilityIdList = new HashSet<Guid>();
 
 //            _repository.Setup(x => x.ListAsync(capabilityIdList, CancellationToken.None)).Returns(() => Task.FromResult<IEnumerable<Solution>>(testData));
@@ -81,7 +81,7 @@
 //        public async Task Handle_Data_ReturnsData()
 //        {
 //            //ARRANGE
-//            var testData = new [] { SolutionTestData.Default(), SolutionTestData.DefaultWithNoCapabilites() };
+//            var testData = new[] { SolutionTestData.Default(), SolutionTestData.DefaultWithNoCapabilites() };
 //            var mapRes = new List<SolutionSummaryViewModel>();
 //            var capabilityIdList = new HashSet<Guid>();
 
