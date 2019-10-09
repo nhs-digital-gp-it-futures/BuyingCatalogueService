@@ -96,14 +96,13 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
 
             using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
             {
-                using (IDbTransaction transaction = databaseConnection.BeginTransaction())
-                {
-                    const string updateSql = @"
-                                        UPDATE  Solution
-                                        SET     Solution.FullDescription = @description,
-                                                Solution.Summary = @summary
-                                        WHERE   Solution.Id = @solutionId;
+                const string updateSql = @"
+                                    UPDATE  Solution
+                                    SET     Solution.FullDescription = @description,
+                                            Solution.Summary = @summary
+                                    WHERE   Solution.Id = @solutionId;
 
+                                    IF(@@ROWCOUNT > 0)
                                         MERGE MarketingDetail AS target  
                                         USING (SELECT @solutionId, @aboutUrl, @features) AS source (SolutionId, AboutURL, Features)
                                         ON (target.SolutionId = source.SolutionId)  
@@ -115,10 +114,7 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                                             INSERT (SolutionId, AboutURL, Features)  
                                             VALUES (source.SolutionId, source.AboutURL, source.Features);";
 
-                    await databaseConnection.ExecuteAsync(updateSql, new { solutionId = updateSolutionRequest.Id, description = updateSolutionRequest.Description, summary = updateSolutionRequest.Summary, aboutUrl = updateSolutionRequest.AboutUrl, features = updateSolutionRequest.Features }, transaction);
-
-                    transaction.Commit();
-                }
+                await databaseConnection.ExecuteAsync(updateSql, new { solutionId = updateSolutionRequest.Id, description = updateSolutionRequest.Description, summary = updateSolutionRequest.Summary, aboutUrl = updateSolutionRequest.AboutUrl, features = updateSolutionRequest.Features });
             }
         }
 
@@ -137,17 +133,12 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
 
             using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
             {
-                using (IDbTransaction transaction = databaseConnection.BeginTransaction())
-                {
-                    const string updateSolutionSupplierStatusSql = @"
+                const string updateSolutionSupplierStatusSql = @"
                                             UPDATE  Solution
                                             SET		Solution.SupplierStatusId = @supplierStatusId
                                             WHERE   Solution.Id = @id;";
 
-                    await databaseConnection.ExecuteAsync(updateSolutionSupplierStatusSql, new { id = updateSolutionSupplierStatusRequest.Id, supplierStatusId = updateSolutionSupplierStatusRequest.SupplierStatusId }, transaction);
-
-                    transaction.Commit();
-                }
+                await databaseConnection.ExecuteAsync(updateSolutionSupplierStatusSql, updateSolutionSupplierStatusRequest);
             }
         }
     }
