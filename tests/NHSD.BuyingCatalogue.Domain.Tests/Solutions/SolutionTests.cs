@@ -1,6 +1,6 @@
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 using NUnit.Framework;
-using Shouldly;
+using FluentAssertions;
 
 namespace NHSD.BuyingCatalogue.Domain.Tests.Solutions
 {
@@ -17,7 +17,7 @@ namespace NHSD.BuyingCatalogue.Domain.Tests.Solutions
             var solution = new Solution();
 
             //Assert
-            solution.SupplierStatus.ShouldBe(expected);
+            solution.SupplierStatus.Should().Be(expected);
         }
     }
 }

@@ -1,8 +1,8 @@
 using System;
+using FluentAssertions;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 using NHSD.BuyingCatalogue.Domain.Infrastructure;
 using NUnit.Framework;
-using Shouldly;
 
 namespace NHSD.BuyingCatalogue.Domain.Tests.Solutions
 {
@@ -12,13 +12,13 @@ namespace NHSD.BuyingCatalogue.Domain.Tests.Solutions
         [Test]
         public void GivenSameValues_ShouldBeEqual()
         {
-            SupplierStatus.Draft.ShouldBe(SupplierStatus.Draft);
+            SupplierStatus.Draft.Should().Be(SupplierStatus.Draft);
         }
 
         [Test]
         public void GivenDifferentValues_ShouldNotBeEqual()
         {
-            SupplierStatus.Draft.ShouldNotBe(SupplierStatus.AuthorityReview);
+            SupplierStatus.Draft.Should().NotBe(SupplierStatus.AuthorityReview);
         }
 
         [Test]
@@ -32,19 +32,19 @@ namespace NHSD.BuyingCatalogue.Domain.Tests.Solutions
 
             var actual = Enumeration.GetAll<SupplierStatus>();
 
-            actual.ShouldBe(expected, true);
+            actual.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
         }
 
         [Test]
         public void FromValue_GivenValueOne_ShouldBeDraft()
         {
-            Enumeration.FromValue<SupplierStatus>(1).ShouldBe(SupplierStatus.Draft);
+            Enumeration.FromValue<SupplierStatus>(1).Should().Be(SupplierStatus.Draft);
         }
 
         [Test]
         public void FromValue_GivenValueTwo_ShouldBeAuthorityReview()
         {
-            Enumeration.FromValue<SupplierStatus>(2).ShouldBe(SupplierStatus.AuthorityReview);
+            Enumeration.FromValue<SupplierStatus>(2).Should().Be(SupplierStatus.AuthorityReview);
         }
 
         [Test]
@@ -57,13 +57,13 @@ namespace NHSD.BuyingCatalogue.Domain.Tests.Solutions
                 var actual = Enumeration.FromValue<SupplierStatus>(expectedValue);
             });
 
-            exception.Message.ShouldBe($"'{expectedValue}' is not a valid value in {typeof(SupplierStatus)}");
+            exception.Message.Should().Be($"'{expectedValue}' is not a valid value in {typeof(SupplierStatus)}");
         }
 
         [Test]
         public void FromName_GivenNameAuthorityReview_ShouldBeEqual()
         {
-            Enumeration.FromName<SupplierStatus>("authorityreview").ShouldBe(SupplierStatus.AuthorityReview);
+            Enumeration.FromName<SupplierStatus>("authorityreview").Should().Be(SupplierStatus.AuthorityReview);
         }
 
         [Test]
@@ -76,19 +76,19 @@ namespace NHSD.BuyingCatalogue.Domain.Tests.Solutions
                 var actual = Enumeration.FromName<SupplierStatus>(expectedName);
             });
 
-            exception.Message.ShouldBe($"'{expectedName}' is not a valid name in {typeof(SupplierStatus)}");
+            exception.Message.Should().Be($"'{expectedName}' is not a valid name in {typeof(SupplierStatus)}");
         }
 
         [Test]
         public void CompareTo_GivenSupplierStatusDraft_ShouldBeEqual()
         {
-            SupplierStatus.Draft.CompareTo(SupplierStatus.Draft).ShouldBe(0);
+            SupplierStatus.Draft.CompareTo(SupplierStatus.Draft).Should().Be(0);
         }
 
         [Test]
         public void ToString_GivenSupplierStatusDraft_ShouldBeEqual()
         {
-            SupplierStatus.Draft.ToString().ShouldBe("Draft");
+            SupplierStatus.Draft.ToString().Should().Be("Draft");
         }
     }
 }
