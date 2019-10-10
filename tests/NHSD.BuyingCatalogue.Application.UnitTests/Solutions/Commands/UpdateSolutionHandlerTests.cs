@@ -1,7 +1,7 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentAssertions;
 using Moq;
 using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Application.Exceptions;
@@ -11,7 +11,6 @@ using NHSD.BuyingCatalogue.Application.UnitTests.Data;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 using NUnit.Framework;
-using Shouldly;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Commands
 {
@@ -116,8 +115,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Commands
             //ACT & ASSERT
             var actual = Assert.ThrowsAsync<NotFoundException>(async () => await testObject.Handle(command, CancellationToken.None));
 
-            actual.ShouldNotBeNull();
-            actual.Message.ShouldBe<string>($"Entity named '{nameof(Solution)}' could not be found matching the ID '{testData.Id}'.");
+            actual.Should().NotBeNull();
+            actual.Message.Should().Be($"Entity named '{nameof(Solution)}' could not be found matching the ID '{testData.Id}'.");
         }
 
         private static JObject BuildMarketingData()

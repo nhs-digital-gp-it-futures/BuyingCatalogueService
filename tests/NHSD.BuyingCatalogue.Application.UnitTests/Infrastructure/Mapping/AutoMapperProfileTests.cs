@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper.Configuration;
+using FluentAssertions;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
 using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
@@ -11,7 +12,6 @@ using NHSD.BuyingCatalogue.Domain.Entities.Capabilities;
 using NHSD.BuyingCatalogue.Domain.Entities.Organisations;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 using NUnit.Framework;
-using Shouldly;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests.Infrastructure.Mapping
 {
@@ -46,7 +46,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Infrastructure.Mapping
 
             var mappings = configs.Select(tmc => new KeyValuePair<Type, Type>(tmc.SourceType, tmc.DestinationType));
 
-            SupportedMappings().ShouldBe(mappings, ignoreOrder: true);
+            SupportedMappings().Should().BeEquivalentTo(mappings);
         }
     }
 }

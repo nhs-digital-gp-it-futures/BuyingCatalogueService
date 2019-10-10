@@ -1,4 +1,6 @@
-﻿namespace NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities
+using System;
+
+namespace NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities
 {
 	/// <summary>
 	/// Provides the view representation for the <see cref="Capability"/> entity.
@@ -8,7 +10,7 @@
 		/// <summary>
 		/// Identifier of the capability.
 		/// </summary>
-		public string Id { get; set; }
+		public Guid Id { get; set; }
 
 		/// <summary>
 		/// Name of the capability.

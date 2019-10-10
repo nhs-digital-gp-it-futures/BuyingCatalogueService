@@ -1,13 +1,13 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentAssertions;
 using Moq;
 using NHSD.BuyingCatalogue.Application.Persistence;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 using NUnit.Framework;
-using Shouldly;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
 {
@@ -69,8 +69,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
             var result = await testObject.Handle(new GetSolutionByIdQuery("does not exist"), CancellationToken.None);
 
             //ASSERT
-            result.ShouldNotBeNull();
-            result.Solution.ShouldBeNull();
+            result.Should().NotBeNull();
+            result.Solution.Should().BeNull();
         }
 
         [Test]
@@ -89,7 +89,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions.Queries
             var result = await testObject.Handle(new GetSolutionByIdQuery(testData.Id), CancellationToken.None);
 
             //ASSERT
-            result.Solution.ShouldBe(mapRes);
+            result.Solution.Should().Be(mapRes);
         }
 
         private ISolutionResult GetMockSolutionResult()
