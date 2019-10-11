@@ -33,18 +33,9 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution
         /// <returns>A task representing an operation to get the result of this command.</returns>
         public async Task<Unit> Handle(UpdateSolutionCommand request, CancellationToken cancellationToken)
         {
-            UpdateSolutionViewModel updateSolutionViewModel = request.UpdateSolutionViewModel;
+            Solution solution = await _solutionReader.ByIdAsync(request.SolutionId, cancellationToken);
 
-            string solutionId = request.SolutionId;
-            Solution solution = await _solutionReader.ByIdAsync(solutionId, cancellationToken);
-            if (solution is null)
-            {
-                throw new NotFoundException(nameof(Solution), solutionId);
-            }
-
-            Solution updatedSolution = _mapper.Map(updateSolutionViewModel, solution);
-
-            await _solutionUpdater.UpdateAsync(updatedSolution, cancellationToken);
+            await _solutionUpdater.UpdateAsync(_mapper.Map(request.UpdateSolutionViewModel, solution), cancellationToken);
 
             return Unit.Value;
         }

@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
+using NHSD.BuyingCatalogue.Application.Exceptions;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
@@ -19,9 +20,10 @@ namespace NHSD.BuyingCatalogue.Application.Persistence
 
         public async Task<Solution> ByIdAsync(string id, CancellationToken cancellationToken)
         {
-            var solution = await _solutionRepository.ByIdAsync(id, cancellationToken);
+            var solution = (await _solutionRepository.ByIdAsync(id, cancellationToken))
+                ?? throw new NotFoundException(nameof(Solution), id);
 
-            return solution == null ? null : Map(solution);
+            return Map(solution);
         }
 
         private Solution Map(ISolutionResult solutionResult)

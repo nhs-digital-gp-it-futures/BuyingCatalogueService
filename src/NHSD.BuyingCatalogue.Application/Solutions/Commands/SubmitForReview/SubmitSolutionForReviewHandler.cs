@@ -51,8 +51,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
                 throw new ArgumentException($"{nameof(solutionId)} cannot be null or empty.", nameof(solutionId));
             }
 
-            Solution solution = await _solutionReader.ByIdAsync(solutionId, cancellationToken);
-            return solution ?? throw new NotFoundException(nameof(Solution), solutionId);
+            return await _solutionReader.ByIdAsync(solutionId, cancellationToken);
         }
     }
 }

@@ -47,7 +47,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
 
-        [Test, Ignore("Not yet implemented")]
+        [Test]
         public void ShouldThrowWhenSolutionNotPresent()
         {
             var exception = Assert.ThrowsAsync<NotFoundException>(() =>
