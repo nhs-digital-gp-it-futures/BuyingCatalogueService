@@ -6,8 +6,6 @@ namespace NHSD.BuyingCatalogue.Application.Persistence
     {
         public string Id { get; set; }
 
-        public string Name { get; set; }
-
         public string Summary { get; set; }
 
         public string Description { get; set; }

@@ -319,7 +319,6 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 
             var mockUpdateSolutionRequest = new Mock<IUpdateSolutionRequest>();
             mockUpdateSolutionRequest.Setup(m => m.Id).Returns("Sln1");
-            mockUpdateSolutionRequest.Setup(m => m.Name).Returns("Solution4");
             mockUpdateSolutionRequest.Setup(m => m.Summary).Returns("Sln4Summary");
             mockUpdateSolutionRequest.Setup(m => m.Description).Returns("Sln4Description");
             mockUpdateSolutionRequest.Setup(m => m.AboutUrl).Returns("AboutUrl4");
@@ -349,7 +348,6 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         {
             var mockUpdateSolutionRequest = new Mock<IUpdateSolutionRequest>();
             mockUpdateSolutionRequest.Setup(m => m.Id).Returns("Sln1");
-            mockUpdateSolutionRequest.Setup(m => m.Name).Returns("Solution4");
             mockUpdateSolutionRequest.Setup(m => m.Summary).Returns("Sln4Summary");
             mockUpdateSolutionRequest.Setup(m => m.Description).Returns("Sln4Description");
             mockUpdateSolutionRequest.Setup(m => m.AboutUrl).Returns("AboutUrl4");
@@ -383,7 +381,6 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 
             var mockUpdateSolutionRequest = new Mock<IUpdateSolutionRequest>();
             mockUpdateSolutionRequest.Setup(m => m.Id).Returns("Sln1");
-            mockUpdateSolutionRequest.Setup(m => m.Name).Returns("Solution4");
             mockUpdateSolutionRequest.Setup(m => m.Summary).Returns("Sln4Summary");
             mockUpdateSolutionRequest.Setup(m => m.Description).Returns("Sln4Description");
             mockUpdateSolutionRequest.Setup(m => m.AboutUrl).Returns("AboutUrl4");

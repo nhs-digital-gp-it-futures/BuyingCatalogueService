@@ -26,7 +26,6 @@ namespace NHSD.BuyingCatalogue.Application.Persistence
             => new UpdateSolutionRequest
             {
                 Id = solution.Id,
-                Name = solution.Name,
                 Summary = solution.Summary,
                 Description = solution.Description,
                 Features = solution.Features,
