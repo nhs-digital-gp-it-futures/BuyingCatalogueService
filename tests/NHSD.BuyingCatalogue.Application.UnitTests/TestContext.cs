@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
 using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests
@@ -16,6 +17,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
         public ListCapabilitiesHandler ListCapabilitiesHandler => (ListCapabilitiesHandler)_scope.ListCapabilitiesHandler;
 
+        public ListSolutionsHandler ListSolutionsHandler => (ListSolutionsHandler)_scope.ListSolutionsHandler;
+
         private Scope _scope;
 
         public TestContext()
@@ -27,6 +30,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             serviceCollection.RegisterApplication();
 
             serviceCollection.AddTransient<IRequestHandler<ListCapabilitiesQuery, ListCapabilitiesResult>, ListCapabilitiesHandler>();
+            serviceCollection.AddTransient<IRequestHandler<ListSolutionsQuery, ListSolutionsResult>, ListSolutionsHandler>();
 
             serviceCollection.AddSingleton<Scope>();
             _scope = serviceCollection.BuildServiceProvider().GetService<Scope>();
@@ -50,9 +54,13 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
         {
             public IRequestHandler<ListCapabilitiesQuery, ListCapabilitiesResult> ListCapabilitiesHandler { get; }
 
-            public Scope(IRequestHandler<ListCapabilitiesQuery, ListCapabilitiesResult> listCapabilitiesHandler)
+            public IRequestHandler<ListSolutionsQuery, ListSolutionsResult> ListSolutionsHandler { get; }
+
+            public Scope(IRequestHandler<ListCapabilitiesQuery, ListCapabilitiesResult> listCapabilitiesHandler,
+                IRequestHandler<ListSolutionsQuery, ListSolutionsResult> listSolutionsHandler)
             {
                 ListCapabilitiesHandler = listCapabilitiesHandler;
+                ListSolutionsHandler = listSolutionsHandler;
             }
         }
     }

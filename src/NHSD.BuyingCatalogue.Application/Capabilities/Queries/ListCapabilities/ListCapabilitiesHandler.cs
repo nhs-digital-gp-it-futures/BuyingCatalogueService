@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using NHSD.BuyingCatalogue.Application.Persistence;
-using NHSD.BuyingCatalogue.Domain.Entities.Capabilities;
 
 namespace NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities
 {
@@ -37,7 +36,7 @@ namespace NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities
         /// <returns>The result of the query.</returns>
         public async Task<ListCapabilitiesResult> Handle(ListCapabilitiesQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<Capability> capabilities = await _capabilityReader.ListAsync(cancellationToken).ConfigureAwait(false);
+            var capabilities = await _capabilityReader.ListAsync(cancellationToken).ConfigureAwait(false);
 
             return new ListCapabilitiesResult(_mapper.Map<IEnumerable<CapabilityViewModel>>(capabilities));
         }

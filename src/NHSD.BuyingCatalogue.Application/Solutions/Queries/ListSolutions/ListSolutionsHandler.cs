@@ -1,12 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using NHSD.BuyingCatalogue.Application.Persistence;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions
 {
@@ -35,12 +32,9 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions
         /// <returns>The result of the query.</returns>
         public async Task<ListSolutionsResult> Handle(ListSolutionsQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<Solution> solutionList = await _solutionListReader.ListAsync(request.CapabilityIdList, cancellationToken).ConfigureAwait(false);
+            var solutionList = await _solutionListReader.ListAsync(request.CapabilityIdList, cancellationToken).ConfigureAwait(false);
 
-            return new ListSolutionsResult
-            {
-                Solutions = _mapper.Map<IEnumerable<SolutionSummaryViewModel>>(solutionList)
-            };
+            return new ListSolutionsResult(_mapper.Map<IEnumerable<SolutionSummaryViewModel>>(solutionList));
         }
     }
 }

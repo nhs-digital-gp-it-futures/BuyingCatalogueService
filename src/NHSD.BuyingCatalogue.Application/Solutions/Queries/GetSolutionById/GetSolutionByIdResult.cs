@@ -8,6 +8,8 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
         /// <summary>
         /// The details of the matching solution. If the solution could not be found, then return null.
         /// </summary>
-        public SolutionByIdViewModel Solution { get; set; }
+        public SolutionByIdViewModel Solution { get; }
+
+        public GetSolutionByIdResult(SolutionByIdViewModel solution) => Solution = solution;
     }
 }

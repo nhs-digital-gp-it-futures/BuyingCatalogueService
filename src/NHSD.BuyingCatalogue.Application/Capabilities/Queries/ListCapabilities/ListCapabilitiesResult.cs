@@ -15,9 +15,6 @@ namespace NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities
 		/// <summary>
 		/// Initialises a new instance of the <see cref="ListCapabilitiesResult"/> class.
 		/// </summary>
-		public ListCapabilitiesResult(IEnumerable<CapabilityViewModel> capabilities)
-        {
-            Capabilities = capabilities;
-        }
-	}
+		public ListCapabilitiesResult(IEnumerable<CapabilityViewModel> capabilities) => Capabilities = capabilities;
+    }
 }

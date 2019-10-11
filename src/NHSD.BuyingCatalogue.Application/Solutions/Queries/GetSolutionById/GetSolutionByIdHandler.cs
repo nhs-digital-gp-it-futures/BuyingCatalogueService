@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using NHSD.BuyingCatalogue.Application.Persistence;
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
 {
@@ -31,13 +30,6 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
         /// <param name="cancellationToken">Token to cancel the request.</param>
         /// <returns>A task representing an operation to get the result of this query.</returns>
         public async Task<GetSolutionByIdResult> Handle(GetSolutionByIdQuery request, CancellationToken cancellationToken)
-        {
-            Solution solution = await _solutionReader.ByIdAsync(request.Id, cancellationToken);
-
-            return new GetSolutionByIdResult
-            {
-                Solution = _mapper.Map<SolutionByIdViewModel>(solution)
-            };
-        }
+            => new GetSolutionByIdResult(_mapper.Map<SolutionByIdViewModel>(await _solutionReader.ByIdAsync(request.Id, cancellationToken)));
     }
 }

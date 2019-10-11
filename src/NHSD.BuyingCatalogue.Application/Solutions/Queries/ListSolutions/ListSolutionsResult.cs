@@ -10,13 +10,11 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions
         /// <summary>
         /// A list of solution summaries.
         /// </summary>
-        public IEnumerable<SolutionSummaryViewModel> Solutions { get; set; }
+        public IEnumerable<SolutionSummaryViewModel> Solutions { get; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="ListSolutionsResult"/> class.
         /// </summary>
-        public ListSolutionsResult()
-        {
-        }
+        public ListSolutionsResult(IEnumerable<SolutionSummaryViewModel> solutions) => Solutions = solutions;
     }
 }
