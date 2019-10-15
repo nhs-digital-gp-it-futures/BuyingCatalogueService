@@ -1,5 +1,3 @@
-using Newtonsoft.Json.Linq;
-
 namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution
 {
     public sealed class UpdateSolutionSummaryViewModel
@@ -17,6 +15,6 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution
         /// <summary>
         /// A link to more information regarding the solution.
         /// </summary>
-        public string AboutUrl { get; set; }
+        public string Link { get; set; }
     }
 }

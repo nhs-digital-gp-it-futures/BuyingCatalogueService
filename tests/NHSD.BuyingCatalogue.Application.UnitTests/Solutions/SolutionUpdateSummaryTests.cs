@@ -31,7 +31,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
                 new UpdateSolutionSummaryViewModel
                 {
                     Description = "Description",
-                    AboutUrl = "AboutUrl",
+                    Link = "Link",
                     Summary = "Summary"
                 }), new CancellationToken());
 
@@ -39,7 +39,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             _context.MockSolutionRepository.Verify(r => r.UpdateSummaryAsync(It.Is<IUpdateSolutionSummaryRequest>(r =>
                 r.Id == "Sln1"
-                && r.AboutUrl == "AboutUrl"
+                && r.AboutUrl == "Link"
                 && r.Description == "Description"
                 && r.Summary == "Summary"
                 ), It.IsAny<CancellationToken>()), Times.Once());
@@ -53,7 +53,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
                 new UpdateSolutionSummaryViewModel
                 {
                     Description = "Description",
-                    AboutUrl = "AboutUrl",
+                    Link = "Link",
                     Summary = "Summary"
                 }), new CancellationToken()));
 

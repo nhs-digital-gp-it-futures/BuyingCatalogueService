@@ -32,7 +32,8 @@ namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
             CreateMap<UpdateSolutionViewModel, Solution>()
                 .ForMember(destination => destination.Features, options => options.MapFrom(source => source.MarketingData.ToString()));
             
-            CreateMap<UpdateSolutionSummaryViewModel, Solution>();
+            CreateMap<UpdateSolutionSummaryViewModel, Solution>()
+                .ForMember(destination => destination.AboutUrl, options => options.MapFrom(source => source.Link));
 
             CreateMap<UpdateSolutionFeaturesViewModel, Solution>()
                 .ForMember(destination => destination.Features, options => options.MapFrom(source => JsonConvert.SerializeObject(source.Listing).ToString()));
