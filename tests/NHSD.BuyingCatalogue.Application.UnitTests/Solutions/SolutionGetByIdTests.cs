@@ -47,11 +47,13 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solutionDescriptionSection.Data.Summary.Should().Be("Summary");
             solutionDescriptionSection.Data.Description.Should().Be("Description");
             solutionDescriptionSection.Data.Link.Should().Be("AboutUrl");
+            solutionDescriptionSection.Mandatory.Should().BeEquivalentTo( new string[] { "summary" });
 
             var featuresSection = (FeaturesSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("features")).Subject;
             featuresSection.Requirement.Should().Be("Optional");
             featuresSection.Status.Should().Be("COMPLETE");
             featuresSection.Data.Listing.Should().BeEquivalentTo(new string []{ "Marmite", "Jam", "Marmelade" });
+            featuresSection.Mandatory.Should().BeEquivalentTo(new string[0]);
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }

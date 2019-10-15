@@ -47,13 +47,14 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
     public abstract class Section
     {
         protected bool _isComplete = false;
-        protected bool _isMandatory = false;
 
         public abstract string Id { get; }
 
-        public string Requirement => _isMandatory ? "Mandatory" : "Optional";
+        public string Requirement => Mandatory.Any() ? "Mandatory" : "Optional";
 
         public string Status => _isComplete ? "COMPLETE" : "INCOMPLETE";
+
+        public List<string> Mandatory = new List<string>();
     }
 
     public class SolutionDescriptionSection : Section
@@ -62,7 +63,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
         {
             Data = new SolutionDescription(solution);
             _isComplete = !string.IsNullOrWhiteSpace(solution.Summary);
-            _isMandatory = true;
+            Mandatory.Add("summary");
         }
 
         public override string Id => "solution-description";
@@ -92,7 +93,6 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
         {
             Data = new Features(solution.Features);
             _isComplete = Data.Listing.Any(s => !string.IsNullOrWhiteSpace(s));
-            _isMandatory = false;
         }
 
         public override string Id => "features";
