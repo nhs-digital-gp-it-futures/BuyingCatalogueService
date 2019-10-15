@@ -14,16 +14,27 @@ Background:
         | Sln2       | TakeTheRedPill | Eye opening experience         | Drs. Inc         | 1                |
         | Sln3       | PracticeMgr    | Fully fledged GP system        | Drs. Inc         | 1                |
     And MarketingDetail exist
-        | Solution | AboutUrl | Features                                            |
-        | Sln1     | UrlSln1  | { "customJson" : { "id" : 1, "name" : "feature1" }} |
-        | Sln2     | UrlSln2  | { "customJson" : { "id" : 2, "name" : "feature2" }} |
-        | Sln3     | UrlSln3  | { "customJson" : { "id" : 3, "name" : "feature3" }} |
+        | Solution | AboutUrl | Features                          |
+        | Sln1     | UrlSln1  | [ "Appointments", "Prescribing" ] |
+        | Sln3     | UrlSln3  | [ "Referrals", "Workflow" ]       |
 
 @1793
-Scenario: 1. Sections presented
+Scenario: 1. Sections presented where MarketingDetail exists
     When a GET request is made for solution Sln3
     Then a successful response is returned
-    And the solution contains MarketingData
-        | JsonPath                               | Value    |
-        | solution.marketingData.customJson.id   | 3        |
-        | solution.marketingData.customJson.name | feature3 |
+    And the solution contains AboutUrl of UrlSln3
+    And the solution contains Features
+        | Feature   |
+        | Referrals |
+        | Workflow  |
+    And the solution features section status is COMPLETE
+    And the solution features section requirement is Optional
+    And the solution features section Mandatory field list is empty
+    
+@1793
+Scenario: 2. Sections not presented where no Marketing Detail exists
+    When a GET request is made for solution Sln2
+    Then a successful response is returned
+    And the solution does not contain AboutUrl
+    And the solution contains no features
+    And the solution features section status is INCOMPLETE

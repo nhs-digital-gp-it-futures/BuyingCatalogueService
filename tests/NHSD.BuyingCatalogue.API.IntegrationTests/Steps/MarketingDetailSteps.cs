@@ -45,38 +45,17 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             }
         }
 
+        [Given(@"a MarketingDetail (.*) does not exist")]
+        public async Task GivenAMarketingDetailDoesNotExist(string solutionId)
+        {
+            var marketingDetailList = await MarketingDetailEntity.FetchAllAsync();
+            marketingDetailList.Select(x => x.SolutionId).Should().NotContain(solutionId);
+        }
+
         [When(@"a GET request is made for solution (.*)")]
         public async Task WhenAGETRequestIsMadeForSolutionSln(string solutionId)
         {
             _response.Result = await Client.GetAsync(string.Format(ByIdSolutionsUrl, solutionId));
-        }
-
-        [When(@"a POST request is made to update solution (.*) features")]
-        public async Task GivenAPOSTRequestIsMadeToUpdateSolutionSlnFeatures(string solutionId, Table table)
-        {
-            var baseContent =  table.CreateInstance<MarketingDetailPostTable>();
-
-            var content = JsonConvert.SerializeObject(new { baseContent.Summary, baseContent.AboutUrl, baseContent.Description, MarketingData = 22222}).ToString();
-            content = content.Replace("22222", baseContent.MarketingData);
-
-            _response.Result = await Client.PutAsJsonAsync(string.Format(ByIdSolutionsUrl, solutionId), JObject.Parse(content));
-        }
-
-        [Then(@"the solution contains MarketingData of (.*)")]
-        public async Task ThenTheSolutionContainsMarketingData(string marketingData)
-        {
-            var content = await _response.ReadBody();
-            content.SelectToken("solution.marketingData").ToString().Should().Be(marketingData);
-        }
-
-        [Then(@"the solution contains MarketingData")]
-        public async Task ThenTheSolutionContainsMarketingData(Table table)
-        {
-            var content = await _response.ReadBody();
-            foreach (var marketingDetail in table.CreateSet<MarketingDataTable>())
-            {
-                content.SelectToken(marketingDetail.JsonPath).ToString().Should().Be(marketingDetail.Value);
-            }
         }
 
         [When(@"a PUT request is made to update solution (.*) features section")]
@@ -91,7 +70,30 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         public async Task ThenTheSolutionContainsAboutUrlOfUrlSln(string aboutUrl)
         {
             var content = await _response.ReadBody();
-            content.SelectToken("solution.aboutUrl").ToString().Should().Be(aboutUrl);
+            content.SelectToken("solution.marketingData.sections[?(@.id == 'solution-description')].data.link").ToString().Should().Be(aboutUrl);
+        }
+
+        [Then(@"the solution does not contain AboutUrl")]
+        public async Task ThenTheSolutionDoesNotContainAboutUrl()
+        {
+            var content = await _response.ReadBody();
+            content.SelectToken("solution.marketingData.sections[?(@.id == 'solution-description')].data.link").Should().BeNull();
+        }
+
+        [Then(@"the solution contains Features")]
+        public async Task ThenTheSolutionContainsFeatures(Table table)
+        {
+            var content = await _response.ReadBody();
+            content.SelectToken("solution.marketingData.sections[?(@.id == 'features')].data.listing")
+                .Select(s => s.ToString()).Should().BeEquivalentTo(table.CreateSet<FeaturesTable>().Select(s => s.Feature));
+        }
+
+        [Then(@"the solution contains no features")]
+        public async Task ThenTheSolutionContainsNoFeatures()
+        {
+            var content = await _response.ReadBody();
+            content.SelectToken("solution.marketingData.sections[?(@.id == 'features')].data.listing")
+                .Should().BeNullOrEmpty();
         }
 
         [Then(@"MarketingDetail exist")]
@@ -110,13 +112,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
                 m.AboutUrl,
                 m.Features
             }).Should().BeEquivalentTo(expectedMarketingDetails);
-        }
-
-        [Given(@"a MarketingDetail (.*) does not exist")]
-        public async Task GivenAMarketingDetailDoesNotExist(string solutionId)
-        {
-            var marketingDetailList = await MarketingDetailEntity.FetchAllAsync();
-            marketingDetailList.Select(x => x.SolutionId).Should().NotContain(solutionId);
         }
 
         private class MarketingDetailTable
@@ -142,6 +137,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         private class FeaturesPostTable
         {
             public List<string> Features { get; set; }
+        }
+
+        private class FeaturesTable
+        {
+            public string Feature { get; set; }
         }
     }
 }
