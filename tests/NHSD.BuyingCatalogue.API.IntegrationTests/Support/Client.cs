@@ -37,6 +37,17 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
             return await client.PutAsync(requestUrl, new StringContent(content.ToString(), Encoding.UTF8, contentType));
         }
 
+        public static async Task<HttpResponseMessage> PutAsJsonAsync(string requestUrl, object content)
+        {
+            return await PutAsync(requestUrl, JsonConvert.SerializeObject(content));
+        }
+
+        public static async Task<HttpResponseMessage> PutAsync(string requestUrl, object content, string contentType = "application/json")
+        {
+            using HttpClient client = new HttpClient();
+            return await client.PutAsync(requestUrl, new StringContent(content.ToString(), Encoding.UTF8, contentType));
+        }
+
         public static async Task<HttpResponseMessage> PutAsync(string requestUrl)
         {
             using HttpClient client = new HttpClient();

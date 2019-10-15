@@ -19,6 +19,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
     {
         private const string ByIdSolutionsUrl = "http://localhost:8080/api/v1/Solutions/{0}";
 
+        private const string FeaturesUrl = "http://localhost:8080/api/v1/Solutions/{0}/sections/features";
+
         private readonly ScenarioContext _context;
 
         private readonly Response _response;
@@ -77,6 +79,14 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             }
         }
 
+        [When(@"a PUT request is made to update solution (.*) features section")]
+        public async Task GivenAPUTRequestIsMadeToUpdateSolutionSlnFeatures(string solutionId, Table table)
+        {
+            var content = table.CreateInstance<FeaturesPostTable>();
+
+            _response.Result = await Client.PutAsJsonAsync(string.Format(FeaturesUrl, solutionId), new { Listing = content.Features });
+        }
+
         [Then(@"the solution contains AboutUrl of (.*)")]
         public async Task ThenTheSolutionContainsAboutUrlOfUrlSln(string aboutUrl)
         {
@@ -90,15 +100,15 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             var expectedMarketingDetails = table.CreateSet<MarketingDetailTable>().Select(m => new
             {
                 m.Solution,
-                m.AboutUrl,
-                Features = JObject.Parse(m.Features).ToString()
+                AboutUrl = string.IsNullOrWhiteSpace(m.AboutUrl) ? null : m.AboutUrl,
+                Features = string.IsNullOrWhiteSpace(m.Features) ? null : m.Features
             });
             var marketingDetails = await MarketingDetailEntity.FetchAllAsync();
             marketingDetails.Select(m => new
             {
                 Solution = m.SolutionId,
                 m.AboutUrl,
-                Features = JObject.Parse(m.Features).ToString()
+                m.Features
             }).Should().BeEquivalentTo(expectedMarketingDetails);
         }
 
@@ -129,11 +139,9 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             public string MarketingData { get; set; }
         }
 
-        private class MarketingDataTable
+        private class FeaturesPostTable
         {
-            public string JsonPath { get; set; }
-
-            public string Value { get; set; }
+            public List<string> Features { get; set; }
         }
     }
 }
