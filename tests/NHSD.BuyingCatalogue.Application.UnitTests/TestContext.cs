@@ -18,6 +18,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
         public Mock<ISolutionRepository> MockSolutionRepository { get; private set; }
 
+        public Mock<IMarketingDetailRepository> MockMarketingDetailRepository { get; private set; }
+
         public ListCapabilitiesHandler ListCapabilitiesHandler => (ListCapabilitiesHandler)_scope.ListCapabilitiesHandler;
 
         public ListSolutionsHandler ListSolutionsHandler => (ListSolutionsHandler)_scope.ListSolutionsHandler;
@@ -25,6 +27,10 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
         public GetSolutionByIdHandler GetSolutionByIdHandler => (GetSolutionByIdHandler)_scope.GetSolutionByIdHandler;
 
         public UpdateSolutionHandler UpdateSolutionHandler => (UpdateSolutionHandler)_scope.UpdateSolutionHandler;
+
+        public UpdateSolutionSummaryHandler UpdateSolutionSummaryHandler => (UpdateSolutionSummaryHandler)_scope.UpdateSolutionSummaryHandler;
+
+        public UpdateSolutionFeaturesHandler UpdateSolutionFeaturesHandler => (UpdateSolutionFeaturesHandler)_scope.UpdateSolutionFeaturesHandler;
 
         public SubmitSolutionForReviewHandler SubmitSolutionForReviewHandler => (SubmitSolutionForReviewHandler)_scope.SubmitSolutionForReviewHandler;
 
@@ -42,6 +48,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             serviceCollection.AddTransient<IRequestHandler<ListSolutionsQuery, ListSolutionsResult>, ListSolutionsHandler>();
             serviceCollection.AddTransient<IRequestHandler<GetSolutionByIdQuery, GetSolutionByIdResult>, GetSolutionByIdHandler>();
             serviceCollection.AddTransient<IRequestHandler<UpdateSolutionCommand>, UpdateSolutionHandler>();
+            serviceCollection.AddTransient<IRequestHandler<UpdateSolutionSummaryCommand>, UpdateSolutionSummaryHandler>();
+            serviceCollection.AddTransient<IRequestHandler<UpdateSolutionFeaturesCommand>, UpdateSolutionFeaturesHandler>();
             serviceCollection.AddTransient<IRequestHandler<SubmitSolutionForReviewCommand>, SubmitSolutionForReviewHandler>();
 
             serviceCollection.AddSingleton<Scope>();
@@ -54,6 +62,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             serviceCollection.AddSingleton<ICapabilityRepository>(MockCapabilityRepository.Object);
             MockSolutionRepository = new Mock<ISolutionRepository>();
             serviceCollection.AddSingleton<ISolutionRepository>(MockSolutionRepository.Object);
+            MockMarketingDetailRepository = new Mock<IMarketingDetailRepository>();
+            serviceCollection.AddSingleton<IMarketingDetailRepository>(MockMarketingDetailRepository.Object);
         }
 
         private IMapper GetAutoMapper()
@@ -74,17 +84,25 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
             public IRequestHandler<SubmitSolutionForReviewCommand> SubmitSolutionForReviewHandler { get; }
 
+            public IRequestHandler<UpdateSolutionSummaryCommand> UpdateSolutionSummaryHandler { get; }
+
+            public IRequestHandler<UpdateSolutionFeaturesCommand> UpdateSolutionFeaturesHandler { get; }
+
             public Scope(IRequestHandler<ListCapabilitiesQuery, ListCapabilitiesResult> listCapabilitiesHandler,
                 IRequestHandler<ListSolutionsQuery, ListSolutionsResult> listSolutionsHandler,
                 IRequestHandler<UpdateSolutionCommand> updateSolutionHandler,
                 IRequestHandler<GetSolutionByIdQuery, GetSolutionByIdResult> getSolutionByIdHandler,
-                IRequestHandler<SubmitSolutionForReviewCommand> submitSolutionForReviewHandler)
+                IRequestHandler<SubmitSolutionForReviewCommand> submitSolutionForReviewHandler,
+                IRequestHandler<UpdateSolutionSummaryCommand> updateSolutionSummaryHandler,
+                IRequestHandler<UpdateSolutionFeaturesCommand> updateSolutionFeaturesHandler)
             {
                 ListCapabilitiesHandler = listCapabilitiesHandler;
                 ListSolutionsHandler = listSolutionsHandler;
                 UpdateSolutionHandler = updateSolutionHandler;
                 GetSolutionByIdHandler = getSolutionByIdHandler;
                 SubmitSolutionForReviewHandler = submitSolutionForReviewHandler;
+                UpdateSolutionSummaryHandler = updateSolutionSummaryHandler;
+                UpdateSolutionFeaturesHandler = updateSolutionFeaturesHandler;
             }
         }
     }

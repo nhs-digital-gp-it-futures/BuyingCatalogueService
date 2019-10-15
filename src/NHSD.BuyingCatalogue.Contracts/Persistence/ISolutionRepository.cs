@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,6 +30,14 @@ namespace NHSD.BuyingCatalogue.Contracts.Persistence
         /// <param name="cancellationToken">A token to nofity if the task is cancelled.</param>
         /// <returns>A task representing an operation to save the specified solution to the data store.</returns>
         Task UpdateAsync(IUpdateSolutionRequest updateSolutionRequest, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Updates the summary details of the solution.
+        /// </summary>
+        /// <param name="updateSolutionSummaryRequest">The updated details of a solution to save to the data store.</param>
+        /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
+        /// <returns>A task representing an operation to save the specified updateSolutionRequest to the data store.</returns>
+        Task UpdateSummaryAsync(IUpdateSolutionSummaryRequest updateSolutionSummaryRequest, CancellationToken cancellationToken);
 
         /// <summary>
         /// Updates the supplier status of the specified solution in the data store.

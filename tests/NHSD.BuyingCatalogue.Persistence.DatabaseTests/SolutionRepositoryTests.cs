@@ -1,19 +1,17 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using NUnit.Framework;
+using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Moq;
+using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Persistence.Infrastructure;
 using NHSD.BuyingCatalogue.Persistence.Repositories;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
-using System.Threading;
-using FluentAssertions;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
+using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 {
@@ -433,6 +431,116 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             mockUpdateSolutionSupplierStatusRequest.Setup(m => m.SupplierStatusId).Returns(2);
 
             Assert.DoesNotThrowAsync(() =>  _solutionRepository.UpdateSupplierStatusAsync(mockUpdateSolutionSupplierStatusRequest.Object, new CancellationToken()));
+        }
+
+
+        [Test]
+        public async Task ShouldUpdateSummary()
+        {
+            var organisations = await OrganisationEntity.FetchAllAsync();
+
+            await SolutionEntityBuilder.Create()
+                .WithName("Solution1")
+                .WithId("Sln1")
+                .WithSummary("Sln1Summary")
+                .WithFullDescription("Sln1Description")
+                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
+                .Build()
+                .InsertAsync();
+
+            await SolutionEntityBuilder.Create()
+                .WithName("Solution2")
+                .WithId("Sln2")
+                .WithSummary("Sln2Summary")
+                .WithFullDescription("Sln2Description")
+                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
+                .Build()
+                .InsertAsync();
+
+            await MarketingDetailEntityBuilder.Create()
+                .WithSolutionId("Sln1")
+                .WithAboutUrl("AboutUrl")
+                .WithFeatures("Features")
+                .Build()
+                .InsertAsync();
+
+            var mockUpdateSolutionSummaryRequest = new Mock<IUpdateSolutionSummaryRequest>();
+            mockUpdateSolutionSummaryRequest.Setup(m => m.Id).Returns("Sln1");
+            mockUpdateSolutionSummaryRequest.Setup(m => m.Summary).Returns("Sln4Summary");
+            mockUpdateSolutionSummaryRequest.Setup(m => m.Description).Returns("Sln4Description");
+            mockUpdateSolutionSummaryRequest.Setup(m => m.AboutUrl).Returns("AboutUrl4");
+
+            await _solutionRepository.UpdateSummaryAsync(mockUpdateSolutionSummaryRequest.Object, new CancellationToken());
+
+            var solution = await SolutionEntity.GetByIdAsync("Sln1");
+            solution.Id.Should().Be("Sln1");
+            solution.Name.Should().Be("Solution1");
+            solution.Summary.Should().Be("Sln4Summary");
+            solution.FullDescription.Should().Be("Sln4Description");
+
+            solution = await SolutionEntity.GetByIdAsync("Sln2");
+            solution.Id.Should().Be("Sln2");
+            solution.Name.Should().Be("Solution2");
+            solution.Summary.Should().Be("Sln2Summary");
+            solution.FullDescription.Should().Be("Sln2Description");
+
+            var marketingData = await MarketingDetailEntity.GetBySolutionIdAsync("Sln1");
+            marketingData.AboutUrl.Should().Be("AboutUrl4");
+            marketingData.Features.Should().Be("Features");
+        }
+
+        [Test]
+        public void ShouldUpdateSummaryNotPresent()
+        {
+            var mockUpdateSolutionSummaryRequest = new Mock<IUpdateSolutionSummaryRequest>();
+            mockUpdateSolutionSummaryRequest.Setup(m => m.Id).Returns("Sln1");
+            mockUpdateSolutionSummaryRequest.Setup(m => m.Summary).Returns("Sln4Summary");
+            mockUpdateSolutionSummaryRequest.Setup(m => m.Description).Returns("Sln4Description");
+            mockUpdateSolutionSummaryRequest.Setup(m => m.AboutUrl).Returns("AboutUrl4");
+
+            Assert.DoesNotThrowAsync(() => _solutionRepository.UpdateSummaryAsync(mockUpdateSolutionSummaryRequest.Object, new CancellationToken()));
+        }
+
+        [Test]
+        public async Task ShouldUpdateMarketingDataSummaryNotPresent()
+        {
+            var organisations = await OrganisationEntity.FetchAllAsync();
+
+            await SolutionEntityBuilder.Create()
+                .WithName("Solution1")
+                .WithId("Sln1")
+                .WithSummary("Sln1Summary")
+                .WithFullDescription("Sln1Description")
+                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
+                .Build()
+                .InsertAsync();
+
+            await SolutionEntityBuilder.Create()
+                .WithName("Solution2")
+                .WithId("Sln2")
+                .WithSummary("Sln2Summary")
+                .WithFullDescription("Sln2Description")
+                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
+                .Build()
+                .InsertAsync();
+
+            var mockUpdateSolutionSummaryRequest = new Mock<IUpdateSolutionSummaryRequest>();
+            mockUpdateSolutionSummaryRequest.Setup(m => m.Id).Returns("Sln1");
+            mockUpdateSolutionSummaryRequest.Setup(m => m.Summary).Returns("Sln4Summary");
+            mockUpdateSolutionSummaryRequest.Setup(m => m.Description).Returns("Sln4Description");
+            mockUpdateSolutionSummaryRequest.Setup(m => m.AboutUrl).Returns("AboutUrl4");
+
+            await _solutionRepository.UpdateSummaryAsync(mockUpdateSolutionSummaryRequest.Object, new CancellationToken());
+
+            var solution = await SolutionEntity.GetByIdAsync("Sln1");
+            solution.Id.Should().Be("Sln1");
+            solution.Name.Should().Be("Solution1");
+            solution.Summary.Should().Be("Sln4Summary");
+            solution.FullDescription.Should().Be("Sln4Description");
+
+            var marketingData = await MarketingDetailEntity.GetBySolutionIdAsync("Sln1");
+            marketingData.AboutUrl.Should().Be("AboutUrl4");
+            marketingData.Features.Should().BeNull();
         }
     }
 }

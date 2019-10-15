@@ -11,6 +11,8 @@ namespace NHSD.BuyingCatalogue.Application
             serviceCollection.AddTransient<SolutionListReader>();
             serviceCollection.AddTransient<SolutionReader>();
             serviceCollection.AddTransient<SolutionUpdater>();
+            serviceCollection.AddTransient<SolutionSummaryUpdater>();
+            serviceCollection.AddTransient<SolutionFeaturesUpdater>();
             return serviceCollection;
         }
     }

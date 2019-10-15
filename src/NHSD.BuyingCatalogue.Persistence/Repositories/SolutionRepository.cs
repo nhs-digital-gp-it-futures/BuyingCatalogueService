@@ -12,7 +12,7 @@ using NHSD.BuyingCatalogue.Persistence.Models;
 namespace NHSD.BuyingCatalogue.Persistence.Repositories
 {
     /// <summary>
-    /// Represents the data access layer for the <see cref="Solution"/> entity.
+    /// Represents the data access layer for the Solution entity.
     /// </summary>
     public sealed class SolutionRepository : ISolutionRepository
     {
@@ -115,6 +115,42 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                                             VALUES (source.SolutionId, source.AboutURL, source.Features);";
 
                 await databaseConnection.ExecuteAsync(updateSql, new { solutionId = updateSolutionRequest.Id, description = updateSolutionRequest.Description, summary = updateSolutionRequest.Summary, aboutUrl = updateSolutionRequest.AboutUrl, features = updateSolutionRequest.Features });
+            }
+        }
+
+        /// <summary>
+        /// Updates the summary details of the solution.
+        /// </summary>
+        /// <param name="updateSolutionSummaryRequest">The updated details of a solution to save to the data store.</param>
+        /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
+        /// <returns>A task representing an operation to save the specified updateSolutionRequest to the data store.</returns>
+        public async Task UpdateSummaryAsync(IUpdateSolutionSummaryRequest updateSolutionSummaryRequest, CancellationToken cancellationToken)
+        {
+            if (updateSolutionSummaryRequest is null)
+            {
+                throw new System.ArgumentNullException(nameof(updateSolutionSummaryRequest));
+            }
+
+            using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
+            {
+                const string updateSql = @"
+                                    UPDATE  Solution
+                                    SET     Solution.FullDescription = @description,
+                                            Solution.Summary = @summary
+                                    WHERE   Solution.Id = @solutionId;
+
+                                    IF(@@ROWCOUNT > 0)
+                                        MERGE MarketingDetail AS target  
+                                        USING (SELECT @solutionId, @aboutUrl) AS source (SolutionId, AboutURL)
+                                        ON (target.SolutionId = source.SolutionId)  
+                                        WHEN MATCHED THEN
+                                            UPDATE
+                                            SET     AboutURL = source.AboutURL
+                                        WHEN NOT MATCHED THEN
+                                            INSERT (SolutionId, AboutURL)  
+                                            VALUES (source.SolutionId, source.AboutURL);";
+
+                await databaseConnection.ExecuteAsync(updateSql, new { solutionId = updateSolutionSummaryRequest.Id, description = updateSolutionSummaryRequest.Description, summary = updateSolutionSummaryRequest.Summary, aboutUrl = updateSolutionSummaryRequest.AboutUrl });
             }
         }
 
