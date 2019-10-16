@@ -2,14 +2,13 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using NHSD.BuyingCatalogue.Application.Exceptions;
 using NHSD.BuyingCatalogue.Application.Persistence;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
 {
-    internal sealed class SubmitSolutionForReviewHandler : IRequestHandler<SubmitSolutionForReviewCommand>
+    internal sealed class SubmitSolutionForReviewHandler : IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewResult>
     {
         private readonly SolutionReader _solutionReader;
         private readonly ISolutionRepository _solutionRepository;
@@ -29,13 +28,19 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
         /// <param name="request">The command parameters.</param>
         /// <param name="cancellationToken">Token to cancel the request.</param>
         /// <returns>A task representing an operation to get the result of this command.</returns>
-        public async Task<Unit> Handle(SubmitSolutionForReviewCommand request, CancellationToken cancellationToken)
+        public async Task<SubmitSolutionForReviewResult> Handle(SubmitSolutionForReviewCommand request, CancellationToken cancellationToken)
         {
             Solution solution = await GetSolution(request.SolutionId, cancellationToken);
 
-            await _solutionRepository.UpdateSupplierStatusAsync(new UpdateSolutionSupplierStatusRequest { Id = solution.Id, SupplierStatusId = SupplierStatus.AuthorityReview.Id }, cancellationToken);
+            SolutionDescriptionSectionValidator validator = new SolutionDescriptionSectionValidator(solution);
 
-            return Unit.Value;
+            SubmitSolutionForReviewResult result = validator.Validate();
+            if (result.IsSuccess)
+            {
+                await _solutionRepository.UpdateSupplierStatusAsync(new UpdateSolutionSupplierStatusRequest { Id = solution.Id, SupplierStatusId = SupplierStatus.AuthorityReview.Id }, cancellationToken);
+            }
+
+            return result;
         }
 
         /// <summary>

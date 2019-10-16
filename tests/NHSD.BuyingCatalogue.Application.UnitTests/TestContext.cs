@@ -32,7 +32,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
         public SubmitSolutionForReviewHandler SubmitSolutionForReviewHandler => (SubmitSolutionForReviewHandler)_scope.SubmitSolutionForReviewHandler;
 
-        private Scope _scope;
+        private readonly Scope _scope;
 
         public TestContext()
         {
@@ -47,7 +47,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             serviceCollection.AddTransient<IRequestHandler<GetSolutionByIdQuery, GetSolutionByIdResult>, GetSolutionByIdHandler>();
             serviceCollection.AddTransient<IRequestHandler<UpdateSolutionSummaryCommand>, UpdateSolutionSummaryHandler>();
             serviceCollection.AddTransient<IRequestHandler<UpdateSolutionFeaturesCommand>, UpdateSolutionFeaturesHandler>();
-            serviceCollection.AddTransient<IRequestHandler<SubmitSolutionForReviewCommand>, SubmitSolutionForReviewHandler>();
+            serviceCollection.AddTransient<IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewResult>, SubmitSolutionForReviewHandler>();
 
             serviceCollection.AddSingleton<Scope>();
             _scope = serviceCollection.BuildServiceProvider().GetService<Scope>();
@@ -77,7 +77,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
             public IRequestHandler<GetSolutionByIdQuery, GetSolutionByIdResult> GetSolutionByIdHandler { get; }
 
-            public IRequestHandler<SubmitSolutionForReviewCommand> SubmitSolutionForReviewHandler { get; }
+            public IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewResult> SubmitSolutionForReviewHandler { get; }
 
             public IRequestHandler<UpdateSolutionSummaryCommand> UpdateSolutionSummaryHandler { get; }
 
@@ -86,7 +86,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             public Scope(IRequestHandler<ListCapabilitiesQuery, ListCapabilitiesResult> listCapabilitiesHandler,
                 IRequestHandler<ListSolutionsQuery, ListSolutionsResult> listSolutionsHandler,
                 IRequestHandler<GetSolutionByIdQuery, GetSolutionByIdResult> getSolutionByIdHandler,
-                IRequestHandler<SubmitSolutionForReviewCommand> submitSolutionForReviewHandler,
+                IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewResult> submitSolutionForReviewHandler,
                 IRequestHandler<UpdateSolutionSummaryCommand> updateSolutionSummaryHandler,
                 IRequestHandler<UpdateSolutionFeaturesCommand> updateSolutionFeaturesHandler)
             {

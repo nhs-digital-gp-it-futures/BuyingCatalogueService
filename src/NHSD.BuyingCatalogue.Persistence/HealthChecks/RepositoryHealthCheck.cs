@@ -34,8 +34,10 @@ namespace NHSD.BuyingCatalogue.Persistence.HealthChecks
         /// <returns>A task representing an operation to check the health of the repository.</returns>
         public async Task RunAsync(CancellationToken cancellationToken)
         {
-            SqlConnectionStringBuilder sqlConnectionStringBuilder = new SqlConnectionStringBuilder(_configuration.BuyingCatalogueConnectionString());
-            sqlConnectionStringBuilder.ConnectTimeout = ConnectTimeout;
+            SqlConnectionStringBuilder sqlConnectionStringBuilder = new SqlConnectionStringBuilder(_configuration.BuyingCatalogueConnectionString())
+            {
+                ConnectTimeout = ConnectTimeout
+            };
 
             using (var dbConnection = await _dbConnectionFactory.GetAsync(cancellationToken, sqlConnectionStringBuilder))
             {

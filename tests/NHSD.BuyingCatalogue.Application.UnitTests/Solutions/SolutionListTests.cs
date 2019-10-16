@@ -15,14 +15,14 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
     {
         private TestContext _context;
 
-        private Dictionary<string, string> Organisations = new Dictionary<string, string>
+        private readonly Dictionary<string, string> Organisations = new Dictionary<string, string>
         {
             { "Org1", "Org1Name"},
             { "Org2", "Org2Name"},
             { "Org3", "Org3Name"},
         };
 
-        private Dictionary<int, (Guid Id, string Name, string Description)> Capabilities = new Dictionary<int, (Guid Id, string Name, string Description)>
+        private readonly Dictionary<int, (Guid Id, string Name, string Description)> Capabilities = new Dictionary<int, (Guid Id, string Name, string Description)>
         {
             { 1, (Guid.NewGuid(), "Cap1Name", "Cap1Desc")},
             { 2, (Guid.NewGuid(), "Cap2Name", "Cap2Desc")},

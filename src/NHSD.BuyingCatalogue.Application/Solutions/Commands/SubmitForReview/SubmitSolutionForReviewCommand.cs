@@ -2,7 +2,7 @@ using MediatR;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
 {
-    public sealed class SubmitSolutionForReviewCommand : IRequest
+    public sealed class SubmitSolutionForReviewCommand : IRequest<SubmitSolutionForReviewResult>
     {
         /// <summary>
         /// A value to uniquely identify a solution.
