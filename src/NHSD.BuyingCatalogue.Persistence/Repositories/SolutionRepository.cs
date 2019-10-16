@@ -82,43 +82,6 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
         }
 
         /// <summary>
-        /// Updates the details of the updateSolutionRequest.
-        /// </summary>
-        /// <param name="updateSolutionRequest">The updated details of a updateSolutionRequest to save to the data store.</param>
-        /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
-        /// <returns>A task representing an operation to save the specified updateSolutionRequest to the data store.</returns>
-        public async Task UpdateAsync(IUpdateSolutionRequest updateSolutionRequest, CancellationToken cancellationToken)
-        {
-            if (updateSolutionRequest is null)
-            {
-                throw new System.ArgumentNullException(nameof(updateSolutionRequest));
-            }
-
-            using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
-            {
-                const string updateSql = @"
-                                    UPDATE  Solution
-                                    SET     Solution.FullDescription = @description,
-                                            Solution.Summary = @summary
-                                    WHERE   Solution.Id = @solutionId;
-
-                                    IF(@@ROWCOUNT > 0)
-                                        MERGE MarketingDetail AS target  
-                                        USING (SELECT @solutionId, @aboutUrl, @features) AS source (SolutionId, AboutURL, Features)
-                                        ON (target.SolutionId = source.SolutionId)  
-                                        WHEN MATCHED THEN
-                                            UPDATE
-                                            SET     AboutURL = source.AboutURL,
-                	                    			Features = source.Features
-                                        WHEN NOT MATCHED THEN
-                                            INSERT (SolutionId, AboutURL, Features)  
-                                            VALUES (source.SolutionId, source.AboutURL, source.Features);";
-
-                await databaseConnection.ExecuteAsync(updateSql, new { solutionId = updateSolutionRequest.Id, description = updateSolutionRequest.Description, summary = updateSolutionRequest.Summary, aboutUrl = updateSolutionRequest.AboutUrl, features = updateSolutionRequest.Features });
-            }
-        }
-
-        /// <summary>
         /// Updates the summary details of the solution.
         /// </summary>
         /// <param name="updateSolutionSummaryRequest">The updated details of a solution to save to the data store.</param>

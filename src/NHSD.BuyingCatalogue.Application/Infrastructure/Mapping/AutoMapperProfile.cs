@@ -29,9 +29,6 @@ namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
             CreateMap<Solution, SolutionByIdViewModel>()
                 .ConstructUsing(x => new SolutionByIdViewModel(x));
 
-            CreateMap<UpdateSolutionViewModel, Solution>()
-                .ForMember(destination => destination.Features, options => options.MapFrom(source => source.MarketingData.ToString()));
-            
             CreateMap<UpdateSolutionSummaryViewModel, Solution>()
                 .ForMember(destination => destination.AboutUrl, options => options.MapFrom(source => source.Link));
 

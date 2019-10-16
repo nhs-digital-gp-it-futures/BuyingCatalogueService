@@ -26,8 +26,6 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
         public GetSolutionByIdHandler GetSolutionByIdHandler => (GetSolutionByIdHandler)_scope.GetSolutionByIdHandler;
 
-        public UpdateSolutionHandler UpdateSolutionHandler => (UpdateSolutionHandler)_scope.UpdateSolutionHandler;
-
         public UpdateSolutionSummaryHandler UpdateSolutionSummaryHandler => (UpdateSolutionSummaryHandler)_scope.UpdateSolutionSummaryHandler;
 
         public UpdateSolutionFeaturesHandler UpdateSolutionFeaturesHandler => (UpdateSolutionFeaturesHandler)_scope.UpdateSolutionFeaturesHandler;
@@ -47,7 +45,6 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             serviceCollection.AddTransient<IRequestHandler<ListCapabilitiesQuery, ListCapabilitiesResult>, ListCapabilitiesHandler>();
             serviceCollection.AddTransient<IRequestHandler<ListSolutionsQuery, ListSolutionsResult>, ListSolutionsHandler>();
             serviceCollection.AddTransient<IRequestHandler<GetSolutionByIdQuery, GetSolutionByIdResult>, GetSolutionByIdHandler>();
-            serviceCollection.AddTransient<IRequestHandler<UpdateSolutionCommand>, UpdateSolutionHandler>();
             serviceCollection.AddTransient<IRequestHandler<UpdateSolutionSummaryCommand>, UpdateSolutionSummaryHandler>();
             serviceCollection.AddTransient<IRequestHandler<UpdateSolutionFeaturesCommand>, UpdateSolutionFeaturesHandler>();
             serviceCollection.AddTransient<IRequestHandler<SubmitSolutionForReviewCommand>, SubmitSolutionForReviewHandler>();
@@ -78,8 +75,6 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
             public IRequestHandler<ListSolutionsQuery, ListSolutionsResult> ListSolutionsHandler { get; }
 
-            public IRequestHandler<UpdateSolutionCommand> UpdateSolutionHandler { get; }
-
             public IRequestHandler<GetSolutionByIdQuery, GetSolutionByIdResult> GetSolutionByIdHandler { get; }
 
             public IRequestHandler<SubmitSolutionForReviewCommand> SubmitSolutionForReviewHandler { get; }
@@ -90,7 +85,6 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
             public Scope(IRequestHandler<ListCapabilitiesQuery, ListCapabilitiesResult> listCapabilitiesHandler,
                 IRequestHandler<ListSolutionsQuery, ListSolutionsResult> listSolutionsHandler,
-                IRequestHandler<UpdateSolutionCommand> updateSolutionHandler,
                 IRequestHandler<GetSolutionByIdQuery, GetSolutionByIdResult> getSolutionByIdHandler,
                 IRequestHandler<SubmitSolutionForReviewCommand> submitSolutionForReviewHandler,
                 IRequestHandler<UpdateSolutionSummaryCommand> updateSolutionSummaryHandler,
@@ -98,7 +92,6 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             {
                 ListCapabilitiesHandler = listCapabilitiesHandler;
                 ListSolutionsHandler = listSolutionsHandler;
-                UpdateSolutionHandler = updateSolutionHandler;
                 GetSolutionByIdHandler = getSolutionByIdHandler;
                 SubmitSolutionForReviewHandler = submitSolutionForReviewHandler;
                 UpdateSolutionSummaryHandler = updateSolutionSummaryHandler;

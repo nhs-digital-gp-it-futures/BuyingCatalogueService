@@ -73,24 +73,6 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         }
 
         /// <summary>
-        /// Updates a solution matching the supplied ID.
-        /// </summary>
-        /// <param name="id">A value to uniquely identify a solution.</param>
-        /// <param name="updateSolutionViewModel">The details of a solution that includes any updated inforamtion.</param>
-        /// <returns>A task representing an operation to update the details of a solution.</returns>
-        [HttpPut]
-        [Route("{id}")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> UpdateAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionViewModel updateSolutionViewModel)
-        {
-            await _mediator.Send(new UpdateSolutionCommand(id, updateSolutionViewModel));
-
-            return NoContent();
-        }
-
-        /// <summary>
         /// Submits a solution for review.
         /// </summary>
         /// <param name="id">A value to uniquely identify a solution.</param>
