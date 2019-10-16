@@ -22,10 +22,10 @@ Background:
 Scenario: 1. Solution description section presented where Marketing Detail exists
     When a GET request is made for solution Sln3
     Then a successful response is returned
-    And the solution contains SummaryDescription of 'Fully fledged GP system'
-    And the solution contains FullDescription of 'Fully fledged GP 12'
-    And the solution contains AboutUrl of UrlSln3
-    And the solution contains Features
+    And the solution solution-description section contains SummaryDescription of 'Fully fledged GP system'
+    And the solution solution-description section contains FullDescription of 'Fully fledged GP 12'
+    And the solution solution-description section contains Link of UrlSln3
+    And the solution features section contains Features
         | Feature   |
         | Referrals |
         | Workflow  |
@@ -35,17 +35,17 @@ Scenario: 1. Solution description section presented where Marketing Detail exist
 Scenario: 2. Solution description section presented where no Marketing Detail exists
     When a GET request is made for solution Sln2
     Then a successful response is returned
-    And the solution contains SummaryDescription of 'Eye opening experience'
-    And the solution contains FullDescription of 'Eye opening6'
-    And the solution does not contain AboutUrl
-    And the solution contains no features
+    And the solution solution-description section contains SummaryDescription of 'Eye opening experience'
+    And the solution solution-description section contains FullDescription of 'Eye opening6'
+    And the solution solution-description section does not contain Link
+    And the solution features section contains no features
     And the solution features section status is INCOMPLETE
 
 @1848
 Scenario Outline: 3. Solution description section is mandatory and is reported complete if there is text in the summary
     When a GET request is made for solution <Solution>
     Then a successful response is returned
-    And the solution contains SummaryDescription of '<SummaryDescription>'
+    And the solution solution-description section contains SummaryDescription of '<SummaryDescription>'
     And the solution solution-description section status is <Status>
     And the solution solution-description section requirement is Mandatory
     And the solution solution-description section Mandatory field list is
