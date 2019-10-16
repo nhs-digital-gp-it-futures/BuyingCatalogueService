@@ -7,12 +7,12 @@ Background:
     Given Organisations exist
         | Name     |
         | GPs-R-Us |
-    And Solutions exist
-        | SolutionID | SolutionName | SummaryDescription             | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline  | An full online medicine system | GPs-R-Us         | 1                |
 
 @2836
 Scenario: 1. Solution successfully submitted for review
+    Given Solutions exist
+        | SolutionID | SolutionName | SummaryDescription             | OrganisationName | SupplierStatusId |
+        | Sln1       | MedicOnline  | An full online medicine system | GPs-R-Us         | 1                |
     When a request is made to submit Solution Sln1 for review
     Then a response status of 204 is returned
 
@@ -24,7 +24,10 @@ Scenario: 2. Solution not found
 
 @2836
 Scenario: 3. Service failure
-    Given the call to the database to set the field will fail
+    Given Solutions exist
+        | SolutionID | SolutionName | SummaryDescription             | OrganisationName | SupplierStatusId |
+        | Sln1       | MedicOnline  | An full online medicine system | GPs-R-Us         | 1                |
+    And the call to the database to set the field will fail
     When a request is made to submit Solution Sln1 for review
     Then a response status of 500 is returned
 
@@ -32,3 +35,13 @@ Scenario: 3. Service failure
 Scenario: 4. Solution id not present in request
     When a request is made to submit Solution for review with no solution id
     Then a response status of 400 is returned
+
+Scenario: 5. Solution failed on submit for review due to missing Solution summary
+    Given Solutions exist
+        | SolutionID | SolutionName | SummaryDescription | OrganisationName | SupplierStatusId |
+        | Sln1       | MedicOnline  |                    | GPs-R-Us         | 1                |
+    When a request is made to submit Solution Sln1 for review
+    Then a response status of 400 is returned
+    And the response details of the submit Solution for review request are as follows
+        | Section              | Required |
+        | solution-description | summary  |
