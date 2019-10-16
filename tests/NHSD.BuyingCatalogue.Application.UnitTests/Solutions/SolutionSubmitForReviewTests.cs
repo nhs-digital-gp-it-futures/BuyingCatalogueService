@@ -26,6 +26,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
         {
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
+            existingSolution.Setup(s => s.Summary).Returns("Sln1 summary");
+
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
             await _context.SubmitSolutionForReviewHandler.Handle(new SubmitSolutionForReviewCommand("Sln1"), new CancellationToken());
