@@ -12,8 +12,8 @@ spec:
       imagePullSecrets:
       - name: regcred
       containers:
-      - name: bc-private-beta-api
-        image: buyingcat01.azurecr.io/nhsd/buying-catalogue-api:#{$(build.artifactstagingdirectory)#
+      - name: gpitfuture-api
+        image: gpitfutureaksdev.azurecr.io/nhsd/buying-catalogue-api:#{$(build.artifactstagingdirectory)#
         ports:
         - containerPort: 5100
         resources:
