@@ -17,8 +17,9 @@ namespace NHSD.BuyingCatalogue.Testing.Tools
                 FileName = "docker-compose",
                 WorkingDirectory = currentDirectory,
                 Arguments = arguments,
-                UseShellExecute = false,
                 RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
                 CreateNoWindow = true
             };
 

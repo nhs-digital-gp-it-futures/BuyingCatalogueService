@@ -7,15 +7,57 @@ namespace NHSD.BuyingCatalogue.Testing.Tools
 {
     public static class ProcessStartInfoExtensions
     {
-        public static Task ExecuteAsync(this ProcessStartInfo processStartInfo)
+        public static async Task<int> ExecuteAsync(this ProcessStartInfo processStartInfo, Action<string> onOutputMessage = null, Action<string> onErrorMessage = null)
         {
-            using (Process process = Process.Start(processStartInfo ?? throw new ArgumentNullException(nameof(processStartInfo))))
+            if (processStartInfo is null)
             {
-                process.WaitForExit();
-                process.ExitCode.Should().Be(0);
+                throw new ArgumentNullException(nameof(processStartInfo));
             }
 
-            return Task.CompletedTask;
+            TaskCompletionSource<int> task = new TaskCompletionSource<int>();
+
+            Process process = new Process { StartInfo = processStartInfo, EnableRaisingEvents = true };
+
+            process.Exited += (sender, eventArgs) =>
+            {
+                process.WaitForExit();
+                int code = process.ExitCode;
+                process.CancelOutputRead();
+                process.CancelErrorRead();
+                process.Dispose();
+
+                task.TrySetResult(code);
+            };
+
+            process.OutputDataReceived += (sender, eventArgs) =>
+            {
+                string data = eventArgs.Data;
+                if (data is object)
+                {
+                    SendMesasge(data, onOutputMessage);
+                }
+            };
+
+            process.ErrorDataReceived += (sender, eventArgs) =>
+            {
+                string data = eventArgs.Data;
+                if (data is object)
+                {
+                    SendMesasge(data, onErrorMessage ?? onOutputMessage);
+                }
+            };
+
+            process.Start().Should().BeTrue();
+
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+
+            return await task.Task.ConfigureAwait(false);
+        }
+
+        private static void SendMesasge(string line, Action<string> action)
+        {
+            action?.Invoke(string.IsNullOrWhiteSpace(line) ? line : line.TrimEnd());
         }
     }
 }
