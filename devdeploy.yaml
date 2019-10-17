@@ -4,6 +4,9 @@ metadata:
   name: gpitfuture-deployment-api
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: gpitfuture-app-api
   template:
     metadata:
       labels:
