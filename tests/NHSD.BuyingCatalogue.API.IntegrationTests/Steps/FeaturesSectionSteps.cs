@@ -11,8 +11,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
     [Binding]
     internal sealed class FeaturesSectionSteps
     {
-        private const string ByIdSolutionsUrl = "http://localhost:8080/api/v1/Solutions/{0}";
-
         private const string FeaturesUrl = "http://localhost:8080/api/v1/Solutions/{0}/sections/features";
 
         private readonly ScenarioContext _context;
@@ -25,14 +23,14 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             _response = response;
         }
 
-        [When(@"a GET request is made for solution (.*)")]
-        public async Task WhenAGETRequestIsMadeForSolutionSln(string solutionId)
+        [When(@"a PUT request is made to update solution features section with no solution id")]
+        public async Task WhenARequestIsMadeToSubmitForReviewWithNoSolutionId(Table table)
         {
-            _response.Result = await Client.GetAsync(string.Format(ByIdSolutionsUrl, solutionId));
+            await WhenAPUTRequestIsMadeToUpdateSolutionSlnFeatures(" ", table);
         }
 
         [When(@"a PUT request is made to update solution (.*) features section")]
-        public async Task GivenAPUTRequestIsMadeToUpdateSolutionSlnFeatures(string solutionId, Table table)
+        public async Task WhenAPUTRequestIsMadeToUpdateSolutionSlnFeatures(string solutionId, Table table)
         {
             var content = table.CreateInstance<FeaturesPostTable>();
 

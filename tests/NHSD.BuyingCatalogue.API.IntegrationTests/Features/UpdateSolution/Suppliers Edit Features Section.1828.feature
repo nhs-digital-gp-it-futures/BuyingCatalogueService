@@ -57,3 +57,25 @@ Scenario: 2. Marketing Data is added to the solution
         | Sln2     | UrlSln2  | [ "Workflow", "Referrals" ]           |
         | Sln3     | UrlSln3  | [ "Dispensing" ]                      |
 
+@1828
+Scenario: 3. Solution not found
+    Given a Solution Sln4 does not exist
+    When a PUT request is made to update solution Sln4 features section
+        | Features                      |
+        | Dispensing,Referrals,Workflow |
+    Then a response status of 404 is returned
+
+@1828
+Scenario: 4. Service failure
+    Given the call to the database to set the field will fail
+    When a PUT request is made to update solution Sln1 features section
+        | Features                      |
+        | Dispensing,Referrals,Workflow |
+    Then a response status of 500 is returned
+
+@1828
+Scenario: 4. Solution id not present in request
+    When a PUT request is made to update solution features section with no solution id
+        | Features                      |
+        | Dispensing,Referrals,Workflow |
+    Then a response status of 400 is returned

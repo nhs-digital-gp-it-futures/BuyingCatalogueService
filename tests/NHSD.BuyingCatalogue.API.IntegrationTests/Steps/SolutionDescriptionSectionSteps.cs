@@ -21,8 +21,14 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             _response = response;
         }
 
-        [When(@"a PUT request is made to update solution (.*) description section")]
-        public async Task WhenAPUTTRequestIsMadeToUpdateSolutionDescriptionSection(string solutionId, Table table)
+        [When(@"a PUT request is made to update solution solution-description section with no solution id")]
+        public async Task WhenARequestIsMadeToSubmitForReviewWithNoSolutionId(Table table)
+        {
+            await WhenAPUTRequestIsMadeToUpdateSolutionDescriptionSection(" ", table);
+        }
+
+        [When(@"a PUT request is made to update solution (.*) solution-description section")]
+        public async Task WhenAPUTRequestIsMadeToUpdateSolutionDescriptionSection(string solutionId, Table table)
         {
             var content = table.CreateInstance<SolutionDescriptionPostTable>();
 
