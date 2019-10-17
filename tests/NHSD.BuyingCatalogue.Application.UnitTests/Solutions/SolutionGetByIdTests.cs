@@ -39,7 +39,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             solution.Solution.Id.Should().Be("Sln1");
             solution.Solution.Name.Should().Be("Name");
-            solution.Solution.MarketingData.Sections.Should().HaveCount(2);
+            solution.Solution.MarketingData.Sections.Should().HaveCount(3);
 
             var solutionDescriptionSection = (SolutionDescriptionSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("solution-description")).Subject;
             solutionDescriptionSection.Requirement.Should().Be("Mandatory");
@@ -76,7 +76,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             solution.Solution.Id.Should().Be("Sln1");
             solution.Solution.Name.Should().Be("Name");
-            solution.Solution.MarketingData.Sections.Should().HaveCount(2);
+            solution.Solution.MarketingData.Sections.Should().HaveCount(3);
 
             var solutionDescriptionSection = (SolutionDescriptionSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("solution-description")).Subject;
             solutionDescriptionSection.Requirement.Should().Be("Mandatory");
@@ -110,7 +110,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             solution.Solution.Id.Should().Be("Sln1");
             solution.Solution.Name.Should().Be("Name");
-            solution.Solution.MarketingData.Sections.Should().HaveCount(2);
+            solution.Solution.MarketingData.Sections.Should().HaveCount(3);
 
             var solutionDescriptionSection = (SolutionDescriptionSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("solution-description")).Subject;
             solutionDescriptionSection.Requirement.Should().Be("Mandatory");
@@ -144,7 +144,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             solution.Solution.Id.Should().Be("Sln1");
             solution.Solution.Name.Should().Be("Name");
-            solution.Solution.MarketingData.Sections.Should().HaveCount(2);
+            solution.Solution.MarketingData.Sections.Should().HaveCount(3);
 
             var solutionDescriptionSection = (SolutionDescriptionSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("solution-description")).Subject;
             solutionDescriptionSection.Requirement.Should().Be("Mandatory");
@@ -178,7 +178,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             solution.Solution.Id.Should().Be("Sln1");
             solution.Solution.Name.Should().Be("Name");
-            solution.Solution.MarketingData.Sections.Should().HaveCount(2);
+            solution.Solution.MarketingData.Sections.Should().HaveCount(3);
 
             var solutionDescriptionSection = (SolutionDescriptionSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("solution-description")).Subject;
             solutionDescriptionSection.Requirement.Should().Be("Mandatory");

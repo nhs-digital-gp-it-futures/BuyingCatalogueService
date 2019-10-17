@@ -37,7 +37,8 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
             Sections = new List<Section>
             {
                 new SolutionDescriptionSection(solution),
-                new FeaturesSection(solution)
+                new FeaturesSection(solution),
+                new ClientApplicationTypesSection()
             };
         }
 
@@ -50,11 +51,14 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
 
         public abstract string Id { get; }
 
-        public string Requirement => Mandatory.Any() ? "Mandatory" : "Optional";
+        public string Requirement => (Mandatory.Any() || Sections != null) ? "Mandatory" : "Optional";
 
         public string Status => _isComplete ? "COMPLETE" : "INCOMPLETE";
 
         public List<string> Mandatory = new List<string>();
+
+        public List<Section> Sections { get; protected set; } //Subsections - may be null;
+
     }
 
     public class SolutionDescriptionSection : Section
@@ -104,11 +108,121 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
     {
         internal Features(string featuresJson)
         {
-            Listing = string.IsNullOrWhiteSpace(featuresJson) ?
-                new List<string>() : 
-                JsonConvert.DeserializeObject<List<string>>(featuresJson);
+            Listing = string.IsNullOrWhiteSpace(featuresJson)
+                ? new List<string>()
+                : JsonConvert.DeserializeObject<List<string>>(featuresJson);
         }
 
         public IEnumerable<string> Listing { get; }
+    }
+
+    public class ClientApplicationTypesSection : Section
+    {
+        internal ClientApplicationTypesSection()
+        {
+            Sections = new List<Section>();
+
+            //temp - ignore the solution, return canned data
+            BuildCannedSections();
+            _isComplete = Sections.Any();
+        }
+
+        private void BuildCannedSections()
+        {
+            Sections.Add(new BrowserBasedSection());
+            Sections.Add(new NativeMobileSection());
+            Sections.Add(new NativeDesktopSection());
+        }
+
+        public override string Id => "client-application-types";
+    }
+
+    public class BrowserBasedSection : Section
+    {
+        internal BrowserBasedSection()
+        {
+            Sections = new List<Section>();
+
+            //temp - ignore the solution, return canned data
+            BuildCannedSections();
+            _isComplete = Sections.OfType<BrowsersSupportedSection>().FirstOrDefault()?.Status == "COMPLETE"
+                && Sections.OfType<PlugInsOrExtensionsSection>().FirstOrDefault()?.Status == "COMPLETE"
+                && Sections.OfType<ConnectivityAndResolutionSection>().FirstOrDefault()?.Status == "COMPLETE"
+            ;
+        }
+
+        private void BuildCannedSections()
+        {
+            Sections.Add(new BrowsersSupportedSection());
+            Sections.Add(new PlugInsOrExtensionsSection());
+            Sections.Add(new ConnectivityAndResolutionSection());
+            Sections.Add(new HardwareRequirementsSection());
+            Sections.Add(new AdditionalInformationSection());
+        }
+
+        public override string Id => "browser-based";
+    }
+
+    public class BrowsersSupportedSection : Section
+    {
+        internal BrowsersSupportedSection()
+        {
+            Data = new BrowserSupportedSectionData();
+
+            _isComplete = Data.GoogleChrome ||
+                          Data.MicrosoftEdge ||
+                          Data.MozillaFirefox ||
+                          Data.Opera ||
+                          Data.Safari ||
+                          Data.Chromium ||
+                          Data.InternetExplorer11 ||
+                          Data.InternetExplorer10;
+        }
+
+        public BrowserSupportedSectionData Data { get; }
+
+        public override string Id => "browsers-supported";
+    }
+
+    public class BrowserSupportedSectionData
+    {
+        public bool GoogleChrome => false;
+        public bool MicrosoftEdge => true;
+        public bool MozillaFirefox => false;
+        public bool Opera => true;
+        public bool Safari => true;
+        public bool Chromium => false;
+        public bool InternetExplorer11 => true;
+        public bool InternetExplorer10 => false;
+    }
+
+    public class PlugInsOrExtensionsSection : Section
+    {
+        public override string Id => "plug-ins-or-extensions";
+    }
+
+    public class ConnectivityAndResolutionSection : Section
+    {
+        public override string Id => "connectivity-and-resolution";
+    }
+
+    public class HardwareRequirementsSection : Section
+    {
+        public override string Id => "hardware-requirements";
+    }
+
+    public class AdditionalInformationSection : Section
+    {
+    public override string Id => "additional-information";
+    }
+
+    public class NativeMobileSection : Section
+    {
+        public override string Id => "native-mobile";
+    }
+
+    public class NativeDesktopSection : Section
+    {
+        public override string Id => "native-desktop";
     }
 }
