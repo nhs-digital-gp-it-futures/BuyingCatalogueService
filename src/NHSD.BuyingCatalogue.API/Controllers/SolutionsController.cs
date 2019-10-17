@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
@@ -72,21 +73,19 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         }
 
         /// <summary>
-        /// Updates a solution matching the supplied ID.
+        /// Submits a solution for review.
         /// </summary>
         /// <param name="id">A value to uniquely identify a solution.</param>
-        /// <param name="updateSolutionViewModel">The details of a solution that includes any updated inforamtion.</param>
-        /// <returns>A task representing an operation to update the details of a solution.</returns>
+        /// <returns>A task respresenting an operation to update the state of a solution to submitted for review.</returns>
         [HttpPut]
-        [Route("{id}")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [Route("{id}/SubmitForReview")]
+        [ProducesResponseType(typeof(SubmitSolutionForReviewResult), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> UpdateAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionViewModel updateSolutionViewModel)
+        public async Task<ActionResult> SubmitForReviewAsync([FromRoute][Required] string id)
         {
-            await _mediator.Send(new UpdateSolutionCommand(id, updateSolutionViewModel));
-
-            return NoContent();
+            SubmitSolutionForReviewResult result = await _mediator.Send(new SubmitSolutionForReviewCommand(id));
+            return result.IsSuccess ? NoContent() : (ActionResult)BadRequest(result);
         }
     }
 }

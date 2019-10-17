@@ -4,16 +4,15 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
-using NHSD.BuyingCatalogue.Application.Persistence;
-using NHSD.BuyingCatalogue.Domain.Entities;
+using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Persistence.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Persistence.Repositories
 {
-	/// <summary>
-	/// Represents the data access layer for the <see cref="Capability"/> entity.
-	/// </summary>
-	public sealed class CapabilityRepository : ICapabilityRepository
+    /// <summary>
+    /// Represents the data access layer for the <see cref="ICapabilityListResult"/> entity.
+    /// </summary>
+    public sealed class CapabilityRepository : ICapabilityRepository
 	{
 		/// <summary>
 		/// Database connection factory to provide new connections.
@@ -28,11 +27,11 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
 			DbConnectionFactory = dbConnectionFactory ?? throw new System.ArgumentNullException(nameof(dbConnectionFactory));
 		}
 
-		/// <summary>
-		/// Gets a list of <see cref="Capability"/> objects.
-		/// </summary>
-		/// <returns>A list of <see cref="Capability"/> objects.</returns>
-		public async Task<IEnumerable<Capability>> ListAsync(CancellationToken cancellationToken)
+        /// <summary>
+        /// Gets a list of <see cref="ICapabilityListResult"/> objects.
+        /// </summary>
+        /// <returns>A list of <see cref="ICapabilityListResult"/> objects.</returns>
+        public async Task<IEnumerable<ICapabilityListResult>> ListAsync(CancellationToken cancellationToken)
 		{
 			using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
 			{
@@ -43,7 +42,7 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
 											 LEFT OUTER JOIN FrameworkCapabilities ON Capability.Id = FrameworkCapabilities.CapabilityId
                                     ORDER BY IsFoundation DESC, UPPER(Name) ASC";
 
-				return (await databaseConnection.QueryAsync<Capability>(sql).ConfigureAwait(false)).ToList();
+				return (await databaseConnection.QueryAsync<CapabilityListResult>(sql).ConfigureAwait(false)).ToList();
 			}
 		}
 	}

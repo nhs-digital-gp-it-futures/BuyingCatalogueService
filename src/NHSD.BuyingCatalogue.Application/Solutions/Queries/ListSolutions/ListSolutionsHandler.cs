@@ -1,36 +1,27 @@
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using NHSD.BuyingCatalogue.Application.Persistence;
-using NHSD.BuyingCatalogue.Domain;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions
 {
     /// <summary>
     /// Defines the request handler for the <see cref="ListSolutionsQuery"/>.
     /// </summary>
-    public sealed class ListSolutionsHandler : IRequestHandler<ListSolutionsQuery, ListSolutionsResult>
+    internal sealed class ListSolutionsHandler : IRequestHandler<ListSolutionsQuery, ListSolutionsResult>
     {
-        /// <summary>
-        /// Access the persistence layer for the <see cref="Solution"/> entity.
-        /// </summary>
-        private ISolutionRepository SolutionsRepository { get; }
-
-        /// <summary>
-        /// The mapper to convert one object into another type.
-        /// </summary>
-        private IMapper Mapper { get; }
+        private readonly SolutionListReader _solutionListReader;
+        private readonly IMapper _mapper;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="ListSolutionsHandler"/> class.
         /// </summary>
-        public ListSolutionsHandler(ISolutionRepository solutionsRepository, IMapper mapper)
+        public ListSolutionsHandler(SolutionListReader solutionListReader, IMapper mapper)
         {
-            SolutionsRepository = solutionsRepository ?? throw new ArgumentNullException(nameof(solutionsRepository));
-            Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _solutionListReader = solutionListReader;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -41,12 +32,9 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions
         /// <returns>The result of the query.</returns>
         public async Task<ListSolutionsResult> Handle(ListSolutionsQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<Solution> solutionList = await SolutionsRepository.ListAsync(request.CapabilityIdList, cancellationToken).ConfigureAwait(false);
+            var solutionList = await _solutionListReader.ListAsync(request.CapabilityIdList, cancellationToken).ConfigureAwait(false);
 
-            return new ListSolutionsResult
-            {
-                Solutions = Mapper.Map<IEnumerable<SolutionSummaryViewModel>>(solutionList)
-            };
+            return new ListSolutionsResult(_mapper.Map<IEnumerable<SolutionSummaryViewModel>>(solutionList));
         }
     }
 }

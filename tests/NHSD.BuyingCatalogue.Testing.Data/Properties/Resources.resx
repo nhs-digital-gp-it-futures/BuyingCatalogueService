@@ -127,10 +127,10 @@
   <data name="Drop" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\sqlresources\drop.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="Permission" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\sqlresources\permission.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
   <data name="ReferenceData" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\sqlresources\referencedata.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="User" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\SqlResources\User.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
 </root>

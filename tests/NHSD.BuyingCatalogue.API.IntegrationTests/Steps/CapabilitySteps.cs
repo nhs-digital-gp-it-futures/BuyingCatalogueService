@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
-using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 
@@ -25,22 +22,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         {
             _context = context;
             _response = response;
-        }
-
-        [Given(@"Capabilities exist")]
-        public async Task GivenCapabilitiesExist(Table table)
-        {
-            foreach (var capability in table.CreateSet<CapabilityTable>())
-            {
-                await InsertCapabilityAsync(capability);
-            }
-        }
-
-        private async Task InsertCapabilityAsync(CapabilityTable capabilityTable)
-        {
-            var capability = CapabilityEntityBuilder.Create().WithName(capabilityTable.CapabilityName).Build();
-            await capability.InsertAsync();
-            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capability.Id).WithIsFoundation(capabilityTable.IsFoundation).Build().InsertAsync();
         }
 
         [When(@"a GET request is made for the capability list")]

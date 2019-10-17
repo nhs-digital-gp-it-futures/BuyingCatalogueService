@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.Entities
@@ -62,6 +63,11 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 	                            ,[Summary]
 	                            ,[FullDescription]
                                 FROM Solution");
+        }
+
+        public static async Task<SolutionEntity> GetByIdAsync(string solutionId)
+        {
+            return (await FetchAllAsync()).First(item => solutionId.Equals(item.Id));
         }
     }
 }

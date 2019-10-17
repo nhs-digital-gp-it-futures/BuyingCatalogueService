@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.Entities
@@ -50,6 +51,12 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
                             ,[RoadMap]
                             ,[RoadMapImageUrl]
                             FROM MarketingDetail");
+        }
+
+
+        public static async Task<MarketingDetailEntity> GetBySolutionIdAsync(string solutionId)
+        {
+            return (await FetchAllAsync()).First(item => solutionId.Equals(item.SolutionId));
         }
     }
 }

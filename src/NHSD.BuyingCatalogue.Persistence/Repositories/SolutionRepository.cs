@@ -5,15 +5,14 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
-using NHSD.BuyingCatalogue.Application.Persistence;
-using NHSD.BuyingCatalogue.Domain;
-using NHSD.BuyingCatalogue.Domain.Entities;
+using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Persistence.Infrastructure;
+using NHSD.BuyingCatalogue.Persistence.Models;
 
 namespace NHSD.BuyingCatalogue.Persistence.Repositories
 {
     /// <summary>
-    /// Represents the data access layer for the <see cref="Solution"/> entity.
+    /// Represents the data access layer for the Solution entity.
     /// </summary>
     public sealed class SolutionRepository : ISolutionRepository
     {
@@ -31,66 +30,38 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
         }
 
         /// <summary>
-        /// Gets a list of <see cref="Solution"/> objects.
+        /// Gets a list of <see cref="ISolutionListResult"/> objects.
         /// </summary>
-        /// <returns>A list of <see cref="Solution"/> objects.</returns>
-        public async Task<IEnumerable<Solution>> ListAsync(ISet<Guid> capabilityIdList, CancellationToken cancellationToken)
-		{
-            if (capabilityIdList is null)
-            {
-                throw new System.ArgumentNullException(nameof(capabilityIdList));
-            }
-
+        /// <returns>A list of <see cref="ISolutionListResult"/> objects.</returns>
+        public async Task<IEnumerable<ISolutionListResult>> ListAsync(CancellationToken cancellationToken)
+        {
             using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
             {
-                const string sql = @"SELECT Solution.Id, 
-                                            Solution.Name, 
-                                            Solution.Summary, 
-                                            Organisation.Id, 
-                                            Organisation.Name,
-                                            Capability.Id,
-                                            Capability.Name,
-                                            Capability.Description
+                const string sql = @"SELECT Solution.Id as SolutionId, 
+                                            Solution.Name as SolutionName,
+                                            Solution.Summary as SolutionSummary,
+                                            Organisation.Id as OrganisationId,
+                                            Organisation.Name as OrganisationName,
+                                            Capability.Id as CapabilityId,
+                                            Capability.Name as CapabilityName,
+                                            Capability.Description as CapabilityDescription
                                     FROM    Solution 
                                             INNER JOIN Organisation ON Organisation.Id = Solution.OrganisationId
                                             INNER JOIN SolutionCapability ON Solution.Id = SolutionCapability.SolutionId
                                             INNER JOIN Capability ON Capability.Id = SolutionCapability.CapabilityId";
 
-                Dictionary<string, Solution> solutionDictionary = new Dictionary<string, Solution>();
 
-                IEnumerable<Solution> result = await databaseConnection.QueryAsync<Solution, Organisation, Capability, Solution>(sql, (solution, organisation, capability) =>
-                {
-                    string solutionId = solution.Id;
-                    if (!solutionDictionary.TryGetValue(solutionId, out Solution currentSolution))
-                    {
-                        solution.Organisation = organisation;
-                        solutionDictionary.Add(solutionId, solution);
-
-                        currentSolution = solution;
-                    }
-
-                    currentSolution.AddCapability(capability);
-
-                    return currentSolution;
-                });
-
-                IEnumerable<Solution> solutionList = result.Distinct();
-                if (capabilityIdList.Any())
-                {
-                    solutionList = solutionList.Where(solution => capabilityIdList.Intersect(solution.Capabilities.Select(capability => capability.Id)).Count() == capabilityIdList.Count());
-                }
-
-                return solutionList;
+                return await databaseConnection.QueryAsync<SolutionListResult>(sql);
             }
         }
 
         /// <summary>
-        /// Gets a <see cref="Solution"/> matching the specified ID.
+        /// Gets a <see cref="ISolutionResult"/> matching the specified ID.
         /// </summary>
-        /// <param name="id">The ID of a <see cref="Solution"/>.</param>
+        /// <param name="id">The ID of a <see cref="ISolutionResult"/>.</param>
         /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
         /// <returns>A task representing an operation to retrieve a <see cref="Solution"/> matching the specified ID.</returns>
-        public async Task<Solution> ByIdAsync(string id, CancellationToken cancellationToken)
+        public async Task<ISolutionResult> ByIdAsync(string id, CancellationToken cancellationToken)
         {
             using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
             {
@@ -101,48 +72,72 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                                             MarketingDetail.AboutUrl AS AboutUrl,
                                             MarketingDetail.Features As Features
                                      FROM   Solution
-                                            INNER JOIN MarketingDetail ON Solution.Id = MarketingDetail.SolutionId
+                                            LEFT OUTER JOIN MarketingDetail ON Solution.Id = MarketingDetail.SolutionId
                                      WHERE  Solution.Id = @id";
 
-                var result = await databaseConnection.QueryAsync<Solution>(sql, new { id });
+                var result = await databaseConnection.QueryAsync<SolutionResult>(sql, new { id });
 
                 return result.SingleOrDefault();
             }
         }
 
         /// <summary>
-        /// Updates the details of the solution.
+        /// Updates the summary details of the solution.
         /// </summary>
-        /// <param name="solution">The updated details of a solution to save to the data store.</param>
-        /// <returns>A task representing an operation to save the specified solution to the data store.</returns>
-        public async Task UpdateAsync(Solution solution, CancellationToken cancellationToken)
+        /// <param name="updateSolutionSummaryRequest">The updated details of a solution to save to the data store.</param>
+        /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
+        /// <returns>A task representing an operation to save the specified updateSolutionRequest to the data store.</returns>
+        public async Task UpdateSummaryAsync(IUpdateSolutionSummaryRequest updateSolutionSummaryRequest, CancellationToken cancellationToken)
         {
-            if (solution is null)
+            if (updateSolutionSummaryRequest is null)
             {
-                throw new System.ArgumentNullException(nameof(solution));
+                throw new System.ArgumentNullException(nameof(updateSolutionSummaryRequest));
             }
 
             using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
             {
-                using (IDbTransaction transaction = databaseConnection.BeginTransaction())
-                {
-                    const string updateSolutionSql = @"
+                const string updateSql = @"
+                                    UPDATE  Solution
+                                    SET     Solution.FullDescription = @description,
+                                            Solution.Summary = @summary
+                                    WHERE   Solution.Id = @solutionId;
+
+                                    IF(@@ROWCOUNT > 0)
+                                        MERGE MarketingDetail AS target  
+                                        USING (SELECT @solutionId, @aboutUrl) AS source (SolutionId, AboutURL)
+                                        ON (target.SolutionId = source.SolutionId)  
+                                        WHEN MATCHED THEN
+                                            UPDATE
+                                            SET     AboutURL = source.AboutURL
+                                        WHEN NOT MATCHED THEN
+                                            INSERT (SolutionId, AboutURL)  
+                                            VALUES (source.SolutionId, source.AboutURL);";
+
+                await databaseConnection.ExecuteAsync(updateSql, new { solutionId = updateSolutionSummaryRequest.Id, description = updateSolutionSummaryRequest.Description, summary = updateSolutionSummaryRequest.Summary, aboutUrl = updateSolutionSummaryRequest.AboutUrl });
+            }
+        }
+
+        /// <summary>
+        /// Updates the supplier status of the specified updateSolutionRequest in the data store.
+        /// </summary>
+        /// <param name="updateSolutionRequest">The updateSolutionRequest to update.</param>
+        /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
+        /// <returns>A task representing an operation to update the supplier status of the specified updateSolutionRequest in the data store.</returns>
+        public async Task UpdateSupplierStatusAsync(IUpdateSolutionSupplierStatusRequest updateSolutionSupplierStatusRequest, CancellationToken cancellationToken)
+        {
+            if (updateSolutionSupplierStatusRequest is null)
+            {
+                throw new ArgumentNullException(nameof(updateSolutionSupplierStatusRequest));
+            }
+
+            using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
+            {
+                const string updateSolutionSupplierStatusSql = @"
                                             UPDATE  Solution
-                                            SET     Solution.FullDescription = @description,
-                                                    Solution.Summary = @summary
+                                            SET		Solution.SupplierStatusId = @supplierStatusId
                                             WHERE   Solution.Id = @id;";
 
-                    const string updateMarketingDetailSql = @"
-                                         UPDATE  MarketingDetail
-                                         SET     MarketingDetail.AboutUrl = @aboutUrl,
-                                                 MarketingDetail.Features = @features
-                                         WHERE   MarketingDetail.SolutionId = @solutionId;";
-
-                    await databaseConnection.ExecuteAsync(updateSolutionSql, new { id = solution.Id, description = solution.Description, summary = solution.Summary }, transaction);
-                    await databaseConnection.ExecuteAsync(updateMarketingDetailSql, new { solutionId = solution.Id, aboutUrl = solution.AboutUrl, features = solution.Features }, transaction);
-
-                    transaction.Commit();
-                }
+                await databaseConnection.ExecuteAsync(updateSolutionSupplierStatusSql, updateSolutionSupplierStatusRequest);
             }
         }
     }

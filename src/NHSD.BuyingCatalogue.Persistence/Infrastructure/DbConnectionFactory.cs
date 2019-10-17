@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using NHSD.BuyingCatalogue.Application.Infrastructure;
+using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Persistence.Infrastructure
 {
@@ -14,19 +14,19 @@ namespace NHSD.BuyingCatalogue.Persistence.Infrastructure
     /// </summary>
     public sealed class DbConnectionFactory : IDbConnectionFactory
     {
-        private IConfiguration Configuration { get; }
+        private readonly IConfiguration _configuration;
 
         /// <summary>
         /// Gets the database connection details.
         /// </summary>
-        private string DefaultConnectionString => Configuration.BuyingCatalogueConnectionString();
+        private string DefaultConnectionString => _configuration.BuyingCatalogueConnectionString();
 
         /// <summary>
         /// Initialises a new instance of the <see cref="DbConnectionFactory"/> class.
         /// </summary>
         public DbConnectionFactory(IConfiguration configuration)
         {
-            Configuration = configuration ?? throw new System.ArgumentNullException(nameof(configuration));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         /// <summary>

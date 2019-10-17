@@ -118,6 +118,21 @@ CREATE TABLE [dbo].[SolutionCapabilityStatus](
 ) ON [PRIMARY]
 
 
+
+CREATE TABLE [dbo].[SolutionSupplierStatus](
+	[Id] [int] NOT NULL,
+	[Name] [varchar](16) NOT NULL,	
+ CONSTRAINT [PK_SolutionSupplierStatus] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [IX_SolutionSupplierStatusName] UNIQUE NONCLUSTERED 
+(
+	[Name] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+
 CREATE TABLE [dbo].[Solution](
 	[Id] [varchar](14) NOT NULL,
 	[OrganisationId] [varchar](8) NOT NULL,
@@ -136,6 +151,10 @@ CREATE TABLE [dbo].[Solution](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
+ALTER TABLE [dbo].[Solution]  WITH CHECK ADD  CONSTRAINT [FK_Solution_SupplierStatus] FOREIGN KEY([SupplierStatusId])
+REFERENCES [dbo].[SolutionSupplierStatus] ([Id])
+
+ALTER TABLE [dbo].[Solution] CHECK CONSTRAINT [FK_Solution_SupplierStatus]
 
 CREATE TABLE [dbo].[SolutionCapability](
 	[SolutionId] [varchar](14) NOT NULL,

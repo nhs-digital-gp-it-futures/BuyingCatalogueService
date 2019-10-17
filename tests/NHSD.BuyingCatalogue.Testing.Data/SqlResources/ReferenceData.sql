@@ -5,3 +5,6 @@ INSERT INTO [dbo].[CapabilityStatus] ([Id] ,[Name]) VALUES (1,'Effective')
 INSERT INTO [dbo].[CapabilityCategory] ([Id] ,[Name]) VALUES (0,'Undefined')
 
 INSERT INTO [dbo].[SolutionCapabilityStatus] ([Id], [Name]) VALUES (1, 'Passed');
+
+INSERT INTO [dbo].[SolutionSupplierStatus] ([Id], [Name]) VALUES (1, 'Draft');
+INSERT INTO [dbo].[SolutionSupplierStatus] ([Id], [Name]) VALUES (2, 'Authority Review');
