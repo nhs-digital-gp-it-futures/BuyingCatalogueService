@@ -13,7 +13,7 @@ spec:
       - name: regcred
       containers:
       - name: gpitfuture-api
-        image: gpitfutureaksdev.azurecr.io/nhsd/buying-catalogue-api:#{$(build.artifactstagingdirectory)#
+        image: gpitfutureaksdev.azurecr.io/nhsd/buying-catalogue-api
         ports:
         - containerPort: 5100
         resources:
