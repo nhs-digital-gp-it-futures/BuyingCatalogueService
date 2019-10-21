@@ -24,6 +24,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                     .WithFeatures(marketingDetail.Features)
                     .WithAboutUrl(marketingDetail.AboutUrl)
                     .WithSolutionId(marketingDetail.Solution)
+                    .WithClientApplication(marketingDetail.ClientApplication)
                     .Build()
                     .InsertAsync();
             }
@@ -43,14 +44,16 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             {
                 m.Solution,
                 AboutUrl = string.IsNullOrWhiteSpace(m.AboutUrl) ? null : m.AboutUrl,
-                Features = string.IsNullOrWhiteSpace(m.Features) ? null : m.Features
+                Features = string.IsNullOrWhiteSpace(m.Features) ? null : m.Features,
+                ClientApplication = string.IsNullOrWhiteSpace(m.ClientApplication) ? null : m.ClientApplication
             });
             var marketingDetails = await MarketingDetailEntity.FetchAllAsync();
             marketingDetails.Select(m => new
             {
                 Solution = m.SolutionId,
                 m.AboutUrl,
-                m.Features
+                m.Features,
+                m.ClientApplication
             }).Should().BeEquivalentTo(expectedMarketingDetails);
         }
 
@@ -61,6 +64,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             public string AboutUrl { get; set; }
 
             public string Features { get; set; }
+
+            public string ClientApplication { get; set; }
         }
     }
 }
