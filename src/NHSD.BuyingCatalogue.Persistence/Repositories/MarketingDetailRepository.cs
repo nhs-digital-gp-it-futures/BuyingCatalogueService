@@ -55,5 +55,29 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
             }
         }
 
+        public async Task UpdateClientApplicationAsync(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest,
+            CancellationToken cancellationToken)
+        {
+            if (updateSolutionClientApplicationRequest is null)
+            {
+                throw new System.ArgumentNullException(nameof(updateSolutionClientApplicationRequest));
+            }
+
+            using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
+            {
+                const string updateSql = @" IF EXISTS (SELECT 1 FROM Solution WHERE Id = @solutionId)
+                                        MERGE MarketingDetail AS target  
+                                        USING (SELECT @solutionId, @clientApplication) AS source (SolutionId, ClientApplication)
+                                        ON (target.SolutionId = source.SolutionId)  
+                                        WHEN MATCHED THEN
+                                            UPDATE
+                                            SET  ClientApplication = source.ClientApplication
+                                        WHEN NOT MATCHED THEN
+                                            INSERT (SolutionId, ClientApplication)  
+                                            VALUES (source.SolutionId, source.ClientApplication);";
+
+                await databaseConnection.ExecuteAsync(updateSql, new { solutionId = updateSolutionClientApplicationRequest.Id, clientApplication = updateSolutionClientApplicationRequest.ClientApplication });
+            }
+        }
     }
 }
