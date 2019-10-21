@@ -38,7 +38,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
             {
                 new SolutionDescriptionSection(solution),
                 new FeaturesSection(solution),
-                new ClientApplicationTypesSection()
+                new ClientApplicationTypesSection(solution)
             };
         }
 
@@ -118,20 +118,33 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
 
     public class ClientApplicationTypesSection : Section
     {
-        internal ClientApplicationTypesSection()
+        internal ClientApplicationTypesSection(Solution solution)
         {
             Sections = new List<Section>();
 
             //temp - ignore the solution, return canned data
-            BuildCannedSections();
+            BuildCannedSections(solution.ClientApplicationTypes);
             _isComplete = Sections.Any();
         }
 
-        private void BuildCannedSections()
+        private void BuildCannedSections(ClientApplicationTypes clientApplicationTypes)
         {
-            Sections.Add(new BrowserBasedSection());
-            Sections.Add(new NativeMobileSection());
-            Sections.Add(new NativeDesktopSection());
+            if(clientApplicationTypes == null) return;
+
+            if (clientApplicationTypes.BrowserBased != null)
+            {
+                Sections.Add(new BrowserBasedSection(clientApplicationTypes.BrowserBased));
+            }
+
+            if (clientApplicationTypes.NativeMobile != null)
+            {
+                Sections.Add(new NativeMobileSection());
+            }
+
+            if (clientApplicationTypes.NativeDesktop != null)
+            {
+                Sections.Add(new NativeDesktopSection());
+            }
         }
 
         public override string Id => "client-application-types";
@@ -139,16 +152,16 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
 
     public class BrowserBasedSection : Section
     {
-        internal BrowserBasedSection()
+        internal BrowserBasedSection(BrowserBased browserBased)
         {
-            Sections = new List<Section>();
+            if (browserBased == null) return;
+            //Sections = new List<Section>();
 
-            //temp - ignore the solution, return canned data
-            BuildCannedSections();
-            _isComplete = Sections.OfType<BrowsersSupportedSection>().FirstOrDefault()?.Status == "COMPLETE"
-                && Sections.OfType<PlugInsOrExtensionsSection>().FirstOrDefault()?.Status == "COMPLETE"
-                && Sections.OfType<ConnectivityAndResolutionSection>().FirstOrDefault()?.Status == "COMPLETE"
-            ;
+            ////temp - ignore the solution, return canned data
+            //BuildCannedSections();
+            //_isComplete = Sections.OfType<BrowsersSupportedSection>().FirstOrDefault()?.Status == "COMPLETE"
+            //    && Sections.OfType<PlugInsOrExtensionsSection>().FirstOrDefault()?.Status == "COMPLETE"
+            //    && Sections.OfType<ConnectivityAndResolutionSection>().FirstOrDefault()?.Status == "COMPLETE";
         }
 
         private void BuildCannedSections()

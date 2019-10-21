@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NHSD.BuyingCatalogue.Application;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetClientApplicationTypes;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
 namespace NHSD.BuyingCatalogue.API.Controllers
@@ -80,7 +82,26 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> UpdateClientApplicationTypesAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionClientApplicationTypesViewModel updateSolutionClientApplicationTypesViewModel)
         {
+            TempStaticClientApplicationTypes.SetClientApplicationTypes(updateSolutionClientApplicationTypesViewModel.ClientApplicationTypes);
+
             return NoContent();
+        }
+
+        /// <summary>
+        /// Updates the client application types of a solution matching the supplied ID.
+        /// </summary>
+        /// <param name="id">A value to uniquely identify a solution.</param>
+        /// <param name="updateSolutionFeaturesViewModel">The details of a solution that includes any updated inforamtion.</param>
+        /// <returns>A task representing an operation to update the details of a solution.</returns>
+        [HttpGet]
+        [Route("{id}/sections/client-application-types")]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult> GetClientApplicationTypesAsync([FromRoute][Required]string id)
+        {
+            GetClientApplicationTypesResult result = await _mediator.Send(new GetClientApplicationTypesQuery(id));
+            return result.ClientApplicationTypes == null ? (ActionResult)new NotFoundResult() : Ok(result);
         }
     }
 }

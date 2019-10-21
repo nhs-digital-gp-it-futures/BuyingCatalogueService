@@ -6,6 +6,7 @@ using FluentAssertions;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
 using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetClientApplicationTypes;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Domain.Entities.Capabilities;
@@ -39,6 +40,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Infrastructure.Mapping
             yield return new KeyValuePair<Type, Type>(typeof(UpdateSolutionSummaryViewModel), typeof(Solution));
 
             yield return new KeyValuePair<Type, Type>(typeof(UpdateSolutionFeaturesViewModel), typeof(Solution));
+
+            yield return new KeyValuePair<Type, Type>(typeof(ClientApplicationTypes), typeof(GetClientApplicationTypesResult));
         }
 
         [Test]

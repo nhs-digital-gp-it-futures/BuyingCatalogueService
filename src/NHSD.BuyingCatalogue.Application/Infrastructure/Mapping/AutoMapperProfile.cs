@@ -2,6 +2,7 @@ using AutoMapper;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetClientApplicationTypes;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Domain.Entities.Capabilities;
@@ -34,6 +35,9 @@ namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
 
             CreateMap<UpdateSolutionFeaturesViewModel, Solution>()
                 .ForMember(destination => destination.Features, options => options.MapFrom(source => JsonConvert.SerializeObject(source.Listing).ToString()));
+
+            CreateMap<ClientApplicationTypes, GetClientApplicationTypesResult>()
+                .ConstructUsing(x => new GetClientApplicationTypesResult(x));
         }
     }
 }

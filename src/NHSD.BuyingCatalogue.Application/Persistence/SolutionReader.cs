@@ -34,7 +34,8 @@ namespace NHSD.BuyingCatalogue.Application.Persistence
                 Summary = solutionResult.Summary,
                 Description = solutionResult.Description,
                 Features = solutionResult.Features,
-                AboutUrl = solutionResult.AboutUrl
+                AboutUrl = solutionResult.AboutUrl,
+                ClientApplicationTypes = TempStaticClientApplicationTypes.ClientApplicationTypes
             };
     }
 }
