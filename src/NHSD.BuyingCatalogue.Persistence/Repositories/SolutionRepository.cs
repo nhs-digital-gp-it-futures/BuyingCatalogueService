@@ -70,7 +70,8 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                                             Solution.Summary,
                                             Solution.FullDescription AS Description,
                                             MarketingDetail.AboutUrl AS AboutUrl,
-                                            MarketingDetail.Features As Features
+                                            MarketingDetail.Features As Features,
+                                            MarketingDetail.ClientApplication as ClientApplication
                                      FROM   Solution
                                             LEFT OUTER JOIN MarketingDetail ON Solution.Id = MarketingDetail.SolutionId
                                      WHERE  Solution.Id = @id";
