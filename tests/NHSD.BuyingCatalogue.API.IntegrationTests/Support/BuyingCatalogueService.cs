@@ -5,30 +5,26 @@ using System.IO;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Tools;
-using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Drivers
 {
     internal static class BuyingCatalogueService
     {
         private const string WaitServerUrl = "http://localhost:8080/health/dependencies";
+        private const string DockerFileCommandLineArgument = "-f docker-compose.yml -f docker-compose.integration.yml";
 
         private static readonly string SolutionWorkingDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..\\..\\"));
         private static readonly TimeSpan TestTimeout = TimeSpan.FromSeconds(60);
 
         internal static async Task StartAsync(string serviceConnectionString)
         {
-            await DockerComposeProcess.Create(SolutionWorkingDirectory, "-f docker-compose.yml -f docker-compose.integration.yml build"
+            await DockerComposeProcess.Create(SolutionWorkingDirectory, $"{DockerFileCommandLineArgument} build"
                 , new KeyValuePair<string, string>("NHSD_BUYINGCATALOGUE_DB", serviceConnectionString)
-                , new KeyValuePair<string, string>("NHSD_BUYINGCATALOGUE_DB_PASSWORD", DataConstants.SAPassword)).ExecuteAsync((x) => TestContext.WriteLine(x), (x) => TestContext.WriteLine(x));
+                , new KeyValuePair<string, string>("NHSD_BUYINGCATALOGUE_DB_PASSWORD", DataConstants.SAPassword)).ExecuteAsync((x) => Debug.WriteLine(x), (x) => Debug.WriteLine(x));
 
-            TestContext.WriteLine("");
-            TestContext.WriteLine("------------------");
-            TestContext.WriteLine("");
-
-            await DockerComposeProcess.Create(SolutionWorkingDirectory, "-f docker-compose.yml -f docker-compose.integration.yml up -d"
+            await DockerComposeProcess.Create(SolutionWorkingDirectory, $"{DockerFileCommandLineArgument} up -d"
                 , new KeyValuePair<string, string>("NHSD_BUYINGCATALOGUE_DB", serviceConnectionString)
-                , new KeyValuePair<string, string>("NHSD_BUYINGCATALOGUE_DB_PASSWORD", DataConstants.SAPassword)).ExecuteAsync((x) => TestContext.WriteLine(x), (x) => TestContext.WriteLine(x));
+                , new KeyValuePair<string, string>("NHSD_BUYINGCATALOGUE_DB_PASSWORD", DataConstants.SAPassword)).ExecuteAsync((x) => Debug.WriteLine(x), (x) => Debug.WriteLine(x));
         }
 
         internal static async Task WaitAsync()
@@ -42,7 +38,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Drivers
 
         internal static async Task StopAsync()
         {
-            await DockerComposeProcess.Create(SolutionWorkingDirectory, "-f docker-compose.yml -f docker-compose.integration.yml down -v").ExecuteAsync((x) => Debug.WriteLine(x));
+            await DockerComposeProcess.Create(SolutionWorkingDirectory, $"{DockerFileCommandLineArgument} down -v").ExecuteAsync((x) => Debug.WriteLine(x));
         }
     }
 }
