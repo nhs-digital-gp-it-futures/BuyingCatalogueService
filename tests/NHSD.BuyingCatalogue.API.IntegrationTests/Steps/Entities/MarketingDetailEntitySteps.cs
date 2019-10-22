@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
 using TechTalk.SpecFlow;
@@ -45,7 +46,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 m.Solution,
                 AboutUrl = string.IsNullOrWhiteSpace(m.AboutUrl) ? null : m.AboutUrl,
                 Features = string.IsNullOrWhiteSpace(m.Features) ? null : m.Features,
-                ClientApplication = string.IsNullOrWhiteSpace(m.ClientApplication) ? null : m.ClientApplication
+                ClientApplication = string.IsNullOrWhiteSpace(m.ClientApplication) ? null : JToken.Parse(m.ClientApplication).ToString()
             });
             var marketingDetails = await MarketingDetailEntity.FetchAllAsync();
             marketingDetails.Select(m => new
@@ -53,7 +54,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 Solution = m.SolutionId,
                 m.AboutUrl,
                 m.Features,
-                m.ClientApplication
+                ClientApplication = string.IsNullOrWhiteSpace(m.ClientApplication) ? null : JToken.Parse(m.ClientApplication).ToString()
             }).Should().BeEquivalentTo(expectedMarketingDetails);
         }
 

@@ -35,9 +35,6 @@ namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
 
             CreateMap<UpdateSolutionFeaturesViewModel, Solution>()
                 .ForMember(destination => destination.Features, options => options.MapFrom(source => JsonConvert.SerializeObject(source.Listing).ToString()));
-
-            CreateMap<ClientApplication, GetClientApplicationTypesResult>()
-                .ConstructUsing(x => new GetClientApplicationTypesResult(x));
         }
     }
 }

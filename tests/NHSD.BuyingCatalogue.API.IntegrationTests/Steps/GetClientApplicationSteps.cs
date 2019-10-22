@@ -32,7 +32,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         public async Task GetRequestClientApplication(string solutionId)
         {
             _response.Result = await Client.GetAsync(string.Format(ClientApplicationTypesUrl, solutionId));
-
         }
 
         [Then(@"the client-application-types element contains")]

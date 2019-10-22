@@ -50,6 +50,60 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
         }
 
         [Test]
+        public async Task ShouldUpdateEmptySolutionClientApplicationTypes()
+        {
+            var existingSolution = new Mock<ISolutionResult>();
+            existingSolution.Setup(s => s.Id).Returns("Sln1");
+
+            _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
+
+            await _context.UpdateSolutionClientApplicationTypesHandler.Handle(new UpdateSolutionClientApplicationTypesCommand("Sln1",
+                new UpdateSolutionClientApplicationTypesViewModel
+                {
+                    ClientApplicationTypes = new HashSet<string>()
+                }), new CancellationToken());
+
+            _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+
+            _context.MockMarketingDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
+                r.Id == "Sln1"
+                && !JToken.Parse(r.ClientApplication).SelectToken("ClientApplicationTypes").Select(s => s.Value<string>()).Contains("browser-based")
+                && !JToken.Parse(r.ClientApplication).SelectToken("ClientApplicationTypes").Select(s => s.Value<string>()).Contains("native-mobile")
+                && !JToken.Parse(r.ClientApplication).SelectToken("ClientApplicationTypes").Select(s => s.Value<string>()).Contains("native-desktop")
+                && JToken.Parse(r.ClientApplication).SelectToken("ClientApplicationTypes").Count() == 0
+            ), It.IsAny<CancellationToken>()), Times.Once());
+        }
+
+        [Test]
+        public async Task ShouldIgnoreUnknownClientApplicationTypes()
+        {
+            var existingSolution = new Mock<ISolutionResult>();
+            existingSolution.Setup(s => s.Id).Returns("Sln1");
+
+            _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
+
+            await _context.UpdateSolutionClientApplicationTypesHandler.Handle(new UpdateSolutionClientApplicationTypesCommand("Sln1",
+                new UpdateSolutionClientApplicationTypesViewModel
+                {
+                    ClientApplicationTypes = new HashSet<string> { "browser-based", "curry", "native-mobile", "native-desktop", "elephant", "anteater", "blue", null, "" }
+                }), new CancellationToken());
+
+            _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+
+            _context.MockMarketingDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
+                r.Id == "Sln1"
+                && JToken.Parse(r.ClientApplication).SelectToken("ClientApplicationTypes").Select(s => s.Value<string>()).Contains("browser-based")
+                && JToken.Parse(r.ClientApplication).SelectToken("ClientApplicationTypes").Select(s => s.Value<string>()).Contains("native-mobile")
+                && JToken.Parse(r.ClientApplication).SelectToken("ClientApplicationTypes").Select(s => s.Value<string>()).Contains("native-desktop")
+                && !JToken.Parse(r.ClientApplication).SelectToken("ClientApplicationTypes").Select(s => s.Value<string>()).Contains("curry")
+                && !JToken.Parse(r.ClientApplication).SelectToken("ClientApplicationTypes").Select(s => s.Value<string>()).Contains("elephant")
+                && !JToken.Parse(r.ClientApplication).SelectToken("ClientApplicationTypes").Select(s => s.Value<string>()).Contains("anteater")
+                && !JToken.Parse(r.ClientApplication).SelectToken("ClientApplicationTypes").Select(s => s.Value<string>()).Contains("blue")
+                && JToken.Parse(r.ClientApplication).SelectToken("ClientApplicationTypes").Count() == 3
+            ), It.IsAny<CancellationToken>()), Times.Once());
+        }
+
+        [Test]
         public void ShouldThrowWhenSolutionNotPresent()
         {
             var exception = Assert.ThrowsAsync<NotFoundException>(() =>
