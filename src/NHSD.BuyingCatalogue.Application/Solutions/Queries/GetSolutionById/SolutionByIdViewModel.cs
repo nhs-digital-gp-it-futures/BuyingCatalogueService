@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
@@ -30,126 +27,6 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
         public MarketingDataViewModel MarketingData { get; }
     }
 
-    public sealed class MarketingDataViewModel
-    {
-        internal MarketingDataViewModel(Solution solution)
-        {
-            Sections = new List<Section>
-            {
-                new SolutionDescriptionSection(solution),
-                new FeaturesSection(solution),
-                new ClientApplicationTypesSection(solution)
-            };
-        }
-
-        public IEnumerable<Section> Sections { get; }
-    }
-
-    public abstract class Section
-    {
-        protected bool _isComplete = false;
-
-        public abstract string Id { get; }
-
-        public string Requirement => (Mandatory.Any() || Sections != null) ? "Mandatory" : "Optional";
-
-        public string Status => _isComplete ? "COMPLETE" : "INCOMPLETE";
-
-        public List<string> Mandatory = new List<string>();
-
-        public List<Section> Sections { get; protected set; } //Subsections - may be null;
-
-    }
-
-    public class SolutionDescriptionSection : Section
-    {
-        internal SolutionDescriptionSection(Solution solution)
-        {
-            Data = new SolutionDescription(solution);
-            _isComplete = !string.IsNullOrWhiteSpace(solution.Summary);
-            Mandatory.Add("summary");
-        }
-
-        public override string Id => "solution-description";
-
-        public SolutionDescription Data { get; }
-    }
-
-    public class SolutionDescription
-    {
-        internal SolutionDescription(Solution solution)
-        {
-            Summary = solution.Summary;
-            Description = solution.Description;
-            Link = solution.AboutUrl;
-        }
-
-        public string Summary { get; }
-
-        public string Description { get; }
-
-        public string Link { get; }
-    }
-
-    public class FeaturesSection : Section
-    {
-        internal FeaturesSection(Solution solution)
-        {
-            Data = new Features(solution.Features);
-            _isComplete = Data.Listing.Any(s => !string.IsNullOrWhiteSpace(s));
-        }
-
-        public override string Id => "features";
-
-        public Features Data { get; }
-    }
-
-    public class Features
-    {
-        internal Features(string featuresJson)
-        {
-            Listing = string.IsNullOrWhiteSpace(featuresJson)
-                ? new List<string>()
-                : JsonConvert.DeserializeObject<List<string>>(featuresJson);
-        }
-
-        public IEnumerable<string> Listing { get; }
-    }
-
-    public class ClientApplicationTypesSection : Section
-    {
-        internal ClientApplicationTypesSection(Solution solution)
-        {
-            Sections = new List<Section>();
-
-            //temp - ignore the solution, return canned data
-            BuildCannedSections(solution.ClientApplication);
-            _isComplete = Sections.Any();
-        }
-
-        private void BuildCannedSections(ClientApplication clientApplication)
-        {
-            if (clientApplication == null) return;
-
-            if (clientApplication.ClientApplicationTypes.Contains("browser-based"))
-            {
-                Sections.Add(new BrowserBasedSection());
-            }
-
-            if (clientApplication.ClientApplicationTypes.Contains("native-mobile"))
-            {
-                Sections.Add(new NativeMobileSection());
-            }
-
-            if (clientApplication.ClientApplicationTypes.Contains("native-desktop"))
-            {
-                Sections.Add(new NativeDesktopSection());
-            }
-        }
-
-        public override string Id => "client-application-types";
-    }
-
     public class BrowserBasedSection : Section
     {
         internal BrowserBasedSection()
@@ -164,70 +41,70 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
             //    && Sections.OfType<ConnectivityAndResolutionSection>().FirstOrDefault()?.Status == "COMPLETE";
         }
 
-        private void BuildCannedSections()
-        {
-            Sections.Add(new BrowsersSupportedSection());
-            Sections.Add(new PlugInsOrExtensionsSection());
-            Sections.Add(new ConnectivityAndResolutionSection());
-            Sections.Add(new HardwareRequirementsSection());
-            Sections.Add(new AdditionalInformationSection());
-        }
+        //private void BuildCannedSections()
+        //{
+        //    Sections.Add(new BrowsersSupportedSection());
+        //    Sections.Add(new PlugInsOrExtensionsSection());
+        //    Sections.Add(new ConnectivityAndResolutionSection());
+        //    Sections.Add(new HardwareRequirementsSection());
+        //    Sections.Add(new AdditionalInformationSection());
+        //}
 
         public override string Id => "browser-based";
     }
 
-    public class BrowsersSupportedSection : Section
-    {
-        internal BrowsersSupportedSection()
-        {
-            Data = new BrowserSupportedSectionData();
+    //public class BrowsersSupportedSection : Section
+    //{
+    //    internal BrowsersSupportedSection()
+    //    {
+    //        Data = new BrowserSupportedSectionData();
 
-            _isComplete = Data.GoogleChrome ||
-                          Data.MicrosoftEdge ||
-                          Data.MozillaFirefox ||
-                          Data.Opera ||
-                          Data.Safari ||
-                          Data.Chromium ||
-                          Data.InternetExplorer11 ||
-                          Data.InternetExplorer10;
-        }
+    //        _isComplete = Data.GoogleChrome ||
+    //                      Data.MicrosoftEdge ||
+    //                      Data.MozillaFirefox ||
+    //                      Data.Opera ||
+    //                      Data.Safari ||
+    //                      Data.Chromium ||
+    //                      Data.InternetExplorer11 ||
+    //                      Data.InternetExplorer10;
+    //    }
 
-        public BrowserSupportedSectionData Data { get; }
+    //    public BrowserSupportedSectionData Data { get; }
 
-        public override string Id => "browsers-supported";
-    }
+    //    public override string Id => "browsers-supported";
+    //}
 
-    public class BrowserSupportedSectionData
-    {
-        public bool GoogleChrome => false;
-        public bool MicrosoftEdge => true;
-        public bool MozillaFirefox => false;
-        public bool Opera => true;
-        public bool Safari => true;
-        public bool Chromium => false;
-        public bool InternetExplorer11 => true;
-        public bool InternetExplorer10 => false;
-    }
+    //public class BrowserSupportedSectionData
+    //{
+    //    public bool GoogleChrome => false;
+    //    public bool MicrosoftEdge => true;
+    //    public bool MozillaFirefox => false;
+    //    public bool Opera => true;
+    //    public bool Safari => true;
+    //    public bool Chromium => false;
+    //    public bool InternetExplorer11 => true;
+    //    public bool InternetExplorer10 => false;
+    //}
 
-    public class PlugInsOrExtensionsSection : Section
-    {
-        public override string Id => "plug-ins-or-extensions";
-    }
+    //public class PlugInsOrExtensionsSection : Section
+    //{
+    //    public override string Id => "plug-ins-or-extensions";
+    //}
 
-    public class ConnectivityAndResolutionSection : Section
-    {
-        public override string Id => "connectivity-and-resolution";
-    }
+    //public class ConnectivityAndResolutionSection : Section
+    //{
+    //    public override string Id => "connectivity-and-resolution";
+    //}
 
-    public class HardwareRequirementsSection : Section
-    {
-        public override string Id => "hardware-requirements";
-    }
+    //public class HardwareRequirementsSection : Section
+    //{
+    //    public override string Id => "hardware-requirements";
+    //}
 
-    public class AdditionalInformationSection : Section
-    {
-    public override string Id => "additional-information";
-    }
+    //public class AdditionalInformationSection : Section
+    //{
+    //public override string Id => "additional-information";
+    //}
 
     public class NativeMobileSection : Section
     {
