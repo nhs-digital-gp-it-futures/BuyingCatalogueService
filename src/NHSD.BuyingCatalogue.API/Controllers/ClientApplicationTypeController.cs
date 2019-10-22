@@ -52,7 +52,7 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         }
 
         /// <summary>
-        /// Updates the client application types of a solution matching the supplied ID.
+        /// Gets the client application types of a solution matching the supplied ID.
         /// </summary>
         /// <param name="id">A value to uniquely identify a solution.</param>
         /// <param name="updateSolutionFeaturesViewModel">The details of a solution that includes any updated inforamtion.</param>
