@@ -1,4 +1,3 @@
-@ignore
 Feature: Supplier Get Client Application Type
     As a Supplier
     I want to read the ClientApplicationType Section
@@ -23,8 +22,9 @@ Scenario: 1. Client Application Types are retrieved for the solution
     When a GET request is made for client-application-types for solution Sln1
     Then a successful response is returned
     And the client-application-types element contains
-    | ClientApplicationTypes           |
-    | "browser-based","native-desktop" |
+    | ClientApplicationTypes |
+    | browser-based          |
+    | native-desktop         |
 
 @2724
 Scenario: 2. Client Application Types are retrieved for the solution where no marketing detail exists
