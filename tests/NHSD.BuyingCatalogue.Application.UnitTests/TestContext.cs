@@ -6,6 +6,7 @@ using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
 using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetClientApplicationTypes;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
@@ -34,6 +35,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
         public UpdateSolutionClientApplicationTypesHandler UpdateSolutionClientApplicationTypesHandler => (UpdateSolutionClientApplicationTypesHandler)_scope.UpdateSolutionClientApplicationTypesHandler;
 
+        public GetClientApplicationTypesResultHandler GetClientApplicationTypesResultHandler => (GetClientApplicationTypesResultHandler)_scope.GetClientApplicationTypesResultHandler;
+
         private readonly Scope _scope;
 
         public TestContext()
@@ -51,6 +54,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             serviceCollection.AddTransient<IRequestHandler<UpdateSolutionFeaturesCommand>, UpdateSolutionFeaturesHandler>();
             serviceCollection.AddTransient<IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewResult>, SubmitSolutionForReviewHandler>();
             serviceCollection.AddTransient<IRequestHandler<UpdateSolutionClientApplicationTypesCommand>, UpdateSolutionClientApplicationTypesHandler>();
+            serviceCollection.AddTransient<IRequestHandler<GetClientApplicationTypesQuery, GetClientApplicationTypesResult>, GetClientApplicationTypesResultHandler>();
 
             serviceCollection.AddSingleton<Scope>();
             _scope = serviceCollection.BuildServiceProvider().GetService<Scope>();
@@ -88,13 +92,16 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
             public IRequestHandler<UpdateSolutionClientApplicationTypesCommand> UpdateSolutionClientApplicationTypesHandler { get; }
 
+            public IRequestHandler<GetClientApplicationTypesQuery, GetClientApplicationTypesResult> GetClientApplicationTypesResultHandler { get; }
+
             public Scope(IRequestHandler<ListCapabilitiesQuery, ListCapabilitiesResult> listCapabilitiesHandler,
                 IRequestHandler<ListSolutionsQuery, ListSolutionsResult> listSolutionsHandler,
                 IRequestHandler<GetSolutionByIdQuery, GetSolutionByIdResult> getSolutionByIdHandler,
                 IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewResult> submitSolutionForReviewHandler,
                 IRequestHandler<UpdateSolutionSummaryCommand> updateSolutionSummaryHandler,
                 IRequestHandler<UpdateSolutionFeaturesCommand> updateSolutionFeaturesHandler,
-                IRequestHandler<UpdateSolutionClientApplicationTypesCommand> updateSolutionClientApplicationTypesHandler)
+                IRequestHandler<UpdateSolutionClientApplicationTypesCommand> updateSolutionClientApplicationTypesHandler,
+                IRequestHandler<GetClientApplicationTypesQuery, GetClientApplicationTypesResult> getClientApplicationTypesResultHandler)
             {
                 ListCapabilitiesHandler = listCapabilitiesHandler;
                 ListSolutionsHandler = listSolutionsHandler;
@@ -103,6 +110,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
                 UpdateSolutionSummaryHandler = updateSolutionSummaryHandler;
                 UpdateSolutionFeaturesHandler = updateSolutionFeaturesHandler;
                 UpdateSolutionClientApplicationTypesHandler = updateSolutionClientApplicationTypesHandler;
+                GetClientApplicationTypesResultHandler = getClientApplicationTypesResultHandler;
             }
         }
     }

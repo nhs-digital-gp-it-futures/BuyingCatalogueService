@@ -31,7 +31,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetClientApplicatio
         /// <param name="request">The query parameters.</param>
         /// <param name="cancellationToken">Token to cancel the request.</param>
         /// <returns>A task representing an operation to get the result of this query.</returns>
-        public async Task<GetClientApplicationTypesResult> Handle(GetClientApplicationTypesQuery request, CancellationToken cancellationToken)
-        => _mapper.Map<GetClientApplicationTypesResult>((await _solutionReader.ByIdAsync(request.Id, cancellationToken))?.ClientApplication);
+        public async Task<GetClientApplicationTypesResult> Handle(GetClientApplicationTypesQuery request, CancellationToken cancellationToken) =>
+            new GetClientApplicationTypesResult((await _solutionReader.ByIdAsync(request.Id, cancellationToken))?.ClientApplication);
     }
 }

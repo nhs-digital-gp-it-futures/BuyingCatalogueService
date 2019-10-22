@@ -32,7 +32,6 @@ Scenario: 2. Client Application Types are retrieved for the solution where no ma
     Then a successful response is returned
     And the client-application-types element contains
     | ClientApplicationTypes |
-    |                        |
 
 @2724
 Scenario: 3. Client Application Types are retrieved for the solution where no client application types exist
@@ -40,7 +39,6 @@ Scenario: 3. Client Application Types are retrieved for the solution where no cl
     Then a successful response is returned
     And the client-application-types element contains
     | ClientApplicationTypes |
-    |                        |
 
 @2726
 Scenario: 4. Solution not found
@@ -57,6 +55,4 @@ Scenario: 5. Service failure
 @2726
 Scenario: 6. Solution id not present in request
     When a GET request is made for client-application-types with no solution id
-        | ClientApplicationTypes       |
-        | browser-based,native-desktop |
     Then a response status of 400 is returned

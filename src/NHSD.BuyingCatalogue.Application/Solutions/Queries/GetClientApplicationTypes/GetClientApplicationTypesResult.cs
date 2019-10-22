@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetClientApplicatio
     {
         public GetClientApplicationTypesResult(ClientApplication clientApplication)
         {
-            ClientApplicationTypes = clientApplication.ClientApplicationTypes;
+            ClientApplicationTypes = clientApplication?.ClientApplicationTypes ?? new HashSet<string>();
         }
 
         [JsonProperty("client-application-types")]
