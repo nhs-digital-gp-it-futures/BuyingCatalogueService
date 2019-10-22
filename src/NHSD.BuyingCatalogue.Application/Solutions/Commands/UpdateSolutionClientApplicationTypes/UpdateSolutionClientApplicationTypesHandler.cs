@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -11,16 +13,16 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution
     {
         private readonly SolutionReader _solutionReader;
         private readonly SolutionClientApplicationTypesUpdater _solutionClientApplicationTypesUpdater;
-        private readonly IMapper _mapper;
+
+        private static readonly HashSet<string> _acceptedClientApplicationTypes = new HashSet<string> { "browser-based", "native-mobile", "native-desktop" };
 
         /// <summary>
         /// Initialises a new instance of the <see cref="UpdateSolutionHandler"/> class.
         /// </summary>
-        public UpdateSolutionClientApplicationTypesHandler(SolutionReader solutionReader, SolutionClientApplicationTypesUpdater solutionClientApplicationTypesUpdater, IMapper mapper)
+        public UpdateSolutionClientApplicationTypesHandler(SolutionReader solutionReader, SolutionClientApplicationTypesUpdater solutionClientApplicationTypesUpdater)
         {
             _solutionReader = solutionReader;
             _solutionClientApplicationTypesUpdater = solutionClientApplicationTypesUpdater;
-            _mapper = mapper;
         }
 
         /// <summary>
@@ -41,7 +43,8 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution
         private static ClientApplication Map(UpdateSolutionClientApplicationTypesViewModel updateSolutionClientApplicationTypesViewModel) =>
             new ClientApplication
             {
-                ClientApplicationTypes = updateSolutionClientApplicationTypesViewModel.ClientApplicationTypes
+                ClientApplicationTypes = new HashSet<string>(updateSolutionClientApplicationTypesViewModel.ClientApplicationTypes
+                    .Where(s => _acceptedClientApplicationTypes.Contains(s)))
             };
     }
 }
