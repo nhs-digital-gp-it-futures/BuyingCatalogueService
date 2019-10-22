@@ -7,26 +7,9 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetClientApplicatio
 {
     public sealed class GetClientApplicationTypesResult
     {
-        public GetClientApplicationTypesResult(ClientApplicationTypes clientApplicationTypes)
+        public GetClientApplicationTypesResult(ClientApplication clientApplication)
         {
-            var clientApplicationTypesSelected = new List<string>();
-
-            if (clientApplicationTypes?.BrowserBased != null)
-            {
-                clientApplicationTypesSelected.Add("browser-based");
-            }
-
-            if (clientApplicationTypes?.NativeMobile != null)
-            {
-                clientApplicationTypesSelected.Add("native-mobile");
-            }
-
-            if (clientApplicationTypes?.NativeDesktop != null)
-            {
-                clientApplicationTypesSelected.Add("native-desktop");
-            }
-
-            ClientApplicationTypes = clientApplicationTypesSelected;
+            ClientApplicationTypes = clientApplication.ClientApplicationTypes;
         }
 
         [JsonProperty("client-application-types")]

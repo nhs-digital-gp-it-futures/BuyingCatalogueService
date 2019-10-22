@@ -1,5 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Application.Exceptions;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
@@ -35,7 +37,7 @@ namespace NHSD.BuyingCatalogue.Application.Persistence
                 Description = solutionResult.Description,
                 Features = solutionResult.Features,
                 AboutUrl = solutionResult.AboutUrl,
-                ClientApplicationTypes = TempStaticClientApplicationTypes.ClientApplicationTypes
+                ClientApplication = solutionResult.ClientApplication == null ? null : JsonConvert.DeserializeObject<ClientApplication>(solutionResult.ClientApplication)
             };
     }
 }

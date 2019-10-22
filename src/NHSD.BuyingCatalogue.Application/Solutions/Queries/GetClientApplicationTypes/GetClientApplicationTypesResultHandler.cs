@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -35,6 +32,6 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetClientApplicatio
         /// <param name="cancellationToken">Token to cancel the request.</param>
         /// <returns>A task representing an operation to get the result of this query.</returns>
         public async Task<GetClientApplicationTypesResult> Handle(GetClientApplicationTypesQuery request, CancellationToken cancellationToken)
-        => _mapper.Map<GetClientApplicationTypesResult>((await _solutionReader.ByIdAsync(request.Id, cancellationToken))?.ClientApplicationTypes);
+        => _mapper.Map<GetClientApplicationTypesResult>((await _solutionReader.ByIdAsync(request.Id, cancellationToken))?.ClientApplication);
     }
 }

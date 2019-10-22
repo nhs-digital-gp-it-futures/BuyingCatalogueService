@@ -59,7 +59,7 @@ namespace NHSD.BuyingCatalogue.Domain.Entities.Solutions
         /// </summary>
         public SupplierStatus SupplierStatus { get; private set; }
 
-        public ClientApplicationTypes ClientApplicationTypes { get; set; }
+        public ClientApplication ClientApplication { get; set; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="Solution"/> class.
@@ -84,24 +84,8 @@ namespace NHSD.BuyingCatalogue.Domain.Entities.Solutions
         }
     }
 
-    public class ClientApplicationTypes
+    public class ClientApplication
     {
-        public BrowserBased BrowserBased { get; set; }
-
-        public NativeMobile NativeMobile { get; set; }
-
-        public NativeDesktop NativeDesktop { get; set; }
-    }
-
-    public class BrowserBased
-    {
-    }
-
-    public class NativeMobile
-    {
-    }
-
-    public class NativeDesktop
-    {
+        public HashSet<string> ClientApplicationTypes { get; set; }
     }
 }

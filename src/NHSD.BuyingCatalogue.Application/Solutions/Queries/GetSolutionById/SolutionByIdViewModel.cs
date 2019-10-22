@@ -123,25 +123,25 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
             Sections = new List<Section>();
 
             //temp - ignore the solution, return canned data
-            BuildCannedSections(solution.ClientApplicationTypes);
+            BuildCannedSections(solution.ClientApplication);
             _isComplete = Sections.Any();
         }
 
-        private void BuildCannedSections(ClientApplicationTypes clientApplicationTypes)
+        private void BuildCannedSections(ClientApplication clientApplication)
         {
-            if(clientApplicationTypes == null) return;
+            if (clientApplication == null) return;
 
-            if (clientApplicationTypes.BrowserBased != null)
+            if (clientApplication.ClientApplicationTypes.Contains("browser-based"))
             {
-                Sections.Add(new BrowserBasedSection(clientApplicationTypes.BrowserBased));
+                Sections.Add(new BrowserBasedSection());
             }
 
-            if (clientApplicationTypes.NativeMobile != null)
+            if (clientApplication.ClientApplicationTypes.Contains("native-mobile"))
             {
                 Sections.Add(new NativeMobileSection());
             }
 
-            if (clientApplicationTypes.NativeDesktop != null)
+            if (clientApplication.ClientApplicationTypes.Contains("native-desktop"))
             {
                 Sections.Add(new NativeDesktopSection());
             }
@@ -152,9 +152,9 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
 
     public class BrowserBasedSection : Section
     {
-        internal BrowserBasedSection(BrowserBased browserBased)
+        internal BrowserBasedSection()
         {
-            if (browserBased == null) return;
+            //if (browserBased == null) return;
             //Sections = new List<Section>();
 
             ////temp - ignore the solution, return canned data
