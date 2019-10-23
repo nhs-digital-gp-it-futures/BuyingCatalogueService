@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NHSD.BuyingCatalogue.API.ViewModels;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
@@ -68,8 +69,8 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<GetSolutionByIdResult>> ById([FromRoute][Required]string id)
         {
-            GetSolutionByIdResult result = await _mediator.Send(new GetSolutionByIdQuery(id));
-            return result.Solution == null ? (ActionResult)new NotFoundResult() : Ok(result);
+            var result = await _mediator.Send(new GetSolutionByIdQuery(id));
+            return result == null ? (ActionResult)new NotFoundResult() : Ok(new GetSolutionByIdResult(new SolutionByIdViewModel(result)));
         }
 
         /// <summary>

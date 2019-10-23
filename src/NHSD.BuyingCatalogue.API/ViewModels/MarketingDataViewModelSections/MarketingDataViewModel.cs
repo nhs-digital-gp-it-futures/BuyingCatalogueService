@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
-namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
+namespace NHSD.BuyingCatalogue.API.ViewModels
 {
     public sealed class MarketingDataViewModel
     {

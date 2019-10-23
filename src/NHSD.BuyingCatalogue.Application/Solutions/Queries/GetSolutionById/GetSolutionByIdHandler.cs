@@ -3,13 +3,14 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using NHSD.BuyingCatalogue.Application.Persistence;
+using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
 {
     /// <summary>
     /// Defines the request handler for the <see cref="GetSolutionByIdQuery"/>.
     /// </summary>
-    internal sealed class GetSolutionByIdHandler : IRequestHandler<GetSolutionByIdQuery, GetSolutionByIdResult>
+    internal sealed class GetSolutionByIdHandler : IRequestHandler<GetSolutionByIdQuery, Solution>
     {
         private readonly SolutionReader _solutionReader;
         private readonly IMapper _mapper;
@@ -29,7 +30,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
         /// <param name="request">The query parameters.</param>
         /// <param name="cancellationToken">Token to cancel the request.</param>
         /// <returns>A task representing an operation to get the result of this query.</returns>
-        public async Task<GetSolutionByIdResult> Handle(GetSolutionByIdQuery request, CancellationToken cancellationToken)
-            => new GetSolutionByIdResult(_mapper.Map<SolutionByIdViewModel>(await _solutionReader.ByIdAsync(request.Id, cancellationToken)));
+        public async Task<Solution> Handle(GetSolutionByIdQuery request, CancellationToken cancellationToken)
+            => await _solutionReader.ByIdAsync(request.Id, cancellationToken);
     }
 }

@@ -10,6 +10,7 @@ using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetClientApplicationTyp
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests
 {
@@ -49,7 +50,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
             serviceCollection.AddTransient<IRequestHandler<ListCapabilitiesQuery, ListCapabilitiesResult>, ListCapabilitiesHandler>();
             serviceCollection.AddTransient<IRequestHandler<ListSolutionsQuery, ListSolutionsResult>, ListSolutionsHandler>();
-            serviceCollection.AddTransient<IRequestHandler<GetSolutionByIdQuery, GetSolutionByIdResult>, GetSolutionByIdHandler>();
+            serviceCollection.AddTransient<IRequestHandler<GetSolutionByIdQuery, Solution>, GetSolutionByIdHandler>();
             serviceCollection.AddTransient<IRequestHandler<UpdateSolutionSummaryCommand>, UpdateSolutionSummaryHandler>();
             serviceCollection.AddTransient<IRequestHandler<UpdateSolutionFeaturesCommand>, UpdateSolutionFeaturesHandler>();
             serviceCollection.AddTransient<IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewResult>, SubmitSolutionForReviewHandler>();
@@ -82,7 +83,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
             public IRequestHandler<ListSolutionsQuery, ListSolutionsResult> ListSolutionsHandler { get; }
 
-            public IRequestHandler<GetSolutionByIdQuery, GetSolutionByIdResult> GetSolutionByIdHandler { get; }
+            public IRequestHandler<GetSolutionByIdQuery, Solution> GetSolutionByIdHandler { get; }
 
             public IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewResult> SubmitSolutionForReviewHandler { get; }
 
@@ -96,7 +97,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
             public Scope(IRequestHandler<ListCapabilitiesQuery, ListCapabilitiesResult> listCapabilitiesHandler,
                 IRequestHandler<ListSolutionsQuery, ListSolutionsResult> listSolutionsHandler,
-                IRequestHandler<GetSolutionByIdQuery, GetSolutionByIdResult> getSolutionByIdHandler,
+                IRequestHandler<GetSolutionByIdQuery, Solution> getSolutionByIdHandler,
                 IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewResult> submitSolutionForReviewHandler,
                 IRequestHandler<UpdateSolutionSummaryCommand> updateSolutionSummaryHandler,
                 IRequestHandler<UpdateSolutionFeaturesCommand> updateSolutionFeaturesHandler,
