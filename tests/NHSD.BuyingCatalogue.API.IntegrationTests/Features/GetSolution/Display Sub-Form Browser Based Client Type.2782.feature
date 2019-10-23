@@ -1,4 +1,3 @@
-@ignore
 Feature: Supplier Display Sub-Form Browser Based Client Type
     As a Supplier
     I want to Display Sub-Form Browser Based Client Type
@@ -55,10 +54,19 @@ Scenario Outline: 6. Browser Supported status based on data in ClientApplication
     Given MarketingDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
+
     When a GET request is made to display solution Sln1 browser-based sections
     Then a successful response is returned
     And the status of the browsers-supported section is <Status>
 Examples:
-    | ClientApplication                                   | Status     |
-    |                                                     | INCOMPLETE |
-    | { "ClientApplicationTypes" : [ "native-desktop" ] } | INCOMPLETE |
+    | ClientApplication                                                                                                        | Status     |
+    |                                                                                                                          | INCOMPLETE |
+    | { "ClientApplicationTypes" : [ "native-desktop" ] }                                                                      | INCOMPLETE |
+    | { "BrowsersSupported" : [ ] }                                                                                            | INCOMPLETE |
+    | { "MobileResponsive" : null }                                                                                            | INCOMPLETE |
+    | { "BrowsersSupported" : [ ], "MobileResponsive" : null }                                                                 | INCOMPLETE |
+    | { "BrowsersSupported" : [ "Google Chrome" ], "MobileResponsive" : null }                                                 | INCOMPLETE |
+    | { "BrowsersSupported" : [ ], "MobileResponsive" : true }                                                                 | INCOMPLETE |
+    | { "BrowsersSupported" : [ ], "MobileResponsive" : false }                                                                 | INCOMPLETE |
+    | { "ClientApplicationTypes" : [ "browser-based" ], "BrowsersSupported" : [ "Google Chrome" ], "MobileResponsive" : true } | COMPLETE   |
+    | { "BrowsersSupported" : [ "Google Chrome", "IE6" ], "MobileResponsive" : false }                                         | COMPLETE   |
