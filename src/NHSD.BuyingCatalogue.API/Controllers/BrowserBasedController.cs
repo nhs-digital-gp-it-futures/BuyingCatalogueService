@@ -19,7 +19,6 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         /// Gets the browser-based options for the client application types of a solution matching the supplied ID.
         /// </summary>
         /// <param name="id">A value to uniquely identify a solution.</param>
-        /// <param name="updateSolutionFeaturesViewModel">The details of a solution that includes any updated inforamtion.</param>
         /// <returns>A task representing an operation to update the details of a solution.</returns>
         [HttpGet]
         [Route("{id}/sections/browser-based")]

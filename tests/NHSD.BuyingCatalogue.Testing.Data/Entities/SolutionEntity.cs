@@ -43,10 +43,10 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             ,{PublishedStatusId}
             ,{AuthorityStatusId}
             ,{SupplierStatusId}
-            ,'{ParentId}'
+            ,{NullOrWrapQuotes(ParentId)}
             ,{OnCatalogueVersion}
-            ,'{Summary}'
-            ,'{FullDescription}'
+            ,{NullOrWrapQuotes(Summary)}
+            ,{NullOrWrapQuotes(FullDescription)}
         )";
 
         public static async Task<IEnumerable<SolutionEntity>> FetchAllAsync()
