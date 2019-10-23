@@ -1,11 +1,16 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using NHSD.BuyingCatalogue.API.ViewModels;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
 namespace NHSD.BuyingCatalogue.API.Controllers
 {
@@ -15,6 +20,16 @@ namespace NHSD.BuyingCatalogue.API.Controllers
     [AllowAnonymous]
     public class BrowserBasedController : ControllerBase
     {
+        private readonly IMediator _mediator;
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="NHSD.BuyingCatalogue.API.Controllers.SolutionsController"/> class.
+        /// </summary>
+        public BrowserBasedController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
         /// <summary>
         /// Gets the browser-based options for the client application types of a solution matching the supplied ID.
         /// </summary>
@@ -26,37 +41,32 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetBrowserBasedAsync([FromRoute][Required]string id)
-        {
-            //Canned Data
-            return Ok(new BrowserBased
-            {
-                Sections = new List<BrowserBasedSection>
-                {
-                    new BrowserBasedSection { Id = "browsers-supported", Status= "COMPLETE", Requirement = "Mandatory" },
-                    new BrowserBasedSection { Id = "plug-ins-or-extensions", Status= "INCOMPLETE", Requirement = "Mandatory" },
-                    new BrowserBasedSection { Id = "connectivity-and-resolution", Status= "INCOMPLETE", Requirement = "Mandatory" },
-                    new BrowserBasedSection { Id = "hardware-requirements", Status= "INCOMPLETE", Requirement = "Optional" },
-                    new BrowserBasedSection { Id = "additional-information", Status= "INCOMPLETE", Requirement = "Optional" },
-                }
-            });
+        { 
+            var solution = await _mediator.Send(new GetSolutionByIdQuery(id));
+            return solution == null ? (ActionResult) new NotFoundResult() : Ok(Map(solution.ClientApplication));
         }
-    }
 
-    public class BrowserBased
-    {
-        [JsonProperty("sections")]
-        public List<BrowserBasedSection> Sections { get; set; }
-    }
+        private BrowserBasedResult Map(ClientApplication clientApplication)
+        {
+            return new BrowserBasedResult
+            {
+                Sections = new List<BrowserBasedResultSection>
+                {
+                    new BrowserBasedResultSection { Id = "browsers-supported", Status= BrowserSupportedComplete(clientApplication), Requirement = "Mandatory" },
+                    new BrowserBasedResultSection { Id = "plug-ins-or-extensions", Status= "INCOMPLETE", Requirement = "Mandatory" },
+                    new BrowserBasedResultSection { Id = "connectivity-and-resolution", Status= "INCOMPLETE", Requirement = "Mandatory" },
+                    new BrowserBasedResultSection { Id = "hardware-requirements", Status= "INCOMPLETE", Requirement = "Optional" },
+                    new BrowserBasedResultSection { Id = "additional-information", Status= "INCOMPLETE", Requirement = "Optional" },
+                }
+            };
+        }
 
-    public class BrowserBasedSection
-    {
-        [JsonProperty("id")]
-        public string Id { get; set; }
-
-        [JsonProperty("status")]
-        public string Status { get; set; }
-
-        [JsonProperty("requirement")]
-        public string Requirement { get; set; }
+        private string BrowserSupportedComplete(ClientApplication clientApplication)
+        {
+            return clientApplication?.BrowsersSupported.Any() == true &&
+                   clientApplication.MobileResponsive.HasValue
+                ? "COMPLETE"
+                : "INCOMPLETE";
+        }
     }
 }
