@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 
@@ -9,6 +10,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
     [Binding]
     internal sealed class CommonSectionsSteps
     {
+        private const string RootSectionsUrl = "http://localhost:8080/api/v1/Solutions/{0}/sections/{1}";
+
         private readonly ScenarioContext _context;
 
         private readonly Response _response;
@@ -47,6 +50,18 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             var content = await _response.ReadBody();
             content.SelectToken($"solution.marketingData.sections[?(@.id == '{section}')].mandatory")
                 .Select(s => s.ToString()).Should().BeNullOrEmpty();
+        }
+
+        [When(@"a GET request is made for (client-application-types|features|solution-description) with no solution id")]
+        public async Task GetRequestSectionNoSolutionId(string section)
+        {
+            await GetSectionRequest(section, " ");
+        }
+
+        [When(@"a GET request is made for (client-application-types|features|solution-description) for solution (.*)")]
+        public async Task GetSectionRequest(string section, string solutionId)
+        {
+            _response.Result = await Client.GetAsync(string.Format(RootSectionsUrl, solutionId, section));
         }
 
         private class MandatoryTable
