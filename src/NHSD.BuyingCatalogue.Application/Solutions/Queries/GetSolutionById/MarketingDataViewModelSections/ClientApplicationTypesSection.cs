@@ -15,7 +15,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
 
         private void BuildSections(ClientApplication clientApplication)
         {
-            if (clientApplication == null) return;
+            if (clientApplication?.ClientApplicationTypes == null) return;
 
             if (clientApplication.ClientApplicationTypes.Contains("browser-based"))
             {

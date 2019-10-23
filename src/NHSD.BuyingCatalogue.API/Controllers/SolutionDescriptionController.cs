@@ -73,12 +73,9 @@ namespace NHSD.BuyingCatalogue.API.Controllers
             var solutionDescriptionSection = (SolutionDescriptionSection)result.Solution.MarketingData.Sections.FirstOrDefault(s => s.Id == "solution-description");
             return new SolutionDescriptionResult
             {
-                SolutionDescription = new SolutionDescriptionViewModel
-                {
-                    Description = solutionDescriptionSection?.Data?.Description,
-                    Link = solutionDescriptionSection?.Data?.Link,
-                    Summary = solutionDescriptionSection?.Data?.Summary,
-                }
+                Description = solutionDescriptionSection?.Data?.Description,
+                Link = solutionDescriptionSection?.Data?.Link,
+                Summary = solutionDescriptionSection?.Data?.Summary,
             };
         }
     }

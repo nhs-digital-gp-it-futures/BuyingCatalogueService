@@ -1,14 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetClientApplicationTypes;
 
 namespace NHSD.BuyingCatalogue.API.Controllers
 {
