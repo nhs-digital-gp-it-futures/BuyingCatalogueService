@@ -21,7 +21,7 @@ Scenario: 1. Sub-Form Browser Based Client Type all sections are Displayed
     Then a successful response is returned
     And Solutions browser-based section contains all BrowserBased Sections   
         | Id                          | Status     | Requirement |
-        | browsers-supported          | COMPLETE   | Mandatory   |
+        | browsers-supported          | INCOMPLETE | Mandatory   |
         | plug-ins-or-extensions      | INCOMPLETE | Mandatory   |
         | connectivity-and-resolution | INCOMPLETE | Mandatory   |
         | hardware-requirements       | INCOMPLETE | Optional    |
@@ -43,3 +43,22 @@ Scenario: 3. Service failure
 Scenario: 4. Solution id not present in request
     When a GET request is made to display solution browser-based sections with no solution id
     Then a response status of 400 is returned
+
+@2782
+Scenario: 5. Browser Supported status incomplete when record not present
+    When a GET request is made to display solution Sln1 browser-based sections
+    Then a successful response is returned
+    And the status of the browsers-supported section is INCOMPLETE
+
+@2782
+Scenario Outline: 6. Browser Supported status based on data in ClientApplication
+    Given MarketingDetail exist
+        | Solution | ClientApplication   |
+        | Sln1     | <ClientApplication> |
+    When a GET request is made to display solution Sln1 browser-based sections
+    Then a successful response is returned
+    And the status of the browsers-supported section is <Status>
+Examples:
+    | ClientApplication                                   | Status     |
+    |                                                     | INCOMPLETE |
+    | { "ClientApplicationTypes" : [ "native-desktop" ] } | INCOMPLETE |
