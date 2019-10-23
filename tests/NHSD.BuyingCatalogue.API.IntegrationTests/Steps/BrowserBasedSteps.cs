@@ -6,7 +6,7 @@ using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 
 
-namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
+namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
 {
     [Binding]
     internal sealed class BrowserBasedSteps
@@ -35,18 +35,19 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             await WhenGETRequestIsMadeToDisplaySolutionBrowserBasedSections(@" ");
         }
 
-
         [Then(@"Solutions browser-based section contains all BrowserBased Sections")]
         public async Task SolutionBrowserBasedSectionContainsAllBrowserBasedSections(Table table)
         {
             var content = await _response.ReadBody();
 
-            var featureDataSet = table.CreateSet<BrowserBasedSection>();
-
-            content.SelectToken("sections").Select(s => s.SelectToken("id").ToString()).Should().BeEquivalentTo(featureDataSet.Select(section => section.Id));
-            content.SelectToken("sections").Select(s => s.SelectToken("status").ToString()).Should().BeEquivalentTo(featureDataSet.Select(section => section.Status));
-            content.SelectToken("sections").Select(s => s.SelectToken("requirement").ToString()).Should().BeEquivalentTo(featureDataSet.Select(section => section.Requirement));
-
+            content
+                .SelectToken("sections")
+                .Select(s => new {
+                    Id = s.SelectToken("id").ToString(),
+                    Status = s.SelectToken("status").ToString(),
+                    Requirement = s.SelectToken("requirement").ToString()
+                })
+                .Should().BeEquivalentTo(table.CreateSet<BrowserBasedSection>());
         }
 
         private class BrowserBasedSection

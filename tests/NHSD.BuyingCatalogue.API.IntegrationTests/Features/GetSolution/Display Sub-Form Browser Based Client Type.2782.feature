@@ -1,4 +1,4 @@
-
+@ignore
 Feature: Supplier Display Sub-Form Browser Based Client Type
     As a Supplier
     I want to Display Sub-Form Browser Based Client Type
@@ -20,12 +20,13 @@ Scenario: 1. Sub-Form Browser Based Client Type all sections are Displayed
     When a GET request is made to display solution Sln1 browser-based sections
     Then a successful response is returned
     And Solutions browser-based section contains all BrowserBased Sections   
-    | Id                          | Status     | Requirement |
-    | browsers-supported          | COMPLETE   | Mandatory   |
-    | plug-ins-or-extensions      | INCOMPLETE | Mandatory   |
-    | connectivity-and-resolution | INCOMPLETE | Mandatory   |
-    | hardware-requirements       | INCOMPLETE | Optional    |
-    | additional-information      | INCOMPLETE | Optional    |
+        | Id                          | Status     | Requirement |
+        | browsers-supported          | COMPLETE   | Mandatory   |
+        | plug-ins-or-extensions      | INCOMPLETE | Mandatory   |
+        | connectivity-and-resolution | INCOMPLETE | Mandatory   |
+        | hardware-requirements       | INCOMPLETE | Optional    |
+        | additional-information      | INCOMPLETE | Optional    |
+
 @2782
 Scenario: 2. Solution not found
     Given a Solution Sln4 does not exist
