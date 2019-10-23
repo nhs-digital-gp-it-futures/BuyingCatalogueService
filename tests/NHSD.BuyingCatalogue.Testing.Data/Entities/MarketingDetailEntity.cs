@@ -31,7 +31,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         ,[RoadMap]
         ,[RoadMapImageUrl])
         VALUES
-            ({NullOrWrapQuotes(SolutionId)}
+            ('{SolutionId}'
             ,{NullOrWrapQuotes(AboutUrl)}
             ,{NullOrWrapQuotes(Features)}
             ,{NullOrWrapQuotes(ClientApplication)}
