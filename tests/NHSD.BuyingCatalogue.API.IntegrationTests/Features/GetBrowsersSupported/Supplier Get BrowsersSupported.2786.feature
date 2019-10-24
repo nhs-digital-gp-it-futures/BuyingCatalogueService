@@ -14,10 +14,13 @@ Background:
         | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | Online medicine 1   | 1                |
         | Sln2       | TakeTheRedPill | Eye opening experience         | Drs. Inc         | Eye opening6        | 1                |
         | Sln3       | PracticeMgr    | Fully fledged GP system        | Drs. Inc         | Fully fledged GP 12 | 1                |
+        | Sln5       | SolutionTest   | Testing System                 | GPs-R-Us         | Full System         | 1                |
     And MarketingDetail exist
-        | Solution | SupportedBrowsers                               |
-        | Sln1     | { "supported-browsers" : [ "Chrome", "Edge" ] } |
-        | Sln3     |                                                 |
+        | Solution | ClientApplication                                                           |
+        | Sln1     | { "supported-browsers" : [ "Chrome", "Edge" ], "mobile-responsive": "yes" } |
+        | Sln3     |                                                                             |
+        | Sln5     | {"mobile-responsive": "no" }                                                |
+
       
 
 @2786
@@ -28,6 +31,7 @@ Scenario: 1. Supported Browsers are retrieved for the solution
         | BrowsersSupported |
         | Chrome            |
         | Edge              |
+    And the mobile-responsive element is yes
 
 @2786
 Scenario: 2. Supported Browsers are retrieved for the solution where no marketing detail exists
@@ -35,6 +39,7 @@ Scenario: 2. Supported Browsers are retrieved for the solution where no marketin
     Then a successful response is returned
     And the supported-browsers element contains
     | BrowsersSupported |
+    And the mobile-responsive element is null
 
 @2786
 Scenario: 3.Supported Browsers are retrieved for the solution where no browsers-supported exist
@@ -42,6 +47,7 @@ Scenario: 3.Supported Browsers are retrieved for the solution where no browsers-
     Then a successful response is returned
     And the supported-browsers element contains
     | BrowsersSupported |
+    And the mobile-responsive element is null
 
 @2786
 Scenario: 4. Solution not found
@@ -59,3 +65,12 @@ Scenario: 5. Service failure
 Scenario: 6. Solution id not present in request
     When a GET request is made for browsers-supported with no solution id
     Then a response status of 400 is returned
+
+
+@2786
+Scenario: 7.Supported Browsers are retrieved for the solution where no supported-browsers
+    When a GET request is made for browsers-supported for solution Sln5
+    Then a successful response is returned
+    And the supported-browsers element contains
+    | BrowsersSupported |
+    And the mobile-responsive element is no
