@@ -2,11 +2,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
-using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Application.Exceptions;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetClientApplicationTypes;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NUnit.Framework;
 
@@ -37,7 +34,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
-            var clientApplicationTypes = await _context.GetClientApplicationTypesResultHandler.Handle(new GetClientApplicationTypesQuery("Sln1"), new CancellationToken());
+            var clientApplicationTypes = await _context.GetClientApplicationTypesHandler.Handle(new GetClientApplicationTypesQuery("Sln1"), new CancellationToken());
 
             clientApplicationTypes.ClientApplicationTypes.Should().BeEquivalentTo(new string[] { "browser-based", "native-desktop" });
 
@@ -58,7 +55,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
-            var clientApplicationTypes = await _context.GetClientApplicationTypesResultHandler.Handle(new GetClientApplicationTypesQuery("Sln1"), new CancellationToken());
+            var clientApplicationTypes = await _context.GetClientApplicationTypesHandler.Handle(new GetClientApplicationTypesQuery("Sln1"), new CancellationToken());
 
             clientApplicationTypes.ClientApplicationTypes.Should().BeEmpty();
                 
@@ -69,7 +66,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
         public void ShouldThrowWhenSolutionNotPresent()
         {
             var exception = Assert.ThrowsAsync<NotFoundException>(() =>
-                _context.GetClientApplicationTypesResultHandler.Handle(new GetClientApplicationTypesQuery("Sln1"), new CancellationToken()));
+                _context.GetClientApplicationTypesHandler.Handle(new GetClientApplicationTypesQuery("Sln1"), new CancellationToken()));
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }

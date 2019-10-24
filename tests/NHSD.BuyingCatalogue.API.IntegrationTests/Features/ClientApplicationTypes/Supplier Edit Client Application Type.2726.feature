@@ -32,7 +32,7 @@ Scenario: 1. Client Application Types are updated for the solution
         | Sln3       | PracticeMgr    | Fully fledged GP system        | Fully fledged GP 12 | 1                |
     And MarketingDetail exist
         | Solution | ClientApplication                                                                                                          |
-        | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": null,  "MobileResponsive": null } |
+        | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null } |
         | Sln2     | {  }                                                                                                                       |
         | Sln3     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] }                                      |
 
@@ -49,7 +49,7 @@ Scenario: 2. Client Application Types are added to the solution
         | Sln3       | PracticeMgr    | Fully fledged GP system        | Fully fledged GP 12 | 1                |
     And MarketingDetail exist
         | Solution | ClientApplication                                                   |
-        | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": null,  "MobileResponsive": null } |
+        | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null } |
 
 @2726
 Scenario: 3. Client Application Types that we do not understand are ignored
@@ -69,7 +69,7 @@ Scenario: 3. Client Application Types that we do not understand are ignored
         | Sln3       | PracticeMgr    | Fully fledged GP system        | Fully fledged GP 12 | 1                |
     And MarketingDetail exist
         | Solution | ClientApplication                                                                                                         |
-        | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": null,  "MobileResponsive": null } |
+        | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null } |
         | Sln2     | {  }                                                                                                                      |
         | Sln3     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] }                                     |
 
@@ -91,7 +91,7 @@ Scenario: 4. Client Application Types can be completely cleared
         | Sln3       | PracticeMgr    | Fully fledged GP system        | Fully fledged GP 12 | 1                |
     And MarketingDetail exist
         | Solution | ClientApplication                                                                        |
-        | Sln1     | { "ClientApplicationTypes" : [ ], "BrowsersSupported": null,  "MobileResponsive": null } |
+        | Sln1     | { "ClientApplicationTypes" : [ ], "BrowsersSupported": [],  "MobileResponsive": null } |
         | Sln2     | {  }                                                                                     |
         | Sln3     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] }    |
 
@@ -108,7 +108,7 @@ Scenario: 5. Empty Client Application Types can be added to the solution
         | Sln3       | PracticeMgr    | Fully fledged GP system        | Fully fledged GP 12 | 1                |
     And MarketingDetail exist
         | Solution | ClientApplication                                                                        |
-        | Sln1     | { "ClientApplicationTypes" : [ ], "BrowsersSupported": null,  "MobileResponsive": null } |
+        | Sln1     | { "ClientApplicationTypes" : [ ], "BrowsersSupported": [],  "MobileResponsive": null } |
 @2726
 Scenario: 6. Solution not found
     Given a Solution Sln4 does not exist

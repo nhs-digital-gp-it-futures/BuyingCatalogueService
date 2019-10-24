@@ -4,9 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.API.ViewModels;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetBrowsersSupported;
 
 namespace NHSD.BuyingCatalogue.API.Controllers
 {
@@ -16,6 +18,16 @@ namespace NHSD.BuyingCatalogue.API.Controllers
     [AllowAnonymous]
     public class BrowsersSupportedController : ControllerBase
     {
+        private readonly IMediator _mediator;
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="NHSD.BuyingCatalogue.API.Controllers.SolutionsController"/> class.
+        /// </summary>
+        public BrowsersSupportedController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
         /// <summary>
         /// Updates the browsers supported of a solution matching the supplied ID.
         /// </summary>
@@ -48,11 +60,8 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetBrowsersSupportedAsync([FromRoute][Required]string id)
         {
-            //Canned Data
-            return Ok(new BrowsersSupportedResult
-            {
-                BrowsersSupported = BrowsersSupported, MobileResponsive = MobileResponsive
-            });
+            GetBrowsersSupportedResult result = await _mediator.Send(new GetBrowsersSupportedQuery(id));
+            return result == null ? (ActionResult)new NotFoundResult() : Ok(result);
         }
 
         private static List<string> BrowsersSupported = new List<string>();
