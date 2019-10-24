@@ -1,4 +1,4 @@
-namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
+namespace NHSD.BuyingCatalogue.API.ViewModels
 {
     /// <summary>
     /// Represents the result for the <see cref="GetSolutionByIdQuery"/>.

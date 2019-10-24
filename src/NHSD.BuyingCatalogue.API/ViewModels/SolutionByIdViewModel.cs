@@ -1,6 +1,6 @@
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
-namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
+namespace NHSD.BuyingCatalogue.API.ViewModels
 {
     /// <summary>
     /// A view representation of the <see cref="Solution"/> entity that matched a specific ID.

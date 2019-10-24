@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
+namespace NHSD.BuyingCatalogue.API.ViewModels
 {
     public abstract class Section
     {

@@ -61,17 +61,14 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetFeaturesAsync([FromRoute][Required]string id)
         {
-            GetSolutionByIdResult result = await _mediator.Send(new GetSolutionByIdQuery(id));
-            return result.Solution == null ? (ActionResult)new NotFoundResult() : Ok(Map(result));
+            var solution = await _mediator.Send(new GetSolutionByIdQuery(id));
+            return solution == null ? (ActionResult)new NotFoundResult() : Ok(Map(solution));
         }
 
-        private FeaturesResult Map(GetSolutionByIdResult result)
-        {
-            var featuresSection = (FeaturesSection)result.Solution.MarketingData.Sections.FirstOrDefault(s => s.Id == "features");
-            return new FeaturesResult
+        private FeaturesResult Map(Solution solution) =>
+            new FeaturesResult
             {
-                Listing = featuresSection?.Data?.Listing
+                Listing = new Features(solution.Features).Listing
             };
-        }
     }
 }

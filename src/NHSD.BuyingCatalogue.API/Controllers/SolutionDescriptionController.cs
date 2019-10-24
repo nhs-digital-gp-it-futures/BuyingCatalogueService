@@ -64,18 +64,17 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetSolutionDescriptionAsync([FromRoute][Required]string id)
         {
-            GetSolutionByIdResult result = await _mediator.Send(new GetSolutionByIdQuery(id));
-            return result.Solution == null ? (ActionResult)new NotFoundResult() : Ok(Map(result));
+            var solution = await _mediator.Send(new GetSolutionByIdQuery(id));
+            return solution == null ? (ActionResult)new NotFoundResult() : Ok(Map(solution));
         }
 
-        private SolutionDescriptionResult Map(GetSolutionByIdResult result)
+        private SolutionDescriptionResult Map(Solution solution)
         {
-            var solutionDescriptionSection = (SolutionDescriptionSection)result.Solution.MarketingData.Sections.FirstOrDefault(s => s.Id == "solution-description");
             return new SolutionDescriptionResult
             {
-                Description = solutionDescriptionSection?.Data?.Description,
-                Link = solutionDescriptionSection?.Data?.Link,
-                Summary = solutionDescriptionSection?.Data?.Summary,
+                Description = solution.Description,
+                Link = solution.AboutUrl,
+                Summary = solution.Summary,
             };
         }
     }

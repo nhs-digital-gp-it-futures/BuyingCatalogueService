@@ -50,6 +50,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
                 .Should().BeEquivalentTo(table.CreateSet<BrowserBasedSection>());
         }
 
+        [Then(@"the status of the browsers-supported section is (COMPLETE|INCOMPLETE)")]
+        public async Task StatusOfBrowsersSupportedSectionIs(string status)
+        {
+            var content = await _response.ReadBody();
+            content.SelectToken("sections[?(@.id == 'browsers-supported')].status").ToString().Should().BeEquivalentTo(status);
+        }
+
         private class BrowserBasedSection
         {
             public string Id { get; set; }

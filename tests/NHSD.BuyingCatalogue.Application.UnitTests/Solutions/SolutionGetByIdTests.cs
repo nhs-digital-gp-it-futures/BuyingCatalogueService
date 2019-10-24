@@ -37,27 +37,15 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken());
 
-            solution.Solution.Id.Should().Be("Sln1");
-            solution.Solution.Name.Should().Be("Name");
-            solution.Solution.MarketingData.Sections.Should().HaveCount(3);
-
-            var solutionDescriptionSection = (SolutionDescriptionSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("solution-description")).Subject;
-            solutionDescriptionSection.Requirement.Should().Be("Mandatory");
-            solutionDescriptionSection.Status.Should().Be("COMPLETE");
-            solutionDescriptionSection.Data.Summary.Should().Be("Summary");
-            solutionDescriptionSection.Data.Description.Should().Be("Description");
-            solutionDescriptionSection.Data.Link.Should().Be("AboutUrl");
-            solutionDescriptionSection.Mandatory.Should().BeEquivalentTo( new string[] { "summary" });
-
-            var featuresSection = (FeaturesSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("features")).Subject;
-            featuresSection.Requirement.Should().Be("Optional");
-            featuresSection.Status.Should().Be("COMPLETE");
-            featuresSection.Data.Listing.Should().BeEquivalentTo(new string []{ "Marmite", "Jam", "Marmelade" });
-            featuresSection.Mandatory.Should().BeEquivalentTo(new string[0]);
+            solution.Id.Should().Be("Sln1");
+            solution.Name.Should().Be("Name");
+            solution.Summary.Should().Be("Summary");
+            solution.Description.Should().Be("Description");
+            solution.AboutUrl.Should().Be("AboutUrl");
+            JToken.Parse(solution.Features).ToString().Should().Be(JToken.Parse("[ 'Marmite', 'Jam', 'Marmelade' ]").ToString());
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
-
 
         [Test]
         public async Task ShouldGetEmptySolutionById()
@@ -74,21 +62,14 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken());
 
-            solution.Solution.Id.Should().Be("Sln1");
-            solution.Solution.Name.Should().Be("Name");
-            solution.Solution.MarketingData.Sections.Should().HaveCount(3);
+            solution.Id.Should().Be("Sln1");
+            solution.Name.Should().Be("Name");
 
-            var solutionDescriptionSection = (SolutionDescriptionSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("solution-description")).Subject;
-            solutionDescriptionSection.Requirement.Should().Be("Mandatory");
-            solutionDescriptionSection.Status.Should().Be("INCOMPLETE");
-            solutionDescriptionSection.Data.Summary.Should().BeNullOrEmpty();
-            solutionDescriptionSection.Data.Description.Should().BeNullOrEmpty();
-            solutionDescriptionSection.Data.Link.Should().BeNullOrEmpty();
+            solution.Summary.Should().BeNullOrEmpty();
+            solution.Description.Should().BeNullOrEmpty();
+            solution.AboutUrl.Should().BeNullOrEmpty();
 
-            var featuresSection = (FeaturesSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("features")).Subject;
-            featuresSection.Requirement.Should().Be("Optional");
-            featuresSection.Status.Should().Be("INCOMPLETE");
-            featuresSection.Data.Listing.Should().BeEmpty();
+            solution.Features.Should().BeNull();
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -108,21 +89,14 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken());
 
-            solution.Solution.Id.Should().Be("Sln1");
-            solution.Solution.Name.Should().Be("Name");
-            solution.Solution.MarketingData.Sections.Should().HaveCount(3);
+            solution.Id.Should().Be("Sln1");
+            solution.Name.Should().Be("Name");
 
-            var solutionDescriptionSection = (SolutionDescriptionSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("solution-description")).Subject;
-            solutionDescriptionSection.Requirement.Should().Be("Mandatory");
-            solutionDescriptionSection.Status.Should().Be("COMPLETE");
-            solutionDescriptionSection.Data.Summary.Should().Be("Summary");
-            solutionDescriptionSection.Data.Description.Should().BeNullOrEmpty();
-            solutionDescriptionSection.Data.Link.Should().BeNullOrEmpty();
+            solution.Summary.Should().Be("Summary");
+            solution.Description.Should().BeNullOrEmpty();
+            solution.AboutUrl.Should().BeNullOrEmpty();
 
-            var featuresSection = (FeaturesSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("features")).Subject;
-            featuresSection.Requirement.Should().Be("Optional");
-            featuresSection.Status.Should().Be("INCOMPLETE");
-            featuresSection.Data.Listing.Should().BeEmpty(); 
+            solution.Features.Should().BeNull();
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -142,55 +116,14 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken());
 
-            solution.Solution.Id.Should().Be("Sln1");
-            solution.Solution.Name.Should().Be("Name");
-            solution.Solution.MarketingData.Sections.Should().HaveCount(3);
+            solution.Id.Should().Be("Sln1");
+            solution.Name.Should().Be("Name");
 
-            var solutionDescriptionSection = (SolutionDescriptionSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("solution-description")).Subject;
-            solutionDescriptionSection.Requirement.Should().Be("Mandatory");
-            solutionDescriptionSection.Status.Should().Be("INCOMPLETE");
-            solutionDescriptionSection.Data.Summary.Should().BeNullOrEmpty();
-            solutionDescriptionSection.Data.Description.Should().BeNullOrEmpty();
-            solutionDescriptionSection.Data.Link.Should().BeNullOrEmpty();
+            solution.Summary.Should().BeNullOrEmpty();
+            solution.Description.Should().BeNullOrEmpty();
+            solution.AboutUrl.Should().BeNullOrEmpty();
 
-            var featuresSection = (FeaturesSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("features")).Subject;
-            featuresSection.Requirement.Should().Be("Optional");
-            featuresSection.Status.Should().Be("COMPLETE");
-            featuresSection.Data.Listing.Should().BeEquivalentTo(new string[] { "Marmite", "Jam", "Marmelade" });
-
-            _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
-        }
-
-        [Test]
-        public async Task ShouldInterpretWhitespaceAsMissing()
-        {
-            var existingSolution = new Mock<ISolutionResult>();
-            existingSolution.Setup(s => s.Id).Returns("Sln1");
-            existingSolution.Setup(s => s.Name).Returns("Name");
-            existingSolution.Setup(s => s.Description).Returns((string)null);
-            existingSolution.Setup(s => s.Summary).Returns("   ");//whitespace
-            existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
-            existingSolution.Setup(s => s.Features).Returns("[ '   ', ' ', '' ]");//whitespace
-
-            _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
-
-            var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken());
-
-            solution.Solution.Id.Should().Be("Sln1");
-            solution.Solution.Name.Should().Be("Name");
-            solution.Solution.MarketingData.Sections.Should().HaveCount(3);
-
-            var solutionDescriptionSection = (SolutionDescriptionSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("solution-description")).Subject;
-            solutionDescriptionSection.Requirement.Should().Be("Mandatory");
-            solutionDescriptionSection.Status.Should().Be("INCOMPLETE");
-            solutionDescriptionSection.Data.Summary.Should().Be("   ");
-            solutionDescriptionSection.Data.Description.Should().BeNullOrEmpty();
-            solutionDescriptionSection.Data.Link.Should().BeNullOrEmpty();
-
-            var featuresSection = (FeaturesSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("features")).Subject;
-            featuresSection.Requirement.Should().Be("Optional");
-            featuresSection.Status.Should().Be("INCOMPLETE");
-            featuresSection.Data.Listing.Should().BeEquivalentTo(new string[] { "   ", " ", "" });
+            JToken.Parse(solution.Features).ToString().Should().Be(JToken.Parse("[ 'Marmite', 'Jam', 'Marmelade' ]").ToString());
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }

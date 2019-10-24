@@ -83,9 +83,4 @@ namespace NHSD.BuyingCatalogue.Domain.Entities.Solutions
             _capabilities.Add(capability);
         }
     }
-
-    public class ClientApplication
-    {
-        public HashSet<string> ClientApplicationTypes { get; set; }
-    }
 }
