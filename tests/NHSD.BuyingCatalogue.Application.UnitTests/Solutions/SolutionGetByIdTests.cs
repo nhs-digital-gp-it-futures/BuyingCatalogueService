@@ -42,7 +42,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.Summary.Should().Be("Summary");
             solution.Description.Should().Be("Description");
             solution.AboutUrl.Should().Be("AboutUrl");
-            JToken.Parse(solution.Features).ToString().Should().Be(JToken.Parse("[ 'Marmite', 'Jam', 'Marmelade' ]").ToString());
+            solution.Features.Should().BeEquivalentTo(new [] {"Marmite", "Jam", "Marmelade"});
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -69,7 +69,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.Description.Should().BeNullOrEmpty();
             solution.AboutUrl.Should().BeNullOrEmpty();
 
-            solution.Features.Should().BeNull();
+            solution.Features.Should().BeEmpty();
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -96,7 +96,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.Description.Should().BeNullOrEmpty();
             solution.AboutUrl.Should().BeNullOrEmpty();
 
-            solution.Features.Should().BeNull();
+            solution.Features.Should().BeEmpty();
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -123,7 +123,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.Description.Should().BeNullOrEmpty();
             solution.AboutUrl.Should().BeNullOrEmpty();
 
-            JToken.Parse(solution.Features).ToString().Should().Be(JToken.Parse("[ 'Marmite', 'Jam', 'Marmelade' ]").ToString());
+            solution.Features.Should().BeEquivalentTo(new[] { "Marmite", "Jam", "Marmelade" });
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
