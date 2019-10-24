@@ -63,8 +63,8 @@ namespace NHSD.BuyingCatalogue.API.Controllers
 
         private string BrowserSupportedComplete(ClientApplication clientApplication)
         {
-            return clientApplication?.BrowsersSupported.Any() == true &&
-                   clientApplication.MobileResponsive.HasValue
+            return clientApplication?.BrowsersSupported?.Any() == true &&
+                   clientApplication?.MobileResponsive.HasValue == true
                 ? "COMPLETE"
                 : "INCOMPLETE";
         }
