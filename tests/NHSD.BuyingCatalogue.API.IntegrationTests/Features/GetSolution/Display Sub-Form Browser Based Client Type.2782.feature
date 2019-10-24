@@ -62,11 +62,15 @@ Examples:
     | ClientApplication                                                                                                        | Status     |
     |                                                                                                                          | INCOMPLETE |
     | { "ClientApplicationTypes" : [ "native-desktop" ] }                                                                      | INCOMPLETE |
+    | { "ClientApplicationTypes" : [ ] }                                                                                       | INCOMPLETE |
+    | { "ClientApplicationTypes" : [ ], "BrowsersSupported" : [ ] }                                                            | INCOMPLETE |
+    | { "ClientApplicationTypes" : [ ], "MobileResponsive": null }                                                             | INCOMPLETE |
     | { "BrowsersSupported" : [ ] }                                                                                            | INCOMPLETE |
     | { "MobileResponsive" : null }                                                                                            | INCOMPLETE |
     | { "BrowsersSupported" : [ ], "MobileResponsive" : null }                                                                 | INCOMPLETE |
     | { "BrowsersSupported" : [ "Google Chrome" ], "MobileResponsive" : null }                                                 | INCOMPLETE |
     | { "BrowsersSupported" : [ ], "MobileResponsive" : true }                                                                 | INCOMPLETE |
-    | { "BrowsersSupported" : [ ], "MobileResponsive" : false }                                                                 | INCOMPLETE |
+    | { "BrowsersSupported" : [ ], "MobileResponsive" : false }                                                                | INCOMPLETE |
     | { "ClientApplicationTypes" : [ "browser-based" ], "BrowsersSupported" : [ "Google Chrome" ], "MobileResponsive" : true } | COMPLETE   |
     | { "BrowsersSupported" : [ "Google Chrome", "IE6" ], "MobileResponsive" : false }                                         | COMPLETE   |
+    | { "BrowsersSupported" : [ "Mozilla Firefox", "IE11" ], "MobileResponsive" : true }                                       | COMPLETE   |
