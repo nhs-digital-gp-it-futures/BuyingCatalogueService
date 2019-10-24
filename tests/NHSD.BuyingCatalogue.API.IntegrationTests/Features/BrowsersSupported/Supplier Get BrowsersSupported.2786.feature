@@ -1,4 +1,3 @@
-@ignore
 Feature:  Display Marketing Page Form Browsers Supported Section
     As a Supplier
     I want to manage Marketing Page Information for the Solution's Browsers Support
@@ -16,12 +15,10 @@ Background:
         | Sln3       | PracticeMgr    | Fully fledged GP system        | Drs. Inc         | Fully fledged GP 12 | 1                |
         | Sln5       | SolutionTest   | Testing System                 | GPs-R-Us         | Full System         | 1                |
     And MarketingDetail exist
-        | Solution | ClientApplication                                                           |
-        | Sln1     | { "supported-browsers" : [ "Chrome", "Edge" ], "mobile-responsive": "yes" } |
-        | Sln3     |                                                                             |
-        | Sln5     | {"mobile-responsive": "no" }                                                |
-
-      
+        | Solution | ClientApplication                                                        |
+        | Sln1     | { "BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true } |
+        | Sln3     |                                                                          |
+        | Sln5     | {"MobileResponsive": false }                                             |
 
 @2786
 Scenario: 1. Supported Browsers are retrieved for the solution
@@ -38,7 +35,7 @@ Scenario: 2. Supported Browsers are retrieved for the solution where no marketin
     When a GET request is made for browsers-supported for solution Sln2
     Then a successful response is returned
     And the supported-browsers element contains
-    | BrowsersSupported |
+        | BrowsersSupported |
     And the mobile-responsive element is null
 
 @2786
@@ -46,7 +43,7 @@ Scenario: 3.Supported Browsers are retrieved for the solution where no browsers-
     When a GET request is made for browsers-supported for solution Sln3
     Then a successful response is returned
     And the supported-browsers element contains
-    | BrowsersSupported |
+        | BrowsersSupported |
     And the mobile-responsive element is null
 
 @2786

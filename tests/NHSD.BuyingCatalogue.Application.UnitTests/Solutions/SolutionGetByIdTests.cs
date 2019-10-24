@@ -32,6 +32,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Summary).Returns("Summary");
             existingSolution.Setup(s => s.AboutUrl).Returns("AboutUrl");
             existingSolution.Setup(s => s.Features).Returns("[ 'Marmite', 'Jam', 'Marmelade' ]");
+            existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true }");
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
@@ -42,7 +43,10 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.Summary.Should().Be("Summary");
             solution.Description.Should().Be("Description");
             solution.AboutUrl.Should().Be("AboutUrl");
-            JToken.Parse(solution.Features).ToString().Should().Be(JToken.Parse("[ 'Marmite', 'Jam', 'Marmelade' ]").ToString());
+            solution.Features.Should().BeEquivalentTo(new [] {"Marmite", "Jam", "Marmelade"});
+            solution.ClientApplication.ClientApplicationTypes.Should().BeEquivalentTo(new[] { "browser-based", "native-mobile" });
+            solution.ClientApplication.BrowsersSupported.Should().BeEquivalentTo(new[] { "Chrome", "Edge" });
+            solution.ClientApplication.MobileResponsive.Should().BeTrue();
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -57,6 +61,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Summary).Returns((string)null);
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
             existingSolution.Setup(s => s.Features).Returns((string)null);
+            existingSolution.Setup(s => s.ClientApplication).Returns((string)null);
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
@@ -69,7 +74,10 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.Description.Should().BeNullOrEmpty();
             solution.AboutUrl.Should().BeNullOrEmpty();
 
-            solution.Features.Should().BeNull();
+            solution.Features.Should().BeEmpty();
+            solution.ClientApplication.ClientApplicationTypes.Should().BeEmpty();
+            solution.ClientApplication.BrowsersSupported.Should().BeEmpty();
+            solution.ClientApplication.MobileResponsive.Should().BeNull();
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -84,6 +92,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Summary).Returns("Summary");
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
             existingSolution.Setup(s => s.Features).Returns((string)null);
+            existingSolution.Setup(s => s.ClientApplication).Returns((string)null);
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
@@ -96,7 +105,10 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.Description.Should().BeNullOrEmpty();
             solution.AboutUrl.Should().BeNullOrEmpty();
 
-            solution.Features.Should().BeNull();
+            solution.Features.Should().BeEmpty();
+            solution.ClientApplication.ClientApplicationTypes.Should().BeEmpty();
+            solution.ClientApplication.BrowsersSupported.Should().BeEmpty();
+            solution.ClientApplication.MobileResponsive.Should().BeNull();
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -123,8 +135,38 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.Description.Should().BeNullOrEmpty();
             solution.AboutUrl.Should().BeNullOrEmpty();
 
-            JToken.Parse(solution.Features).ToString().Should().Be(JToken.Parse("[ 'Marmite', 'Jam', 'Marmelade' ]").ToString());
+            solution.Features.Should().BeEquivalentTo(new[] { "Marmite", "Jam", "Marmelade" });
 
+            _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+        }
+
+        [Test]
+        public async Task ShouldGetPartialSolutionWithClientApplicationById()
+        {
+            var existingSolution = new Mock<ISolutionResult>();
+            existingSolution.Setup(s => s.Id).Returns("Sln1");
+            existingSolution.Setup(s => s.Name).Returns("Name");
+            existingSolution.Setup(s => s.Description).Returns((string)null);
+            existingSolution.Setup(s => s.Summary).Returns((string)null);
+            existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
+            existingSolution.Setup(s => s.Features).Returns((string)null);
+            existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true }");
+
+            _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
+
+            var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken());
+
+            solution.Id.Should().Be("Sln1");
+            solution.Name.Should().Be("Name");
+
+            solution.Summary.Should().BeNullOrEmpty();
+            solution.Description.Should().BeNullOrEmpty();
+            solution.AboutUrl.Should().BeNullOrEmpty();
+
+            solution.Features.Should().BeEmpty();
+            solution.ClientApplication.ClientApplicationTypes.Should().BeEquivalentTo(new[] { "browser-based", "native-mobile" });
+            solution.ClientApplication.BrowsersSupported.Should().BeEquivalentTo(new[] { "Chrome", "Edge" });
+            solution.ClientApplication.MobileResponsive.Should().BeTrue();
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
 

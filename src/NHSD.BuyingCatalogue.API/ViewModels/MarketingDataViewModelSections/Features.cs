@@ -5,11 +5,9 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
 {
     public class Features
     {
-        internal Features(string featuresJson)
+        internal Features(IEnumerable<string> features)
         {
-            Listing = string.IsNullOrWhiteSpace(featuresJson)
-                ? new List<string>()
-                : JsonConvert.DeserializeObject<List<string>>(featuresJson);
+            Listing = features;
         }
 
         public IEnumerable<string> Listing { get; }

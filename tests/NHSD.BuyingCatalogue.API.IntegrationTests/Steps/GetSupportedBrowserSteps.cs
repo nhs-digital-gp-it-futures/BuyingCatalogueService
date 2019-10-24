@@ -22,7 +22,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         }
 
         [Then(@"the supported-browsers element contains")]
-        public async Task ThenTheSupported_BrowsersElementContains(Table table)
+        public async Task ThenTheSupportedBrowsersElementContains(Table table)
         {
             var context = await _response.ReadBody();
             context.SelectToken("supported-browsers")
@@ -46,7 +46,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             context.SelectToken("mobile-responsive")
                 .Should().BeNull();
         }
-
 
         private class SupportedBrowsersTable
         {

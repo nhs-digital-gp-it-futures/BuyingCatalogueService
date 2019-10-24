@@ -47,7 +47,7 @@ namespace NHSD.BuyingCatalogue.Domain.Entities.Solutions
         /// <summary>
         /// Gets or sets a blob of data representing a list of features.
         /// </summary>
-        public string Features { get; set; }
+        public IEnumerable<string> Features { get; set; }
 
         /// <summary>
         /// A link to provide more information about a solution.
