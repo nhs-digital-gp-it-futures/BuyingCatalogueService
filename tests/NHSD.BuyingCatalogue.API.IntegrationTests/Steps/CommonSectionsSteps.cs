@@ -52,13 +52,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
                 .Select(s => s.ToString()).Should().BeNullOrEmpty();
         }
 
-        [When(@"a GET request is made for (client-application-types|features|solution-description) with no solution id")]
+        [When(@"a GET request is made for (client-application-types|features|solution-description|browsers-supported) with no solution id")]
         public async Task GetRequestSectionNoSolutionId(string section)
         {
             await GetSectionRequest(section, " ");
         }
 
-        [When(@"a GET request is made for (client-application-types|features|solution-description) for solution (.*)")]
+        [When(@"a GET request is made for (client-application-types|features|solution-description|browsers-supported) for solution (.*)")]
         public async Task GetSectionRequest(string section, string solutionId)
         {
             _response.Result = await Client.GetAsync(string.Format(RootSectionsUrl, solutionId, section));
