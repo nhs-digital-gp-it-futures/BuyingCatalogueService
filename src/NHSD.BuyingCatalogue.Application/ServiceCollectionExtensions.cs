@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using NHSD.BuyingCatalogue.Application.Persistence;
+using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
 
 namespace NHSD.BuyingCatalogue.Application
 {
@@ -12,7 +13,8 @@ namespace NHSD.BuyingCatalogue.Application
             serviceCollection.AddTransient<SolutionReader>();
             serviceCollection.AddTransient<SolutionSummaryUpdater>();
             serviceCollection.AddTransient<SolutionFeaturesUpdater>();
-            serviceCollection.AddTransient<SolutionClientApplicationTypesUpdater>();
+            serviceCollection.AddTransient<SolutionClientApplicationUpdater>();
+            serviceCollection.AddTransient<ClientApplicationPartialUpdater>();
             return serviceCollection;
         }
     }

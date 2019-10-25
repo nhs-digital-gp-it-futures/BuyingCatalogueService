@@ -6,14 +6,14 @@ using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
 namespace NHSD.BuyingCatalogue.Application.Persistence
 {
-    internal sealed class SolutionClientApplicationTypesUpdater
+    internal sealed class SolutionClientApplicationUpdater
     {
         /// <summary>
         /// Data access layer for the <see cref="Solution"/> entity.
         /// </summary>
         private readonly IMarketingDetailRepository _marketingDetailRepository;
 
-        public SolutionClientApplicationTypesUpdater(IMarketingDetailRepository marketingDetailRepository)
+        public SolutionClientApplicationUpdater(IMarketingDetailRepository marketingDetailRepository)
         {
             _marketingDetailRepository = marketingDetailRepository;
         }

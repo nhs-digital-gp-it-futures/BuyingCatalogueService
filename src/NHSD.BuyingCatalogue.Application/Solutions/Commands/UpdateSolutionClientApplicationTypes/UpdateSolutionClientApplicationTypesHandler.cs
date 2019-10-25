@@ -2,27 +2,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using MediatR;
-using NHSD.BuyingCatalogue.Application.Persistence;
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution
 {
     internal sealed class UpdateSolutionClientApplicationTypesHandler : IRequestHandler<UpdateSolutionClientApplicationTypesCommand>
     {
-        private readonly SolutionReader _solutionReader;
-        private readonly SolutionClientApplicationTypesUpdater _solutionClientApplicationTypesUpdater;
+        private readonly ClientApplicationPartialUpdater _clientApplicationPartialUpdater;
 
         private static readonly HashSet<string> _acceptedClientApplicationTypes = new HashSet<string> { "browser-based", "native-mobile", "native-desktop" };
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="UpdateSolutionHandler"/> class.
+        /// Initialises a new instance of the <see cref="UpdateSolutionClientApplicationTypesHandler"/> class.
         /// </summary>
-        public UpdateSolutionClientApplicationTypesHandler(SolutionReader solutionReader, SolutionClientApplicationTypesUpdater solutionClientApplicationTypesUpdater)
+        public UpdateSolutionClientApplicationTypesHandler(ClientApplicationPartialUpdater clientApplicationPartialUpdater)
         {
-            _solutionReader = solutionReader;
-            _solutionClientApplicationTypesUpdater = solutionClientApplicationTypesUpdater;
+            _clientApplicationPartialUpdater = clientApplicationPartialUpdater;
         }
 
         /// <summary>
@@ -33,18 +28,15 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution
         /// <returns>A task representing an operation to get the result of this command.</returns>
         public async Task<Unit> Handle(UpdateSolutionClientApplicationTypesCommand request, CancellationToken cancellationToken)
         {
-            Solution solution = await _solutionReader.ByIdAsync(request.SolutionId, cancellationToken);
+            var filteredClientApplicationTypes = request
+                .UpdateSolutionClientApplicationTypesViewModel.ClientApplicationTypes
+                .Where(s => _acceptedClientApplicationTypes.Contains(s));
 
-            await _solutionClientApplicationTypesUpdater.UpdateAsync(Map(request.UpdateSolutionClientApplicationTypesViewModel), request.SolutionId, cancellationToken);
+            await _clientApplicationPartialUpdater.UpdateAsync(request.SolutionId,
+                clientApplication => clientApplication.ClientApplicationTypes = new HashSet<string>(filteredClientApplicationTypes),
+                cancellationToken);
 
             return Unit.Value;
         }
-
-        private static ClientApplication Map(UpdateSolutionClientApplicationTypesViewModel updateSolutionClientApplicationTypesViewModel) =>
-            new ClientApplication
-            {
-                ClientApplicationTypes = new HashSet<string>(updateSolutionClientApplicationTypesViewModel.ClientApplicationTypes
-                    .Where(s => _acceptedClientApplicationTypes.Contains(s)))
-            };
     }
 }

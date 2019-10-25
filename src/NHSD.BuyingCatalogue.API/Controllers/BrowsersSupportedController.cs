@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NHSD.BuyingCatalogue.API.ViewModels;
+using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetBrowsersSupported;
 
 namespace NHSD.BuyingCatalogue.API.Controllers
@@ -21,7 +18,7 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         private readonly IMediator _mediator;
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="NHSD.BuyingCatalogue.API.Controllers.SolutionsController"/> class.
+        /// Initialises a new instance of the <see cref="BrowsersSupportedController"/> class.
         /// </summary>
         public BrowsersSupportedController(IMediator mediator)
         {
@@ -39,11 +36,9 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> UpdateBrowsersSupportedAsync([FromRoute][Required]string id, [FromBody][Required]BrowsersSupportedRequest browsersSupportedRequest)
+        public async Task<ActionResult> UpdateBrowsersSupportedAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionBrowsersSupportedViewModel updateSolutionBrowsersSupportedViewModel)
         {
-            BrowsersSupported = browsersSupportedRequest.BrowsersSupported.ToList();
-
-            MobileResponsive = browsersSupportedRequest.MobileResponsive;
+            await _mediator.Send(new UpdateSolutionBrowsersSupportedCommand(id, updateSolutionBrowsersSupportedViewModel));
 
             return NoContent();
         }
@@ -63,9 +58,5 @@ namespace NHSD.BuyingCatalogue.API.Controllers
             GetBrowsersSupportedResult result = await _mediator.Send(new GetBrowsersSupportedQuery(id));
             return result == null ? (ActionResult)new NotFoundResult() : Ok(result);
         }
-
-        private static List<string> BrowsersSupported = new List<string>();
-
-        private static string MobileResponsive = "yes";
     }
 }
