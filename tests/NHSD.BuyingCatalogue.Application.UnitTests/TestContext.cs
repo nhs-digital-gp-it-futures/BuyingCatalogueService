@@ -41,6 +41,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
         public GetBrowsersSupportedHandler GetBrowsersSupportedHandler => (GetBrowsersSupportedHandler)_scope.GetBrowsersSupportedResultHandler;
 
+        public UpdateSolutionBrowsersSupportedHandler UpdateSolutionBrowsersSupportedHandler => (UpdateSolutionBrowsersSupportedHandler)_scope.UpdateSolutionBrowsersSupportedHandler;
+
         private readonly Scope _scope;
 
         public TestContext()
@@ -60,6 +62,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             serviceCollection.AddTransient<IRequestHandler<UpdateSolutionClientApplicationTypesCommand>, UpdateSolutionClientApplicationTypesHandler>();
             serviceCollection.AddTransient<IRequestHandler<GetClientApplicationTypesQuery, GetClientApplicationTypesResult>, GetClientApplicationTypesHandler>();
             serviceCollection.AddTransient<IRequestHandler<GetBrowsersSupportedQuery, GetBrowsersSupportedResult>, GetBrowsersSupportedHandler>();
+            serviceCollection.AddTransient<IRequestHandler<UpdateSolutionBrowsersSupportedCommand>, UpdateSolutionBrowsersSupportedHandler>();
 
             serviceCollection.AddSingleton<Scope>();
             _scope = serviceCollection.BuildServiceProvider().GetService<Scope>();
@@ -101,6 +104,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
             public IRequestHandler<GetBrowsersSupportedQuery, GetBrowsersSupportedResult> GetBrowsersSupportedResultHandler { get; }
 
+            public IRequestHandler<UpdateSolutionBrowsersSupportedCommand> UpdateSolutionBrowsersSupportedHandler { get; }
 
             public Scope(IRequestHandler<ListCapabilitiesQuery, ListCapabilitiesResult> listCapabilitiesHandler,
                 IRequestHandler<ListSolutionsQuery, ListSolutionsResult> listSolutionsHandler,
@@ -110,7 +114,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
                 IRequestHandler<UpdateSolutionFeaturesCommand> updateSolutionFeaturesHandler,
                 IRequestHandler<UpdateSolutionClientApplicationTypesCommand> updateSolutionClientApplicationTypesHandler,
                 IRequestHandler<GetClientApplicationTypesQuery, GetClientApplicationTypesResult> getClientApplicationTypesResultHandler,
-                IRequestHandler<GetBrowsersSupportedQuery, GetBrowsersSupportedResult> getBrowsersSupportedResultHandler)
+                IRequestHandler<GetBrowsersSupportedQuery, GetBrowsersSupportedResult> getBrowsersSupportedResultHandler,
+                IRequestHandler<UpdateSolutionBrowsersSupportedCommand> updateSolutionBrowsersSupportedHandler)
             {
                 ListCapabilitiesHandler = listCapabilitiesHandler;
                 ListSolutionsHandler = listSolutionsHandler;
@@ -121,6 +126,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
                 UpdateSolutionClientApplicationTypesHandler = updateSolutionClientApplicationTypesHandler;
                 GetClientApplicationTypesResultHandler = getClientApplicationTypesResultHandler;
                 GetBrowsersSupportedResultHandler = getBrowsersSupportedResultHandler;
+                UpdateSolutionBrowsersSupportedHandler = updateSolutionBrowsersSupportedHandler;
             }
         }
     }
