@@ -15,10 +15,10 @@ Write-Host ""
 Write-Host "Run code coverage tests"
 Write-Host "----- Code Coverage --------"
 
-dotnet test "tests\NHSD.BuyingCatalogue.Application.UnitTests\NHSD.BuyingCatalogue.Application.UnitTests.csproj" --no-build --nologo /p:CollectCoverage=true /p:CoverletOutput=../../OpenCover/
-dotnet test "tests\NHSD.BuyingCatalogue.Domain.Tests\NHSD.BuyingCatalogue.Domain.Tests.csproj" --no-build --nologo /p:CollectCoverage=true /p:CoverletOutput=../../OpenCover/ /p:MergeWith="../../OpenCover/coverage.json"
-dotnet test "tests\NHSD.BuyingCatalogue.API.UnitTests\NHSD.BuyingCatalogue.API.UnitTests.csproj" --no-build --nologo /p:CollectCoverage=true /p:CoverletOutput=../../OpenCover/ /p:MergeWith="../../OpenCover/coverage.json"
-dotnet test "tests\NHSD.BuyingCatalogue.Persistence.DatabaseTests\NHSD.BuyingCatalogue.Persistence.DatabaseTests.csproj" --no-build --nologo /p:CollectCoverage=true /p:CoverletOutput=../../OpenCover/ /p:MergeWith="../../OpenCover/coverage.json" /p:CoverletOutputFormat="opencover"
+dotnet test "tests\NHSD.BuyingCatalogue.Application.UnitTests\NHSD.BuyingCatalogue.Application.UnitTests.csproj" --no-build --nologo /p:CollectCoverage=true /p:CoverletOutput=../../OpenCover/ /p:Exclude=[*.Testing.*]*
+dotnet test "tests\NHSD.BuyingCatalogue.Domain.Tests\NHSD.BuyingCatalogue.Domain.Tests.csproj" --no-build --nologo /p:CollectCoverage=true /p:CoverletOutput=../../OpenCover/ /p:Exclude=[*.Testing.*]* /p:MergeWith="../../OpenCover/coverage.json"
+dotnet test "tests\NHSD.BuyingCatalogue.API.UnitTests\NHSD.BuyingCatalogue.API.UnitTests.csproj" --no-build --nologo /p:CollectCoverage=true /p:CoverletOutput=../../OpenCover/ /p:Exclude=[*.Testing.*]* /p:MergeWith="../../OpenCover/coverage.json"
+dotnet test "tests\NHSD.BuyingCatalogue.Persistence.DatabaseTests\NHSD.BuyingCatalogue.Persistence.DatabaseTests.csproj" --no-build --nologo /p:CollectCoverage=true /p:CoverletOutput=../../OpenCover/ /p:Exclude=[*.Testing.*]* /p:MergeWith="../../OpenCover/coverage.json" /p:CoverletOutputFormat="opencover"
 
 Write-Host "----- Code Coverage --------"
 Write-Host ""
