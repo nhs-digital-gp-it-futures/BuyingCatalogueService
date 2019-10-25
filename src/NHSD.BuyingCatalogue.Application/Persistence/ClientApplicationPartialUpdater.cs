@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Application.Persistence;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
-namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution
+namespace NHSD.BuyingCatalogue.Application.Persistence
 {
     internal sealed class ClientApplicationPartialUpdater
     {
