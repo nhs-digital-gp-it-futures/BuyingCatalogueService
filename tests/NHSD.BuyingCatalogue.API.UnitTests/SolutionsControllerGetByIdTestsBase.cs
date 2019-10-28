@@ -33,6 +33,10 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         {
             var solution = new Solution
             {
+                Summary = summary,
+                Description = description,
+                AboutUrl = link,
+
                 Features = new List<string>(), //TODO - Remove
 
                 ClientApplication = new ClientApplication

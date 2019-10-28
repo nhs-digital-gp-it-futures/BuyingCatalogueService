@@ -32,8 +32,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         [TestCase(true, "yes")]
         [TestCase(false, "no")]
         [TestCase(null, null)]
-        public async Task ShouldRepresentBrowsersSupportedSectionMobileResponsive(bool? mobileResponsive,
-            string expectedResult)
+        public async Task ShouldRepresentBrowsersSupportedSectionMobileResponsive(bool? mobileResponsive, string expectedResult)
         {
             var browsersSupportedSection =
                 await GetBrowserSupportedSectionAsync(new[] {"Edge", "Google Chrome"}, mobileResponsive);
@@ -71,7 +70,8 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         {
 
             return (await GetSolutionViewModel(clientApplicationTypes: new[] {"browser-based"},
-                    browsersSupported: browsersSupported, mobileResponsive: mobileResponsive))
+                    browsersSupported: browsersSupported,
+                    mobileResponsive: mobileResponsive))
                 .MarketingData
                 .Sections.First(s => s.Id == "client-application-types")
                 .Sections.First(s => s.Id == "browser-based")
