@@ -9,6 +9,6 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution
         public HashSet<string> BrowsersSupported { get; set; }
 
         [JsonProperty("mobile-responsive")]
-        public string MobileResponsive { get; }
+        public string MobileResponsive { get; set; }
     }
 }

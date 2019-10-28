@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using NHSD.BuyingCatalogue.Application.Persistence;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution
 {
