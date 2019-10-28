@@ -19,7 +19,7 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
 
             if (clientApplication.ClientApplicationTypes.Contains("browser-based"))
             {
-                Sections.Add(new BrowserBasedSection());
+                Sections.Add(new BrowserBasedSection(clientApplication));
             }
 
             if (clientApplication.ClientApplicationTypes.Contains("native-mobile"))

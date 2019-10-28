@@ -1,16 +1,13 @@
-using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.API.Controllers;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
 using NUnit.Framework;
-using Microsoft.AspNetCore.Mvc;
 
 namespace NHSD.BuyingCatalogue.API.UnitTests
 {

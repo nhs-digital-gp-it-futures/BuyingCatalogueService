@@ -21,7 +21,7 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         private readonly IMediator _mediator;
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="NHSD.BuyingCatalogue.API.Controllers.SolutionsController"/> class.
+        /// Initialises a new instance of the <see cref="BrowserBasedController"/> class.
         /// </summary>
         public BrowserBasedController(IMediator mediator)
         {
