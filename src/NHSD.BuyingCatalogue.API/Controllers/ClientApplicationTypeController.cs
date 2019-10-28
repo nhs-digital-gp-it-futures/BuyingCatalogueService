@@ -65,7 +65,7 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         public async Task<ActionResult> GetClientApplicationTypesAsync([FromRoute][Required]string id)
         {
             GetClientApplicationTypesResult result = await _mediator.Send(new GetClientApplicationTypesQuery(id));
-            return result.ClientApplicationTypes == null ? (ActionResult)new NotFoundResult() : Ok(result);
+            return result?.ClientApplicationTypes == null ? (ActionResult)new NotFoundResult() : Ok(result);
         }
     }
 }
