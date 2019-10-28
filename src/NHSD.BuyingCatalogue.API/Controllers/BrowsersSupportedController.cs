@@ -26,11 +26,27 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         }
 
         /// <summary>
+        /// Gets the browsers supported for the client application types of a solution matching the supplied ID.
+        /// </summary>
+        /// <param name="id">A value to uniquely identify a solution.</param>
+        /// <returns>A task representing an operation to retrieve the details of the browsers supported section.</returns>
+        [HttpGet]
+        [Route("{id}/sections/browsers-supported")]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult> GetBrowsersSupportedAsync([FromRoute][Required]string id)
+        {
+            GetBrowsersSupportedResult result = await _mediator.Send(new GetBrowsersSupportedQuery(id));
+            return result == null ? (ActionResult)new NotFoundResult() : Ok(result);
+        }
+
+        /// <summary>
         /// Updates the browsers supported of a solution matching the supplied ID.
         /// </summary>
         /// <param name="id">A value to uniquely identify a solution.</param>
-        /// <param name="browsersSupportedRequest">The details of the supported browsers.</param>
-        /// <returns>A task representing an operation to update the details of a solution.</returns>
+        /// <param name="updateSolutionBrowsersSupportedViewModel">The details of the supported browsers.</param>
+        /// <returns>A task representing an operation to update the details of the browser supported section.</returns>
         [HttpPut]
         [Route("{id}/sections/browsers-supported")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -41,22 +57,6 @@ namespace NHSD.BuyingCatalogue.API.Controllers
             await _mediator.Send(new UpdateSolutionBrowsersSupportedCommand(id, updateSolutionBrowsersSupportedViewModel));
 
             return NoContent();
-        }
-
-        /// <summary>
-        /// Gets the browsers supported for the client application types of a solution matching the supplied ID.
-        /// </summary>
-        /// <param name="id">A value to uniquely identify a solution.</param>
-        /// <returns>A task representing an operation to update the details of a solution.</returns>
-        [HttpGet]
-        [Route("{id}/sections/browsers-supported")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> GetBrowsersSupportedAsync([FromRoute][Required]string id)
-        {
-            GetBrowsersSupportedResult result = await _mediator.Send(new GetBrowsersSupportedQuery(id));
-            return result == null ? (ActionResult)new NotFoundResult() : Ok(result);
         }
     }
 }

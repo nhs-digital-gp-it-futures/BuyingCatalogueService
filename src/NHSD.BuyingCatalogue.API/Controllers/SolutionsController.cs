@@ -7,14 +7,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.API.ViewModels;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
 
 namespace NHSD.BuyingCatalogue.API.Controllers
 {
     /// <summary>
-    /// Provides the endpoint for the summary of <see cref="Solution"/> information.
+    /// Provides the endpoint to manage a solution.
     /// </summary>
     [Route("api/v1/[controller]")]
     [ApiController]
@@ -35,7 +34,7 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         /// <summary>
         /// Gets a list of solutions that includes information about the organisation and the associated capabilities.
         /// </summary>
-        /// <returns>A result containing a list of solutions that includes information about the organisation and the associated capabilities.</returns>
+        /// <returns>A task representing an operation to retrieve a list of solutions that includes information about the organisation and the associated capabilities.</returns>
         [HttpGet]
         [ProducesResponseType(typeof(ListSolutionsResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -58,10 +57,10 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         }
 
         /// <summary>
-        /// Get a solution with specified unique identifier
+        /// Get a solution matching the specified ID.
         /// </summary>
-        /// <param name="id">unique identifier of solution</param>
-        /// <returns>Solution with specified unique identifier</returns>
+        /// <param name="id">A value to uniquely identify a solution.</param>
+        /// <returns>A task representing an operation to retrieve the details of a Solution.</returns>
         [HttpGet]
         [Route("{id}")]
         [ProducesResponseType(typeof(GetSolutionByIdResult), (int)HttpStatusCode.OK)]
@@ -77,7 +76,7 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         /// Submits a solution for review.
         /// </summary>
         /// <param name="id">A value to uniquely identify a solution.</param>
-        /// <returns>A task respresenting an operation to update the state of a solution to submitted for review.</returns>
+        /// <returns>A task representing an operation to update the state of a solution to submitted for review.</returns>
         [HttpPut]
         [Route("{id}/SubmitForReview")]
         [ProducesResponseType(typeof(SubmitSolutionForReviewResult), (int)HttpStatusCode.BadRequest)]
