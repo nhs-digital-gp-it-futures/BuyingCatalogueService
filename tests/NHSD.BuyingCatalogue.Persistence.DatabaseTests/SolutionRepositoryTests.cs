@@ -255,6 +255,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             solution.AboutUrl.Should().Be("AboutUrl");
             solution.Features.Should().Be("Features");
             solution.ClientApplication.Should().Be("Browser-based");
+            solution.OrganisationName.Should().Be("OrgName1");
         }
 
         [Test]
@@ -283,6 +284,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             solution.Name.Should().Be("Solution1");
             solution.Summary.Should().Be("Sln1Summary");
             solution.Description.Should().Be("Sln1Description");
+            solution.OrganisationName.Should().Be("OrgName1");
             solution.AboutUrl.Should().BeNull();
             solution.Features.Should().BeNull();
             solution.ClientApplication.Should().BeNull();

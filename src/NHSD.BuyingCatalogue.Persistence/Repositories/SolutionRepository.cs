@@ -68,11 +68,13 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                 const string sql = @"SELECT Solution.Id,
                                             Solution.Name,
                                             Solution.Summary,
+                                            Organisation.Name as OrganisationName,
                                             Solution.FullDescription AS Description,
                                             MarketingDetail.AboutUrl AS AboutUrl,
                                             MarketingDetail.Features As Features,
                                             MarketingDetail.ClientApplication as ClientApplication
                                      FROM   Solution
+                                            INNER JOIN Organisation ON Organisation.Id = Solution.OrganisationId
                                             LEFT OUTER JOIN MarketingDetail ON Solution.Id = MarketingDetail.SolutionId
                                      WHERE  Solution.Id = @id";
 

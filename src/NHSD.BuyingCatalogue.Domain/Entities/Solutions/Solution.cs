@@ -28,7 +28,12 @@ namespace NHSD.BuyingCatalogue.Domain.Entities.Solutions
         /// </summary>
         public string Summary { get; set; }
 
-        /// <summary>
+ 		/// <summary>
+        /// Name of the organisation, as displayed to a user.
+        /// </summary>
+        public string OrganisationName { get; set; }
+
+        /// <summary>x
         /// Associated organisation.
         /// </summary>
         public Organisation Organisation { get; set; }

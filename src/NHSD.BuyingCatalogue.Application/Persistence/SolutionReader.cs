@@ -34,6 +34,7 @@ namespace NHSD.BuyingCatalogue.Application.Persistence
                 Id = solutionResult.Id,
                 Name = solutionResult.Name,
                 Summary = solutionResult.Summary,
+                OrganisationName = solutionResult.OrganisationName,
                 Description = solutionResult.Description,
                 Features = string.IsNullOrWhiteSpace(solutionResult.Features) ? new List<string>() : JsonConvert.DeserializeObject<IEnumerable<string>>(solutionResult.Features),
                 AboutUrl = solutionResult.AboutUrl,
