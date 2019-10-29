@@ -140,20 +140,31 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
     {
         public BrowserBasedSection(ClientApplication clientApplication)
         {
-            Answers = new BrowserBasedSectionAnswers(clientApplication);
+            BrowsersSupported = new BrowsersSupportedSection(clientApplication);
         }
 
         public BrowserBasedSection IfPopulated()
         {
-            return Answers.HasData ? this : null;
+            return BrowsersSupported.Answers.HasData ? this : null;
         }
 
-        public BrowserBasedSectionAnswers Answers { get; }
+        [JsonProperty("browsers-supported")]
+        public BrowsersSupportedSection BrowsersSupported { get; }
     }
 
-    public class BrowserBasedSectionAnswers
+    public class BrowsersSupportedSection
     {
-        public BrowserBasedSectionAnswers(ClientApplication clientApplication)
+        public BrowsersSupportedSection(ClientApplication clientApplication)
+        {
+            Answers = new BrowsersSupportedSectionAnswers(clientApplication);
+        }
+
+        public BrowsersSupportedSectionAnswers Answers { get; }
+    }
+
+    public class BrowsersSupportedSectionAnswers
+    {
+        public BrowsersSupportedSectionAnswers(ClientApplication clientApplication)
         {
             SupportedBrowsers = clientApplication?.BrowsersSupported;
             MobileResponsive = clientApplication?.MobileResponsive.HasValue == true
