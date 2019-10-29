@@ -1,0 +1,162 @@
+using System.Collections.Generic;
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
+using FluentAssertions;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
+using NHSD.BuyingCatalogue.API.Controllers;
+using NHSD.BuyingCatalogue.API.ViewModels;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
+using NUnit.Framework;
+
+namespace NHSD.BuyingCatalogue.API.UnitTests
+{
+    [TestFixture]
+    public sealed class SolutionsControllerGetPreviewTests
+    {
+        private Mock<IMediator> _mockMediator;
+
+        private SolutionsController _solutionsController;
+
+        private const string SolutionId = "Sln1";
+
+        [SetUp]
+        public void Setup()
+        {
+            _mockMediator = new Mock<IMediator>();
+            _solutionsController = new SolutionsController(_mockMediator.Object);
+        }
+
+        [Test]
+        public async Task ShouldReturnNotFound()
+        {
+            var result = (await _solutionsController.Preview(SolutionId)).Result as NotFoundResult;
+
+            result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+
+            _mockMediator.Verify(
+                m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [TestCase(null, null, null, false)]
+        [TestCase("summary", null, null, true)]
+        [TestCase(null, "Desc", null, true)]
+        [TestCase(null, null, "Link", true)]
+        [TestCase("summary", "Desc", null, true)]
+        [TestCase("summary", null, "Link", true)]
+        [TestCase(null, "Desc", "Link", true)]
+        [TestCase("summary", "Desc", "Link", true)]
+
+        public async Task ShouldGetPreviewCalculateSolutionDescription(string summary, string description, string link,bool hasData)
+        {
+            var previewResult = await GetSolutionPreviewSectionAsync(new Solution()
+            {
+                Summary = summary,
+                Description = description,
+                AboutUrl = link
+            });
+
+            if (hasData)
+            {
+                previewResult.Sections.SolutionDescription.Answers.HasData.Should().Be(true);
+                previewResult.Sections.SolutionDescription.Should().NotBe(null);
+                previewResult.Sections.SolutionDescription.Answers.Summary.Should().Be(summary);
+                previewResult.Sections.SolutionDescription.Answers.Description.Should().Be(description);
+                previewResult.Sections.SolutionDescription.Answers.Link.Should().Be(link);
+            }
+            else
+            {
+                previewResult.Sections.SolutionDescription.Should().BeNull();
+            }
+        }
+
+        
+        [TestCase(false, false)]
+        [TestCase(true, true)]
+        public async Task ShouldGetPreviewCalculateFeatures(bool isFeature, bool hasData)
+        {
+            var features = isFeature ? new List<string>() { "Feature1", "Feature2" } : new List<string>();
+
+            var previewResult = await GetSolutionPreviewSectionAsync(new Solution()
+            {
+                Features = features
+            });
+
+            if (hasData)
+            {
+                previewResult.Sections.Features.Answers.HasData.Should().Be(true);
+                previewResult.Sections.Features.Answers.Listing.Should()
+                    .BeEquivalentTo(new List<string>() {"Feature1", "Feature2"});
+
+            }
+            else
+            {
+                previewResult.Sections.Features.Should().BeNull();
+            }
+        }
+
+        [TestCase(false, false, null, false)]
+        [TestCase(true, false, null, false)]
+        [TestCase(true, true, null, false)]
+        [TestCase(true, false, false, false)]
+        [TestCase(true, false, true, false)]
+        [TestCase(true, true, false, true)]
+        [TestCase(true, true, true, true)]
+
+        public async Task ShouldGetPreviewCalculateClientApplication(bool isClientApplication, bool isBrowserSupported, bool? mobileResponsive, bool hasData)
+        {
+            var clientApplicationTypes = isClientApplication ? new HashSet<string>() { "browser-based", "native-mobile" } : new HashSet<string>();
+            var browsersSupported = isBrowserSupported ? new HashSet<string>() { "Chrome", "Edge" } : new HashSet<string>();
+
+            var previewResult = await GetSolutionPreviewSectionAsync(new Solution()
+            {
+                ClientApplication = new ClientApplication()
+                {
+                    ClientApplicationTypes = clientApplicationTypes,
+                    BrowsersSupported = browsersSupported,
+                    MobileResponsive = mobileResponsive
+                }
+            });
+
+            if (hasData)
+            {
+                previewResult.Sections.ClientApplicationTypes.Sections.HasData.Should().Be(true);
+
+               
+                previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Answers.MobileResponsive
+                        .Should()
+                        .Be(mobileResponsive != null && (bool)mobileResponsive ? "yes" : "no");
+
+                previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Answers.SupportedBrowsers
+                    .Should().BeEquivalentTo(isClientApplication
+                        ? new HashSet<string>() {"Chrome", "Edge"}
+                        : new HashSet<string>());
+            }
+            else
+            {
+                previewResult.Sections.ClientApplicationTypes.Should().BeNull();
+            }
+        }
+
+
+        private async Task<SolutionPreviewResult> GetSolutionPreviewSectionAsync(Solution solution)
+        {
+            _mockMediator.Setup(m =>
+                    m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(solution);
+
+
+            var result = (await _solutionsController.Preview(SolutionId)).Result as ObjectResult;
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+
+            _mockMediator.Verify(
+                m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()),
+                Times.Once);
+
+            return result.Value as SolutionPreviewResult;
+        }
+    }
+}
