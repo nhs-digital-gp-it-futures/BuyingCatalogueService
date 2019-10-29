@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using NHSD.BuyingCatalogue.API.ViewModels;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
@@ -23,7 +21,7 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         private readonly IMediator _mediator;
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="NHSD.BuyingCatalogue.API.Controllers.SolutionsController"/> class.
+        /// Initialises a new instance of the <see cref="BrowserBasedController"/> class.
         /// </summary>
         public BrowserBasedController(IMediator mediator)
         {
