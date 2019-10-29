@@ -14,7 +14,7 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
             Sections = new List<DashboardSection>
             {
                 DashboardSection.Mandatory("solution-description", !string.IsNullOrWhiteSpace(solution.Summary)),
-                DashboardSection.Optional("features", solution.Features.Any(f => !string.IsNullOrWhiteSpace(f))),
+                DashboardSection.Optional("features", solution.Features?.Any(f => !string.IsNullOrWhiteSpace(f)) == true),
                 DashboardSection.MandatoryWithSections("client-application-types",
                     solution.ClientApplication?.ClientApplicationTypes?.Any() == true,
                     ClientApplicationSubSections(solution))
