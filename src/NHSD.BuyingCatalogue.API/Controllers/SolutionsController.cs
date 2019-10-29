@@ -62,14 +62,14 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         /// <param name="id">A value to uniquely identify a solution.</param>
         /// <returns>A task representing an operation to retrieve the details of a Solution.</returns>
         [HttpGet]
-        [Route("{id}")]
-        [ProducesResponseType(typeof(GetSolutionByIdResult), (int)HttpStatusCode.OK)]
+        [Route("{id}/Dashboard")]
+        [ProducesResponseType(typeof(SolutionDashboardResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<GetSolutionByIdResult>> ById([FromRoute][Required]string id)
+        public async Task<ActionResult<SolutionDashboardResult>> Dashboard([FromRoute][Required]string id)
         {
             var result = await _mediator.Send(new GetSolutionByIdQuery(id));
-            return result == null ? (ActionResult)new NotFoundResult() : Ok(new GetSolutionByIdResult(new SolutionByIdViewModel(result)));
+            return result == null ? (ActionResult)new NotFoundResult() : Ok(new SolutionDashboardResult(result));
         }
 
         /// <summary>
@@ -78,14 +78,14 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         /// <param name="id">A value to uniquely identify a solution.</param>
         /// <returns>A task representing an operation to retrieve the details of a Solution.</returns>
         [HttpGet]
-        [Route("{id}/Dashboard")]
-        [ProducesResponseType(typeof(GetSolutionByIdResult), (int)HttpStatusCode.OK)]
+        [Route("{id}/Preview")]
+        [ProducesResponseType(typeof(SolutionPreviewResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<GetSolutionByIdResult>> Dashboard([FromRoute][Required]string id)
+        public async Task<ActionResult<SolutionPreviewResult>> Preview([FromRoute][Required]string id)
         {
             var result = await _mediator.Send(new GetSolutionByIdQuery(id));
-            return result == null ? (ActionResult)new NotFoundResult() : Ok(new SolutionDashboardResult(result));
+            return result == null ? (ActionResult)new NotFoundResult() : Ok(new SolutionPreviewResult(result));
         }
 
         /// <summary>
