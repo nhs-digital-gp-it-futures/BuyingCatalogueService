@@ -39,28 +39,28 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         public async Task ThenTheSolutionContainsSummaryDescriptionOf(string summary)
         {
             var content = await _response.ReadBody();
-            content.SelectToken("solution.marketingData.sections[?(@.id == 'solution-description')].data.summary").ToString().Should().Be(summary);
+            content.SelectToken("sections.solution-description.answers.summary").ToString().Should().Be(summary);
         }
 
         [Then(@"the solution solution-description section contains FullDescription of '(.*)'")]
         public async Task ThenTheSolutionContainsFullDescriptionOf(string description)
         {
             var content = await _response.ReadBody();
-            content.SelectToken("solution.marketingData.sections[?(@.id == 'solution-description')].data.description").ToString().Should().Be(description);
+            content.SelectToken("sections.solution-description.answers.description").ToString().Should().Be(description);
         }
 
         [Then(@"the solution solution-description section contains Link of (.*)")]
         public async Task ThenTheSolutionContainsLink(string link)
         {
             var content = await _response.ReadBody();
-            content.SelectToken("solution.marketingData.sections[?(@.id == 'solution-description')].data.link").ToString().Should().Be(link);
+            content.SelectToken("sections.solution-description.answers.link").ToString().Should().Be(link);
         }
 
         [Then(@"the solution solution-description section does not contain Link")]
         public async Task ThenTheSolutionDoesNotContainLink()
         {
             var content = await _response.ReadBody();
-            content.SelectToken("solution.marketingData.sections[?(@.id == 'solution-description')].data.link").Should().BeNull();
+            content.SelectToken("sections.solution-description.answers.link").Should().BeNull();
         }
 
         private class SolutionDescriptionPostTable

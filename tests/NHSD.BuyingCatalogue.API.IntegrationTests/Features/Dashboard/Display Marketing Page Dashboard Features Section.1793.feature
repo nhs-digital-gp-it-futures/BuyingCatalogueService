@@ -1,4 +1,4 @@
-Feature: Display Marketing Page Form Features Section
+Feature: Display Marketing Page Dashboard Features Section
     As a Supplier
     I want to manage Marketing Page Information for the Solution's Features
     So that I can ensure the information is correct
@@ -20,21 +20,14 @@ Background:
 
 @1793
 Scenario: 1. Sections presented where MarketingDetail exists
-    When a GET request is made for solution Sln3
+    When a GET request is made for solution dashboard Sln3
     Then a successful response is returned
-    And the solution solution-description section contains Link of UrlSln3
-    And the solution features section contains Features
-        | Feature   |
-        | Referrals |
-        | Workflow  |
     And the solution features section status is COMPLETE
     And the solution features section requirement is Optional
-    And the solution features section Mandatory field list is empty
     
 @1793
 Scenario: 2. Sections not presented where no Marketing Detail exists
-    When a GET request is made for solution Sln2
+    When a GET request is made for solution dashboard Sln2
     Then a successful response is returned
-    And the solution solution-description section does not contain Link
-    And the solution features section contains no features
     And the solution features section status is INCOMPLETE
+    And the solution features section requirement is Optional

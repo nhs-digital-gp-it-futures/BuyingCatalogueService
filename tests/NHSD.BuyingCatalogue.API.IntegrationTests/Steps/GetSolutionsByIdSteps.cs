@@ -7,7 +7,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
     [Binding]
     internal sealed class GetSolutionsByIdSteps
     {
-        private const string ByIdSolutionsUrl = "http://localhost:8080/api/v1/Solutions/{0}";
+        private const string ByIdSolutionsUrl = "http://localhost:8080/api/v1/Solutions/{0}/{1}";
 
         private readonly ScenarioContext _context;
 
@@ -19,10 +19,16 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             _response = response;
         }
 
-        [When(@"a GET request is made for solution (.*)")]
-        public async Task WhenAGETRequestIsMadeForSolutionSln(string solutionId)
+        [When(@"a GET request is made for (dashboard|preview) with no solution id")]
+        public async Task WhenAGETRequestIsMadeForSolutionSlnNoId(string view)
         {
-            _response.Result = await Client.GetAsync(string.Format(ByIdSolutionsUrl, solutionId));
+            await WhenAGETRequestIsMadeForSolutionSln(view, " ");
+        }
+
+        [When(@"a GET request is made for solution (dashboard|preview) (.*)")]
+        public async Task WhenAGETRequestIsMadeForSolutionSln(string view, string solutionId)
+        {
+            _response.Result = await Client.GetAsync(string.Format(ByIdSolutionsUrl, solutionId, view));
         }
     }
 }
