@@ -124,13 +124,12 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             if (hasData)
             {
                 previewResult.Sections.ClientApplicationTypes.Sections.HasData.Should().Be(true);
-
                
-                previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Answers.MobileResponsive
+                previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.BrowsersSupported.Answers.MobileResponsive
                         .Should()
                         .Be(mobileResponsive != null && (bool)mobileResponsive ? "yes" : "no");
 
-                previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Answers.SupportedBrowsers
+                previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.BrowsersSupported.Answers.SupportedBrowsers
                     .Should().BeEquivalentTo(isClientApplication
                         ? new HashSet<string>() {"Chrome", "Edge"}
                         : new HashSet<string>());

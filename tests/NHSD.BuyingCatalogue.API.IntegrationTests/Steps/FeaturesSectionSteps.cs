@@ -41,7 +41,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         public async Task ThenTheSolutionContainsFeatures(Table table)
         {
             var content = await _response.ReadBody();
-            content.SelectToken("solution.marketingData.sections[?(@.id == 'features')].data.listing")
+            content.SelectToken("sections.features.answers.listing")
                 .Select(s => s.ToString()).Should().BeEquivalentTo(table.CreateSet<FeaturesTable>().Select(s => s.Feature));
         }
 
@@ -49,7 +49,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         public async Task ThenTheSolutionContainsNoFeatures()
         {
             var content = await _response.ReadBody();
-            content.SelectToken("solution.marketingData.sections[?(@.id == 'features')].data.listing")
+            content.SelectToken("sections.features.answers.listing")
                 .Should().BeNullOrEmpty();
         }
 
