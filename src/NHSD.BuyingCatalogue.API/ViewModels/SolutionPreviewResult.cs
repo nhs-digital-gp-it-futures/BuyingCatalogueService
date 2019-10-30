@@ -179,6 +179,6 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
         public string MobileResponsive { get; }
 
         [JsonIgnore]
-        public bool HasData => SupportedBrowsers?.Any() == true && MobileResponsive != null;
+        public bool HasData => SupportedBrowsers?.Any() == true || MobileResponsive != null;
     }
 }

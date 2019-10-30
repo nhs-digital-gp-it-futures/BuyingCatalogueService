@@ -100,13 +100,13 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
 
         [TestCase(false, false, null, false)]
         [TestCase(true, false, null, false)]
-        [TestCase(true, true, null, false)]
-        [TestCase(true, false, false, false)]
-        [TestCase(true, false, true, false)]
+        [TestCase(true, true, null, true)]
+        [TestCase(true, false, false, true)]
+        [TestCase(true, false, true, true)]
         [TestCase(true, true, false, true)]
         [TestCase(true, true, true, true)]
 
-        public async Task ShouldGetPreviewCalculateClientApplication(bool isClientApplication, bool isBrowserSupported, bool? mobileResponsive, bool hasData)
+        public async Task ShouldGetPreviewCalculateClientApplication(bool isClientApplication, bool isBrowserSupported, bool? mobileResponsive, bool expectData)
         {
             var clientApplicationTypes = isClientApplication ? new HashSet<string>() { "browser-based", "native-mobile" } : new HashSet<string>();
             var browsersSupported = isBrowserSupported ? new HashSet<string>() { "Chrome", "Edge" } : new HashSet<string>();
@@ -121,18 +121,34 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
                 }
             });
 
-            if (hasData)
+            if (expectData)
             {
                 previewResult.Sections.ClientApplicationTypes.Sections.HasData.Should().Be(true);
-               
-                previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.BrowsersSupported.Answers.MobileResponsive
+
+                if (mobileResponsive.HasValue)
+                {
+                    previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.BrowsersSupported.Answers.MobileResponsive
                         .Should()
                         .Be(mobileResponsive != null && (bool)mobileResponsive ? "yes" : "no");
+                }
+                else
+                {
+                    previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.BrowsersSupported.Answers
+                        .MobileResponsive.Should().BeNull();
+                }
 
-                previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.BrowsersSupported.Answers.SupportedBrowsers
-                    .Should().BeEquivalentTo(isClientApplication
-                        ? new HashSet<string>() {"Chrome", "Edge"}
-                        : new HashSet<string>());
+                if (isBrowserSupported)
+                {
+                    previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.BrowsersSupported.Answers.SupportedBrowsers
+                        .Should().BeEquivalentTo(isClientApplication
+                            ? new HashSet<string>() {"Chrome", "Edge"}
+                            : new HashSet<string>());
+                }
+                else
+                {
+                    previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.BrowsersSupported.Answers
+                        .SupportedBrowsers.Should().BeEmpty();
+                }
             }
             else
             {

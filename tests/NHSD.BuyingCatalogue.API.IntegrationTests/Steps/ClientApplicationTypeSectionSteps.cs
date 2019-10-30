@@ -19,12 +19,27 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             _response = response;
         }
 
-        [Then(@"the solution client-application-types section contains clientapplication")]
-        public async Task ThenTheSolutionClient_Application_TypesSectionContainsClientApplication(Table table)
+        [Then(@"the client-application-types section contains (.*) subsections")]
+        public async Task ThenTheClientApplicationTypesSectionContainsSubsections(int subsectionCount)
         {
             var content = await _response.ReadBody();
-            content.SelectToken("solution.marketingData.sections[?(@.id == 'client-application-types')].sections")
-                .Select(s => s.SelectToken("id").ToString()).Should().BeEquivalentTo(table.CreateSet<ClientApplicationTypesTable>().Select(s => s.ClientApplication));
+            content.SelectToken($"sections.client-application-types").Children()
+                .Should().HaveCount(subsectionCount);
+        }
+
+        [Then(@"the client-application-types section is missing")]
+        public async Task ThenTheClientApplicationTypesSectionIsMissing()
+        {
+            var content = await _response.ReadBody();
+            content.SelectToken($"sections.client-application-types").Should().BeNull();
+        }
+
+        [Then(@"the client-application-types section contains subsection (\S+)")]
+        public async Task ThenTheClientApplicationTypesSectionContainsSubsectionBrowserBased(string subsection)
+        {
+            var content = await _response.ReadBody();
+            content.SelectToken($"sections.client-application-types.sections.{subsection}")
+                .Should().NotBeNull();
         }
 
         private class ClientApplicationTypesTable
