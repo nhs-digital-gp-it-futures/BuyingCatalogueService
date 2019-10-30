@@ -14,12 +14,14 @@ Background:
         | Sln2       | TakeTheRedPill | Eye opening experience         | Drs. Inc         | Eye opening6        | 1                |
         | Sln3       | PracticeMgr    | Fully fledged GP system        | Drs. Inc         | Fully fledged GP 12 | 1                |
         | Sln4       | PracticeMgr    | Fully fledged GP system        | Drs. Inc         | Fully fledged GP 12 | 1                |
+        | Sln5       | Integral       | Mostly a system                | GPs-R-Us         | Mostly Systemic 17  | 1                |
 
     And MarketingDetail exist
         | Solution | ClientApplication                                                    |
         | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] } |
         | Sln3     |                                                                      |
         | Sln4     | { "ClientApplicationTypes" : [] }                                    |
+        | Sln5     | { "ClientApplicationTypes" : [ "browser-based", "native-desktop", "native-mobile" ] } |
 
 
 @2724
@@ -46,3 +48,11 @@ Scenario: 3. Sections presented where ClientApplicationTypes is empty
     Then a successful response is returned
     And the solution client-application-types section status is INCOMPLETE
     And the solution client-application-types section requirement is Mandatory
+
+@2724
+Scenario: 4. Sections Mandatory when ClientApplicationTypes is set
+    When a GET request is made for solution dashboard Sln5
+    Then a successful response is returned
+    And the solution browser-based section requirement is Mandatory
+    And the solution native-desktop section requirement is Mandatory
+    And the solution native-mobile section requirement is Mandatory

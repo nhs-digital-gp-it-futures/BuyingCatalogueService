@@ -34,6 +34,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             content.SelectToken($"sections[?(@.id == '{section}')].requirement").ToString().Should().Be(requirement);
         }
 
+        [Then(@"the solution (browser-based|native-desktop|native-mobile) section requirement is (Mandatory|Optional)")]
+        public async Task ThenTheSolutionSubSectionRequirementIsMandatory(string section, string requirement)
+        {
+            var content = await _response.ReadBody();
+            content.SelectToken($"$..sections[?(@.id == '{section}')].requirement").ToString().Should().Be(requirement);
+        }
+
         [When(@"a GET request is made for (client-application-types|features|solution-description|browsers-supported) with no solution id")]
         public async Task GetRequestSectionNoSolutionId(string section)
         {
