@@ -38,7 +38,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         public async Task ThenTheSolutionSubSectionRequirementIsMandatory(string section, string requirement)
         {
             var content = await _response.ReadBody();
-            content.SelectToken($"$..sections[?(@.id == '{section}')].requirement").ToString().Should().Be(requirement);
+            content.SelectToken($"sections[?(@.id == 'client-application-types')].sections[?(@.id == '{section}')].requirement").ToString().Should().Be(requirement);
         }
 
         [When(@"a GET request is made for (client-application-types|features|solution-description|browsers-supported) with no solution id")]
