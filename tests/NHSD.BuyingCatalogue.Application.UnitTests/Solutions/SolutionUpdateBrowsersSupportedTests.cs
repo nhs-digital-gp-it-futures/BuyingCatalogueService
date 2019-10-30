@@ -28,10 +28,9 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
             Context.MockMarketingDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
                 r.Id == "Sln1"
-                && JTokenExtension.SelectStringValues("BrowsersSupported", r.ClientApplication).ShouldContainOnly(new List<string> { "Edge", "Google Chrome" }).Count() == 2
+                && JToken.Parse(r.ClientApplication).ReadStringArray("BrowsersSupported").ShouldContainOnly(new List<string> { "Edge", "Google Chrome" }).Count() == 2
                 && JToken.Parse(r.ClientApplication).SelectToken("MobileResponsive").Value<bool>() == true
-
-                ), It.IsAny<CancellationToken>()), Times.Once());
+            ), It.IsAny<CancellationToken>()), Times.Once());
 
         }
 
@@ -47,17 +46,11 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
                 .Callback((IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken cancellationToken) =>
                 {
                     calledBack = true;
+                    var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
 
-                    JTokenExtension.SelectStringValues("ClientApplicationTypes", updateSolutionClientApplicationRequest.ClientApplication)
-                        .ShouldContainOnly(new List<string> { "native-mobile", "browser-based" });
-
-                    JTokenExtension.SelectStringValues("BrowsersSupported", updateSolutionClientApplicationRequest.ClientApplication)
-                        .ShouldContainOnly(new List<string> { "Google Chrome", "Edge" });
-
-                    JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication).SelectToken("MobileResponsive").Value<bool>()
-                        .Should().BeTrue();
-
-
+                    json.ReadStringArray("ClientApplicationTypes").ShouldContainOnly(new List<string> { "native-mobile", "browser-based" });
+                    json.ReadStringArray("BrowsersSupported").ShouldContainOnly(new List<string> { "Google Chrome", "Edge" });
+                    json.SelectToken("MobileResponsive").Value<bool>().Should().BeTrue();
                 });
 
             await UpdateBrowsersSupported(new HashSet<string> { "Edge", "Google Chrome" }, "yes");
@@ -78,7 +71,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             Context.MockMarketingDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
                 r.Id == "Sln1"
-                && !JTokenExtension.SelectStringValues("BrowsersSupported", r.ClientApplication).Any()
+                && !JToken.Parse(r.ClientApplication).ReadStringArray("BrowsersSupported").Any()
                 && JToken.Parse(r.ClientApplication).SelectToken("MobileResponsive").Value<bool?>() == null
             ), It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -94,16 +87,11 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
                 .Callback((IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken cancellationToken) =>
                 {
                     calledBack = true;
+                    var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
 
-                    JTokenExtension.SelectStringValues("ClientApplicationTypes", updateSolutionClientApplicationRequest.ClientApplication)
-                        .ShouldContainOnly(new List<string> { "native-mobile", "browser-based" });
-
-                    JTokenExtension.SelectStringValues("BrowsersSupported",
-                            updateSolutionClientApplicationRequest.ClientApplication)
-                        .Should().BeEmpty();
-
-                    JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication).SelectToken("MobileResponsive")
-                        .Should().BeNullOrEmpty();
+                    json.ReadStringArray("ClientApplicationTypes").ShouldContainOnly(new List<string> { "native-mobile", "browser-based" });
+                    json.ReadStringArray("BrowsersSupported").Should().BeEmpty();
+                    json.SelectToken("MobileResponsive").Should().BeNullOrEmpty();
                 });
 
             await UpdateBrowsersSupported(new HashSet<string>());
@@ -124,15 +112,11 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
                 .Callback((IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken cancellationToken) =>
                 {
                     calledBack = true;
+                    var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
 
-                    JTokenExtension.SelectStringValues("ClientApplicationTypes", updateSolutionClientApplicationRequest.ClientApplication)
-                        .Should().BeEmpty();
-
-                    JTokenExtension.SelectStringValues("BrowsersSupported", updateSolutionClientApplicationRequest.ClientApplication)
-                        .Should().BeEmpty();
-
-                    JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication).SelectToken("MobileResponsive")
-                        .Should().BeNullOrEmpty();
+                    json.ReadStringArray("ClientApplicationTypes").Should().BeEmpty();
+                    json.ReadStringArray("BrowsersSupported").Should().BeEmpty();
+                    json.SelectToken("MobileResponsive").Should().BeNullOrEmpty();
                 });
 
             await UpdateBrowsersSupported(new HashSet<string>());
@@ -145,8 +129,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
         [Test]
         public void ShouldThrowWhenSolutionNotPresent()
         {
-            Assert.ThrowsAsync<NotFoundException>(() =>
-                UpdateBrowsersSupported(new HashSet<string> { "Edge", "Google Chrome" }));
+            Assert.ThrowsAsync<NotFoundException>(() => UpdateBrowsersSupported(new HashSet<string> { "Edge", "Google Chrome" }));
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
 
