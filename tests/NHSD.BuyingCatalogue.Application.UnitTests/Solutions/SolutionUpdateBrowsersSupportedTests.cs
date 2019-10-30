@@ -34,6 +34,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
                 ), It.IsAny<CancellationToken>()), Times.Once());
 
         }
+
         [Test]
         public async Task ShouldUpdateSolutionBrowsersSupportedAndNothingElse()
         {

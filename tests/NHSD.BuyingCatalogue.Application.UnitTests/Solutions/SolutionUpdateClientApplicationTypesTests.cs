@@ -30,6 +30,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
                 && JTokenExtension.SelectStringValues("ClientApplicationTypes", r.ClientApplication).ShouldContainOnly(new List<string> { "browser-based", "native-mobile" }).Count() == 2
             ), It.IsAny<CancellationToken>()), Times.Once());
         }
+
         [Test]
         public async Task ShouldUpdateSolutionClientApplicationTypesAndNothingElse()
         {
