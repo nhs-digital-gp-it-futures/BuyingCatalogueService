@@ -149,26 +149,26 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
 
                 if (mobileResponsive.HasValue)
                 {
-                    previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.BrowsersSupported.Answers.MobileResponsive
+                    previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers.MobileResponsive
                         .Should()
                         .Be(mobileResponsive != null && (bool)mobileResponsive ? "yes" : "no");
                 }
                 else
                 {
-                    previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.BrowsersSupported.Answers
+                    previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers
                         .MobileResponsive.Should().BeNull();
                 }
 
                 if (isBrowserSupported)
                 {
-                    previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.BrowsersSupported.Answers.SupportedBrowsers
+                    previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers.SupportedBrowsers
                         .Should().BeEquivalentTo(isClientApplication
                             ? new HashSet<string>() {"Chrome", "Edge"}
                             : new HashSet<string>());
                 }
                 else
                 {
-                    previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.BrowsersSupported.Answers
+                    previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers
                         .SupportedBrowsers.Should().BeEmpty();
                 }
             }
