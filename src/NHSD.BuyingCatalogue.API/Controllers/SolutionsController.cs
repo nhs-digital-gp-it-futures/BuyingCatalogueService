@@ -100,8 +100,8 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> SubmitForReviewAsync([FromRoute][Required] string id)
         {
-            SubmitSolutionForReviewResult result = await _mediator.Send(new SubmitSolutionForReviewCommand(id));
-            return result.IsSuccess ? NoContent() : (ActionResult)BadRequest(result);
+            SubmitSolutionForReviewCommandResult result = await _mediator.Send(new SubmitSolutionForReviewCommand(id));
+            return result.IsSuccess ? NoContent() : (ActionResult)BadRequest(SubmitSolutionForReviewResult.Create(result.Errors));
         }
     }
 }

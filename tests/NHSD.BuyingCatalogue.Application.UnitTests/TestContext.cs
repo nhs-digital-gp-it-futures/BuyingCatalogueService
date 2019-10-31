@@ -52,7 +52,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             serviceCollection.AddTransient<IRequestHandler<GetSolutionByIdQuery, Solution>, GetSolutionByIdHandler>();
             serviceCollection.AddTransient<IRequestHandler<UpdateSolutionSummaryCommand>, UpdateSolutionSummaryHandler>();
             serviceCollection.AddTransient<IRequestHandler<UpdateSolutionFeaturesCommand>, UpdateSolutionFeaturesHandler>();
-            serviceCollection.AddTransient<IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewResult>, SubmitSolutionForReviewHandler>();
+            serviceCollection.AddTransient<IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult>, SubmitSolutionForReviewHandler>();
             serviceCollection.AddTransient<IRequestHandler<UpdateSolutionClientApplicationTypesCommand>, UpdateSolutionClientApplicationTypesHandler>();
             serviceCollection.AddTransient<IRequestHandler<UpdateSolutionBrowsersSupportedCommand>, UpdateSolutionBrowsersSupportedHandler>();
 
@@ -84,7 +84,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
             public IRequestHandler<GetSolutionByIdQuery, Solution> GetSolutionByIdHandler { get; }
 
-            public IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewResult> SubmitSolutionForReviewHandler { get; }
+            public IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> SubmitSolutionForReviewHandler { get; }
 
             public IRequestHandler<UpdateSolutionSummaryCommand> UpdateSolutionSummaryHandler { get; }
 
@@ -98,7 +98,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             public Scope(IRequestHandler<ListCapabilitiesQuery, ListCapabilitiesResult> listCapabilitiesHandler,
                 IRequestHandler<ListSolutionsQuery, ListSolutionsResult> listSolutionsHandler,
                 IRequestHandler<GetSolutionByIdQuery, Solution> getSolutionByIdHandler,
-                IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewResult> submitSolutionForReviewHandler,
+                IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> submitSolutionForReviewHandler,
                 IRequestHandler<UpdateSolutionSummaryCommand> updateSolutionSummaryHandler,
                 IRequestHandler<UpdateSolutionFeaturesCommand> updateSolutionFeaturesHandler,
                 IRequestHandler<UpdateSolutionClientApplicationTypesCommand> updateSolutionClientApplicationTypesHandler,

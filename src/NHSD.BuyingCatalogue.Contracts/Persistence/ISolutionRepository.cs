@@ -16,10 +16,10 @@ namespace NHSD.BuyingCatalogue.Contracts.Persistence
         Task<IEnumerable<ISolutionListResult>> ListAsync(CancellationToken cancellationToken);
 
         /// <summary>
-        /// Gets a <see cref="Solution"/> matching the specified ID.
+        /// Gets a <see cref="ISolutionResult"/> matching the specified ID.
         /// </summary>
         /// <param name="id">The ID of the solution to look up.</param>
-        /// <param name="cancellationToken">A token to nofity if the task is cancelled.</param>
+        /// <param name="cancellationToken">A token to notify if the task is cancelled.</param>
         /// <returns>A task representing an operation to retrieve a <see cref="Solution"/> matching the specified ID.</returns>
         Task<ISolutionResult> ByIdAsync(string id, CancellationToken cancellationToken);
 

@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 using MediatR;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
 {
-    public sealed class SubmitSolutionForReviewCommand : IRequest<SubmitSolutionForReviewResult>
+    public sealed class SubmitSolutionForReviewCommand : IRequest<SubmitSolutionForReviewCommandResult>
     {
         /// <summary>
         /// A value to uniquely identify a solution.
@@ -10,7 +11,6 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
         public string SolutionId
         {
             get;
-            private set;
         }
 
         /// <summary>
