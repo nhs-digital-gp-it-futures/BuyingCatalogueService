@@ -4,7 +4,6 @@ using NHSD.BuyingCatalogue.Application.SolutionList.Domain;
 using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
 using NHSD.BuyingCatalogue.Domain.Entities.Capabilities;
-using NHSD.BuyingCatalogue.Domain.Entities.Organisations;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
 namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
