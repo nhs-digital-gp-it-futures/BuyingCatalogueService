@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using MediatR;
 
 
-namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions
+namespace NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions
 {
     /// <summary>
     /// Represents the query paramters for the get all solutions request.

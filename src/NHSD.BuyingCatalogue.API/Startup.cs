@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 using NHSD.BuyingCatalogue.API.Extensions;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
 using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
+using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
 
 namespace NHSD.BuyingCatalogue.API
 {

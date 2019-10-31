@@ -5,8 +5,9 @@ using AutoMapper.Configuration;
 using FluentAssertions;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
 using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
+using NHSD.BuyingCatalogue.Application.SolutionList.Domain;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
+using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Domain.Entities.Capabilities;
 using NHSD.BuyingCatalogue.Domain.Entities.Organisations;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
@@ -27,9 +28,9 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Infrastructure.Mapping
 
         public static IEnumerable<KeyValuePair<Type, Type>> SupportedMappings()
         {
-            yield return new KeyValuePair<Type, Type>(typeof(Solution), typeof(SolutionSummaryViewModel));
-            yield return new KeyValuePair<Type, Type>(typeof(Capability), typeof(SolutionCapabilityViewModel));
-            yield return new KeyValuePair<Type, Type>(typeof(Organisation), typeof(SolutionOrganisationViewModel));
+            yield return new KeyValuePair<Type, Type>(typeof(SolutionListItem), typeof(SolutionSummaryViewModel));
+            yield return new KeyValuePair<Type, Type>(typeof(SolutionListItemCapability), typeof(SolutionCapabilityViewModel));
+            yield return new KeyValuePair<Type, Type>(typeof(SolutionListItemOrganisation), typeof(SolutionOrganisationViewModel));
 
             yield return new KeyValuePair<Type, Type>(typeof(Capability), typeof(CapabilityViewModel));
 
