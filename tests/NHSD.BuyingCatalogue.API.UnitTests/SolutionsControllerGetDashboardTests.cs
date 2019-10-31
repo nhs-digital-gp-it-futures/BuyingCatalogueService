@@ -42,6 +42,22 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
                         m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
         }
 
+        [TestCase(null, null)]
+        [TestCase("Sln2", null)]
+        [TestCase(null, "Bob")]
+        [TestCase("Sln2", "Bob")]
+        public async Task ShouldReturnNameId(string id, string name)
+        {
+            var dashboardResult = await GetSolutionDashboardSectionAsync(new Solution()
+            {
+                Id = id,
+                Name = name
+            });
+
+            dashboardResult.Id.Should().Be(id);
+            dashboardResult.Name.Should().Be(name);
+        }
+
         [Test]
         public async Task ShouldReturnSolutionDashboardStaticData()
         {
