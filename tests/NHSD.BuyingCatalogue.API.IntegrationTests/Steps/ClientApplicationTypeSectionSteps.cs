@@ -46,7 +46,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         public async Task ThenTheSolutionClient_Application_TypesSectionContainsSupportedBrowsersOf(Table table)
         {
             var content = await _response.ReadBody();
-            content.SelectToken("sections.client-application-types.sections.browser-based.browsers-supported.answers.supported-browsers")
+            content.SelectToken("sections.client-application-types.sections.browser-based.sections.browsers-supported.answers.supported-browsers")
                 .Select(s => s.ToString()).Should().BeEquivalentTo(table.CreateSet<SelectedBrowsersTable>().Select(s => s.Browser));
         }
 
@@ -54,14 +54,14 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         public async Task ThenTheSolutionClient_Application_TypesSectionContainsMobileResponsive(string value)
         {
             var content = await _response.ReadBody();
-            content.SelectToken("sections.client-application-types.sections.browser-based.browsers-supported.answers.mobile-responsive").ToString().Should().Be(value);
+            content.SelectToken("sections.client-application-types.sections.browser-based.sections.browsers-supported.answers.mobile-responsive").ToString().Should().Be(value);
         }
 
         [Then(@"the solution client-application-types section contains mobile responsive with value null")]
         public async Task ThenTheSolutionClient_Application_TypesSectionContainsMobileResponsive()
         {
             var content = await _response.ReadBody();
-            content.SelectToken("sections.client-application-types.sections.browser-based.browsers-supported.answers.mobile-responsive").Should().BeNull();
+            content.SelectToken("sections.client-application-types.sections.browser-based.sections.browsers-supported.answers.mobile-responsive").Should().BeNull();
         }
 
         [Then(@"the client-application-types section is not returned")]
