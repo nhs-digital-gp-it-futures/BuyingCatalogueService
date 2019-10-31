@@ -43,7 +43,7 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         public async Task<ActionResult> GetFeaturesAsync([FromRoute][Required]string id)
         {
             var solution = await _mediator.Send(new GetSolutionByIdQuery(id));
-            return solution == null ? (ActionResult)new NotFoundResult() : Ok(Map(solution));
+            return solution == null ? (ActionResult)new NotFoundResult() : Ok(new FeaturesResult(solution));
         }
 
         /// <summary>
@@ -63,11 +63,5 @@ namespace NHSD.BuyingCatalogue.API.Controllers
 
             return NoContent();
         }
-
-        private FeaturesResult Map(Solution solution) =>
-            new FeaturesResult
-            {
-                Listing = new Features(solution.Features).Listing
-            };
     }
 }
