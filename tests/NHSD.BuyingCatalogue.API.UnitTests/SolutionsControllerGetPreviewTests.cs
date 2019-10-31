@@ -41,6 +41,28 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
                 m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
         }
 
+        [TestCase(null, null, null)]
+        [TestCase("Sln2", null, null)]
+        [TestCase(null, "name", null)]
+        [TestCase(null, null, "organization")]
+        [TestCase("Sln2", null, "organization")]
+        [TestCase(null, "name", "organization")]
+        [TestCase("Sln2", "name", "organization")]
+        public async Task ShouldReturGetValues(string id, string name, string organization)
+        {
+            var previewResult = await GetSolutionPreviewSectionAsync(new Solution()
+            {
+                Id = id,
+                Name = name,
+                OrganisationName = organization
+            });
+
+            previewResult.Id.Should().Be(id);
+            previewResult.Name.Should().Be(name);
+            previewResult.OrganisationName.Should().Be(organization);
+        }
+        
+
         [TestCase(null, null, null, false)]
         [TestCase("summary", null, null, true)]
         [TestCase(null, "Desc", null, true)]
