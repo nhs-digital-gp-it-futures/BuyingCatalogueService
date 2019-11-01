@@ -38,25 +38,22 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         [Then(@"the response details of the submit Solution for review request are as follows")]
         public async Task ThenTheDetailsOfTheSolutionsReturnedAreAsFollows(Table table)
         {
-            var expectedSectionErrorTable = table.CreateSet<SubmitSolutionForReviewResponseTable>();
             var response = await _response.ReadBody();
 
+            var expectedSectionErrorTable = table.CreateSet<SubmitSolutionForReviewResponseTable>();
             foreach (var expectedSectionError in expectedSectionErrorTable)
             {
-                var sectionError = response.SelectToken(expectedSectionError.Section);
-                sectionError.Should().NotBeNull();
-
-                var requiredSection = sectionError.SelectToken("required");
-                requiredSection.Should().NotBeNull();
-                requiredSection.Select(s => s.ToString()).Should().BeEquivalentTo(expectedSectionError.Required);
+                var token = response.SelectToken(expectedSectionError.Property);
+                token.Should().NotBeNull();
+                token.Select(s => s.ToString()).Should().BeEquivalentTo(expectedSectionError.InvalidSections);
             }
         }
 
         private class SubmitSolutionForReviewResponseTable
         {
-            public string Section { get; set; }
+            public string Property { get; set; }
 
-            public List<string> Required { get; set; }
+            public List<string> InvalidSections { get; set; }
         }
     }
 }
