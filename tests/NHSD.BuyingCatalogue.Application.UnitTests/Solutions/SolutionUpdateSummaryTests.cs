@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Moq;
 using NHSD.BuyingCatalogue.Application.Exceptions;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
+using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NUnit.Framework;
 

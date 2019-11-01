@@ -11,6 +11,7 @@ using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Domain.Entities.Capabilities;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 using NUnit.Framework;
+using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests.Infrastructure.Mapping
 {

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.API.ViewModels;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
+using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
@@ -59,9 +60,9 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> UpdateAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionSummaryViewModel updateSolutionSummaryViewModel)
         {
-            await _mediator.Send(new UpdateSolutionSummaryCommand(id, updateSolutionSummaryViewModel));
+            var validationResult = await _mediator.Send(new UpdateSolutionSummaryCommand(id, updateSolutionSummaryViewModel));
+            return validationResult.IsValid ? (ActionResult)new NoContentResult() : BadRequest(new UpdateSolutionSummaryResult(validationResult));
 
-            return NoContent();
         }
     }
 }

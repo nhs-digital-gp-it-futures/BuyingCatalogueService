@@ -1,5 +1,3 @@
-@ignore
-
 Feature: Suppliers Edit Solution Description Section Validation
     As a Supplier
     I want to Edit the About Solution Section
@@ -13,13 +11,9 @@ Background:
     And Solutions exist
         | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | FullDescription     | SupplierStatusId |
         | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | Online medicine 1   | 1                |
-        | Sln2       | TakeTheRedPill | Eye opening experience         | Drs. Inc         | Eye opening6        | 1                |
-        | Sln3       | PracticeMgr    | Fully fledged GP system        | Drs. Inc         | Fully fledged GP 12 | 1                |
     And MarketingDetail exist
         | Solution | AboutUrl | Features                          |
         | Sln1     | UrlSln1  | [ "Appointments", "Prescribing" ] |
-        | Sln2     | UrlSln2  | [ "Workflow", "Referrals" ]       |
-
 
 @3319
 Scenario: 1. Summary is not filled out
