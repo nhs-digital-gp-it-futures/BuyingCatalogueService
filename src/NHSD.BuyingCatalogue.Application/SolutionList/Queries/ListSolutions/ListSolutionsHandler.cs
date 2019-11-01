@@ -4,8 +4,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using NHSD.BuyingCatalogue.Application.Persistence;
+using NHSD.BuyingCatalogue.Application.SolutionList.Persistence;
 
-namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions
+namespace NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions
 {
     /// <summary>
     /// Defines the request handler for the <see cref="ListSolutionsQuery"/>.

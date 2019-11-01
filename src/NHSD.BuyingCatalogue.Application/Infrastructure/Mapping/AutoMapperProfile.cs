@@ -1,9 +1,9 @@
 using AutoMapper;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
+using NHSD.BuyingCatalogue.Application.SolutionList.Domain;
+using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Domain.Entities.Capabilities;
-using NHSD.BuyingCatalogue.Domain.Entities.Organisations;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
 namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
@@ -18,9 +18,9 @@ namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
         /// </summary>
         public AutoMapperProfile()
         {
-            CreateMap<Solution, SolutionSummaryViewModel>();
-            CreateMap<Capability, SolutionCapabilityViewModel>();
-            CreateMap<Organisation, SolutionOrganisationViewModel>();
+            CreateMap<SolutionListItem, SolutionSummaryViewModel>();
+            CreateMap<SolutionListItemCapability, SolutionCapabilityViewModel>();
+            CreateMap<SolutionListItemOrganisation, SolutionOrganisationViewModel>();
 
             CreateMap<Capability, CapabilityViewModel>();
 

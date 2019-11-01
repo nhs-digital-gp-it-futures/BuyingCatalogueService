@@ -1,7 +1,4 @@
-using System;
 using System.Collections.Generic;
-using NHSD.BuyingCatalogue.Domain.Entities.Capabilities;
-using NHSD.BuyingCatalogue.Domain.Entities.Organisations;
 using NHSD.BuyingCatalogue.Domain.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Domain.Entities.Solutions
@@ -11,8 +8,6 @@ namespace NHSD.BuyingCatalogue.Domain.Entities.Solutions
     /// </summary>
     public class Solution : EntityBase<string>
     {
-        private readonly HashSet<Capability> _capabilities = new HashSet<Capability>();
-
         /// <summary>
         /// Name of the solution, as displayed to a user.
         /// </summary>
@@ -32,22 +27,6 @@ namespace NHSD.BuyingCatalogue.Domain.Entities.Solutions
         /// Name of the organisation, as displayed to a user.
         /// </summary>
         public string OrganisationName { get; set; }
-
-        /// <summary>x
-        /// Associated organisation.
-        /// </summary>
-        public Organisation Organisation { get; set; }
-
-        /// <summary>
-        /// A list of capabilities associated with the solution.
-        /// </summary>
-        public IReadOnlyCollection<Capability> Capabilities
-        {
-            get
-            {
-                return _capabilities;
-            }
-        }
 
         /// <summary>
         /// Gets or sets a blob of data representing a list of features.
@@ -72,20 +51,6 @@ namespace NHSD.BuyingCatalogue.Domain.Entities.Solutions
         public Solution()
         {
             SupplierStatus = SupplierStatus.Draft;
-        }
-
-        /// <summary>
-        /// Adds the specified capability.
-        /// </summary>
-        /// <param name="capability">The details of a <see cref="Capability"/>.</param>
-        public void AddCapability(Capability capability)
-        {
-            if (capability is null)
-            {
-                throw new ArgumentNullException(nameof(capability));
-            }
-
-            _capabilities.Add(capability);
         }
     }
 }

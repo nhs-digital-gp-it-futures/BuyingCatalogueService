@@ -7,8 +7,9 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.API.Controllers;
+using NHSD.BuyingCatalogue.API.ViewModels;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetClientApplicationTypes;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 using NUnit.Framework;
 
@@ -33,17 +34,41 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         [Test]
         public async Task ShouldGetClientApplicationTypes()
         {
+            var solution = new Solution
+            {
+                ClientApplication = new ClientApplication
+                {
+                    ClientApplicationTypes = new HashSet<string>(new string[] { "browser-based", "native-desktop" }),
+                }
+            };
+
             var expected = new GetClientApplicationTypesResult(new ClientApplication());
 
-            _mockMediator.Setup(m => m.Send(It.Is<GetClientApplicationTypesQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(expected);
+            _mockMediator.Setup(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(solution);
 
             var result = (await _clientApplicationTypeController.GetClientApplicationTypesAsync(SolutionId)) as ObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            result.Value.Should().Be(expected);
+            (result.Value as GetClientApplicationTypesResult).ClientApplicationTypes.Should().BeEquivalentTo(new string[] { "browser-based", "native-desktop" });
 
-            _mockMediator.Verify(m => m.Send(It.Is<GetClientApplicationTypesQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+            _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Test]
+        public async Task ShouldGetEmptyClientApplicationTypes()
+        {
+            var expected = new GetClientApplicationTypesResult(new ClientApplication());
+
+            _mockMediator.Setup(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new Solution());
+
+            var result = (await _clientApplicationTypeController.GetClientApplicationTypesAsync(SolutionId)) as ObjectResult;
+
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            (result.Value as GetClientApplicationTypesResult).ClientApplicationTypes.Should().BeEmpty();
+
+            _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
@@ -53,7 +78,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
 
             result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
 
-            _mockMediator.Verify(m => m.Send(It.Is<GetClientApplicationTypesQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+            _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]

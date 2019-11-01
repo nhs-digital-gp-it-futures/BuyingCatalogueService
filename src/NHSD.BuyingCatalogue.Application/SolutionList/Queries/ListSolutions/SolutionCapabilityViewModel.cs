@@ -1,6 +1,6 @@
 using System;
 
-namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions
+namespace NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions
 {
     /// <summary>
     /// Provides the view representation for the <see cref="Capability"/> entity.

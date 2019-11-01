@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using NHSD.BuyingCatalogue.Application.SolutionList.Domain;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
-namespace NHSD.BuyingCatalogue.Application.Persistence
+namespace NHSD.BuyingCatalogue.Application.SolutionList.Persistence
 {
     internal sealed class SolutionListReader
     {
@@ -20,7 +21,7 @@ namespace NHSD.BuyingCatalogue.Application.Persistence
             _solutionRepository = solutionRepository;
         }
 
-        public async Task<IEnumerable<Solution>> ListAsync(ISet<Guid> capabilityIdList, CancellationToken cancellationToken)
+        public async Task<IEnumerable<SolutionListItem>> ListAsync(ISet<Guid> capabilityIdList, CancellationToken cancellationToken)
         {
             if (capabilityIdList is null)
             {

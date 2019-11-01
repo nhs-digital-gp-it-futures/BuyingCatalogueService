@@ -4,8 +4,9 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NHSD.BuyingCatalogue.API.ViewModels;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetClientApplicationTypes;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 
 namespace NHSD.BuyingCatalogue.API.Controllers
 {
@@ -40,8 +41,8 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetClientApplicationTypesAsync([FromRoute][Required]string id)
         {
-            GetClientApplicationTypesResult result = await _mediator.Send(new GetClientApplicationTypesQuery(id));
-            return result?.ClientApplicationTypes == null ? (ActionResult)new NotFoundResult() : Ok(result);
+            var solution = await _mediator.Send(new GetSolutionByIdQuery(id));
+            return solution == null ? (ActionResult)new NotFoundResult() : Ok(new GetClientApplicationTypesResult(solution.ClientApplication));
         }
 
         /// <summary>

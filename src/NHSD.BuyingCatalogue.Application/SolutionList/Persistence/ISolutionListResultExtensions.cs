@@ -1,18 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
+using NHSD.BuyingCatalogue.Application.SolutionList.Domain;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
-using NHSD.BuyingCatalogue.Domain.Entities.Capabilities;
-using NHSD.BuyingCatalogue.Domain.Entities.Organisations;
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
-namespace NHSD.BuyingCatalogue.Application.Persistence
+namespace NHSD.BuyingCatalogue.Application.SolutionList.Persistence
 {
     internal static class ISolutionListResultExtensions
     {
 
-        internal static IEnumerable<Solution> Map(this IEnumerable<ISolutionListResult> solutionListResults)
+        internal static IEnumerable<SolutionListItem> Map(this IEnumerable<ISolutionListResult> solutionListResults)
         {
-            var solutions = solutionListResults.Select(s => s.MapToSolution()).ToArray().Distinct();// force eager execution
+            var solutions = solutionListResults.Select(s => s.MapToSolution()).ToArray().Distinct(new SolutionListItemComparer());// force eager execution
 
             foreach (var item in solutionListResults)
             {
@@ -22,21 +20,21 @@ namespace NHSD.BuyingCatalogue.Application.Persistence
             return solutions;
         }
 
-        private static Solution MapToSolution(this ISolutionListResult item)
-            => new Solution
+        private static SolutionListItem MapToSolution(this ISolutionListResult item)
+            => new SolutionListItem
             {
                 Id = item.SolutionId,
                 Name = item.SolutionName,
                 Summary = item.SolutionSummary,
-                Organisation = new Organisation
+                Organisation = new SolutionListItemOrganisation
                 {
                     Id = item.OrganisationId,
                     Name = item.OrganisationName
                 }
             };
 
-        private static Capability MapToSolutionCapability(this ISolutionListResult item)
-            => new Capability
+        private static SolutionListItemCapability MapToSolutionCapability(this ISolutionListResult item)
+            => new SolutionListItemCapability
             {
                 Id = item.CapabilityId,
                 Name = item.CapabilityName,

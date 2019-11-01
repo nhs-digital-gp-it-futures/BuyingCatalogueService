@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
-namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetBrowsersSupported
+namespace NHSD.BuyingCatalogue.API.ViewModels
 {
     public sealed class GetBrowsersSupportedResult
     {

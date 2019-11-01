@@ -42,9 +42,50 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
                 .Should().NotBeNull();
         }
 
+        [Then(@"the solution client-application-types section contains Browsers")]
+        public async Task ThenTheSolutionClient_Application_TypesSectionContainsSupportedBrowsersOf(Table table)
+        {
+            var content = await _response.ReadBody();
+            content.SelectToken("sections.client-application-types.sections.browser-based.sections.browsers-supported.answers.supported-browsers")
+                .Select(s => s.ToString()).Should().BeEquivalentTo(table.CreateSet<SelectedBrowsersTable>().Select(s => s.Browser));
+        }
+
+        [Then(@"the solution client-application-types section contains mobile responsive with value (yes|no)")]
+        public async Task ThenTheSolutionClient_Application_TypesSectionContainsMobileResponsive(string value)
+        {
+            var content = await _response.ReadBody();
+            content.SelectToken("sections.client-application-types.sections.browser-based.sections.browsers-supported.answers.mobile-responsive").ToString().Should().Be(value);
+        }
+
+        [Then(@"the solution client-application-types section contains mobile responsive with value null")]
+        public async Task ThenTheSolutionClient_Application_TypesSectionContainsMobileResponsive()
+        {
+            var content = await _response.ReadBody();
+            content.SelectToken("sections.client-application-types.sections.browser-based.sections.browsers-supported.answers.mobile-responsive").Should().BeNull();
+        }
+
+        [Then(@"the client-application-types section is not returned")]
+        public async Task ThenTheSolutionClientApplicationTypesSectionContains()
+        {
+            var content = await _response.ReadBody();
+            content.SelectToken("sections.client-application-types").Should().BeNullOrEmpty();
+        }
+
+        [Then(@"the solution client-application-types section is returned")]
+        public async Task ThenTheSolutionClient_Application_TypesSectionIsReturnedAsync()
+        {
+            var content = await _response.ReadBody();
+            content.SelectToken("sections.client-application-types").Should().NotBeNullOrEmpty();
+        }
+
         private class ClientApplicationTypesTable
         {
             public string ClientApplication { get; set; }
+        }
+
+        private class SelectedBrowsersTable
+        {
+            public string Browser { get; set; }
         }
     }
 }

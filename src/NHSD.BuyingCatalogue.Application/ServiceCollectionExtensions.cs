@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using NHSD.BuyingCatalogue.Application.Persistence;
+using NHSD.BuyingCatalogue.Application.SolutionList.Persistence;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
 
 namespace NHSD.BuyingCatalogue.Application
