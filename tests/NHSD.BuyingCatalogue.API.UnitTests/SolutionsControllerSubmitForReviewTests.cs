@@ -54,7 +54,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
 
             var actual = result.Value as SubmitSolutionForReviewResult;
             actual.Should().NotBeNull();
-            actual.Should().Be(expected);
+            actual.RequiredSections.Should().BeEquivalentTo(expected.RequiredSections);
         }
 
         private void SetupMockMediator(SubmitSolutionForReviewCommandResult result)

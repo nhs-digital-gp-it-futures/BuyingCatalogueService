@@ -39,56 +39,22 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
 
         private static HashSet<string> Map(IReadOnlyCollection<ValidationError> errors)
         {
-            HashSet<string> invalidSectionList = null;
+            HashSet<string> requiredSectionList = null;
 
             if (errors.Any())
             {
-                invalidSectionList = new HashSet<string>();
+                requiredSectionList = new HashSet<string>();
 
                 foreach (ValidationError error in errors)
                 {
-                    if (RequiredSectionMap.TryGetValue(error, out string invalidSectionName))
+                    if (RequiredSectionMap.TryGetValue(error, out string requiredSectionName))
                     {
-                        invalidSectionList.Add(invalidSectionName);
+                        requiredSectionList.Add(requiredSectionName);
                     }
                 }
             }
 
-            return invalidSectionList;
-        }
-
-        protected bool Equals(SubmitSolutionForReviewResult other)
-        {
-            return RequiredSections is null && other.RequiredSections is null ||
-                   RequiredSections != null && RequiredSections.SequenceEqual(other.RequiredSections);
-        }
-
-        /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-
-            SubmitSolutionForReviewResult item = obj as SubmitSolutionForReviewResult;
-            if (item is null)
-            {
-                return false;
-            }
-
-            return Equals(item);
-        }
-
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            return RequiredSections != null ? RequiredSections.GetHashCode() : 0;
+            return requiredSectionList;
         }
     }
 }

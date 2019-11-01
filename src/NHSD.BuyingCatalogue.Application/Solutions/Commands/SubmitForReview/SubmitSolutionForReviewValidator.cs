@@ -63,8 +63,8 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
             ClientApplication clientApplication = Solution.ClientApplication;
             if (clientApplication != null && clientApplication.ClientApplicationTypes.Contains("browser-based"))
             {
-                result.Add(ValidateSupportedBrowsers(clientApplication));
-                result.Add(ValidateMobileResponsive(clientApplication));
+                result.Add(ValidateSupportedBrowsers(clientApplication))
+                      .Add(ValidateMobileResponsive(clientApplication));
             }
 
             return result;
