@@ -1,23 +1,53 @@
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
+using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
 namespace NHSD.BuyingCatalogue.API.ViewModels
 {
     public sealed class BrowserBasedResult
     {
+        public BrowserBasedResult (ClientApplication clientApplication)
+        {
+            Sections = new List<BrowserBasedResultSection>
+            {
+                new BrowserBasedResultSection("browsers-supported", BrowserSupportedComplete(clientApplication), true),
+                new BrowserBasedResultSection("plug-ins-or-extensions", false, true),
+                new BrowserBasedResultSection("connectivity-and-resolution", false, true),
+                new BrowserBasedResultSection("hardware-requirements", false, false ),
+                new BrowserBasedResultSection("additional-information", false, false )
+            };
+        }
+
+        private bool BrowserSupportedComplete(ClientApplication clientApplication)
+        {
+            return clientApplication?.BrowsersSupported?.Any() == true && clientApplication?.MobileResponsive.HasValue == true;
+        }
+
         [JsonProperty("sections")]
-        public List<BrowserBasedResultSection> Sections { get; set; }
+        public List<BrowserBasedResultSection> Sections { get; }
     }
 
     public class BrowserBasedResultSection
     {
+        private bool _mandatory;
+
+        private bool _complete;
+
+        public BrowserBasedResultSection(string id, bool complete, bool mandatory)
+        {
+            Id = id;
+            _complete = complete;
+            _mandatory = mandatory;
+        }
+
         [JsonProperty("id")]
-        public string Id { get; set; }
+        public string Id { get;  }
 
         [JsonProperty("status")]
-        public string Status { get; set; }
+        public string Status => _complete ? "COMPLETE" : "INCOMPLETE";
 
         [JsonProperty("requirement")]
-        public string Requirement { get; set; }
+        public string Requirement => _mandatory ? "Mandatory" : "Optional";
     }
 }

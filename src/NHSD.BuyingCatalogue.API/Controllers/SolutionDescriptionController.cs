@@ -43,7 +43,7 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         public async Task<ActionResult> GetSolutionDescriptionAsync([FromRoute][Required]string id)
         {
             var solution = await _mediator.Send(new GetSolutionByIdQuery(id));
-            return solution == null ? (ActionResult)new NotFoundResult() : Ok(Map(solution));
+            return solution == null ? (ActionResult)new NotFoundResult() : Ok(new SolutionDescriptionResult(solution.Summary, solution.Description, solution.AboutUrl));
         }
 
         /// <summary>
@@ -62,16 +62,6 @@ namespace NHSD.BuyingCatalogue.API.Controllers
             await _mediator.Send(new UpdateSolutionSummaryCommand(id, updateSolutionSummaryViewModel));
 
             return NoContent();
-        }
-
-        private SolutionDescriptionResult Map(Solution solution)
-        {
-            return new SolutionDescriptionResult
-            {
-                Description = solution.Description,
-                Link = solution.AboutUrl,
-                Summary = solution.Summary,
-            };
         }
     }
 }

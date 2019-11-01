@@ -41,30 +41,7 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         public async Task<ActionResult> GetBrowserBasedAsync([FromRoute][Required]string id)
         { 
             var solution = await _mediator.Send(new GetSolutionByIdQuery(id));
-            return solution == null ? (ActionResult) new NotFoundResult() : Ok(Map(solution.ClientApplication));
-        }
-
-        private BrowserBasedResult Map(ClientApplication clientApplication)
-        {
-            return new BrowserBasedResult
-            {
-                Sections = new List<BrowserBasedResultSection>
-                {
-                    new BrowserBasedResultSection { Id = "browsers-supported", Status= BrowserSupportedComplete(clientApplication), Requirement = "Mandatory" },
-                    new BrowserBasedResultSection { Id = "plug-ins-or-extensions", Status= "INCOMPLETE", Requirement = "Mandatory" },
-                    new BrowserBasedResultSection { Id = "connectivity-and-resolution", Status= "INCOMPLETE", Requirement = "Mandatory" },
-                    new BrowserBasedResultSection { Id = "hardware-requirements", Status= "INCOMPLETE", Requirement = "Optional" },
-                    new BrowserBasedResultSection { Id = "additional-information", Status= "INCOMPLETE", Requirement = "Optional" },
-                }
-            };
-        }
-
-        private string BrowserSupportedComplete(ClientApplication clientApplication)
-        {
-            return clientApplication?.BrowsersSupported?.Any() == true &&
-                   clientApplication?.MobileResponsive.HasValue == true
-                ? "COMPLETE"
-                : "INCOMPLETE";
+            return solution == null ? (ActionResult) new NotFoundResult() : Ok(new BrowserBasedResult(solution.ClientApplication));
         }
     }
 }

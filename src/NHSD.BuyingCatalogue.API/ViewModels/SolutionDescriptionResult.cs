@@ -2,10 +2,17 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
 {
     public sealed class SolutionDescriptionResult
     {
-        public string Summary { get; set; }
+        public SolutionDescriptionResult(string summary, string description, string link)
+        {
+            Summary = summary;
+            Description = description;
+            Link = link;
+        }
 
-        public string Description { get; set; }
+        public string Summary { get; }
 
-        public string Link { get; set; }
+        public string Description { get; }
+
+        public string Link { get; }
     }
 }
