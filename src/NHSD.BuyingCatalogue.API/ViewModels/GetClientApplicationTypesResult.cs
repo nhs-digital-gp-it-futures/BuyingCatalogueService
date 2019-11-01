@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
-namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetClientApplicationTypes
+namespace NHSD.BuyingCatalogue.API.ViewModels
 {
     public sealed class GetClientApplicationTypesResult
     {
