@@ -99,7 +99,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             public Scope(IRequestHandler<ListCapabilitiesQuery, ListCapabilitiesResult> listCapabilitiesHandler,
                 IRequestHandler<ListSolutionsQuery, ListSolutionsResult> listSolutionsHandler,
                 IRequestHandler<GetSolutionByIdQuery, Solution> getSolutionByIdHandler,
-                IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewResult> submitSolutionForReviewHandler,
+                IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> submitSolutionForReviewHandler,
                 IRequestHandler<UpdateSolutionSummaryCommand, UpdateSolutionSummaryValidationResult> updateSolutionSummaryHandler,
                 IRequestHandler<UpdateSolutionFeaturesCommand> updateSolutionFeaturesHandler,
                 IRequestHandler<UpdateSolutionClientApplicationTypesCommand> updateSolutionClientApplicationTypesHandler,
