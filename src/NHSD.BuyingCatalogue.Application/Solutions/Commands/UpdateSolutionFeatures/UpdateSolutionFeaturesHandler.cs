@@ -5,22 +5,24 @@ using MediatR;
 using NHSD.BuyingCatalogue.Application.Persistence;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
-namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution
+namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures
 {
-    internal sealed class UpdateSolutionFeaturesHandler : IRequestHandler<UpdateSolutionFeaturesCommand>
+    internal sealed class UpdateSolutionFeaturesHandler : IRequestHandler<UpdateSolutionFeaturesCommand, UpdateSolutionFeaturesValidatorResult>
     {
         private readonly SolutionReader _solutionReader;
         private readonly SolutionFeaturesUpdater _solutionFeaturesUpdater;
         private readonly IMapper _mapper;
+        private readonly UpdateSolutionFeaturesValidator _updateSolutionFeaturesValidator;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="UpdateSolutionHandler"/> class.
         /// </summary>
-        public UpdateSolutionFeaturesHandler(SolutionReader solutionReader, SolutionFeaturesUpdater solutionFeaturesUpdater, IMapper mapper)
+        public UpdateSolutionFeaturesHandler(SolutionReader solutionReader, SolutionFeaturesUpdater solutionFeaturesUpdater, IMapper mapper, UpdateSolutionFeaturesValidator updateSolutionFeaturesValidator)
         {
             _solutionReader = solutionReader;
             _solutionFeaturesUpdater = solutionFeaturesUpdater;
             _mapper = mapper;
+            _updateSolutionFeaturesValidator = updateSolutionFeaturesValidator;
         }
 
         /// <summary>
@@ -29,13 +31,18 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution
         /// <param name="request">The command parameters.</param>
         /// <param name="cancellationToken">Token to cancel the request.</param>
         /// <returns>A task representing an operation to get the result of this command.</returns>
-        public async Task<Unit> Handle(UpdateSolutionFeaturesCommand request, CancellationToken cancellationToken)
+        public async Task<UpdateSolutionFeaturesValidatorResult> Handle(UpdateSolutionFeaturesCommand request, CancellationToken cancellationToken)
         {
-            Solution solution = await _solutionReader.ByIdAsync(request.SolutionId, cancellationToken);
+            var validationResult = _updateSolutionFeaturesValidator.Validate(request.UpdateSolutionFeaturesViewModel);
 
-            await _solutionFeaturesUpdater.UpdateAsync(_mapper.Map(request.UpdateSolutionFeaturesViewModel, solution), cancellationToken);
+            if (validationResult.IsValid)
+            {
+                Solution solution = await _solutionReader.ByIdAsync(request.SolutionId, cancellationToken);
+                await _solutionFeaturesUpdater.UpdateAsync(
+                    _mapper.Map(request.UpdateSolutionFeaturesViewModel, solution), cancellationToken);
+            }
 
-            return Unit.Value;
+            return validationResult;
         }
     }
 }

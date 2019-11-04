@@ -5,9 +5,8 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.API.ViewModels;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
+using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
 namespace NHSD.BuyingCatalogue.API.Controllers
 {
@@ -59,9 +58,10 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> UpdateFeaturesAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionFeaturesViewModel updateSolutionFeaturesViewModel)
         {
-            await _mediator.Send(new UpdateSolutionFeaturesCommand(id, updateSolutionFeaturesViewModel));
-
-            return NoContent();
+            var validationResult = await _mediator.Send(new UpdateSolutionFeaturesCommand(id, updateSolutionFeaturesViewModel));
+            return validationResult.IsValid 
+                ? (ActionResult)new ContentResult()
+                : BadRequest(new UpdateSolutionFeaturesResult(validationResult));
         }
     }
 }
