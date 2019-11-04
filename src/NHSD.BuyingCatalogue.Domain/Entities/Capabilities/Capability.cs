@@ -1,5 +1,4 @@
 using System;
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 using NHSD.BuyingCatalogue.Domain.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Domain.Entities.Capabilities

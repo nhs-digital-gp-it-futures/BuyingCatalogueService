@@ -21,12 +21,5 @@ namespace NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities
 		/// A value to determine whether or not this instance is the criteria to form a foundation solution.
 		/// </summary>
 		public bool IsFoundation { get; set; }
-
-		/// <summary>
-		/// Initialises a new instance of the <see cref="CapabilityViewModel"/> class.
-		/// </summary>
-		public CapabilityViewModel()
-		{
-		}
-	}
+    }
 }

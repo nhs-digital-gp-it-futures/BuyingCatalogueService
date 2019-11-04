@@ -2,7 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
+using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 
 namespace NHSD.BuyingCatalogue.Application.Persistence
 {
@@ -18,7 +18,7 @@ namespace NHSD.BuyingCatalogue.Application.Persistence
             _marketingDetailRepository = marketingDetailRepository;
         }
 
-        public async Task UpdateAsync(ClientApplication clientApplication, string solutionId, CancellationToken cancellationToken)
+        public async Task UpdateAsync(IClientApplication clientApplication, string solutionId, CancellationToken cancellationToken)
         {
             await _marketingDetailRepository.UpdateClientApplicationAsync(new UpdateSolutionClientApplicationRequest
             {

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace NHSD.BuyingCatalogue.Contracts.Infrastructure.HealthChecks
 {
     /// <summary>
-    /// 
+    /// Defines a contract representing a health check to verify the status of the data access layer.
     /// </summary>
     public interface IRepositoryHealthCheck
     {

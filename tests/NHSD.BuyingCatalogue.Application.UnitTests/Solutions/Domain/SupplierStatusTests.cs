@@ -1,6 +1,6 @@
 using System;
 using FluentAssertions;
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
+using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 using NHSD.BuyingCatalogue.Domain.Infrastructure;
 using NUnit.Framework;
 

@@ -1,13 +1,17 @@
 using System.Collections.Generic;
-using NHSD.BuyingCatalogue.Domain.Infrastructure;
 
-namespace NHSD.BuyingCatalogue.Domain.Entities.Solutions
+namespace NHSD.BuyingCatalogue.Application.Solutions.Domain
 {
     /// <summary>
     /// A product and/or service provided by an ‘organisation’.
     /// </summary>
-    public class Solution : EntityBase<string>
+    internal class Solution : ISolution
     {
+        /// <summary>
+        /// Id of the solution.
+        /// </summary>
+        public string Id { get; set; }
+
         /// <summary>
         /// Name of the solution, as displayed to a user.
         /// </summary>
@@ -29,7 +33,7 @@ namespace NHSD.BuyingCatalogue.Domain.Entities.Solutions
         public string OrganisationName { get; set; }
 
         /// <summary>
-        /// Gets or sets a blob of data representing a list of features.
+        /// Gets or sets a list of features.
         /// </summary>
         public IEnumerable<string> Features { get; set; }
 
@@ -41,9 +45,12 @@ namespace NHSD.BuyingCatalogue.Domain.Entities.Solutions
         /// <summary>
         /// Status of this instance in relation to the supplier.
         /// </summary>
-        public SupplierStatus SupplierStatus { get; private set; }
+        public SupplierStatus SupplierStatus { get; }
 
-        public ClientApplication ClientApplication { get; set; }
+        /// <summary>
+        /// Marketing information related to the clients application.
+        /// </summary>
+        public IClientApplication ClientApplication { get; set; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="Solution"/> class.

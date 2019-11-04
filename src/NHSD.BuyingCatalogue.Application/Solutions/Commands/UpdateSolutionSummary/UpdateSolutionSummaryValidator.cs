@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary
 {
     internal sealed class UpdateSolutionSummaryValidator
@@ -11,22 +13,19 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSumm
                 validationResult.Required.Add("summary");
             }
 
-            if (updateSolutionSummaryViewModel.Summary.Length > 300)
-            {
-                validationResult.MaxLength.Add("summary");
-            }
-
-            if (updateSolutionSummaryViewModel.Description.Length > 1000)
-            {
-                validationResult.MaxLength.Add("description");
-            }
-
-            if (updateSolutionSummaryViewModel.Link.Length > 1000)
-            {
-                validationResult.MaxLength.Add("link");
-            }
+            ValidateLength(validationResult.MaxLength, updateSolutionSummaryViewModel.Summary, 300, "summary");
+            ValidateLength(validationResult.MaxLength, updateSolutionSummaryViewModel.Description, 1000, "description");
+            ValidateLength(validationResult.MaxLength, updateSolutionSummaryViewModel.Link, 1000, "link");
 
             return validationResult;
+        }
+
+        private void ValidateLength(HashSet<string> maxLength, string candidate, int length, string description)
+        {
+            if ((candidate?.Length ?? 0) > length)
+            {
+                maxLength.Add(description);
+            }
         }
     }
 }

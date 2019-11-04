@@ -6,7 +6,7 @@ using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Domain.Entities.Capabilities;
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
+using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 
 namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
 {

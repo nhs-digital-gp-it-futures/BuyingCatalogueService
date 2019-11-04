@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
+using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 
 namespace NHSD.BuyingCatalogue.API.ViewModels
 {
     public sealed class BrowserBasedResult
     {
-        public BrowserBasedResult (ClientApplication clientApplication)
+        public BrowserBasedResult (IClientApplication clientApplication)
         {
             Sections = new List<BrowserBasedResultSection>
             {
@@ -19,7 +19,7 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
             };
         }
 
-        private bool BrowserSupportedComplete(ClientApplication clientApplication)
+        private bool BrowserSupportedComplete(IClientApplication clientApplication)
         {
             return clientApplication?.BrowsersSupported?.Any() == true && clientApplication?.MobileResponsive.HasValue == true;
         }
@@ -30,9 +30,8 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
 
     public class BrowserBasedResultSection
     {
-        private bool _mandatory;
-
-        private bool _complete;
+        private readonly bool _mandatory;
+        private readonly bool _complete;
 
         public BrowserBasedResultSection(string id, bool complete, bool mandatory)
         {

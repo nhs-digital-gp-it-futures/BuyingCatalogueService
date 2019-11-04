@@ -1,4 +1,4 @@
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
+using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 using NUnit.Framework;
 using FluentAssertions;
 

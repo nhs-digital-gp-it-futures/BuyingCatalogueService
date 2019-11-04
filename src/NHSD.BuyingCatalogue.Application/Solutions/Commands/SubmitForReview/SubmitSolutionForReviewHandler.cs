@@ -3,12 +3,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using NHSD.BuyingCatalogue.Application.Persistence;
+using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
 {
-    internal sealed class SubmitSolutionForReviewHandler : IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewResult>
+    internal sealed class SubmitSolutionForReviewHandler : IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult>
     {
         private readonly SolutionReader _solutionReader;
         private readonly ISolutionRepository _solutionRepository;
@@ -28,13 +28,13 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
         /// <param name="request">The command parameters.</param>
         /// <param name="cancellationToken">Token to cancel the request.</param>
         /// <returns>A task representing an operation to get the result of this command.</returns>
-        public async Task<SubmitSolutionForReviewResult> Handle(SubmitSolutionForReviewCommand request, CancellationToken cancellationToken)
+        public async Task<SubmitSolutionForReviewCommandResult> Handle(SubmitSolutionForReviewCommand request, CancellationToken cancellationToken)
         {
             Solution solution = await GetSolution(request.SolutionId, cancellationToken);
 
-            SolutionDescriptionSectionValidator validator = new SolutionDescriptionSectionValidator(solution);
+            ValidationResult validationResult = new SubmitSolutionForReviewValidator(solution).Validate();
 
-            SubmitSolutionForReviewResult result = validator.Validate();
+            SubmitSolutionForReviewCommandResult result = new SubmitSolutionForReviewCommandResult(validationResult.Errors);
             if (result.IsSuccess)
             {
                 await _solutionRepository.UpdateSupplierStatusAsync(new UpdateSolutionSupplierStatusRequest { Id = solution.Id, SupplierStatusId = SupplierStatus.AuthorityReview.Id }, cancellationToken);
@@ -46,7 +46,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
         /// <summary>
         /// Gets the details of the solution matching the specified ID.
         /// </summary>
-        /// <param name="solutionId">The key information to identfy a <see cref="Solution"/>.</param>
+        /// <param name="solutionId">The key information to identify a <see cref="Solution"/>.</param>
         /// <param name="cancellationToken"></param>
         /// <returns>A task representing an operation to retrieve a solution.</returns>
         private async Task<Solution> GetSolution(string solutionId, CancellationToken cancellationToken)

@@ -13,12 +13,12 @@ namespace NHSD.BuyingCatalogue.Domain.Infrastructure
         /// <summary>
         /// ID of this instance.
         /// </summary>
-        public int Id { get; private set; }
+        public int Id { get; }
 
         /// <summary>
         /// Name of this instance.
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="Enumeration"/> class.
@@ -92,7 +92,7 @@ namespace NHSD.BuyingCatalogue.Domain.Infrastructure
         private bool Equals(Enumeration comparisonValue)
         {
             return comparisonValue is object
-                && Equals(GetType(), comparisonValue.GetType())
+                && GetType() == comparisonValue.GetType()
                 && Equals(Id, comparisonValue.Id);
         }
 

@@ -1,8 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using NHSD.BuyingCatalogue.Application.Persistence;
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
+using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 
 namespace NHSD.BuyingCatalogue.Application.Persistence
 {
@@ -28,7 +27,7 @@ namespace NHSD.BuyingCatalogue.Application.Persistence
         /// <returns>A task representing an operation to get the result of this command.</returns>
         public async Task UpdateAsync(string solutionId, Action<ClientApplication> updateAction, CancellationToken cancellationToken)
         {
-            var clientApplication = (await _solutionReader.ByIdAsync(solutionId, cancellationToken)).ClientApplication;
+            var clientApplication = (await _solutionReader.ByIdAsync(solutionId, cancellationToken)).ClientApplication as ClientApplication;
 
             updateAction(clientApplication);
 

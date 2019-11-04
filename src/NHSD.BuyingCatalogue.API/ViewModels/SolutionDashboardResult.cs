@@ -1,80 +1,130 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
+using Newtonsoft.Json;
+using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 
 namespace NHSD.BuyingCatalogue.API.ViewModels
 {
     public class SolutionDashboardResult
     {
-        public SolutionDashboardResult(Solution solution)
-        {
-            Id = solution.Id;
-            Name = solution.Name;
-
-            Sections = new List<DashboardSection>
-            {
-                DashboardSection.Mandatory("solution-description", !string.IsNullOrWhiteSpace(solution.Summary)),
-                DashboardSection.Optional("features", solution.Features?.Any(f => !string.IsNullOrWhiteSpace(f)) == true),
-                DashboardSection.MandatoryWithSections("client-application-types",
-                    solution.ClientApplication?.ClientApplicationTypes?.Any() == true,
-                    ClientApplicationSubSections(solution))
-            };
-        }
-
-        private static List<DashboardSection> ClientApplicationSubSections(Solution solution)
-        {
-            var clientApplicationTypes = solution.ClientApplication?.ClientApplicationTypes ?? new HashSet<string>();
-            var subSections = new List<DashboardSection>();
-
-            AddIfSelected("browser-based", clientApplicationTypes, subSections, solution.ClientApplication?.BrowsersSupported?.Any(f => !string.IsNullOrWhiteSpace(f)) == true);
-            AddIfSelected("native-mobile", clientApplicationTypes, subSections, false);
-            AddIfSelected("native-desktop", clientApplicationTypes, subSections, false);
-
-            return subSections;
-        }
-
-        private static void AddIfSelected(string sectionName, HashSet<string> clientApplicationTypes, List<DashboardSection> subSections, bool isComplete)
-        {
-            if (clientApplicationTypes.Contains(sectionName))
-            {
-                subSections.Add(DashboardSection.Mandatory(sectionName, isComplete));
-            }
-        }
-
         public string Id { get; }
 
         public string Name { get; }
 
-        public IEnumerable<DashboardSection> Sections { get; }
+        [JsonProperty("sections")]
+        public SolutionDashboardSections SolutionDashboardSections { get; }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="SolutionDashboardResult"/> class.
+        /// </summary>
+        public SolutionDashboardResult(ISolution solution)
+        {
+            if (solution is null)
+            {
+                throw new ArgumentNullException(nameof(solution));
+            }
+
+            Id = solution.Id;
+            Name = solution.Name;
+            SolutionDashboardSections = new SolutionDashboardSections(solution);
+        }
+    }
+
+    public class SolutionDashboardSections
+    {
+        [JsonProperty("solution-description")]
+        public DashboardSection SolutionDescriptionSection { get; }
+
+        [JsonProperty("features")]
+        public DashboardSection FeaturesSection { get; }
+
+        [JsonProperty("client-application-types")]
+        public DashboardSection ClientApplicationTypesSection { get; }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="SolutionDashboardSections"/> class.
+        /// </summary>
+        public SolutionDashboardSections(ISolution solution)
+        {
+            if (solution is null)
+            {
+                throw new ArgumentNullException(nameof(solution));
+            }
+
+            SolutionDescriptionSection = DashboardSection.Mandatory(!string.IsNullOrWhiteSpace(solution.Summary));
+            FeaturesSection = DashboardSection.Optional(solution.Features?.Any(feature => !string.IsNullOrWhiteSpace(feature)) == true);
+            ClientApplicationTypesSection = DashboardSection.MandatoryWithSubSection(
+                solution.ClientApplication?.ClientApplicationTypes?.Any() == true,
+                new ClientApplicationTypesSubSections(solution.ClientApplication));
+        }
+    }
+
+    public class ClientApplicationTypesSubSections
+    {
+        [JsonProperty("browser-based")]
+        public DashboardSection BrowserBasedSection { get; private set; }
+
+        [JsonProperty("native-mobile")]
+        public DashboardSection NativeMobileSection { get; private set; }
+
+        [JsonProperty("native-desktop")]
+        public DashboardSection NativeDesktopSection { get; private set; }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="ClientApplicationTypesSubSections"/> class.
+        /// </summary>
+        /// <param name="clientApplication"></param>
+        public ClientApplicationTypesSubSections(IClientApplication clientApplication)
+        {
+            HashSet<string> clientApplicationTypes = clientApplication?.ClientApplicationTypes ?? new HashSet<string>();
+
+            SetIfSelected("browser-based", clientApplicationTypes, () => BrowserBasedSection = DashboardSection.Mandatory(IsBrowserBasedComplete(clientApplication)));
+            SetIfSelected("native-mobile", clientApplicationTypes, () => NativeMobileSection = DashboardSection.Mandatory(false));
+            SetIfSelected("native-desktop", clientApplicationTypes, () => NativeDesktopSection = DashboardSection.Mandatory(false));
+        }
+
+        private bool IsBrowserBasedComplete(IClientApplication clientApplication)
+        {
+            return (clientApplication?.BrowsersSupported.Any()).GetValueOrDefault() && (clientApplication?.MobileResponsive.HasValue).GetValueOrDefault();
+        }
+
+        private void SetIfSelected(string sectionName, HashSet<string> sections, Action setDashboardAction)
+        {
+            if (sections.Contains(sectionName))
+            {
+                setDashboardAction();
+            }
+        }
     }
 
     public class DashboardSection
     {
-        private bool _isRequired;
-
-        private bool _isComplete;
-
-        public static DashboardSection MandatoryWithSections(string id, bool isComplete, IEnumerable<DashboardSection> dashboardSections) => new DashboardSection(id, true, isComplete, dashboardSections);
-
-        public static DashboardSection Mandatory(string id, bool isComplete) => new DashboardSection(id, true, isComplete);
-
-        public static DashboardSection Optional(string id, bool isComplete) => new DashboardSection(id, false, isComplete);
-
-        public DashboardSection(string id, bool isRequired, bool isComplete, IEnumerable<DashboardSection> dashboardSections = null)
-        {
-            Id = id;
-            _isRequired = isRequired;
-            _isComplete = isComplete;
-            Sections = dashboardSections;
-        }
-
-        public string Id { get; }
+        private readonly bool _isRequired;
+        private readonly bool _isComplete;
 
         public string Requirement => _isRequired ? "Mandatory" : "Optional";
 
         public string Status => _isComplete ? "COMPLETE" : "INCOMPLETE";
 
-        public IEnumerable<DashboardSection> Sections { get; }
+        [JsonProperty("sections")]
+        public object Section { get; }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="DashboardSection"/> class.
+        /// </summary>
+        public DashboardSection(bool isRequired, bool isComplete, object section = null)
+        {
+            _isRequired = isRequired;
+            _isComplete = isComplete;
+            Section = section;
+        }
+
+        public static DashboardSection Mandatory(bool isComplete) => new DashboardSection(true, isComplete);
+
+        public static DashboardSection Optional(bool isComplete) => new DashboardSection(false, isComplete);
+
+        public static DashboardSection MandatoryWithSubSection(bool isComplete, object subSection) => new DashboardSection(true, isComplete, subSection);
     }
 }
 

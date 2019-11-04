@@ -60,7 +60,7 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
         /// </summary>
         /// <param name="id">The ID of a <see cref="ISolutionResult"/>.</param>
         /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
-        /// <returns>A task representing an operation to retrieve a <see cref="Solution"/> matching the specified ID.</returns>
+        /// <returns>A task representing an operation to retrieve a <see cref="ISolutionResult"/> matching the specified ID.</returns>
         public async Task<ISolutionResult> ByIdAsync(string id, CancellationToken cancellationToken)
         {
             using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
@@ -94,7 +94,7 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
         {
             if (updateSolutionSummaryRequest is null)
             {
-                throw new System.ArgumentNullException(nameof(updateSolutionSummaryRequest));
+                throw new ArgumentNullException(nameof(updateSolutionSummaryRequest));
             }
 
             using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
@@ -123,7 +123,7 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
         /// <summary>
         /// Updates the supplier status of the specified updateSolutionRequest in the data store.
         /// </summary>
-        /// <param name="updateSolutionRequest">The updateSolutionRequest to update.</param>
+        /// <param name="updateSolutionSupplierStatusRequest">The update solution supplier status details.</param>
         /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
         /// <returns>A task representing an operation to update the supplier status of the specified updateSolutionRequest in the data store.</returns>
         public async Task UpdateSupplierStatusAsync(IUpdateSolutionSupplierStatusRequest updateSolutionSupplierStatusRequest, CancellationToken cancellationToken)

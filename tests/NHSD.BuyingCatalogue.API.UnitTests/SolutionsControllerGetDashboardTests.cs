@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +9,7 @@ using Moq;
 using NHSD.BuyingCatalogue.API.Controllers;
 using NHSD.BuyingCatalogue.API.ViewModels;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
+using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.API.UnitTests
@@ -62,26 +61,34 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         public async Task ShouldReturnSolutionDashboardStaticData()
         {
             var dashboardResult = await GetSolutionDashboardSectionAsync(new Solution());
-            var a = dashboardResult.Sections.Should().HaveCount(3);
+            var solutionDashboardSections = dashboardResult.SolutionDashboardSections;
 
-            var solutionDescriptionSection = dashboardResult.Sections.First(s => s.Id == "solution-description");
-            solutionDescriptionSection.Requirement.Should().Be("Mandatory");
+            solutionDashboardSections.Should().NotBeNull();
+            solutionDashboardSections.SolutionDescriptionSection.Should().NotBeNull();
+            solutionDashboardSections.SolutionDescriptionSection.Requirement.Should().Be("Mandatory");
 
-            var featuresSection = dashboardResult.Sections.First(s => s.Id == "features");
-            featuresSection.Requirement.Should().Be("Optional");
+            solutionDashboardSections.FeaturesSection.Should().NotBeNull();
+            solutionDashboardSections.FeaturesSection.Requirement.Should().Be("Optional");
 
-            var clientApplicationTypesSection = dashboardResult.Sections.First(s => s.Id == "client-application-types");
-            clientApplicationTypesSection.Requirement.Should().Be("Mandatory");
+            solutionDashboardSections.ClientApplicationTypesSection.Should().NotBeNull();
+            solutionDashboardSections.ClientApplicationTypesSection.Requirement.Should().Be("Mandatory");
         }
         
-
-        [TestCase("solution-description", "INCOMPLETE")]
-        [TestCase("features", "INCOMPLETE")]
-        [TestCase("client-application-types", "INCOMPLETE")]
-        public async Task ShouldGetDashboardCalculateCompleteNull(string id, string result)
+        [Test]
+        public async Task ShouldGetDashboardCalculateCompleteNull()
         {
             var dashboardResult = await GetSolutionDashboardSectionAsync(new Solution());
-            dashboardResult.Sections.First(s => s.Id == id).Status.Should().Be(result);
+            var solutionDashboardSections = dashboardResult.SolutionDashboardSections;
+
+            solutionDashboardSections.Should().NotBeNull();
+            solutionDashboardSections.SolutionDescriptionSection.Should().NotBeNull();
+            solutionDashboardSections.SolutionDescriptionSection.Status.Should().Be("INCOMPLETE");
+
+            solutionDashboardSections.FeaturesSection.Should().NotBeNull();
+            solutionDashboardSections.FeaturesSection.Status.Should().Be("INCOMPLETE");
+
+            solutionDashboardSections.ClientApplicationTypesSection.Should().NotBeNull();
+            solutionDashboardSections.ClientApplicationTypesSection.Status.Should().Be("INCOMPLETE");
         }
 
         [TestCase(null, "Desc", "", "INCOMPLETE")]
@@ -93,8 +100,10 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
 
         public async Task ShouldGetDashboardCalculateSolutionDescription(string summary, string description, string link, string result)
         {
-            var dashboardResult = await GetSolutionDashboardSectionAsync(new Solution(){Summary = summary, Description = description, AboutUrl = link});
-            dashboardResult.Sections.First(s => s.Id == "solution-description").Status.Should().Be(result);
+            var dashboardResult = await GetSolutionDashboardSectionAsync(new Solution {Summary = summary, Description = description, AboutUrl = link});
+            dashboardResult.SolutionDashboardSections.Should().NotBeNull();
+            dashboardResult.SolutionDashboardSections.SolutionDescriptionSection.Should().NotBeNull();
+            dashboardResult.SolutionDashboardSections.SolutionDescriptionSection.Status.Should().Be(result);
         }
 
         [TestCase(false, "INCOMPLETE")]
@@ -102,44 +111,90 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         public async Task ShouldGetDashboardCalculateCompleteFeatures(bool isFeatures, string result)
         {
             var features = isFeatures ? new[] { "Feature1", "Feature2" } : new string[0];
-            var dashboardResult = await GetSolutionDashboardSectionAsync(new Solution() { Features = features });
-            dashboardResult.Sections.First(s => s.Id == "features").Status.Should().Be(result);
+            var dashboardResult = await GetSolutionDashboardSectionAsync(new Solution { Features = features });
+            dashboardResult.SolutionDashboardSections.Should().NotBeNull();
+            dashboardResult.SolutionDashboardSections.FeaturesSection.Should().NotBeNull();
+            dashboardResult.SolutionDashboardSections.FeaturesSection.Status.Should().Be(result);
         }
 
-        [TestCase("browser-based", "INCOMPLETE")]
-        [TestCase("native-mobile", "INCOMPLETE")]
-        [TestCase("native-desktop", "INCOMPLETE")]
-        public async Task ShouldGetDashboardCalculateClientApplicationTypesNull(string applicationType, string result)
+        [Test]
+        public async Task ShouldGetDashboardCalculateClientApplicationTypesBrowserBasedNull()
         {
-            var dashboardResult = await GetSolutionDashboardSectionAsync(new Solution()
+            var dashboardResult = await GetSolutionDashboardSectionAsync(new Solution
             {
-                ClientApplication = new ClientApplication()
+                ClientApplication = new ClientApplication
                 {
-                    ClientApplicationTypes = new HashSet<string>()
+                    ClientApplicationTypes = new HashSet<string>
                     {
-                        applicationType
+                        "browser-based"
                     }
                 }
             });
-            dashboardResult.Sections.First(s => s.Id == "client-application-types").Sections
-                .First(x => x.Id == applicationType).Status.Should().Be(result);
+
+            dashboardResult.SolutionDashboardSections.Should().NotBeNull();
+            dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section.Should().BeOfType<ClientApplicationTypesSubSections>();
+            var clientApplicationTypesSubSections = (ClientApplicationTypesSubSections) dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section;
+            clientApplicationTypesSubSections.BrowserBasedSection.Should().NotBeNull();
+            clientApplicationTypesSubSections.BrowserBasedSection.Status.Should().Be("INCOMPLETE");
+        }
+
+        [Test]
+        public async Task ShouldGetDashboardCalculateClientApplicationTypesNativeMobileNull()
+        {
+            var dashboardResult = await GetSolutionDashboardSectionAsync(new Solution
+            {
+                ClientApplication = new ClientApplication
+                {
+                    ClientApplicationTypes = new HashSet<string>
+                    {
+                        "native-mobile"
+                    }
+                }
+            });
+
+            dashboardResult.SolutionDashboardSections.Should().NotBeNull();
+            dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section.Should().BeOfType<ClientApplicationTypesSubSections>();
+            var clientApplicationTypesSubSections = (ClientApplicationTypesSubSections) dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section;
+            clientApplicationTypesSubSections.NativeMobileSection.Should().NotBeNull();
+            clientApplicationTypesSubSections.NativeMobileSection.Status.Should().Be("INCOMPLETE");
+        }
+
+        [Test]
+        public async Task ShouldGetDashboardCalculateClientApplicationTypesNativeDesktopNull()
+        {
+            var dashboardResult = await GetSolutionDashboardSectionAsync(new Solution
+            {
+                ClientApplication = new ClientApplication
+                {
+                    ClientApplicationTypes = new HashSet<string>
+                    {
+                        "native-desktop"
+                    }
+                }
+            });
+
+            dashboardResult.SolutionDashboardSections.Should().NotBeNull();
+            dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section.Should().BeOfType<ClientApplicationTypesSubSections>();
+            var clientApplicationTypesSubSections = (ClientApplicationTypesSubSections) dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section;
+            clientApplicationTypesSubSections.NativeDesktopSection.Should().NotBeNull();
+            clientApplicationTypesSubSections.NativeDesktopSection.Status.Should().Be("INCOMPLETE");
         }
 
         [TestCase(false, null, "INCOMPLETE")]
         [TestCase(false, false, "INCOMPLETE")]
         [TestCase(false, true, "INCOMPLETE")]
         [TestCase(true, false, "COMPLETE")]
-        [TestCase(true, null, "COMPLETE")]
+        [TestCase(true, null, "INCOMPLETE")]
         [TestCase(true, true, "COMPLETE")]
         public async Task ShouldGetDashboardCalculateClientApplicationTypeBrowserBased(bool someBrowsersSupported, bool? mobileResponsive, string result)
         {
-            var browsersSupported = someBrowsersSupported ? new HashSet<string>() {"Edge", "Chrome"} : new HashSet<string>();
+            var browsersSupported = someBrowsersSupported ? new HashSet<string> {"Edge", "Chrome"} : new HashSet<string>();
 
-            var dashboardResult = await GetSolutionDashboardSectionAsync(new Solution()
+            var dashboardResult = await GetSolutionDashboardSectionAsync(new Solution
             {
-                ClientApplication = new ClientApplication()
+                ClientApplication = new ClientApplication
                 {
-                    ClientApplicationTypes = new HashSet<string>()
+                    ClientApplicationTypes = new HashSet<string>
                     {
                         "browser-based"
                     },
@@ -147,10 +202,13 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
                     MobileResponsive = mobileResponsive
                 }
             });
-            dashboardResult.Sections.First(s => s.Id == "client-application-types").Sections
-                .First(x => x.Id == "browser-based").Status.Should().Be(result);
-        }
 
+            dashboardResult.SolutionDashboardSections.Should().NotBeNull();
+            dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section.Should().BeOfType<ClientApplicationTypesSubSections>();
+            var clientApplicationTypesSubSections = (ClientApplicationTypesSubSections) dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section;
+            clientApplicationTypesSubSections.BrowserBasedSection.Should().NotBeNull();
+            clientApplicationTypesSubSections.BrowserBasedSection.Status.Should().Be(result);
+        }
 
         private async Task<SolutionDashboardResult> GetSolutionDashboardSectionAsync(Solution solution)
         {
