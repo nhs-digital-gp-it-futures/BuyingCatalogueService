@@ -1,7 +1,6 @@
 using System;
-using NHSD.BuyingCatalogue.Domain.Infrastructure;
 
-namespace NHSD.BuyingCatalogue.Domain.Entities.Capabilities
+namespace NHSD.BuyingCatalogue.Application.Capabilities.Domain
 {
     /// <summary>
     /// Represents a competencies for a ‘<see cref="Solution"/>’ can perform or provide eg
@@ -13,8 +12,13 @@ namespace NHSD.BuyingCatalogue.Domain.Entities.Capabilities
     /// Note that a ‘capability’ has a link to zero or one previous ‘capability’
     /// Generally, only interested in current ‘capability’
     /// </summary>
-    public class Capability : EntityBase<Guid>
+    internal class Capability
     {
+        /// <summary>
+        /// Id of the capability.
+        /// </summary>
+        public Guid Id { get; set; }
+
         /// <summary>
         /// Name of the capability.
         /// </summary>
