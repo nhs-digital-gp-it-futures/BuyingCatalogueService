@@ -7,8 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NHSD.BuyingCatalogue.API.Extensions;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
+using NHSD.BuyingCatalogue.Application;
 using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
 using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
+using NHSD.BuyingCatalogue.Persistence;
 
 namespace NHSD.BuyingCatalogue.API
 {
@@ -26,8 +28,8 @@ namespace NHSD.BuyingCatalogue.API
         {
             services
                 .AddAutoMapper(typeof(AutoMapperProfile).Assembly)
-                .AddCustomDbFactory()
-                .AddCustomRepositories()
+                .RegisterApplication()
+                .RegisterPersistence()
                 .AddMediatR(typeof(ListSolutionsQuery).Assembly)
                 .AddCustomHealthCheck()
                 .AddCustomSwagger()
