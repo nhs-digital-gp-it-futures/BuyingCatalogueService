@@ -21,24 +21,25 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         }
 
         [Then(@"the solution (features|solution-description|client-application-types) section status is (COMPLETE|INCOMPLETE)")]
-        public async Task ThenTheSolutionFeaturesSectionStatusIsCOMPLETE(string section, string status)
+        public async Task ThenTheSolutionSectionStatusIs(string section, string status)
         {
             var content = await _response.ReadBody();
-            content.SelectToken($"sections[?(@.id == '{section}')].status").ToString().Should().Be(status);
+            //content.SelectToken($"sections[?(@.id == '{section}')].status").ToString().Should().Be(status);
+            content.SelectToken($"sections.{section}.status").ToString().Should().Be(status);
         }
 
         [Then(@"the solution (features|solution-description|client-application-types) section requirement is (Mandatory|Optional)")]
         public async Task ThenTheSolutionSectionRequirementIsMandatory(string section, string requirement)
         {
             var content = await _response.ReadBody();
-            content.SelectToken($"sections[?(@.id == '{section}')].requirement").ToString().Should().Be(requirement);
+            content.SelectToken($"sections.{section}.requirement").ToString().Should().Be(requirement);
         }
 
         [Then(@"the solution (browser-based|native-desktop|native-mobile) section requirement is (Mandatory|Optional)")]
         public async Task ThenTheSolutionSubSectionRequirementIsMandatory(string section, string requirement)
         {
             var content = await _response.ReadBody();
-            content.SelectToken($"sections[?(@.id == 'client-application-types')].sections[?(@.id == '{section}')].requirement").ToString().Should().Be(requirement);
+            content.SelectToken($"sections.client-application-types.sections.{section}.requirement").ToString().Should().Be(requirement);
         }
 
         [When(@"a GET request is made for (client-application-types|features|solution-description|browsers-supported) with no solution id")]
