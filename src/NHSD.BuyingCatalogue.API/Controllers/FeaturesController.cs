@@ -60,7 +60,7 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         {
             var validationResult = await _mediator.Send(new UpdateSolutionFeaturesCommand(id, updateSolutionFeaturesViewModel));
             return validationResult.IsValid 
-                ? (ActionResult)new ContentResult()
+                ? (ActionResult)new NoContentResult()
                 : BadRequest(new UpdateSolutionFeaturesResult(validationResult));
         }
     }

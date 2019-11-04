@@ -51,14 +51,40 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
         }
 
-
-        [Test, Ignore("await extend for validation")]
-        public async Task ShouldUpdate()
+        [Test]
+        public async Task ShouldUpdateValidationInvalid()
         {
-            var featuresUpdateViewModel = new UpdateSolutionFeaturesViewModel();
+            var featuresUpdateViewModel = new UpdateSolutionFeaturesViewModel()
+            {
+                Listing = new List<string>() { new string('a',200)}
+            };
+
+            var validationModel = new UpdateSolutionFeaturesValidatorResult()
+            {
+                MaxLength = { "listing-1"}
+            };
+            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionFeaturesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionFeaturesViewModel == featuresUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
             var result =
                 (await _featuresController.UpdateFeaturesAsync(SolutionId, featuresUpdateViewModel)) as
-                    NoContentResult;
+                    BadRequestObjectResult;
+
+            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionFeaturesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionFeaturesViewModel == featuresUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Test]
+        public async Task ShouldUpdateValidationValid()
+        {
+            var featuresUpdateViewModel = new UpdateSolutionFeaturesViewModel()
+            {
+                Listing = new List<string>() {"test", "test2"}
+            };
+
+            var validationModel = new UpdateSolutionFeaturesValidatorResult();
+
+            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionFeaturesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionFeaturesViewModel == featuresUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
+            var result =
+                (await _featuresController.UpdateFeaturesAsync(SolutionId, featuresUpdateViewModel)) as NoContentResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
             _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionFeaturesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionFeaturesViewModel == featuresUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
