@@ -1,12 +1,12 @@
 using MediatR;
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
+using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
 {
     /// <summary>
     /// Represents the query paramters for the get Solution by ID request.
     /// </summary>
-    public sealed class GetSolutionByIdQuery : IRequest<Solution>
+    public sealed class GetSolutionByIdQuery : IRequest<ISolution>
     {
         /// <summary>
         /// The key information to identify a <see cref="Solution"/>.

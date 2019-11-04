@@ -1,13 +1,17 @@
 using System.Collections.Generic;
-using NHSD.BuyingCatalogue.Domain.Infrastructure;
 
-namespace NHSD.BuyingCatalogue.Domain.Entities.Solutions
+namespace NHSD.BuyingCatalogue.Application.Solutions.Domain
 {
     /// <summary>
     /// A product and/or service provided by an ‘organisation’.
     /// </summary>
-    public class Solution : EntityBase<string>
+    internal class Solution : ISolution
     {
+        /// <summary>
+        /// Id of the solution.
+        /// </summary>
+        public string Id { get; set; }
+
         /// <summary>
         /// Name of the solution, as displayed to a user.
         /// </summary>
@@ -46,7 +50,7 @@ namespace NHSD.BuyingCatalogue.Domain.Entities.Solutions
         /// <summary>
         /// Marketing information related to the clients application.
         /// </summary>
-        public ClientApplication ClientApplication { get; set; }
+        public IClientApplication ClientApplication { get; set; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="Solution"/> class.

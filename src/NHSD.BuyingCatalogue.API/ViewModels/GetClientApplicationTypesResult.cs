@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
+using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 
 namespace NHSD.BuyingCatalogue.API.ViewModels
 {
@@ -12,7 +12,7 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
         /// <summary>
         /// Initialises a new instance of the <see cref="GetClientApplicationTypesResult"/> class.
         /// </summary>
-        public GetClientApplicationTypesResult(ClientApplication clientApplication)
+        public GetClientApplicationTypesResult(IClientApplication clientApplication)
         {
             ClientApplicationTypes = clientApplication?.ClientApplicationTypes ?? new HashSet<string>();
         }

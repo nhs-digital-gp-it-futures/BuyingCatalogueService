@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
+using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
 {
@@ -47,7 +47,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
         {
             ValidationResult result = new ValidationResult();
 
-            ClientApplication clientApplication = Solution.ClientApplication;
+            var clientApplication = Solution.ClientApplication;
             if (clientApplication == null || !clientApplication.ClientApplicationTypes.Any())
             {
                 result.Add(SubmitSolutionForReviewErrors.ClientApplicationTypeIsRequired);
@@ -60,7 +60,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
         {
             ValidationResult result = new ValidationResult();
 
-            ClientApplication clientApplication = Solution.ClientApplication;
+            var clientApplication = Solution.ClientApplication;
             if (clientApplication != null && clientApplication.ClientApplicationTypes.Contains("browser-based"))
             {
                 result.Add(ValidateSupportedBrowsers(clientApplication))
@@ -70,7 +70,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
             return result;
         }
 
-        private ValidationResult ValidateSupportedBrowsers(ClientApplication clientApplication)
+        private ValidationResult ValidateSupportedBrowsers(IClientApplication clientApplication)
         {
             ValidationResult result = new ValidationResult();
 
@@ -82,7 +82,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
             return result;
         }
 
-        private ValidationResult ValidateMobileResponsive(ClientApplication clientApplication)
+        private ValidationResult ValidateMobileResponsive(IClientApplication clientApplication)
         {
             ValidationResult result = new ValidationResult();
 

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
+using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 
 namespace NHSD.BuyingCatalogue.API.ViewModels
 {
@@ -15,7 +15,7 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
         /// <summary>
         /// Initialises a new instance of the <see cref="GetBrowsersSupportedResult"/> class.
         /// </summary>
-        public GetBrowsersSupportedResult(ClientApplication clientApplication)
+        public GetBrowsersSupportedResult(IClientApplication clientApplication)
         {
             bool? clientApplicationMobileResponsive = clientApplication?.MobileResponsive;
 

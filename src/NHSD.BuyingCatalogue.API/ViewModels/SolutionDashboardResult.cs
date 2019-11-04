@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
+using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 
 namespace NHSD.BuyingCatalogue.API.ViewModels
 {
     public class SolutionDashboardResult
     {
-        public SolutionDashboardResult(Solution solution)
+        public SolutionDashboardResult(ISolution solution)
         {
             if (solution is null)
             {
@@ -27,7 +27,7 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
             };
         }
 
-        private static List<DashboardSection> ClientApplicationSubSections(Solution solution)
+        private static List<DashboardSection> ClientApplicationSubSections(ISolution solution)
         {
             if (solution is null)
             {

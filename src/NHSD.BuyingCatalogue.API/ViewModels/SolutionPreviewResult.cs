@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
+using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 
 namespace NHSD.BuyingCatalogue.API.ViewModels
 {
@@ -19,7 +19,7 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
         /// <summary>
         /// Initialises a new instance of the <see cref="SolutionPreviewResult"/> class.
         /// </summary>
-        public SolutionPreviewResult(Solution solution)
+        public SolutionPreviewResult(ISolution solution)
         {
             if (solution is null)
             {
@@ -46,7 +46,7 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
         /// <summary>
         /// Initialises a new instance of the <see cref="PreviewSections"/> class.
         /// </summary>
-        public PreviewSections(Solution solution)
+        public PreviewSections(ISolution solution)
         {
             if (solution is null)
             {
@@ -66,7 +66,7 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
         /// <summary>
         /// Initialises a new instance of the <see cref="SolutionDescriptionSection"/> class.
         /// </summary>
-        public SolutionDescriptionSection(Solution solution)
+        public SolutionDescriptionSection(ISolution solution)
         {
             Answers = new SolutionDescriptionSectionAnswers(solution);
         }
@@ -93,7 +93,7 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
         /// <summary>
         /// Initialises a new instance of the <see cref="SolutionDescriptionSectionAnswers"/> class.
         /// </summary>
-        public SolutionDescriptionSectionAnswers(Solution solution)
+        public SolutionDescriptionSectionAnswers(ISolution solution)
         {
             if (solution is null)
             {
@@ -147,7 +147,7 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
         /// <summary>
         /// Initialises a new instance of the <see cref="ClientApplicationTypesSection"/> class.
         /// </summary>
-        public ClientApplicationTypesSection(ClientApplication clientApplication)
+        public ClientApplicationTypesSection(IClientApplication clientApplication)
         {
             Sections = new ClientApplicationTypesSections(clientApplication);
         }
@@ -160,7 +160,7 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
 
     public class ClientApplicationTypesSections
     {
-        public ClientApplicationTypesSections(ClientApplication clientApplication)
+        public ClientApplicationTypesSections(IClientApplication clientApplication)
         {
             BrowserBased = new BrowserBasedSection(clientApplication).IfPopulated();
         }
@@ -180,7 +180,7 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
         /// <summary>
         /// Initialises a new instance of the <see cref="BrowserBasedSection"/> class.
         /// </summary>
-        public BrowserBasedSection(ClientApplication clientApplication)
+        public BrowserBasedSection(IClientApplication clientApplication)
         {
             Sections = new BrowserBasedSections(clientApplication);
         }
@@ -199,7 +199,7 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
         /// <summary>
         /// Initialises a new instance of the <see cref="BrowserBasedSections"/> class.
         /// </summary>
-        public BrowserBasedSections(ClientApplication clientApplication)
+        public BrowserBasedSections(IClientApplication clientApplication)
         {
             BrowsersSupported = new BrowsersSupportedSection(clientApplication);
         }
@@ -212,7 +212,7 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
         /// <summary>
         /// Initialises a new instance of the <see cref="BrowsersSupportedSection"/> class.
         /// </summary>
-        public BrowsersSupportedSection(ClientApplication clientApplication)
+        public BrowsersSupportedSection(IClientApplication clientApplication)
         {
             Answers = new BrowsersSupportedSectionAnswers(clientApplication);
         }
@@ -232,7 +232,7 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
         /// <summary>
         /// Initialises a new instance of the <see cref="BrowsersSupportedSectionAnswers"/> class.
         /// </summary>
-        public BrowsersSupportedSectionAnswers(ClientApplication clientApplication)
+        public BrowsersSupportedSectionAnswers(IClientApplication clientApplication)
         {
             bool? mobileResponsive = clientApplication?.MobileResponsive;
 

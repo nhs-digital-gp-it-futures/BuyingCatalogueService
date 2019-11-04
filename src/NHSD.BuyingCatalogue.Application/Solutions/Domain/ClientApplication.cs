@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-namespace NHSD.BuyingCatalogue.Domain.Entities.Solutions
+namespace NHSD.BuyingCatalogue.Application.Solutions.Domain
 {
-    public class ClientApplication
+    internal class ClientApplication : IClientApplication
     {
         public HashSet<string> ClientApplicationTypes { get; set; } = new HashSet<string>();
 

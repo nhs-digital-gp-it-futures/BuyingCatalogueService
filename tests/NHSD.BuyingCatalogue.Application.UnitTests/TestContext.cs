@@ -9,7 +9,7 @@ using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
+using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests
@@ -50,7 +50,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
             serviceCollection.AddTransient<IRequestHandler<ListCapabilitiesQuery, ListCapabilitiesResult>, ListCapabilitiesHandler>();
             serviceCollection.AddTransient<IRequestHandler<ListSolutionsQuery, ListSolutionsResult>, ListSolutionsHandler>();
-            serviceCollection.AddTransient<IRequestHandler<GetSolutionByIdQuery, Solution>, GetSolutionByIdHandler>();
+            serviceCollection.AddTransient<IRequestHandler<GetSolutionByIdQuery, ISolution>, GetSolutionByIdHandler>();
             serviceCollection.AddTransient<IRequestHandler<UpdateSolutionSummaryCommand, UpdateSolutionSummaryValidationResult>, UpdateSolutionSummaryHandler>();
             serviceCollection.AddTransient<IRequestHandler<UpdateSolutionFeaturesCommand>, UpdateSolutionFeaturesHandler>();
             serviceCollection.AddTransient<IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult>, SubmitSolutionForReviewHandler>();
@@ -83,7 +83,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
             public IRequestHandler<ListSolutionsQuery, ListSolutionsResult> ListSolutionsHandler { get; }
 
-            public IRequestHandler<GetSolutionByIdQuery, Solution> GetSolutionByIdHandler { get; }
+            public IRequestHandler<GetSolutionByIdQuery, ISolution> GetSolutionByIdHandler { get; }
 
             public IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> SubmitSolutionForReviewHandler { get; }
 
@@ -98,7 +98,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
             public Scope(IRequestHandler<ListCapabilitiesQuery, ListCapabilitiesResult> listCapabilitiesHandler,
                 IRequestHandler<ListSolutionsQuery, ListSolutionsResult> listSolutionsHandler,
-                IRequestHandler<GetSolutionByIdQuery, Solution> getSolutionByIdHandler,
+                IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
                 IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> submitSolutionForReviewHandler,
                 IRequestHandler<UpdateSolutionSummaryCommand, UpdateSolutionSummaryValidationResult> updateSolutionSummaryHandler,
                 IRequestHandler<UpdateSolutionFeaturesCommand> updateSolutionFeaturesHandler,

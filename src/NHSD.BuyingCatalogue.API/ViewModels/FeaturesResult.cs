@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
+using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 
 namespace NHSD.BuyingCatalogue.API.ViewModels
 {
@@ -11,7 +11,7 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
         /// <summary>
         /// Initialises a new instance of the <see cref="FeaturesResult"/> class.
         /// </summary>
-        public FeaturesResult(Solution solution)
+        public FeaturesResult(ISolution solution)
         {
             if (solution is null)
             {
