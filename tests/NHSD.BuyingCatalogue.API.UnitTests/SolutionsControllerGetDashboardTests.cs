@@ -132,7 +132,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             });
 
             dashboardResult.SolutionDashboardSections.Should().NotBeNull();
-            dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Should().BeOfType<ClientApplicationTypesSubSections>();
+            dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section.Should().BeOfType<ClientApplicationTypesSubSections>();
             var clientApplicationTypesSubSections = (ClientApplicationTypesSubSections) dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section;
             clientApplicationTypesSubSections.BrowserBasedSection.Should().NotBeNull();
             clientApplicationTypesSubSections.BrowserBasedSection.Status.Should().Be("INCOMPLETE");
@@ -153,7 +153,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             });
 
             dashboardResult.SolutionDashboardSections.Should().NotBeNull();
-            dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Should().BeOfType<ClientApplicationTypesSubSections>();
+            dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section.Should().BeOfType<ClientApplicationTypesSubSections>();
             var clientApplicationTypesSubSections = (ClientApplicationTypesSubSections) dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section;
             clientApplicationTypesSubSections.NativeMobileSection.Should().NotBeNull();
             clientApplicationTypesSubSections.NativeMobileSection.Status.Should().Be("INCOMPLETE");
@@ -174,7 +174,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             });
 
             dashboardResult.SolutionDashboardSections.Should().NotBeNull();
-            dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Should().BeOfType<ClientApplicationTypesSubSections>();
+            dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section.Should().BeOfType<ClientApplicationTypesSubSections>();
             var clientApplicationTypesSubSections = (ClientApplicationTypesSubSections) dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section;
             clientApplicationTypesSubSections.NativeDesktopSection.Should().NotBeNull();
             clientApplicationTypesSubSections.NativeDesktopSection.Status.Should().Be("INCOMPLETE");
