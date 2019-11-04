@@ -24,7 +24,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         public async Task ThenTheSolutionSectionStatusIs(string section, string status)
         {
             var content = await _response.ReadBody();
-            //content.SelectToken($"sections[?(@.id == '{section}')].status").ToString().Should().Be(status);
             content.SelectToken($"sections.{section}.status").ToString().Should().Be(status);
         }
 
