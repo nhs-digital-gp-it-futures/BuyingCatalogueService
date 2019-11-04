@@ -18,11 +18,6 @@ namespace NHSD.BuyingCatalogue.Application.SolutionList.Domain
         public string Name { get; set; }
 
         /// <summary>
-        /// Full description of the solution, as displayed to the user.
-        /// </summary>
-        public string Description { get; set; }
-
-        /// <summary>
         /// Summary of the solution, as displayed to a user.
         /// </summary>
         public string Summary { get; set; }
