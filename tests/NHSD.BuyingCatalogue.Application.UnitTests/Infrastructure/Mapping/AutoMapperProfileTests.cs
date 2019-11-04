@@ -7,7 +7,7 @@ using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
 using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
 using NHSD.BuyingCatalogue.Application.SolutionList.Domain;
 using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
-using NHSD.BuyingCatalogue.Domain.Entities.Capabilities;
+using NHSD.BuyingCatalogue.Application.Capabilities.Domain;
 using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 using NUnit.Framework;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
