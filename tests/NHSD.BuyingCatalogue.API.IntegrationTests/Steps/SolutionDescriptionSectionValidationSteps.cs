@@ -27,7 +27,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             _context[field] = GenerateStringOfLength(length);
         }
 
-        [When(@"the request is made for (.*)")]
+        [When(@"the update solution description request is made for (.*)")]
         public async Task WhenTheRequestIsMade(string solutionId)
         {
             var content = new
@@ -38,14 +38,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             };
 
             _response.Result = await Client.PutAsJsonAsync(string.Format(SolutionDescriptionUrl, solutionId), content);
-        }
-
-        [Then(@"the response is correct")]
-        public async Task ThenTheResponseIsCorrect()
-        {
-            var content = await _response.ReadBody();
-            content.SelectToken("required").ToString().Should().Be("['summary']");
-            content.SelectToken("maxLength").ToString().Should().Be("['description', 'link']");
         }
 
         [Then(@"the response required field contains summary")]
