@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -47,25 +46,27 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         public async Task ShouldGetBrowserBasedStaticData()
         {
             var browserBasedResult = await GetBrowserBasedSectionAsync(new Solution());
-            browserBasedResult.Sections.Should().HaveCount(5);
 
-            var browsersSupportedSection = browserBasedResult.Sections.First(s => s.Id == "browsers-supported");
+            browserBasedResult.Should().NotBeNull();
+            browserBasedResult.BrowserBasedDashboardSections.Should().NotBeNull();
+
+            var browsersSupportedSection = browserBasedResult.BrowserBasedDashboardSections.BrowsersSupportedSection;
             browsersSupportedSection.Requirement.Should().Be("Mandatory");
             browsersSupportedSection.Status.Should().Be("INCOMPLETE");
 
-            var plugInsSection = browserBasedResult.Sections.First(s => s.Id == "plug-ins-or-extensions");
+            var plugInsSection = browserBasedResult.BrowserBasedDashboardSections.PluginsOrExtensionsSection;
             plugInsSection.Requirement.Should().Be("Mandatory");
             plugInsSection.Status.Should().Be("INCOMPLETE");
 
-            var connectivitySection = browserBasedResult.Sections.First(s => s.Id == "connectivity-and-resolution");
+            var connectivitySection = browserBasedResult.BrowserBasedDashboardSections.ConnectivityAndResolutionSection;
             connectivitySection.Requirement.Should().Be("Mandatory");
             connectivitySection.Status.Should().Be("INCOMPLETE");
 
-            var hardwareSection = browserBasedResult.Sections.First(s => s.Id == "hardware-requirements");
+            var hardwareSection = browserBasedResult.BrowserBasedDashboardSections.HardwareRequirementsSection;
             hardwareSection.Requirement.Should().Be("Optional");
             hardwareSection.Status.Should().Be("INCOMPLETE");
 
-            var additionalSection = browserBasedResult.Sections.First(s => s.Id == "additional-information");
+            var additionalSection = browserBasedResult.BrowserBasedDashboardSections.AdditionalInformationSection;
             additionalSection.Requirement.Should().Be("Optional");
             additionalSection.Status.Should().Be("INCOMPLETE");
         }
@@ -74,14 +75,14 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         public async Task ShouldGetBrowserBasedCalculateCompleteNullClientApplication()
         {
             var browserBasedResult = await GetBrowserBasedSectionAsync(new Solution());
-            browserBasedResult.Sections.First(s => s.Id == "browsers-supported").Status.Should().Be("INCOMPLETE");
+            browserBasedResult.BrowserBasedDashboardSections.BrowsersSupportedSection.Status.Should().Be("INCOMPLETE");
         }
 
         [Test]
         public async Task ShouldGetBrowserBasedCalculateCompleteNullBrowsersSupported()
         {
             var browserBasedResult = await GetBrowserBasedSectionAsync(new Solution { ClientApplication = new ClientApplication()});
-            browserBasedResult.Sections.First(s => s.Id == "browsers-supported").Status.Should().Be("INCOMPLETE");
+            browserBasedResult.BrowserBasedDashboardSections.BrowsersSupportedSection.Status.Should().Be("INCOMPLETE");
         }
 
         [Test]
@@ -91,7 +92,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             {
                 ClientApplication = new ClientApplication { BrowsersSupported = new HashSet<string>()}
             });
-            browserBasedResult.Sections.First(s => s.Id == "browsers-supported").Status.Should().Be("INCOMPLETE");
+            browserBasedResult.BrowserBasedDashboardSections.BrowsersSupportedSection.Status.Should().Be("INCOMPLETE");
         }
 
         [Test]
@@ -101,7 +102,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             {
                 ClientApplication = new ClientApplication { BrowsersSupported = new HashSet<string> { "A" } }
             });
-            browserBasedResult.Sections.First(s => s.Id == "browsers-supported").Status.Should().Be("INCOMPLETE");
+            browserBasedResult.BrowserBasedDashboardSections.BrowsersSupportedSection.Status.Should().Be("INCOMPLETE");
         }
 
         [Test]
@@ -114,7 +115,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
                     MobileResponsive = false
                 }
             });
-            browserBasedResult.Sections.First(s => s.Id == "browsers-supported").Status.Should().Be("INCOMPLETE");
+            browserBasedResult.BrowserBasedDashboardSections.BrowsersSupportedSection.Status.Should().Be("INCOMPLETE");
         }
 
         [Test]
@@ -128,7 +129,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
                     MobileResponsive = false
                 }
             });
-            browserBasedResult.Sections.First(s => s.Id == "browsers-supported").Status.Should().Be("COMPLETE");
+            browserBasedResult.BrowserBasedDashboardSections.BrowsersSupportedSection.Status.Should().Be("COMPLETE");
         }
 
         private async Task<BrowserBasedResult> GetBrowserBasedSectionAsync(Solution solution)

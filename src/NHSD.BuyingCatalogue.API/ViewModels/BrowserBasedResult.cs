@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Application.Solutions.Domain;
@@ -7,46 +6,65 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
 {
     public sealed class BrowserBasedResult
     {
+        [JsonProperty("sections")]
+        public BrowserBasedDashboardSections BrowserBasedDashboardSections { get; }
+
         public BrowserBasedResult (IClientApplication clientApplication)
         {
-            Sections = new List<BrowserBasedResultSection>
-            {
-                new BrowserBasedResultSection("browsers-supported", BrowserSupportedComplete(clientApplication), true),
-                new BrowserBasedResultSection("plug-ins-or-extensions", false, true),
-                new BrowserBasedResultSection("connectivity-and-resolution", false, true),
-                new BrowserBasedResultSection("hardware-requirements", false, false ),
-                new BrowserBasedResultSection("additional-information", false, false )
-            };
+            BrowserBasedDashboardSections = new BrowserBasedDashboardSections(clientApplication);
+        }
+    }
+
+    public class BrowserBasedDashboardSections
+    {
+        [JsonProperty("browsers-supported")]
+        public BrowserBasedDashboardSection BrowsersSupportedSection { get; }
+
+        [JsonProperty("plug-ins-or-extensions")]
+        public BrowserBasedDashboardSection PluginsOrExtensionsSection { get; }
+
+        [JsonProperty("connectivity-and-resolution")]
+        public BrowserBasedDashboardSection ConnectivityAndResolutionSection { get; }
+
+        [JsonProperty("hardware-requirements")]
+        public BrowserBasedDashboardSection HardwareRequirementsSection { get; }
+
+        [JsonProperty("additional-information")]
+        public BrowserBasedDashboardSection AdditionalInformationSection { get; }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="BrowserBasedDashboardSections"/> class.
+        /// </summary>
+        public BrowserBasedDashboardSections(IClientApplication clientApplication)
+        {
+            BrowsersSupportedSection = new BrowserBasedDashboardSection(IsBrowserSupportedComplete(clientApplication), true);
+            PluginsOrExtensionsSection = new BrowserBasedDashboardSection(false, true);
+            ConnectivityAndResolutionSection = new BrowserBasedDashboardSection(false, true);
+            HardwareRequirementsSection = new BrowserBasedDashboardSection(false, true);
+            AdditionalInformationSection = new BrowserBasedDashboardSection(false, true);
         }
 
-        private bool BrowserSupportedComplete(IClientApplication clientApplication)
+        private bool IsBrowserSupportedComplete(IClientApplication clientApplication)
         {
             return clientApplication?.BrowsersSupported?.Any() == true && clientApplication?.MobileResponsive.HasValue == true;
         }
-
-        [JsonProperty("sections")]
-        public List<BrowserBasedResultSection> Sections { get; }
     }
 
-    public class BrowserBasedResultSection
+    public class BrowserBasedDashboardSection
     {
         private readonly bool _mandatory;
         private readonly bool _complete;
-
-        public BrowserBasedResultSection(string id, bool complete, bool mandatory)
-        {
-            Id = id;
-            _complete = complete;
-            _mandatory = mandatory;
-        }
-
-        [JsonProperty("id")]
-        public string Id { get;  }
 
         [JsonProperty("status")]
         public string Status => _complete ? "COMPLETE" : "INCOMPLETE";
 
         [JsonProperty("requirement")]
         public string Requirement => _mandatory ? "Mandatory" : "Optional";
+
+        public BrowserBasedDashboardSection(bool complete, bool mandatory)
+        {
+            _complete = complete;
+            _mandatory = mandatory;
+        }
     }
 }
