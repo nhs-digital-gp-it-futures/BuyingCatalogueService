@@ -1,21 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
 
 namespace NHSD.BuyingCatalogue.API.ViewModels
 {
     public class SolutionPreviewResult
     {
-        public SolutionPreviewResult(Solution solution)
-        {
-            Id = solution.Id;
-            Name = solution.Name;
-            OrganisationName = solution.OrganisationName;
-            Sections = new PreviewSections(solution);
-        }
-
         public string Id { get; }
 
         public string Name { get; }
@@ -23,17 +15,26 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
         public string OrganisationName { get; }
 
         public PreviewSections Sections { get; }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="SolutionPreviewResult"/> class.
+        /// </summary>
+        public SolutionPreviewResult(Solution solution)
+        {
+            if (solution is null)
+            {
+                throw new ArgumentNullException(nameof(solution));
+            }
+
+            Id = solution.Id;
+            Name = solution.Name;
+            OrganisationName = solution.OrganisationName;
+            Sections = new PreviewSections(solution);
+        }
     }
 
     public class PreviewSections
     {
-        public PreviewSections(Solution solution)
-        {
-            SolutionDescription = new SolutionDescriptionSection(solution).IfPopulated();
-            Features = new FeaturesSection(solution.Features).IfPopulated();
-            ClientApplicationTypes = new ClientApplicationTypesSection(solution.ClientApplication).IfPopulated();
-        }
-
         [JsonProperty("solution-description")]
         public SolutionDescriptionSection SolutionDescription { get; }
 
@@ -41,10 +42,30 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
 
         [JsonProperty("client-application-types")]
         public ClientApplicationTypesSection ClientApplicationTypes { get; }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="PreviewSections"/> class.
+        /// </summary>
+        public PreviewSections(Solution solution)
+        {
+            if (solution is null)
+            {
+                throw new ArgumentNullException(nameof(solution));
+            }
+
+            SolutionDescription = new SolutionDescriptionSection(solution).IfPopulated();
+            Features = new FeaturesSection(solution.Features).IfPopulated();
+            ClientApplicationTypes = new ClientApplicationTypesSection(solution.ClientApplication).IfPopulated();
+        }
     }
 
     public class SolutionDescriptionSection
     {
+        public SolutionDescriptionSectionAnswers Answers { get; }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="SolutionDescriptionSection"/> class.
+        /// </summary>
         public SolutionDescriptionSection(Solution solution)
         {
             Answers = new SolutionDescriptionSectionAnswers(solution);
@@ -54,39 +75,48 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
         {
             return Answers.HasData ? this : null;
         }
-
-        public SolutionDescriptionSectionAnswers Answers { get; }
     }
 
     public class SolutionDescriptionSectionAnswers
     {
-        public SolutionDescriptionSectionAnswers(Solution solution)
-        {
-            Summary = solution.Summary;
-            Description = solution.Description;
-            Link = solution.AboutUrl;
-        }
-
-        [JsonIgnore]
-        public bool HasData => !(string.IsNullOrWhiteSpace(Summary)
-                               && string.IsNullOrWhiteSpace(Description)
-                               && string.IsNullOrWhiteSpace(Link));
-
         public string Summary { get; }
 
         public string Description { get; }
 
         public string Link { get; }
+
+        [JsonIgnore]
+        public bool HasData => !(string.IsNullOrWhiteSpace(Summary)
+                                 && string.IsNullOrWhiteSpace(Description)
+                                 && string.IsNullOrWhiteSpace(Link));
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="SolutionDescriptionSectionAnswers"/> class.
+        /// </summary>
+        public SolutionDescriptionSectionAnswers(Solution solution)
+        {
+            if (solution is null)
+            {
+                throw new ArgumentNullException(nameof(solution));
+            }
+
+            Summary = solution.Summary;
+            Description = solution.Description;
+            Link = solution.AboutUrl;
+        }
     }
 
     public class FeaturesSection
     {
+        public FeaturesSectionAnswers Answers { get; }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="FeaturesSection"/> class.
+        /// </summary>
         public FeaturesSection(IEnumerable<string> features)
         {
             Answers = new FeaturesSectionAnswers(features);
         }
-
-        public FeaturesSectionAnswers Answers { get; }
 
         public FeaturesSection IfPopulated()
         {
@@ -96,19 +126,27 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
 
     public class FeaturesSectionAnswers
     {
-        public FeaturesSectionAnswers(IEnumerable<string> features)
-        {
-            Listing = features;
-        }
-
         public IEnumerable<string> Listing { get; }
 
         [JsonIgnore]
         public bool HasData => Listing?.Any() == true;
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="FeaturesSectionAnswers"/> class.
+        /// </summary>
+        public FeaturesSectionAnswers(IEnumerable<string> features)
+        {
+            Listing = features;
+        }
     }
 
     public class ClientApplicationTypesSection
     {
+        public ClientApplicationTypesSections Sections { get; }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="ClientApplicationTypesSection"/> class.
+        /// </summary>
         public ClientApplicationTypesSection(ClientApplication clientApplication)
         {
             Sections = new ClientApplicationTypesSections(clientApplication);
@@ -118,8 +156,6 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
         {
             return Sections.HasData ? this : null;
         }
-
-        public ClientApplicationTypesSections Sections { get; }
     }
 
     public class ClientApplicationTypesSections
@@ -138,6 +174,12 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
 
     public class BrowserBasedSection
     {
+        [JsonProperty("sections")]
+        public BrowserBasedSections Sections { get; }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="BrowserBasedSection"/> class.
+        /// </summary>
         public BrowserBasedSection(ClientApplication clientApplication)
         {
             Sections = new BrowserBasedSections(clientApplication);
@@ -147,42 +189,37 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
         {
             return Sections.BrowsersSupported.Answers.HasData ? this : null;
         }
-
-        [JsonProperty("sections")]
-        public BrowserBasedSections Sections { get; }
     }
 
     public class BrowserBasedSections
     {
+        [JsonProperty("browsers-supported")]
+        public BrowsersSupportedSection BrowsersSupported { get; }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="BrowserBasedSections"/> class.
+        /// </summary>
         public BrowserBasedSections(ClientApplication clientApplication)
         {
             BrowsersSupported = new BrowsersSupportedSection(clientApplication);
         }
-
-        [JsonProperty("browsers-supported")]
-        public BrowsersSupportedSection BrowsersSupported { get; }
     }
 
     public class BrowsersSupportedSection
     {
+        public BrowsersSupportedSectionAnswers Answers { get; }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="BrowsersSupportedSection"/> class.
+        /// </summary>
         public BrowsersSupportedSection(ClientApplication clientApplication)
         {
             Answers = new BrowsersSupportedSectionAnswers(clientApplication);
         }
-
-        public BrowsersSupportedSectionAnswers Answers { get; }
     }
 
     public class BrowsersSupportedSectionAnswers
     {
-        public BrowsersSupportedSectionAnswers(ClientApplication clientApplication)
-        {
-            SupportedBrowsers = clientApplication?.BrowsersSupported;
-            MobileResponsive = clientApplication?.MobileResponsive.HasValue == true
-                ? (clientApplication.MobileResponsive.Value ? "yes" : "no")
-                : null;
-        }
-
         [JsonProperty("supported-browsers")]
         public IEnumerable<string> SupportedBrowsers { get; }
 
@@ -191,5 +228,18 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
 
         [JsonIgnore]
         public bool HasData => SupportedBrowsers?.Any() == true || MobileResponsive != null;
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="BrowsersSupportedSectionAnswers"/> class.
+        /// </summary>
+        public BrowsersSupportedSectionAnswers(ClientApplication clientApplication)
+        {
+            bool? mobileResponsive = clientApplication?.MobileResponsive;
+
+            SupportedBrowsers = clientApplication?.BrowsersSupported;
+            MobileResponsive = mobileResponsive.HasValue
+                ? mobileResponsive.Value ? "yes" : "no"
+                : null;
+        }
     }
 }

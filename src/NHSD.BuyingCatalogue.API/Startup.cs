@@ -13,17 +13,10 @@ using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
 namespace NHSD.BuyingCatalogue.API
 {
     /// <summary>
-    /// Represents a boostrapper for the application. Used as a starting point to configure the API.
+    /// Represents a bootstrapper for the application. Used as a starting point to configure the API.
     /// </summary>
     public sealed class Startup
     {
-        /// <summary>
-        /// Initialises a new instance of the <see cref="Startup"/> class.
-        /// </summary>
-        public Startup()
-        {
-        }
-
         /// <summary>
         /// Configures the services for the application.
         /// </summary>

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Dapper;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Persistence.Infrastructure;
+using NHSD.BuyingCatalogue.Persistence.Models;
 
 namespace NHSD.BuyingCatalogue.Persistence.Repositories
 {
@@ -30,7 +31,7 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
         /// <summary>
         /// Gets a list of <see cref="ICapabilityListResult"/> objects.
         /// </summary>
-        /// <returns>A list of <see cref="ICapabilityListResult"/> objects.</returns>
+        /// <returns>A task representing an operation to retrieve a list of <see cref="ICapabilityListResult"/> objects.</returns>
         public async Task<IEnumerable<ICapabilityListResult>> ListAsync(CancellationToken cancellationToken)
 		{
 			using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))

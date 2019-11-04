@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
@@ -8,6 +9,11 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
     {
         public SolutionDashboardResult(Solution solution)
         {
+            if (solution is null)
+            {
+                throw new ArgumentNullException(nameof(solution));
+            }
+
             Id = solution.Id;
             Name = solution.Name;
 
@@ -23,6 +29,11 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
 
         private static List<DashboardSection> ClientApplicationSubSections(Solution solution)
         {
+            if (solution is null)
+            {
+                throw new ArgumentNullException(nameof(solution));
+            }
+
             var clientApplicationTypes = solution.ClientApplication?.ClientApplicationTypes ?? new HashSet<string>();
             var subSections = new List<DashboardSection>();
 
@@ -50,23 +61,8 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
 
     public class DashboardSection
     {
-        private bool _isRequired;
-
-        private bool _isComplete;
-
-        public static DashboardSection MandatoryWithSections(string id, bool isComplete, IEnumerable<DashboardSection> dashboardSections) => new DashboardSection(id, true, isComplete, dashboardSections);
-
-        public static DashboardSection Mandatory(string id, bool isComplete) => new DashboardSection(id, true, isComplete);
-
-        public static DashboardSection Optional(string id, bool isComplete) => new DashboardSection(id, false, isComplete);
-
-        public DashboardSection(string id, bool isRequired, bool isComplete, IEnumerable<DashboardSection> dashboardSections = null)
-        {
-            Id = id;
-            _isRequired = isRequired;
-            _isComplete = isComplete;
-            Sections = dashboardSections;
-        }
+        private readonly bool _isRequired;
+        private readonly bool _isComplete;
 
         public string Id { get; }
 
@@ -75,6 +71,23 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
         public string Status => _isComplete ? "COMPLETE" : "INCOMPLETE";
 
         public IEnumerable<DashboardSection> Sections { get; }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="DashboardSection"/> class.
+        /// </summary>
+        public DashboardSection(string id, bool isRequired, bool isComplete, IEnumerable<DashboardSection> dashboardSections = null)
+        {
+            Id = id;
+            _isRequired = isRequired;
+            _isComplete = isComplete;
+            Sections = dashboardSections;
+        }
+
+        public static DashboardSection MandatoryWithSections(string id, bool isComplete, IEnumerable<DashboardSection> dashboardSections) => new DashboardSection(id, true, isComplete, dashboardSections);
+
+        public static DashboardSection Mandatory(string id, bool isComplete) => new DashboardSection(id, true, isComplete);
+
+        public static DashboardSection Optional(string id, bool isComplete) => new DashboardSection(id, false, isComplete);
     }
 }
 

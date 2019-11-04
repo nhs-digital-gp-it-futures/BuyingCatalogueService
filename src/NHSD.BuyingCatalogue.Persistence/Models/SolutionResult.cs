@@ -18,6 +18,6 @@ namespace NHSD.BuyingCatalogue.Persistence.Models
 
         public string ClientApplication { get; set; }
 
-        public string OrganisationName { get; }
+        public string OrganisationName { get; set; }
     }
 }

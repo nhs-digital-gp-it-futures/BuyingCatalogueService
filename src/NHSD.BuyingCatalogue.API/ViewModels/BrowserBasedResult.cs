@@ -30,9 +30,8 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
 
     public class BrowserBasedResultSection
     {
-        private bool _mandatory;
-
-        private bool _complete;
+        private readonly bool _mandatory;
+        private readonly bool _complete;
 
         public BrowserBasedResultSection(string id, bool complete, bool mandatory)
         {
