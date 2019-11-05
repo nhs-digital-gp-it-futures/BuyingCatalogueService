@@ -1,6 +1,6 @@
 using NHSD.BuyingCatalogue.Domain.Infrastructure;
 
-namespace NHSD.BuyingCatalogue.Application.Solutions.Domain
+namespace NHSD.BuyingCatalogue.Contracts
 {
     /// <summary>
     /// Represents the types of statuses a solution can be in related to the suppliers progress.

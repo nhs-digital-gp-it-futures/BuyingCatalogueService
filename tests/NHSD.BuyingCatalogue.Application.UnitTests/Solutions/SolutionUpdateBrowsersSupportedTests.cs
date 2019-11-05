@@ -79,15 +79,6 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
         }
 
         [Test]
-        public async Task ShouldIgnoreBrowserSupportedAndBrowsersSupportedIsEmpty()
-        {
-            SetUpMockSolutionRepositoryGetByIdAsync(
-                "{ 'ClientApplicationTypes' : ['browser-based'], 'BrowsersSupported' : [ ], 'MobileResponsive': false }");
-            var callBack = false;
-
-        }
-
-        [Test]
         public void ShouldThrowWhenSolutionNotPresent()
         {
             Assert.ThrowsAsync<NotFoundException>(() => UpdateBrowsersSupported(new HashSet<string> { "Edge", "Google Chrome" }, "yes"));

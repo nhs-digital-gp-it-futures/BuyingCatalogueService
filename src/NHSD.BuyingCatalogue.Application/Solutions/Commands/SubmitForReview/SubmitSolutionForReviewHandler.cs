@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using NHSD.BuyingCatalogue.Application.Persistence;
 using NHSD.BuyingCatalogue.Application.Solutions.Domain;
+using NHSD.BuyingCatalogue.Contracts;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview

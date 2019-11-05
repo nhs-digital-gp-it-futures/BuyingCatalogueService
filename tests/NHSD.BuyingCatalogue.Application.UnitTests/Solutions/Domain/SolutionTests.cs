@@ -1,6 +1,7 @@
 using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 using NUnit.Framework;
 using FluentAssertions;
+using NHSD.BuyingCatalogue.Contracts;
 
 namespace NHSD.BuyingCatalogue.Domain.Tests.Solutions
 {

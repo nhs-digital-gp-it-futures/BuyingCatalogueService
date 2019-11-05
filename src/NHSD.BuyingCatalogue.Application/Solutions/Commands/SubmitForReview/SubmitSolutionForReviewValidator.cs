@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using NHSD.BuyingCatalogue.Application.Solutions.Domain;
+using NHSD.BuyingCatalogue.Contracts;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
 {

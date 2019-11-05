@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NHSD.BuyingCatalogue.Contracts;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Domain
 {

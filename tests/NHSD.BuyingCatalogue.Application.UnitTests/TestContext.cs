@@ -4,15 +4,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
 using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
+using NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrowsersSupported;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionClientApplicationTypes;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
-using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Contracts;
+using NHSD.BuyingCatalogue.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests
 {

@@ -4,6 +4,7 @@ using AutoMapper;
 using MediatR;
 using NHSD.BuyingCatalogue.Application.Persistence;
 using NHSD.BuyingCatalogue.Application.Solutions.Domain;
+using NHSD.BuyingCatalogue.Contracts;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
 {

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using NHSD.BuyingCatalogue.Application.Solutions.Domain;
+using NHSD.BuyingCatalogue.Contracts;
 
 namespace NHSD.BuyingCatalogue.API.ViewModels
 {

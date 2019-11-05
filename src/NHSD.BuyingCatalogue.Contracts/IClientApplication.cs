@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace NHSD.BuyingCatalogue.Application.Solutions.Domain
+namespace NHSD.BuyingCatalogue.Contracts
 {
     public interface IClientApplication
     {
