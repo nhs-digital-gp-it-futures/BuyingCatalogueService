@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Contracts;
+using NHSD.BuyingCatalogue.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Domain
 {
@@ -8,6 +10,22 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Domain
     /// </summary>
     internal class Solution
     {
+        internal Solution(ISolutionResult solutionResult)
+        {
+            Id = solutionResult.Id;
+            Name = solutionResult.Name;
+            Summary = solutionResult.Summary;
+            OrganisationName = solutionResult.OrganisationName;
+            Description = solutionResult.Description;
+            Features = string.IsNullOrWhiteSpace(solutionResult.Features)
+                ? new List<string>()
+                : JsonConvert.DeserializeObject<IEnumerable<string>>(solutionResult.Features);
+            AboutUrl = solutionResult.AboutUrl;
+            ClientApplication = string.IsNullOrWhiteSpace(solutionResult.ClientApplication)
+                ? new ClientApplication()
+                : JsonConvert.DeserializeObject<ClientApplication>(solutionResult.ClientApplication);
+        }
+
         /// <summary>
         /// Id of the solution.
         /// </summary>
