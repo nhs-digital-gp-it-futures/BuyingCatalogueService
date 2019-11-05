@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using TechTalk.SpecFlow;
@@ -15,13 +13,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
     {
         private const string ClientApplicationTypeUrl = "http://localhost:8080/api/v1/solutions/{0}/sections/client-application-types";
 
-        private readonly ScenarioContext _context;
-
         private readonly Response _response;
 
-        public EditClientApplicationSteps(ScenarioContext context, Response response)
+        public EditClientApplicationSteps(Response response)
         {
-            _context = context;
             _response = response;
         }
 
@@ -42,6 +37,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         public async Task WhenAPutRequestIsMadeToUpdateClientApplicationTypesSectionWithNoSolutionId(Table table)
         {
             await WhenAPutRequestIsMadeToUpdateClientApplicationTypesSection(" ", table);
+        }
+
+        [Then(@"the client-application-types required field contains (.*)")]
+        public async Task ThenTheClient_Application_TypesRequiredFieldContainsClient_Application_Types(string field)
+        {
+            var content = await _response.ReadBody();
+            content.SelectToken("required").ToString().Should().Contain(field);
         }
 
         private class ClientApplicationTypeTable

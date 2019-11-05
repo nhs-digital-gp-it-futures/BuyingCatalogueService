@@ -1,12 +1,9 @@
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using NHSD.BuyingCatalogue.Application.Exceptions;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
-using NHSD.BuyingCatalogue.Application.UnitTests.Tools;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NUnit.Framework;
 
@@ -41,7 +38,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
         [TestCase(null)]
         [TestCase("")]
-        [TestCase(" ")]//tab
+        [TestCase("	")]//tab
         [TestCase(" ")]//space
         public async Task ShouldValidateForExistenceOfSummary(string summary)
         {

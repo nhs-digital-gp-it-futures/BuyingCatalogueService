@@ -162,7 +162,9 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
     {
         public ClientApplicationTypesSections(IClientApplication clientApplication)
         {
-            BrowserBased = new BrowserBasedSection(clientApplication).IfPopulated();
+            BrowserBased = clientApplication?.ClientApplicationTypes?.Contains("browser-based") == true ?
+                new BrowserBasedSection(clientApplication).IfPopulated() :
+                null;
         }
 
         [JsonProperty("browser-based")]

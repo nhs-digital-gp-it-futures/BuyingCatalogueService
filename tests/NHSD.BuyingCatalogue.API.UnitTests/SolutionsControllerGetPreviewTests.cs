@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -167,7 +168,42 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             }
         }
 
-        private async Task<SolutionPreviewResult> GetSolutionPreviewSectionAsync(ISolution solution)
+        [Test]
+        public async Task ShouldIncludeBrowserBasedDataIfClientApplicationTypesIncludeBrowserBased()
+        {
+            var previewResult = await GetSolutionPreviewSectionAsync(new Solution()
+            {
+                ClientApplication = new ClientApplication()
+                {
+                    ClientApplicationTypes = new HashSet<string>() { "browser-based", "native-mobile" },
+                    BrowsersSupported = new HashSet<string>() { "Chrome", "Edge" },
+                    MobileResponsive = true
+                }
+            });
+
+            previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers.SupportedBrowsers
+                .Should().BeEquivalentTo(new HashSet<string>() { "Chrome", "Edge" });
+            previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers.MobileResponsive
+                .Should().Be("yes");
+        }
+
+        [Test]
+        public async Task ShouldNotIncludeBrowserBasedDataIfClientApplicationTypesDoNotIncludeBrowserBased()
+        {
+            var previewResult = await GetSolutionPreviewSectionAsync(new Solution()
+            {
+                ClientApplication = new ClientApplication()
+                {
+                    ClientApplicationTypes = new HashSet<string>() { "native-desktop", "native-mobile" },
+                    BrowsersSupported = new HashSet<string>() { "Chrome", "Edge" },
+                    MobileResponsive = true
+                }
+            });
+
+            previewResult.Sections.ClientApplicationTypes.Should().BeNull();
+        }
+
+        private async Task<SolutionPreviewResult> GetSolutionPreviewSectionAsync(Solution solution)
         {
             _mockMediator.Setup(m =>
                     m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))

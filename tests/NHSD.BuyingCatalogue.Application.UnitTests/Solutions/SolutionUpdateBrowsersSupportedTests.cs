@@ -6,7 +6,7 @@ using FluentAssertions;
 using Moq;
 using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Application.Exceptions;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
+using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrowsersSupported;
 using NHSD.BuyingCatalogue.Application.UnitTests.Tools;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NUnit.Framework;
@@ -23,7 +23,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            await UpdateBrowsersSupported(new HashSet<string> { "Edge", "Google Chrome" }, "yes");
+            var validationResult = await UpdateBrowsersSupported(new HashSet<string> { "Edge", "Google Chrome" }, "yes");
+            validationResult.IsValid.Should().BeTrue();
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
             Context.MockMarketingDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
@@ -53,7 +54,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
                     json.SelectToken("MobileResponsive").Value<bool>().Should().BeTrue();
                 });
 
-            await UpdateBrowsersSupported(new HashSet<string> { "Edge", "Google Chrome" }, "yes");
+            var validationResult = await UpdateBrowsersSupported(new HashSet<string> { "Edge", "Google Chrome" }, "yes");
+            validationResult.IsValid.Should().BeTrue();
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
 
@@ -61,90 +63,47 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
         }
 
         [Test]
-        public async Task ShouldUpdateEmptySolutionBrowsersSupported()
+        public async Task ShouldNotUpdateEmptySolutionBrowsersSupported()
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            await UpdateBrowsersSupported(new HashSet<string>());
+            var validationResult = await UpdateBrowsersSupported(new HashSet<string>());
+            validationResult.IsValid.Should().BeFalse();
+            validationResult.Required.Should().BeEquivalentTo(new[] {"browsers-supported", "mobile-responsive"});
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
 
-            Context.MockMarketingDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
-                r.Id == "Sln1"
-                && !JToken.Parse(r.ClientApplication).ReadStringArray("BrowsersSupported").Any()
-                && JToken.Parse(r.ClientApplication).SelectToken("MobileResponsive").Value<bool?>() == null
-            ), It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockMarketingDetailRepository.Verify(
+                r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                    It.IsAny<CancellationToken>()), Times.Never());
         }
 
         [Test]
-        public async Task ShouldUpdateEmptySolutionBrowsersSupportedAndNothingElse()
-        {
-            SetUpMockSolutionRepositoryGetByIdAsync("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], 'MobileResponsive': false }");
-            var calledBack = false;
-
-            Context.MockMarketingDetailRepository
-                .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()))
-                .Callback((IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken cancellationToken) =>
-                {
-                    calledBack = true;
-                    var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
-
-                    json.ReadStringArray("ClientApplicationTypes").ShouldContainOnly(new List<string> { "native-mobile", "browser-based" });
-                    json.ReadStringArray("BrowsersSupported").Should().BeEmpty();
-                    json.SelectToken("MobileResponsive").Should().BeNullOrEmpty();
-                });
-
-            await UpdateBrowsersSupported(new HashSet<string>());
-
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
-
-            calledBack.Should().BeTrue();
-        }
-
-        [Test]
-        public async Task ShouldUpdateEmptySolutionBrowsersSupportedAndClientApplicationTypesRemainEmpty()
+        public async Task ShouldIgnoreBrowserSupportedAndBrowsersSupportedIsEmpty()
         {
             SetUpMockSolutionRepositoryGetByIdAsync(
-                "{ 'ClientApplicationTypes' : [ ], 'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], 'MobileResponsive': false }");
-            var calledBack = false;
-            Context.MockMarketingDetailRepository
-                .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()))
-                .Callback((IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken cancellationToken) =>
-                {
-                    calledBack = true;
-                    var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                "{ 'ClientApplicationTypes' : ['browser-based'], 'BrowsersSupported' : [ ], 'MobileResponsive': false }");
+            var callBack = false;
 
-                    json.ReadStringArray("ClientApplicationTypes").Should().BeEmpty();
-                    json.ReadStringArray("BrowsersSupported").Should().BeEmpty();
-                    json.SelectToken("MobileResponsive").Should().BeNullOrEmpty();
-                });
-
-            await UpdateBrowsersSupported(new HashSet<string>());
-
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
-
-            calledBack.Should().BeTrue();
         }
 
         [Test]
         public void ShouldThrowWhenSolutionNotPresent()
         {
-            Assert.ThrowsAsync<NotFoundException>(() => UpdateBrowsersSupported(new HashSet<string> { "Edge", "Google Chrome" }));
+            Assert.ThrowsAsync<NotFoundException>(() => UpdateBrowsersSupported(new HashSet<string> { "Edge", "Google Chrome" }, "yes"));
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
 
             Context.MockMarketingDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
-        private async Task UpdateBrowsersSupported(HashSet<string> browsersSupported, string mobileResponsive = null)
+        private async Task<UpdateSolutionBrowserSupportedValidationResult> UpdateBrowsersSupported(HashSet<string> browsersSupported, string mobileResponsive = null)
         {
-            UpdateSolutionBrowsersSupportedViewModel viewModel = new UpdateSolutionBrowsersSupportedViewModel { BrowsersSupported = browsersSupported };
-            if (mobileResponsive != null)
+            return await Context.UpdateSolutionBrowsersSupportedHandler.Handle(new UpdateSolutionBrowsersSupportedCommand("Sln1", new UpdateSolutionBrowsersSupportedViewModel()
             {
-                viewModel.MobileResponsive = mobileResponsive;
-            }
-
-            await Context.UpdateSolutionBrowsersSupportedHandler.Handle(new UpdateSolutionBrowsersSupportedCommand("Sln1", viewModel), new CancellationToken());
+                BrowsersSupported = browsersSupported,
+                MobileResponsive = mobileResponsive
+            }), new CancellationToken());
         }
     }
 }

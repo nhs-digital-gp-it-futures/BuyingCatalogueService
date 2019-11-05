@@ -83,32 +83,19 @@ Scenario: 4. Client Application Types can be completely cleared
     When a PUT request is made to update solution Sln1 client-application-types section
         | ClientApplicationTypes |
         |                        |
-    Then a successful response is returned
+    Then a response status of 400 is returned
+    Then the client-application-types required field contains client-application-types
     And Solutions exist
         | SolutionID | SolutionName   | SummaryDescription             | FullDescription     | SupplierStatusId |
         | Sln1       | MedicOnline    | An full online medicine system | Online medicine 1   | 1                |
         | Sln2       | TakeTheRedPill | Eye opening experience         | Eye opening6        | 1                |
         | Sln3       | PracticeMgr    | Fully fledged GP system        | Fully fledged GP 12 | 1                |
     And MarketingDetail exist
-        | Solution | ClientApplication                                                                        |
-        | Sln1     | { "ClientApplicationTypes" : [ ], "BrowsersSupported": [],  "MobileResponsive": null } |
-        | Sln2     | {  }                                                                                     |
-        | Sln3     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] }    |
+        | Solution | ClientApplication                                                                     |
+        | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
+        | Sln2     | {  }                                                                                  |
+        | Sln3     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] } |
 
-@2726
-Scenario: 5. Empty Client Application Types can be added to the solution
-    When a PUT request is made to update solution Sln1 client-application-types section
-        | ClientApplicationTypes |
-        | cheese                 |
-    Then a successful response is returned
-    And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | FullDescription     | SupplierStatusId |
-        | Sln1       | MedicOnline    | An full online medicine system | Online medicine 1   | 1                |
-        | Sln2       | TakeTheRedPill | Eye opening experience         | Eye opening6        | 1                |
-        | Sln3       | PracticeMgr    | Fully fledged GP system        | Fully fledged GP 12 | 1                |
-    And MarketingDetail exist
-        | Solution | ClientApplication                                                                        |
-        | Sln1     | { "ClientApplicationTypes" : [ ], "BrowsersSupported": [],  "MobileResponsive": null } |
 @2726
 Scenario: 6. Solution not found
     Given a Solution Sln4 does not exist
