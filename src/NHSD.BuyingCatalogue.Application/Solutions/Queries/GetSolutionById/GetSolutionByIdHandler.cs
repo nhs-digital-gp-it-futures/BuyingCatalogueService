@@ -31,6 +31,6 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
         /// <param name="cancellationToken">Token to cancel the request.</param>
         /// <returns>A task representing an operation to get the result of this query.</returns>
         public async Task<ISolution> Handle(GetSolutionByIdQuery request, CancellationToken cancellationToken)
-            => await _solutionReader.ByIdAsync(request.Id, cancellationToken);
+            => _mapper.Map<Solution, SolutionDto>(await _solutionReader.ByIdAsync(request.Id, cancellationToken));
     }
 }

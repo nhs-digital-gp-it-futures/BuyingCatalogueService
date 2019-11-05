@@ -5,7 +5,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Domain
     /// <summary>
     /// A product and/or service provided by an ‘organisation’.
     /// </summary>
-    internal class Solution
+    internal class SolutionDto : ISolution
     {
         /// <summary>
         /// Id of the solution.
@@ -45,19 +45,11 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Domain
         /// <summary>
         /// Status of this instance in relation to the supplier.
         /// </summary>
-        public SupplierStatus SupplierStatus { get; }
+        public SupplierStatus SupplierStatus { get; set; }
 
         /// <summary>
         /// Marketing information related to the clients application.
         /// </summary>
-        public ClientApplication ClientApplication { get; set; }
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="Solution"/> class.
-        /// </summary>
-        public Solution()
-        {
-            SupplierStatus = SupplierStatus.Draft;
-        }
+        public IClientApplication ClientApplication { get; set; }
     }
 }

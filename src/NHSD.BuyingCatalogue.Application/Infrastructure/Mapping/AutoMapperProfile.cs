@@ -30,6 +30,9 @@ namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
 
             CreateMap<UpdateSolutionFeaturesViewModel, Solution>()
                 .ForMember(destination => destination.Features, options => options.MapFrom(source => source.Listing));
+
+            CreateMap<Solution, SolutionDto>();
+            CreateMap<ClientApplication, ClientApplicationDto>();
         }
     }
 }

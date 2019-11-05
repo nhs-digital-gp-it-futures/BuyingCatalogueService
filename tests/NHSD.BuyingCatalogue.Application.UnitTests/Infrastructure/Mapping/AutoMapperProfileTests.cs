@@ -37,6 +37,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Infrastructure.Mapping
             yield return new KeyValuePair<Type, Type>(typeof(UpdateSolutionSummaryViewModel), typeof(Solution));
 
             yield return new KeyValuePair<Type, Type>(typeof(UpdateSolutionFeaturesViewModel), typeof(Solution));
+            yield return new KeyValuePair<Type, Type>(typeof(Solution), typeof(SolutionDto));
+            yield return new KeyValuePair<Type, Type>(typeof(ClientApplication), typeof(ClientApplicationDto));
         }
 
         [Test]
