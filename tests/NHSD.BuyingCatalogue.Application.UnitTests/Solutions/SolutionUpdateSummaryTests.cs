@@ -41,7 +41,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
         [TestCase(null)]
         [TestCase("")]
-        [TestCase(" ")]//tab
+        [TestCase("	")]//tab
         [TestCase(" ")]//space
         public async Task ShouldValidateForExistenceOfSummary(string summary)
         {

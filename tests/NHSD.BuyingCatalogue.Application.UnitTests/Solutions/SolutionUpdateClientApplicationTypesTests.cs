@@ -6,7 +6,7 @@ using FluentAssertions;
 using Moq;
 using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Application.Exceptions;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
+using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionClientApplicationTypes;
 using NHSD.BuyingCatalogue.Application.UnitTests.Tools;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NUnit.Framework;
@@ -21,7 +21,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            await UpdateClientApplicationTypes(new HashSet<string> { "browser-based", "native-mobile", });
+            var validationResult = await UpdateClientApplicationTypes(new HashSet<string> { "browser-based", "native-mobile", });
+            validationResult.IsValid.Should().Be(true);
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
 
@@ -54,7 +55,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
                         .Should().BeTrue();
                 });
 
-            await UpdateClientApplicationTypes(new HashSet<string> { "native-desktop", "native-mobile" });
+            var validationResult = await UpdateClientApplicationTypes(new HashSet<string> { "native-desktop", "native-mobile" });
+            validationResult.IsValid.Should().Be(true);
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
 
@@ -62,44 +64,17 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
         }
 
         [Test]
-        public async Task ShouldUpdateEmptySolutionClientApplicationTypes()
+        public async Task ShouldFailValidationUpdateEmptySolutionClientApplicationTypes()
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            await UpdateClientApplicationTypes(new HashSet<string>());
+            var validationResult = await UpdateClientApplicationTypes(new HashSet<string>());
+            validationResult.IsValid.Should().Be(false);
+            validationResult.Required.Should().BeEquivalentTo(new[] { "client-application-types" });
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never);
 
-            Context.MockMarketingDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
-                r.Id == "Sln1"
-                && !JToken.Parse(r.ClientApplication).ReadStringArray("ClientApplicationTypes").Any()
-            ), It.IsAny<CancellationToken>()), Times.Once());
-        }
-
-        [Test]
-        public async Task ShouldUpdateEmptySolutionClientApplicationTypesAndNothingElse()
-        {
-            SetUpMockSolutionRepositoryGetByIdAsync("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true }");
-            var calledBack = false;
-
-            // verification done in a callback
-            Context.MockMarketingDetailRepository
-                .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()))
-                .Callback((IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken cancellationToken) =>
-                {
-                    calledBack = true;
-                    var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
-
-                    json.ReadStringArray("ClientApplicationTypes").Should().BeEmpty();
-                    json.ReadStringArray("BrowsersSupported").ShouldContainOnly(new List<string> { "Chrome", "Edge" });
-                    json.SelectToken("MobileResponsive").Value<bool>().Should().BeTrue();
-                });
-
-            await UpdateClientApplicationTypes(new HashSet<string>());
-
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
-
-            calledBack.Should().BeTrue();
+            Context.MockMarketingDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
         [Test]
@@ -107,7 +82,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            await UpdateClientApplicationTypes(new HashSet<string> { "browser-based", "curry", "native-mobile", "native-desktop", "elephant", "anteater", "blue", null, "" });
+            var validationResult = await UpdateClientApplicationTypes(new HashSet<string> { "browser-based", "curry", "native-mobile", "native-desktop", "elephant", "anteater", "blue", null, "" });
+            validationResult.IsValid.Should().Be(true);
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
 
@@ -137,7 +113,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
                     json.SelectToken("MobileResponsive").Value<bool>().Should().BeTrue();
                 });
 
-            await UpdateClientApplicationTypes(new HashSet<string> { "browser-based", "curry", "native-mobile", "native-desktop", "elephant", "anteater", "blue", null, "" });
+            var validationResult = await UpdateClientApplicationTypes(new HashSet<string> { "browser-based", "curry", "native-mobile", "native-desktop", "elephant", "anteater", "blue", null, "" });
+            validationResult.IsValid.Should().Be(true);
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
 
@@ -165,7 +142,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
                     json.SelectToken("MobileResponsive").Should().BeNullOrEmpty();
                 });
 
-            await UpdateClientApplicationTypes(new HashSet<string> { "browser-based", "curry", "native-mobile", "native-desktop", "elephant", "anteater", "blue", null, "" });
+            var validationResult = await UpdateClientApplicationTypes(new HashSet<string> { "browser-based", "curry", "native-mobile", "native-desktop", "elephant", "anteater", "blue", null, "" });
+            validationResult.IsValid.Should().Be(true);
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
 
@@ -183,9 +161,9 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             Context.MockMarketingDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
-        private async Task UpdateClientApplicationTypes(HashSet<string> clientApplicationTypes)
+        private async Task<UpdateSolutionClientApplicationTypesValidationResult> UpdateClientApplicationTypes(HashSet<string> clientApplicationTypes)
         {
-            await Context.UpdateSolutionClientApplicationTypesHandler.Handle(new UpdateSolutionClientApplicationTypesCommand("Sln1",
+            return await Context.UpdateSolutionClientApplicationTypesHandler.Handle(new UpdateSolutionClientApplicationTypesCommand("Sln1",
                 new UpdateSolutionClientApplicationTypesViewModel
                 {
                     ClientApplicationTypes = clientApplicationTypes

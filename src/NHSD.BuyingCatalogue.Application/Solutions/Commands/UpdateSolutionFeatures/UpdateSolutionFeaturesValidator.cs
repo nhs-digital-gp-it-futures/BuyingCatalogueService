@@ -4,11 +4,10 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeat
 {
     internal sealed class UpdateSolutionFeaturesValidator
     {
-        public UpdateSolutionFeaturesValidatorResult Validate(
-            UpdateSolutionFeaturesViewModel updateSolutionFeaturesViewModel)
+        public UpdateSolutionFeaturesValidationResult Validate(UpdateSolutionFeaturesViewModel updateSolutionFeaturesViewModel)
         {
             var listing = updateSolutionFeaturesViewModel.Listing.ToList();
-            var validationResult = new UpdateSolutionFeaturesValidatorResult();
+            var validationResult = new UpdateSolutionFeaturesValidationResult();
 
             for (int i = 0; i < listing.Count(); i++)
             {

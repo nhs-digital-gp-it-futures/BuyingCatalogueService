@@ -82,7 +82,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
                 Times.Never());
         }
 
-        private async Task<UpdateSolutionFeaturesValidatorResult> UpdateSolutionFeaturesAsync(List<string> listing)
+        private async Task<UpdateSolutionFeaturesValidationResult> UpdateSolutionFeaturesAsync(List<string> listing)
         {
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns(SolutionId);

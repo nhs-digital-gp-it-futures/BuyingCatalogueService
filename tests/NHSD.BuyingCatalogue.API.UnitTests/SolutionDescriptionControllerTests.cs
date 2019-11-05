@@ -85,6 +85,10 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
                 (await _solutionDescriptionController.UpdateAsync(SolutionId, solutionSummaryUpdateViewModel)) as BadRequestObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            var resultValue = result.Value as UpdateSolutionSummaryResult;
+            resultValue.Required.Should().BeEquivalentTo(new[] { "summary" });
+            resultValue.MaxLength.Should().BeEquivalentTo(new[] { "summary", "description", "link" });
+
             _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionSummaryViewModel == solutionSummaryUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
     }
