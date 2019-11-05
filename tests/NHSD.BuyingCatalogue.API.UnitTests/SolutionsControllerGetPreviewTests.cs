@@ -203,7 +203,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             previewResult.Sections.ClientApplicationTypes.Should().BeNull();
         }
 
-        private async Task<SolutionPreviewResult> GetSolutionPreviewSectionAsync(Solution solution)
+        private async Task<SolutionPreviewResult> GetSolutionPreviewSectionAsync(ISolution solution)
         {
             _mockMediator.Setup(m =>
                     m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
