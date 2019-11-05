@@ -59,7 +59,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
                 Listing = new List<string>() { new string('a',200)}
             };
 
-            var validationModel = new UpdateSolutionFeaturesValidatorResult()
+            var validationModel = new UpdateSolutionFeaturesValidationResult()
             {
                 MaxLength = { "listing-1"}
             };
@@ -80,7 +80,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
                 Listing = new List<string>() {"test", "test2"}
             };
 
-            var validationModel = new UpdateSolutionFeaturesValidatorResult();
+            var validationModel = new UpdateSolutionFeaturesValidationResult();
 
             _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionFeaturesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionFeaturesViewModel == featuresUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
             var result =
