@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Net;
-using System.Reflection.Metadata;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -9,10 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.API.Controllers;
 using NHSD.BuyingCatalogue.API.ViewModels;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Application.Solutions.Domain;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.API.UnitTests
@@ -36,12 +34,11 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         [Test]
         public async Task ShouldGetFeatures()
         {
-            var expected = new List<string>(){"a", "b", "c"};
-            var solution = new Solution {Features = expected};
-          
+            var expected = new List<string>() { "a", "b", "c" };
+
             _mockMediator.Setup(m =>
                     m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(solution);
+                .ReturnsAsync(Mock.Of<ISolution>(s => s.Features == expected));
 
             var result = (await _featuresController.GetFeaturesAsync(SolutionId)) as ObjectResult;
 
@@ -56,12 +53,12 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         {
             var featuresUpdateViewModel = new UpdateSolutionFeaturesViewModel()
             {
-                Listing = new List<string>() { new string('a',200)}
+                Listing = new List<string>() { new string('a', 200) }
             };
 
             var validationModel = new UpdateSolutionFeaturesValidatorResult()
             {
-                MaxLength = { "listing-1"}
+                MaxLength = { "listing-1" }
             };
             _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionFeaturesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionFeaturesViewModel == featuresUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
             var result =
@@ -77,7 +74,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         {
             var featuresUpdateViewModel = new UpdateSolutionFeaturesViewModel()
             {
-                Listing = new List<string>() {"test", "test2"}
+                Listing = new List<string>() { "test", "test2" }
             };
 
             var validationModel = new UpdateSolutionFeaturesValidatorResult();

@@ -86,7 +86,7 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
 
         private bool IsBrowserBasedComplete(IClientApplication clientApplication)
         {
-            return (clientApplication?.BrowsersSupported.Any()).GetValueOrDefault() && (clientApplication?.MobileResponsive.HasValue).GetValueOrDefault();
+            return (clientApplication?.BrowsersSupported?.Any()).GetValueOrDefault() && (clientApplication?.MobileResponsive.HasValue).GetValueOrDefault();
         }
 
         private void SetIfSelected(string sectionName, HashSet<string> sections, Action setDashboardAction)

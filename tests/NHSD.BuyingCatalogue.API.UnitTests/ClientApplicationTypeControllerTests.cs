@@ -34,18 +34,10 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         [Test]
         public async Task ShouldGetClientApplicationTypes()
         {
-            var solution = new Solution
-            {
-                ClientApplication = new ClientApplication
-                {
-                    ClientApplicationTypes = new HashSet<string>(new string[] { "browser-based", "native-desktop" }),
-                }
-            };
-
-            var expected = new GetClientApplicationTypesResult(new ClientApplication());
-
             _mockMediator.Setup(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(solution);
+                .ReturnsAsync(Mock.Of<ISolution>(s =>
+                    s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                        c.ClientApplicationTypes == new HashSet<string> { "browser-based", "native-desktop" })));
 
             var result = (await _clientApplicationTypeController.GetClientApplicationTypesAsync(SolutionId)) as ObjectResult;
 
@@ -58,10 +50,8 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         [Test]
         public async Task ShouldGetEmptyClientApplicationTypes()
         {
-            var expected = new GetClientApplicationTypesResult(new ClientApplication());
-
             _mockMediator.Setup(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new Solution());
+                .ReturnsAsync(Mock.Of<ISolution>());
 
             var result = (await _clientApplicationTypeController.GetClientApplicationTypesAsync(SolutionId)) as ObjectResult;
 

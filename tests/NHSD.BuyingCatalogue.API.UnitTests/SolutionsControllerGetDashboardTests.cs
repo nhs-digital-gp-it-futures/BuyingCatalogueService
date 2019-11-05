@@ -47,12 +47,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         [TestCase("Sln2", "Bob")]
         public async Task ShouldReturnNameId(string id, string name)
         {
-            var dashboardResult = await GetSolutionDashboardSectionAsync(new Solution()
-            {
-                Id = id,
-                Name = name
-            });
-
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s => s.Id == id && s.Name == name));
             dashboardResult.Id.Should().Be(id);
             dashboardResult.Name.Should().Be(name);
         }
@@ -60,7 +55,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         [Test]
         public async Task ShouldReturnSolutionDashboardStaticData()
         {
-            var dashboardResult = await GetSolutionDashboardSectionAsync(new Solution());
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>());
             var solutionDashboardSections = dashboardResult.SolutionDashboardSections;
 
             solutionDashboardSections.Should().NotBeNull();
@@ -77,7 +72,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         [Test]
         public async Task ShouldGetDashboardCalculateCompleteNull()
         {
-            var dashboardResult = await GetSolutionDashboardSectionAsync(new Solution());
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>());
             var solutionDashboardSections = dashboardResult.SolutionDashboardSections;
 
             solutionDashboardSections.Should().NotBeNull();
@@ -100,7 +95,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
 
         public async Task ShouldGetDashboardCalculateSolutionDescription(string summary, string description, string link, string result)
         {
-            var dashboardResult = await GetSolutionDashboardSectionAsync(new Solution {Summary = summary, Description = description, AboutUrl = link});
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s => s.Summary == summary && s.Description == description && s.AboutUrl == link));
             dashboardResult.SolutionDashboardSections.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.SolutionDescriptionSection.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.SolutionDescriptionSection.Status.Should().Be(result);
@@ -111,7 +106,8 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         public async Task ShouldGetDashboardCalculateCompleteFeatures(bool isFeatures, string result)
         {
             var features = isFeatures ? new[] { "Feature1", "Feature2" } : new string[0];
-            var dashboardResult = await GetSolutionDashboardSectionAsync(new Solution { Features = features });
+
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s => s.Features == features));
             dashboardResult.SolutionDashboardSections.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.FeaturesSection.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.FeaturesSection.Status.Should().Be(result);
@@ -120,16 +116,9 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         [Test]
         public async Task ShouldGetDashboardCalculateClientApplicationTypesBrowserBasedNull()
         {
-            var dashboardResult = await GetSolutionDashboardSectionAsync(new Solution
-            {
-                ClientApplication = new ClientApplication
-                {
-                    ClientApplicationTypes = new HashSet<string>
-                    {
-                        "browser-based"
-                    }
-                }
-            });
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "browser-based" })));
 
             dashboardResult.SolutionDashboardSections.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section.Should().BeOfType<ClientApplicationTypesSubSections>();
@@ -141,16 +130,9 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         [Test]
         public async Task ShouldGetDashboardCalculateClientApplicationTypesNativeMobileNull()
         {
-            var dashboardResult = await GetSolutionDashboardSectionAsync(new Solution
-            {
-                ClientApplication = new ClientApplication
-                {
-                    ClientApplicationTypes = new HashSet<string>
-                    {
-                        "native-mobile"
-                    }
-                }
-            });
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "native-mobile" })));
 
             dashboardResult.SolutionDashboardSections.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section.Should().BeOfType<ClientApplicationTypesSubSections>();
@@ -162,16 +144,9 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         [Test]
         public async Task ShouldGetDashboardCalculateClientApplicationTypesNativeDesktopNull()
         {
-            var dashboardResult = await GetSolutionDashboardSectionAsync(new Solution
-            {
-                ClientApplication = new ClientApplication
-                {
-                    ClientApplicationTypes = new HashSet<string>
-                    {
-                        "native-desktop"
-                    }
-                }
-            });
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "native-desktop" })));
 
             dashboardResult.SolutionDashboardSections.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section.Should().BeOfType<ClientApplicationTypesSubSections>();
@@ -188,20 +163,11 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         [TestCase(true, true, "COMPLETE")]
         public async Task ShouldGetDashboardCalculateClientApplicationTypeBrowserBased(bool someBrowsersSupported, bool? mobileResponsive, string result)
         {
-            var browsersSupported = someBrowsersSupported ? new HashSet<string> {"Edge", "Chrome"} : new HashSet<string>();
-
-            var dashboardResult = await GetSolutionDashboardSectionAsync(new Solution
-            {
-                ClientApplication = new ClientApplication
-                {
-                    ClientApplicationTypes = new HashSet<string>
-                    {
-                        "browser-based"
-                    },
-                    BrowsersSupported = browsersSupported,
-                    MobileResponsive = mobileResponsive
-                }
-            });
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "browser-based" } &&
+                    c.BrowsersSupported == (someBrowsersSupported ? new HashSet<string> { "Edge", "Chrome" } : new HashSet<string>()) &&
+                    c.MobileResponsive == mobileResponsive)));
 
             dashboardResult.SolutionDashboardSections.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section.Should().BeOfType<ClientApplicationTypesSubSections>();
@@ -210,12 +176,11 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             clientApplicationTypesSubSections.BrowserBasedSection.Status.Should().Be(result);
         }
 
-        private async Task<SolutionDashboardResult> GetSolutionDashboardSectionAsync(Solution solution)
+        private async Task<SolutionDashboardResult> GetSolutionDashboardSectionAsync(ISolution solution)
         {
             _mockMediator.Setup(m =>
                     m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(solution);
-
 
             var result = (await _solutionsController.Dashboard(SolutionId)).Result as ObjectResult;
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);

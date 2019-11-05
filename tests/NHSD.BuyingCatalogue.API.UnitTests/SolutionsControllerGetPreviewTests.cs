@@ -50,12 +50,10 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         [TestCase("Sln2", "name", "organization")]
         public async Task ShouldReturGetValues(string id, string name, string organization)
         {
-            var previewResult = await GetSolutionPreviewSectionAsync(new Solution()
-            {
-                Id = id,
-                Name = name,
-                OrganisationName = organization
-            });
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                s.Id == id &&
+                s.Name == name &&
+                s.OrganisationName == organization));
 
             previewResult.Id.Should().Be(id);
             previewResult.Name.Should().Be(name);
@@ -74,12 +72,10 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
 
         public async Task ShouldGetPreviewCalculateSolutionDescription(string summary, string description, string link,bool hasData)
         {
-            var previewResult = await GetSolutionPreviewSectionAsync(new Solution()
-            {
-                Summary = summary,
-                Description = description,
-                AboutUrl = link
-            });
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                s.Summary == summary &&
+                s.Description == description &&
+                s.AboutUrl == link));
 
             if (hasData)
             {
@@ -95,17 +91,13 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             }
         }
 
-        
         [TestCase(false, false)]
         [TestCase(true, true)]
         public async Task ShouldGetPreviewCalculateFeatures(bool isFeature, bool hasData)
         {
             var features = isFeature ? new List<string>() { "Feature1", "Feature2" } : new List<string>();
 
-            var previewResult = await GetSolutionPreviewSectionAsync(new Solution()
-            {
-                Features = features
-            });
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s => s.Features == features));
 
             if (hasData)
             {
@@ -133,15 +125,12 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             var clientApplicationTypes = isClientApplication ? new HashSet<string>() { "browser-based", "native-mobile" } : new HashSet<string>();
             var browsersSupported = isBrowserSupported ? new HashSet<string>() { "Chrome", "Edge" } : new HashSet<string>();
 
-            var previewResult = await GetSolutionPreviewSectionAsync(new Solution()
-            {
-                ClientApplication = new ClientApplication()
-                {
-                    ClientApplicationTypes = clientApplicationTypes,
-                    BrowsersSupported = browsersSupported,
-                    MobileResponsive = mobileResponsive
-                }
-            });
+            var previewResult = await GetSolutionPreviewSectionAsync(
+                Mock.Of<ISolution>(s =>
+                    s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                        c.ClientApplicationTypes == clientApplicationTypes &&
+                        c.BrowsersSupported == browsersSupported &&
+                        c.MobileResponsive == mobileResponsive)));
 
             if (expectData)
             {
@@ -178,13 +167,11 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             }
         }
 
-
-        private async Task<SolutionPreviewResult> GetSolutionPreviewSectionAsync(Solution solution)
+        private async Task<SolutionPreviewResult> GetSolutionPreviewSectionAsync(ISolution solution)
         {
             _mockMediator.Setup(m =>
                     m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(solution);
-
 
             var result = (await _solutionsController.Preview(SolutionId)).Result as ObjectResult;
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);

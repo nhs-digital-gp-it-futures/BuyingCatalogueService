@@ -34,18 +34,12 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         [Test]
         public async Task ShouldGetBrowsersSupported()
         {
-            var solution = new Solution
-            {
-                ClientApplication = new ClientApplication
-                {
-                    BrowsersSupported = new HashSet<string>(new string[] { "Chrome", "Edge" }),
-                    MobileResponsive = true
-                }
-            };
-
             _mockMediator.Setup(m => m
                     .Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(solution);
+                    .ReturnsAsync(Mock.Of<ISolution>(s =>
+                        s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                            c.BrowsersSupported == new HashSet<string>{ "Chrome", "Edge" } &&
+                            c.MobileResponsive == true)));
 
             var result = (await _browserSupportedController.GetBrowsersSupportedAsync(SolutionId)) as ObjectResult;
 
@@ -62,17 +56,11 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         [Test]
         public async Task ShouldGetEmptyBrowsersSupported()
         {
-            var solution = new Solution
-            {
-                ClientApplication =  new ClientApplication
-                {
-                    MobileResponsive = true
-                }
-            };
-
             _mockMediator.Setup(m => m
-                .Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(solution);
+                    .Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
+                    .ReturnsAsync(Mock.Of<ISolution>(s =>
+                        s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                            c.MobileResponsive == true)));
 
             var result = (await _browserSupportedController.GetBrowsersSupportedAsync(SolutionId)) as ObjectResult;
 
@@ -91,17 +79,11 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         [TestCase(false, "no")]
         public async Task ShouldGetMobileResponsive(bool? mobileResponsive, string expectedMobileReponsive)
         {
-            var solution = new Solution
-            {
-                ClientApplication = new ClientApplication
-                {
-                    MobileResponsive = mobileResponsive
-                }
-            };
-
             _mockMediator.Setup(m => m
                     .Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(solution);
+                    .ReturnsAsync(Mock.Of<ISolution>(s =>
+                        s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                            c.MobileResponsive == mobileResponsive)));
 
             var result = (await _browserSupportedController.GetBrowsersSupportedAsync(SolutionId)) as ObjectResult;
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
