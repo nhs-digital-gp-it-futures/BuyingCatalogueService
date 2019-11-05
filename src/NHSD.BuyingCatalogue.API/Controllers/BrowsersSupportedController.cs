@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.API.ViewModels;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
+using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrowsersSupported;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 
 namespace NHSD.BuyingCatalogue.API.Controllers
@@ -55,9 +55,10 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> UpdateBrowsersSupportedAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionBrowsersSupportedViewModel updateSolutionBrowsersSupportedViewModel)
         {
-            await _mediator.Send(new UpdateSolutionBrowsersSupportedCommand(id, updateSolutionBrowsersSupportedViewModel));
+            var validationResult = await _mediator.Send(new UpdateSolutionBrowsersSupportedCommand(id, updateSolutionBrowsersSupportedViewModel));
 
-            return NoContent();
+            return validationResult.IsValid ? (ActionResult)new NoContentResult()
+                : BadRequest(new UpdateSolutionBrowserSupportedResult(validationResult));
         }
     }
 }

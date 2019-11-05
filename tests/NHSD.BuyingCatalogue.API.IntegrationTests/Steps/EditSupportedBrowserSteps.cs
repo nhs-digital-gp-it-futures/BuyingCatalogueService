@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using TechTalk.SpecFlow;
@@ -12,13 +13,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
     {
         private const string SupportedBrowserUrl = "http://localhost:8080/api/v1/solutions/{0}/sections/browsers-supported";
 
-        private readonly ScenarioContext _context;
-
         private readonly Response _response;
 
-        public EditSupportedBrowserSteps(ScenarioContext context, Response response)
+        public EditSupportedBrowserSteps(Response response)
         {
-            _context = context;
             _response = response;
         }
 
@@ -35,6 +33,14 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         {
             await WhenAPUTRequestIsMadeToUpdateSolutionSlnBrowsers_SupportedSection(" ", table);
         }
+
+        [Then(@"the browser-based required field contains (browsers-supported|mobile-responsive)")]
+        public async Task ThenTheBrowser_BasedRequiredFieldContainsBrowsers_Supported(string field)
+        {
+            var content = await _response.ReadBody();
+            content.SelectToken("required").ToString().Should().Contain(field);
+        }
+
 
 
         private class SupportedBrowserPayload

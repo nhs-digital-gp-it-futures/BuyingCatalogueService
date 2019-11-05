@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Net;
-using System.Reflection.Metadata;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -9,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.API.Controllers;
 using NHSD.BuyingCatalogue.API.ViewModels;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Application.Solutions.Domain;

@@ -5,9 +5,9 @@ using Moq;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
 using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
+using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrowsersSupported;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionClientApplicationTypes;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
@@ -57,7 +57,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             serviceCollection.AddTransient<IRequestHandler<UpdateSolutionFeaturesCommand, UpdateSolutionFeaturesValidationResult>, UpdateSolutionFeaturesHandler>();
             serviceCollection.AddTransient<IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult>, SubmitSolutionForReviewHandler>();
             serviceCollection.AddTransient<IRequestHandler<UpdateSolutionClientApplicationTypesCommand, UpdateSolutionClientApplicationTypesValidationResult>, UpdateSolutionClientApplicationTypesHandler>();
-            serviceCollection.AddTransient<IRequestHandler<UpdateSolutionBrowsersSupportedCommand>, UpdateSolutionBrowsersSupportedHandler>();
+            serviceCollection.AddTransient<IRequestHandler<UpdateSolutionBrowsersSupportedCommand, UpdateSolutionBrowserSupportedValidationResult>, UpdateSolutionBrowsersSupportedHandler>();
 
             serviceCollection.AddSingleton<Scope>();
             _scope = serviceCollection.BuildServiceProvider().GetService<Scope>();
@@ -96,7 +96,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             public IRequestHandler<UpdateSolutionClientApplicationTypesCommand, UpdateSolutionClientApplicationTypesValidationResult> UpdateSolutionClientApplicationTypesHandler { get; }
 
 
-            public IRequestHandler<UpdateSolutionBrowsersSupportedCommand> UpdateSolutionBrowsersSupportedHandler { get; }
+            public IRequestHandler<UpdateSolutionBrowsersSupportedCommand, UpdateSolutionBrowserSupportedValidationResult> UpdateSolutionBrowsersSupportedHandler { get; }
 
             public Scope(IRequestHandler<ListCapabilitiesQuery, ListCapabilitiesResult> listCapabilitiesHandler,
                 IRequestHandler<ListSolutionsQuery, ListSolutionsResult> listSolutionsHandler,
@@ -105,7 +105,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
                 IRequestHandler<UpdateSolutionSummaryCommand, UpdateSolutionSummaryValidationResult> updateSolutionSummaryHandler,
                 IRequestHandler<UpdateSolutionFeaturesCommand, UpdateSolutionFeaturesValidationResult> updateSolutionFeaturesHandler,
                 IRequestHandler<UpdateSolutionClientApplicationTypesCommand, UpdateSolutionClientApplicationTypesValidationResult> updateSolutionClientApplicationTypesHandler,
-                IRequestHandler<UpdateSolutionBrowsersSupportedCommand> updateSolutionBrowsersSupportedHandler)
+                IRequestHandler<UpdateSolutionBrowsersSupportedCommand, UpdateSolutionBrowserSupportedValidationResult> updateSolutionBrowsersSupportedHandler)
             {
                 ListCapabilitiesHandler = listCapabilitiesHandler;
                 ListSolutionsHandler = listSolutionsHandler;

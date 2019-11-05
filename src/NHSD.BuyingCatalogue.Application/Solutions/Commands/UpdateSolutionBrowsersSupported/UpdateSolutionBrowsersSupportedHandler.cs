@@ -4,18 +4,21 @@ using System.Threading.Tasks;
 using MediatR;
 using NHSD.BuyingCatalogue.Application.Persistence;
 
-namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution
+namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrowsersSupported
 {
-    internal sealed class UpdateSolutionBrowsersSupportedHandler : IRequestHandler<UpdateSolutionBrowsersSupportedCommand>
+    internal sealed class UpdateSolutionBrowsersSupportedHandler : IRequestHandler<UpdateSolutionBrowsersSupportedCommand, UpdateSolutionBrowserSupportedValidationResult>
     {
         private readonly ClientApplicationPartialUpdater _clientApplicationPartialUpdater;
+
+        private readonly UpdateSolutionBrowsersSupportedValidator _updateSolutionBrowsersSupportedValidator;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="UpdateSolutionBrowsersSupportedHandler"/> class.
         /// </summary>
-        public UpdateSolutionBrowsersSupportedHandler(ClientApplicationPartialUpdater clientApplicationPartialUpdater)
+        public UpdateSolutionBrowsersSupportedHandler(ClientApplicationPartialUpdater clientApplicationPartialUpdater, UpdateSolutionBrowsersSupportedValidator updateSolutionBrowsersSupportedValidator)
         {
             _clientApplicationPartialUpdater = clientApplicationPartialUpdater;
+            _updateSolutionBrowsersSupportedValidator = updateSolutionBrowsersSupportedValidator;
         }
 
         /// <summary>
@@ -23,18 +26,24 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution
         /// </summary>
         /// <param name="request">The command parameters.</param>
         /// <param name="cancellationToken">Token to cancel the request.</param>
-        /// <returns>A task representing an operation to get the result of this command.</returns>
-        public async Task<Unit> Handle(UpdateSolutionBrowsersSupportedCommand request, CancellationToken cancellationToken)
+        /// <returns>A validationResult representing an operation to get the result of this command. Deeming if it is valid</returns>
+        public async Task<UpdateSolutionBrowserSupportedValidationResult> Handle(UpdateSolutionBrowsersSupportedCommand request, CancellationToken cancellationToken)
         {
-            await _clientApplicationPartialUpdater.UpdateAsync(request.SolutionId,
-                clientApplication =>
-                {
-                    clientApplication.BrowsersSupported = new HashSet<string>(request.UpdateSolutionBrowsersSupportedViewModel.BrowsersSupported);
-                    clientApplication.MobileResponsive = MapMobileResponsive(request.UpdateSolutionBrowsersSupportedViewModel.MobileResponsive);
-                },
-                cancellationToken);
+            var validationResult =
+                _updateSolutionBrowsersSupportedValidator.Validation(request.UpdateSolutionBrowsersSupportedViewModel);
 
-            return Unit.Value;
+            if (validationResult.IsValid)
+            {
+                await _clientApplicationPartialUpdater.UpdateAsync(request.SolutionId,
+                    clientApplication =>
+                    {
+                        clientApplication.BrowsersSupported = new HashSet<string>(request.UpdateSolutionBrowsersSupportedViewModel.BrowsersSupported);
+                        clientApplication.MobileResponsive = MapMobileResponsive(request.UpdateSolutionBrowsersSupportedViewModel.MobileResponsive);
+                    },
+                    cancellationToken);
+            }
+
+            return validationResult;
         }
 
         private bool? MapMobileResponsive(string mobileResponsive) => mobileResponsive == "yes" ? true : (mobileResponsive == "no" ? false : (bool?)null);

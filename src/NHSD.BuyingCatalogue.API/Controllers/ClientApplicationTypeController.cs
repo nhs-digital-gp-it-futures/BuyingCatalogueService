@@ -5,7 +5,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.API.ViewModels;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionClientApplicationTypes;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 

@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using NHSD.BuyingCatalogue.Application.Persistence;
 using NHSD.BuyingCatalogue.Application.SolutionList.Persistence;
+using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrowsersSupported;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionClientApplicationTypes;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
@@ -21,6 +22,7 @@ namespace NHSD.BuyingCatalogue.Application
             serviceCollection.AddTransient<UpdateSolutionSummaryValidator>();
             serviceCollection.AddTransient<UpdateSolutionFeaturesValidator>();
             serviceCollection.AddTransient<UpdateSolutionClientApplicationTypesValidator>();
+            serviceCollection.AddTransient<UpdateSolutionBrowsersSupportedValidator>();
             return serviceCollection;
         }
     }

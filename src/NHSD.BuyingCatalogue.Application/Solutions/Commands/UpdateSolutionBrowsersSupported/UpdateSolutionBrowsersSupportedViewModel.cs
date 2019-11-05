@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution
+namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrowsersSupported
 {
     public sealed class UpdateSolutionBrowsersSupportedViewModel
     {
