@@ -171,15 +171,11 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         [Test]
         public async Task ShouldIncludeBrowserBasedDataIfClientApplicationTypesIncludeBrowserBased()
         {
-            var previewResult = await GetSolutionPreviewSectionAsync(new Solution()
-            {
-                ClientApplication = new ClientApplication()
-                {
-                    ClientApplicationTypes = new HashSet<string>() { "browser-based", "native-mobile" },
-                    BrowsersSupported = new HashSet<string>() { "Chrome", "Edge" },
-                    MobileResponsive = true
-                }
-            });
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string>() { "browser-based", "native-mobile" } &&
+                    c.BrowsersSupported == new HashSet<string>() { "Chrome", "Edge" } &&
+                    c.MobileResponsive == true)));
 
             previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers.SupportedBrowsers
                 .Should().BeEquivalentTo(new HashSet<string>() { "Chrome", "Edge" });
@@ -190,15 +186,11 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         [Test]
         public async Task ShouldNotIncludeBrowserBasedDataIfClientApplicationTypesDoNotIncludeBrowserBased()
         {
-            var previewResult = await GetSolutionPreviewSectionAsync(new Solution()
-            {
-                ClientApplication = new ClientApplication()
-                {
-                    ClientApplicationTypes = new HashSet<string>() { "native-desktop", "native-mobile" },
-                    BrowsersSupported = new HashSet<string>() { "Chrome", "Edge" },
-                    MobileResponsive = true
-                }
-            });
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string>() { "native-desktop", "native-mobile" } &&
+                    c.BrowsersSupported == new HashSet<string>() { "Chrome", "Edge" } &&
+                    c.MobileResponsive == true)));
 
             previewResult.Sections.ClientApplicationTypes.Should().BeNull();
         }
