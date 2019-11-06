@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.Linq;
+using NHSD.BuyingCatalogue.Contracts;
 
-namespace NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities
+namespace NHSD.BuyingCatalogue.API.ViewModels
 {
     /// <summary>
-    /// Provides the result details of the <see cref="ListCapabilitiesQuery"/>.
+    /// Provides the result details of the <see cref="ListCapabilitiesResult"/>.
     /// </summary>
 	public sealed class ListCapabilitiesResult
 	{
@@ -15,6 +17,7 @@ namespace NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities
 		/// <summary>
 		/// Initialises a new instance of the <see cref="ListCapabilitiesResult"/> class.
 		/// </summary>
-		public ListCapabilitiesResult(IEnumerable<CapabilityViewModel> capabilities) => Capabilities = capabilities;
+		public ListCapabilitiesResult(IEnumerable<ICapability> capabilities)
+            => Capabilities = capabilities.Select(c => new CapabilityViewModel(c));
     }
 }

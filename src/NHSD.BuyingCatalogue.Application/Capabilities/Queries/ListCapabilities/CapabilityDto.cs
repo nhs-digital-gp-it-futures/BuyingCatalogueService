@@ -1,12 +1,13 @@
 using System;
+using NHSD.BuyingCatalogue.Contracts;
 
 namespace NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities
 {
-	/// <summary>
+    /// <summary>
 	/// Provides the view representation for the <see cref="Capability"/> entity.
 	/// </summary>
-	public sealed class CapabilityViewModel
-	{
+	internal sealed class CapabilityDto : ICapability
+    {
 		/// <summary>
 		/// Identifier of the capability.
 		/// </summary>

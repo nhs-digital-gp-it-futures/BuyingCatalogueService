@@ -1,4 +1,5 @@
 using System;
+using NHSD.BuyingCatalogue.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Application.Capabilities.Domain
 {
@@ -37,8 +38,11 @@ namespace NHSD.BuyingCatalogue.Application.Capabilities.Domain
         /// <summary>
         /// Initialises a new instance of the <see cref="Capability"/> class.
         /// </summary>
-        public Capability()
+        internal Capability(ICapabilityListResult capabilityListResult)
         {
+            Id = capabilityListResult.Id;
+            Name = capabilityListResult.Name;
+            IsFoundation = capabilityListResult.IsFoundation;
         }
     }
 }

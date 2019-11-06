@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NHSD.BuyingCatalogue.API.ViewModels;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
 
 namespace NHSD.BuyingCatalogue.API.Controllers
@@ -21,10 +22,7 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         /// <summary>
         /// Initialises a new instance of the <see cref="CapabilitiesController"/> class.
         /// </summary>
-        public CapabilitiesController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        public CapabilitiesController(IMediator mediator) => _mediator = mediator;
 
         /// <summary>
         /// Gets a list of capabilities.
@@ -33,9 +31,6 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(ListCapabilitiesResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult<ListCapabilitiesResult>> ListAsync()
-        {
-            return Ok(await _mediator.Send(new ListCapabilitiesQuery()));
-        }
+        public async Task<ActionResult<ListCapabilitiesResult>> ListAsync() => Ok(new ListCapabilitiesResult(await _mediator.Send(new ListCapabilitiesQuery())));
     }
 }

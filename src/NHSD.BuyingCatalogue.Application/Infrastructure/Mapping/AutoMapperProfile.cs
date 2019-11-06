@@ -23,7 +23,7 @@ namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
             CreateMap<SolutionListItemCapability, SolutionCapabilityViewModel>();
             CreateMap<SolutionListItemOrganisation, SolutionOrganisationViewModel>();
 
-            CreateMap<Capability, CapabilityViewModel>();
+            CreateMap<Capability, CapabilityDto>();
 
             CreateMap<UpdateSolutionSummaryViewModel, Solution>()
                 .ForMember(destination => destination.AboutUrl, options => options.MapFrom(source => source.Link));
