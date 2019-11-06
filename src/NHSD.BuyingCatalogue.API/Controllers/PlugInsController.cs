@@ -31,7 +31,7 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         /// <param name="id">A value to uniquely identify a solution.</param>
         /// <returns>A task representing an operation to retrieve the details of the browsers supported section.</returns>
         [HttpGet]
-        [Route("{id}/sections/browser-based-plug-ins")]
+        [Route("{id}/sections/plug-ins-or-extensions")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -52,7 +52,7 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         /// <param name="updateSolutionPlugInsViewModel">The details of the supported browsers.</param>
         /// <returns>A task representing an operation to update the details of the browser supported section.</returns>
         [HttpPut]
-        [Route("{id}/sections/browser-based-plug-ins")]
+        [Route("{id}/sections/plug-ins-or-extensions")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -75,10 +75,10 @@ namespace NHSD.BuyingCatalogue.API.Controllers
 
     public class UpdateSolutionPlugInsViewModel {
 
-        [JsonProperty("plug-ins")]
+        [JsonProperty("plugins-required")]
         public string PlugIns { get; set; }
 
-        [JsonProperty("additional-information")]
+        [JsonProperty("plugins-detail")]
         public string AdditionalInformation { get; set; }
     }
 }
