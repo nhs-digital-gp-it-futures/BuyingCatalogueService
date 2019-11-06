@@ -1,3 +1,5 @@
+@ignore
+
 Feature:  Display Marketing Page Form Browsers Supported Section
     As a Supplier
     I want to manage Marketing Page Information for the Solution's Browsers Support

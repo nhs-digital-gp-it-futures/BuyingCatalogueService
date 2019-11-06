@@ -1,3 +1,5 @@
+@ignore
+
 Feature:  Display Marketing Page Form Plugins Validation on Edit
     As a Supplier
     I want to manage Marketing Page Information for the Solution's Plugins

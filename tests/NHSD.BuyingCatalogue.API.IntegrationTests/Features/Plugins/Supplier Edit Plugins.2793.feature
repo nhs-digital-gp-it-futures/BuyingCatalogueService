@@ -1,3 +1,5 @@
+@ignore
+
 Feature:  Supplier Edit Plugins
     As a Supplier
     I want to Edit the Plugins Section
