@@ -31,10 +31,10 @@ Scenario: 1. Client Application Types are updated for the solution
         | Sln2       | TakeTheRedPill | Eye opening experience         | Eye opening6        | 1                |
         | Sln3       | PracticeMgr    | Fully fledged GP system        | Fully fledged GP 12 | 1                |
     And MarketingDetail exist
-        | Solution | ClientApplication                                                                                                          |
-        | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null } |
-        | Sln2     | {  }                                                                                                                       |
-        | Sln3     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] }                                      |
+        | Solution | ClientApplication                                                                                                                        |
+        | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null } |
+        | Sln2     | {  }                                                                                                                                     |
+        | Sln3     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] }                                                    |
 
 @2726
 Scenario: 2. Client Application Types are added to the solution
@@ -48,8 +48,8 @@ Scenario: 2. Client Application Types are added to the solution
         | Sln2       | TakeTheRedPill | Eye opening experience         | Eye opening6        | 1                |
         | Sln3       | PracticeMgr    | Fully fledged GP system        | Fully fledged GP 12 | 1                |
     And MarketingDetail exist
-        | Solution | ClientApplication                                                   |
-        | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null } |
+        | Solution | ClientApplication                                                                                                                        |
+        | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null } |
 
 @2726
 Scenario: 3. Client Application Types that we do not understand are ignored
@@ -68,10 +68,10 @@ Scenario: 3. Client Application Types that we do not understand are ignored
         | Sln2       | TakeTheRedPill | Eye opening experience         | Eye opening6        | 1                |
         | Sln3       | PracticeMgr    | Fully fledged GP system        | Fully fledged GP 12 | 1                |
     And MarketingDetail exist
-        | Solution | ClientApplication                                                                                                         |
-        | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null } |
-        | Sln2     | {  }                                                                                                                      |
-        | Sln3     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] }                                     |
+        | Solution | ClientApplication                                                                                                                        |
+        | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null } |
+        | Sln2     | {  }                                                                                                                                     |
+        | Sln3     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] }                                                    |
 
 @2726
 Scenario: 4. Client Application Types can be completely cleared

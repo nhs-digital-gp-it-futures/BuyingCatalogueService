@@ -4,8 +4,9 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.API.ViewModels;
+using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionPlugins;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 
 namespace NHSD.BuyingCatalogue.API.Controllers
 {
@@ -40,9 +41,8 @@ namespace NHSD.BuyingCatalogue.API.Controllers
             //Canned data
             return Ok(new GetPlugInsResult { PlugIns = _plugIns, AdditionalInformation = _additionalInformation });
 
-
             //var solution = await _mediator.Send(new GetSolutionByIdQuery(id));
-            //return solution == null ? (ActionResult)new NotFoundResult() : Ok(new GetPlugInsResult(solution.ClientApplication));
+            //return solution == null ? (ActionResult)new NotFoundResult() : Ok(new GetPlugInsResult() { PlugIns = _plugIns, AdditionalInformation = _additionalInformation });
         }
 
         /// <summary>
@@ -56,29 +56,22 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> UpdatePlugInsAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionPlugInsViewModel updateSolutionPlugInsViewModel)
+        public async Task<ActionResult> UpdatePlugInsAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionPluginsViewModel updateSolutionPlugInsViewModel)
         {
+            var validationResult =
+                await _mediator.Send(new UpdateSolutionPluginsCommand(id, updateSolutionPlugInsViewModel));
 
-            _plugIns = updateSolutionPlugInsViewModel.PlugIns;
+            //TODO REMOVE when complete - canned data
+            _plugIns = updateSolutionPlugInsViewModel.Required;
             _additionalInformation = updateSolutionPlugInsViewModel.AdditionalInformation;
 
-            //await _mediator.Send(new UpdateSolutionPlugInsCommand(id, updateSolutionPlugInsViewModel));
-
-            return NoContent();
+            return validationResult.IsValid
+                ? (ActionResult)new NoContentResult()
+                : BadRequest(new UpdateSolutionPluginsResult(validationResult));
         }
 
         private static string _plugIns;
 
         private static string _additionalInformation;
-
-    }
-
-    public class UpdateSolutionPlugInsViewModel {
-
-        [JsonProperty("plugins-required")]
-        public string PlugIns { get; set; }
-
-        [JsonProperty("plugins-detail")]
-        public string AdditionalInformation { get; set; }
     }
 }

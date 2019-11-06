@@ -10,5 +10,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Domain
         public HashSet<string> BrowsersSupported { get; set; } = new HashSet<string>();
 
         public bool? MobileResponsive { get; set; }
+
+        public Plugins Plugins { get; set; }
     }
 }

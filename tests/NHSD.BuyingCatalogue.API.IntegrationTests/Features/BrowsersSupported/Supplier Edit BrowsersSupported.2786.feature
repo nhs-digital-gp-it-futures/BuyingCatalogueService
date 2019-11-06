@@ -18,19 +18,19 @@ Background:
 @2786
 Scenario: 1. Browser Supported is updated
     Given MarketingDetail exist
-        | Solution | ClientApplication                                                                                                   |
-        | Sln1     | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false } |
-        | Sln3     |                                                                                                                     |
-        | Sln5     | {"MobileResponsive": false }                                                                                        |
+        | Solution | ClientApplication                                                                                                                    |
+        | Sln1     | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins": null } |
+        | Sln3     |                                                                                                                                      |
+        | Sln5     | {"MobileResponsive": false }                                                                                                         |
     When a PUT request is made to update solution Sln1 browsers-supported section
         | BrowsersSupported | MobileResponsive |
         | Chrome, Edge      | yes              |
     Then a successful response is returned
     And MarketingDetail exist
-        | Solution | ClientApplication                                                                                                   |
-        | Sln1     | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true} |
-        | Sln3     |                                                                                                                     |
-        | Sln5     | {"MobileResponsive": false }                                                                                        |
+        | Solution | ClientApplication                                                                                                                    |
+        | Sln1     | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true, "Plugins": null} |
+        | Sln3     |                                                                                                                                      |
+        | Sln5     | {"MobileResponsive": false }                                                                                                         |
 
 @2786
 Scenario: 2. Browsers Supported is empty, Mobile Responsive has a result

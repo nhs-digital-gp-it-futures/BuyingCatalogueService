@@ -4,6 +4,7 @@ using NHSD.BuyingCatalogue.Application.SolutionList.Persistence;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrowsersSupported;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionClientApplicationTypes;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures;
+using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionPlugins;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
 
 namespace NHSD.BuyingCatalogue.Application
@@ -23,6 +24,7 @@ namespace NHSD.BuyingCatalogue.Application
             serviceCollection.AddTransient<UpdateSolutionFeaturesValidator>();
             serviceCollection.AddTransient<UpdateSolutionClientApplicationTypesValidator>();
             serviceCollection.AddTransient<UpdateSolutionBrowsersSupportedValidator>();
+            serviceCollection.AddTransient<UpdateSolutionPluginsValidator>();
             return serviceCollection;
         }
     }
