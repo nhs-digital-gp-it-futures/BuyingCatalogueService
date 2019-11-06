@@ -36,7 +36,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Capabilities
             });
 
             var capabilities = await _context.ListCapabilitiesHandler.Handle(new ListCapabilitiesQuery(), new CancellationToken());
-            capabilities.Capabilities.Should().BeEquivalentTo(expectedCapabilities);
+            capabilities.Should().BeEquivalentTo(expectedCapabilities);
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Capabilities
             _context.MockCapabilityRepository.Setup(r => r.ListAsync(It.IsAny<CancellationToken>())).ReturnsAsync(new List<ICapabilityListResult>());
 
             var capabilities = await _context.ListCapabilitiesHandler.Handle(new ListCapabilitiesQuery(), new CancellationToken());
-            capabilities.Capabilities.Should().BeEmpty();
+            capabilities.Should().BeEmpty();
         }
 
         [Test]
