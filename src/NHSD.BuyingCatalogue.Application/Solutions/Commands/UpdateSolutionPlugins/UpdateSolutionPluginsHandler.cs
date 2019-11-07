@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using NHSD.BuyingCatalogue.Application.Persistence;
+using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionPlugins
 {
@@ -27,8 +28,11 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionPlug
             {
                 await _clientApplicationPartialUpdater.UpdateAsync(request.SolutionId, clientApplication =>
                 {
-                    clientApplication.Plugins.Required = MapRequired(request.UpdateSolutionPluginsViewModel.Required);
-                    clientApplication.Plugins.AdditionalInformation = request.UpdateSolutionPluginsViewModel.AdditionalInformation;
+                    clientApplication.Plugins = new Plugins()
+                    {
+                        Required = MapRequired(request.UpdateSolutionPluginsViewModel.Required),
+                        AdditionalInformation = request.UpdateSolutionPluginsViewModel.AdditionalInformation
+                    };
                 },
                     cancellationToken);
             }

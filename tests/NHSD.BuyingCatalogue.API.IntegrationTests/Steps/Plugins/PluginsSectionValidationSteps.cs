@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using FluentAssertions;
+using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using TechTalk.SpecFlow;
 
@@ -19,28 +20,31 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             _response = response;
         }
 
+        [Given(@"plug-ins is a string of (yes|no)")]
+        public void GivenPluginsIsBool(string field)
+        {
+            _context["required"] = field;
+        }
+
+        [Given(@"plug-ins is a string of null")]
+        public void GivenPluginIsNull()
+        {
+            GivenPluginsIsBool(null);
+        }
+
         [Given(@"additional-information is a string of (.*) characters")]
         public void GivenAdditionalInfoIsAStringOfCharacters(int length)
         {
-            _context["required"] = new string('a', length);
-        }
-
-        [Given(@"plug-ins is a string of (yes|no|null)")]
-        public void GivenPluginsIsNull(string field)
-        {
-            _context["additionalInfo"] = string.IsNullOrWhiteSpace(field) ? null : field;
+            _context["additionalInfo"] = new string('a', length);
         }
 
         [When(@"a PUT request is made to update solution (.*) plug-ins section")]
         public async Task WhenAPUTRequestIsMadeToUpdateSolutionSlnPlug_InsSection(string solutionId)
         {
-            var content = new
-            {
-                AdditionalInformation = _context["required"],
-                Required = _context["additionalInfo"]
-            };
+            var required = _context["required"]?.ToString();
+            var additionalInformation = _context["additionalInfo"].ToString();
 
-            _response.Result = await Client.PutAsJsonAsync(string.Format(PluginsUrl, solutionId), content);
+             _response.Result = await Client.PutAsJsonAsync(string.Format(PluginsUrl, solutionId), new PluginsPayload(){PluginsRequired = required, PluginsDetail = additionalInformation });
         }
 
         [Then(@"the plug-ins required field contains (.*)")]
@@ -55,6 +59,16 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         {
             var context = await _response.ReadBody();
             context.SelectToken("maxLength").ToString().Should().Contain(field);
+        }
+
+        private class PluginsPayload
+        {
+            [JsonProperty("plugins-required")]
+            public string PluginsRequired { get; set; }
+
+            [JsonProperty("plugins-detail")]
+            public string PluginsDetail { get; set; }
+
         }
     }
 }

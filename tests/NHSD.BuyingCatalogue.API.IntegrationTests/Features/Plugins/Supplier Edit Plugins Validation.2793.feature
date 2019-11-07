@@ -11,8 +11,8 @@ Background:
         | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | FullDescription     | SupplierStatusId |
         | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | Online medicine 1   | 1                |
     And MarketingDetail exist
-        | Solution | ClientApplication                                                                                                                                                                                   |
-        | Sln1     | { "PlugIns" : { "Required" : "yes", "AdditionalInformation": "orem ipsum…." }}, { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false } |  
+        | Solution | ClientApplication                                                                                                                                                                            |
+        | Sln1     | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum" } } | 
 
 @2793
 Scenario: 1. Required is empty. AdditionalInformation is valid

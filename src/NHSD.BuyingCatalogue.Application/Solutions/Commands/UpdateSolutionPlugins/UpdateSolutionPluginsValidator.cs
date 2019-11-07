@@ -1,4 +1,4 @@
-using System.Linq;
+using System;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionPlugins
 {
@@ -7,14 +7,18 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionPlug
         public UpdateSolutionPluginsValidationResult Validation(
             UpdateSolutionPluginsViewModel updateSolutionPluginsViewModel)
         {
+            if (updateSolutionPluginsViewModel == null)
+            {
+                throw new ArgumentNullException(nameof(updateSolutionPluginsViewModel));
+            }
+
             var validationResult = new UpdateSolutionPluginsValidationResult();
 
             if (string.IsNullOrWhiteSpace(updateSolutionPluginsViewModel.Required))
             {
                 validationResult.Required.Add("plugins-required");
             }
-
-            if (string.IsNullOrWhiteSpace(updateSolutionPluginsViewModel.AdditionalInformation))
+            if (updateSolutionPluginsViewModel.AdditionalInformation?.Length > 500)
             {
                 validationResult.MaxLength.Add("plugins-detail");
             }
