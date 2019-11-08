@@ -3,7 +3,7 @@ using NHSD.BuyingCatalogue.Contracts;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Domain
 {
-    internal class ClientApplication : IClientApplication
+    internal class ClientApplication
     {
         public HashSet<string> ClientApplicationTypes { get; set; } = new HashSet<string>();
 

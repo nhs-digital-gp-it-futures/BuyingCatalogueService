@@ -7,5 +7,6 @@ namespace NHSD.BuyingCatalogue.Contracts
         HashSet<string> ClientApplicationTypes { get; }
         HashSet<string> BrowsersSupported { get; }
         bool? MobileResponsive { get; }
+        IPlugins Plugins { get; }
     }
 }

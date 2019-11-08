@@ -32,6 +32,38 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
         /// <param name="cancellationToken">Token to cancel the request.</param>
         /// <returns>A task representing an operation to get the result of this query.</returns>
         public async Task<ISolution> Handle(GetSolutionByIdQuery request, CancellationToken cancellationToken)
-            => _mapper.Map<Solution, SolutionDto>(await _solutionReader.ByIdAsync(request.Id, cancellationToken));
+            => Map(await _solutionReader.ByIdAsync(request.Id, cancellationToken));
+
+        private ISolution Map(Solution solution)
+        {
+            return new SolutionDto
+            {
+                Id = solution.Id,
+                Name = solution.Name,
+                OrganisationName = solution.OrganisationName,
+                Description = solution.Description,
+                Summary = solution.Summary,
+                AboutUrl = solution.AboutUrl,
+                Features = solution.Features,
+                SupplierStatus = solution.SupplierStatus,
+                ClientApplication = Map(solution.ClientApplication)
+            };
+        }
+
+        private IClientApplication Map(ClientApplication clientApplication)
+        {
+            return new ClientApplicationDto
+            {
+                ClientApplicationTypes = clientApplication.ClientApplicationTypes,
+                BrowsersSupported = clientApplication.BrowsersSupported,
+                MobileResponsive = clientApplication.MobileResponsive,
+                Plugins = Map(clientApplication.Plugins)
+            };
+        }
+
+        private IPlugins Map(Plugins plugins)
+        {
+            return plugins != null ? new PluginsDto { Required = plugins.Required, AdditionalInformation = plugins.AdditionalInformation } : null;
+        }
     }
 }

@@ -71,7 +71,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
             return result;
         }
 
-        private ValidationResult ValidateSupportedBrowsers(IClientApplication clientApplication)
+        private ValidationResult ValidateSupportedBrowsers(ClientApplication clientApplication)
         {
             ValidationResult result = new ValidationResult();
 
@@ -83,7 +83,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
             return result;
         }
 
-        private ValidationResult ValidateMobileResponsive(IClientApplication clientApplication)
+        private ValidationResult ValidateMobileResponsive(ClientApplication clientApplication)
         {
             ValidationResult result = new ValidationResult();
 

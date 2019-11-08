@@ -6,6 +6,8 @@ using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Application.Capabilities.Domain;
 using NHSD.BuyingCatalogue.Application.Solutions.Domain;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Contracts;
 
 namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
 {
@@ -31,8 +33,9 @@ namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
             CreateMap<UpdateSolutionFeaturesViewModel, Solution>()
                 .ForMember(destination => destination.Features, options => options.MapFrom(source => source.Listing));
 
-            CreateMap<Solution, SolutionDto>();
+
             CreateMap<ClientApplication, ClientApplicationDto>();
+            CreateMap<Solution, SolutionDto>();
         }
     }
 }

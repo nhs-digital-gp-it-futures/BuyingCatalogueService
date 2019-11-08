@@ -12,6 +12,7 @@ using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 using NUnit.Framework;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests.Infrastructure.Mapping
 {
