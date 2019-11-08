@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using MediatR;
-
+using NHSD.BuyingCatalogue.Contracts.SolutionList;
 
 namespace NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions
 {
     /// <summary>
     /// Represents the query paramters for the get all solutions request.
     /// </summary>
-    public sealed class ListSolutionsQuery : IRequest<ListSolutionsResult>
+    public sealed class ListSolutionsQuery : IRequest<ISolutionList>
     {
         /// <summary>
         /// Gets the filter criteria for this query.
@@ -18,13 +18,7 @@ namespace NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions
         /// <summary>
         /// A list of capability Ids with no duplicates.
         /// </summary>
-        public ISet<Guid> CapabilityIdList
-        {
-            get
-            {
-                return Filter.Capabilities;
-            }
-        }
+        public ISet<Guid> CapabilityIdList => Filter.Capabilities;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="ListSolutionsQuery"/> class.
@@ -38,9 +32,6 @@ namespace NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions
         /// Initialises a new instance of the <see cref="ListSolutionsQuery"/> class.
         /// </summary>
         /// <param name="capabilityIdList">List of capability identifiers to filter on.</param>
-        public ListSolutionsQuery(ListSolutionsFilter filter)
-        {
-            Filter = filter ?? throw new System.ArgumentNullException(nameof(filter));
-        }
+        public ListSolutionsQuery(ListSolutionsFilter filter) => Filter = filter ?? throw new System.ArgumentNullException(nameof(filter));
     }
 }

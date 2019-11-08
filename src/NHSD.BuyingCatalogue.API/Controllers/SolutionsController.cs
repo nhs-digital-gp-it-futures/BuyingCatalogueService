@@ -40,7 +40,7 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<ListSolutionsResult>> ListAsync()
         {
-            return Ok(await _mediator.Send(new ListSolutionsQuery()));
+            return Ok(new ListSolutionsResult(await _mediator.Send(new ListSolutionsQuery())));
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<ListSolutionsResult>> ListByFilterAsync([FromBody][Required]ListSolutionsFilter filter)
         {
-            return Ok(await _mediator.Send(new ListSolutionsQuery(filter)));
+            return Ok(new ListSolutionsResult(await _mediator.Send(new ListSolutionsQuery(filter))));
         }
 
         /// <summary>

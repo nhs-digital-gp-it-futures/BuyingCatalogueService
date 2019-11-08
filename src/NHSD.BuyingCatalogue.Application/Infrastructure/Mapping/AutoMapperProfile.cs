@@ -22,7 +22,10 @@ namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
         /// </summary>
         public AutoMapperProfile()
         {
+            CreateMap<SolutionList.Domain.SolutionList, SolutionListDto>();
+            CreateMap<SolutionList.Domain.SolutionList, ISolutionList>().As<SolutionListDto>();
             CreateMap<SolutionListItem, SolutionSummaryDto>();
+            CreateMap<SolutionListItem, ISolutionSummary>().As<SolutionSummaryDto>();
             CreateMap<SolutionListItemCapability, SolutionCapabilityDto>();
             CreateMap<SolutionListItemCapability, ISolutionCapability>().As<SolutionCapabilityDto>();
             CreateMap<SolutionListItemOrganisation, SolutionOrganisationDto>();
@@ -32,11 +35,8 @@ namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
 
             CreateMap<UpdateSolutionSummaryViewModel, Solution>()
                 .ForMember(destination => destination.AboutUrl, options => options.MapFrom(source => source.Link));
-
             CreateMap<UpdateSolutionFeaturesViewModel, Solution>()
                 .ForMember(destination => destination.Features, options => options.MapFrom(source => source.Listing));
-
-
             CreateMap<ClientApplication, ClientApplicationDto>();
             CreateMap<Solution, SolutionDto>();
         }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using NHSD.BuyingCatalogue.Contracts.SolutionList;
 
-namespace NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions
+namespace NHSD.BuyingCatalogue.API.ViewModels
 {
     /// <summary>
     /// Represents the result for the <see cref="ListSolutionsQuery"/>.
@@ -16,6 +16,6 @@ namespace NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions
         /// <summary>
         /// Initialises a new instance of the <see cref="ListSolutionsResult"/> class.
         /// </summary>
-        public ListSolutionsResult(IEnumerable<ISolutionSummary> solutions) => Solutions = solutions;
+        public ListSolutionsResult(ISolutionList solutionList) => Solutions = solutionList.Solutions;
     }
 }

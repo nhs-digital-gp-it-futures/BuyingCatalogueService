@@ -30,6 +30,9 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Infrastructure.Mapping
 
         public static IEnumerable<KeyValuePair<Type, Type>> SupportedMappings()
         {
+            yield return new KeyValuePair<Type, Type>(typeof(SolutionList.Domain.SolutionList), typeof(SolutionListDto));
+            yield return new KeyValuePair<Type, Type>(typeof(SolutionList.Domain.SolutionList), typeof(ISolutionList));
+            yield return new KeyValuePair<Type, Type>(typeof(SolutionListItem), typeof(ISolutionSummary));
             yield return new KeyValuePair<Type, Type>(typeof(SolutionListItem), typeof(SolutionSummaryDto));
             yield return new KeyValuePair<Type, Type>(typeof(SolutionListItemCapability), typeof(SolutionCapabilityDto));
             yield return new KeyValuePair<Type, Type>(typeof(SolutionListItemOrganisation), typeof(SolutionOrganisationDto));
@@ -39,7 +42,6 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Infrastructure.Mapping
             yield return new KeyValuePair<Type, Type>(typeof(Capability), typeof(CapabilityDto));
 
             yield return new KeyValuePair<Type, Type>(typeof(UpdateSolutionSummaryViewModel), typeof(Solution));
-
             yield return new KeyValuePair<Type, Type>(typeof(UpdateSolutionFeaturesViewModel), typeof(Solution));
             yield return new KeyValuePair<Type, Type>(typeof(Solution), typeof(SolutionDto));
             yield return new KeyValuePair<Type, Type>(typeof(ClientApplication), typeof(ClientApplicationDto));

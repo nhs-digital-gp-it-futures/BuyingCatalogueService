@@ -1,6 +1,5 @@
 using System.Linq;
 using Newtonsoft.Json;
-using NHSD.BuyingCatalogue.Contracts;
 using NHSD.BuyingCatalogue.Contracts.Solutions;
 
 namespace NHSD.BuyingCatalogue.API.ViewModels
