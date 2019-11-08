@@ -13,6 +13,7 @@ using NUnit.Framework;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Contracts.SolutionList;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests.Infrastructure.Mapping
 {
@@ -29,9 +30,11 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Infrastructure.Mapping
 
         public static IEnumerable<KeyValuePair<Type, Type>> SupportedMappings()
         {
-            yield return new KeyValuePair<Type, Type>(typeof(SolutionListItem), typeof(SolutionSummaryViewModel));
-            yield return new KeyValuePair<Type, Type>(typeof(SolutionListItemCapability), typeof(SolutionCapabilityViewModel));
-            yield return new KeyValuePair<Type, Type>(typeof(SolutionListItemOrganisation), typeof(SolutionOrganisationViewModel));
+            yield return new KeyValuePair<Type, Type>(typeof(SolutionListItem), typeof(SolutionSummaryDto));
+            yield return new KeyValuePair<Type, Type>(typeof(SolutionListItemCapability), typeof(SolutionCapabilityDto));
+            yield return new KeyValuePair<Type, Type>(typeof(SolutionListItemOrganisation), typeof(SolutionOrganisationDto));
+            yield return new KeyValuePair<Type, Type>(typeof(SolutionListItemCapability), typeof(ISolutionCapability));
+            yield return new KeyValuePair<Type, Type>(typeof(SolutionListItemOrganisation), typeof(ISolutionOrganisation));
 
             yield return new KeyValuePair<Type, Type>(typeof(Capability), typeof(CapabilityDto));
 

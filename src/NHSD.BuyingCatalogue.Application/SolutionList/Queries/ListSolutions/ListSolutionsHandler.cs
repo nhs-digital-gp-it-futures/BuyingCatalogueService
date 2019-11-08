@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using NHSD.BuyingCatalogue.Application.Persistence;
 using NHSD.BuyingCatalogue.Application.SolutionList.Persistence;
 
 namespace NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions
@@ -35,7 +34,7 @@ namespace NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions
         {
             var solutionList = await _solutionListReader.ListAsync(request.CapabilityIdList, cancellationToken).ConfigureAwait(false);
 
-            return new ListSolutionsResult(_mapper.Map<IEnumerable<SolutionSummaryViewModel>>(solutionList));
+            return new ListSolutionsResult(_mapper.Map<IEnumerable<SolutionSummaryDto>>(solutionList));
         }
     }
 }
