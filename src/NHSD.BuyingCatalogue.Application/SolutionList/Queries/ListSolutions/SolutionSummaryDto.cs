@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using NHSD.BuyingCatalogue.Contracts.SolutionList;
 
 namespace NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions
 {
     /// <summary>
     /// Represents the data to summarize a <see cref="Solution"/> entity and associated relationships.
     /// </summary>
-    public sealed class SolutionSummaryViewModel
+    internal sealed class SolutionSummaryDto : ISolutionSummary
     {
         /// <summary>
         /// Identifier of the solution.
@@ -25,11 +26,11 @@ namespace NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions
         /// <summary>
         /// Details of the organisation associated with the solution.
         /// </summary>
-        public SolutionOrganisationViewModel Organisation { get; set; }
+        public ISolutionOrganisation Organisation { get; set; }
 
         /// <summary>
         /// List of capabilities linked with the solution.
         /// </summary>
-        public IEnumerable<SolutionCapabilityViewModel> Capabilities { get; set; }
+        public IEnumerable<ISolutionCapability> Capabilities { get; set; }
     }
 }

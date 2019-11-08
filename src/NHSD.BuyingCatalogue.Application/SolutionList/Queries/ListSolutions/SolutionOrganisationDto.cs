@@ -1,9 +1,11 @@
+using NHSD.BuyingCatalogue.Contracts.SolutionList;
+
 namespace NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions
 {
     /// <summary>
     /// Represents the details of an organisation specific for the view.
     /// </summary>
-    public sealed class SolutionOrganisationViewModel
+    internal sealed class SolutionOrganisationDto : ISolutionOrganisation
     {
         /// <summary>
         /// Identifier of organisation.

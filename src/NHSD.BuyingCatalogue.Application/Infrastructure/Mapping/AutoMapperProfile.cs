@@ -8,6 +8,7 @@ using NHSD.BuyingCatalogue.Application.Capabilities.Domain;
 using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Contracts;
+using NHSD.BuyingCatalogue.Contracts.SolutionList;
 
 namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
 {
@@ -21,9 +22,11 @@ namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
         /// </summary>
         public AutoMapperProfile()
         {
-            CreateMap<SolutionListItem, SolutionSummaryViewModel>();
-            CreateMap<SolutionListItemCapability, SolutionCapabilityViewModel>();
-            CreateMap<SolutionListItemOrganisation, SolutionOrganisationViewModel>();
+            CreateMap<SolutionListItem, SolutionSummaryDto>();
+            CreateMap<SolutionListItemCapability, SolutionCapabilityDto>();
+            CreateMap<SolutionListItemCapability, ISolutionCapability>().As<SolutionCapabilityDto>();
+            CreateMap<SolutionListItemOrganisation, SolutionOrganisationDto>();
+            CreateMap<SolutionListItemOrganisation, ISolutionOrganisation>().As<SolutionOrganisationDto>();
 
             CreateMap<Capability, CapabilityDto>();
 

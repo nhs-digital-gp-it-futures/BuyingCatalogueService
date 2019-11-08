@@ -10,6 +10,7 @@ using NHSD.BuyingCatalogue.API.Controllers;
 using NHSD.BuyingCatalogue.API.ViewModels;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Contracts;
+using NHSD.BuyingCatalogue.Contracts.Solutions;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.API.UnitTests

@@ -1,86 +1,43 @@
 using System;
 using System.Collections.Generic;
+using NHSD.BuyingCatalogue.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Application.SolutionList.Domain
 {
     internal sealed class SolutionListItem
     {
-        private readonly HashSet<SolutionListItemCapability> _capabilities = new HashSet<SolutionListItemCapability>();
-
         /// <summary>
         /// Unique ID of the entity.
         /// </summary>
-        public string Id { get; set; }
+        public string Id { get; }
 
         /// <summary>
         /// Name of the solution, as displayed to a user.
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; }
 
         /// <summary>
         /// Summary of the solution, as displayed to a user.
         /// </summary>
-        public string Summary { get; set; }
+        public string Summary { get; }
 
-        /// <summary>x
+        /// <summary>
         /// Associated organisation.
         /// </summary>
-        public SolutionListItemOrganisation Organisation { get; set; }
+        public SolutionListItemOrganisation Organisation { get; }
 
         /// <summary>
         /// A list of capabilities associated with the solution.
         /// </summary>
-        public IReadOnlyCollection<SolutionListItemCapability> Capabilities
+        public HashSet<SolutionListItemCapability> Capabilities { get; }
+
+        public SolutionListItem(ISolutionListResult item)
         {
-            get
-            {
-                return _capabilities;
-            }
+            Id = item.SolutionId;
+            Name = item.SolutionName;
+            Summary = item.SolutionSummary;
+            Organisation = new SolutionListItemOrganisation(item);
+            Capabilities = new HashSet<SolutionListItemCapability>();
         }
-
-        /// <summary>
-        /// Adds the specified capability.
-        /// </summary>
-        /// <param name="capability">The details of a <see cref="SolutionListItemCapability"/>.</param>
-        public void AddCapability(SolutionListItemCapability capability)
-        {
-            if (capability is null)
-            {
-                throw new ArgumentNullException(nameof(capability));
-            }
-
-            _capabilities.Add(capability);
-        }
-    }
-
-    internal sealed class SolutionListItemCapability
-    {
-        /// <summary>
-        /// Identifier of the capability.
-        /// </summary>
-        public Guid Id { get; set; }
-
-        /// <summary>
-        /// Name of the capability.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Description of the capability.
-        /// </summary>
-        public string Description { get; set; }
-    }
-
-    internal sealed class SolutionListItemOrganisation
-    {
-        /// <summary>
-        /// Identifier of the organisation.
-        /// </summary>
-        public string Id { get; set; }
-
-        /// <summary>
-        /// Name of the organisation.
-        /// </summary>
-        public string Name { get; set; }
     }
 }

@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Application.SolutionList.Domain;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
-using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 
 namespace NHSD.BuyingCatalogue.Application.SolutionList.Persistence
 {
@@ -28,11 +26,7 @@ namespace NHSD.BuyingCatalogue.Application.SolutionList.Persistence
                 throw new System.ArgumentNullException(nameof(capabilityIdList));
             }
 
-            var solutionList = (await _solutionRepository.ListAsync(cancellationToken).ConfigureAwait(false)).Map();
-
-            return capabilityIdList.Any() ?
-                solutionList.Where(solution => capabilityIdList.Intersect(solution.Capabilities.Select(capability => capability.Id)).Count() == capabilityIdList.Count()) :
-                solutionList;
+            return new Domain.SolutionList(capabilityIdList, await _solutionRepository.ListAsync(cancellationToken).ConfigureAwait(false)).SolutionListItems;
         }
     }
 }

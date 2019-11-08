@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.API.Controllers;
 using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
+using NHSD.BuyingCatalogue.Contracts.SolutionList;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.API.UnitTests
@@ -29,7 +30,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         [Test]
         public async Task ShouldListSolutions()
         {
-            var expected = new ListSolutionsResult(new SolutionSummaryViewModel[0]);
+            var expected = new ListSolutionsResult(new ISolutionSummary[0]);
 
             _mockMediator.Setup(m => m.Send(It.IsAny<ListSolutionsQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(expected);
@@ -45,7 +46,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         public async Task ShouldListSolutionsByFilter()
         {
             var filter = new ListSolutionsFilter() { Capabilities = { Guid.Empty } };
-            var expected = new ListSolutionsResult(new SolutionSummaryViewModel[0]);
+            var expected = new ListSolutionsResult(new ISolutionSummary[0]);
 
             _mockMediator.Setup(m => m.Send(It.IsAny<ListSolutionsQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(expected);
