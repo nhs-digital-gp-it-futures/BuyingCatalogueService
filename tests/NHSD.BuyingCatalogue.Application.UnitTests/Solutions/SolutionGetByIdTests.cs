@@ -30,7 +30,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Summary).Returns("Summary");
             existingSolution.Setup(s => s.AboutUrl).Returns("AboutUrl");
             existingSolution.Setup(s => s.Features).Returns("[ 'Marmite', 'Jam', 'Marmelade' ]");
-            existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true }");
+            existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' } }");
             existingSolution.Setup(s => s.OrganisationName).Returns("OrganisationName");
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
@@ -47,6 +47,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.ClientApplication.ClientApplicationTypes.Should().BeEquivalentTo(new[] { "browser-based", "native-mobile" });
             solution.ClientApplication.BrowsersSupported.Should().BeEquivalentTo(new[] { "Chrome", "Edge" });
             solution.ClientApplication.MobileResponsive.Should().BeTrue();
+            solution.ClientApplication.Plugins.Required.Should().BeTrue();
+            solution.ClientApplication.Plugins.AdditionalInformation.Should().Be("orem ipsum");
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -79,6 +81,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.ClientApplication.ClientApplicationTypes.Should().BeEmpty();
             solution.ClientApplication.BrowsersSupported.Should().BeEmpty();
             solution.ClientApplication.MobileResponsive.Should().BeNull();
+            solution.ClientApplication.Plugins.Should().BeNull();
 
             solution.OrganisationName.Should().BeNull();
 
@@ -113,7 +116,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.ClientApplication.ClientApplicationTypes.Should().BeEmpty();
             solution.ClientApplication.BrowsersSupported.Should().BeEmpty();
             solution.ClientApplication.MobileResponsive.Should().BeNull();
-
+            solution.ClientApplication.Plugins.Should().BeNull();
+            
             solution.OrganisationName.Should().Be("OrganisationName");
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
@@ -159,7 +163,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Summary).Returns((string)null);
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
             existingSolution.Setup(s => s.Features).Returns((string)null);
-            existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true }");
+            existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : false, 'AdditionalInformation': null } }");
             existingSolution.Setup(s => s.OrganisationName).Returns("OrganisationName");
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
@@ -177,6 +181,9 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.ClientApplication.ClientApplicationTypes.Should().BeEquivalentTo(new[] { "browser-based", "native-mobile" });
             solution.ClientApplication.BrowsersSupported.Should().BeEquivalentTo(new[] { "Chrome", "Edge" });
             solution.ClientApplication.MobileResponsive.Should().BeTrue();
+
+            solution.ClientApplication.Plugins.Required.Should().BeFalse();
+            solution.ClientApplication.Plugins.AdditionalInformation.Should().BeNull();
 
             solution.OrganisationName.Should().Be("OrganisationName");
 
