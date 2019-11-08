@@ -42,7 +42,7 @@ namespace NHSD.BuyingCatalogue.API.Controllers
             //return Ok(new GetPlugInsResult { PlugIns = _plugIns, AdditionalInformation = _additionalInformation });
 
             var solution = await _mediator.Send(new GetSolutionByIdQuery(id));
-            return solution == null ? (ActionResult)new NotFoundResult() : Ok(new GetPlugInsResult() { PlugIns = _plugIns, AdditionalInformation = _additionalInformation });
+            return solution == null ? (ActionResult)new NotFoundResult() : Ok(new GetPlugInsResult(solution.ClientApplication.Plugins));
         }
 
         /// <summary>

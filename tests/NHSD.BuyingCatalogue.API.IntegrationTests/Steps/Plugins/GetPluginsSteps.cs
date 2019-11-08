@@ -32,10 +32,17 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         }
 
         [Then(@"the addition-information string is (.*)")]
-        public async Task ThenTheAddition_InformationElementIs(string additional_information)
+        public async Task ThenTheAdditionInformationElementIs(string additional_information)
         {
             var content = await _response.ReadBody();
             content.SelectToken("plugins-detail").Value<string>().Should().Be(additional_information);
+        }
+
+        [Then(@"the addition-information string value null")]
+        public async Task ThenTheAdditionInformationElementIsNull()
+        {
+            var content = await _response.ReadBody();
+            content.SelectToken("plugins-detail").Should().BeNull();
         }
     }
 }
