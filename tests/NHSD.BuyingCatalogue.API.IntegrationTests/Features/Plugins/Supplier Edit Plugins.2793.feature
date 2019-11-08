@@ -1,5 +1,3 @@
-@ignore
-
 Feature:  Supplier Edit Plugins
     As a Supplier
     I want to Edit the Plugins Section
@@ -17,15 +15,16 @@ Background:
 @2786
 Scenario: 1. Plugins is updated
     Given MarketingDetail exist
-        | Solution | ClientApplication                                                                                                                                                                                   |
-        | Sln1     | { "PlugIns" : { "Required" : "yes", "AdditionalInformation": "orem ipsum…." }}, { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false } |
+        | Solution | ClientApplication                                                                                                                                                                             |
+        | Sln1     | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : false, "AdditionalInformation": "orem ipsum" } } |
     When a PUT request is to update solution Sln1 plug-ins section
         | Required | AdditionalInformation     |
-        | no       | This is extra information |
+        | yes      | This is extra information |
     Then a successful response is returned
     And MarketingDetail exist
-        | Solution | ClientApplication                                                                                                                                                                                               |
-        | Sln1     | { "PlugIns" : { "Required" : "no", "AdditionalInformation": "This is extra information" }}, { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false } |
+        | Solution | ClientApplication                                                                                                                                                                                            |
+        | Sln1     | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : { "Required" : true , "AdditionalInformation": "This is extra information"} } |
+
                                                                                                                                                                              
 @2786
 Scenario: 2. Solution is not found
@@ -38,7 +37,7 @@ Scenario: 2. Solution is not found
 @2786
 Scenario: 3. Service Failure
     Given the call to the database to set the field will fail
-    When a PUT request is made to update solution Sln4 plug-ins section
+    When a PUT request is to update solution Sln1 plug-ins section
         | Required | AdditionalInformation     |
         | no       | This is extra information |
     Then a response status of 500 is returned
