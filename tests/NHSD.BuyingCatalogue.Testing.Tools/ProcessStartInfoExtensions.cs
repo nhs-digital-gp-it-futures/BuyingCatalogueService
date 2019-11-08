@@ -34,7 +34,7 @@ namespace NHSD.BuyingCatalogue.Testing.Tools
                 string data = eventArgs.Data;
                 if (data is object)
                 {
-                    SendMesasge(data, onOutputMessage);
+                    SendMessage(data, onOutputMessage);
                 }
             };
 
@@ -43,7 +43,7 @@ namespace NHSD.BuyingCatalogue.Testing.Tools
                 string data = eventArgs.Data;
                 if (data is object)
                 {
-                    SendMesasge(data, onErrorMessage ?? onOutputMessage);
+                    SendMessage(data, onErrorMessage ?? onOutputMessage);
                 }
             };
 
@@ -55,7 +55,7 @@ namespace NHSD.BuyingCatalogue.Testing.Tools
             return await task.Task.ConfigureAwait(false);
         }
 
-        private static void SendMesasge(string line, Action<string> action)
+        private static void SendMessage(string line, Action<string> action)
         {
             action?.Invoke(string.IsNullOrWhiteSpace(line) ? line : line.TrimEnd());
         }

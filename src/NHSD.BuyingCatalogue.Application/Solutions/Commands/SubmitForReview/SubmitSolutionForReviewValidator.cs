@@ -1,8 +1,6 @@
 using System;
 using System.Linq;
 using NHSD.BuyingCatalogue.Application.Solutions.Domain;
-using NHSD.BuyingCatalogue.Contracts;
-using NHSD.BuyingCatalogue.Contracts.Solutions;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
 {
@@ -66,7 +64,8 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
             if (clientApplication != null && clientApplication.ClientApplicationTypes.Contains("browser-based"))
             {
                 result.Add(ValidateSupportedBrowsers(clientApplication))
-                      .Add(ValidateMobileResponsive(clientApplication));
+                      .Add(ValidateMobileResponsive(clientApplication))
+                      .Add(ValidateClientApplicationPlugins(clientApplication.Plugins));
             }
 
             return result;
@@ -91,6 +90,27 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
             if (!clientApplication.MobileResponsive.HasValue)
             {
                 result.Add(SubmitSolutionForReviewErrors.MobileResponsiveIsRequired);
+            }
+
+            return result;
+        }
+
+        private ValidationResult ValidateClientApplicationPlugins(Plugins clientApplicationPlugins)
+        {
+            ValidationResult result = new ValidationResult();
+
+            result.Add(ValidatePluginRequirement(clientApplicationPlugins));
+
+            return result;
+        }
+
+        private ValidationResult ValidatePluginRequirement(Plugins clientApplicationPlugins)
+        {
+            ValidationResult result = new ValidationResult();
+
+            if (clientApplicationPlugins?.Required == null)
+            {
+                result.Add(SubmitSolutionForReviewErrors.PluginRequirementIsRequired);
             }
 
             return result;
