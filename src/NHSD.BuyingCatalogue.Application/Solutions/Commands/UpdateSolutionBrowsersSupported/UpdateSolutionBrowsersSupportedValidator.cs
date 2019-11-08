@@ -11,7 +11,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrow
 
             if (!updateSolutionBrowsersSupportedViewModel.BrowsersSupported.Any())
             {
-                validationResult.Required.Add("browsers-supported");
+                validationResult.Required.Add("supported-browsers");
             }
 
             if (string.IsNullOrWhiteSpace(updateSolutionBrowsersSupportedViewModel.MobileResponsive))

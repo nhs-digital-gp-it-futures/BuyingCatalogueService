@@ -43,7 +43,7 @@ Scenario: 2. Browsers Supported is empty, Mobile Responsive has a result
         | BrowsersSupported | MobileResponsive |
         |                   | true             |
     Then a response status of 400 is returned
-    And the browser-based required field contains browsers-supported
+    And the browser-based required field contains supported-browsers
      And Solutions exist
         | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | FullDescription     | SupplierStatusId |
         | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | Online medicine 1   | 1                |
@@ -91,7 +91,7 @@ Scenario: 4. Browsers Supported & Mobile Responsive are empty
         | BrowsersSupported | MobileResponsive |
         |                   |                  |
     Then a response status of 400 is returned
-    And the browser-based required field contains browsers-supported
+    And the browser-based required field contains supported-browsers
     And the browser-based required field contains mobile-responsive
     And Solutions exist
         | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | FullDescription     | SupplierStatusId |

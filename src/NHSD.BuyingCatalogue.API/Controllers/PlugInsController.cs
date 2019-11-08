@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.API.ViewModels;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionPlugins;
+using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 
 namespace NHSD.BuyingCatalogue.API.Controllers
 {
@@ -38,10 +39,10 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         public async Task<ActionResult> GetPlugInsAsync([FromRoute][Required]string id)
         {
             //Canned data
-            return Ok(new GetPlugInsResult { PlugIns = _plugIns, AdditionalInformation = _additionalInformation });
+            //return Ok(new GetPlugInsResult { PlugIns = _plugIns, AdditionalInformation = _additionalInformation });
 
-            //var solution = await _mediator.Send(new GetSolutionByIdQuery(id));
-            //return solution == null ? (ActionResult)new NotFoundResult() : Ok(new GetPlugInsResult() { PlugIns = _plugIns, AdditionalInformation = _additionalInformation });
+            var solution = await _mediator.Send(new GetSolutionByIdQuery(id));
+            return solution == null ? (ActionResult)new NotFoundResult() : Ok(new GetPlugInsResult() { PlugIns = _plugIns, AdditionalInformation = _additionalInformation });
         }
 
         /// <summary>

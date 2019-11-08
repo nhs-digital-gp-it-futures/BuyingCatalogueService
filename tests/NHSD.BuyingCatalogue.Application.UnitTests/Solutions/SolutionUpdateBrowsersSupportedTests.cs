@@ -69,7 +69,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             var validationResult = await UpdateBrowsersSupported(new HashSet<string>());
             validationResult.IsValid.Should().BeFalse();
-            validationResult.Required.Should().BeEquivalentTo(new[] {"browsers-supported", "mobile-responsive"});
+            validationResult.Required.Should().BeEquivalentTo(new[] { "supported-browsers", "mobile-responsive"});
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
 

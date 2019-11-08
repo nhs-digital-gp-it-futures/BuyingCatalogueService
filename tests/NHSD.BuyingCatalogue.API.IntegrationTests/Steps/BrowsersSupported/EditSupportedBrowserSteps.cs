@@ -34,7 +34,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             await WhenAPUTRequestIsMadeToUpdateSolutionSlnBrowsers_SupportedSection(" ", table);
         }
 
-        [Then(@"the browser-based required field contains (browsers-supported|mobile-responsive)")]
+        [Then(@"the browser-based required field contains (supported-browsers|mobile-responsive)")]
         public async Task ThenTheBrowser_BasedRequiredFieldContainsBrowsers_Supported(string field)
         {
             var content = await _response.ReadBody();
