@@ -49,6 +49,11 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
         {
             return clientApplication?.BrowsersSupported?.Any() == true && clientApplication?.MobileResponsive.HasValue == true;
         }
+
+        private bool IsPluginsComplete(IPlugins plugins)
+        {
+            return plugins?.Required.HasValue == true;
+        }
     }
 
     public class BrowserBasedDashboardSection
