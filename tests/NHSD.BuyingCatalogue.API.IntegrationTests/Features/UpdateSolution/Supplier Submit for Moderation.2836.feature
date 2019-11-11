@@ -15,7 +15,7 @@ Scenario: 1. Solution successfully submitted for review
         | Sln1       | MedicOnline  | An full online medicine system | GPs-R-Us         | 1                |
     And MarketingDetail exist
         | Solution | ClientApplication                                                                                          |
-        | Sln1     | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true } |
+        | Sln1     | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true, "Plugins": { "Required": false } } |
     When a request is made to submit Solution Sln1 for review
     Then a response status of 204 is returned
 
@@ -44,8 +44,8 @@ Scenario: 5. Solution failed on submit for review due to missing Solution summar
         | SolutionID | SolutionName | SummaryDescription | OrganisationName | SupplierStatusId |
         | Sln1       | MedicOnline  |                    | GPs-R-Us         | 1                |
     And MarketingDetail exist
-        | Solution | ClientApplication                                                                                            |
-        | Sln1     | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true } |
+        | Solution | ClientApplication                                                                                                                             |
+        | Sln1     | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true, "Plugins": { "Required": false } } |
     When a request is made to submit Solution Sln1 for review
     Then a response status of 400 is returned
     And the response details of the submit Solution for review request are as follows
@@ -70,8 +70,8 @@ Scenario: 7. Solution failed on submit for review due to missing browsers suppor
         | SolutionID | SolutionName | SummaryDescription             | OrganisationName | SupplierStatusId |
         | Sln1       | MedicOnline  | An full online medicine system | GPs-R-Us         | 1                |
     And MarketingDetail exist
-        | Solution | ClientApplication                                                                                   |
-        | Sln1     | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [], "MobileResponsive": true } |
+        | Solution | ClientApplication                                                                                  |
+        | Sln1     | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [], "MobileResponsive": true, "Plugins": { "Required": false } } |
     When a request is made to submit Solution Sln1 for review
     Then a response status of 400 is returned
     And the response details of the submit Solution for review request are as follows
@@ -83,8 +83,21 @@ Scenario: 8. Solution failed on submit for review due to missing mobile responsi
         | SolutionID | SolutionName | SummaryDescription             | OrganisationName | SupplierStatusId |
         | Sln1       | MedicOnline  | An full online medicine system | GPs-R-Us         | 1                |
     And MarketingDetail exist
-         | Solution | ClientApplication                                                                 |
-         | Sln1     | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"] } |
+         | Solution | ClientApplication                                                                                                   |
+         | Sln1     | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "Plugins": { "Required": false } } |
+    When a request is made to submit Solution Sln1 for review
+    Then a response status of 400 is returned
+    And the response details of the submit Solution for review request are as follows
+        | Property | InvalidSections |
+        | required | browser-based   |
+
+Scenario: 9. Solution failed on submit for review due to missing plugin requirement
+    Given Solutions exist
+        | SolutionID | SolutionName | SummaryDescription             | OrganisationName | SupplierStatusId |
+        | Sln1       | MedicOnline  | An full online medicine system | GPs-R-Us         | 1                |
+    And MarketingDetail exist
+         | Solution | ClientApplication                                                                                           |
+         | Sln1     | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true } |
     When a request is made to submit Solution Sln1 for review
     Then a response status of 400 is returned
     And the response details of the submit Solution for review request are as follows

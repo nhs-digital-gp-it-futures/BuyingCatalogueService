@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using NHSD.BuyingCatalogue.Application.SolutionList.Domain;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Application.SolutionList.Persistence
@@ -19,14 +18,14 @@ namespace NHSD.BuyingCatalogue.Application.SolutionList.Persistence
             _solutionRepository = solutionRepository;
         }
 
-        public async Task<IEnumerable<SolutionListItem>> ListAsync(ISet<Guid> capabilityIdList, CancellationToken cancellationToken)
+        public async Task<Domain.SolutionList> ListAsync(ISet<Guid> capabilityIdList, CancellationToken cancellationToken)
         {
             if (capabilityIdList is null)
             {
                 throw new System.ArgumentNullException(nameof(capabilityIdList));
             }
 
-            return new Domain.SolutionList(capabilityIdList, await _solutionRepository.ListAsync(cancellationToken).ConfigureAwait(false)).SolutionListItems;
+            return new Domain.SolutionList(capabilityIdList, await _solutionRepository.ListAsync(cancellationToken).ConfigureAwait(false));
         }
     }
 }

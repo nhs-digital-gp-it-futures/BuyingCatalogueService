@@ -16,6 +16,7 @@ using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Contracts;
 using NHSD.BuyingCatalogue.Contracts.Capability;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Contracts.SolutionList;
 using NHSD.BuyingCatalogue.Contracts.Solutions;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests
@@ -58,7 +59,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             serviceCollection.RegisterApplication();
 
             serviceCollection.AddTransient<IRequestHandler<ListCapabilitiesQuery, IEnumerable<ICapability>>, ListCapabilitiesHandler>();
-            serviceCollection.AddTransient<IRequestHandler<ListSolutionsQuery, ListSolutionsResult>, ListSolutionsHandler>();
+            serviceCollection.AddTransient<IRequestHandler<ListSolutionsQuery, ISolutionList>, ListSolutionsHandler>();
             serviceCollection.AddTransient<IRequestHandler<GetSolutionByIdQuery, ISolution>, GetSolutionByIdHandler>();
             serviceCollection.AddTransient<IRequestHandler<UpdateSolutionSummaryCommand, UpdateSolutionSummaryValidationResult>, UpdateSolutionSummaryHandler>();
             serviceCollection.AddTransient<IRequestHandler<UpdateSolutionFeaturesCommand, UpdateSolutionFeaturesValidationResult>, UpdateSolutionFeaturesHandler>();
@@ -93,7 +94,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
         {
             public IRequestHandler<ListCapabilitiesQuery, IEnumerable<ICapability>> ListCapabilitiesHandler { get; }
 
-            public IRequestHandler<ListSolutionsQuery, ListSolutionsResult> ListSolutionsHandler { get; }
+            public IRequestHandler<ListSolutionsQuery, ISolutionList> ListSolutionsHandler { get; }
 
             public IRequestHandler<GetSolutionByIdQuery, ISolution> GetSolutionByIdHandler { get; }
 
@@ -110,7 +111,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             public IRequestHandler<UpdateSolutionPluginsCommand, UpdateSolutionPluginsValidationResult> UpdateSolutionPluginsHandler { get; }
 
             public Scope(IRequestHandler<ListCapabilitiesQuery, IEnumerable<ICapability>> listCapabilitiesHandler,
-                IRequestHandler<ListSolutionsQuery, ListSolutionsResult> listSolutionsHandler,
+                IRequestHandler<ListSolutionsQuery, ISolutionList> listSolutionsHandler,
                 IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
                 IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> submitSolutionForReviewHandler,
                 IRequestHandler<UpdateSolutionSummaryCommand, UpdateSolutionSummaryValidationResult> updateSolutionSummaryHandler,

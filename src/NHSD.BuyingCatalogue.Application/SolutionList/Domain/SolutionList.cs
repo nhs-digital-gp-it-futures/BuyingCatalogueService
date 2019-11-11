@@ -8,7 +8,7 @@ namespace NHSD.BuyingCatalogue.Application.SolutionList.Domain
 {
     internal sealed class SolutionList
     {
-        public List<SolutionListItem> SolutionListItems { get; }
+        public List<SolutionListItem> Solutions { get; }
 
         internal SolutionList(ISet<Guid> capabilityIdList, IEnumerable<ISolutionListResult> solutionListResults)
         {
@@ -19,7 +19,7 @@ namespace NHSD.BuyingCatalogue.Application.SolutionList.Domain
                 solutions.Single(s => s.Id == item.SolutionId).Capabilities.Add(new SolutionListItemCapability(item));
             }
 
-            SolutionListItems = CapabilityFilter(capabilityIdList, solutions).ToList();
+            Solutions = CapabilityFilter(capabilityIdList, solutions).ToList();
         }
 
         private IEnumerable<SolutionListItem> CapabilityFilter(ISet<Guid> capabilityIdList, IEnumerable<SolutionListItem> solutions)
