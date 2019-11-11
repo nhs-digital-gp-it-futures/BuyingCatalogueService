@@ -10,5 +10,10 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         {
             await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, InsertSql);
         }
+
+        protected string NullOrWrapQuotes(string candidate)
+        {
+            return candidate == null ? "NULL" : $"'{candidate}'";
+        }
     }
 }

@@ -2,9 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
-using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Application.Exceptions;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NUnit.Framework;
@@ -32,32 +30,28 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Summary).Returns("Summary");
             existingSolution.Setup(s => s.AboutUrl).Returns("AboutUrl");
             existingSolution.Setup(s => s.Features).Returns("[ 'Marmite', 'Jam', 'Marmelade' ]");
+            existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' } }");
+            existingSolution.Setup(s => s.OrganisationName).Returns("OrganisationName");
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
             var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken());
 
-            solution.Solution.Id.Should().Be("Sln1");
-            solution.Solution.Name.Should().Be("Name");
-            solution.Solution.MarketingData.Sections.Should().HaveCount(2);
-
-            var solutionDescriptionSection = (SolutionDescriptionSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("solution-description")).Subject;
-            solutionDescriptionSection.Requirement.Should().Be("Mandatory");
-            solutionDescriptionSection.Status.Should().Be("COMPLETE");
-            solutionDescriptionSection.Data.Summary.Should().Be("Summary");
-            solutionDescriptionSection.Data.Description.Should().Be("Description");
-            solutionDescriptionSection.Data.Link.Should().Be("AboutUrl");
-            solutionDescriptionSection.Mandatory.Should().BeEquivalentTo( new string[] { "summary" });
-
-            var featuresSection = (FeaturesSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("features")).Subject;
-            featuresSection.Requirement.Should().Be("Optional");
-            featuresSection.Status.Should().Be("COMPLETE");
-            featuresSection.Data.Listing.Should().BeEquivalentTo(new string []{ "Marmite", "Jam", "Marmelade" });
-            featuresSection.Mandatory.Should().BeEquivalentTo(new string[0]);
+            solution.Id.Should().Be("Sln1");
+            solution.Name.Should().Be("Name");
+            solution.Summary.Should().Be("Summary");
+            solution.OrganisationName.Should().Be("OrganisationName");
+            solution.Description.Should().Be("Description");
+            solution.AboutUrl.Should().Be("AboutUrl");
+            solution.Features.Should().BeEquivalentTo(new [] {"Marmite", "Jam", "Marmelade"});
+            solution.ClientApplication.ClientApplicationTypes.Should().BeEquivalentTo(new[] { "browser-based", "native-mobile" });
+            solution.ClientApplication.BrowsersSupported.Should().BeEquivalentTo(new[] { "Chrome", "Edge" });
+            solution.ClientApplication.MobileResponsive.Should().BeTrue();
+            solution.ClientApplication.Plugins.Required.Should().BeTrue();
+            solution.ClientApplication.Plugins.AdditionalInformation.Should().Be("orem ipsum");
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
-
 
         [Test]
         public async Task ShouldGetEmptySolutionById()
@@ -69,26 +63,27 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Summary).Returns((string)null);
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
             existingSolution.Setup(s => s.Features).Returns((string)null);
+            existingSolution.Setup(s => s.ClientApplication).Returns((string)null);
+            existingSolution.Setup(s => s.OrganisationName).Returns((string)null);
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
             var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken());
 
-            solution.Solution.Id.Should().Be("Sln1");
-            solution.Solution.Name.Should().Be("Name");
-            solution.Solution.MarketingData.Sections.Should().HaveCount(2);
+            solution.Id.Should().Be("Sln1");
+            solution.Name.Should().Be("Name");
 
-            var solutionDescriptionSection = (SolutionDescriptionSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("solution-description")).Subject;
-            solutionDescriptionSection.Requirement.Should().Be("Mandatory");
-            solutionDescriptionSection.Status.Should().Be("INCOMPLETE");
-            solutionDescriptionSection.Data.Summary.Should().BeNullOrEmpty();
-            solutionDescriptionSection.Data.Description.Should().BeNullOrEmpty();
-            solutionDescriptionSection.Data.Link.Should().BeNullOrEmpty();
+            solution.Summary.Should().BeNullOrEmpty();
+            solution.Description.Should().BeNullOrEmpty();
+            solution.AboutUrl.Should().BeNullOrEmpty();
 
-            var featuresSection = (FeaturesSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("features")).Subject;
-            featuresSection.Requirement.Should().Be("Optional");
-            featuresSection.Status.Should().Be("INCOMPLETE");
-            featuresSection.Data.Listing.Should().BeEmpty();
+            solution.Features.Should().BeEmpty();
+            solution.ClientApplication.ClientApplicationTypes.Should().BeEmpty();
+            solution.ClientApplication.BrowsersSupported.Should().BeEmpty();
+            solution.ClientApplication.MobileResponsive.Should().BeNull();
+            solution.ClientApplication.Plugins.Should().BeNull();
+
+            solution.OrganisationName.Should().BeNull();
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -103,26 +98,27 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Summary).Returns("Summary");
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
             existingSolution.Setup(s => s.Features).Returns((string)null);
+            existingSolution.Setup(s => s.ClientApplication).Returns((string)null);
+            existingSolution.Setup(s => s.OrganisationName).Returns("OrganisationName");
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
             var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken());
 
-            solution.Solution.Id.Should().Be("Sln1");
-            solution.Solution.Name.Should().Be("Name");
-            solution.Solution.MarketingData.Sections.Should().HaveCount(2);
+            solution.Id.Should().Be("Sln1");
+            solution.Name.Should().Be("Name");
 
-            var solutionDescriptionSection = (SolutionDescriptionSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("solution-description")).Subject;
-            solutionDescriptionSection.Requirement.Should().Be("Mandatory");
-            solutionDescriptionSection.Status.Should().Be("COMPLETE");
-            solutionDescriptionSection.Data.Summary.Should().Be("Summary");
-            solutionDescriptionSection.Data.Description.Should().BeNullOrEmpty();
-            solutionDescriptionSection.Data.Link.Should().BeNullOrEmpty();
+            solution.Summary.Should().Be("Summary");
+            solution.Description.Should().BeNullOrEmpty();
+            solution.AboutUrl.Should().BeNullOrEmpty();
 
-            var featuresSection = (FeaturesSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("features")).Subject;
-            featuresSection.Requirement.Should().Be("Optional");
-            featuresSection.Status.Should().Be("INCOMPLETE");
-            featuresSection.Data.Listing.Should().BeEmpty(); 
+            solution.Features.Should().BeEmpty();
+            solution.ClientApplication.ClientApplicationTypes.Should().BeEmpty();
+            solution.ClientApplication.BrowsersSupported.Should().BeEmpty();
+            solution.ClientApplication.MobileResponsive.Should().BeNull();
+            solution.ClientApplication.Plugins.Should().BeNull();
+            
+            solution.OrganisationName.Should().Be("OrganisationName");
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -137,60 +133,59 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Summary).Returns((string)null);
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
             existingSolution.Setup(s => s.Features).Returns("[ 'Marmite', 'Jam', 'Marmelade' ]");
+            existingSolution.Setup(s => s.OrganisationName).Returns("OrganisationName");
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
             var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken());
 
-            solution.Solution.Id.Should().Be("Sln1");
-            solution.Solution.Name.Should().Be("Name");
-            solution.Solution.MarketingData.Sections.Should().HaveCount(2);
+            solution.Id.Should().Be("Sln1");
+            solution.Name.Should().Be("Name");
 
-            var solutionDescriptionSection = (SolutionDescriptionSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("solution-description")).Subject;
-            solutionDescriptionSection.Requirement.Should().Be("Mandatory");
-            solutionDescriptionSection.Status.Should().Be("INCOMPLETE");
-            solutionDescriptionSection.Data.Summary.Should().BeNullOrEmpty();
-            solutionDescriptionSection.Data.Description.Should().BeNullOrEmpty();
-            solutionDescriptionSection.Data.Link.Should().BeNullOrEmpty();
+            solution.Summary.Should().BeNullOrEmpty();
+            solution.Description.Should().BeNullOrEmpty();
+            solution.AboutUrl.Should().BeNullOrEmpty();
 
-            var featuresSection = (FeaturesSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("features")).Subject;
-            featuresSection.Requirement.Should().Be("Optional");
-            featuresSection.Status.Should().Be("COMPLETE");
-            featuresSection.Data.Listing.Should().BeEquivalentTo(new string[] { "Marmite", "Jam", "Marmelade" });
+            solution.Features.Should().BeEquivalentTo(new[] { "Marmite", "Jam", "Marmelade" });
+
+            solution.OrganisationName.Should().Be("OrganisationName");
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
 
         [Test]
-        public async Task ShouldInterpretWhitespaceAsMissing()
+        public async Task ShouldGetPartialSolutionWithClientApplicationById()
         {
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
             existingSolution.Setup(s => s.Name).Returns("Name");
             existingSolution.Setup(s => s.Description).Returns((string)null);
-            existingSolution.Setup(s => s.Summary).Returns("   ");//whitespace
+            existingSolution.Setup(s => s.Summary).Returns((string)null);
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
-            existingSolution.Setup(s => s.Features).Returns("[ '   ', ' ', '' ]");//whitespace
+            existingSolution.Setup(s => s.Features).Returns((string)null);
+            existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : false, 'AdditionalInformation': null } }");
+            existingSolution.Setup(s => s.OrganisationName).Returns("OrganisationName");
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
             var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken());
 
-            solution.Solution.Id.Should().Be("Sln1");
-            solution.Solution.Name.Should().Be("Name");
-            solution.Solution.MarketingData.Sections.Should().HaveCount(2);
+            solution.Id.Should().Be("Sln1");
+            solution.Name.Should().Be("Name");
 
-            var solutionDescriptionSection = (SolutionDescriptionSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("solution-description")).Subject;
-            solutionDescriptionSection.Requirement.Should().Be("Mandatory");
-            solutionDescriptionSection.Status.Should().Be("INCOMPLETE");
-            solutionDescriptionSection.Data.Summary.Should().Be("   ");
-            solutionDescriptionSection.Data.Description.Should().BeNullOrEmpty();
-            solutionDescriptionSection.Data.Link.Should().BeNullOrEmpty();
+            solution.Summary.Should().BeNullOrEmpty();
+            solution.Description.Should().BeNullOrEmpty();
+            solution.AboutUrl.Should().BeNullOrEmpty();
 
-            var featuresSection = (FeaturesSection)solution.Solution.MarketingData.Sections.Should().Contain(s => s.Id.Equals("features")).Subject;
-            featuresSection.Requirement.Should().Be("Optional");
-            featuresSection.Status.Should().Be("INCOMPLETE");
-            featuresSection.Data.Listing.Should().BeEquivalentTo(new string[] { "   ", " ", "" });
+            solution.Features.Should().BeEmpty();
+            solution.ClientApplication.ClientApplicationTypes.Should().BeEquivalentTo(new[] { "browser-based", "native-mobile" });
+            solution.ClientApplication.BrowsersSupported.Should().BeEquivalentTo(new[] { "Chrome", "Edge" });
+            solution.ClientApplication.MobileResponsive.Should().BeTrue();
+
+            solution.ClientApplication.Plugins.Required.Should().BeFalse();
+            solution.ClientApplication.Plugins.AdditionalInformation.Should().BeNull();
+
+            solution.OrganisationName.Should().Be("OrganisationName");
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }

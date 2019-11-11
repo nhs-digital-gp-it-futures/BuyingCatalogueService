@@ -5,15 +5,16 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NHSD.BuyingCatalogue.API.ViewModels;
+using NHSD.BuyingCatalogue.API.ViewModels.Preview;
+using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
 
 namespace NHSD.BuyingCatalogue.API.Controllers
 {
     /// <summary>
-    /// Provides the endpoint for the summary of <see cref="Solution"/> information.
+    /// Provides the endpoint to manage a solution.
     /// </summary>
     [Route("api/v1/[controller]")]
     [ApiController]
@@ -34,13 +35,13 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         /// <summary>
         /// Gets a list of solutions that includes information about the organisation and the associated capabilities.
         /// </summary>
-        /// <returns>A result containing a list of solutions that includes information about the organisation and the associated capabilities.</returns>
+        /// <returns>A task representing an operation to retrieve a list of solutions that includes information about the organisation and the associated capabilities.</returns>
         [HttpGet]
         [ProducesResponseType(typeof(ListSolutionsResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<ListSolutionsResult>> ListAsync()
         {
-            return Ok(await _mediator.Send(new ListSolutionsQuery()));
+            return Ok(new ListSolutionsResult(await _mediator.Send(new ListSolutionsQuery())));
         }
 
         /// <summary>
@@ -53,30 +54,46 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<ListSolutionsResult>> ListByFilterAsync([FromBody][Required]ListSolutionsFilter filter)
         {
-            return Ok(await _mediator.Send(new ListSolutionsQuery(filter)));
+            return Ok(new ListSolutionsResult(await _mediator.Send(new ListSolutionsQuery(filter))));
         }
 
         /// <summary>
-        /// Get a solution with specified unique identifier
+        /// Get a solution matching the specified ID.
         /// </summary>
-        /// <param name="id">unique identifier of solution</param>
-        /// <returns>Solution with specified unique identifier</returns>
+        /// <param name="id">A value to uniquely identify a solution.</param>
+        /// <returns>A task representing an operation to retrieve the details of a Solution.</returns>
         [HttpGet]
-        [Route("{id}")]
-        [ProducesResponseType(typeof(GetSolutionByIdResult), (int)HttpStatusCode.OK)]
+        [Route("{id}/Dashboard")]
+        [ProducesResponseType(typeof(SolutionDashboardResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<GetSolutionByIdResult>> ById([FromRoute][Required]string id)
+        public async Task<ActionResult<SolutionDashboardResult>> Dashboard([FromRoute][Required]string id)
         {
-            GetSolutionByIdResult result = await _mediator.Send(new GetSolutionByIdQuery(id));
-            return result.Solution == null ? (ActionResult)new NotFoundResult() : Ok(result);
+            var result = await _mediator.Send(new GetSolutionByIdQuery(id));
+            return result == null ? (ActionResult)new NotFoundResult() : Ok(new SolutionDashboardResult(result));
+        }
+
+        /// <summary>
+        /// Get a solution matching the specified ID.
+        /// </summary>
+        /// <param name="id">A value to uniquely identify a solution.</param>
+        /// <returns>A task representing an operation to retrieve the details of a Solution.</returns>
+        [HttpGet]
+        [Route("{id}/Preview")]
+        [ProducesResponseType(typeof(SolutionPreviewResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult<SolutionPreviewResult>> Preview([FromRoute][Required]string id)
+        {
+            var result = await _mediator.Send(new GetSolutionByIdQuery(id));
+            return result == null ? (ActionResult)new NotFoundResult() : Ok(new SolutionPreviewResult(result));
         }
 
         /// <summary>
         /// Submits a solution for review.
         /// </summary>
         /// <param name="id">A value to uniquely identify a solution.</param>
-        /// <returns>A task respresenting an operation to update the state of a solution to submitted for review.</returns>
+        /// <returns>A task representing an operation to update the state of a solution to submitted for review.</returns>
         [HttpPut]
         [Route("{id}/SubmitForReview")]
         [ProducesResponseType(typeof(SubmitSolutionForReviewResult), (int)HttpStatusCode.BadRequest)]
@@ -84,8 +101,8 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> SubmitForReviewAsync([FromRoute][Required] string id)
         {
-            SubmitSolutionForReviewResult result = await _mediator.Send(new SubmitSolutionForReviewCommand(id));
-            return result.IsSuccess ? NoContent() : (ActionResult)BadRequest(result);
+            SubmitSolutionForReviewCommandResult result = await _mediator.Send(new SubmitSolutionForReviewCommand(id));
+            return result.IsSuccess ? NoContent() : (ActionResult)BadRequest(SubmitSolutionForReviewResult.Create(result.Errors));
         }
     }
 }

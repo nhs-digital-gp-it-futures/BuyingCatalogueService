@@ -1,3 +1,4 @@
+using System;
 using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ using NHSD.BuyingCatalogue.Persistence.Infrastructure;
 namespace NHSD.BuyingCatalogue.Persistence.Repositories
 {
     /// <summary>
-    /// Represents the data access layer for the <see cref="Solution"/> entity.
+    /// Represents the data access layer for the marketing data of a solution.
     /// </summary>
     public sealed class MarketingDetailRepository : IMarketingDetailRepository
     {
@@ -55,5 +56,35 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
             }
         }
 
+        /// <summary>
+        /// Adds or updates the client application marketing details of a solution.
+        /// </summary>
+        /// <param name="updateSolutionClientApplicationRequest">The updated client application details of a solution to commit to the data store.</param>
+        /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
+        /// <returns>A task representing an operation to save the specified <paramref name="updateSolutionClientApplicationRequest"/> details to the data store.</returns>
+        public async Task UpdateClientApplicationAsync(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest,
+            CancellationToken cancellationToken)
+        {
+            if (updateSolutionClientApplicationRequest is null)
+            {
+                throw new ArgumentNullException(nameof(updateSolutionClientApplicationRequest));
+            }
+
+            using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
+            {
+                const string updateSql = @" IF EXISTS (SELECT 1 FROM Solution WHERE Id = @solutionId)
+                                        MERGE MarketingDetail AS target  
+                                        USING (SELECT @solutionId, @clientApplication) AS source (SolutionId, ClientApplication)
+                                        ON (target.SolutionId = source.SolutionId)  
+                                        WHEN MATCHED THEN
+                                            UPDATE
+                                            SET  ClientApplication = source.ClientApplication
+                                        WHEN NOT MATCHED THEN
+                                            INSERT (SolutionId, ClientApplication)  
+                                            VALUES (source.SolutionId, source.ClientApplication);";
+
+                await databaseConnection.ExecuteAsync(updateSql, new { solutionId = updateSolutionClientApplicationRequest.Id, clientApplication = updateSolutionClientApplicationRequest.ClientApplication });
+            }
+        }
     }
 }

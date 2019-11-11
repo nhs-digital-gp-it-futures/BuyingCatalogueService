@@ -32,12 +32,12 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         ,[RoadMapImageUrl])
         VALUES
             ('{SolutionId}'
-            ,'{AboutUrl}'
-            ,'{Features}'
-            ,'{ClientApplication}'
-            ,'{Hosting}'
-            ,'{RoadMap}'
-            ,'{RoadMapImageUrl}')";
+            ,{NullOrWrapQuotes(AboutUrl)}
+            ,{NullOrWrapQuotes(Features)}
+            ,{NullOrWrapQuotes(ClientApplication)}
+            ,{NullOrWrapQuotes(Hosting)}
+            ,{NullOrWrapQuotes(RoadMap)}
+            ,{NullOrWrapQuotes(RoadMapImageUrl)})";
 
 
         public static async Task<IEnumerable<MarketingDetailEntity>> FetchAllAsync()

@@ -1,12 +1,14 @@
 using AutoMapper;
-using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution;
+using NHSD.BuyingCatalogue.Application.SolutionList.Domain;
+using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
+using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
+using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures;
+using NHSD.BuyingCatalogue.Application.Capabilities.Domain;
+using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
-using NHSD.BuyingCatalogue.Domain.Entities.Capabilities;
-using NHSD.BuyingCatalogue.Domain.Entities.Organisations;
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
+using NHSD.BuyingCatalogue.Contracts;
+using NHSD.BuyingCatalogue.Contracts.SolutionList;
 
 namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
 {
@@ -20,20 +22,23 @@ namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
         /// </summary>
         public AutoMapperProfile()
         {
-            CreateMap<Solution, SolutionSummaryViewModel>();
-            CreateMap<Capability, SolutionCapabilityViewModel>();
-            CreateMap<Organisation, SolutionOrganisationViewModel>();
+            CreateMap<SolutionList.Domain.SolutionList, SolutionListDto>();
+            CreateMap<SolutionList.Domain.SolutionList, ISolutionList>().As<SolutionListDto>();
+            CreateMap<SolutionListItem, SolutionSummaryDto>();
+            CreateMap<SolutionListItem, ISolutionSummary>().As<SolutionSummaryDto>();
+            CreateMap<SolutionListItemCapability, SolutionCapabilityDto>();
+            CreateMap<SolutionListItemCapability, ISolutionCapability>().As<SolutionCapabilityDto>();
+            CreateMap<SolutionListItemOrganisation, SolutionOrganisationDto>();
+            CreateMap<SolutionListItemOrganisation, ISolutionOrganisation>().As<SolutionOrganisationDto>();
 
-            CreateMap<Capability, CapabilityViewModel>();
-
-            CreateMap<Solution, SolutionByIdViewModel>()
-                .ConstructUsing(x => new SolutionByIdViewModel(x));
+            CreateMap<Capability, CapabilityDto>();
 
             CreateMap<UpdateSolutionSummaryViewModel, Solution>()
                 .ForMember(destination => destination.AboutUrl, options => options.MapFrom(source => source.Link));
-
             CreateMap<UpdateSolutionFeaturesViewModel, Solution>()
-                .ForMember(destination => destination.Features, options => options.MapFrom(source => JsonConvert.SerializeObject(source.Listing).ToString()));
+                .ForMember(destination => destination.Features, options => options.MapFrom(source => source.Listing));
+            CreateMap<ClientApplication, ClientApplicationDto>();
+            CreateMap<Solution, SolutionDto>();
         }
     }
 }

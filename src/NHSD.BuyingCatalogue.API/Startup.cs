@@ -7,23 +7,18 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NHSD.BuyingCatalogue.API.Extensions;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
+using NHSD.BuyingCatalogue.Application;
 using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.ListSolutions;
+using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
+using NHSD.BuyingCatalogue.Persistence;
 
 namespace NHSD.BuyingCatalogue.API
 {
     /// <summary>
-    /// Represents a boostrapper for the application. Used as a starting point to configure the API.
+    /// Represents a bootstrapper for the application. Used as a starting point to configure the API.
     /// </summary>
     public sealed class Startup
     {
-        /// <summary>
-        /// Initialises a new instance of the <see cref="Startup"/> class.
-        /// </summary>
-        public Startup()
-        {
-        }
-
         /// <summary>
         /// Configures the services for the application.
         /// </summary>
@@ -33,8 +28,8 @@ namespace NHSD.BuyingCatalogue.API
         {
             services
                 .AddAutoMapper(typeof(AutoMapperProfile).Assembly)
-                .AddCustomDbFactory()
-                .AddCustomRepositories()
+                .RegisterApplication()
+                .RegisterPersistence()
                 .AddMediatR(typeof(ListSolutionsQuery).Assembly)
                 .AddCustomHealthCheck()
                 .AddCustomSwagger()

@@ -4,13 +4,14 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using NHSD.BuyingCatalogue.Application.Persistence;
+using NHSD.BuyingCatalogue.Contracts.Capability;
 
 namespace NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities
 {
     /// <summary>
 	/// Defines the request handler for the <see cref="ListCapabilitiesQuery"/>.
 	/// </summary>
-    internal sealed class ListCapabilitiesHandler : IRequestHandler<ListCapabilitiesQuery, ListCapabilitiesResult>
+    internal sealed class ListCapabilitiesHandler : IRequestHandler<ListCapabilitiesQuery, IEnumerable<ICapability>>
     {
         private readonly CapabilityReader _capabilityReader;
 
@@ -34,11 +35,7 @@ namespace NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities
         /// <param name="request">The query parameters.</param>
         /// <param name="cancellationToken">Token to cancel the request.</param>
         /// <returns>The result of the query.</returns>
-        public async Task<ListCapabilitiesResult> Handle(ListCapabilitiesQuery request, CancellationToken cancellationToken)
-        {
-            var capabilities = await _capabilityReader.ListAsync(cancellationToken).ConfigureAwait(false);
-
-            return new ListCapabilitiesResult(_mapper.Map<IEnumerable<CapabilityViewModel>>(capabilities));
-        }
+        public async Task<IEnumerable<ICapability>> Handle(ListCapabilitiesQuery request, CancellationToken cancellationToken) =>
+            _mapper.Map<IEnumerable<CapabilityDto>>(await _capabilityReader.ListAsync(cancellationToken).ConfigureAwait(false));
     }
 }

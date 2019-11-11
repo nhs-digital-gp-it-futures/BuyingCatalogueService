@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
 
-namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution
+namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures
 {
     public sealed class UpdateSolutionFeaturesViewModel
     {

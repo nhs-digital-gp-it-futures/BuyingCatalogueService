@@ -13,5 +13,9 @@ namespace NHSD.BuyingCatalogue.Contracts.Persistence
         string AboutUrl { get; }
 
         string Features { get; }
+
+        string ClientApplication { get; }
+
+        string OrganisationName { get; }
     }
 }
