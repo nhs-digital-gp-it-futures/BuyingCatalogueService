@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.API.Controllers;
 using NHSD.BuyingCatalogue.API.ViewModels;
+using NHSD.BuyingCatalogue.API.ViewModels.Preview;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
-using NHSD.BuyingCatalogue.Contracts;
 using NHSD.BuyingCatalogue.Contracts.Solutions;
 using NUnit.Framework;
 
@@ -96,7 +96,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         [TestCase(true, true)]
         public async Task ShouldGetPreviewCalculateFeatures(bool isFeature, bool hasData)
         {
-            var features = isFeature ? new List<string>() { "Feature1", "Feature2" } : new List<string>();
+            var features = isFeature ? new List<string> { "Feature1", "Feature2" } : new List<string>();
 
             var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s => s.Features == features));
 
@@ -104,7 +104,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             {
                 previewResult.Sections.Features.Answers.HasData.Should().Be(true);
                 previewResult.Sections.Features.Answers.Listing.Should()
-                    .BeEquivalentTo(new List<string>() {"Feature1", "Feature2"});
+                    .BeEquivalentTo(new List<string> {"Feature1", "Feature2"});
 
             }
             else
@@ -123,8 +123,8 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
 
         public async Task ShouldGetPreviewCalculateClientApplication(bool isClientApplication, bool isBrowserSupported, bool? mobileResponsive, bool expectData)
         {
-            var clientApplicationTypes = isClientApplication ? new HashSet<string>() { "browser-based", "native-mobile" } : new HashSet<string>();
-            var browsersSupported = isBrowserSupported ? new HashSet<string>() { "Chrome", "Edge" } : new HashSet<string>();
+            var clientApplicationTypes = isClientApplication ? new HashSet<string> { "browser-based", "native-mobile" } : new HashSet<string>();
+            var browsersSupported = isBrowserSupported ? new HashSet<string> { "Chrome", "Edge" } : new HashSet<string>();
 
             var previewResult = await GetSolutionPreviewSectionAsync(
                 Mock.Of<ISolution>(s =>
@@ -141,7 +141,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
                 {
                     previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers.MobileResponsive
                         .Should()
-                        .Be(mobileResponsive != null && (bool)mobileResponsive ? "yes" : "no");
+                        .Be(mobileResponsive.GetValueOrDefault() ? "yes" : "no");
                 }
                 else
                 {
@@ -153,7 +153,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
                 {
                     previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers.SupportedBrowsers
                         .Should().BeEquivalentTo(isClientApplication
-                            ? new HashSet<string>() {"Chrome", "Edge"}
+                            ? new HashSet<string> {"Chrome", "Edge"}
                             : new HashSet<string>());
                 }
                 else
@@ -173,14 +173,28 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         {
             var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == new HashSet<string>() { "browser-based", "native-mobile" } &&
-                    c.BrowsersSupported == new HashSet<string>() { "Chrome", "Edge" } &&
+                    c.ClientApplicationTypes == new HashSet<string> { "browser-based", "native-mobile" } &&
+                    c.BrowsersSupported == new HashSet<string> { "Chrome", "Edge" } &&
                     c.MobileResponsive == true)));
 
             previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers.SupportedBrowsers
-                .Should().BeEquivalentTo(new HashSet<string>() { "Chrome", "Edge" });
+                .Should().BeEquivalentTo(new HashSet<string> { "Chrome", "Edge" });
             previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers.MobileResponsive
                 .Should().Be("yes");
+        }
+
+        [Test]
+        public async Task ShouldIncludeBrowserBasedDataIfClientApplicationTypesIncludePluginInformation()
+        {
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "browser-based", "native-mobile" }
+                    && c.Plugins == new PluginsDto { Required = true, AdditionalInformation = "Plugin additional information"} )));
+
+            previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.PluginOrExtensionsSection.Answers.Required
+                .Should().Be("yes");
+            previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.PluginOrExtensionsSection.Answers.AdditionalInformation
+                .Should().Be("Plugin additional information");
         }
 
         [Test]
@@ -188,8 +202,8 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         {
             var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == new HashSet<string>() { "native-desktop", "native-mobile" } &&
-                    c.BrowsersSupported == new HashSet<string>() { "Chrome", "Edge" } &&
+                    c.ClientApplicationTypes == new HashSet<string> { "native-desktop", "native-mobile" } &&
+                    c.BrowsersSupported == new HashSet<string> { "Chrome", "Edge" } &&
                     c.MobileResponsive == true)));
 
             previewResult.Sections.ClientApplicationTypes.Should().BeNull();

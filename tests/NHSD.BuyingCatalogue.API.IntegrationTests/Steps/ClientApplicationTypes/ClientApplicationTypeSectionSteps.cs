@@ -64,6 +64,22 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             content.SelectToken("sections.client-application-types.sections.browser-based.sections.browsers-supported.answers.mobile-responsive").Should().BeNull();
         }
 
+        [Then(@"the solution client-application-types section contains plugin required with value (yes|no)")]
+        public async Task ThenTheSolutionClientApplicationTypesSectionContainsPluginRequiredWithValue(string value)
+        {
+            var content = await _response.ReadBody();
+            content.SelectToken("sections.client-application-types.sections.browser-based.sections.plug-ins-or-extensions.answers.plugins-required")
+                .ToString().Should().Be(value);
+        }
+
+        [Then(@"the solution client-application-types section contains plugin detail with value (.*)")]
+        public async Task ThenTheSolutionClientApplicationTypesSectionContainsPluginAdditionalInformationWithValue(string value)
+        {
+            var content = await _response.ReadBody();
+            content.SelectToken("sections.client-application-types.sections.browser-based.sections.plug-ins-or-extensions.answers.plugins-detail")
+                .ToString().Should().Be(value);
+        }
+
         [Then(@"the client-application-types section is not returned")]
         public async Task ThenTheSolutionClientApplicationTypesSectionContains()
         {
