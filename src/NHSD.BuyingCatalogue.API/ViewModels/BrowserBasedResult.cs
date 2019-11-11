@@ -39,7 +39,7 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
         public BrowserBasedDashboardSections(IClientApplication clientApplication)
         {
             BrowsersSupportedSection = new BrowserBasedDashboardSection(IsBrowserSupportedComplete(clientApplication), true);
-            PluginsOrExtensionsSection = new BrowserBasedDashboardSection(false, true);
+            PluginsOrExtensionsSection = new BrowserBasedDashboardSection(IsPluginsComplete(clientApplication?.Plugins), true);
             ConnectivityAndResolutionSection = new BrowserBasedDashboardSection(false, true);
             HardwareRequirementsSection = new BrowserBasedDashboardSection(false, false);
             AdditionalInformationSection = new BrowserBasedDashboardSection(false, false);

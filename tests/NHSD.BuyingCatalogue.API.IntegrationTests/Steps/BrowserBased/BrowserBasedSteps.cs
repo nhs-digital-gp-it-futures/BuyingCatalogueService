@@ -13,6 +13,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
     {
         private const string BrowserBasedUrl = "http://localhost:8080/api/v1/solutions/{0}/sections/browser-based";
 
+
         private readonly ScenarioContext _context;
 
         private readonly Response _response;
@@ -47,11 +48,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             }
         }
 
-        [Then(@"the status of the browsers-supported section is (COMPLETE|INCOMPLETE)")]
-        public async Task StatusOfBrowsersSupportedSectionIs(string status)
+        [Then(@"the status of the (browsers-supported|plug-ins-or-extensions) section is (COMPLETE|INCOMPLETE)")]
+        public async Task StatusOfPluginsSectionIs(string section, string status)
         {
             var content = await _response.ReadBody();
-            content.SelectToken("sections.browsers-supported.status").ToString().Should().BeEquivalentTo(status);
+            content.SelectToken("sections." + section + ".status").ToString().Should().BeEquivalentTo(status);
         }
 
         private class BrowserBasedSection

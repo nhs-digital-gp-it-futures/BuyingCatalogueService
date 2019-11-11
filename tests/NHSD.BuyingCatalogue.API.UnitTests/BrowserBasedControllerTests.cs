@@ -123,6 +123,18 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             AssertBrowsersSupportedSectionComplete(browserBasedResult, true);
         }
 
+        [TestCase(null, false)]
+        [TestCase(false, true)]
+        [TestCase(true, true)]
+        public async Task ShouldGetBrowserBasedCalculateCompletePluginRequired(bool? pluginRequired, bool complete)
+        {
+            var browserBasedResult = await GetBrowserBasedSectionAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication.Plugins == Mock.Of<IPlugins>(c => c.Required == pluginRequired && c.AdditionalInformation == null)));
+
+            AssertPluginsSectionComplete(browserBasedResult, complete);
+        }
+
+
         private async Task<BrowserBasedResult> GetBrowserBasedSectionAsync(ISolution solution)
         {
             _mockMediator.Setup(m =>
@@ -141,6 +153,11 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         private void AssertBrowsersSupportedSectionComplete(BrowserBasedResult browserBasedResult, bool shouldBeComplete)
         {
             browserBasedResult.BrowserBasedDashboardSections.BrowsersSupportedSection.Status.Should().Be(shouldBeComplete ? "COMPLETE" : "INCOMPLETE");
+        }
+
+        private void AssertPluginsSectionComplete(BrowserBasedResult browserBasedResult, bool shouldBeComplete)
+        {
+            browserBasedResult.BrowserBasedDashboardSections.PluginsOrExtensionsSection.Status.Should().Be(shouldBeComplete ? "COMPLETE" : "INCOMPLETE");
         }
 
         private void AssertSectionMandatoryAndComplete(BrowserBasedDashboardSection section, bool shouldBeMandatory, bool shouldBeComplete)

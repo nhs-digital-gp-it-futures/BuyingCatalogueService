@@ -74,3 +74,32 @@ Examples:
     | { "ClientApplicationTypes" : [ "browser-based" ], "BrowsersSupported" : [ "Google Chrome" ], "MobileResponsive" : true } | COMPLETE   |
     | { "BrowsersSupported" : [ "Google Chrome", "IE6" ], "MobileResponsive" : false }                                         | COMPLETE   |
     | { "BrowsersSupported" : [ "Mozilla Firefox", "IE11" ], "MobileResponsive" : true }                                       | COMPLETE   |
+
+@2793
+Scenario: 7. Plugins status incomplete when record not present
+    When a GET request is made to display solution Sln1 browser-based sections
+    Then a successful response is returned
+    And the status of the plug-ins-or-extensions section is INCOMPLETE
+
+@2793
+Scenario Outline: 8. Plugins status based on data in ClientApplication
+    Given MarketingDetail exist
+        | Solution | ClientApplication   |
+        | Sln1     | <ClientApplication> |
+
+    When a GET request is made to display solution Sln1 browser-based sections
+    Then a successful response is returned
+    And the status of the plug-ins-or-extensions section is <Status>
+Examples:
+    | ClientApplication                                                                                                  | Status     |
+    | { "ClientApplicationTypes" : [ ], "Plugins" : null }                                                               | INCOMPLETE |
+    | { "ClientApplicationTypes" : [ ], "Plugins": {"Required" : null, "AdditionalInformation": null } }                 | INCOMPLETE |
+    | { "ClientApplicationTypes" : [ ], "Plugins": {"Required" : false, "AdditionalInformation": null } }                | COMPLETE   |
+    | { "ClientApplicationTypes" : ["browser-based" ], "Plugins": {"Required" : null, "AdditionalInformation": null } }  | INCOMPLETE |
+    | { "ClientApplicationTypes" : ["browser-based" ], "Plugins": {"Required" : false, "AdditionalInformation": null } } | COMPLETE   |
+    | { "ClientApplicationTypes" : ["browser-based" ], "Plugins": {"Required" : true, "AdditionalInformation": null } }  | COMPLETE   |
+    | { "Plugins": {"Required" : null, "AdditionalInformation": null } }                                                 | INCOMPLETE |
+    | { "Plugins": {"Required" : false, "AdditionalInformation": null } }                                                | COMPLETE   |
+    | { "Plugins": {"Required" : true, "AdditionalInformation": null } }                                                 | COMPLETE   |
+
+
