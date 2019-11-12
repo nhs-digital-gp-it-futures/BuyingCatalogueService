@@ -71,7 +71,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         public static async Task<IEnumerable<SolutionDetailEntity>> FetchAllAsync()
         {
             return await SqlRunner.FetchAllAsync<SolutionDetailEntity>($@"SELECT 
-                           ([Id]
+                           [Id]
                             ,[SolutionId]
                             ,[PublishedStatusId]        
                             ,[Features]
@@ -84,14 +84,16 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
                             ,[Summary]
                             ,[FullDescription]
                             ,[LastUpdated]
-                            ,[LastUpdatedBy])
+                            ,[LastUpdatedBy]
                             FROM SolutionDetail");
         }
 
         public async Task InsertAndSetCurrentForSolutionAsync()
         {
             await base.InsertAsync();
-            await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, $"UPDATE Solution SET SolutionDetailId = '{this.Id}' WHERE Id = '{this.SolutionId}'");
+            await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup,
+                $@"UPDATE Solution SET SolutionDetailId = '{this.Id}'
+                    WHERE Id = '{this.SolutionId}'");
         }
 
         public static async Task<SolutionDetailEntity> GetBySolutionIdAsync(string solutionId)

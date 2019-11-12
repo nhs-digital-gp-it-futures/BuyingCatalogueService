@@ -1,4 +1,5 @@
 using System;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -259,11 +260,13 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 
             await SolutionDetailEntityBuilder.Create()
                 .WithSolutionId("Sln1")
+                .WithSummary("Sln1Summary")
+                .WithFullDescription("Sln1Description")
                 .WithAboutUrl("AboutUrl")
                 .WithFeatures("Features")
                 .WithClientApplication("Browser-based")
                 .Build()
-                .InsertAsync();
+                .InsertAndSetCurrentForSolutionAsync();
 
             var solution = await _solutionRepository.ByIdAsync("Sln1", new CancellationToken());
             solution.Id.Should().Be("Sln1");
@@ -284,7 +287,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         }
 
         [Test]
-        public async Task ShouldGetByIdMarketingDataNotPresent()
+        public async Task ShouldGetByIdSolutionDetailNotPresent()
         {
             var organisations = await OrganisationEntity.FetchAllAsync();
 
@@ -298,8 +301,8 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             var solution = await _solutionRepository.ByIdAsync("Sln1", new CancellationToken());
             solution.Id.Should().Be("Sln1");
             solution.Name.Should().Be("Solution1");
-            solution.Summary.Should().Be("Sln1Summary");
-            solution.Description.Should().Be("Sln1Description");
+            solution.Summary.Should().BeNull();
+            solution.Description.Should().BeNull();
             solution.OrganisationName.Should().Be("OrgName1");
             solution.AboutUrl.Should().BeNull();
             solution.Features.Should().BeNull();
@@ -331,13 +334,13 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         }
 
         [Test]
-        public void ShouldUpdateSupplierStatusNotPresent()
+        public void ShouldThrowOnUpdateSupplierStatusNotPresent()
         {
             var mockUpdateSolutionSupplierStatusRequest = new Mock<IUpdateSolutionSupplierStatusRequest>();
             mockUpdateSolutionSupplierStatusRequest.Setup(m => m.Id).Returns("Sln1");
             mockUpdateSolutionSupplierStatusRequest.Setup(m => m.SupplierStatusId).Returns(2);
 
-            Assert.DoesNotThrowAsync(() =>  _solutionRepository.UpdateSupplierStatusAsync(mockUpdateSolutionSupplierStatusRequest.Object, new CancellationToken()));
+            Assert.ThrowsAsync<SqlException>(() =>  _solutionRepository.UpdateSupplierStatusAsync(mockUpdateSolutionSupplierStatusRequest.Object, new CancellationToken()));
         }
 
 
@@ -362,11 +365,11 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 
             await SolutionDetailEntityBuilder.Create()
                 .WithSolutionId("Sln1")
-                .WithAboutUrl("AboutUrl")
+                .WithAboutUrl("AboutUrl4")
                 .WithFeatures("Features")
                 .WithClientApplication("Browser-based")
                 .Build()
-                .InsertAsync();
+                .InsertAndSetCurrentForSolutionAsync();
 
             var mockUpdateSolutionSummaryRequest = new Mock<IUpdateSolutionSummaryRequest>();
             mockUpdateSolutionSummaryRequest.Setup(m => m.Id).Returns("Sln1");
@@ -384,14 +387,16 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             solution.Id.Should().Be("Sln2");
             solution.Name.Should().Be("Solution2");
 
-            var marketingData = await SolutionDetailEntity.GetBySolutionIdAsync("Sln1");
-            marketingData.AboutUrl.Should().Be("AboutUrl4");
-            marketingData.Features.Should().Be("Features");
-            marketingData.ClientApplication.Should().Be("Browser-based");
+            var solutionDetail = await SolutionDetailEntity.GetBySolutionIdAsync("Sln1");
+            solutionDetail.Summary.Should().Be("Sln4Summary");
+            solutionDetail.FullDescription.Should().Be("Sln4Description");
+            solutionDetail.AboutUrl.Should().Be("AboutUrl4");
+            solutionDetail.Features.Should().Be("Features");
+            solutionDetail.ClientApplication.Should().Be("Browser-based");
         }
 
         [Test]
-        public void ShouldUpdateSummaryNotPresent()
+        public async Task ShouldThrowOnUpdateSummaryNotPresent()
         {
             var mockUpdateSolutionSummaryRequest = new Mock<IUpdateSolutionSummaryRequest>();
             mockUpdateSolutionSummaryRequest.Setup(m => m.Id).Returns("Sln1");
@@ -399,11 +404,11 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             mockUpdateSolutionSummaryRequest.Setup(m => m.Description).Returns("Sln4Description");
             mockUpdateSolutionSummaryRequest.Setup(m => m.AboutUrl).Returns("AboutUrl4");
 
-            Assert.DoesNotThrowAsync(() => _solutionRepository.UpdateSummaryAsync(mockUpdateSolutionSummaryRequest.Object, new CancellationToken()));
+            Assert.ThrowsAsync<SqlException>(() => _solutionRepository.UpdateSummaryAsync(mockUpdateSolutionSummaryRequest.Object, new CancellationToken()));
         }
 
         [Test]
-        public async Task ShouldUpdateMarketingDataSummaryNotPresent()
+        public async Task ShouldThrowOnUpdateSolutionDetailNotPresent()
         {
             var organisations = await OrganisationEntity.FetchAllAsync();
 
@@ -427,16 +432,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             mockUpdateSolutionSummaryRequest.Setup(m => m.Description).Returns("Sln4Description");
             mockUpdateSolutionSummaryRequest.Setup(m => m.AboutUrl).Returns("AboutUrl4");
 
-            await _solutionRepository.UpdateSummaryAsync(mockUpdateSolutionSummaryRequest.Object, new CancellationToken());
-
-            var solution = await SolutionEntity.GetByIdAsync("Sln1");
-            solution.Id.Should().Be("Sln1");
-            solution.Name.Should().Be("Solution1");
-
-            var marketingData = await SolutionDetailEntity.GetBySolutionIdAsync("Sln1");
-            marketingData.AboutUrl.Should().Be("AboutUrl4");
-            marketingData.Features.Should().BeNull();
-            marketingData.ClientApplication.Should().BeNull();
+            Assert.ThrowsAsync<SqlException>(() => _solutionRepository.UpdateSummaryAsync(mockUpdateSolutionSummaryRequest.Object, new CancellationToken()));
         }
     }
 }

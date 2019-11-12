@@ -76,7 +76,7 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                                             SolutionDetail.ClientApplication as ClientApplication
                                      FROM   Solution
                                             INNER JOIN Organisation ON Organisation.Id = Solution.OrganisationId
-                                            LEFT OUTER JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId
+                                            LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
                                      WHERE  Solution.Id = @id";
 
                 var result = await databaseConnection.QueryAsync<SolutionResult>(sql, new { id });
@@ -101,11 +101,15 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
             using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
             {
                 const string updateSql = @"
-                                    UPDATE  SolutionDetail
+                                    UPDATE  SolutionDetail                                   
                                     SET     SolutionDetail.FullDescription = @description,
                                             SolutionDetail.Summary = @summary
+                                    FROM SolutionDetail
+                                        INNER JOIN Solution
+                                            ON solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
                                     WHERE   Solution.Id = @solutionId
-                                        INNER JOIN Solution ON Solution.SolutionDetailId = SolutionDetail.Id";
+                                    IF @@ROWCOUNT = 0
+                                        THROW 60000, 'Solution or SolutionDetail not found', 1; ";
 
                 await databaseConnection.ExecuteAsync(updateSql, new { solutionId = updateSolutionSummaryRequest.Id, description = updateSolutionSummaryRequest.Description, summary = updateSolutionSummaryRequest.Summary, aboutUrl = updateSolutionSummaryRequest.AboutUrl });
             }
@@ -129,7 +133,9 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                 const string updateSolutionSupplierStatusSql = @"
                                             UPDATE  Solution
                                             SET		Solution.SupplierStatusId = @supplierStatusId
-                                            WHERE   Solution.Id = @id;";
+                                            WHERE   Solution.Id = @id
+                                    IF @@ROWCOUNT = 0
+                                        THROW 60000, 'Solution or SolutionDetail not found', 1; ";
 
                 await databaseConnection.ExecuteAsync(updateSolutionSupplierStatusSql, updateSolutionSupplierStatusRequest);
             }
