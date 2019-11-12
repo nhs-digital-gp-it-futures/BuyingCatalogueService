@@ -21,8 +21,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 await SolutionEntityBuilder.Create()
                     .WithName(solutionTable.SolutionName)
                     .WithId(solutionTable.SolutionID)
-                    .WithSummary(solutionTable.SummaryDescription)
-                    .WithFullDescription(solutionTable.FullDescription)
                     .WithOrganisationId(organisations.First(o => o.Name == solutionTable.OrganisationName).Id)
                     .WithSupplierStatusId(solutionTable.SupplierStatusId)
                     .Build()
@@ -62,8 +60,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             {
                 SolutionID = s.Id,
                 SolutionName = s.Name,
-                SummaryDescription = s.Summary,
-                s.FullDescription
             }).Should().BeEquivalentTo(expectedSolutions);
         }
 

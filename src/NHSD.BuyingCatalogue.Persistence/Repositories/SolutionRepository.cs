@@ -37,15 +37,26 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
         {
             using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
             {
-                const string sql = @"SELECT Solution.Id as SolutionId, 
+                const string sql = @"SELECT Solution.Id as SolutionId,
+                                            Solution.ParentId as ParentId,
+                                            Solution.SupplierId as SupplierId,
+                                            Solution.OrganisationId as OrganisationId,
+                                            Solution.SolutionDetailId as SolutionDetailId,
                                             Solution.Name as SolutionName,
+                                            Solution.Version as Version,
+                                            Solution.ServiceLevelAgreement as ServiceLevelAgreement,
+                                            Solution.WorkOfPlan as WorkOfPlan,
+                                            Solution.LastUpdated as LastUpdated,
+                                            Solution.LastUpdatedBy as LastUpdatedBy,                                      
+
                                             Solution.Summary as SolutionSummary,
                                             Organisation.Id as OrganisationId,
                                             Organisation.Name as OrganisationName,
                                             Capability.Id as CapabilityId,
                                             Capability.Name as CapabilityName,
                                             Capability.Description as CapabilityDescription
-                                    FROM    Solution 
+                                    FROM    Solution
+                                            INNER JOIN SolutionDetail ON SolutionDetail.Id = Solution.SolutionDetailId
                                             INNER JOIN Organisation ON Organisation.Id = Solution.OrganisationId
                                             INNER JOIN SolutionCapability ON Solution.Id = SolutionCapability.SolutionId
                                             INNER JOIN Capability ON Capability.Id = SolutionCapability.CapabilityId";
@@ -66,16 +77,16 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
             using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
             {
                 const string sql = @"SELECT Solution.Id,
-                                            Solution.Name,
-                                            Solution.Summary,
+                                            Solution.Name,                                           
                                             Organisation.Name as OrganisationName,
-                                            Solution.FullDescription AS Description,
-                                            MarketingDetail.AboutUrl AS AboutUrl,
-                                            MarketingDetail.Features As Features,
-                                            MarketingDetail.ClientApplication as ClientApplication
+                                            SolutionDetail.Summary AS Summary,
+                                            SolutionDetail.FullDescription AS Description,
+                                            SolutionDetail.AboutUrl AS AboutUrl,
+                                            SolutionDetail.Features As Features,
+                                            SolutionDetail.ClientApplication as ClientApplication
                                      FROM   Solution
                                             INNER JOIN Organisation ON Organisation.Id = Solution.OrganisationId
-                                            LEFT OUTER JOIN MarketingDetail ON Solution.Id = MarketingDetail.SolutionId
+                                            LEFT OUTER JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId
                                      WHERE  Solution.Id = @id";
 
                 var result = await databaseConnection.QueryAsync<SolutionResult>(sql, new { id });
@@ -100,21 +111,11 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
             using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
             {
                 const string updateSql = @"
-                                    UPDATE  Solution
-                                    SET     Solution.FullDescription = @description,
-                                            Solution.Summary = @summary
-                                    WHERE   Solution.Id = @solutionId;
-
-                                    IF(@@ROWCOUNT > 0)
-                                        MERGE MarketingDetail AS target  
-                                        USING (SELECT @solutionId, @aboutUrl) AS source (SolutionId, AboutURL)
-                                        ON (target.SolutionId = source.SolutionId)  
-                                        WHEN MATCHED THEN
-                                            UPDATE
-                                            SET     AboutURL = source.AboutURL
-                                        WHEN NOT MATCHED THEN
-                                            INSERT (SolutionId, AboutURL)  
-                                            VALUES (source.SolutionId, source.AboutURL);";
+                                    UPDATE  SolutionDetail
+                                    SET     SolutionDetail.FullDescription = @description,
+                                            SolutionDetail.Summary = @summary
+                                    WHERE   Solution.Id = @solutionId
+                                        INNER JOIN Solution ON Solution.SolutionDetailId = SolutionDetail.Id";
 
                 await databaseConnection.ExecuteAsync(updateSql, new { solutionId = updateSolutionSummaryRequest.Id, description = updateSolutionSummaryRequest.Description, summary = updateSolutionSummaryRequest.Summary, aboutUrl = updateSolutionSummaryRequest.AboutUrl });
             }

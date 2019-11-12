@@ -17,12 +17,12 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             //Default
             _organisationEntity = new OrganisationEntity
             {
-                Id = "Org1",
+                Id = Guid.NewGuid(),
                 Name = "Organis1"
             };
         }
 
-        public OrganisationEntityBuilder WithId(string id)
+        public OrganisationEntityBuilder WithId(Guid id)
         {
             _organisationEntity.Id = id;
             return this;

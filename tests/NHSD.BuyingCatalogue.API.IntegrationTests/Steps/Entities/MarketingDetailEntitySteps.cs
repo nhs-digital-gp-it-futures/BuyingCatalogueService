@@ -21,7 +21,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         {
             foreach (var marketingDetail in table.CreateSet<MarketingDetailTable>())
             {
-                await MarketingDetailEntityBuilder.Create()
+                await SolutionDetailEntityBuilder.Create()
                     .WithFeatures(marketingDetail.Features)
                     .WithAboutUrl(marketingDetail.AboutUrl)
                     .WithSolutionId(marketingDetail.Solution)
@@ -34,7 +34,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         [Given(@"a MarketingDetail (.*) does not exist")]
         public async Task GivenAMarketingDetailDoesNotExist(string solutionId)
         {
-            var marketingDetailList = await MarketingDetailEntity.FetchAllAsync();
+            var marketingDetailList = await SolutionDetailEntity.FetchAllAsync();
             marketingDetailList.Select(x => x.SolutionId).Should().NotContain(solutionId);
         }
 
@@ -48,7 +48,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 Features = string.IsNullOrWhiteSpace(m.Features) ? null : m.Features,
                 ClientApplication = string.IsNullOrWhiteSpace(m.ClientApplication) ? null : JToken.Parse(m.ClientApplication).ToString()
             });
-            var marketingDetails = await MarketingDetailEntity.FetchAllAsync();
+            var marketingDetails = await SolutionDetailEntity.FetchAllAsync();
             marketingDetails.Select(m => new
             {
                 Solution = m.SolutionId,

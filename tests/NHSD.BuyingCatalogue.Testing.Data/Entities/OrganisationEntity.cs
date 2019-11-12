@@ -1,18 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using Dapper;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 {
 
     public sealed class OrganisationEntity : EntityBase
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Name { get; set; }
 

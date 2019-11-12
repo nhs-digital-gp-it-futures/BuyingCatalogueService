@@ -33,13 +33,13 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 
             await OrganisationEntityBuilder.Create()
                 .WithName("OrgName1")
-                .WithId("Org1")
+                .WithId(Guid.NewGuid())
                 .Build()
                 .InsertAsync();
 
             await OrganisationEntityBuilder.Create()
                 .WithName("OrgName2")
-                .WithId("Org2")
+                .WithId(Guid.NewGuid())
                 .Build()
                 .InsertAsync();
 
@@ -61,7 +61,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithSummary("Sln1Summary")
+                //.WithSummary("Sln1Summary")
                 .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
                 .Build()
                 .InsertAsync();
@@ -78,7 +78,6 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithSummary("Sln1Summary")
                 .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
                 .Build()
                 .InsertAsync();
@@ -111,7 +110,6 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithSummary("Sln1Summary")
                 .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
                 .Build()
                 .InsertAsync();
@@ -160,7 +158,6 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithSummary("Sln1Summary")
                 .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
                 .Build()
                 .InsertAsync();
@@ -168,7 +165,6 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution2")
                 .WithId("Sln2")
-                .WithSummary("Sln2Summary")
                 .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
                 .Build()
                 .InsertAsync();
@@ -233,13 +229,11 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithSummary("Sln1Summary")
-                .WithFullDescription("Sln1Description")
                 .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
                 .Build()
                 .InsertAsync();
 
-            await MarketingDetailEntityBuilder.Create()
+            await SolutionDetailEntityBuilder.Create()
                 .WithSolutionId("Sln1")
                 .WithAboutUrl("AboutUrl")
                 .WithFeatures("Features")
@@ -273,8 +267,6 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithSummary("Sln1Summary")
-                .WithFullDescription("Sln1Description")
                 .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
                 .Build()
                 .InsertAsync();
@@ -298,8 +290,6 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithSummary("Sln1Summary")
-                .WithFullDescription("Sln1Description")
                 .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
                 .WithSupplierStatusId(1)
                 .Build()
@@ -335,8 +325,6 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithSummary("Sln1Summary")
-                .WithFullDescription("Sln1Description")
                 .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
                 .Build()
                 .InsertAsync();
@@ -344,13 +332,11 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution2")
                 .WithId("Sln2")
-                .WithSummary("Sln2Summary")
-                .WithFullDescription("Sln2Description")
                 .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
                 .Build()
                 .InsertAsync();
 
-            await MarketingDetailEntityBuilder.Create()
+            await SolutionDetailEntityBuilder.Create()
                 .WithSolutionId("Sln1")
                 .WithAboutUrl("AboutUrl")
                 .WithFeatures("Features")
@@ -369,16 +355,12 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             var solution = await SolutionEntity.GetByIdAsync("Sln1");
             solution.Id.Should().Be("Sln1");
             solution.Name.Should().Be("Solution1");
-            solution.Summary.Should().Be("Sln4Summary");
-            solution.FullDescription.Should().Be("Sln4Description");
 
             solution = await SolutionEntity.GetByIdAsync("Sln2");
             solution.Id.Should().Be("Sln2");
             solution.Name.Should().Be("Solution2");
-            solution.Summary.Should().Be("Sln2Summary");
-            solution.FullDescription.Should().Be("Sln2Description");
 
-            var marketingData = await MarketingDetailEntity.GetBySolutionIdAsync("Sln1");
+            var marketingData = await SolutionDetailEntity.GetBySolutionIdAsync("Sln1");
             marketingData.AboutUrl.Should().Be("AboutUrl4");
             marketingData.Features.Should().Be("Features");
             marketingData.ClientApplication.Should().Be("Browser-based");
@@ -404,8 +386,6 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithSummary("Sln1Summary")
-                .WithFullDescription("Sln1Description")
                 .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
                 .Build()
                 .InsertAsync();
@@ -413,8 +393,6 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution2")
                 .WithId("Sln2")
-                .WithSummary("Sln2Summary")
-                .WithFullDescription("Sln2Description")
                 .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
                 .Build()
                 .InsertAsync();
@@ -430,10 +408,8 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             var solution = await SolutionEntity.GetByIdAsync("Sln1");
             solution.Id.Should().Be("Sln1");
             solution.Name.Should().Be("Solution1");
-            solution.Summary.Should().Be("Sln4Summary");
-            solution.FullDescription.Should().Be("Sln4Description");
 
-            var marketingData = await MarketingDetailEntity.GetBySolutionIdAsync("Sln1");
+            var marketingData = await SolutionDetailEntity.GetBySolutionIdAsync("Sln1");
             marketingData.AboutUrl.Should().Be("AboutUrl4");
             marketingData.Features.Should().BeNull();
             marketingData.ClientApplication.Should().BeNull();

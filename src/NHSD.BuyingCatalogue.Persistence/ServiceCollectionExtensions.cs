@@ -15,7 +15,7 @@ namespace NHSD.BuyingCatalogue.Persistence
             serviceCollection.AddSingleton<IRepositoryHealthCheck, RepositoryHealthCheck>();
             serviceCollection.AddTransient<ICapabilityRepository, CapabilityRepository>();
             serviceCollection.AddTransient<ISolutionRepository, SolutionRepository>();
-            serviceCollection.AddTransient<IMarketingDetailRepository, MarketingDetailRepository>();
+            serviceCollection.AddTransient<ISolutionDetailRepository, SolutionDetailRepository>();
             return serviceCollection;
         }
     }

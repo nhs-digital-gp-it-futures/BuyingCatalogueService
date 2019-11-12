@@ -11,16 +11,16 @@ namespace NHSD.BuyingCatalogue.Application.Persistence
         /// <summary>
         /// Data access layer for the <see cref="Solution"/> entity.
         /// </summary>
-        private readonly IMarketingDetailRepository _marketingDetailRepository;
+        private readonly ISolutionDetailRepository _solutionDetailRepository;
 
-        public SolutionFeaturesUpdater(IMarketingDetailRepository marketingDetailRepository)
+        public SolutionFeaturesUpdater(ISolutionDetailRepository solutionDetailRepository)
         {
-            _marketingDetailRepository = marketingDetailRepository;
+            _solutionDetailRepository = solutionDetailRepository;
         }
 
         public async Task UpdateAsync(Solution solution, CancellationToken cancellationToken)
         {
-            await _marketingDetailRepository.UpdateFeaturesAsync(Map(solution), cancellationToken);
+            await _solutionDetailRepository.UpdateFeaturesAsync(Map(solution), cancellationToken);
         }
 
         private IUpdateSolutionFeaturesRequest Map(Solution solution)
