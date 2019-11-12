@@ -23,11 +23,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             {
                 await SolutionDetailEntityBuilder.Create()
                     .WithFeatures(marketingDetail.Features)
+                    .WithSummary(marketingDetail.SummaryDescription)
+                    .WithFullDescription(marketingDetail.FullDescription)
                     .WithAboutUrl(marketingDetail.AboutUrl)
                     .WithSolutionId(marketingDetail.Solution)
                     .WithClientApplication(marketingDetail.ClientApplication)
                     .Build()
-                    .InsertAsync();
+                    .InsertAndSetCurrentForSolutionAsync();
             }
         }
 
@@ -61,6 +63,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         private class MarketingDetailTable
         {
             public string Solution { get; set; }
+
+            public string SummaryDescription { get; set; }
+
+            public string FullDescription { get; set; }
 
             public string AboutUrl { get; set; }
 

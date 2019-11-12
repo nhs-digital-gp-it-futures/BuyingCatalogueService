@@ -78,11 +78,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
 
             public string SolutionName { get; set; }
 
-            public string SummaryDescription { get; set; }
-
             public string OrganisationName { get; set; }
-
-            public string FullDescription { get; set; }
 
             public int SupplierStatusId { get; set; }
         }

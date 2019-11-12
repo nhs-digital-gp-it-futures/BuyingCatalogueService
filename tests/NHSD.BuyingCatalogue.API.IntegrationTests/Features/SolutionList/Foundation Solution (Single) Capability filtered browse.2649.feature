@@ -15,10 +15,10 @@ Background:
         | GPs-R-Us |
         | Drs. Inc |
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | 1                |
-        | Sln2       | TakeTheRedPill | Eye opening experience         | Drs. Inc         | 1                |
-        | Sln3       | PracticeMgr    | Fully fledged GP system        | Drs. Inc         | 1                |
+        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
+        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                |
+        | Sln3       | PracticeMgr    | Drs. Inc         | 1                |
     And Solutions are linked to Capabilities
         | Solution       | Capability              |
         | MedicOnline    | Appointments Management |

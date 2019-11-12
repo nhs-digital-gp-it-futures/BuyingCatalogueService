@@ -9,32 +9,32 @@ Background:
         | GPs-R-Us |
         | Drs. Inc |
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | FullDescription     | SupplierStatusId |
-        | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | Online medicine 1   | 1                |
-        | Sln2       | TakeTheRedPill | Eye opening experience         | Drs. Inc         | Eye opening6        | 1                |
-        | Sln3       | PracticeMgr    | Fully fledged GP system        | Drs. Inc         | Fully fledged GP 12 | 1                |
+        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
+        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                |
+        | Sln3       | PracticeMgr    | Drs. Inc         | 1                |
 
 @2726
 Scenario: 1. Client Application Types are updated for the solution
     Given MarketingDetail exist
-        | Solution | ClientApplication                                                                     |
-        | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
-        | Sln2     | {  }                                                                                  |
-        | Sln3     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] } |
+        | Solution | SummaryDescription             | FullDescription     |  ClientApplication                                                                     |
+        | Sln1     | An full online medicine system | Online medicine 1   |  { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
+        | Sln2     | Fully fledged GP system        | Fully fledged GP 12 |  {  }                                                                                  |
+        | Sln3     | Thrills                        | Bellyaches          |  { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] } |
     When a PUT request is made to update solution Sln1 client-application-types section
         | ClientApplicationTypes       |
         | browser-based,native-mobile |
     Then a successful response is returned
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | FullDescription     | SupplierStatusId |
-        | Sln1       | MedicOnline    | An full online medicine system | Online medicine 1   | 1                |
-        | Sln2       | TakeTheRedPill | Eye opening experience         | Eye opening6        | 1                |
-        | Sln3       | PracticeMgr    | Fully fledged GP system        | Fully fledged GP 12 | 1                |
+        | SolutionID | SolutionName   | SupplierStatusId |
+        | Sln1       | MedicOnline    | 1                |
+        | Sln2       | TakeTheRedPill | 1                |
+        | Sln3       | PracticeMgr    | 1                |
     And MarketingDetail exist
-        | Solution | ClientApplication                                                                                                                        |
-        | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null } |
-        | Sln2     | {  }                                                                                                                                     |
-        | Sln3     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] }                                                    |
+        | Solution | SummaryDescription             | FullDescription     |  ClientApplication                                                                                                                        |
+        | Sln1     | An full online medicine system | Online medicine 1   |  { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null } |
+        | Sln2     | Fully fledged GP system        | Fully fledged GP 12 |  {  }                                                                                                                                     |
+        | Sln3     | Thrills                        | Bellyaches          |  { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] }                                                    |
 
 @2726
 Scenario: 2. Client Application Types are added to the solution
@@ -43,58 +43,58 @@ Scenario: 2. Client Application Types are added to the solution
         | browser-based,native-mobile |
     Then a successful response is returned
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | FullDescription     | SupplierStatusId |
-        | Sln1       | MedicOnline    | An full online medicine system | Online medicine 1   | 1                |
-        | Sln2       | TakeTheRedPill | Eye opening experience         | Eye opening6        | 1                |
-        | Sln3       | PracticeMgr    | Fully fledged GP system        | Fully fledged GP 12 | 1                |
+        | SolutionID | SolutionName   | SupplierStatusId |
+        | Sln1       | MedicOnline    | 1                |
+        | Sln2       | TakeTheRedPill | 1                |
+        | Sln3       | PracticeMgr    | 1                |
     And MarketingDetail exist
-        | Solution | ClientApplication                                                                                                                        |
-        | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null } |
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                        |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null } |
 
 @2726
 Scenario: 3. Client Application Types that we do not understand are ignored
     Given MarketingDetail exist
-        | Solution | ClientApplication                                                                     |
-        | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
-        | Sln2     | {  }                                                                                  |
-        | Sln3     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] } |
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                     |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
+        | Sln2     | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                  |
+        | Sln3     | Thrills                        | Bellyaches          | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] } |
     When a PUT request is made to update solution Sln1 client-application-types section
         | ClientApplicationTypes                      |
         | browser-based,native-mobile,elephant,cheese |
     Then a successful response is returned
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | FullDescription     | SupplierStatusId |
-        | Sln1       | MedicOnline    | An full online medicine system | Online medicine 1   | 1                |
-        | Sln2       | TakeTheRedPill | Eye opening experience         | Eye opening6        | 1                |
-        | Sln3       | PracticeMgr    | Fully fledged GP system        | Fully fledged GP 12 | 1                |
+        | SolutionID | SolutionName   | SupplierStatusId |
+        | Sln1       | MedicOnline    | 1                |
+        | Sln2       | TakeTheRedPill | 1                |
+        | Sln3       | PracticeMgr    | 1                |
     And MarketingDetail exist
-        | Solution | ClientApplication                                                                                                                        |
-        | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null } |
-        | Sln2     | {  }                                                                                                                                     |
-        | Sln3     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] }                                                    |
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                        |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null } |
+        | Sln2     | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                                                                     |
+        | Sln3     | Thrills                        | Bellyaches          | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] }                                                    |
 
 @2726
 Scenario: 4. Client Application Types can be completely cleared
     Given MarketingDetail exist
-        | Solution | ClientApplication                                                                     |
-        | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
-        | Sln2     | {  }                                                                                  |
-        | Sln3     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] } |
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                     |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
+        | Sln2     | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                  |
+        | Sln3     | Thrills                        | Bellyaches          | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] } |
     When a PUT request is made to update solution Sln1 client-application-types section
         | ClientApplicationTypes |
         |                        |
     Then a response status of 400 is returned
     Then the client-application-types required field contains client-application-types
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | FullDescription     | SupplierStatusId |
-        | Sln1       | MedicOnline    | An full online medicine system | Online medicine 1   | 1                |
-        | Sln2       | TakeTheRedPill | Eye opening experience         | Eye opening6        | 1                |
-        | Sln3       | PracticeMgr    | Fully fledged GP system        | Fully fledged GP 12 | 1                |
+        | SolutionID | SolutionName   | SupplierStatusId |
+        | Sln1       | MedicOnline    | 1                |
+        | Sln2       | TakeTheRedPill | 1                |
+        | Sln3       | PracticeMgr    | 1                |
     And MarketingDetail exist
-        | Solution | ClientApplication                                                                     |
-        | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
-        | Sln2     | {  }                                                                                  |
-        | Sln3     | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] } |
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                     |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
+        | Sln2     | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                  |
+        | Sln3     | Thrills                        | Bellyaches          | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] } |
 
 @2726
 Scenario: 6. Solution not found

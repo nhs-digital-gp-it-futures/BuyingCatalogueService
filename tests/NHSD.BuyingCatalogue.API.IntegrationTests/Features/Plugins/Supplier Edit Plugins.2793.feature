@@ -9,21 +9,21 @@ Background:
         | GPs-R-Us |
         | Drs. Inc |
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | FullDescription     | SupplierStatusId |
-        | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | Online medicine 1   | 1                |
+        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
 
 @2786
 Scenario: 1. Plugins is updated
     Given MarketingDetail exist
-        | Solution | ClientApplication                                                                                                                                                                             |
-        | Sln1     | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : false, "AdditionalInformation": "orem ipsum" } } |
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                             |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : false, "AdditionalInformation": "orem ipsum" } } |
     When a PUT request is to update solution Sln1 plug-ins section
         | Required | AdditionalInformation     |
         | yes      | This is extra information |
     Then a successful response is returned
     And MarketingDetail exist
-        | Solution | ClientApplication                                                                                                                                                                                            |
-        | Sln1     | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : { "Required" : true , "AdditionalInformation": "This is extra information"} } |
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                                            |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : { "Required" : true , "AdditionalInformation": "This is extra information"} } |
 
                                                                                                                                                                              
 @2786

@@ -9,14 +9,14 @@ Background:
         | GPs-R-Us |
         | Drs. Inc |
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription      | OrganisationName | FullDescription     | SupplierStatusId |
-        | Sln1       | MedicOnline    |                         | GPs-R-Us         | Online medicine 1   | 1                |
-        | Sln2       | TakeTheRedPill | Eye opening experience  | Drs. Inc         | Eye opening6        | 1                |
-        | Sln3       | PracticeMgr    | Fully fledged GP system | Drs. Inc         | Fully fledged GP 12 | 1                |
+        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
+        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                |
+        | Sln3       | PracticeMgr    | Drs. Inc         | 1                |
     And MarketingDetail exist
-        | Solution | AboutUrl | Features                          |
-        | Sln1     | UrlSln1  | [ "Appointments", "Prescribing" ] |
-        | Sln3     | UrlSln3  | [ "Referrals", "Workflow" ]       |
+        | Solution | AboutUrl | SummaryDescription      | FullDescription     | Features                          |
+        | Sln1     | UrlSln1  |                         | Online medicine 1   | [ "Appointments", "Prescribing" ] |
+        | Sln3     | UrlSln3  | Eye opening experience  | Eye opening6        | [ "Referrals", "Workflow" ]       |
 
 @1848
 Scenario: 1. Solution description section presented where Marketing Detail exists
