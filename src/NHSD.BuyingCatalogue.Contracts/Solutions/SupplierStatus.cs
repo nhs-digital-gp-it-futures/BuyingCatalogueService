@@ -1,4 +1,4 @@
-using NHSD.BuyingCatalogue.Domain.Infrastructure;
+using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Contracts.Solutions
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace NHSD.BuyingCatalogue.Domain.Infrastructure
+namespace NHSD.BuyingCatalogue.Infrastructure
 {
     /// <summary>
     /// Represents an enumeration.

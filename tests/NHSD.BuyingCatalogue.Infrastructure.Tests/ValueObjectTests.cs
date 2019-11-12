@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using FluentAssertions;
-using NHSD.BuyingCatalogue.Domain.Infrastructure;
 using NUnit.Framework;
 
-namespace NHSD.BuyingCatalogue.Domain.Tests.Infrastructure
+namespace NHSD.BuyingCatalogue.Infrastructure.Tests
 {
     [TestFixture]
     public sealed class ValueObjectTests

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using NHSD.BuyingCatalogue.Domain.Infrastructure;
+using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
 {

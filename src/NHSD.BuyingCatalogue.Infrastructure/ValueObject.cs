@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NHSD.BuyingCatalogue.Domain.Infrastructure
+namespace NHSD.BuyingCatalogue.Infrastructure
 {
     /// <summary>
     /// Represents a building block of a domain model. It should be a small concept representing the value of an entity.

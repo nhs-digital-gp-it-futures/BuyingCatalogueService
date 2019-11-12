@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Contracts\NHSD.BuyingCatalogue.Contracts.csproj" />
-    <ProjectReference Include="..\NHSD.BuyingCatalogue.Domain\NHSD.BuyingCatalogue.Domain.csproj" />
+    <ProjectReference Include="..\NHSD.BuyingCatalogue.Infrastructure\NHSD.BuyingCatalogue.Infrastructure.csproj" />
   </ItemGroup>
 
     <ItemGroup>

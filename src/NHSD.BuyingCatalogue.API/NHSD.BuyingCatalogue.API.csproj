@@ -31,7 +31,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Application\NHSD.BuyingCatalogue.Application.csproj" />
-    <ProjectReference Include="..\NHSD.BuyingCatalogue.Domain\NHSD.BuyingCatalogue.Domain.csproj" />
+    <ProjectReference Include="..\NHSD.BuyingCatalogue.Infrastructure\NHSD.BuyingCatalogue.Infrastructure.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Persistence\NHSD.BuyingCatalogue.Persistence.csproj" />
   </ItemGroup>
 
