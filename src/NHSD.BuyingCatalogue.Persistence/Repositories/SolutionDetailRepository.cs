@@ -42,15 +42,15 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
             using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
             {
                 const string updateSql = @" IF EXISTS (SELECT 1 FROM Solution WHERE Id = @solutionId)
-                                        MERGE SolutionDetail AS target  
+                                        MERGE MarketingDetail AS target  
                                         USING (SELECT @solutionId, @features) AS source (SolutionId, Features)
-                                        ON (target.Id = source.SolutionDetailId AND target.PublishStatus nOT PUBLISHED)  
+                                        ON (target.SolutionId = source.SolutionId)  
                                         WHEN MATCHED THEN
                                             UPDATE
                                             SET  Features = source.Features
                                         WHEN NOT MATCHED THEN
-                                            INSERT (Id, SolutionId, Features)  
-                                            VALUES (newguid, source.SolutionId, source.Features);";
+                                            INSERT (SolutionId, Features)  
+                                            VALUES (source.SolutionId, source.Features);";
 
                 await databaseConnection.ExecuteAsync(updateSql, new { solutionId = updateSolutionFeaturesRequest.Id, features = updateSolutionFeaturesRequest.Features });
             }

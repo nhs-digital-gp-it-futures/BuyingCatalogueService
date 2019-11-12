@@ -11,7 +11,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         public string ParentId { get; set; }
         public string SupplierId { get; set; }
         public Guid OrganisationId { get; set; }
-        public Guid SolutionDetailId { get; set; }
+        public Guid? SolutionDetailId { get; set; }
         public string Name { get; set; }
         public string Version { get; set; }
         public int PublishedStatusId { get; set; }
@@ -46,10 +46,10 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         VALUES
         (
              '{Id}'
-            ,'{ParentId}'
+            ,{NullOrWrapQuotes(ParentId)}
             ,'{SupplierId}'
             ,'{OrganisationId}'
-            ,'{SolutionDetailId}'
+            ,{NullOrWrapQuotes(SolutionDetailId?.ToString())}
             ,'{Name}'
             ,{NullOrWrapQuotes(Version)}
             ,'{PublishedStatusId}'
@@ -58,7 +58,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             ,'{OnCatalogueVersion}'
             ,{NullOrWrapQuotes(ServiceLevelAgreement)}
             ,{NullOrWrapQuotes(WorkOfPlan)}
-            ,'{LastUpdated}'
+            ,'{LastUpdated.ToString("dd-MMM-yyyy")}'
             ,'{LastUpdatedBy}'
 
         )";

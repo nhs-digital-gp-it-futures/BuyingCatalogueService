@@ -21,9 +21,9 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             {
                 Id = id,
                 ParentId = null,
-                SupplierId = "Supplier 1",
+                SupplierId = "Sup 1",
                 OrganisationId = Guid.NewGuid(),
-                SolutionDetailId = Guid.NewGuid(),
+                SolutionDetailId = null,
                 Name = $"Solution Name {id}",
                 Version = "1.0.0",
                 PublishedStatusId = 1,

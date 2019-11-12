@@ -1,3 +1,4 @@
+using System;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Application.SolutionList.Domain
@@ -13,7 +14,7 @@ namespace NHSD.BuyingCatalogue.Application.SolutionList.Domain
         /// <summary>
         /// Identifier of the organisation.
         /// </summary>
-        public string Id { get; }
+        public Guid Id { get; }
 
         /// <summary>
         /// Name of the organisation.

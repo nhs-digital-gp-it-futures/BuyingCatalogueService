@@ -34,18 +34,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             return this;
         }
 
-        public OrganisationEntityBuilder WithSummary(string summary)
-        {
-            _organisationEntity.Summary = summary;
-            return this;
-        }
-
-        public OrganisationEntityBuilder WithOrganisationUrl(string organisationUrl)
-        {
-            _organisationEntity.OrganisationUrl = organisationUrl;
-            return this;
-        }
-
         public OrganisationEntityBuilder WithOdsCode(string odsCode)
         {
             _organisationEntity.OdsCode = odsCode;
@@ -61,6 +49,32 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
         public OrganisationEntityBuilder WithCrmRef(Guid crmRef)
         {
             _organisationEntity.CrmRef = crmRef;
+            return this;
+        }
+
+        public OrganisationEntityBuilder WithAddress(string address)
+        {
+            _organisationEntity.Address = address;
+            return this;
+        }
+        public OrganisationEntityBuilder WithCatalogueAgreementSigned(bool catalogueAgreementSigned)
+        {
+            _organisationEntity.CatalogueAgreementSigned = catalogueAgreementSigned;
+            return this;
+        }
+        public OrganisationEntityBuilder WithDeleted(bool deleted)
+        {
+            _organisationEntity.Deleted = deleted;
+            return this;
+        }
+        public OrganisationEntityBuilder WithLastUpdated(DateTime lastUpdated)
+        {
+            _organisationEntity.LastUpdated = lastUpdated;
+            return this;
+        }
+        public OrganisationEntityBuilder WithLastUpdatedBy(Guid lastUpdatedBy)
+        {
+            _organisationEntity.LastUpdatedBy = lastUpdatedBy;
             return this;
         }
 

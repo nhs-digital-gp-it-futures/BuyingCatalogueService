@@ -37,29 +37,19 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
         {
             using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
             {
-                const string sql = @"SELECT Solution.Id as SolutionId,
-                                            Solution.ParentId as ParentId,
-                                            Solution.SupplierId as SupplierId,
-                                            Solution.OrganisationId as OrganisationId,
-                                            Solution.SolutionDetailId as SolutionDetailId,
+                const string sql = @"SELECT Solution.Id as SolutionId, 
                                             Solution.Name as SolutionName,
-                                            Solution.Version as Version,
-                                            Solution.ServiceLevelAgreement as ServiceLevelAgreement,
-                                            Solution.WorkOfPlan as WorkOfPlan,
-                                            Solution.LastUpdated as LastUpdated,
-                                            Solution.LastUpdatedBy as LastUpdatedBy,                                      
-
-                                            Solution.Summary as SolutionSummary,
+                                            SolutionDetail.Summary as SolutionSummary,
                                             Organisation.Id as OrganisationId,
                                             Organisation.Name as OrganisationName,
                                             Capability.Id as CapabilityId,
                                             Capability.Name as CapabilityName,
                                             Capability.Description as CapabilityDescription
-                                    FROM    Solution
-                                            INNER JOIN SolutionDetail ON SolutionDetail.Id = Solution.SolutionDetailId
+                                    FROM    Solution 
                                             INNER JOIN Organisation ON Organisation.Id = Solution.OrganisationId
                                             INNER JOIN SolutionCapability ON Solution.Id = SolutionCapability.SolutionId
-                                            INNER JOIN Capability ON Capability.Id = SolutionCapability.CapabilityId";
+                                            INNER JOIN Capability ON Capability.Id = SolutionCapability.CapabilityId
+                                            LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId";
 
 
                 return await databaseConnection.QueryAsync<SolutionListResult>(sql);

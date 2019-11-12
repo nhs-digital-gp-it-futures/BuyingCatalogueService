@@ -17,7 +17,10 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             //Default
             _solutionDetailEntity = new SolutionDetailEntity
             {
-                SolutionId = "Sln1"
+                SolutionId = "Sln1",
+                Id = Guid.NewGuid(),
+                LastUpdated = DateTime.Now,
+                LastUpdatedBy = Guid.NewGuid()
             };
         }
 

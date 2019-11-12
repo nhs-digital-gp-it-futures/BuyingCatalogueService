@@ -333,7 +333,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.Setup(c => c.SolutionName).Returns($"{solnId}Name");
             solution.Setup(c => c.SolutionSummary).Returns($"{solnId}Summary");
 
-            solution.Setup(c => c.OrganisationId).Returns(orgId);
+            solution.Setup(c => c.OrganisationId).Returns(Guid.NewGuid());//TODO - lookup Ids
             solution.Setup(c => c.OrganisationName).Returns(organisationName);
 
             solution.Setup(c => c.CapabilityId).Returns(capability.Id);

@@ -8,18 +8,26 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         public Guid CapabilityId { get; set; }
         public int StatusId { get; set; }
 
+        public DateTime LastUpdated { get; set; }
+
+        public Guid LastUpdatedBy { get; set; }
+
         protected override string InsertSql => $@"
         INSERT INTO [dbo].[SolutionCapability]
         (
             [SolutionId]
             ,[CapabilityId]
             ,[StatusId]
+            ,[LastUpdated]
+            ,[LastUpdatedBy]
         )
         VALUES
         (
              '{SolutionId}'
             ,'{CapabilityId}'
-            ,{StatusId}
+            ,'{StatusId}'
+            ,'{LastUpdated.ToString("dd-MMM-yyyy")}'
+            ,'{LastUpdatedBy}'
         )";
     }
 }

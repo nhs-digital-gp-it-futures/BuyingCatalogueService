@@ -36,7 +36,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         public Guid LastUpdatedBy { get; set; }
 
         protected override string InsertSql  => $@"
-        INSERT INTO [dbo].[SolutionDetailEntity]
+        INSERT INTO [dbo].[SolutionDetail]
         ([Id]
         ,[SolutionId]
         ,[PublishedStatusId]        
@@ -64,7 +64,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             ,{NullOrWrapQuotes(AboutUrl)}
             ,{NullOrWrapQuotes(Summary)}
             ,{NullOrWrapQuotes(FullDescription)}
-            ,'{LastUpdated}'
+            ,'{LastUpdated.ToString("dd-MMM-yyyy")}'
             ,'{LastUpdatedBy}')";
 
 
@@ -72,22 +72,27 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         {
             return await SqlRunner.FetchAllAsync<SolutionDetailEntity>($@"SELECT 
                            ([Id]
-        ,[SolutionId]
-        ,[PublishedStatusId]        
-        ,[Features]
-        ,[ClientApplication]
-        ,[Hosting]
-        ,[ImplementationDetail]
-        ,[RoadMap]
-        ,[RoadMapImageUrl]
-        ,[AboutUrl]
-        ,[Summary]
-        ,[FullDescription]
-        ,[LastUpdated]
-        ,[LastUpdatedBy])
-                            FROM MarketingDetail");
+                            ,[SolutionId]
+                            ,[PublishedStatusId]        
+                            ,[Features]
+                            ,[ClientApplication]
+                            ,[Hosting]
+                            ,[ImplementationDetail]
+                            ,[RoadMap]
+                            ,[RoadMapImageUrl]
+                            ,[AboutUrl]
+                            ,[Summary]
+                            ,[FullDescription]
+                            ,[LastUpdated]
+                            ,[LastUpdatedBy])
+                            FROM SolutionDetail");
         }
 
+        public async Task InsertAndSetCurrentForSolutionAsync()
+        {
+            await base.InsertAsync();
+            await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, $"UPDATE Solution SET SolutionDetailId = '{this.Id}' WHERE Id = '{this.SolutionId}'");
+        }
 
         public static async Task<SolutionDetailEntity> GetBySolutionIdAsync(string solutionId)
         {
