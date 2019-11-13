@@ -11,7 +11,7 @@ namespace NHSD.BuyingCatalogue.Persistence.Models
 
         public string SolutionSummary { get; set; }
 
-        public string OrganisationId { get; set; }
+        public Guid OrganisationId { get; set; }
 
         public string OrganisationName { get; set; }
 

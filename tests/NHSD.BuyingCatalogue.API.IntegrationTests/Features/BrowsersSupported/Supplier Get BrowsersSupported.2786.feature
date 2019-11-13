@@ -9,16 +9,16 @@ Background:
         | GPs-R-Us |
         | Drs. Inc |
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | FullDescription     | SupplierStatusId |
-        | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | Online medicine 1   | 1                |
-        | Sln2       | TakeTheRedPill | Eye opening experience         | Drs. Inc         | Eye opening6        | 1                |
-        | Sln3       | PracticeMgr    | Fully fledged GP system        | Drs. Inc         | Fully fledged GP 12 | 1                |
-        | Sln5       | SolutionTest   | Testing System                 | GPs-R-Us         | Full System         | 1                |
+        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
+        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                |
+        | Sln3       | PracticeMgr    | Drs. Inc         | 1                |
+        | Sln5       | SolutionTest   | GPs-R-Us         | 1                |
     And MarketingDetail exist
-        | Solution | ClientApplication                                                        |
-        | Sln1     | { "BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true } |
-        | Sln3     |                                                                          |
-        | Sln5     | {"MobileResponsive": false }                                             |
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                        |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true } |
+        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                          |
+        | Sln5     | Testing System                 | Full System         | {"MobileResponsive": false }                                             |
 
 @2786
 Scenario: 1. Supported Browsers are retrieved for the solution

@@ -17,12 +17,12 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             //Default
             _organisationEntity = new OrganisationEntity
             {
-                Id = "Org1",
+                Id = Guid.NewGuid(),
                 Name = "Organis1"
             };
         }
 
-        public OrganisationEntityBuilder WithId(string id)
+        public OrganisationEntityBuilder WithId(Guid id)
         {
             _organisationEntity.Id = id;
             return this;
@@ -31,18 +31,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
         public OrganisationEntityBuilder WithName(string name)
         {
             _organisationEntity.Name = name;
-            return this;
-        }
-
-        public OrganisationEntityBuilder WithSummary(string summary)
-        {
-            _organisationEntity.Summary = summary;
-            return this;
-        }
-
-        public OrganisationEntityBuilder WithOrganisationUrl(string organisationUrl)
-        {
-            _organisationEntity.OrganisationUrl = organisationUrl;
             return this;
         }
 
@@ -61,6 +49,32 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
         public OrganisationEntityBuilder WithCrmRef(Guid crmRef)
         {
             _organisationEntity.CrmRef = crmRef;
+            return this;
+        }
+
+        public OrganisationEntityBuilder WithAddress(string address)
+        {
+            _organisationEntity.Address = address;
+            return this;
+        }
+        public OrganisationEntityBuilder WithCatalogueAgreementSigned(bool catalogueAgreementSigned)
+        {
+            _organisationEntity.CatalogueAgreementSigned = catalogueAgreementSigned;
+            return this;
+        }
+        public OrganisationEntityBuilder WithDeleted(bool deleted)
+        {
+            _organisationEntity.Deleted = deleted;
+            return this;
+        }
+        public OrganisationEntityBuilder WithLastUpdated(DateTime lastUpdated)
+        {
+            _organisationEntity.LastUpdated = lastUpdated;
+            return this;
+        }
+        public OrganisationEntityBuilder WithLastUpdatedBy(Guid lastUpdatedBy)
+        {
+            _organisationEntity.LastUpdatedBy = lastUpdatedBy;
             return this;
         }
 

@@ -41,6 +41,18 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             return this;
         }
 
+        public SolutionCapabilityEntityBuilder WithLastUpdated(DateTime lastUpdated)
+        {
+            _SolutionCapabilityEntity.LastUpdated = lastUpdated;
+            return this;
+        }
+        public SolutionCapabilityEntityBuilder WithLastUpdatedBy(Guid lastUpdatedBy)
+        {
+            _SolutionCapabilityEntity.LastUpdatedBy = lastUpdatedBy;
+            return this;
+        }
+
+
         public SolutionCapabilityEntity Build()
         {
             return _SolutionCapabilityEntity;

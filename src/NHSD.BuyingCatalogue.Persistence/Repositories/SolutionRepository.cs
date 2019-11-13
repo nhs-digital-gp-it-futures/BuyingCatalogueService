@@ -39,7 +39,7 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
             {
                 const string sql = @"SELECT Solution.Id as SolutionId, 
                                             Solution.Name as SolutionName,
-                                            Solution.Summary as SolutionSummary,
+                                            SolutionDetail.Summary as SolutionSummary,
                                             Organisation.Id as OrganisationId,
                                             Organisation.Name as OrganisationName,
                                             Capability.Id as CapabilityId,
@@ -48,7 +48,8 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                                     FROM    Solution 
                                             INNER JOIN Organisation ON Organisation.Id = Solution.OrganisationId
                                             INNER JOIN SolutionCapability ON Solution.Id = SolutionCapability.SolutionId
-                                            INNER JOIN Capability ON Capability.Id = SolutionCapability.CapabilityId";
+                                            INNER JOIN Capability ON Capability.Id = SolutionCapability.CapabilityId
+                                            LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId";
 
 
                 return await databaseConnection.QueryAsync<SolutionListResult>(sql);
@@ -66,16 +67,16 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
             using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
             {
                 const string sql = @"SELECT Solution.Id,
-                                            Solution.Name,
-                                            Solution.Summary,
+                                            Solution.Name,                                           
                                             Organisation.Name as OrganisationName,
-                                            Solution.FullDescription AS Description,
-                                            MarketingDetail.AboutUrl AS AboutUrl,
-                                            MarketingDetail.Features As Features,
-                                            MarketingDetail.ClientApplication as ClientApplication
+                                            SolutionDetail.Summary AS Summary,
+                                            SolutionDetail.FullDescription AS Description,
+                                            SolutionDetail.AboutUrl AS AboutUrl,
+                                            SolutionDetail.Features As Features,
+                                            SolutionDetail.ClientApplication as ClientApplication
                                      FROM   Solution
                                             INNER JOIN Organisation ON Organisation.Id = Solution.OrganisationId
-                                            LEFT OUTER JOIN MarketingDetail ON Solution.Id = MarketingDetail.SolutionId
+                                            LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
                                      WHERE  Solution.Id = @id";
 
                 var result = await databaseConnection.QueryAsync<SolutionResult>(sql, new { id });
@@ -100,21 +101,16 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
             using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
             {
                 const string updateSql = @"
-                                    UPDATE  Solution
-                                    SET     Solution.FullDescription = @description,
-                                            Solution.Summary = @summary
-                                    WHERE   Solution.Id = @solutionId;
-
-                                    IF(@@ROWCOUNT > 0)
-                                        MERGE MarketingDetail AS target  
-                                        USING (SELECT @solutionId, @aboutUrl) AS source (SolutionId, AboutURL)
-                                        ON (target.SolutionId = source.SolutionId)  
-                                        WHEN MATCHED THEN
-                                            UPDATE
-                                            SET     AboutURL = source.AboutURL
-                                        WHEN NOT MATCHED THEN
-                                            INSERT (SolutionId, AboutURL)  
-                                            VALUES (source.SolutionId, source.AboutURL);";
+                                    UPDATE  SolutionDetail                                   
+                                    SET     SolutionDetail.FullDescription = @description,
+                                            SolutionDetail.Summary = @summary,
+                                            SolutionDetail.AboutUrl = @aboutUrl
+                                    FROM SolutionDetail
+                                        INNER JOIN Solution
+                                            ON solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
+                                    WHERE   Solution.Id = @solutionId
+                                    IF @@ROWCOUNT = 0
+                                        THROW 60000, 'Solution or SolutionDetail not found', 1; ";
 
                 await databaseConnection.ExecuteAsync(updateSql, new { solutionId = updateSolutionSummaryRequest.Id, description = updateSolutionSummaryRequest.Description, summary = updateSolutionSummaryRequest.Summary, aboutUrl = updateSolutionSummaryRequest.AboutUrl });
             }
@@ -138,7 +134,9 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                 const string updateSolutionSupplierStatusSql = @"
                                             UPDATE  Solution
                                             SET		Solution.SupplierStatusId = @supplierStatusId
-                                            WHERE   Solution.Id = @id;";
+                                            WHERE   Solution.Id = @id
+                                    IF @@ROWCOUNT = 0
+                                        THROW 60000, 'Solution or SolutionDetail not found', 1; ";
 
                 await databaseConnection.ExecuteAsync(updateSolutionSupplierStatusSql, updateSolutionSupplierStatusRequest);
             }

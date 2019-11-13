@@ -1,3 +1,4 @@
+using System;
 using NHSD.BuyingCatalogue.Contracts.SolutionList;
 
 namespace NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions
@@ -10,7 +11,7 @@ namespace NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions
         /// <summary>
         /// Identifier of organisation.
         /// </summary>
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// Name of organisation.

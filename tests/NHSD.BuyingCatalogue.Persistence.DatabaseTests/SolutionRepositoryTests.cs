@@ -1,4 +1,5 @@
 using System;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -33,13 +34,13 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 
             await OrganisationEntityBuilder.Create()
                 .WithName("OrgName1")
-                .WithId("Org1")
+                .WithId(Guid.NewGuid())
                 .Build()
                 .InsertAsync();
 
             await OrganisationEntityBuilder.Create()
                 .WithName("OrgName2")
-                .WithId("Org2")
+                .WithId(Guid.NewGuid())
                 .Build()
                 .InsertAsync();
 
@@ -61,7 +62,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithSummary("Sln1Summary")
+                //.WithSummary("Sln1Summary")
                 .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
                 .Build()
                 .InsertAsync();
@@ -73,15 +74,20 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         [Test]
         public async Task ShouldListSingleSolutionWithSingleCapability()
         {
-            var organisations = await OrganisationEntity.FetchAllAsync();
+            var organisations = (await OrganisationEntity.FetchAllAsync()).ToList();
 
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithSummary("Sln1Summary")
                 .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
                 .Build()
                 .InsertAsync();
+
+            await SolutionDetailEntityBuilder.Create()
+                .WithSolutionId("Sln1")
+                .WithSummary("Sln1Summary")
+                .Build()
+                .InsertAndSetCurrentForSolutionAsync();
 
             await SolutionCapabilityEntityBuilder.Create()
                 .WithSolutionId("Sln1")
@@ -95,7 +101,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             solution.SolutionId.Should().Be("Sln1");
             solution.SolutionName.Should().Be("Solution1");
             solution.SolutionSummary.Should().Be("Sln1Summary");
-            solution.OrganisationId.Should().Be("Org1");
+            solution.OrganisationId.Should().Be(organisations.First(o => o.Name == "OrgName1").Id);
             solution.OrganisationName.Should().Be("OrgName1");
             solution.CapabilityId.Should().Be(Cap1Id);
             solution.CapabilityName.Should().Be("Cap1");
@@ -111,10 +117,15 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithSummary("Sln1Summary")
                 .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
                 .Build()
                 .InsertAsync();
+
+            await SolutionDetailEntityBuilder.Create()
+                .WithSolutionId("Sln1")
+                .WithSummary("Sln1Summary")
+                .Build()
+                .InsertAndSetCurrentForSolutionAsync();
 
             await SolutionCapabilityEntityBuilder.Create()
                 .WithSolutionId("Sln1")
@@ -135,7 +146,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             solution.SolutionId.Should().Be("Sln1");
             solution.SolutionName.Should().Be("Solution1");
             solution.SolutionSummary.Should().Be("Sln1Summary");
-            solution.OrganisationId.Should().Be("Org1");
+            solution.OrganisationId.Should().Be(organisations.First(o => o.Name == "OrgName1").Id);
             solution.OrganisationName.Should().Be("OrgName1");
             solution.CapabilityId.Should().Be(Cap1Id);
             solution.CapabilityName.Should().Be("Cap1");
@@ -145,7 +156,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             solution.SolutionId.Should().Be("Sln1");
             solution.SolutionName.Should().Be("Solution1");
             solution.SolutionSummary.Should().Be("Sln1Summary");
-            solution.OrganisationId.Should().Be("Org1");
+            solution.OrganisationId.Should().Be(organisations.First(o => o.Name == "OrgName1").Id);
             solution.OrganisationName.Should().Be("OrgName1");
             solution.CapabilityId.Should().Be(Cap2Id);
             solution.CapabilityName.Should().Be("Cap2");
@@ -160,7 +171,6 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithSummary("Sln1Summary")
                 .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
                 .Build()
                 .InsertAsync();
@@ -168,10 +178,21 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution2")
                 .WithId("Sln2")
-                .WithSummary("Sln2Summary")
                 .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
                 .Build()
                 .InsertAsync();
+
+            await SolutionDetailEntityBuilder.Create()
+                .WithSolutionId("Sln1")
+                .WithSummary("Sln1Summary")
+                .Build()
+                .InsertAndSetCurrentForSolutionAsync();
+
+            await SolutionDetailEntityBuilder.Create()
+                .WithSolutionId("Sln2")
+                .WithSummary("Sln2Summary")
+                .Build()
+                .InsertAndSetCurrentForSolutionAsync();
 
             await SolutionCapabilityEntityBuilder.Create()
                 .WithSolutionId("Sln1")
@@ -198,7 +219,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             solution.SolutionId.Should().Be("Sln1");
             solution.SolutionName.Should().Be("Solution1");
             solution.SolutionSummary.Should().Be("Sln1Summary");
-            solution.OrganisationId.Should().Be("Org1");
+            solution.OrganisationId.Should().Be(organisations.First(o => o.Name == "OrgName1").Id);
             solution.OrganisationName.Should().Be("OrgName1");
             solution.CapabilityId.Should().Be(Cap1Id);
             solution.CapabilityName.Should().Be("Cap1");
@@ -208,7 +229,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             solution.SolutionId.Should().Be("Sln1");
             solution.SolutionName.Should().Be("Solution1");
             solution.SolutionSummary.Should().Be("Sln1Summary");
-            solution.OrganisationId.Should().Be("Org1");
+            solution.OrganisationId.Should().Be(organisations.First(o => o.Name == "OrgName1").Id);
             solution.OrganisationName.Should().Be("OrgName1");
             solution.CapabilityId.Should().Be(Cap2Id);
             solution.CapabilityName.Should().Be("Cap2");
@@ -218,7 +239,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             solution.SolutionId.Should().Be("Sln2");
             solution.SolutionName.Should().Be("Solution2");
             solution.SolutionSummary.Should().Be("Sln2Summary");
-            solution.OrganisationId.Should().Be("Org1");
+            solution.OrganisationId.Should().Be(organisations.First(o => o.Name == "OrgName1").Id);
             solution.OrganisationName.Should().Be("OrgName1");
             solution.CapabilityId.Should().Be(Cap2Id);
             solution.CapabilityName.Should().Be("Cap2");
@@ -233,19 +254,19 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithSummary("Sln1Summary")
-                .WithFullDescription("Sln1Description")
                 .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
                 .Build()
                 .InsertAsync();
 
-            await MarketingDetailEntityBuilder.Create()
+            await SolutionDetailEntityBuilder.Create()
                 .WithSolutionId("Sln1")
+                .WithSummary("Sln1Summary")
+                .WithFullDescription("Sln1Description")
                 .WithAboutUrl("AboutUrl")
                 .WithFeatures("Features")
                 .WithClientApplication("Browser-based")
                 .Build()
-                .InsertAsync();
+                .InsertAndSetCurrentForSolutionAsync();
 
             var solution = await _solutionRepository.ByIdAsync("Sln1", new CancellationToken());
             solution.Id.Should().Be("Sln1");
@@ -266,15 +287,13 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         }
 
         [Test]
-        public async Task ShouldGetByIdMarketingDataNotPresent()
+        public async Task ShouldGetByIdSolutionDetailNotPresent()
         {
             var organisations = await OrganisationEntity.FetchAllAsync();
 
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithSummary("Sln1Summary")
-                .WithFullDescription("Sln1Description")
                 .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
                 .Build()
                 .InsertAsync();
@@ -282,8 +301,8 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             var solution = await _solutionRepository.ByIdAsync("Sln1", new CancellationToken());
             solution.Id.Should().Be("Sln1");
             solution.Name.Should().Be("Solution1");
-            solution.Summary.Should().Be("Sln1Summary");
-            solution.Description.Should().Be("Sln1Description");
+            solution.Summary.Should().BeNull();
+            solution.Description.Should().BeNull();
             solution.OrganisationName.Should().Be("OrgName1");
             solution.AboutUrl.Should().BeNull();
             solution.Features.Should().BeNull();
@@ -298,8 +317,6 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithSummary("Sln1Summary")
-                .WithFullDescription("Sln1Description")
                 .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
                 .WithSupplierStatusId(1)
                 .Build()
@@ -317,13 +334,13 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         }
 
         [Test]
-        public void ShouldUpdateSupplierStatusNotPresent()
+        public void ShouldThrowOnUpdateSupplierStatusNotPresent()
         {
             var mockUpdateSolutionSupplierStatusRequest = new Mock<IUpdateSolutionSupplierStatusRequest>();
             mockUpdateSolutionSupplierStatusRequest.Setup(m => m.Id).Returns("Sln1");
             mockUpdateSolutionSupplierStatusRequest.Setup(m => m.SupplierStatusId).Returns(2);
 
-            Assert.DoesNotThrowAsync(() =>  _solutionRepository.UpdateSupplierStatusAsync(mockUpdateSolutionSupplierStatusRequest.Object, new CancellationToken()));
+            Assert.ThrowsAsync<SqlException>(() =>  _solutionRepository.UpdateSupplierStatusAsync(mockUpdateSolutionSupplierStatusRequest.Object, new CancellationToken()));
         }
 
 
@@ -335,8 +352,6 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithSummary("Sln1Summary")
-                .WithFullDescription("Sln1Description")
                 .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
                 .Build()
                 .InsertAsync();
@@ -344,19 +359,17 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution2")
                 .WithId("Sln2")
-                .WithSummary("Sln2Summary")
-                .WithFullDescription("Sln2Description")
                 .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
                 .Build()
                 .InsertAsync();
 
-            await MarketingDetailEntityBuilder.Create()
+            await SolutionDetailEntityBuilder.Create()
                 .WithSolutionId("Sln1")
-                .WithAboutUrl("AboutUrl")
+                .WithAboutUrl("AboutUrl1")
                 .WithFeatures("Features")
                 .WithClientApplication("Browser-based")
                 .Build()
-                .InsertAsync();
+                .InsertAndSetCurrentForSolutionAsync();
 
             var mockUpdateSolutionSummaryRequest = new Mock<IUpdateSolutionSummaryRequest>();
             mockUpdateSolutionSummaryRequest.Setup(m => m.Id).Returns("Sln1");
@@ -369,23 +382,21 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             var solution = await SolutionEntity.GetByIdAsync("Sln1");
             solution.Id.Should().Be("Sln1");
             solution.Name.Should().Be("Solution1");
-            solution.Summary.Should().Be("Sln4Summary");
-            solution.FullDescription.Should().Be("Sln4Description");
 
             solution = await SolutionEntity.GetByIdAsync("Sln2");
             solution.Id.Should().Be("Sln2");
             solution.Name.Should().Be("Solution2");
-            solution.Summary.Should().Be("Sln2Summary");
-            solution.FullDescription.Should().Be("Sln2Description");
 
-            var marketingData = await MarketingDetailEntity.GetBySolutionIdAsync("Sln1");
-            marketingData.AboutUrl.Should().Be("AboutUrl4");
-            marketingData.Features.Should().Be("Features");
-            marketingData.ClientApplication.Should().Be("Browser-based");
+            var solutionDetail = await SolutionDetailEntity.GetBySolutionIdAsync("Sln1");
+            solutionDetail.Summary.Should().Be("Sln4Summary");
+            solutionDetail.FullDescription.Should().Be("Sln4Description");
+            solutionDetail.AboutUrl.Should().Be("AboutUrl4");
+            solutionDetail.Features.Should().Be("Features");
+            solutionDetail.ClientApplication.Should().Be("Browser-based");
         }
 
         [Test]
-        public void ShouldUpdateSummaryNotPresent()
+        public async Task ShouldThrowOnUpdateSummaryNotPresent()
         {
             var mockUpdateSolutionSummaryRequest = new Mock<IUpdateSolutionSummaryRequest>();
             mockUpdateSolutionSummaryRequest.Setup(m => m.Id).Returns("Sln1");
@@ -393,19 +404,17 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             mockUpdateSolutionSummaryRequest.Setup(m => m.Description).Returns("Sln4Description");
             mockUpdateSolutionSummaryRequest.Setup(m => m.AboutUrl).Returns("AboutUrl4");
 
-            Assert.DoesNotThrowAsync(() => _solutionRepository.UpdateSummaryAsync(mockUpdateSolutionSummaryRequest.Object, new CancellationToken()));
+            Assert.ThrowsAsync<SqlException>(() => _solutionRepository.UpdateSummaryAsync(mockUpdateSolutionSummaryRequest.Object, new CancellationToken()));
         }
 
         [Test]
-        public async Task ShouldUpdateMarketingDataSummaryNotPresent()
+        public async Task ShouldThrowOnUpdateSolutionDetailNotPresent()
         {
             var organisations = await OrganisationEntity.FetchAllAsync();
 
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithSummary("Sln1Summary")
-                .WithFullDescription("Sln1Description")
                 .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
                 .Build()
                 .InsertAsync();
@@ -413,8 +422,6 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution2")
                 .WithId("Sln2")
-                .WithSummary("Sln2Summary")
-                .WithFullDescription("Sln2Description")
                 .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
                 .Build()
                 .InsertAsync();
@@ -425,18 +432,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             mockUpdateSolutionSummaryRequest.Setup(m => m.Description).Returns("Sln4Description");
             mockUpdateSolutionSummaryRequest.Setup(m => m.AboutUrl).Returns("AboutUrl4");
 
-            await _solutionRepository.UpdateSummaryAsync(mockUpdateSolutionSummaryRequest.Object, new CancellationToken());
-
-            var solution = await SolutionEntity.GetByIdAsync("Sln1");
-            solution.Id.Should().Be("Sln1");
-            solution.Name.Should().Be("Solution1");
-            solution.Summary.Should().Be("Sln4Summary");
-            solution.FullDescription.Should().Be("Sln4Description");
-
-            var marketingData = await MarketingDetailEntity.GetBySolutionIdAsync("Sln1");
-            marketingData.AboutUrl.Should().Be("AboutUrl4");
-            marketingData.Features.Should().BeNull();
-            marketingData.ClientApplication.Should().BeNull();
+            Assert.ThrowsAsync<SqlException>(() => _solutionRepository.UpdateSummaryAsync(mockUpdateSolutionSummaryRequest.Object, new CancellationToken()));
         }
     }
 }

@@ -15,11 +15,11 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
     {
         private TestContext _context;
 
-        private readonly Dictionary<string, string> Organisations = new Dictionary<string, string>
+        private readonly Dictionary<string, (string name, Guid id)> Organisations = new Dictionary<string, (string name, Guid id)>
         {
-            { "Org1", "Org1Name"},
-            { "Org2", "Org2Name"},
-            { "Org3", "Org3Name"},
+            { "Org1", (name: "Org1Name", id: Guid.NewGuid())},
+            { "Org2", (name: "Org2Name", id: Guid.NewGuid())},
+            { "Org3", (name: "Org3Name", id: Guid.NewGuid())},
         };
 
         private readonly Dictionary<int, (Guid Id, string Name, string Description)> Capabilities = new Dictionary<int, (Guid Id, string Name, string Description)>
@@ -281,7 +281,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             var solution = solutions.Result.Solutions.Should().ContainSingle(s => s.Id.Equals("S1")).Subject;
             solution.Name.Should().Be("S1Name");
             solution.Summary.Should().Be("S1Summary");
-            solution.Organisation.Id.Should().Be("Org1");
+            solution.Organisation.Id.Should().Be(Organisations["Org1"].id);
             solution.Organisation.Name.Should().Be("Org1Name");
             solution.Capabilities.Should().HaveCount(2);
             solution.Capabilities.Single(c => c.Id.Equals(Capabilities[1].Id));
@@ -294,7 +294,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution = solutions.Result.Solutions.Should().ContainSingle(s => s.Id.Equals("S2")).Subject;
             solution.Name.Should().Be("S2Name");
             solution.Summary.Should().Be("S2Summary");
-            solution.Organisation.Id.Should().Be("Org2");
+            solution.Organisation.Id.Should().Be(Organisations["Org2"].id);
             solution.Organisation.Name.Should().Be("Org2Name");
             solution.Capabilities.Should().HaveCount(1);
             solution.Capabilities.Single(c => c.Id.Equals(Capabilities[2].Id));
@@ -327,14 +327,13 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
         private ISolutionListResult GetSolution(string solnId, string orgId, int capabilityId)
         {
             var capability = Capabilities[capabilityId];
-            var organisationName = Organisations[orgId];
             var solution = new Mock<ISolutionListResult>();
             solution.Setup(c => c.SolutionId).Returns($"{solnId}");
             solution.Setup(c => c.SolutionName).Returns($"{solnId}Name");
             solution.Setup(c => c.SolutionSummary).Returns($"{solnId}Summary");
 
-            solution.Setup(c => c.OrganisationId).Returns(orgId);
-            solution.Setup(c => c.OrganisationName).Returns(organisationName);
+            solution.Setup(c => c.OrganisationId).Returns(Organisations[orgId].id);
+            solution.Setup(c => c.OrganisationName).Returns(Organisations[orgId].name);
 
             solution.Setup(c => c.CapabilityId).Returns(capability.Id);
             solution.Setup(c => c.CapabilityName).Returns(capability.Name);

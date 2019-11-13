@@ -9,15 +9,15 @@ Background:
         | GPs-R-Us |
         | Drs. Inc |
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | 1                |
-        | Sln2       | TakeTheRedPill | Eye opening experience         | Drs. Inc         | 1                |
-        | Sln3       | PracticeMgr    | Fully fledged GP system        | Drs. Inc         | 1                |
+        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
+        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                |
+        | Sln3       | PracticeMgr    | Drs. Inc         | 1                |
     And MarketingDetail exist
-        | Solution | AboutUrl | Features                          |
-        | Sln1     | UrlSln1  | [ "Appointments", "Prescribing" ] |
-        | Sln3     | UrlSln3  | [ "Referrals", "Workflow" ]       |
-
+        | Solution | SummaryDescription             | FullDescription     | AboutUrl | Features                          |
+        | Sln1     | An full online medicine system | Online medicine 1   | UrlSln1  | [ "Appointments", "Prescribing" ] |
+        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 | UrlSln3  | [ "Referrals", "Workflow" ]       |
+                                                       
 @1793
 Scenario: 1. Sections presented where MarketingDetail exists
     When a GET request is made for solution dashboard Sln3

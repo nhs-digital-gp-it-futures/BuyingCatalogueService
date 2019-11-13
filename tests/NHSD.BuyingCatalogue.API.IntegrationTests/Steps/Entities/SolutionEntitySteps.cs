@@ -21,8 +21,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 await SolutionEntityBuilder.Create()
                     .WithName(solutionTable.SolutionName)
                     .WithId(solutionTable.SolutionID)
-                    .WithSummary(solutionTable.SummaryDescription)
-                    .WithFullDescription(solutionTable.FullDescription)
                     .WithOrganisationId(organisations.First(o => o.Name == solutionTable.OrganisationName).Id)
                     .WithSupplierStatusId(solutionTable.SupplierStatusId)
                     .Build()
@@ -62,8 +60,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             {
                 SolutionID = s.Id,
                 SolutionName = s.Name,
-                SummaryDescription = s.Summary,
-                s.FullDescription
             }).Should().BeEquivalentTo(expectedSolutions);
         }
 
@@ -82,11 +78,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
 
             public string SolutionName { get; set; }
 
-            public string SummaryDescription { get; set; }
-
             public string OrganisationName { get; set; }
-
-            public string FullDescription { get; set; }
 
             public int SupplierStatusId { get; set; }
         }
@@ -103,10 +95,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             public string SolutionID { get; set; }
 
             public string SolutionName { get; set; }
-
-            public string SummaryDescription { get; set; }
-
-            public string FullDescription { get; set; }
         }
     }
 }

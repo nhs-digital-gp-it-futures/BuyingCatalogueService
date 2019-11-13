@@ -9,14 +9,14 @@ Background:
         | GPs-R-Us |
         | Drs. Inc |
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | FullDescription     | SupplierStatusId |
-        | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | Online medicine 1   | 1                |
-        | Sln2       | TakeTheRedPill | Eye opening experience         | Drs. Inc         | Eye opening6        | 1                |
-        | Sln3       | PracticeMgr    | Fully fledged GP system        | Drs. Inc         | Fully fledged GP 12 | 1                |
+        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
+        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                |
+        | Sln3       | PracticeMgr    | Drs. Inc         | 1                |
     And MarketingDetail exist
-        | Solution | AboutUrl | Features                          |
-        | Sln1     | UrlSln1  | [ "Appointments", "Prescribing" ] |
-        | Sln2     | UrlSln2  | [ "Workflow", "Referrals" ]       |
+        | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
+        | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
+        | Sln2     | UrlSln2  | Eye opening experience         | Eye opening6        | [ "Workflow", "Referrals" ]       |
 
 @1843
 Scenario: 1. Solution description section data is updated
@@ -25,31 +25,21 @@ Scenario: 1. Solution description section data is updated
         | New type of medicine 4 | A new full description | UrlSln1New |
     Then a successful response is returned
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription      | FullDescription        | SupplierStatusId |
-        | Sln1       | MedicOnline    | New type of medicine 4  | A new full description | 1                |
-        | Sln2       | TakeTheRedPill | Eye opening experience  | Eye opening6           | 1                |
-        | Sln3       | PracticeMgr    | Fully fledged GP system | Fully fledged GP 12    | 1                |
+        | SolutionID | SolutionName   | SupplierStatusId |
+        | Sln1       | MedicOnline    | 1                |
+        | Sln2       | TakeTheRedPill | 1                |
+        | Sln3       | PracticeMgr    | 1                |
     And MarketingDetail exist
-        | Solution | AboutUrl   | Features                          |
-        | Sln1     | UrlSln1New | [ "Appointments", "Prescribing" ] |
-        | Sln2     | UrlSln2    | [ "Workflow", "Referrals" ]       |
+        | Solution | AboutUrl   | SummaryDescription      | FullDescription        | Features                          |
+        | Sln1     | UrlSln1New | New type of medicine 4  | A new full description | [ "Appointments", "Prescribing" ] |
+        | Sln2     | UrlSln2    | Eye opening experience  | Eye opening6           | [ "Workflow", "Referrals" ]       |
 
-Scenario: 2. Solution description section data is created on update
+Scenario: 2. Solution description section data is not created on update, fail fast in this case
     Given a MarketingDetail Sln3 does not exist
     When a PUT request is made to update solution Sln3 solution-description section
         | Summary                 | Description         | Link       |
         | Fully fledged GP system | Fully fledged GP 12 | UrlSln3New |
-    Then a successful response is returned
-    And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | FullDescription     | SupplierStatusId |
-        | Sln1       | MedicOnline    | An full online medicine system | Online medicine 1   | 1                |
-        | Sln2       | TakeTheRedPill | Eye opening experience         | Eye opening6        | 1                |
-        | Sln3       | PracticeMgr    | Fully fledged GP system        | Fully fledged GP 12 | 1                |
-    And MarketingDetail exist
-        | Solution | AboutUrl   | Features                          |
-        | Sln1     | UrlSln1    | [ "Appointments", "Prescribing" ] |
-        | Sln2     | UrlSln2    | [ "Workflow", "Referrals" ]       |
-        | Sln3     | UrlSln3New |                                   |
+    Then a response status of 500 is returned
 
 @1828
 Scenario: 3. Solution not found

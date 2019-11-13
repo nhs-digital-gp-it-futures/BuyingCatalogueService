@@ -11,7 +11,7 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
     /// <summary>
     /// Represents the data access layer for the marketing data of a solution.
     /// </summary>
-    public sealed class MarketingDetailRepository : IMarketingDetailRepository
+    public sealed class SolutionDetailRepository : ISolutionDetailRepository
     {
         /// <summary>
         /// Database connection factory to provide new connections.
@@ -21,7 +21,7 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
         /// <summary>
         /// Initialises a new instance of the <see cref="SolutionRepository"/> class.
         /// </summary>
-        public MarketingDetailRepository(IDbConnectionFactory dbConnectionFactory)
+        public SolutionDetailRepository(IDbConnectionFactory dbConnectionFactory)
         {
             DbConnectionFactory = dbConnectionFactory;
         }
@@ -41,16 +41,15 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
 
             using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
             {
-                const string updateSql = @" IF EXISTS (SELECT 1 FROM Solution WHERE Id = @solutionId)
-                                        MERGE MarketingDetail AS target  
-                                        USING (SELECT @solutionId, @features) AS source (SolutionId, Features)
-                                        ON (target.SolutionId = source.SolutionId)  
-                                        WHEN MATCHED THEN
-                                            UPDATE
-                                            SET  Features = source.Features
-                                        WHEN NOT MATCHED THEN
-                                            INSERT (SolutionId, Features)  
-                                            VALUES (source.SolutionId, source.Features);";
+                const string updateSql = @"
+                                    UPDATE  SolutionDetail                                   
+                                    SET     SolutionDetail.Features = @features
+                                    FROM SolutionDetail
+                                        INNER JOIN Solution
+                                            ON solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
+                                    WHERE   Solution.Id = @solutionId
+                                    IF @@ROWCOUNT = 0
+                                        THROW 60000, 'Solution or SolutionDetail not found', 1; ";
 
                 await databaseConnection.ExecuteAsync(updateSql, new { solutionId = updateSolutionFeaturesRequest.Id, features = updateSolutionFeaturesRequest.Features });
             }
@@ -72,17 +71,16 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
 
             using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
             {
-                const string updateSql = @" IF EXISTS (SELECT 1 FROM Solution WHERE Id = @solutionId)
-                                        MERGE MarketingDetail AS target  
-                                        USING (SELECT @solutionId, @clientApplication) AS source (SolutionId, ClientApplication)
-                                        ON (target.SolutionId = source.SolutionId)  
-                                        WHEN MATCHED THEN
-                                            UPDATE
-                                            SET  ClientApplication = source.ClientApplication
-                                        WHEN NOT MATCHED THEN
-                                            INSERT (SolutionId, ClientApplication)  
-                                            VALUES (source.SolutionId, source.ClientApplication);";
-
+                const string updateSql = @"
+                                    UPDATE  SolutionDetail                                   
+                                    SET     SolutionDetail.ClientApplication = @clientApplication
+                                    FROM SolutionDetail
+                                        INNER JOIN Solution
+                                            ON solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
+                                    WHERE   Solution.Id = @solutionId
+                                    IF @@ROWCOUNT = 0
+                                        THROW 60000, 'Solution or SolutionDetail not found', 1; ";
+                
                 await databaseConnection.ExecuteAsync(updateSql, new { solutionId = updateSolutionClientApplicationRequest.Id, clientApplication = updateSolutionClientApplicationRequest.ClientApplication });
             }
         }

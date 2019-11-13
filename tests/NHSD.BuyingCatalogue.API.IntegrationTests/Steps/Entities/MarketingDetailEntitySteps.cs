@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
+using NHSD.BuyingCatalogue.API.IntegrationTests.Features.UpdateSolution;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
 using TechTalk.SpecFlow;
@@ -21,20 +22,22 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         {
             foreach (var marketingDetail in table.CreateSet<MarketingDetailTable>())
             {
-                await MarketingDetailEntityBuilder.Create()
+                await SolutionDetailEntityBuilder.Create()
                     .WithFeatures(marketingDetail.Features)
+                    .WithSummary(marketingDetail.SummaryDescription == "NULL" ? null : marketingDetail.SummaryDescription )
+                    .WithFullDescription(marketingDetail.FullDescription)
                     .WithAboutUrl(marketingDetail.AboutUrl)
                     .WithSolutionId(marketingDetail.Solution)
                     .WithClientApplication(marketingDetail.ClientApplication)
                     .Build()
-                    .InsertAsync();
+                    .InsertAndSetCurrentForSolutionAsync();
             }
         }
 
         [Given(@"a MarketingDetail (.*) does not exist")]
         public async Task GivenAMarketingDetailDoesNotExist(string solutionId)
         {
-            var marketingDetailList = await MarketingDetailEntity.FetchAllAsync();
+            var marketingDetailList = await SolutionDetailEntity.FetchAllAsync();
             marketingDetailList.Select(x => x.SolutionId).Should().NotContain(solutionId);
         }
 
@@ -46,14 +49,18 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 m.Solution,
                 AboutUrl = string.IsNullOrWhiteSpace(m.AboutUrl) ? null : m.AboutUrl,
                 Features = string.IsNullOrWhiteSpace(m.Features) ? null : m.Features,
+                Summary = string.IsNullOrWhiteSpace(m.SummaryDescription) ? null : m.SummaryDescription,
+                FullDescription = string.IsNullOrWhiteSpace(m.FullDescription) ? null : m.FullDescription,
                 ClientApplication = string.IsNullOrWhiteSpace(m.ClientApplication) ? null : JToken.Parse(m.ClientApplication).ToString()
             });
-            var marketingDetails = await MarketingDetailEntity.FetchAllAsync();
+            var marketingDetails = await SolutionDetailEntity.FetchAllAsync();
             marketingDetails.Select(m => new
             {
                 Solution = m.SolutionId,
                 m.AboutUrl,
                 m.Features,
+                m.Summary,
+                m.FullDescription,
                 ClientApplication = string.IsNullOrWhiteSpace(m.ClientApplication) ? null : JToken.Parse(m.ClientApplication).ToString()
             }).Should().BeEquivalentTo(expectedMarketingDetails);
         }
@@ -61,6 +68,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         private class MarketingDetailTable
         {
             public string Solution { get; set; }
+
+            public string SummaryDescription { get; set; }
+
+            public string FullDescription { get; set; }
 
             public string AboutUrl { get; set; }
 

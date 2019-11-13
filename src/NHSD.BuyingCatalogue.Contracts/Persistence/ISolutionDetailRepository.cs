@@ -6,7 +6,7 @@ namespace NHSD.BuyingCatalogue.Contracts.Persistence
     /// <summary>
     /// Defines a data contract representing the functionality for the persistence layer specific to the Marketing detail domain.
     /// </summary>
-    public interface IMarketingDetailRepository
+    public interface ISolutionDetailRepository
     {
         /// <summary>
         /// Updates the details of the solution.

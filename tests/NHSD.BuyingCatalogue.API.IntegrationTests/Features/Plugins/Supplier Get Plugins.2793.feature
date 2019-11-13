@@ -10,16 +10,16 @@ Background:
         | GPs-R-Us |
         | Drs. Inc |
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | FullDescription     | SupplierStatusId |
-        | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | Online medicine 1   | 1                |
-        | Sln2       | TakeTheRedPill | Eye opening experience         | Drs. Inc         | Eye opening6        | 1                |
-        | Sln3       | PracticeMgr    | Fully fledged GP system        | Drs. Inc         | Fully fledged GP 12 | 1                |
-        | Sln5       | SolutionTest   | Testing System                 | GPs-R-Us         | Full System         | 1                |
+        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
+        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                |
+        | Sln3       | PracticeMgr    | Drs. Inc         | 1                |
+        | Sln5       | SolutionTest   | GPs-R-Us         | 1                |
     And MarketingDetail exist
-        | Solution | ClientApplication                                                                                                                                                                                           |
-        | Sln1     | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum" } }                |
-        | Sln3     |                                                                                                                                                                                                             |
-        | Sln5     | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Chrome" ], "MobileResponsive": false, "Plugins" : {"Required" : null, "AdditionalInformation": null } } |
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                            |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum" } } |
+        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                                                                                              |
+        | Sln5     | Testing System                 | Full System         | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Chrome" ], "MobileResponsive": false, "Plugins" : {"Required" : null, "AdditionalInformation": null } }        |
 
 @2786
 Scenario: 1. Plugins are retrieved for the solution
