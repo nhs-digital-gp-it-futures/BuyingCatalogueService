@@ -88,7 +88,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             {
                 var solution = solutions.First(t => t.SelectToken("id").ToString() == expectedSolution.SolutionID);
                 solution.SelectToken("name").ToString().Should().Be(expectedSolution.SolutionName);
-                solution.SelectToken("summary").ToString().Should().Be(expectedSolution.SummaryDescription);
+                solution.SelectToken("summary")?.ToString().Should().Be(expectedSolution.SummaryDescription);
                 solution.SelectToken("organisation.name").ToString().Should().Be(expectedSolution.OrganisationName);
                 solution.SelectToken("capabilities").Select(t => t.SelectToken("name").ToString()).Should().BeEquivalentTo(expectedSolution.Capabilities.Split(",").Select(t => t.Trim()));
             }
