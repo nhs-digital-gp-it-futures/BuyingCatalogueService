@@ -4,8 +4,14 @@ namespace NHSD.BuyingCatalogue.Application.Persistence
 {
     internal sealed class UpdateSolutionSupplierStatusRequest : IUpdateSolutionSupplierStatusRequest
     {
-        public string Id { get; set; }
+        public UpdateSolutionSupplierStatusRequest(string id, int supplierStatusId)
+        {
+            Id = id;
+            SupplierStatusId = supplierStatusId;
+        }
 
-        public int SupplierStatusId { get; set; }
+        public string Id { get; }
+
+        public int SupplierStatusId { get; }
     }
 }

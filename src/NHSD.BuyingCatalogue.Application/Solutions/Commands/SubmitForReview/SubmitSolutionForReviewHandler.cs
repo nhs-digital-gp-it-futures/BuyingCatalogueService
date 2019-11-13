@@ -39,7 +39,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
             SubmitSolutionForReviewCommandResult result = new SubmitSolutionForReviewCommandResult(validationResult.Errors);
             if (result.IsSuccess)
             {
-                await _solutionRepository.UpdateSupplierStatusAsync(new UpdateSolutionSupplierStatusRequest { Id = solution.Id, SupplierStatusId = SupplierStatus.AuthorityReview.Id }, cancellationToken);
+                await _solutionRepository.UpdateSupplierStatusAsync(new UpdateSolutionSupplierStatusRequest(solution.Id, SupplierStatus.AuthorityReview.Id), cancellationToken);
             }
 
             return result;

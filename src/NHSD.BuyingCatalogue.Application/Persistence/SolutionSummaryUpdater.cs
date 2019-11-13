@@ -13,22 +13,12 @@ namespace NHSD.BuyingCatalogue.Application.Persistence
         private readonly ISolutionDetailRepository _solutionDetailRepository;
 
         public SolutionSummaryUpdater(ISolutionDetailRepository solutionDetailRepository)
-        {
-            _solutionDetailRepository = solutionDetailRepository;
-        }
+            => _solutionDetailRepository = solutionDetailRepository;
 
         public async Task UpdateSummaryAsync(Solution solution, CancellationToken cancellationToken)
-        {
-            await _solutionDetailRepository.UpdateSummaryAsync(Map(solution), cancellationToken);
-        }
+            => await _solutionDetailRepository.UpdateSummaryAsync(Map(solution), cancellationToken);
 
         private IUpdateSolutionSummaryRequest Map(Solution solution)
-            => new UpdateSolutionSummaryRequest
-            {
-                Id = solution.Id,
-                Summary = solution.Summary,
-                Description = solution.Description,
-                AboutUrl = solution.AboutUrl
-            };
+            => new UpdateSolutionSummaryRequest(solution.Id, solution.Summary, solution.Description, solution.AboutUrl);
     }
 }

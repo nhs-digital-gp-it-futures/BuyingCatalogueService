@@ -1,10 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Application.Solutions.Domain;
-using NHSD.BuyingCatalogue.Contracts;
-using NHSD.BuyingCatalogue.Contracts.Solutions;
+using NHSD.BuyingCatalogue.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Application.Persistence
 {
@@ -16,17 +13,9 @@ namespace NHSD.BuyingCatalogue.Application.Persistence
         private readonly ISolutionDetailRepository _solutionDetailRepository;
 
         public SolutionClientApplicationUpdater(ISolutionDetailRepository solutionDetailRepository)
-        {
-            _solutionDetailRepository = solutionDetailRepository;
-        }
+            => _solutionDetailRepository = solutionDetailRepository;
 
         public async Task UpdateAsync(ClientApplication clientApplication, string solutionId, CancellationToken cancellationToken)
-        {
-            await _solutionDetailRepository.UpdateClientApplicationAsync(new UpdateSolutionClientApplicationRequest
-            {
-                Id = solutionId,
-                ClientApplication = JsonConvert.SerializeObject(clientApplication).ToString()
-            }, cancellationToken);
-        }
+            => await _solutionDetailRepository.UpdateClientApplicationAsync(new UpdateSolutionClientApplicationRequest(solutionId, clientApplication), cancellationToken);
     }
 }
