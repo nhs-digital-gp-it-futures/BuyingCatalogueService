@@ -35,7 +35,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
 
-            _context.MockMarketingDetailRepository.Verify(r => r.UpdateFeaturesAsync(It.Is<IUpdateSolutionFeaturesRequest>(r =>
+            _context.MockSolutionDetailRepository.Verify(r => r.UpdateFeaturesAsync(It.Is<IUpdateSolutionFeaturesRequest>(r =>
                 r.Id == SolutionId
                 && r.Features == JsonConvert.SerializeObject(listing)
                 ), It.IsAny<CancellationToken>()), Times.Once());
@@ -49,7 +49,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             validationResult.MaxLength.Should().BeEquivalentTo(new[] {"listing-1"});
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Never());
-            _context.MockMarketingDetailRepository.Verify(r => r.UpdateFeaturesAsync(It.IsAny<IUpdateSolutionFeaturesRequest>(), It.IsAny<CancellationToken>()), Times.Never);
+            _context.MockSolutionDetailRepository.Verify(r => r.UpdateFeaturesAsync(It.IsAny<IUpdateSolutionFeaturesRequest>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             validationResult.MaxLength.Should().BeEquivalentTo(new[] { "listing-1", "listing-3", "listing-6"});
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Never());
-            _context.MockMarketingDetailRepository.Verify(r => r.UpdateFeaturesAsync(It.IsAny<IUpdateSolutionFeaturesRequest>(), It.IsAny<CancellationToken>()), Times.Never);
+            _context.MockSolutionDetailRepository.Verify(r => r.UpdateFeaturesAsync(It.IsAny<IUpdateSolutionFeaturesRequest>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
 
-            _context.MockMarketingDetailRepository.Verify(
+            _context.MockSolutionDetailRepository.Verify(
                 r => r.UpdateFeaturesAsync(It.IsAny<IUpdateSolutionFeaturesRequest>(), It.IsAny<CancellationToken>()),
                 Times.Never());
         }

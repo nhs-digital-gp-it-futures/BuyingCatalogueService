@@ -28,7 +28,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
 
-            _context.MockSolutionRepository.Verify(r => r.UpdateSummaryAsync(It.Is<IUpdateSolutionSummaryRequest>(r =>
+            _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.Is<IUpdateSolutionSummaryRequest>(r =>
                 r.Id == "Sln1"
                 && r.AboutUrl == "Link"
                 && r.Description == "Description"
@@ -49,7 +49,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             validationResult.MaxLength.Should().BeEmpty();
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
-            _context.MockSolutionRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+            _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
         [Test]
@@ -62,7 +62,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             validationResult.MaxLength.Should().BeEquivalentTo(new[] { "description" });
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
-            _context.MockSolutionRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+            _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
         [Test]
@@ -75,7 +75,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             validationResult.MaxLength.Should().BeEquivalentTo(new[] { "link" });
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
-            _context.MockSolutionRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+            _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             validationResult.MaxLength.Should().BeEquivalentTo(new[] { "summary" });
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
-            _context.MockSolutionRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+            _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
 
         }
 
@@ -102,7 +102,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             validationResult.MaxLength.Should().BeEquivalentTo(new[] { "description", "link" });
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
-            _context.MockSolutionRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+            _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
         [Test]
@@ -115,7 +115,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             validationResult.MaxLength.Should().BeEmpty();
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
-            _context.MockSolutionRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Once());
+            _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Once());
 
         }
 
@@ -133,7 +133,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
 
-            _context.MockSolutionRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+            _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
         private async Task<UpdateSolutionSummaryValidationResult> UpdateSolutionDescriptionAsync(string summary = "Summary", string description = "Description", string link = "Link")

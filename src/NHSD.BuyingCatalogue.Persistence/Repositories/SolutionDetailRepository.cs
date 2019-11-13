@@ -27,6 +27,37 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
         }
 
         /// <summary>
+        /// Updates the summary details of the solution.
+        /// </summary>
+        /// <param name="updateSolutionSummaryRequest">The updated details of a solution to save to the data store.</param>
+        /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
+        /// <returns>A task representing an operation to save the specified updateSolutionRequest to the data store.</returns>
+        public async Task UpdateSummaryAsync(IUpdateSolutionSummaryRequest updateSolutionSummaryRequest, CancellationToken cancellationToken)
+        {
+            if (updateSolutionSummaryRequest is null)
+            {
+                throw new ArgumentNullException(nameof(updateSolutionSummaryRequest));
+            }
+
+            using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
+            {
+                const string updateSql = @"
+                                    UPDATE  SolutionDetail                                   
+                                    SET     SolutionDetail.FullDescription = @description,
+                                            SolutionDetail.Summary = @summary,
+                                            SolutionDetail.AboutUrl = @aboutUrl
+                                    FROM SolutionDetail
+                                        INNER JOIN Solution
+                                            ON solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
+                                    WHERE   Solution.Id = @solutionId
+                                    IF @@ROWCOUNT = 0
+                                        THROW 60000, 'Solution or SolutionDetail not found', 1; ";
+
+                await databaseConnection.ExecuteAsync(updateSql, new { solutionId = updateSolutionSummaryRequest.Id, description = updateSolutionSummaryRequest.Description, summary = updateSolutionSummaryRequest.Summary, aboutUrl = updateSolutionSummaryRequest.AboutUrl });
+            }
+        }
+
+        /// <summary>
         /// Updates or inserts the features of the solution.
         /// </summary>
         /// <param name="updateSolutionFeaturesRequest">The updated features of a solution to save to the data store.</param>
