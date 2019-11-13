@@ -37,19 +37,12 @@ Scenario: 1. Client Application Types are updated for the solution
         | Sln3     | Thrills                        | Bellyaches          |  { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] }                                                    |
 
 @2726
-Scenario: 2. Client Application Types are added to the solution
+Scenario: 2. If SolutionDetail is missing for the solution, thats an error case
+	Given a MarketingDetail Sln1 does not exist
     When a PUT request is made to update solution Sln1 client-application-types section
-        | ClientApplicationTypes       |
+        | ClientApplicationTypes      |
         | browser-based,native-mobile |
-    Then a successful response is returned
-    And Solutions exist
-        | SolutionID | SolutionName   | SupplierStatusId |
-        | Sln1       | MedicOnline    | 1                |
-        | Sln2       | TakeTheRedPill | 1                |
-        | Sln3       | PracticeMgr    | 1                |
-    And MarketingDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                        |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null } |
+    Then a response status of 500 is returned
 
 @2726
 Scenario: 3. Client Application Types that we do not understand are ignored

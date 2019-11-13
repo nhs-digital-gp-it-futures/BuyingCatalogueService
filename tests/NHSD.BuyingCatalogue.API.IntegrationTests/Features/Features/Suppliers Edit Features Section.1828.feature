@@ -38,24 +38,11 @@ Scenario: 1. Marketing Data is updated against the solution
 
 @1828
 Scenario: 2. Marketing Data is added to the solution
-    Given MarketingDetail exist
-        | Solution | SummaryDescription             | FullDescription     | AboutUrl | Features                          |
-        | Sln2     | An full online medicine system | Online medicine 1   | UrlSln2  | [ "Workflow", "Referrals" ]       |
-        | Sln3     | Eye opening experience         | Eye opening6        | UrlSln3  | [ "Dispensing" ]                  |
+	Given a MarketingDetail Sln1 does not exist
     When a PUT request is made to update solution Sln1 features section
         | Features                      |
         | Dispensing,Referrals,Workflow |
-    Then a successful response is returned
-    And Solutions exist
-        | SolutionID | SolutionName   | SupplierStatusId |
-        | Sln1       | MedicOnline    | 1                |
-        | Sln2       | TakeTheRedPill | 1                |
-        | Sln3       | PracticeMgr    | 1                |
-    And MarketingDetail exist
-        | Solution | SummaryDescription             | FullDescription     | AboutUrl | Features                              |
-        | Sln1     | An full online medicine system | Online medicine 1   |          | ["Dispensing","Referrals","Workflow"] |
-        | Sln2     | Eye opening experience         | Eye opening6        | UrlSln2  | [ "Workflow", "Referrals" ]           |
-        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 | UrlSln3  | [ "Dispensing" ]                      |
+    Then a response status of 500 is returned
 
 @1828
 Scenario: 3. Solution not found
