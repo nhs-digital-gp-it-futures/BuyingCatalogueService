@@ -27,5 +27,5 @@ Scenario Outline: 3. Solution description section is mandatory and is reported c
 Examples:
     | Solution | Status     | SummaryDescription      |
     | Sln1     | INCOMPLETE |                         |
-    | Sln2     | COMPLETE   | Eye opening experience  |
-    | Sln3     | COMPLETE   | Fully fledged GP system | 
+    | Sln2     | INCOMPLETE |                         |
+    | Sln3     | COMPLETE   | Fully fledged GP system |

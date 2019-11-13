@@ -58,11 +58,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             content.SelectToken("sections.solution-description.answers.link").ToString().Should().Be(link);
         }
 
-        [Then(@"the solution solution-description section does not contain Link")]
-        public async Task ThenTheSolutionDoesNotContainLink()
+        [Then(@"the solution solution-description section does not contain (link|summary|description)")]
+        public async Task ThenTheSolutionDoesNotContainLink(string field)
         {
             var content = await _response.ReadBody();
-            content.SelectToken("sections.solution-description.answers.link").Should().BeNull();
+            content.SelectToken($"sections.solution-description.answers.{field}").Should().BeNull();
         }
 
         private class SolutionDescriptionPostTable

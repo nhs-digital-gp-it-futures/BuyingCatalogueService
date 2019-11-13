@@ -27,12 +27,12 @@ Scenario: 1. SolutionDescription are retrieved for the solution
     And the solution description is Online medicine 1
 
 @2724
-Scenario: 2. SolutionDescription are retrieved for the solution where no marketing detail exists
+Scenario: 2. SolutionDescription are retrieved empty for the solution where no marketing detail exists
     When a GET request is made for solution-description for solution Sln2
     Then a successful response is returned
     And the solution does not contain link
-    And the solution summary is Eye opening experience
-    And the solution description is Eye opening6 
+    And the solution does not contain summary
+    And the solution does not contain description
 
 @2726
 Scenario: 4. Solution not found

@@ -16,7 +16,7 @@ Background:
     And MarketingDetail exist
         | Solution | AboutUrl | SummaryDescription      | FullDescription     | Features                          |
         | Sln1     | UrlSln1  |                         | Online medicine 1   | [ "Appointments", "Prescribing" ] |
-        | Sln3     | UrlSln3  | Eye opening experience  | Eye opening6        | [ "Referrals", "Workflow" ]       |
+        | Sln3     | UrlSln3  | Fully fledged GP system | Fully fledged GP 12 | [ "Referrals", "Workflow" ]       |
 
 @1848
 Scenario: 1. Solution description section presented where Marketing Detail exists
@@ -34,7 +34,7 @@ Scenario: 1. Solution description section presented where Marketing Detail exist
 Scenario: 2. Solution description section presented where no Marketing Detail exists
     When a GET request is made for solution preview Sln2
     Then a successful response is returned
-    And the solution solution-description section contains SummaryDescription of 'Eye opening experience'
-    And the solution solution-description section contains FullDescription of 'Eye opening6'
-    And the solution solution-description section does not contain Link
+    And the solution solution-description section does not contain summary
+    And the solution solution-description section does not contain description
+    And the solution solution-description section does not contain link
     And the solution features section contains no features

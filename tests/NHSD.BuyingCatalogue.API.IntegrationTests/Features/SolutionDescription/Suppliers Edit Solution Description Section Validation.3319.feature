@@ -49,11 +49,11 @@ Scenario: 3. Description exceeds the character limit
     Then a response status of 400 is returned
     And the response maxlength field contains description
     And Solutions exist
-        | SolutionID | SolutionName | SummaryDescription             | OrganisationName | FullDescription   | SupplierStatusId |
-        | Sln1       | MedicOnline  | An full online medicine system | GPs-R-Us         | Online medicine 1 | 1                |
+        | SolutionID | SolutionName | OrganisationName | SupplierStatusId |
+        | Sln1       | MedicOnline  | GPs-R-Us         | 1                |
     And MarketingDetail exist
-        | Solution | AboutUrl | Features                          |
-        | Sln1     | UrlSln1  | [ "Appointments", "Prescribing" ] |
+        | Solution | SummaryDescription             | FullDescription   | AboutUrl | Features                          |
+        | Sln1     | An full online medicine system | Online medicine 1 | UrlSln1  | [ "Appointments", "Prescribing" ] |
 
 @3319
 Scenario: 4. Link exceeds the character limit

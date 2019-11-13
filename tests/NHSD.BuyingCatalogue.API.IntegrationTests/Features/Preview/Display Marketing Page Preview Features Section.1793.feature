@@ -32,5 +32,5 @@ Scenario: 1. Sections presented where MarketingDetail exists
 Scenario: 2. Sections not presented where no Marketing Detail exists
     When a GET request is made for solution preview Sln2
     Then a successful response is returned
-    And the solution solution-description section does not contain Link
+    And the solution solution-description section does not contain link
     And the solution features section contains no features

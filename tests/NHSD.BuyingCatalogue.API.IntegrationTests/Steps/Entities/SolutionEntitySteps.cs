@@ -95,10 +95,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             public string SolutionID { get; set; }
 
             public string SolutionName { get; set; }
-
-            public string SummaryDescription { get; set; }
-
-            public string FullDescription { get; set; }
         }
     }
 }
