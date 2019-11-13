@@ -22,9 +22,9 @@ Background:
 Scenario: 1. Solution description section presented where Solution Detail exists
     When a GET request is made for solution preview Sln3
     Then a successful response is returned
-    And the solution solution-description section contains SummaryDescription of 'Fully fledged GP system'
-    And the solution solution-description section contains FullDescription of 'Fully fledged GP 12'
-    And the solution solution-description section contains Link of UrlSln3
+    And the solution solution-description section contains summary of Fully fledged GP system
+    And the solution solution-description section contains description of Fully fledged GP 12
+    And the solution solution-description section contains link of UrlSln3
     And the solution features section contains Features
         | Feature   |
         | Referrals |

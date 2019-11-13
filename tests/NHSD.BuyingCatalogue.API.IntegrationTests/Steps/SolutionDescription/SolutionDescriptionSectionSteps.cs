@@ -37,25 +37,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             _response.Result = await Client.PutAsJsonAsync(string.Format(SolutionDescriptionUrl, solutionId), content);
         }
 
-        [Then(@"the solution solution-description section contains SummaryDescription of '(.*)'")]
-        public async Task ThenTheSolutionContainsSummaryDescriptionOf(string summary)
+        [Then(@"the solution solution-description section contains (link|summary|description) of (.*)")]
+        public async Task ThenTheSolutionContains(string field, string value)
         {
             var content = await _response.ReadBody();
-            content.SelectToken("sections.solution-description.answers.summary").ToString().Should().Be(summary);
-        }
-
-        [Then(@"the solution solution-description section contains FullDescription of '(.*)'")]
-        public async Task ThenTheSolutionContainsFullDescriptionOf(string description)
-        {
-            var content = await _response.ReadBody();
-            content.SelectToken("sections.solution-description.answers.description").ToString().Should().Be(description);
-        }
-
-        [Then(@"the solution solution-description section contains Link of (.*)")]
-        public async Task ThenTheSolutionContainsLink(string link)
-        {
-            var content = await _response.ReadBody();
-            content.SelectToken("sections.solution-description.answers.link").ToString().Should().Be(link);
+            content.SelectToken($"sections.solution-description.answers.{field}").ToString().Should().Be(value);
         }
 
         [Then(@"the solution solution-description section does not contain (link|summary|description)")]

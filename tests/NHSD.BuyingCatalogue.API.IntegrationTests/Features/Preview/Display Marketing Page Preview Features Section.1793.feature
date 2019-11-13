@@ -22,7 +22,7 @@ Background:
 Scenario: 1. Sections presented where SolutionDetail exists
     When a GET request is made for solution preview Sln3
     Then a successful response is returned
-    And the solution solution-description section contains Link of UrlSln3
+    And the solution solution-description section contains link of UrlSln3
     And the solution features section contains Features
         | Feature   |
         | Referrals |
