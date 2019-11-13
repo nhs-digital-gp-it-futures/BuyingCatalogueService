@@ -365,7 +365,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 
             await SolutionDetailEntityBuilder.Create()
                 .WithSolutionId("Sln1")
-                .WithAboutUrl("AboutUrl4")
+                .WithAboutUrl("AboutUrl1")
                 .WithFeatures("Features")
                 .WithClientApplication("Browser-based")
                 .Build()

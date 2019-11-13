@@ -103,7 +103,8 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                 const string updateSql = @"
                                     UPDATE  SolutionDetail                                   
                                     SET     SolutionDetail.FullDescription = @description,
-                                            SolutionDetail.Summary = @summary
+                                            SolutionDetail.Summary = @summary,
+                                            SolutionDetail.AboutUrl = @aboutUrl
                                     FROM SolutionDetail
                                         INNER JOIN Solution
                                             ON solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
