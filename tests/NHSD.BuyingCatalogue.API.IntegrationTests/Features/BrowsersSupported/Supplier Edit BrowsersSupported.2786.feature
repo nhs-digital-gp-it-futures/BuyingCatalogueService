@@ -17,7 +17,7 @@ Background:
 
 @2786
 Scenario: 1. Browser Supported is updated
-    Given MarketingDetail exist
+    Given SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                    |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins": null } |
         | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                                      |
@@ -26,7 +26,7 @@ Scenario: 1. Browser Supported is updated
         | BrowsersSupported | MobileResponsive |
         | Chrome, Edge      | yes              |
     Then a successful response is returned
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                    |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true, "Plugins": null} |
         | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                                      |
@@ -34,7 +34,7 @@ Scenario: 1. Browser Supported is updated
 
 @2786
 Scenario: 2. Browsers Supported is empty, Mobile Responsive has a result
-     Given MarketingDetail exist
+     Given SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                   |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false } |
         | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                     |
@@ -50,7 +50,7 @@ Scenario: 2. Browsers Supported is empty, Mobile Responsive has a result
         | Sln2       | TakeTheRedPill | Drs. Inc         | 1                |
         | Sln3       | PracticeMgr    | Drs. Inc         | 1                |
         | Sln5       | Pills          | Drs. Inc         | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                   |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false } |
         | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                     |
@@ -58,7 +58,7 @@ Scenario: 2. Browsers Supported is empty, Mobile Responsive has a result
 
 @2786
 Scenario: 3. Mobile Responsive is empty
-    Given MarketingDetail exist
+    Given SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                   |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false } |
         | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                     |
@@ -74,7 +74,7 @@ Scenario: 3. Mobile Responsive is empty
         | Sln2       | TakeTheRedPill | Drs. Inc         | 1                |
         | Sln3       | PracticeMgr    | Drs. Inc         | 1                |
         | Sln5       | Pills          | Drs. Inc         | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                   |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false } |
         | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                     |
@@ -82,7 +82,7 @@ Scenario: 3. Mobile Responsive is empty
 
 @2786
 Scenario: 4. Browsers Supported & Mobile Responsive are empty
-    Given MarketingDetail exist
+    Given SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                   |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false } |
         | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                     |
@@ -99,7 +99,7 @@ Scenario: 4. Browsers Supported & Mobile Responsive are empty
         | Sln2       | TakeTheRedPill | Drs. Inc         | 1                |
         | Sln3       | PracticeMgr    | Drs. Inc         | 1                |
         | Sln5       | Pills          | Drs. Inc         | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                   |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false } |
         | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                     |

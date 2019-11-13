@@ -9,7 +9,7 @@ using NHSD.BuyingCatalogue.Persistence.Infrastructure;
 namespace NHSD.BuyingCatalogue.Persistence.Repositories
 {
     /// <summary>
-    /// Represents the data access layer for the marketing data of a solution.
+    /// Represents the data access layer for the detail of a solution.
     /// </summary>
     public sealed class SolutionDetailRepository : ISolutionDetailRepository
     {
@@ -56,7 +56,7 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
         }
 
         /// <summary>
-        /// Adds or updates the client application marketing details of a solution.
+        /// Adds or updates the client application details of a solution.
         /// </summary>
         /// <param name="updateSolutionClientApplicationRequest">The updated client application details of a solution to commit to the data store.</param>
         /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>

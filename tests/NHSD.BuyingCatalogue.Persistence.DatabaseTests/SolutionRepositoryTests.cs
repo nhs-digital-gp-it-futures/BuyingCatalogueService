@@ -396,7 +396,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         }
 
         [Test]
-        public async Task ShouldThrowOnUpdateSummaryNotPresent()
+        public void ShouldThrowOnUpdateSummaryNotPresent()
         {
             var mockUpdateSolutionSummaryRequest = new Mock<IUpdateSolutionSummaryRequest>();
             mockUpdateSolutionSummaryRequest.Setup(m => m.Id).Returns("Sln1");

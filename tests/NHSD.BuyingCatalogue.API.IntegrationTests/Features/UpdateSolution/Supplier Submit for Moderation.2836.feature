@@ -13,7 +13,7 @@ Scenario: 1. Solution successfully submitted for review
     Given Solutions exist
         | SolutionID | SolutionName | OrganisationName | SupplierStatusId |
         | Sln1       | MedicOnline  | GPs-R-Us         | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | SummaryDescription             | ClientApplication                                                                                          |
         | Sln1     | An full online medicine system | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true, "Plugins": { "Required": false } } |
     When a request is made to submit Solution Sln1 for review
@@ -43,7 +43,7 @@ Scenario: 5. Solution failed on submit for review due to missing Solution summar
     Given Solutions exist
         | SolutionID | SolutionName | OrganisationName | SupplierStatusId |
         | Sln1       | MedicOnline  | GPs-R-Us         | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | SummaryDescription | ClientApplication                                                                                                                             |
         | Sln1     |                    | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true, "Plugins": { "Required": false } } |
     When a request is made to submit Solution Sln1 for review
@@ -56,7 +56,7 @@ Scenario: 6. Solution failed on submit for review due to missing client applicat
     Given Solutions exist
         | SolutionID | SolutionName | OrganisationName | SupplierStatusId |
         | Sln1       | MedicOnline  | GPs-R-Us         | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | SummaryDescription             | ClientApplication |
         | Sln1     | An full online medicine system |                   |
     When a request is made to submit Solution Sln1 for review
@@ -69,7 +69,7 @@ Scenario: 7. Solution failed on submit for review due to missing browsers suppor
     Given Solutions exist
         | SolutionID | SolutionName | OrganisationName | SupplierStatusId |
         | Sln1       | MedicOnline  | GPs-R-Us         | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | SummaryDescription             | ClientApplication                                                                                  |
         | Sln1     | An full online medicine system | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [], "MobileResponsive": true, "Plugins": { "Required": false } } |
     When a request is made to submit Solution Sln1 for review
@@ -82,7 +82,7 @@ Scenario: 8. Solution failed on submit for review due to missing mobile responsi
     Given Solutions exist
         | SolutionID | SolutionName | OrganisationName | SupplierStatusId |
         | Sln1       | MedicOnline  | GPs-R-Us         | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
          | Solution | SummaryDescription             | ClientApplication                                                                                                   |
          | Sln1     | An full online medicine system | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "Plugins": { "Required": false } } |
     When a request is made to submit Solution Sln1 for review
@@ -95,7 +95,7 @@ Scenario: 9. Solution failed on submit for review due to missing plugin requirem
     Given Solutions exist
         | SolutionID | SolutionName | OrganisationName | SupplierStatusId |
         | Sln1       | MedicOnline  | GPs-R-Us         | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
          | Solution | SummaryDescription             | ClientApplication                                                                                           |
          | Sln1     | An full online medicine system | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true } |
     When a request is made to submit Solution Sln1 for review

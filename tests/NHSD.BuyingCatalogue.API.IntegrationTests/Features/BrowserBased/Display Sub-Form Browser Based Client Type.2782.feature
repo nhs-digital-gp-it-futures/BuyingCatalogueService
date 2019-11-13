@@ -51,7 +51,7 @@ Scenario: 5. Browser Supported status incomplete when record not present
 
 @2782
 Scenario Outline: 6. Browser Supported status based on data in ClientApplication
-    Given MarketingDetail exist
+    Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
 
@@ -83,7 +83,7 @@ Scenario: 7. Plugins status incomplete when record not present
 
 @2793
 Scenario Outline: 8. Plugins status based on data in ClientApplication
-    Given MarketingDetail exist
+    Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
 

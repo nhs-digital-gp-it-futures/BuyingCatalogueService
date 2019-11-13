@@ -16,7 +16,7 @@ Background:
         | Sln4       | SubStandardPractice | GPs-R-Us         | 1                |
         | Sln5       | Banana              | Drs. Inc         | 1                |
         | Sln6       | Water Bottle        | Drs. Inc         | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | SummaryDescription          | FullDescription         | ClientApplication                                                                                                                               |
         | Sln1     |                             | Online medicine 1       | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ], "BrowsersSupported": ["Google Chrome", "Edge"], "MobileResponsive": false } |
         | Sln3     | Eye opening experience      | Eye opening6            | { "ClientApplicationTypes" : [ "browser-based" ], "BrowsersSupported": [ ], "MobileResponsive": null }                                          |

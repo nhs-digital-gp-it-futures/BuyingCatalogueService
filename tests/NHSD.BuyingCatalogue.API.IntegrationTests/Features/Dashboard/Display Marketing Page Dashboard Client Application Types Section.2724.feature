@@ -16,7 +16,7 @@ Background:
         | Sln4       | PracticeMgr    | Drs. Inc         | 1                |
         | Sln5       | Integral       | GPs-R-Us         | 1                |
 
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                     |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
         | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                       |
@@ -32,7 +32,7 @@ Scenario: 1. Sections presented where the Solution exists
     And the solution client-application-types section requirement is Mandatory
 
 @2724
-Scenario Outline: 2.Sections presented where the MarketingDetail does not exist
+Scenario Outline: 2.Sections presented where the SolutionDetail does not exist
     When a GET request is made for solution dashboard <Solution>
     Then a successful response is returned
     And the solution client-application-types section status is INCOMPLETE

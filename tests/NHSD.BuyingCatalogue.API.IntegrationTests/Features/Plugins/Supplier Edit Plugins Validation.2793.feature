@@ -10,7 +10,7 @@ Background:
     And Solutions exist
         | SolutionID | SolutionName   | OrganisationName | SupplierStatusId |
         | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                            |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum" } } | 
 

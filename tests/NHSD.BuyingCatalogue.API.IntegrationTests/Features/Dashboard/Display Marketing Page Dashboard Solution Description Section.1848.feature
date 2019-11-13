@@ -13,7 +13,7 @@ Background:
         | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
         | Sln2       | TakeTheRedPill | Drs. Inc         | 1                |
         | Sln3       | PracticeMgr    | Drs. Inc         | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | AboutUrl| SummaryDescription      | FullDescription      | Features                          |
         | Sln1     | UrlSln1 |                         | Online medicine 1    | [ "Appointments", "Prescribing" ] |
         | Sln3     | UrlSln3 | Eye opening experience  | Eye opening6         | [ "Referrals", "Workflow" ]       |

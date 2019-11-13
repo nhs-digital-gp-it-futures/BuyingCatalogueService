@@ -13,13 +13,13 @@ Background:
         | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
         | Sln2       | TakeTheRedPill | Drs. Inc         | 1                |
         | Sln3       | PracticeMgr    | Drs. Inc         | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | Features                          |
         | Sln1     | UrlSln1  | An full online medicine system | [ "Appointments", "Prescribing" ] |
         | Sln3     | UrlSln3  | Eye opening experience         | [ "Referrals", "Workflow" ]       |
 
 @1793
-Scenario: 1. Sections presented where MarketingDetail exists
+Scenario: 1. Sections presented where SolutionDetail exists
     When a GET request is made for solution preview Sln3
     Then a successful response is returned
     And the solution solution-description section contains Link of UrlSln3
@@ -29,7 +29,7 @@ Scenario: 1. Sections presented where MarketingDetail exists
         | Workflow  |
     
 @1793
-Scenario: 2. Sections not presented where no Marketing Detail exists
+Scenario: 2. Sections not presented where no Solution Detail exists
     When a GET request is made for solution preview Sln2
     Then a successful response is returned
     And the solution solution-description section does not contain link

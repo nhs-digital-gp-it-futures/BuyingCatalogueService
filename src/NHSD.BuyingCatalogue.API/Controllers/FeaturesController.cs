@@ -11,7 +11,7 @@ using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 namespace NHSD.BuyingCatalogue.API.Controllers
 {
     /// <summary>
-    /// Provides the endpoint to manage the features section of the solution marketing data.
+    /// Provides the endpoint to manage the features section of the solution data.
     /// </summary>
     [Route("api/v1/solutions")]
     [ApiController]

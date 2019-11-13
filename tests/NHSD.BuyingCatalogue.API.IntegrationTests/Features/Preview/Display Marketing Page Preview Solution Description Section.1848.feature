@@ -13,13 +13,13 @@ Background:
         | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
         | Sln2       | TakeTheRedPill | Drs. Inc         | 1                |
         | Sln3       | PracticeMgr    | Drs. Inc         | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription      | FullDescription     | Features                          |
         | Sln1     | UrlSln1  |                         | Online medicine 1   | [ "Appointments", "Prescribing" ] |
         | Sln3     | UrlSln3  | Fully fledged GP system | Fully fledged GP 12 | [ "Referrals", "Workflow" ]       |
 
 @1848
-Scenario: 1. Solution description section presented where Marketing Detail exists
+Scenario: 1. Solution description section presented where Solution Detail exists
     When a GET request is made for solution preview Sln3
     Then a successful response is returned
     And the solution solution-description section contains SummaryDescription of 'Fully fledged GP system'
@@ -31,7 +31,7 @@ Scenario: 1. Solution description section presented where Marketing Detail exist
         | Workflow  |
 
 @1848
-Scenario: 2. Solution description section presented where no Marketing Detail exists
+Scenario: 2. Solution description section presented where no Solution Detail exists
     When a GET request is made for solution preview Sln2
     Then a successful response is returned
     And the solution solution-description section does not contain summary

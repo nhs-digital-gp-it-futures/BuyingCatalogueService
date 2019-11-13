@@ -13,7 +13,7 @@ Background:
         | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
         | Sln2       | TakeTheRedPill | Drs. Inc         | 1                |
         | Sln3       | PracticeMgr    | Drs. Inc         | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | Features                          |
         | Sln1     | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
         | Sln3     | Eye opening experience         | Eye opening6        |                                   |
@@ -29,7 +29,7 @@ Scenario: 1. Features are retrieved for the solution
         | Prescribing  |
 
 @2724
-Scenario: 2. Features are retrieved for the solution where no marketing detail exists
+Scenario: 2. Features are retrieved for the solution where no solution detail exists
     When a GET request is made for features for solution Sln2
     Then a successful response is returned
     And the features element contains

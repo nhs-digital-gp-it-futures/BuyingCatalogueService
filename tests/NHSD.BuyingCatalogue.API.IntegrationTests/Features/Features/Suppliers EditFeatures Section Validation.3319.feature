@@ -11,7 +11,7 @@ Background:
     And Solutions exist
         | SolutionID | SolutionName   | OrganisationName | SupplierStatusId |
         | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
 
@@ -23,7 +23,7 @@ Scenario: 1. No features are filled out
     And Solutions exist
         | SolutionID | SolutionName   | OrganisationName | SupplierStatusId |
         | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                        |
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1   | ["","","","","","","","","",""] |
 
@@ -37,7 +37,7 @@ Scenario: 2. listing-1 exceeds the character limit
     And Solutions exist
         | SolutionID | SolutionName   | OrganisationName | SupplierStatusId |
         | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
 
@@ -54,6 +54,6 @@ Scenario: 3. listing-1 & listing-3 are within the character limit. listing-5 & l
     And Solutions exist
         | SolutionID | SolutionName   | OrganisationName | SupplierStatusId |
         | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace NHSD.BuyingCatalogue.Contracts.Persistence
 {
     /// <summary>
-    /// Defines a data contract representing the functionality for the persistence layer specific to the Marketing detail domain.
+    /// Defines a data contract representing the functionality for the persistence layer specific to the solution detail domain.
     /// </summary>
     public interface ISolutionDetailRepository
     {

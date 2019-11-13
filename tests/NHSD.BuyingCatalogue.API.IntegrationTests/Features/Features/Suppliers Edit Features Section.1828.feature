@@ -16,7 +16,7 @@ Background:
 
 @1828
 Scenario: 1. Marketing Data is updated against the solution
-    Given MarketingDetail exist
+    Given SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | AboutUrl | Features                          |
         | Sln1     | An full online medicine system | Online medicine 1   | UrlSln1  | [ "Appointments", "Prescribing" ] |
         | Sln2     | Eye opening experience         | Eye opening6        | UrlSln2  | [ "Workflow", "Referrals" ]       |
@@ -30,7 +30,7 @@ Scenario: 1. Marketing Data is updated against the solution
         | Sln1       | MedicOnline    | 1                |
         | Sln2       | TakeTheRedPill | 1                |
         | Sln3       | PracticeMgr    | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | AboutUrl | Features                              |
         | Sln1     | An full online medicine system | Online medicine 1   | UrlSln1  | ["Dispensing","Referrals","Workflow"] |
         | Sln2     | Eye opening experience         | Eye opening6        | UrlSln2  | [ "Workflow", "Referrals" ]           |
@@ -38,7 +38,7 @@ Scenario: 1. Marketing Data is updated against the solution
 
 @1828
 Scenario: 2. Marketing Data is added to the solution
-	Given a MarketingDetail Sln1 does not exist
+	Given a SolutionDetail Sln1 does not exist
     When a PUT request is made to update solution Sln1 features section
         | Features                      |
         | Dispensing,Referrals,Workflow |

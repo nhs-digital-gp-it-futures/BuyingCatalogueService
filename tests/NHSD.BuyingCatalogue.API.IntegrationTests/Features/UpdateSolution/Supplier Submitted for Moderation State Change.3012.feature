@@ -12,7 +12,7 @@ Scenario: 1. Supplier status successfully updated upon Solution submitted for re
     Given Solutions exist
         | SolutionID | SolutionName | OrganisationName | SupplierStatusId |
         | Sln1       | MedicOnline  | GPs-R-Us         | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | SummaryDescription             | ClientApplication                                                                                                                             |
         | Sln1     | An full online medicine system | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true, "Plugins": { "Required": false } } |
 	When a request is made to submit Solution Sln1 for review

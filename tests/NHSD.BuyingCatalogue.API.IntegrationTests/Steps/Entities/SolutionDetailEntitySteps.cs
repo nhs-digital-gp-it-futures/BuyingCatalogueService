@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
-using NHSD.BuyingCatalogue.API.IntegrationTests.Features.UpdateSolution;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
 using TechTalk.SpecFlow;
@@ -14,37 +10,37 @@ using TechTalk.SpecFlow.Assist;
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
 {
     [Binding]
-    public sealed class MarketingDetailEntitySteps
+    public sealed class SolutionDetailEntitySteps
     {
 
-        [Given(@"MarketingDetail exist")]
-        public async Task GivenMarketingDetailExist(Table table)
+        [Given(@"SolutionDetail exist")]
+        public async Task GivenSolutionDetailExist(Table table)
         {
-            foreach (var marketingDetail in table.CreateSet<MarketingDetailTable>())
+            foreach (var solutionDetail in table.CreateSet<SolutionDetailTable>())
             {
                 await SolutionDetailEntityBuilder.Create()
-                    .WithFeatures(marketingDetail.Features)
-                    .WithSummary(marketingDetail.SummaryDescription == "NULL" ? null : marketingDetail.SummaryDescription )
-                    .WithFullDescription(marketingDetail.FullDescription)
-                    .WithAboutUrl(marketingDetail.AboutUrl)
-                    .WithSolutionId(marketingDetail.Solution)
-                    .WithClientApplication(marketingDetail.ClientApplication)
+                    .WithFeatures(solutionDetail.Features)
+                    .WithSummary(solutionDetail.SummaryDescription == "NULL" ? null : solutionDetail.SummaryDescription )
+                    .WithFullDescription(solutionDetail.FullDescription)
+                    .WithAboutUrl(solutionDetail.AboutUrl)
+                    .WithSolutionId(solutionDetail.Solution)
+                    .WithClientApplication(solutionDetail.ClientApplication)
                     .Build()
                     .InsertAndSetCurrentForSolutionAsync();
             }
         }
 
-        [Given(@"a MarketingDetail (.*) does not exist")]
-        public async Task GivenAMarketingDetailDoesNotExist(string solutionId)
+        [Given(@"a SolutionDetail (.*) does not exist")]
+        public async Task GivenASolutionDetailDoesNotExist(string solutionId)
         {
-            var marketingDetailList = await SolutionDetailEntity.FetchAllAsync();
-            marketingDetailList.Select(x => x.SolutionId).Should().NotContain(solutionId);
+            var solutionDetailList = await SolutionDetailEntity.FetchAllAsync();
+            solutionDetailList.Select(x => x.SolutionId).Should().NotContain(solutionId);
         }
 
-        [Then(@"MarketingDetail exist")]
-        public async Task ThenMarketingDetailExist(Table table)
+        [Then(@"SolutionDetail exist")]
+        public async Task ThenSolutionDetailExist(Table table)
         {
-            var expectedMarketingDetails = table.CreateSet<MarketingDetailTable>().Select(m => new
+            var expectedSolutionDetails = table.CreateSet<SolutionDetailTable>().Select(m => new
             {
                 m.Solution,
                 AboutUrl = string.IsNullOrWhiteSpace(m.AboutUrl) ? null : m.AboutUrl,
@@ -53,8 +49,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 FullDescription = string.IsNullOrWhiteSpace(m.FullDescription) ? null : m.FullDescription,
                 ClientApplication = string.IsNullOrWhiteSpace(m.ClientApplication) ? null : JToken.Parse(m.ClientApplication).ToString()
             });
-            var marketingDetails = await SolutionDetailEntity.FetchAllAsync();
-            marketingDetails.Select(m => new
+            var solutionDetails = await SolutionDetailEntity.FetchAllAsync();
+            solutionDetails.Select(m => new
             {
                 Solution = m.SolutionId,
                 m.AboutUrl,
@@ -62,10 +58,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 m.Summary,
                 m.FullDescription,
                 ClientApplication = string.IsNullOrWhiteSpace(m.ClientApplication) ? null : JToken.Parse(m.ClientApplication).ToString()
-            }).Should().BeEquivalentTo(expectedMarketingDetails);
+            }).Should().BeEquivalentTo(expectedSolutionDetails);
         }
 
-        private class MarketingDetailTable
+        private class SolutionDetailTable
         {
             public string Solution { get; set; }
 

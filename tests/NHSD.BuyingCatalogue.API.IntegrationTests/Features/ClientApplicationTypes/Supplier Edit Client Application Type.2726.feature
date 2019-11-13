@@ -16,7 +16,7 @@ Background:
 
 @2726
 Scenario: 1. Client Application Types are updated for the solution
-    Given MarketingDetail exist
+    Given SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     |  ClientApplication                                                                     |
         | Sln1     | An full online medicine system | Online medicine 1   |  { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
         | Sln2     | Fully fledged GP system        | Fully fledged GP 12 |  {  }                                                                                  |
@@ -30,7 +30,7 @@ Scenario: 1. Client Application Types are updated for the solution
         | Sln1       | MedicOnline    | 1                |
         | Sln2       | TakeTheRedPill | 1                |
         | Sln3       | PracticeMgr    | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     |  ClientApplication                                                                                                                        |
         | Sln1     | An full online medicine system | Online medicine 1   |  { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null } |
         | Sln2     | Fully fledged GP system        | Fully fledged GP 12 |  {  }                                                                                                                                     |
@@ -38,7 +38,7 @@ Scenario: 1. Client Application Types are updated for the solution
 
 @2726
 Scenario: 2. If SolutionDetail is missing for the solution, thats an error case
-	Given a MarketingDetail Sln1 does not exist
+	Given a SolutionDetail Sln1 does not exist
     When a PUT request is made to update solution Sln1 client-application-types section
         | ClientApplicationTypes      |
         | browser-based,native-mobile |
@@ -46,7 +46,7 @@ Scenario: 2. If SolutionDetail is missing for the solution, thats an error case
 
 @2726
 Scenario: 3. Client Application Types that we do not understand are ignored
-    Given MarketingDetail exist
+    Given SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                     |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
         | Sln2     | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                  |
@@ -60,7 +60,7 @@ Scenario: 3. Client Application Types that we do not understand are ignored
         | Sln1       | MedicOnline    | 1                |
         | Sln2       | TakeTheRedPill | 1                |
         | Sln3       | PracticeMgr    | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                        |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null } |
         | Sln2     | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                                                                     |
@@ -68,7 +68,7 @@ Scenario: 3. Client Application Types that we do not understand are ignored
 
 @2726
 Scenario: 4. Client Application Types can be completely cleared
-    Given MarketingDetail exist
+    Given SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                     |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
         | Sln2     | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                  |
@@ -83,7 +83,7 @@ Scenario: 4. Client Application Types can be completely cleared
         | Sln1       | MedicOnline    | 1                |
         | Sln2       | TakeTheRedPill | 1                |
         | Sln3       | PracticeMgr    | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                     |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
         | Sln2     | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                  |

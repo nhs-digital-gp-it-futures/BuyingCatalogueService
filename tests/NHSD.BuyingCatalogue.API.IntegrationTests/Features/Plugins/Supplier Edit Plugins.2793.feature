@@ -14,14 +14,14 @@ Background:
 
 @2786
 Scenario: 1. Plugins is updated
-    Given MarketingDetail exist
+    Given SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                             |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : false, "AdditionalInformation": "orem ipsum" } } |
     When a PUT request is to update solution Sln1 plug-ins section
         | Required | AdditionalInformation     |
         | yes      | This is extra information |
     Then a successful response is returned
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                                            |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : { "Required" : true , "AdditionalInformation": "This is extra information"} } |
 

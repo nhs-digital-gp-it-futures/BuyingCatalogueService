@@ -13,7 +13,7 @@ Background:
         | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
         | Sln2       | TakeTheRedPill | Drs. Inc         | 1                |
         | Sln3       | PracticeMgr    | Drs. Inc         | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
         | Sln2     | UrlSln2  | Eye opening experience         | Eye opening6        | [ "Workflow", "Referrals" ]       |
@@ -29,13 +29,13 @@ Scenario: 1. Solution description section data is updated
         | Sln1       | MedicOnline    | 1                |
         | Sln2       | TakeTheRedPill | 1                |
         | Sln3       | PracticeMgr    | 1                |
-    And MarketingDetail exist
+    And SolutionDetail exist
         | Solution | AboutUrl   | SummaryDescription      | FullDescription        | Features                          |
         | Sln1     | UrlSln1New | New type of medicine 4  | A new full description | [ "Appointments", "Prescribing" ] |
         | Sln2     | UrlSln2    | Eye opening experience  | Eye opening6           | [ "Workflow", "Referrals" ]       |
 
 Scenario: 2. Solution description section data is not created on update, fail fast in this case
-    Given a MarketingDetail Sln3 does not exist
+    Given a SolutionDetail Sln3 does not exist
     When a PUT request is made to update solution Sln3 solution-description section
         | Summary                 | Description         | Link       |
         | Fully fledged GP system | Fully fledged GP 12 | UrlSln3New |

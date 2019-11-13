@@ -39,7 +39,7 @@ Scenario: 1. No selection criteria applied
 
 @2053
 Scenario: 2. Card Content
-	Given MarketingDetail exist
+	Given SolutionDetail exist
     | Solution | SummaryDescription      | FullDescription     | AboutUrl | Features                                            |
     | Sln1     | NULL                    | Online medicine 1   | UrlSln1  | { "customJson" : { "id" : 1, "name" : "feature1" }} |
     | Sln2     | Eye opening experience  | Eye opening6        | UrlSln2  | { "customJson" : { "id" : 2, "name" : "feature2" }} |
@@ -52,13 +52,13 @@ Scenario: 2. Card Content
         | Sln3       | PracticeMgr    |                        | Drs. Inc         | Clinical Safety, Prescribing, Workflow             |
 
 Scenario: 3. List all Solutions with no marketing data
-	Given a MarketingDetail Sln1 does not exist
+	Given a SolutionDetail Sln1 does not exist
 	When a GET request is made containing no selection criteria
 	Then a successful response is returned
     And the solutions MedicOnline,TakeTheRedPill,PracticeMgr are found in the response
 
 Scenario: 4. Retrieve all Solutions with Marketing data.
-	Given MarketingDetail exist
+	Given SolutionDetail exist
     | Solution | SummaryDescription      | FullDescription     | AboutUrl | Features                                            |
     | Sln1     |                         | Online medicine 1   | UrlSln1  | { "customJson" : { "id" : 1, "name" : "feature1" }} |
     | Sln2     | Eye opening experience  | Eye opening6        | UrlSln2  | { "customJson" : { "id" : 2, "name" : "feature2" }} |
