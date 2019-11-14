@@ -8,12 +8,16 @@ Background:
         | Name     |
         | GPs-R-Us |
         | Drs. Inc |
+    And Suppliers exist
+        | Id    | OrganisationName |
+        | Sup 1 | GPs-R-Us         |
+        | Sup 2 | Drs. Inc         |
     And Solutions exist
-        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
-        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                |
-        | Sln3       | PracticeMgr    | Drs. Inc         | 1                |
-        | Sln5       | Pills          | Drs. Inc         | 1                |
+        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                | Sup 2      |
+        | Sln3       | PracticeMgr    | Drs. Inc         | 1                | Sup 2      |
+        | Sln5       | Pills          | Drs. Inc         | 1                | Sup 2      |
 
 @2786
 Scenario: 1. Browser Supported is updated
@@ -45,11 +49,11 @@ Scenario: 2. Browsers Supported is empty, Mobile Responsive has a result
     Then a response status of 400 is returned
     And the browser-based required field contains supported-browsers
      And Solutions exist
-        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
-        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                |
-        | Sln3       | PracticeMgr    | Drs. Inc         | 1                |
-        | Sln5       | Pills          | Drs. Inc         | 1                |
+        | SolutionID | SolutionName   |
+        | Sln1       | MedicOnline    |
+        | Sln2       | TakeTheRedPill |
+        | Sln3       | PracticeMgr    |
+        | Sln5       | Pills          |
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                   |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false } |
@@ -69,11 +73,11 @@ Scenario: 3. Mobile Responsive is empty
     Then a response status of 400 is returned
     And the browser-based required field contains mobile-responsive
     And Solutions exist
-        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
-        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                |
-        | Sln3       | PracticeMgr    | Drs. Inc         | 1                |
-        | Sln5       | Pills          | Drs. Inc         | 1                |
+        | SolutionID | SolutionName   |
+        | Sln1       | MedicOnline    |
+        | Sln2       | TakeTheRedPill |
+        | Sln3       | PracticeMgr    |
+        | Sln5       | Pills          |
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                   |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false } |
@@ -94,11 +98,11 @@ Scenario: 4. Browsers Supported & Mobile Responsive are empty
     And the browser-based required field contains supported-browsers
     And the browser-based required field contains mobile-responsive
     And Solutions exist
-        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
-        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                |
-        | Sln3       | PracticeMgr    | Drs. Inc         | 1                |
-        | Sln5       | Pills          | Drs. Inc         | 1                |
+        | SolutionID | SolutionName   |
+        | Sln1       | MedicOnline    |
+        | Sln2       | TakeTheRedPill |
+        | Sln3       | PracticeMgr    |
+        | Sln5       | Pills          |
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                   |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false } |

@@ -6,10 +6,10 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
     public sealed class GetPlugInsResult
     {
         [JsonProperty("plugins-required")]
-        public string PlugIns { get; set; }
+        public string PlugIns { get; }
 
         [JsonProperty("plugins-detail")]
-        public string AdditionalInformation { get; set; }
+        public string AdditionalInformation { get;}
 
         public GetPlugInsResult(IPlugins plugins)
         {

@@ -7,10 +7,12 @@ Background:
     Given Organisations exist
         | Name     |
         | GPs-R-Us |
-        | Drs. Inc |
+    And Suppliers exist
+        | Id    | OrganisationName |
+        | Sup 1 | GPs-R-Us         |
     And Solutions exist
-        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
+        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
 
 @2786
 Scenario: 1. Plugins is updated

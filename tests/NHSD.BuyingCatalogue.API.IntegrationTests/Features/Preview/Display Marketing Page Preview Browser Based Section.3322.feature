@@ -8,14 +8,18 @@ Background:
         | Name     |
         | GPs-R-Us |
         | Drs. Inc |
+    And Suppliers exist
+        | Id    | OrganisationName |
+        | Sup 1 | GPs-R-Us         |
+        | Sup 2 | Drs. Inc         |
     And Solutions exist
-        | SolutionID | SolutionName        | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline         | GPs-R-Us         | 1                |
-        | Sln2       | TakeTheRedPill      | Drs. Inc         | 1                |
-        | Sln3       | PracticeMgr         | Drs. Inc         | 1                |
-        | Sln4       | SubStandardPractice | GPs-R-Us         | 1                |
-        | Sln5       | Banana              | Drs. Inc         | 1                |
-        | Sln6       | Water Bottle        | Drs. Inc         | 1                |
+        | SolutionID | SolutionName        | OrganisationName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline         | GPs-R-Us         | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill      | Drs. Inc         | 1                | Sup 2      |
+        | Sln3       | PracticeMgr         | Drs. Inc         | 1                | Sup 2      |
+        | Sln4       | SubStandardPractice | GPs-R-Us         | 1                | Sup 1      |
+        | Sln5       | Banana              | Drs. Inc         | 1                | Sup 2      |
+        | Sln6       | Water Bottle        | Drs. Inc         | 1                | Sup 2      |
     And SolutionDetail exist
         | Solution | SummaryDescription          | FullDescription         | ClientApplication                                                                                                                               |
         | Sln1     |                             | Online medicine 1       | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ], "BrowsersSupported": ["Google Chrome", "Edge"], "MobileResponsive": false } |

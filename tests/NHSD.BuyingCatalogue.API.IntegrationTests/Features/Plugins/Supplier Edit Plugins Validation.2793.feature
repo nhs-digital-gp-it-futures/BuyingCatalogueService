@@ -7,9 +7,12 @@ Background:
     Given Organisations exist
         | Name     |
         | GPs-R-Us |
+    And Suppliers exist
+        | Id    | OrganisationName |
+        | Sup 1 | GPs-R-Us         |
     And Solutions exist
-        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
+        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                            |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum" } } | 

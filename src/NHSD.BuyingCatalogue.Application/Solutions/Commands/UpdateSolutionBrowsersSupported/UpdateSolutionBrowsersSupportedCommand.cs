@@ -7,7 +7,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrow
         /// <summary>
         /// A value to uniquely identify a solution.
         /// </summary>
-        public string SolutionId { get; set; }
+        public string SolutionId { get; }
 
         /// <summary>
         /// Updated details of a solution.

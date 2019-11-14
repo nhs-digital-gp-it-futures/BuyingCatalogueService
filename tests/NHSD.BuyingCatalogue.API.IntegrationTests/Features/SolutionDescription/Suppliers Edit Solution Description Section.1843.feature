@@ -8,11 +8,15 @@ Background:
         | Name     |
         | GPs-R-Us |
         | Drs. Inc |
+    And Suppliers exist
+        | Id    | OrganisationName |
+        | Sup 1 | GPs-R-Us         |
+        | Sup 2 | Drs. Inc         |
     And Solutions exist
-        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
-        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                |
-        | Sln3       | PracticeMgr    | Drs. Inc         | 1                |
+        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                | Sup 2      |
+        | Sln3       | PracticeMgr    | Drs. Inc         | 1                | Sup 2      |
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
@@ -25,10 +29,10 @@ Scenario: 1. Solution description section data is updated
         | New type of medicine 4 | A new full description | UrlSln1New |
     Then a successful response is returned
     And Solutions exist
-        | SolutionID | SolutionName   | SupplierStatusId |
-        | Sln1       | MedicOnline    | 1                |
-        | Sln2       | TakeTheRedPill | 1                |
-        | Sln3       | PracticeMgr    | 1                |
+        | SolutionID | SolutionName   |
+        | Sln1       | MedicOnline    |
+        | Sln2       | TakeTheRedPill |
+        | Sln3       | PracticeMgr    |
     And SolutionDetail exist
         | Solution | AboutUrl   | SummaryDescription      | FullDescription        | Features                          |
         | Sln1     | UrlSln1New | New type of medicine 4  | A new full description | [ "Appointments", "Prescribing" ] |

@@ -4,7 +4,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionPlug
 {
     public sealed class UpdateSolutionPluginsCommand : IRequest<UpdateSolutionPluginsValidationResult>
     {
-        public string SolutionId { get; set; }
+        public string SolutionId { get; }
 
         public UpdateSolutionPluginsViewModel UpdateSolutionPluginsViewModel { get; }
 

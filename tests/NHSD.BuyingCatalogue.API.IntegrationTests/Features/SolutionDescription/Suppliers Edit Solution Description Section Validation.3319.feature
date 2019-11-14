@@ -7,10 +7,12 @@ Background:
     Given Organisations exist
         | Name     |
         | GPs-R-Us |
-        | Drs. Inc |
+    And Suppliers exist
+        | Id    | OrganisationName |
+        | Sup 1 | GPs-R-Us         |
     And Solutions exist
-        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
+        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
@@ -22,8 +24,8 @@ Scenario: 1. Summary is not filled out
     Then a response status of 400 is returned
     And the response required field contains summary
     And Solutions exist
-        | SolutionID | SolutionName | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline  | GPs-R-Us         | 1                |
+        | SolutionID | SolutionName |
+        | Sln1       | MedicOnline  |
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
@@ -36,8 +38,8 @@ Scenario: 2. Summary exceeds the character limit
     Then a response status of 400 is returned
     And the response maxlength field contains summary
     And Solutions exist
-        | SolutionID | SolutionName | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline  | GPs-R-Us         | 1                |
+        | SolutionID | SolutionName | 
+        | Sln1       | MedicOnline  | 
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
@@ -49,8 +51,8 @@ Scenario: 3. Description exceeds the character limit
     Then a response status of 400 is returned
     And the response maxlength field contains description
     And Solutions exist
-        | SolutionID | SolutionName | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline  | GPs-R-Us         | 1                |
+        | SolutionID | SolutionName |
+        | Sln1       | MedicOnline  |
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | AboutUrl | Features                          |
         | Sln1     | An full online medicine system | Online medicine 1 | UrlSln1  | [ "Appointments", "Prescribing" ] |
@@ -62,8 +64,8 @@ Scenario: 4. Link exceeds the character limit
     Then a response status of 400 is returned
     And the response maxlength field contains link
        And Solutions exist
-        | SolutionID | SolutionName | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline  | GPs-R-Us         | 1                |
+        | SolutionID | SolutionName |
+        | Sln1       | MedicOnline  |
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
@@ -77,8 +79,8 @@ Scenario: 5. Summary is not filled out & Description exceeds the character limit
     And the response required field contains summary
     And the response maxlength field contains description
     And Solutions exist
-        | SolutionID | SolutionName | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline  | GPs-R-Us         | 1                |
+        | SolutionID | SolutionName |
+        | Sln1       | MedicOnline  |
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
@@ -92,8 +94,8 @@ Scenario: 6. Summary is not filled out & Link exceeds the character limit
     And the response required field contains summary
     And the response maxlength field contains link
     And Solutions exist
-        | SolutionID | SolutionName | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline  | GPs-R-Us         | 1                |
+        | SolutionID | SolutionName |
+        | Sln1       | MedicOnline  |
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
@@ -107,8 +109,8 @@ Scenario: 7. Summary & Description exceeds the character limit
     And the response maxlength field contains description
     And the response maxlength field contains summary
     And Solutions exist
-        | SolutionID | SolutionName |  OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline  |  GPs-R-Us         | 1                |
+        | SolutionID | SolutionName | 
+        | Sln1       | MedicOnline  | 
     And SolutionDetail exist
         | Solution | AboutUrl |SummaryDescription             | FullDescription   | Features                          |
         | Sln1     | UrlSln1  |An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
@@ -122,8 +124,8 @@ Scenario: 8. Summary & Link exceeds the character limit
     And the response maxlength field contains summary
     And the response maxlength field contains link
     And Solutions exist
-        | SolutionID | SolutionName | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline  | GPs-R-Us         | 1                |
+        | SolutionID | SolutionName | 
+        | Sln1       | MedicOnline  | 
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
@@ -137,8 +139,8 @@ Scenario: 9. Description & Link exceeds the character limit
     And the response maxlength field contains link
     And the response maxlength field contains description
     And Solutions exist
-        | SolutionID | SolutionName | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline  | GPs-R-Us         | 1                |
+        | SolutionID | SolutionName |
+        | Sln1       | MedicOnline  |
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
@@ -154,8 +156,8 @@ Scenario: 10. Summary is not filled out, Description & Link exceeds the characte
     And the response maxlength field contains description
     And the response maxlength field contains link
        And Solutions exist
-        | SolutionID | SolutionName | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline  | GPs-R-Us         | 1                |
+        | SolutionID | SolutionName | 
+        | Sln1       | MedicOnline  | 
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
@@ -171,8 +173,8 @@ Scenario: 11. Summary, Description & Link exceeds the character limit
     And the response maxlength field contains description
     And the response maxlength field contains link
     And Solutions exist
-        | SolutionID | SolutionName | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline  | GPs-R-Us         | 1                |
+        | SolutionID | SolutionName | 
+        | Sln1       | MedicOnline  | 
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
