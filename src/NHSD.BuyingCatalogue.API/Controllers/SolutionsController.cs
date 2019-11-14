@@ -45,6 +45,19 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         }
 
         /// <summary>
+        /// Gets a list of foundation solutions that includes information about the organisation and the associated capabilities.
+        /// </summary>
+        /// <returns>A task representing an operation to retrieve a list of solutions that includes information about the organisation and the associated capabilities.</returns>
+        [HttpGet]
+        [Route("foundation")]
+        [ProducesResponseType(typeof(ListSolutionsResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<ActionResult<ListSolutionsResult>> ListFoundationAsync()
+        {
+            return Ok(new ListSolutionsResult(await _mediator.Send(new ListSolutionsQuery())));
+        }
+
+        /// <summary>
         /// Find a list of Solutions that match the specified list of Capabilities.
         /// </summary>
         /// <param name="filter">The filter criteria to apply to the list of Solutions.</param>
