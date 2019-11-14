@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using NHSD.BuyingCatalogue.Contracts;
 using NHSD.BuyingCatalogue.Contracts.Solutions;
 
-namespace NHSD.BuyingCatalogue.Application.Solutions.Domain
+namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
 {
     /// <summary>
     /// A product and/or service provided by an ‘organisation’.
