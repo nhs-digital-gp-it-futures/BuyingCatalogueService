@@ -243,6 +243,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
                 .WithSolutionId("Sln1")
                 .WithAboutUrl("AboutUrl")
                 .WithFeatures("Features")
+                .WithClientApplication("Browser-based")
                 .Build()
                 .InsertAsync();
 
@@ -253,6 +254,8 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             solution.Description.Should().Be("Sln1Description");
             solution.AboutUrl.Should().Be("AboutUrl");
             solution.Features.Should().Be("Features");
+            solution.ClientApplication.Should().Be("Browser-based");
+            solution.OrganisationName.Should().Be("OrgName1");
         }
 
         [Test]
@@ -281,8 +284,10 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             solution.Name.Should().Be("Solution1");
             solution.Summary.Should().Be("Sln1Summary");
             solution.Description.Should().Be("Sln1Description");
+            solution.OrganisationName.Should().Be("OrgName1");
             solution.AboutUrl.Should().BeNull();
             solution.Features.Should().BeNull();
+            solution.ClientApplication.Should().BeNull();
         }
 
         [Test]
@@ -349,6 +354,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
                 .WithSolutionId("Sln1")
                 .WithAboutUrl("AboutUrl")
                 .WithFeatures("Features")
+                .WithClientApplication("Browser-based")
                 .Build()
                 .InsertAsync();
 
@@ -375,6 +381,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             var marketingData = await MarketingDetailEntity.GetBySolutionIdAsync("Sln1");
             marketingData.AboutUrl.Should().Be("AboutUrl4");
             marketingData.Features.Should().Be("Features");
+            marketingData.ClientApplication.Should().Be("Browser-based");
         }
 
         [Test]
@@ -429,6 +436,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             var marketingData = await MarketingDetailEntity.GetBySolutionIdAsync("Sln1");
             marketingData.AboutUrl.Should().Be("AboutUrl4");
             marketingData.Features.Should().BeNull();
+            marketingData.ClientApplication.Should().BeNull();
         }
     }
 }

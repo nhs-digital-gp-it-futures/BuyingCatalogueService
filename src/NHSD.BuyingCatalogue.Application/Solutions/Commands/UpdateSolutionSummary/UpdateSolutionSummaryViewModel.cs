@@ -1,4 +1,4 @@
-namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution
+namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary
 {
     public sealed class UpdateSolutionSummaryViewModel
     {

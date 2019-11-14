@@ -1,8 +1,8 @@
 using MediatR;
 
-namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolution
+namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary
 {
-    public sealed class UpdateSolutionSummaryCommand : IRequest
+    public sealed class UpdateSolutionSummaryCommand : IRequest<UpdateSolutionSummaryValidationResult>
     {
         /// <summary>
         /// A value to uniquely identify a solution.

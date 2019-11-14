@@ -6,11 +6,8 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.API.Infrastructure.Filters;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
-using NHSD.BuyingCatalogue.Application;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure.HealthChecks;
-using NHSD.BuyingCatalogue.Persistence;
 using NHSD.BuyingCatalogue.Persistence.HealthChecks;
-using NHSD.BuyingCatalogue.Persistence.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.API.Extensions
 {
@@ -19,31 +16,6 @@ namespace NHSD.BuyingCatalogue.API.Extensions
     /// </summary>
     public static class ServiceCollectionExtensions
 	{
-		/// <summary>
-		/// Adds the project based database factory for the persistence layer.
-		/// </summary>
-		/// <param name="services">The collection of service descriptors.</param>
-		/// <returns>The extended service collection instance.</returns>
-		public static IServiceCollection AddCustomDbFactory(this IServiceCollection services)
-		{
-			services.AddSingleton<IDbConnectionFactory, DbConnectionFactory>();
-			return services;
-		}
-
-		/// <summary>
-		/// Adds any application repositories.
-		/// </summary>
-		/// <param name="services">The collection of service descriptors.</param>
-		/// <returns>The extended service collection instance.</returns>
-		public static IServiceCollection AddCustomRepositories(this IServiceCollection services)
-		{
-            services
-                .RegisterApplication()
-                .RegisterPersistence();
-
-            return services;
-		}
-
 		/// <summary>
 		/// Adds the custom swagger settings for application.
 		/// </summary>
@@ -57,8 +29,8 @@ namespace NHSD.BuyingCatalogue.API.Extensions
 				{
 					Title = "Solutions API",
 					Version = "v1",
-					Description = "NHS Digital GP IT Buying Catalogue HTTP API",
-				});
+					Description = "NHS Digital GP IT Buying Catalogue HTTP API"
+                });
 			});
 
 			return services;
@@ -94,8 +66,6 @@ namespace NHSD.BuyingCatalogue.API.Extensions
         /// <returns>The extended service collection instance.</returns>
         public static IServiceCollection AddCustomHealthCheck(this IServiceCollection services)
         {
-            services.AddSingleton<IRepositoryHealthCheck, RepositoryHealthCheck>();
-
             services.AddHealthChecks()
                 .AddCheck("self", () => HealthCheckResult.Healthy(), tags: new[] { HealthCheckTags.Live })
                 .AddCheck<PersistenceLayerHealthCheck>("persistence", tags: new [] { HealthCheckTags.Dependencies });

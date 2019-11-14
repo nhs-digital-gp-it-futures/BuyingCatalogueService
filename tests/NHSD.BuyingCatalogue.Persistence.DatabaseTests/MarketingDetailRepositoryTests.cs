@@ -150,6 +150,96 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             marketingData.Features.Should().Be("Features4");
         }
 
+        [Test]
+        public async Task ShouldUpdateClientApplicationType()
+        {
+            var organisations = await OrganisationEntity.FetchAllAsync();
 
+            await SolutionEntityBuilder.Create()
+                .WithName("Solution1")
+                .WithId("Sln1")
+                .WithSummary("Sln1Summary")
+                .WithFullDescription("Sln1Description")
+                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
+                .Build()
+                .InsertAsync();
+
+            await SolutionEntityBuilder.Create()
+                .WithName("Solution2")
+                .WithId("Sln2")
+                .WithSummary("Sln2Summary")
+                .WithFullDescription("Sln2Description")
+                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
+                .Build()
+                .InsertAsync();
+
+            await MarketingDetailEntityBuilder.Create()
+                .WithSolutionId("Sln1")
+                .WithAboutUrl("AboutUrl")
+                .WithClientApplication("Browser-based")
+                .Build()
+                .InsertAsync();
+
+            var mockUpdateSolutionClientApplicationRequest = new Mock<IUpdateSolutionClientApplicationRequest>();
+            mockUpdateSolutionClientApplicationRequest.Setup(m => m.Id).Returns("Sln1");
+            mockUpdateSolutionClientApplicationRequest.Setup(m => m.ClientApplication).Returns("Browser-based");
+
+            await _marketingDetailRepository.UpdateClientApplicationAsync(mockUpdateSolutionClientApplicationRequest.Object, new CancellationToken());
+
+            var solution = await SolutionEntity.GetByIdAsync("Sln1");
+            solution.Id.Should().Be("Sln1");
+
+            var marketingData = await MarketingDetailEntity.GetBySolutionIdAsync("Sln1");
+            marketingData.AboutUrl.Should().Be("AboutUrl");
+            marketingData.ClientApplication.Should().Be("Browser-based");
+        }
+
+        [Test]
+        public void ShouldUpdateNotPresentClientApplication()
+        {
+            var mockUpdateSolutionClientApplicationRequest = new Mock<IUpdateSolutionClientApplicationRequest>();
+            mockUpdateSolutionClientApplicationRequest.Setup(m => m.Id).Returns("Sln1");
+            mockUpdateSolutionClientApplicationRequest.Setup(m => m.ClientApplication).Returns("Browser-based");
+
+            Assert.DoesNotThrowAsync(() => _marketingDetailRepository.UpdateClientApplicationAsync(mockUpdateSolutionClientApplicationRequest.Object, new CancellationToken()));
+        }
+
+        [Test]
+        public async Task ShouldUpdateMarketingDataNotPresentClientApplication()
+        {
+            var organisations = await OrganisationEntity.FetchAllAsync();
+
+            await SolutionEntityBuilder.Create()
+                .WithName("Solution1")
+                .WithId("Sln1")
+                .WithSummary("Sln1Summary")
+                .WithFullDescription("Sln1Description")
+                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
+                .Build()
+                .InsertAsync();
+
+            await SolutionEntityBuilder.Create()
+                .WithName("Solution2")
+                .WithId("Sln2")
+                .WithSummary("Sln2Summary")
+                .WithFullDescription("Sln2Description")
+                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
+                .Build()
+                .InsertAsync();
+
+            var mockUpdateSolutionClientApplicationRequest = new Mock<IUpdateSolutionClientApplicationRequest>();
+            mockUpdateSolutionClientApplicationRequest.Setup(m => m.Id).Returns("Sln1");
+            mockUpdateSolutionClientApplicationRequest.Setup(m => m.ClientApplication).Returns("Browser-based");
+
+            await _marketingDetailRepository.UpdateClientApplicationAsync(mockUpdateSolutionClientApplicationRequest.Object, new CancellationToken());
+
+
+            var solution = await SolutionEntity.GetByIdAsync("Sln1");
+            solution.Id.Should().Be("Sln1");
+
+            var marketingData = await MarketingDetailEntity.GetBySolutionIdAsync("Sln1");
+            marketingData.AboutUrl.Should().BeNull();
+            marketingData.ClientApplication.Should().Be("Browser-based");
+        }
     }
 }

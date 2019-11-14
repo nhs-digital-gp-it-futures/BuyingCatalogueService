@@ -1,7 +1,7 @@
 using System;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 
-namespace NHSD.BuyingCatalogue.Persistence.Repositories
+namespace NHSD.BuyingCatalogue.Persistence.Models
 {
     internal sealed class CapabilityListResult : ICapabilityListResult
     {

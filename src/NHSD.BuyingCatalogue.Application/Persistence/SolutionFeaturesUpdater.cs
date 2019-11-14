@@ -1,7 +1,8 @@
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
-using NHSD.BuyingCatalogue.Domain.Entities.Solutions;
+using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 
 namespace NHSD.BuyingCatalogue.Application.Persistence
 {
@@ -26,7 +27,7 @@ namespace NHSD.BuyingCatalogue.Application.Persistence
             => new UpdateSolutionFeaturesRequest
             {
                 Id = solution.Id,
-                Features = solution.Features
+                Features = JsonConvert.SerializeObject(solution.Features).ToString()
             };
     }
 }

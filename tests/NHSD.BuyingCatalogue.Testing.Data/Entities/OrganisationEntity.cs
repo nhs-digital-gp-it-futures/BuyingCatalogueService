@@ -39,10 +39,10 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         VALUES
             ('{Id}'
             ,'{Name}'
-            ,'{Summary}'
-            ,'{OrganisationUrl}'
-            ,'{OdsCode}'
-            ,'{PrimaryRoleId}'
+            ,{NullOrWrapQuotes(Summary)}
+            ,{NullOrWrapQuotes(OrganisationUrl)}
+            ,{NullOrWrapQuotes(OdsCode)}
+            ,{NullOrWrapQuotes(PrimaryRoleId)}
             ,'{CrmRef}')";
 
         public static async Task<IEnumerable<OrganisationEntity>> FetchAllAsync()

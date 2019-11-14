@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gpitfuture-bc-deployment-api
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  selector:
+    matchLabels:
+      app: gpitfuture-bc-app-api  
+  template:
+    metadata:
+      labels:
+        app: gpitfuture-bc-app-api
+    spec:
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - name: gpitfuture-bc-beta-api
+        image: gpitfutureaksdev.azurecr.io/nhsd/buying-catalogue-api
+        ports:
+        - containerPort: 5100
+        resources:
+          requests:
+            cpu: 500m
+          limits:
+            cpu: 1
+        env:
+        - name: CACHE_HOST
+          value: "cache"
+        - name: ASPNETCORE_ENVIRONMENT 
+          value: "Development"
+---        
+apiVersion: v1
+kind: Service
+metadata:
+  name: api
+spec:
+  ports:
+  - port: 5100
+  selector:
+    app: gpitfuture-bc-app-api
+---
