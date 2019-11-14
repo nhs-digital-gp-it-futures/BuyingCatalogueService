@@ -30,8 +30,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             ,'{SolutionId}'
             ,{ToOneZero(IsFoundation)}
             ,'{LastUpdated.ToString("dd-MMM-yyyy")}'
-            ,'{LastUpdatedBy}'
-            )";
+            ,'{LastUpdatedBy}')";
 
         public static async Task<IEnumerable<FrameworkSolutionEntity>> FetchAllAsync()
         {

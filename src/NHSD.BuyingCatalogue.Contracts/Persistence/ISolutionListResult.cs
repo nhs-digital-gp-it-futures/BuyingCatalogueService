@@ -19,5 +19,7 @@ namespace NHSD.BuyingCatalogue.Contracts.Persistence
         string CapabilityName { get; }
 
         string CapabilityDescription { get; }
+
+        bool IsFoundation { get; }
     }
 }

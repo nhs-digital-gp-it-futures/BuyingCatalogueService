@@ -22,7 +22,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
                 SolutionId = "Sln1",
                 IsFoundation = true,
                 LastUpdated = DateTime.Now,
-                LastUpdatedBy = new Guid()
+                LastUpdatedBy = Guid.Empty
             };
         }
 
