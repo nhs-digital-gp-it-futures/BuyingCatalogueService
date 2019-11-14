@@ -13,22 +13,33 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public bool IsFoundation { get; set; }
 
+        public DateTime LastUpdated { get; set; }
+
+        public Guid LastUpdatedBy { get; set; }
+
         protected override string InsertSql => $@"
         INSERT INTO [dbo].[FrameworkSolutions]
         ([FrameworkId]
         ,[SolutionId]
-        ,[IsFoundation])
+        ,[IsFoundation]
+        ,[LastUpdated]
+        ,[LastUpdatedBy])
 
         VALUES
             ('{FrameworkId}'
             ,'{SolutionId}'
-            ,{ToOneZero(IsFoundation)})";
+            ,{ToOneZero(IsFoundation)}
+            ,'{LastUpdated.ToString("dd-MMM-yyyy")}'
+            ,'{LastUpdatedBy}'
+            )";
 
         public static async Task<IEnumerable<FrameworkSolutionEntity>> FetchAllAsync()
         {
             return await SqlRunner.FetchAllAsync<FrameworkSolutionEntity>($@"SELECT [FrameworkId]
                                   ,[SolutionId]
-                                  ,[IsFoundation]");
+                                  ,[IsFoundation]
+                                  ,[LastUpdated]
+                                  ,[LastUpdatedBy]");
         }
     }
 }
