@@ -1,4 +1,5 @@
 DROP TABLE [FrameworkCapabilities]
+DROP TABLE [FrameworkSolutions]
 DROP TABLE [Capability]
 DROP TABLE [CapabilityStatus]
 DROP TABLE [CapabilityCategory]

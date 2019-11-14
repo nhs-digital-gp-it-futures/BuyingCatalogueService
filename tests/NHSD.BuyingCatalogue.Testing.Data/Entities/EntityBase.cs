@@ -15,5 +15,10 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         {
             return candidate == null ? "NULL" : $"'{candidate}'";
         }
+
+        protected int ToOneZero(bool value)
+        {
+            return value ? 1 : 0;
+        }
     }
 }
