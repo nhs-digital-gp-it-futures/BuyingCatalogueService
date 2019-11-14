@@ -8,11 +8,15 @@ Background:
         | Name     |
         | GPs-R-Us |
         | Drs. Inc |
+    And Suppliers exist
+        | Id    | OrganisationName |
+        | Sup 1 | GPs-R-Us         |
+        | Sup 2 | Drs. Inc         |
     And Solutions exist
-        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
-        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                |
-        | Sln3       | PracticeMgr    | Drs. Inc         | 1                |
+        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                | Sup 2      |
+        | Sln3       | PracticeMgr    | Drs. Inc         | 1                | Sup 2      |
 
 @2726
 Scenario: 1. Client Application Types are updated for the solution
@@ -26,10 +30,10 @@ Scenario: 1. Client Application Types are updated for the solution
         | browser-based,native-mobile |
     Then a successful response is returned
     And Solutions exist
-        | SolutionID | SolutionName   | SupplierStatusId |
-        | Sln1       | MedicOnline    | 1                |
-        | Sln2       | TakeTheRedPill | 1                |
-        | Sln3       | PracticeMgr    | 1                |
+        | SolutionID | SolutionName   |
+        | Sln1       | MedicOnline    |
+        | Sln2       | TakeTheRedPill |
+        | Sln3       | PracticeMgr    |
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     |  ClientApplication                                                                                                                        |
         | Sln1     | An full online medicine system | Online medicine 1   |  { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null } |
@@ -56,10 +60,10 @@ Scenario: 3. Client Application Types that we do not understand are ignored
         | browser-based,native-mobile,elephant,cheese |
     Then a successful response is returned
     And Solutions exist
-        | SolutionID | SolutionName   | SupplierStatusId |
-        | Sln1       | MedicOnline    | 1                |
-        | Sln2       | TakeTheRedPill | 1                |
-        | Sln3       | PracticeMgr    | 1                |
+        | SolutionID | SolutionName   |
+        | Sln1       | MedicOnline    |
+        | Sln2       | TakeTheRedPill |
+        | Sln3       | PracticeMgr    |
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                        |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null } |
@@ -79,10 +83,10 @@ Scenario: 4. Client Application Types can be completely cleared
     Then a response status of 400 is returned
     Then the client-application-types required field contains client-application-types
     And Solutions exist
-        | SolutionID | SolutionName   | SupplierStatusId |
-        | Sln1       | MedicOnline    | 1                |
-        | Sln2       | TakeTheRedPill | 1                |
-        | Sln3       | PracticeMgr    | 1                |
+        | SolutionID | SolutionName   |
+        | Sln1       | MedicOnline    |
+        | Sln2       | TakeTheRedPill |
+        | Sln3       | PracticeMgr    |
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                     |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |

@@ -8,3 +8,5 @@ INSERT INTO [dbo].[SolutionCapabilityStatus] ([Id], [Name], [Pass]) VALUES (1, '
 
 INSERT INTO [dbo].[SolutionSupplierStatus] ([Id], [Name]) VALUES (1, 'Draft');
 INSERT INTO [dbo].[SolutionSupplierStatus] ([Id], [Name]) VALUES (2, 'Authority Review');
+INSERT INTO [dbo].[PublicationStatus] ([Id], [Name]) VALUES (1, 'Unknown');
+INSERT INTO [dbo].[SolutionAuthorityStatus] ([Id], [Name]) VALUES(1, 'Giraffe');

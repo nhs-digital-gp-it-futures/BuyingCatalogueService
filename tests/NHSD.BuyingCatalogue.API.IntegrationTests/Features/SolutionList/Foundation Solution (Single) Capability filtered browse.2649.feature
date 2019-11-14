@@ -14,11 +14,15 @@ Background:
         | Name     |
         | GPs-R-Us |
         | Drs. Inc |
+    And Suppliers exist
+        | Id    | OrganisationName |
+        | Sup 1 | GPs-R-Us         |
+        | Sup 2 | Drs. Inc         |
     And Solutions exist
-        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline    | GPs-R-Us         | 1                |
-        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                |
-        | Sln3       | PracticeMgr    | Drs. Inc         | 1                |
+        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                | Sup 2      |
+        | Sln3       | PracticeMgr    | Drs. Inc         | 1                | Sup 2      |
     And Solutions are linked to Capabilities
         | Solution       | Capability              |
         | MedicOnline    | Appointments Management |
