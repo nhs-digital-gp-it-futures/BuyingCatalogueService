@@ -44,13 +44,14 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                                             Organisation.Name as OrganisationName,
                                             Capability.Id as CapabilityId,
                                             Capability.Name as CapabilityName,
-                                            Capability.Description as CapabilityDescription
+                                            Capability.Description as CapabilityDescription,
+                                            FrameworkSolutions.IsFoundation as IsFoundation
                                     FROM    Solution 
                                             INNER JOIN Organisation ON Organisation.Id = Solution.OrganisationId
                                             INNER JOIN SolutionCapability ON Solution.Id = SolutionCapability.SolutionId
                                             INNER JOIN Capability ON Capability.Id = SolutionCapability.CapabilityId
-                                            LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId";
-
+                                            LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
+                                            LEFT JOIN FrameworkSolutions ON Solution.Id = FrameworkSolutions.SolutionId";
 
                 return await databaseConnection.QueryAsync<SolutionListResult>(sql);
             }
@@ -73,10 +74,12 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                                             SolutionDetail.FullDescription AS Description,
                                             SolutionDetail.AboutUrl AS AboutUrl,
                                             SolutionDetail.Features As Features,
-                                            SolutionDetail.ClientApplication as ClientApplication
+                                            SolutionDetail.ClientApplication as ClientApplication,
+                                            FrameworkSolutions.IsFoundation as IsFoundation
                                      FROM   Solution
                                             INNER JOIN Organisation ON Organisation.Id = Solution.OrganisationId
                                             LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
+                                            LEFT JOIN FrameworkSolutions ON Solution.Id = FrameworkSolutions.SolutionId
                                      WHERE  Solution.Id = @id";
 
                 var result = await databaseConnection.QueryAsync<SolutionResult>(sql, new { id });

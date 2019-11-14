@@ -106,8 +106,79 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             solution.CapabilityId.Should().Be(_cap1Id);
             solution.CapabilityName.Should().Be("Cap1");
             solution.CapabilityDescription.Should().Be("Cap1Desc");
+            solution.IsFoundation.Should().BeFalse();
         }
 
+        [Test]
+        public async Task ShouldListSingleSolutionAsNotFoundation()
+        {
+            await SolutionEntityBuilder.Create()
+                .WithName("Solution1")
+                .WithId("Sln1")
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
+                .Build()
+                .InsertAsync();
+
+            await SolutionDetailEntityBuilder.Create()
+                .WithSolutionId("Sln1")
+                .WithSummary("Sln1Summary")
+                .Build()
+                .InsertAndSetCurrentForSolutionAsync();
+
+            await SolutionCapabilityEntityBuilder.Create()
+                .WithSolutionId("Sln1")
+                .WithCapabilityId(_cap1Id)
+                .Build()
+                .InsertAsync();
+
+            await FrameworkSolutionEntityBuilder.Create()
+                .WithSolutionId("Sln1")
+                .WithFoundation(false)
+                .Build().InsertAsync();
+
+            var solutions = await _solutionRepository.ListAsync(new CancellationToken());
+
+            var solution = solutions.Should().ContainSingle().Subject;
+            solution.SolutionId.Should().Be("Sln1");
+            solution.IsFoundation.Should().BeFalse();
+        }
+
+        [Test]
+        public async Task ShouldListSingleSolutionAsFoundation()
+        {
+            await SolutionEntityBuilder.Create()
+                .WithName("Solution1")
+                .WithId("Sln1")
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
+                .Build()
+                .InsertAsync();
+
+            await SolutionDetailEntityBuilder.Create()
+                .WithSolutionId("Sln1")
+                .WithSummary("Sln1Summary")
+                .Build()
+                .InsertAndSetCurrentForSolutionAsync();
+
+            await SolutionCapabilityEntityBuilder.Create()
+                .WithSolutionId("Sln1")
+                .WithCapabilityId(_cap1Id)
+                .Build()
+                .InsertAsync();
+
+            await FrameworkSolutionEntityBuilder.Create()
+                .WithSolutionId("Sln1")
+                .WithFoundation(true)
+                .Build()
+                .InsertAsync();
+
+            var solutions = await _solutionRepository.ListAsync(new CancellationToken());
+
+            var solution = solutions.Should().ContainSingle().Subject;
+            solution.SolutionId.Should().Be("Sln1");
+            solution.IsFoundation.Should().BeTrue();
+        }
 
         [Test]
         public async Task ShouldListSingleSolutionWithMultipleCapability()

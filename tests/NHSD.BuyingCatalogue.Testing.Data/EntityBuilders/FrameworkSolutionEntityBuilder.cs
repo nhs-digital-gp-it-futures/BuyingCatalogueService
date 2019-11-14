@@ -20,7 +20,9 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             {
                 FrameworkId = "NHSDGP001",
                 SolutionId = "Sln1",
-                IsFoundation = true
+                IsFoundation = true,
+                LastUpdated = DateTime.Now,
+                LastUpdatedBy = Guid.Empty
             };
         }
 
@@ -39,6 +41,18 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
         public FrameworkSolutionEntityBuilder WithFoundation(bool isFoundation)
         {
             _frameworkSolutionEntity.IsFoundation = isFoundation;
+            return this;
+        }
+
+        public FrameworkSolutionEntityBuilder WithLastUpdated(DateTime lastUpdated)
+        {
+            _frameworkSolutionEntity.LastUpdated = lastUpdated;
+            return this;
+        }
+
+        public FrameworkSolutionEntityBuilder WithLastUpdatedBy(Guid lastUpdatedBy)
+        {
+            _frameworkSolutionEntity.LastUpdatedBy = lastUpdatedBy;
             return this;
         }
 
