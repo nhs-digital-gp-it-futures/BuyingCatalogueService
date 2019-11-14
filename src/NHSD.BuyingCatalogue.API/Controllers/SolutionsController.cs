@@ -103,6 +103,22 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         }
 
         /// <summary>
+        /// Get a solution matching the specified ID.
+        /// </summary>
+        /// <param name="id">A value to uniquely identify a solution.</param>
+        /// <returns>A task representing an operation to retrieve the details of a Solution.</returns>
+        [HttpGet]
+        [Route("{id}/Public")]
+        [ProducesResponseType(typeof(SolutionPreviewResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult<SolutionPreviewResult>> Public([FromRoute][Required]string id)
+        {
+            var result = await _mediator.Send(new GetSolutionByIdQuery(id));
+            return result == null ? (ActionResult)new NotFoundResult() : Ok(new SolutionPreviewResult(result));
+        }
+
+        /// <summary>
         /// Submits a solution for review.
         /// </summary>
         /// <param name="id">A value to uniquely identify a solution.</param>
