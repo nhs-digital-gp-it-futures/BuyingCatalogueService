@@ -1,6 +1,5 @@
 using System;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -23,9 +22,9 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 
         private SolutionDetailRepository _solutionDetailRepository;
 
-        private readonly Guid Cap1Id = Guid.NewGuid();
-        private readonly Guid Cap2Id = Guid.NewGuid();
-        private readonly Guid Cap3Id = Guid.NewGuid();
+        private readonly Guid _org1Id = Guid.NewGuid();
+
+        private readonly string _supplierId = "Sup 1";
 
         [SetUp]
         public async Task Setup()
@@ -33,22 +32,14 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await Database.ClearAsync();
 
             await OrganisationEntityBuilder.Create()
-                .WithName("OrgName1")
-                .WithId(Guid.NewGuid())
+                .WithId(_org1Id)
                 .Build()
                 .InsertAsync();
 
-            await OrganisationEntityBuilder.Create()
-                .WithName("OrgName2")
-                .WithId(Guid.NewGuid())
+            await SupplierEntityBuilder.Create()
+                .WithOrganisation(_org1Id)
+                .WithId(_supplierId)
                 .Build()
-                .InsertAsync();
-
-            await CapabilityEntityBuilder.Create().WithName("Cap1").WithId(Cap1Id).WithDescription("Cap1Desc").Build()
-                .InsertAsync();
-            await CapabilityEntityBuilder.Create().WithName("Cap2").WithId(Cap2Id).WithDescription("Cap2Desc").Build()
-                .InsertAsync();
-            await CapabilityEntityBuilder.Create().WithName("Cap3").WithId(Cap3Id).WithDescription("Cap3Desc").Build()
                 .InsertAsync();
 
             _configuration = new Mock<IConfiguration>();
@@ -61,19 +52,11 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         [Test]
         public async Task ShouldUpdateFeatures()
         {
-            var organisations = await OrganisationEntity.FetchAllAsync();
-
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
-                .Build()
-                .InsertAsync();
-
-            await SolutionEntityBuilder.Create()
-                .WithName("Solution2")
-                .WithId("Sln2")
-                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync();
 
@@ -99,7 +82,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         }
 
         [Test]
-        public void ShouldUpdateNotPresent()
+        public void ShouldThrowOnUpdateFeaturesNotPresent()
         {
             var mockUpdateSolutionFeaturesRequest = new Mock<IUpdateSolutionFeaturesRequest>();
             mockUpdateSolutionFeaturesRequest.Setup(m => m.Id).Returns("Sln1");
@@ -111,19 +94,11 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         [Test]
         public async Task ShouldThrowOnUpdateSolutionDetailNotPresent()
         {
-            var organisations = await OrganisationEntity.FetchAllAsync();
-
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
-                .Build()
-                .InsertAsync();
-
-            await SolutionEntityBuilder.Create()
-                .WithName("Solution2")
-                .WithId("Sln2")
-                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync();
 
@@ -138,19 +113,11 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         [Test]
         public async Task ShouldUpdateClientApplicationType()
         {
-            var organisations = await OrganisationEntity.FetchAllAsync();
-
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
-                .Build()
-                .InsertAsync();
-
-            await SolutionEntityBuilder.Create()
-                .WithName("Solution2")
-                .WithId("Sln2")
-                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync();
 
@@ -176,7 +143,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         }
 
         [Test]
-        public void ShouldUpdateNotPresentClientApplication()
+        public void ShouldThrowOnUpdateClientApplicationSolutionNotPresent()
         {
             var mockUpdateSolutionClientApplicationRequest = new Mock<IUpdateSolutionClientApplicationRequest>();
             mockUpdateSolutionClientApplicationRequest.Setup(m => m.Id).Returns("Sln1");
@@ -186,21 +153,13 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         }
 
         [Test]
-        public async Task ShouldThrowOnUpdateSolutionDetailNotPresentClientApplication()
+        public async Task ShouldThrowOnUpdateClientApplicationSolutionDetailNotPresent()
         {
-            var organisations = await OrganisationEntity.FetchAllAsync();
-
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
-                .Build()
-                .InsertAsync();
-
-            await SolutionEntityBuilder.Create()
-                .WithName("Solution2")
-                .WithId("Sln2")
-                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync();
 
@@ -214,19 +173,19 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         [Test]
         public async Task ShouldUpdateSummary()
         {
-            var organisations = await OrganisationEntity.FetchAllAsync();
-
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync();
 
             await SolutionEntityBuilder.Create()
                 .WithName("Solution2")
                 .WithId("Sln2")
-                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync();
 
@@ -263,7 +222,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         }
 
         [Test]
-        public void ShouldThrowOnUpdateSummaryNotPresent()
+        public void ShouldThrowOnUpdateSummarySolutionNotPresent()
         {
             var mockUpdateSolutionSummaryRequest = new Mock<IUpdateSolutionSummaryRequest>();
             mockUpdateSolutionSummaryRequest.Setup(m => m.Id).Returns("Sln1");
@@ -275,21 +234,13 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         }
 
         [Test]
-        public async Task ShouldThrowOnUpdateSolutionDetailNotPresentSummary()
+        public async Task ShouldThrowOnUpdateSummarySolutionDetailNotPresent()
         {
-            var organisations = await OrganisationEntity.FetchAllAsync();
-
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
-                .Build()
-                .InsertAsync();
-
-            await SolutionEntityBuilder.Create()
-                .WithName("Solution2")
-                .WithId("Sln2")
-                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync();
 

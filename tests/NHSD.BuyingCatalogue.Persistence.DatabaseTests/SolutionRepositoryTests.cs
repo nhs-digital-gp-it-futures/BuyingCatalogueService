@@ -23,9 +23,13 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 
         private SolutionRepository _solutionRepository;
 
-        private readonly Guid Cap1Id = Guid.NewGuid();
-        private readonly Guid Cap2Id = Guid.NewGuid();
-        private readonly Guid Cap3Id = Guid.NewGuid();
+        private readonly Guid _cap1Id = Guid.NewGuid();
+        private readonly Guid _cap2Id = Guid.NewGuid();
+
+        private readonly Guid _org1Id = Guid.NewGuid();
+        private readonly string _orgName = "Org1";
+
+        private readonly string _supplierId = "Sup 1";
 
         [SetUp]
         public async Task Setup()
@@ -33,20 +37,19 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await Database.ClearAsync();
 
             await OrganisationEntityBuilder.Create()
-                .WithName("OrgName1")
-                .WithId(Guid.NewGuid())
+                .WithName(_orgName)
+                .WithId(_org1Id)
                 .Build()
                 .InsertAsync();
 
-            await OrganisationEntityBuilder.Create()
-                .WithName("OrgName2")
-                .WithId(Guid.NewGuid())
+            await SupplierEntityBuilder.Create()
+                .WithId(_supplierId)
+                .WithOrganisation(_org1Id)
                 .Build()
                 .InsertAsync();
 
-            await CapabilityEntityBuilder.Create().WithName("Cap1").WithId(Cap1Id).WithDescription("Cap1Desc").Build().InsertAsync();
-            await CapabilityEntityBuilder.Create().WithName("Cap2").WithId(Cap2Id).WithDescription("Cap2Desc").Build().InsertAsync();
-            await CapabilityEntityBuilder.Create().WithName("Cap3").WithId(Cap3Id).WithDescription("Cap3Desc").Build().InsertAsync();
+            await CapabilityEntityBuilder.Create().WithName("Cap1").WithId(_cap1Id).WithDescription("Cap1Desc").Build().InsertAsync();
+            await CapabilityEntityBuilder.Create().WithName("Cap2").WithId(_cap2Id).WithDescription("Cap2Desc").Build().InsertAsync();
 
             _configuration = new Mock<IConfiguration>();
             _configuration.Setup(a => a["ConnectionStrings:BuyingCatalogue"]).Returns(ConnectionStrings.ServiceConnectionString());
@@ -57,13 +60,11 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         [Test]
         public async Task ShouldListSingleSolution()
         {
-            var organisations = await OrganisationEntity.FetchAllAsync();
-
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                //.WithSummary("Sln1Summary")
-                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync();
 
@@ -74,12 +75,11 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         [Test]
         public async Task ShouldListSingleSolutionWithSingleCapability()
         {
-            var organisations = (await OrganisationEntity.FetchAllAsync()).ToList();
-
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync();
 
@@ -91,7 +91,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 
             await SolutionCapabilityEntityBuilder.Create()
                 .WithSolutionId("Sln1")
-                .WithCapabilityId(Cap1Id)
+                .WithCapabilityId(_cap1Id)
                 .Build()
                 .InsertAsync();
 
@@ -101,9 +101,9 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             solution.SolutionId.Should().Be("Sln1");
             solution.SolutionName.Should().Be("Solution1");
             solution.SolutionSummary.Should().Be("Sln1Summary");
-            solution.OrganisationId.Should().Be(organisations.First(o => o.Name == "OrgName1").Id);
-            solution.OrganisationName.Should().Be("OrgName1");
-            solution.CapabilityId.Should().Be(Cap1Id);
+            solution.OrganisationId.Should().Be(_org1Id);
+            solution.OrganisationName.Should().Be(_orgName);
+            solution.CapabilityId.Should().Be(_cap1Id);
             solution.CapabilityName.Should().Be("Cap1");
             solution.CapabilityDescription.Should().Be("Cap1Desc");
         }
@@ -112,12 +112,11 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         [Test]
         public async Task ShouldListSingleSolutionWithMultipleCapability()
         {
-            var organisations = await OrganisationEntity.FetchAllAsync();
-
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync();
 
@@ -129,36 +128,36 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 
             await SolutionCapabilityEntityBuilder.Create()
                 .WithSolutionId("Sln1")
-                .WithCapabilityId(Cap1Id)
+                .WithCapabilityId(_cap1Id)
                 .Build()
                 .InsertAsync();
 
             await SolutionCapabilityEntityBuilder.Create()
                 .WithSolutionId("Sln1")
-                .WithCapabilityId(Cap2Id)
+                .WithCapabilityId(_cap2Id)
                 .Build()
                 .InsertAsync();
 
-            var solutions = await _solutionRepository.ListAsync(new CancellationToken());
+            var solutions = (await _solutionRepository.ListAsync(new CancellationToken())).ToList();
             solutions.Should().HaveCount(2);
 
-            var solution = solutions.Should().ContainSingle(s => s.CapabilityId == Cap1Id).Subject;
+            var solution = solutions.Should().ContainSingle(s => s.CapabilityId == _cap1Id).Subject;
             solution.SolutionId.Should().Be("Sln1");
             solution.SolutionName.Should().Be("Solution1");
             solution.SolutionSummary.Should().Be("Sln1Summary");
-            solution.OrganisationId.Should().Be(organisations.First(o => o.Name == "OrgName1").Id);
-            solution.OrganisationName.Should().Be("OrgName1");
-            solution.CapabilityId.Should().Be(Cap1Id);
+            solution.OrganisationId.Should().Be(_org1Id);
+            solution.OrganisationName.Should().Be(_orgName);
+            solution.CapabilityId.Should().Be(_cap1Id);
             solution.CapabilityName.Should().Be("Cap1");
             solution.CapabilityDescription.Should().Be("Cap1Desc");
 
-            solution = solutions.Should().ContainSingle(s => s.CapabilityId == Cap2Id).Subject;
+            solution = solutions.Should().ContainSingle(s => s.CapabilityId == _cap2Id).Subject;
             solution.SolutionId.Should().Be("Sln1");
             solution.SolutionName.Should().Be("Solution1");
             solution.SolutionSummary.Should().Be("Sln1Summary");
-            solution.OrganisationId.Should().Be(organisations.First(o => o.Name == "OrgName1").Id);
-            solution.OrganisationName.Should().Be("OrgName1");
-            solution.CapabilityId.Should().Be(Cap2Id);
+            solution.OrganisationId.Should().Be(_org1Id);
+            solution.OrganisationName.Should().Be(_orgName);
+            solution.CapabilityId.Should().Be(_cap2Id);
             solution.CapabilityName.Should().Be("Cap2");
             solution.CapabilityDescription.Should().Be("Cap2Desc");
         }
@@ -166,19 +165,19 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         [Test]
         public async Task ShouldListMultipleSolutionsWithCapabilities()
         {
-            var organisations = await OrganisationEntity.FetchAllAsync();
-
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync();
 
             await SolutionEntityBuilder.Create()
                 .WithName("Solution2")
                 .WithId("Sln2")
-                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync();
 
@@ -196,52 +195,52 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 
             await SolutionCapabilityEntityBuilder.Create()
                 .WithSolutionId("Sln1")
-                .WithCapabilityId(Cap1Id)
+                .WithCapabilityId(_cap1Id)
                 .Build()
                 .InsertAsync();
 
             await SolutionCapabilityEntityBuilder.Create()
                 .WithSolutionId("Sln1")
-                .WithCapabilityId(Cap2Id)
+                .WithCapabilityId(_cap2Id)
                 .Build()
                 .InsertAsync();
 
             await SolutionCapabilityEntityBuilder.Create()
                 .WithSolutionId("Sln2")
-                .WithCapabilityId(Cap2Id)
+                .WithCapabilityId(_cap2Id)
                 .Build()
                 .InsertAsync();
 
-            var solutions = await _solutionRepository.ListAsync(new CancellationToken());
+            var solutions = (await _solutionRepository.ListAsync(new CancellationToken())).ToList();
             solutions.Should().HaveCount(3);
 
-            var solution = solutions.Should().ContainSingle(s => s.SolutionId == "Sln1" && s.CapabilityId == Cap1Id).Subject;
+            var solution = solutions.Should().ContainSingle(s => s.SolutionId == "Sln1" && s.CapabilityId == _cap1Id).Subject;
             solution.SolutionId.Should().Be("Sln1");
             solution.SolutionName.Should().Be("Solution1");
             solution.SolutionSummary.Should().Be("Sln1Summary");
-            solution.OrganisationId.Should().Be(organisations.First(o => o.Name == "OrgName1").Id);
-            solution.OrganisationName.Should().Be("OrgName1");
-            solution.CapabilityId.Should().Be(Cap1Id);
+            solution.OrganisationId.Should().Be(_org1Id);
+            solution.OrganisationName.Should().Be(_orgName);
+            solution.CapabilityId.Should().Be(_cap1Id);
             solution.CapabilityName.Should().Be("Cap1");
             solution.CapabilityDescription.Should().Be("Cap1Desc");
 
-            solution = solutions.Should().ContainSingle(s => s.SolutionId == "Sln1" && s.CapabilityId == Cap2Id).Subject;
+            solution = solutions.Should().ContainSingle(s => s.SolutionId == "Sln1" && s.CapabilityId == _cap2Id).Subject;
             solution.SolutionId.Should().Be("Sln1");
             solution.SolutionName.Should().Be("Solution1");
             solution.SolutionSummary.Should().Be("Sln1Summary");
-            solution.OrganisationId.Should().Be(organisations.First(o => o.Name == "OrgName1").Id);
-            solution.OrganisationName.Should().Be("OrgName1");
-            solution.CapabilityId.Should().Be(Cap2Id);
+            solution.OrganisationId.Should().Be(_org1Id);
+            solution.OrganisationName.Should().Be(_orgName);
+            solution.CapabilityId.Should().Be(_cap2Id);
             solution.CapabilityName.Should().Be("Cap2");
             solution.CapabilityDescription.Should().Be("Cap2Desc");
 
-            solution = solutions.Should().ContainSingle(s => s.SolutionId == "Sln2" && s.CapabilityId == Cap2Id).Subject;
+            solution = solutions.Should().ContainSingle(s => s.SolutionId == "Sln2" && s.CapabilityId == _cap2Id).Subject;
             solution.SolutionId.Should().Be("Sln2");
             solution.SolutionName.Should().Be("Solution2");
             solution.SolutionSummary.Should().Be("Sln2Summary");
-            solution.OrganisationId.Should().Be(organisations.First(o => o.Name == "OrgName1").Id);
-            solution.OrganisationName.Should().Be("OrgName1");
-            solution.CapabilityId.Should().Be(Cap2Id);
+            solution.OrganisationId.Should().Be(_org1Id);
+            solution.OrganisationName.Should().Be(_orgName);
+            solution.CapabilityId.Should().Be(_cap2Id);
             solution.CapabilityName.Should().Be("Cap2");
             solution.CapabilityDescription.Should().Be("Cap2Desc");
         }
@@ -249,12 +248,11 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         [Test]
         public async Task ShouldGetById()
         {
-            var organisations = await OrganisationEntity.FetchAllAsync();
-
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync();
 
@@ -276,7 +274,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             solution.AboutUrl.Should().Be("AboutUrl");
             solution.Features.Should().Be("Features");
             solution.ClientApplication.Should().Be("Browser-based");
-            solution.OrganisationName.Should().Be("OrgName1");
+            solution.OrganisationName.Should().Be(_orgName);
         }
 
         [Test]
@@ -289,12 +287,11 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         [Test]
         public async Task ShouldGetByIdSolutionDetailNotPresent()
         {
-            var organisations = await OrganisationEntity.FetchAllAsync();
-
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync();
 
@@ -303,7 +300,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             solution.Name.Should().Be("Solution1");
             solution.Summary.Should().BeNull();
             solution.Description.Should().BeNull();
-            solution.OrganisationName.Should().Be("OrgName1");
+            solution.OrganisationName.Should().Be(_orgName);
             solution.AboutUrl.Should().BeNull();
             solution.Features.Should().BeNull();
             solution.ClientApplication.Should().BeNull();
@@ -312,12 +309,11 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         [Test]
         public async Task ShouldUpdateSupplierStatus()
         {
-            var organisations = await OrganisationEntity.FetchAllAsync();
-
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
-                .WithOrganisationId(organisations.First(o => o.Name == "OrgName1").Id)
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
                 .WithSupplierStatusId(1)
                 .Build()
                 .InsertAsync();
@@ -334,7 +330,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         }
 
         [Test]
-        public void ShouldThrowOnUpdateSupplierStatusNotPresent()
+        public void ShouldThrowOnUpdateSupplierStatusSolutionNotPresent()
         {
             var mockUpdateSolutionSupplierStatusRequest = new Mock<IUpdateSolutionSupplierStatusRequest>();
             mockUpdateSolutionSupplierStatusRequest.Setup(m => m.Id).Returns("Sln1");
