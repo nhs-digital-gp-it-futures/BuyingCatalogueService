@@ -18,14 +18,14 @@ namespace NHSD.BuyingCatalogue.Application.SolutionList.Persistence
             _solutionRepository = solutionRepository;
         }
 
-        public async Task<Domain.SolutionList> ListAsync(ISet<Guid> capabilityIdList, CancellationToken cancellationToken)
+        public async Task<Domain.SolutionList> ListAsync(ISet<Guid> capabilityIdList, bool foundationOnly, CancellationToken cancellationToken)
         {
             if (capabilityIdList is null)
             {
                 throw new System.ArgumentNullException(nameof(capabilityIdList));
             }
 
-            return new Domain.SolutionList(capabilityIdList, await _solutionRepository.ListAsync(cancellationToken).ConfigureAwait(false));
+            return new Domain.SolutionList(capabilityIdList, await _solutionRepository.ListAsync(foundationOnly, cancellationToken).ConfigureAwait(false));
         }
     }
 }

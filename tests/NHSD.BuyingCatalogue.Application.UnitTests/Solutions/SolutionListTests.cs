@@ -43,7 +43,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             var repositorySolutions = new List<ISolutionListResult>();
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Org1", 1, 2));
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Org1", 2, 3));
-            _context.MockSolutionRepository.Setup(r => r.ListAsync(It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
+            _context.MockSolutionRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
             var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(), new CancellationToken());
 
@@ -58,7 +58,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             var repositorySolutions = new List<ISolutionListResult>();
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Org1", 1, 2));
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Org2", 1, 2));
-            _context.MockSolutionRepository.Setup(r => r.ListAsync(It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
+            _context.MockSolutionRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
             var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(), new CancellationToken());
 
@@ -73,7 +73,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             var repositorySolutions = new List<ISolutionListResult>();
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Org1", 1, 2));
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Org1", 1, 2));
-            _context.MockSolutionRepository.Setup(r => r.ListAsync(It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
+            _context.MockSolutionRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
             var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(), new CancellationToken());
 
@@ -87,7 +87,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             var repositorySolutions = new List<ISolutionListResult>();
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Org1", 1, 2));
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Org1", 2, 3));
-            _context.MockSolutionRepository.Setup(r => r.ListAsync(It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
+            _context.MockSolutionRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
             var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(), new CancellationToken());
 
@@ -105,7 +105,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S3", "Org2", 1, 2));
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S4", "Org2", 2, 3));
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S4", "Org2", 2, 3));
-            _context.MockSolutionRepository.Setup(r => r.ListAsync(It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
+            _context.MockSolutionRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
             var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(), new CancellationToken());
 
@@ -120,7 +120,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
         public void ShouldListSolutionsEmptyWithNoCapabilityFilter()
         {
             var repositorySolutions = new List<ISolutionListResult>();
-            _context.MockSolutionRepository.Setup(r => r.ListAsync(It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
+            _context.MockSolutionRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
             var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(), new CancellationToken());
 
@@ -134,7 +134,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Org1", 1, 2));
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Org1", 2, 3));
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Org1", 3, 4));
-            _context.MockSolutionRepository.Setup(r => r.ListAsync(It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
+            _context.MockSolutionRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
             var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(2)), new CancellationToken());
 
@@ -151,7 +151,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Org1", 4, 5));
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Org2", 1, 2));
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Org2", 3, 4));
-            _context.MockSolutionRepository.Setup(r => r.ListAsync(It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
+            _context.MockSolutionRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
             var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(1)), new CancellationToken());
 
@@ -167,7 +167,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Org1", 1, 2));
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Org1", 1, 2));
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Org1", 3, 4));
-            _context.MockSolutionRepository.Setup(r => r.ListAsync(It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
+            _context.MockSolutionRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
             var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(1)), new CancellationToken());
 
@@ -182,7 +182,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Org1", 1, 2));
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Org1", 2, 3));
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S3", "Org1", 3, 4));
-            _context.MockSolutionRepository.Setup(r => r.ListAsync(It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
+            _context.MockSolutionRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
             var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(2)), new CancellationToken());
 
@@ -201,7 +201,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S4", "Org2", 2, 3));
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S4", "Org2", 2, 3));
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S6", "Org2", 4, 3));
-            _context.MockSolutionRepository.Setup(r => r.ListAsync(It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
+            _context.MockSolutionRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
             var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(2)), new CancellationToken());
 
@@ -216,7 +216,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
         public void ShouldListSolutionsEmptyWithCapabilityFilter()
         {
             var repositorySolutions = new List<ISolutionListResult>();
-            _context.MockSolutionRepository.Setup(r => r.ListAsync(It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
+            _context.MockSolutionRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
             var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(2)), new CancellationToken());
 
@@ -238,7 +238,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S145", "Org1", 1, 4, 5));
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S15", "Org1", 1, 5));
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S13", "Org1", 1, 3));
-            _context.MockSolutionRepository.Setup(r => r.ListAsync(It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
+            _context.MockSolutionRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
             var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(filterCapabilityIds)), new CancellationToken());
 
@@ -260,7 +260,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S145", "Org2", 1, 4, 5));
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S15", "Org1", 1, 5));
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S13", "Org2", 1, 3));
-            _context.MockSolutionRepository.Setup(r => r.ListAsync(It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
+            _context.MockSolutionRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
             var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(filterCapabilityIds)), new CancellationToken());
 
@@ -273,7 +273,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             var repositorySolutions = new List<ISolutionListResult>();
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Org1", 1, 2));
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Org2", 2));
-            _context.MockSolutionRepository.Setup(r => r.ListAsync(It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
+            _context.MockSolutionRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
             var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(), new CancellationToken());
 

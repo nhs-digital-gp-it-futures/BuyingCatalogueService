@@ -42,14 +42,12 @@ Background:
         | GPSurgery      | Workflow                |
 
 @3505
-@ignore
-Scenario: 1. Framework solutions are retrieved 
+Scenario: 1. Foundation solutions are retrieved 
     When a GET request is made for foundation solutions
     Then a successful response is returned
     And the solutions MedicOnline,PracticeMgr are found in the response
     And the solutions TakeTheRedPill,GPSurgery are not found in the response
     
-
 @3505
 Scenario: 2. Brings back all results
     When a GET request is made containing no selection criteria
