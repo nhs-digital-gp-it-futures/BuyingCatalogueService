@@ -11,6 +11,10 @@ namespace NHSD.BuyingCatalogue.API.ViewModels.Public
 
         public string OrganisationName { get; }
 
+        public bool IsFoundation { get; }
+
+        public string LastUpdated { get; }
+
         public PublicSections Sections { get; }
 
         /// <summary>
@@ -26,6 +30,11 @@ namespace NHSD.BuyingCatalogue.API.ViewModels.Public
             Id = solution.Id;
             Name = solution.Name;
             OrganisationName = solution.OrganisationName;
+
+            //Canned Data --Todo
+            IsFoundation = true;
+            LastUpdated = DateTime.Today.ToString("dd-MMM-yyyy");
+
             Sections = new PublicSections(solution);
         }
     }

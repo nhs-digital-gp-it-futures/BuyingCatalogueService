@@ -34,6 +34,8 @@ namespace NHSD.BuyingCatalogue.API.ViewModels.Public
             SolutionDescription = new SolutionDescriptionPublicSection(solution).IfPopulated();
             Features = new FeaturesPublicSection(solution.Features).IfPopulated();
             ClientApplicationTypes = new ClientApplicationTypesPublicSection(solution.ClientApplication).IfPopulated();
+
+            //Canned Data --Todo
             ContactDetails = new ContactDetailsPublicSection();
             Capabilities = new CapabilitiesPublicSection();
         }
