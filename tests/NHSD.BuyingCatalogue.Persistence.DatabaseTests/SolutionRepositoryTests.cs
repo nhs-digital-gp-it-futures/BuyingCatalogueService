@@ -68,7 +68,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
                 .Build()
                 .InsertAsync();
 
-            var solutions = await _solutionRepository.ListAsync(new CancellationToken());
+            var solutions = await _solutionRepository.ListAsync(false, new CancellationToken());
             solutions.Should().BeEmpty();
         }
 
@@ -95,7 +95,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
                 .Build()
                 .InsertAsync();
 
-            var solutions = await _solutionRepository.ListAsync(new CancellationToken());
+            var solutions = await _solutionRepository.ListAsync(false, new CancellationToken());
 
             var solution = solutions.Should().ContainSingle().Subject;
             solution.SolutionId.Should().Be("Sln1");
@@ -137,7 +137,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
                 .WithFoundation(false)
                 .Build().InsertAsync();
 
-            var solutions = await _solutionRepository.ListAsync(new CancellationToken());
+            var solutions = await _solutionRepository.ListAsync(false, new CancellationToken());
 
             var solution = solutions.Should().ContainSingle().Subject;
             solution.SolutionId.Should().Be("Sln1");
@@ -173,7 +173,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
                 .Build()
                 .InsertAsync();
 
-            var solutions = await _solutionRepository.ListAsync(new CancellationToken());
+            var solutions = await _solutionRepository.ListAsync(false, new CancellationToken());
 
             var solution = solutions.Should().ContainSingle().Subject;
             solution.SolutionId.Should().Be("Sln1");
@@ -209,7 +209,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
                 .Build()
                 .InsertAsync();
 
-            var solutions = (await _solutionRepository.ListAsync(new CancellationToken())).ToList();
+            var solutions = (await _solutionRepository.ListAsync(false, new CancellationToken())).ToList();
             solutions.Should().HaveCount(2);
 
             var solution = solutions.Should().ContainSingle(s => s.CapabilityId == _cap1Id).Subject;
@@ -282,7 +282,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
                 .Build()
                 .InsertAsync();
 
-            var solutions = (await _solutionRepository.ListAsync(new CancellationToken())).ToList();
+            var solutions = (await _solutionRepository.ListAsync(false, new CancellationToken())).ToList();
             solutions.Should().HaveCount(3);
 
             var solution = solutions.Should().ContainSingle(s => s.SolutionId == "Sln1" && s.CapabilityId == _cap1Id).Subject;
@@ -346,6 +346,35 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             solution.Features.Should().Be("Features");
             solution.ClientApplication.Should().Be("Browser-based");
             solution.OrganisationName.Should().Be(_orgName);
+            solution.IsFoundation.Should().BeFalse();
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public async Task ShouldGetByIdFoundation(bool isFoundation)
+        {
+            await SolutionEntityBuilder.Create()
+                .WithName("Solution1")
+                .WithId("Sln1")
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
+                .Build()
+                .InsertAsync();
+
+            await SolutionDetailEntityBuilder.Create()
+                .WithSolutionId("Sln1")
+                .Build()
+                .InsertAndSetCurrentForSolutionAsync();
+
+            await FrameworkSolutionEntityBuilder.Create()
+                .WithSolutionId("Sln1")
+                .WithFoundation(isFoundation)
+                .Build()
+                .InsertAsync();
+
+            var solution = await _solutionRepository.ByIdAsync("Sln1", new CancellationToken());
+            solution.Id.Should().Be("Sln1");
+            solution.IsFoundation.Should().Be(isFoundation);
         }
 
         [Test]

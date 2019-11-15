@@ -50,12 +50,12 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         /// </summary>
         /// <returns>A task representing an operation to retrieve a list of solutions that includes information about the organisation and the associated capabilities.</returns>
         [HttpGet]
-        [Route("foundation")]
+        [Route("Foundation")]
         [ProducesResponseType(typeof(ListSolutionsResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<ListSolutionsResult>> ListFoundationAsync()
         {
-            return Ok(new ListSolutionsResult(await _mediator.Send(new ListSolutionsQuery())));
+            return Ok(new ListSolutionsResult(await _mediator.Send(new ListSolutionsQuery(ListSolutionsFilter.Foundation))));
         }
 
         /// <summary>

@@ -33,11 +33,11 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
         /// Gets a list of <see cref="ISolutionListResult"/> objects.
         /// </summary>
         /// <returns>A list of <see cref="ISolutionListResult"/> objects.</returns>
-        public async Task<IEnumerable<ISolutionListResult>> ListAsync(CancellationToken cancellationToken)
+        public async Task<IEnumerable<ISolutionListResult>> ListAsync(bool foundationOnly, CancellationToken cancellationToken)
         {
             using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
             {
-                const string sql = @"SELECT Solution.Id as SolutionId, 
+                string sql = @"SELECT Solution.Id as SolutionId, 
                                             Solution.Name as SolutionName,
                                             SolutionDetail.Summary as SolutionSummary,
                                             Organisation.Id as OrganisationId,
@@ -52,6 +52,10 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                                             INNER JOIN Capability ON Capability.Id = SolutionCapability.CapabilityId
                                             LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
                                             LEFT JOIN FrameworkSolutions ON Solution.Id = FrameworkSolutions.SolutionId";
+                if (foundationOnly)
+                {
+                    sql += " WHERE COALESCE(FrameworkSolutions.IsFoundation, 0) = 1";
+                }
 
                 return await databaseConnection.QueryAsync<SolutionListResult>(sql);
             }

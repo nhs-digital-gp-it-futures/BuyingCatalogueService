@@ -13,7 +13,7 @@ namespace NHSD.BuyingCatalogue.Contracts.Persistence
         /// Gets a list of <see cref="ISolutionListResult"/> objects.
         /// </summary>
         /// <returns>A list of <see cref="ISolutionListResult"/> objects.</returns>
-        Task<IEnumerable<ISolutionListResult>> ListAsync(CancellationToken cancellationToken);
+        Task<IEnumerable<ISolutionListResult>> ListAsync(bool foundationOnly, CancellationToken cancellationToken);
 
         /// <summary>
         /// Gets a <see cref="ISolutionResult"/> matching the specified ID.

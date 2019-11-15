@@ -17,5 +17,7 @@ namespace NHSD.BuyingCatalogue.Contracts.Persistence
         string ClientApplication { get; }
 
         string OrganisationName { get; }
+
+        bool IsFoundation { get; }
     }
 }

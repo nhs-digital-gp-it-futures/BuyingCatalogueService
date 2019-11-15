@@ -48,5 +48,10 @@ namespace NHSD.BuyingCatalogue.Contracts.Solutions
         /// Marketing information related to the clients application.
         /// </summary>
         IClientApplication ClientApplication { get; }
+
+        /// <summary>
+        /// Is this a foundation solution?
+        /// </summary>
+        bool IsFoundation { get; }
     }
 }

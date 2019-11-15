@@ -21,6 +21,11 @@ namespace NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions
         public ISet<Guid> CapabilityIdList => Filter.Capabilities;
 
         /// <summary>
+        /// Filter to foundation solutions.
+        /// </summary>
+        public bool IsFoundation => Filter.IsFoundation;
+
+        /// <summary>
         /// Initialises a new instance of the <see cref="ListSolutionsQuery"/> class.
         /// </summary>
         public ListSolutionsQuery()
