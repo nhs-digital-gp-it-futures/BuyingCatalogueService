@@ -22,6 +22,11 @@ namespace NHSD.BuyingCatalogue.Application.SolutionList.Domain
         public string Summary { get; }
 
         /// <summary>
+        /// Is this a foundation solution?
+        /// </summary>
+        public bool IsFoundation { get; }
+
+        /// <summary>
         /// Associated organisation.
         /// </summary>
         public SolutionListItemOrganisation Organisation { get; }
@@ -36,6 +41,7 @@ namespace NHSD.BuyingCatalogue.Application.SolutionList.Domain
             Id = item.SolutionId;
             Name = item.SolutionName;
             Summary = item.SolutionSummary;
+            IsFoundation = item.IsFoundation;
             Organisation = new SolutionListItemOrganisation(item);
             Capabilities = new HashSet<SolutionListItemCapability>();
         }
