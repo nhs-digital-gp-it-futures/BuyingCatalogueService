@@ -6,18 +6,9 @@ namespace NHSD.BuyingCatalogue.API.ViewModels.Public
     public class CapabilitiesMetPublicSection
     {
         [JsonProperty("capabilities-met")]
-        public IEnumerable<string> Listing { get; }
+        public IEnumerable<string> CapabilitiesMet { get; }
 
-        // Canned Data --TODO
-        public CapabilitiesMetPublicSection()
-        {
-            Listing = new List<string>()
-            {
-                "capability1",
-                "capability2",
-                "capability3"
-            };
-
-        }
+        public CapabilitiesMetPublicSection(IEnumerable<string> capabilities)
+            => CapabilitiesMet = new HashSet<string>(capabilities);
     }
 }

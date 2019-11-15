@@ -13,7 +13,6 @@ using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionPlugins;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
-using NHSD.BuyingCatalogue.Contracts;
 using NHSD.BuyingCatalogue.Contracts.Capability;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Contracts.SolutionList;
@@ -30,6 +29,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
         public Mock<ISolutionListRepository> MockSolutionListRepository { get; private set; }
 
         public Mock<ISolutionDetailRepository> MockSolutionDetailRepository { get; private set; }
+
+        public Mock<ISolutionCapabilityRepository> MockSolutionCapabilityRepository { get; private set; }
 
         public ListCapabilitiesHandler ListCapabilitiesHandler => (ListCapabilitiesHandler)_scope.ListCapabilitiesHandler;
 
@@ -86,6 +87,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             serviceCollection.AddSingleton<ISolutionListRepository>(MockSolutionListRepository.Object);
             MockSolutionDetailRepository = new Mock<ISolutionDetailRepository>();
             serviceCollection.AddSingleton<ISolutionDetailRepository>(MockSolutionDetailRepository.Object);
+            MockSolutionCapabilityRepository = new Mock<ISolutionCapabilityRepository>();
+            serviceCollection.AddSingleton<ISolutionCapabilityRepository>(MockSolutionCapabilityRepository.Object);
         }
 
         private IMapper GetAutoMapper()

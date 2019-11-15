@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Contracts;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
@@ -11,7 +12,8 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Domain
     /// </summary>
     internal class Solution
     {
-        internal Solution(ISolutionResult solutionResult)
+        internal Solution(ISolutionResult solutionResult,
+            IEnumerable<ISolutionCapabilityListResult> solutionCapabilityListResult)
         {
             Id = solutionResult.Id;
             Name = solutionResult.Name;
@@ -26,6 +28,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Domain
                 ? new ClientApplication()
                 : JsonConvert.DeserializeObject<ClientApplication>(solutionResult.ClientApplication);
             IsFoundation = solutionResult.IsFoundation;
+            Capabilities = new HashSet<string>(solutionCapabilityListResult.Select(c => c.CapabilityName));
         }
 
         /// <summary>
@@ -77,6 +80,11 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Domain
         /// Is this a foundation solution?
         /// </summary>
         public bool IsFoundation { get; set; }
+
+        /// <summary>
+        /// Capabilities claimed by the solution
+        /// </summary>
+        public HashSet<string> Capabilities { get; set; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="Solution"/> class.

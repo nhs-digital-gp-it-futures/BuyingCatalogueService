@@ -37,7 +37,7 @@ namespace NHSD.BuyingCatalogue.API.ViewModels.Public
 
             //Canned Data --Todo
             ContactDetails = new ContactDetailsPublicSection();
-            Capabilities = new CapabilitiesPublicSection();
+            Capabilities = new CapabilitiesPublicSection(solution.Capabilities);
         }
     }
 }

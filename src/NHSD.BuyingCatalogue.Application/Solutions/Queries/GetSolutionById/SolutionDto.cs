@@ -57,5 +57,10 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
         /// Is this a foundation solution?
         /// </summary>
         public bool IsFoundation { get; set; }
+
+        /// <summary>
+        /// Capabilities claimed by the solution
+        /// </summary>
+        public IEnumerable<string> Capabilities { get; }
     }
 }

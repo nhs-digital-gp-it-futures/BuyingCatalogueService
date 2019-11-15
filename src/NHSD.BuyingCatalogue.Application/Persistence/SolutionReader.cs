@@ -8,15 +8,19 @@ namespace NHSD.BuyingCatalogue.Application.Persistence
 {
     internal sealed class SolutionReader
     {
-        /// <summary>
-        /// Data access layer for the <see cref="Solution"/> entity.
-        /// </summary>
         private readonly ISolutionRepository _solutionRepository;
 
-        public SolutionReader(ISolutionRepository solutionRepository) => _solutionRepository = solutionRepository;
+        private readonly ISolutionCapabilityRepository _solutionCapabilityRepository;
+
+        public SolutionReader(ISolutionRepository solutionRepository, ISolutionCapabilityRepository solutionCapabilityRepository)
+        {
+            _solutionRepository = solutionRepository;
+            _solutionCapabilityRepository = solutionCapabilityRepository;
+        }
 
         public async Task<Solution> ByIdAsync(string id, CancellationToken cancellationToken) =>
             new Solution((await _solutionRepository.ByIdAsync(id, cancellationToken))
-                         ?? throw new NotFoundException(nameof(Solution), id));
+                         ?? throw new NotFoundException(nameof(Solution), id),
+                await _solutionCapabilityRepository.ListSolutionCapabilities(id, cancellationToken));
     }
 }

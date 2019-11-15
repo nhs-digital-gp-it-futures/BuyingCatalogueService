@@ -17,6 +17,7 @@ namespace NHSD.BuyingCatalogue.Persistence
             serviceCollection.AddTransient<ISolutionListRepository, SolutionListRepository>();
             serviceCollection.AddTransient<ISolutionRepository, SolutionRepository>();
             serviceCollection.AddTransient<ISolutionDetailRepository, SolutionDetailRepository>();
+            serviceCollection.AddTransient<ISolutionCapabilityRepository, SolutionCapabilityRepository>();
             return serviceCollection;
         }
     }
