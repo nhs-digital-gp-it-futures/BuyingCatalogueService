@@ -26,6 +26,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             provider.GetService<IDbConnectionFactory>().Should().BeOfType<DbConnectionFactory>();
             provider.GetService<IRepositoryHealthCheck>().Should().BeOfType<RepositoryHealthCheck>();
             provider.GetService<ICapabilityRepository>().Should().BeOfType<CapabilityRepository>();
+            provider.GetService<ISolutionListRepository>().Should().BeOfType<SolutionListRepository>();
             provider.GetService<ISolutionRepository>().Should().BeOfType<SolutionRepository>();
             provider.GetService<ISolutionDetailRepository>().Should().BeOfType<SolutionDetailRepository>();
         }

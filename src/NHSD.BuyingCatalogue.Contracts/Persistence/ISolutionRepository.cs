@@ -5,16 +5,10 @@ using System.Threading.Tasks;
 namespace NHSD.BuyingCatalogue.Contracts.Persistence
 {
     /// <summary>
-    /// Defines a data contract representing the functionality for the persistence layer specific to the <see cref="ISolutionListResult"/> object.
+    /// Defines a data contract representing the functionality for the persistence layer specific to the <see cref="ISolutionResult"/> object.
     /// </summary>
     public interface ISolutionRepository
     {
-        /// <summary>
-        /// Gets a list of <see cref="ISolutionListResult"/> objects.
-        /// </summary>
-        /// <returns>A list of <see cref="ISolutionListResult"/> objects.</returns>
-        Task<IEnumerable<ISolutionListResult>> ListAsync(bool foundationOnly, CancellationToken cancellationToken);
-
         /// <summary>
         /// Gets a <see cref="ISolutionResult"/> matching the specified ID.
         /// </summary>
