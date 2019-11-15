@@ -1,0 +1,14 @@
+using System;
+using NHSD.BuyingCatalogue.Contracts.Persistence;
+
+namespace NHSD.BuyingCatalogue.Persistence.Models
+{
+    internal sealed class SolutionCapabilityListResult : ISolutionCapabilityListResult
+    {
+        public Guid CapabilityId { get; set; }
+
+        public string CapabilityName { get; set; }
+
+        public string CapabilityDescription { get; set; }
+    }
+}
