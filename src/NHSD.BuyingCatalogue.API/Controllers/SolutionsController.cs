@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.API.ViewModels;
 using NHSD.BuyingCatalogue.API.ViewModels.Preview;
+using NHSD.BuyingCatalogue.API.ViewModels.Public;
 using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
@@ -115,7 +116,7 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         public async Task<ActionResult<SolutionPreviewResult>> Public([FromRoute][Required]string id)
         {
             var result = await _mediator.Send(new GetSolutionByIdQuery(id));
-            return result == null ? (ActionResult)new NotFoundResult() : Ok(new SolutionPreviewResult(result));
+            return result == null ? (ActionResult)new NotFoundResult() : Ok(new SolutionPublicResult(result));
         }
 
         /// <summary>
