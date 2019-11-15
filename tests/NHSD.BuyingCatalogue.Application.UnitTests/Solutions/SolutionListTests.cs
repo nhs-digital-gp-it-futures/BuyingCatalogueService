@@ -305,6 +305,18 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             capability.Name.Should().Be(Capabilities[2].Name);
         }
 
+        [Test]
+        public void ShouldRequestFoundationSolutions()
+        {
+            var repositorySolutions = new List<ISolutionListResult>();
+            _context.MockSolutionRepository.Setup(r => r.ListAsync(true, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
+
+            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(ListSolutionsFilter.Foundation), new CancellationToken());
+
+            solutions.Result.Solutions.Should().HaveCount(0);
+            _context.MockSolutionRepository.Verify(r => r.ListAsync(true, It.IsAny<CancellationToken>()), Times.Once);
+        }
+
         private ListSolutionsFilter Filter(int capabilityId)
         {
             return Filter(new int[] {capabilityId});

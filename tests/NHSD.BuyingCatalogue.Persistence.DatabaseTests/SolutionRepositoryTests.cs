@@ -109,8 +109,9 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             solution.IsFoundation.Should().BeFalse();
         }
 
-        [Test]
-        public async Task ShouldListSingleSolutionAsNotFoundation()
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task ShouldListSingleSolutionAsFoundation(bool isFoundation)
         {
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
@@ -134,50 +135,14 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 
             await FrameworkSolutionEntityBuilder.Create()
                 .WithSolutionId("Sln1")
-                .WithFoundation(false)
+                .WithFoundation(isFoundation)
                 .Build().InsertAsync();
 
             var solutions = await _solutionRepository.ListAsync(false, new CancellationToken());
 
             var solution = solutions.Should().ContainSingle().Subject;
             solution.SolutionId.Should().Be("Sln1");
-            solution.IsFoundation.Should().BeFalse();
-        }
-
-        [Test]
-        public async Task ShouldListSingleSolutionAsFoundation()
-        {
-            await SolutionEntityBuilder.Create()
-                .WithName("Solution1")
-                .WithId("Sln1")
-                .WithOrganisationId(_org1Id)
-                .WithSupplierId(_supplierId)
-                .Build()
-                .InsertAsync();
-
-            await SolutionDetailEntityBuilder.Create()
-                .WithSolutionId("Sln1")
-                .WithSummary("Sln1Summary")
-                .Build()
-                .InsertAndSetCurrentForSolutionAsync();
-
-            await SolutionCapabilityEntityBuilder.Create()
-                .WithSolutionId("Sln1")
-                .WithCapabilityId(_cap1Id)
-                .Build()
-                .InsertAsync();
-
-            await FrameworkSolutionEntityBuilder.Create()
-                .WithSolutionId("Sln1")
-                .WithFoundation(true)
-                .Build()
-                .InsertAsync();
-
-            var solutions = await _solutionRepository.ListAsync(false, new CancellationToken());
-
-            var solution = solutions.Should().ContainSingle().Subject;
-            solution.SolutionId.Should().Be("Sln1");
-            solution.IsFoundation.Should().BeTrue();
+            solution.IsFoundation.Should().Be(isFoundation);
         }
 
         [Test]
@@ -314,6 +279,62 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             solution.CapabilityId.Should().Be(_cap2Id);
             solution.CapabilityName.Should().Be("Cap2");
             solution.CapabilityDescription.Should().Be("Cap2Desc");
+        }
+
+        [Test]
+        public async Task ShouldFilterByFoundation()
+        {
+            await CreateSimpleSolutionWithOneCap("Sln1");
+            await CreateSimpleSolutionWithOneCap("Sln2");
+            await CreateSimpleSolutionWithOneCap("Sln3");
+            await CreateSimpleSolutionWithOneCap("Sln4");
+
+            await FrameworkSolutionEntityBuilder.Create()
+                .WithSolutionId("Sln1")
+                .WithFoundation(true)
+                .Build()
+                .InsertAsync();
+
+            await FrameworkSolutionEntityBuilder.Create()
+                .WithSolutionId("Sln2")
+                .WithFoundation(false)
+                .Build()
+                .InsertAsync();
+
+            await FrameworkSolutionEntityBuilder.Create()
+                .WithSolutionId("Sln4")
+                .WithFoundation(true)
+                .Build()
+                .InsertAsync();
+
+            var solutions = await _solutionRepository.ListAsync(true, new CancellationToken());
+            solutions.Should().HaveCount(2);
+            var solution = solutions.Should().ContainSingle(s => s.SolutionId == "Sln1").Subject;
+            solution.IsFoundation.Should().Be(true);
+            solution = solutions.Should().ContainSingle(s => s.SolutionId == "Sln4").Subject;
+            solution.IsFoundation.Should().Be(true);
+        }
+
+        private async Task CreateSimpleSolutionWithOneCap(string solutionId)
+        {
+            await SolutionEntityBuilder.Create()
+                .WithName(solutionId)
+                .WithId(solutionId)
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
+                .Build()
+                .InsertAsync();
+
+            await SolutionDetailEntityBuilder.Create()
+                .WithSolutionId(solutionId)
+                .Build()
+                .InsertAndSetCurrentForSolutionAsync();
+
+            await SolutionCapabilityEntityBuilder.Create()
+                .WithSolutionId(solutionId)
+                .WithCapabilityId(_cap1Id)
+                .Build()
+                .InsertAsync();
         }
 
         [Test]
