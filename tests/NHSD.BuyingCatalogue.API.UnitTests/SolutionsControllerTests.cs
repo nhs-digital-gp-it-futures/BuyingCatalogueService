@@ -48,6 +48,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
 
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
             (result.Value as ListSolutionsResult).Solutions.Should().BeEquivalentTo(_solutions);
+            _mockMediator.Verify(m => m.Send(It.Is<ListSolutionsQuery>(q => q.IsFoundation == false), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
@@ -59,7 +60,18 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
 
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
             (result.Value as ListSolutionsResult).Solutions.Should().BeEquivalentTo(_solutions);
-            _mockMediator.Verify(m => m.Send(It.Is<ListSolutionsQuery>(q => q.CapabilityIdList == filter.Capabilities), It.IsAny<CancellationToken>()));
+            _mockMediator.Verify(m => m.Send(It.Is<ListSolutionsQuery>(q => q.CapabilityIdList == filter.Capabilities && q.IsFoundation == false), It.IsAny<CancellationToken>()), Times.Once);
         }
+
+        [Test]
+        public async Task ShouldListFoundationSolutions()
+        {
+            var result = (await _solutionsController.ListFoundationAsync()).Result as ObjectResult;
+
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            (result.Value as ListSolutionsResult).Solutions.Should().BeEquivalentTo(_solutions);
+            _mockMediator.Verify(m => m.Send(It.Is<ListSolutionsQuery>(q => q.IsFoundation == true), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
     }
 }

@@ -18,6 +18,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
         public static async Task StopAsync()
         {
             await BuyingCatalogueService.StopAsync();
+            await BuyingCatalogueService.CleanPublishDirectory();
         }
     }
 }

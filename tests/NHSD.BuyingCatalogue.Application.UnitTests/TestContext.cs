@@ -27,6 +27,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
         public Mock<ISolutionRepository> MockSolutionRepository { get; private set; }
 
+        public Mock<ISolutionListRepository> MockSolutionListRepository { get; private set; }
+
         public Mock<ISolutionDetailRepository> MockSolutionDetailRepository { get; private set; }
 
         public ListCapabilitiesHandler ListCapabilitiesHandler => (ListCapabilitiesHandler)_scope.ListCapabilitiesHandler;
@@ -80,6 +82,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             serviceCollection.AddSingleton<ICapabilityRepository>(MockCapabilityRepository.Object);
             MockSolutionRepository = new Mock<ISolutionRepository>();
             serviceCollection.AddSingleton<ISolutionRepository>(MockSolutionRepository.Object);
+            MockSolutionListRepository = new Mock<ISolutionListRepository>();
+            serviceCollection.AddSingleton<ISolutionListRepository>(MockSolutionListRepository.Object);
             MockSolutionDetailRepository = new Mock<ISolutionDetailRepository>();
             serviceCollection.AddSingleton<ISolutionDetailRepository>(MockSolutionDetailRepository.Object);
         }

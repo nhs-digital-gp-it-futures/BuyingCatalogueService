@@ -16,6 +16,9 @@ services:
 
   nhsd.buyingcatalogue.api:
     container_name: integration_api
+    build: 
+      context: .
+      dockerfile: Dockerfile.Integration
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80

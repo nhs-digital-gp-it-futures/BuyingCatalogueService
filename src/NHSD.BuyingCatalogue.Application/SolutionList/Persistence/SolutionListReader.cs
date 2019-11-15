@@ -9,13 +9,13 @@ namespace NHSD.BuyingCatalogue.Application.SolutionList.Persistence
     internal sealed class SolutionListReader
     {
         /// <summary>
-        /// Data access layer for the <see cref="Solution"/> entity.
+        /// Data access layer for the <see cref="SolutionList"/> entity.
         /// </summary>
-        private readonly ISolutionRepository _solutionRepository;
+        private readonly ISolutionListRepository _solutionListRepository;
 
-        public SolutionListReader(ISolutionRepository solutionRepository)
+        public SolutionListReader(ISolutionListRepository solutionListRepository)
         {
-            _solutionRepository = solutionRepository;
+            _solutionListRepository = solutionListRepository;
         }
 
         public async Task<Domain.SolutionList> ListAsync(ISet<Guid> capabilityIdList, bool foundationOnly, CancellationToken cancellationToken)
@@ -25,7 +25,7 @@ namespace NHSD.BuyingCatalogue.Application.SolutionList.Persistence
                 throw new System.ArgumentNullException(nameof(capabilityIdList));
             }
 
-            return new Domain.SolutionList(capabilityIdList, await _solutionRepository.ListAsync(foundationOnly, cancellationToken).ConfigureAwait(false));
+            return new Domain.SolutionList(capabilityIdList, await _solutionListRepository.ListAsync(foundationOnly, cancellationToken).ConfigureAwait(false));
         }
     }
 }
