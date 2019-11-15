@@ -12,6 +12,10 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
+- task: DockerInstaller@0
+  inputs:
+    dockerVersion: '17.09.0-ce'
+
 steps:
 - script: docker-compose -f ".\docker-compose.yml" -f ".\docker-compose.development.yml" up -d
   displayName: docker-compose
