@@ -346,6 +346,35 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             solution.Features.Should().Be("Features");
             solution.ClientApplication.Should().Be("Browser-based");
             solution.OrganisationName.Should().Be(_orgName);
+            solution.IsFoundation.Should().BeFalse();
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public async Task ShouldGetByIdFoundation(bool isFoundation)
+        {
+            await SolutionEntityBuilder.Create()
+                .WithName("Solution1")
+                .WithId("Sln1")
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
+                .Build()
+                .InsertAsync();
+
+            await SolutionDetailEntityBuilder.Create()
+                .WithSolutionId("Sln1")
+                .Build()
+                .InsertAndSetCurrentForSolutionAsync();
+
+            await FrameworkSolutionEntityBuilder.Create()
+                .WithSolutionId("Sln1")
+                .WithFoundation(isFoundation)
+                .Build()
+                .InsertAsync();
+
+            var solution = await _solutionRepository.ByIdAsync("Sln1", new CancellationToken());
+            solution.Id.Should().Be("Sln1");
+            solution.IsFoundation.Should().Be(isFoundation);
         }
 
         [Test]

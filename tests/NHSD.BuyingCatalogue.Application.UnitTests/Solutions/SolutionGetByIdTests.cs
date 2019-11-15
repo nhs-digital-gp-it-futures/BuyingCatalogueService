@@ -32,6 +32,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Features).Returns("[ 'Marmite', 'Jam', 'Marmelade' ]");
             existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' } }");
             existingSolution.Setup(s => s.OrganisationName).Returns("OrganisationName");
+            existingSolution.Setup(s => s.IsFoundation).Returns(true);
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
@@ -49,6 +50,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.ClientApplication.MobileResponsive.Should().BeTrue();
             solution.ClientApplication.Plugins.Required.Should().BeTrue();
             solution.ClientApplication.Plugins.AdditionalInformation.Should().Be("orem ipsum");
+            solution.IsFoundation.Should().BeTrue();
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
