@@ -61,6 +61,6 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
         /// <summary>
         /// Capabilities claimed by the solution
         /// </summary>
-        public IEnumerable<string> Capabilities { get; }
+        public IEnumerable<string> Capabilities { get; set; }
     }
 }

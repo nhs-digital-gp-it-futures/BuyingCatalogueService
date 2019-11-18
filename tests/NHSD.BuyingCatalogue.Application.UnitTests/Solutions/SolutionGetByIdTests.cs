@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -34,6 +35,12 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.OrganisationName).Returns("OrganisationName");
             existingSolution.Setup(s => s.IsFoundation).Returns(true);
 
+            var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
+            var capabilities2 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap2");
+
+            _context.MockSolutionCapabilityRepository
+                .Setup(r => r.ListSolutionCapabilities("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new []{capabilities1, capabilities2});
+
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
             var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken());
@@ -51,6 +58,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.ClientApplication.Plugins.Required.Should().BeTrue();
             solution.ClientApplication.Plugins.AdditionalInformation.Should().Be("orem ipsum");
             solution.IsFoundation.Should().BeTrue();
+            solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1", "cap2"});
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -67,6 +75,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Features).Returns((string)null);
             existingSolution.Setup(s => s.ClientApplication).Returns((string)null);
             existingSolution.Setup(s => s.OrganisationName).Returns((string)null);
+            existingSolution.Setup(s => s.Capabilities).Returns((string)null);
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
@@ -86,6 +95,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.ClientApplication.Plugins.Should().BeNull();
 
             solution.OrganisationName.Should().BeNull();
+            solution.Capabilities.Should().BeEmpty();
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -102,6 +112,11 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Features).Returns((string)null);
             existingSolution.Setup(s => s.ClientApplication).Returns((string)null);
             existingSolution.Setup(s => s.OrganisationName).Returns("OrganisationName");
+
+            var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
+
+            _context.MockSolutionCapabilityRepository
+                .Setup(r => r.ListSolutionCapabilities("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new[] { capabilities1 });
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
@@ -121,6 +136,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.ClientApplication.Plugins.Should().BeNull();
             
             solution.OrganisationName.Should().Be("OrganisationName");
+            solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1"});
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -137,6 +153,13 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Features).Returns("[ 'Marmite', 'Jam', 'Marmelade' ]");
             existingSolution.Setup(s => s.OrganisationName).Returns("OrganisationName");
 
+            var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
+            var capabilities2 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap2");
+            var capabilities3 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap3");
+
+            _context.MockSolutionCapabilityRepository
+                .Setup(r => r.ListSolutionCapabilities("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new[] { capabilities1, capabilities2, capabilities3 });
+
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
             var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken());
@@ -151,6 +174,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.Features.Should().BeEquivalentTo(new[] { "Marmite", "Jam", "Marmelade" });
 
             solution.OrganisationName.Should().Be("OrganisationName");
+            solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1", "cap2", "cap3"});
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -167,6 +191,11 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Features).Returns((string)null);
             existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : false, 'AdditionalInformation': null } }");
             existingSolution.Setup(s => s.OrganisationName).Returns("OrganisationName");
+            var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
+
+            _context.MockSolutionCapabilityRepository
+                .Setup(r => r.ListSolutionCapabilities("Sln1", It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new[] {capabilities1});
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
@@ -188,6 +217,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.ClientApplication.Plugins.AdditionalInformation.Should().BeNull();
 
             solution.OrganisationName.Should().Be("OrganisationName");
+            solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1"});
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
