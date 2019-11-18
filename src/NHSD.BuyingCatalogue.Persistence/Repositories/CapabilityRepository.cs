@@ -14,37 +14,23 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
     /// Represents the data access layer for the <see cref="ICapabilityListResult"/> entity.
     /// </summary>
     public sealed class CapabilityRepository : ICapabilityRepository
-	{
-		/// <summary>
-		/// Database connection factory to provide new connections.
-		/// </summary>
-		public IDbConnectionFactory DbConnectionFactory { get; }
+    {
+        private readonly DbConnector _dbConnector;
 
-		/// <summary>
-		/// Initialises a new instance of the <see cref="CapabilityRepository"/> class.
-		/// </summary>
-		public CapabilityRepository(IDbConnectionFactory dbConnectionFactory)
-		{
-			DbConnectionFactory = dbConnectionFactory ?? throw new System.ArgumentNullException(nameof(dbConnectionFactory));
-		}
+		public CapabilityRepository(DbConnector dbConnector) => _dbConnector = dbConnector;
 
-        /// <summary>
-        /// Gets a list of <see cref="ICapabilityListResult"/> objects.
-        /// </summary>
-        /// <returns>A task representing an operation to retrieve a list of <see cref="ICapabilityListResult"/> objects.</returns>
-        public async Task<IEnumerable<ICapabilityListResult>> ListAsync(CancellationToken cancellationToken)
-		{
-			using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
-			{
-				const string sql = @"SELECT Capability.Id, 
+        private const string sql = @"SELECT Capability.Id, 
 											 Name, 
 											 ISNULL(IsFoundation, 0) AS IsFoundation
 									FROM	 Capability 
 											 LEFT OUTER JOIN FrameworkCapabilities ON Capability.Id = FrameworkCapabilities.CapabilityId
                                     ORDER BY IsFoundation DESC, UPPER(Name) ASC";
 
-				return (await databaseConnection.QueryAsync<CapabilityListResult>(sql).ConfigureAwait(false)).ToList();
-			}
-		}
-	}
+        /// <summary>
+        /// Gets a list of <see cref="ICapabilityListResult"/> objects.
+        /// </summary>
+        /// <returns>A task representing an operation to retrieve a list of <see cref="ICapabilityListResult"/> objects.</returns>
+        public async Task<IEnumerable<ICapabilityListResult>> ListAsync(CancellationToken cancellationToken)
+            => await _dbConnector.QueryAsync<CapabilityListResult>(cancellationToken, sql);
+    }
 }

@@ -46,7 +46,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             _configuration.Setup(a => a["ConnectionStrings:BuyingCatalogue"])
                 .Returns(ConnectionStrings.ServiceConnectionString());
 
-            _solutionDetailRepository = new SolutionDetailRepository(new DbConnectionFactory(_configuration.Object));
+            _solutionDetailRepository = new SolutionDetailRepository(new DbConnector(new DbConnectionFactory(_configuration.Object)));
         }
 
         [Test]

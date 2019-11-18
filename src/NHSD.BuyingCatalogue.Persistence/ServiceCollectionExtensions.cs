@@ -12,6 +12,7 @@ namespace NHSD.BuyingCatalogue.Persistence
         public static IServiceCollection RegisterPersistence(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddSingleton<IDbConnectionFactory, DbConnectionFactory>();
+            serviceCollection.AddSingleton<DbConnector>();
             serviceCollection.AddSingleton<IRepositoryHealthCheck, RepositoryHealthCheck>();
             serviceCollection.AddTransient<ICapabilityRepository, CapabilityRepository>();
             serviceCollection.AddTransient<ISolutionListRepository, SolutionListRepository>();

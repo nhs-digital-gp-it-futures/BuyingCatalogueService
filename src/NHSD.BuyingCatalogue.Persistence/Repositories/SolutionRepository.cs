@@ -1,9 +1,7 @@
 using System;
-using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Dapper;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Persistence.Infrastructure;
 using NHSD.BuyingCatalogue.Persistence.Models;
@@ -15,18 +13,9 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
     /// </summary>
     public sealed class SolutionRepository : ISolutionRepository
     {
-        /// <summary>
-        /// Database connection factory to provide new connections.
-        /// </summary>
-        private IDbConnectionFactory DbConnectionFactory { get; }
+        private readonly DbConnector _dbConnector;
 
-        /// <summary>
-        /// Initialises a new instance of the <see cref="SolutionRepository"/> class.
-        /// </summary>
-        public SolutionRepository(IDbConnectionFactory dbConnectionFactory)
-        {
-            DbConnectionFactory = dbConnectionFactory ?? throw new System.ArgumentNullException(nameof(dbConnectionFactory));
-        }
+        public SolutionRepository(DbConnector dbConnector) => _dbConnector = dbConnector;
 
         /// <summary>
         /// Gets a <see cref="ISolutionResult"/> matching the specified ID.
@@ -36,27 +25,24 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
         /// <returns>A task representing an operation to retrieve a <see cref="ISolutionResult"/> matching the specified ID.</returns>
         public async Task<ISolutionResult> ByIdAsync(string id, CancellationToken cancellationToken)
         {
-            using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
-            {
-                const string sql = @"SELECT Solution.Id,
-                                            Solution.Name,                                           
-                                            Organisation.Name as OrganisationName,
-                                            SolutionDetail.Summary AS Summary,
-                                            SolutionDetail.FullDescription AS Description,
-                                            SolutionDetail.AboutUrl AS AboutUrl,
-                                            SolutionDetail.Features As Features,
-                                            SolutionDetail.ClientApplication as ClientApplication,
-                                            FrameworkSolutions.IsFoundation as IsFoundation
-                                     FROM   Solution
-                                            INNER JOIN Organisation ON Organisation.Id = Solution.OrganisationId
-                                            LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
-                                            LEFT JOIN FrameworkSolutions ON Solution.Id = FrameworkSolutions.SolutionId
-                                     WHERE  Solution.Id = @id";
+            const string sql = @"SELECT Solution.Id,
+                                        Solution.Name,                                           
+                                        Organisation.Name as OrganisationName,
+                                        SolutionDetail.Summary AS Summary,
+                                        SolutionDetail.FullDescription AS Description,
+                                        SolutionDetail.AboutUrl AS AboutUrl,
+                                        SolutionDetail.Features As Features,
+                                        SolutionDetail.ClientApplication as ClientApplication,
+                                        FrameworkSolutions.IsFoundation as IsFoundation
+                                 FROM   Solution
+                                        INNER JOIN Organisation ON Organisation.Id = Solution.OrganisationId
+                                        LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
+                                        LEFT JOIN FrameworkSolutions ON Solution.Id = FrameworkSolutions.SolutionId
+                                 WHERE  Solution.Id = @id";
 
-                var result = await databaseConnection.QueryAsync<SolutionResult>(sql, new { id });
+            var result = await _dbConnector.QueryAsync<SolutionResult>(cancellationToken, sql, new { id });
 
-                return result.SingleOrDefault();
-            }
+            return result.SingleOrDefault();
         }
 
         /// <summary>
@@ -72,17 +58,14 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                 throw new ArgumentNullException(nameof(updateSolutionSupplierStatusRequest));
             }
 
-            using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
-            {
-                const string updateSolutionSupplierStatusSql = @"
-                                            UPDATE  Solution
-                                            SET		Solution.SupplierStatusId = @supplierStatusId
-                                            WHERE   Solution.Id = @id
-                                    IF @@ROWCOUNT = 0
-                                        THROW 60000, 'Solution or SolutionDetail not found', 1; ";
+            const string updateSolutionSupplierStatusSql = @"
+                                        UPDATE  Solution
+                                        SET		Solution.SupplierStatusId = @supplierStatusId
+                                        WHERE   Solution.Id = @id
+                                IF @@ROWCOUNT = 0
+                                    THROW 60000, 'Solution or SolutionDetail not found', 1; ";
 
-                await databaseConnection.ExecuteAsync(updateSolutionSupplierStatusSql, updateSolutionSupplierStatusRequest);
-            }
+            await _dbConnector.ExecuteAsync(cancellationToken, updateSolutionSupplierStatusSql, updateSolutionSupplierStatusRequest);
         }
     }
 }
