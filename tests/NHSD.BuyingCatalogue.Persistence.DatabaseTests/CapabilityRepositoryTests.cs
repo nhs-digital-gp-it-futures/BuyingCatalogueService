@@ -30,7 +30,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             _configuration = new Mock<IConfiguration>();
             _configuration.Setup(a => a["ConnectionStrings:BuyingCatalogue"]).Returns(ConnectionStrings.ServiceConnectionString());
 
-            _capabilityRepository = new CapabilityRepository(new DbConnectionFactory(_configuration.Object));
+            _capabilityRepository = new CapabilityRepository(new DbConnector(new DbConnectionFactory(_configuration.Object)));
         }
 
         [Test]

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using NHSD.BuyingCatalogue.Contracts;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Contracts.Solutions;
 
@@ -13,7 +12,8 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Domain
     internal class Solution
     {
         internal Solution(ISolutionResult solutionResult,
-            IEnumerable<ISolutionCapabilityListResult> solutionCapabilityListResult)
+            IEnumerable<ISolutionCapabilityListResult> solutionCapabilityListResult,
+            IEnumerable<IMarketingContactResult> contactResult)
         {
             Id = solutionResult.Id;
             Name = solutionResult.Name;
@@ -29,6 +29,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Domain
                 : JsonConvert.DeserializeObject<ClientApplication>(solutionResult.ClientApplication);
             IsFoundation = solutionResult.IsFoundation;
             Capabilities = new HashSet<string>(solutionCapabilityListResult.Select(c => c.CapabilityName));
+            Contacts = contactResult.Select(c => new Contact(c));
         }
 
         /// <summary>
@@ -85,6 +86,11 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Domain
         /// Capabilities claimed by the solution
         /// </summary>
         public HashSet<string> Capabilities { get; set; }
+
+        /// <summary>
+        /// The contacts for the solution
+        /// </summary>
+        public IEnumerable<Contact> Contacts { get; set; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="Solution"/> class.

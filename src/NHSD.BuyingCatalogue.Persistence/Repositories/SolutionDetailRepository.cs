@@ -1,8 +1,6 @@
 using System;
-using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
-using Dapper;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Persistence.Infrastructure;
 
@@ -13,18 +11,9 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
     /// </summary>
     public sealed class SolutionDetailRepository : ISolutionDetailRepository
     {
-        /// <summary>
-        /// Database connection factory to provide new connections.
-        /// </summary>
-        private IDbConnectionFactory DbConnectionFactory { get; }
+        private readonly DbConnector _dbConnector;
 
-        /// <summary>
-        /// Initialises a new instance of the <see cref="SolutionRepository"/> class.
-        /// </summary>
-        public SolutionDetailRepository(IDbConnectionFactory dbConnectionFactory)
-        {
-            DbConnectionFactory = dbConnectionFactory;
-        }
+        public SolutionDetailRepository(DbConnector dbConnector) => _dbConnector = dbConnector;
 
         /// <summary>
         /// Updates the summary details of the solution.
@@ -39,22 +28,19 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                 throw new ArgumentNullException(nameof(updateSolutionSummaryRequest));
             }
 
-            using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
-            {
-                const string updateSql = @"
-                                    UPDATE  SolutionDetail                                   
-                                    SET     SolutionDetail.FullDescription = @description,
-                                            SolutionDetail.Summary = @summary,
-                                            SolutionDetail.AboutUrl = @aboutUrl
-                                    FROM SolutionDetail
-                                        INNER JOIN Solution
-                                            ON solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
-                                    WHERE   Solution.Id = @solutionId
-                                    IF @@ROWCOUNT = 0
-                                        THROW 60000, 'Solution or SolutionDetail not found', 1; ";
+            const string updateSql = @"
+                                UPDATE  SolutionDetail                                   
+                                SET     SolutionDetail.FullDescription = @description,
+                                        SolutionDetail.Summary = @summary,
+                                        SolutionDetail.AboutUrl = @aboutUrl
+                                FROM SolutionDetail
+                                    INNER JOIN Solution
+                                        ON solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
+                                WHERE   Solution.Id = @solutionId
+                                IF @@ROWCOUNT = 0
+                                    THROW 60000, 'Solution or SolutionDetail not found', 1; ";
 
-                await databaseConnection.ExecuteAsync(updateSql, new { solutionId = updateSolutionSummaryRequest.Id, description = updateSolutionSummaryRequest.Description, summary = updateSolutionSummaryRequest.Summary, aboutUrl = updateSolutionSummaryRequest.AboutUrl });
-            }
+            await _dbConnector.ExecuteAsync(cancellationToken, updateSql, new { solutionId = updateSolutionSummaryRequest.Id, description = updateSolutionSummaryRequest.Description, summary = updateSolutionSummaryRequest.Summary, aboutUrl = updateSolutionSummaryRequest.AboutUrl });
         }
 
         /// <summary>
@@ -70,20 +56,17 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                 throw new System.ArgumentNullException(nameof(updateSolutionFeaturesRequest));
             }
 
-            using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
-            {
-                const string updateSql = @"
-                                    UPDATE  SolutionDetail                                   
-                                    SET     SolutionDetail.Features = @features
-                                    FROM SolutionDetail
-                                        INNER JOIN Solution
-                                            ON solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
-                                    WHERE   Solution.Id = @solutionId
-                                    IF @@ROWCOUNT = 0
-                                        THROW 60000, 'Solution or SolutionDetail not found', 1; ";
+            const string updateSql = @"
+                                UPDATE  SolutionDetail                                   
+                                SET     SolutionDetail.Features = @features
+                                FROM SolutionDetail
+                                    INNER JOIN Solution
+                                        ON solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
+                                WHERE   Solution.Id = @solutionId
+                                IF @@ROWCOUNT = 0
+                                    THROW 60000, 'Solution or SolutionDetail not found', 1; ";
 
-                await databaseConnection.ExecuteAsync(updateSql, new { solutionId = updateSolutionFeaturesRequest.Id, features = updateSolutionFeaturesRequest.Features });
-            }
+            await _dbConnector.ExecuteAsync(cancellationToken, updateSql, new { solutionId = updateSolutionFeaturesRequest.Id, features = updateSolutionFeaturesRequest.Features });
         }
 
         /// <summary>
@@ -100,20 +83,17 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                 throw new ArgumentNullException(nameof(updateSolutionClientApplicationRequest));
             }
 
-            using (IDbConnection databaseConnection = await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
-            {
-                const string updateSql = @"
-                                    UPDATE  SolutionDetail                                   
-                                    SET     SolutionDetail.ClientApplication = @clientApplication
-                                    FROM SolutionDetail
-                                        INNER JOIN Solution
-                                            ON solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
-                                    WHERE   Solution.Id = @solutionId
-                                    IF @@ROWCOUNT = 0
-                                        THROW 60000, 'Solution or SolutionDetail not found', 1; ";
+            const string updateSql = @"
+                                UPDATE  SolutionDetail                                   
+                                SET     SolutionDetail.ClientApplication = @clientApplication
+                                FROM SolutionDetail
+                                    INNER JOIN Solution
+                                        ON solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
+                                WHERE   Solution.Id = @solutionId
+                                IF @@ROWCOUNT = 0
+                                    THROW 60000, 'Solution or SolutionDetail not found', 1; ";
                 
-                await databaseConnection.ExecuteAsync(updateSql, new { solutionId = updateSolutionClientApplicationRequest.Id, clientApplication = updateSolutionClientApplicationRequest.ClientApplication });
-            }
+            await _dbConnector.ExecuteAsync(cancellationToken, updateSql, new { solutionId = updateSolutionClientApplicationRequest.Id, clientApplication = updateSolutionClientApplicationRequest.ClientApplication });
         }
     }
 }

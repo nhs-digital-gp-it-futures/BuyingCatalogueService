@@ -1,4 +1,4 @@
-using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -40,8 +40,17 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             _context.MockSolutionCapabilityRepository
                 .Setup(r => r.ListSolutionCapabilities("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new []{capabilities1, capabilities2});
+            var expectedContact = Mock.Of<IMarketingContactResult>(c =>
+                c.Id == 1 &&
+                c.SolutionId == "Sln1" &&
+                c.FirstName == "Bob" &&
+                c.LastName == "Bobbington" &&
+                c.Email == "Test");
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
+            _context.MockMarketingContactRepository
+                .Setup(r => r.BySolutionIdAsync("Sln1", It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new[]{expectedContact});
 
             var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken());
 
@@ -59,6 +68,12 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.ClientApplication.Plugins.AdditionalInformation.Should().Be("orem ipsum");
             solution.IsFoundation.Should().BeTrue();
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1", "cap2"});
+            solution.Contacts.Count().Should().Be(1);
+            var contact = solution.Contacts.Single();
+            contact.Name.Should().Be("Bob Bobbington");
+            contact.Email.Should().Be(expectedContact.Email);
+            contact.PhoneNumber.Should().Be(expectedContact.PhoneNumber);
+            contact.Department.Should().Be(expectedContact.Department);
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -96,6 +111,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             solution.OrganisationName.Should().BeNull();
             solution.Capabilities.Should().BeEmpty();
+            solution.Contacts.Count().Should().Be(0);
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -137,6 +153,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             
             solution.OrganisationName.Should().Be("OrganisationName");
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1"});
+            solution.Contacts.Count().Should().Be(0);
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -175,6 +192,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             solution.OrganisationName.Should().Be("OrganisationName");
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1", "cap2", "cap3"});
+            solution.Contacts.Count().Should().Be(0);
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -218,6 +236,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             solution.OrganisationName.Should().Be("OrganisationName");
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1"});
+            solution.Contacts.Count().Should().Be(0);
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }

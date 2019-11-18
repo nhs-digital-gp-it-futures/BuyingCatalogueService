@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
-using Dapper;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Persistence.Infrastructure;
 using NHSD.BuyingCatalogue.Persistence.Models;
@@ -11,20 +9,11 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
 {
     public sealed class SolutionCapabilityRepository : ISolutionCapabilityRepository
     {
-        private IDbConnectionFactory DbConnectionFactory { get; }
+        private readonly DbConnector _dbConnector;
 
-        public SolutionCapabilityRepository(IDbConnectionFactory dbConnectionFactory)
-        {
-            DbConnectionFactory =
-                dbConnectionFactory ?? throw new System.ArgumentNullException(nameof(dbConnectionFactory));
-        }
+        public SolutionCapabilityRepository(DbConnector dbConnector) => _dbConnector = dbConnector;
 
-        public async Task<IEnumerable<ISolutionCapabilityListResult>> ListSolutionCapabilities(string solutionId, CancellationToken cancellationToken)
-        {
-            using (IDbConnection databaseConnection =
-                await DbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
-            {
-                const string sql = @"SELECT Capability.Id as CapabilityId,
+        private const string sql = @"SELECT Capability.Id as CapabilityId,
                                         Capability.Name as CapabilityName,
                                         Capability.Description as CapabilityDescription
                                 FROM SolutionCapability
@@ -32,8 +21,7 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                                 WHERE SolutionCapability.SolutionId = @solutionId
                                 ORDER BY Capability.Name";
 
-                return await databaseConnection.QueryAsync<SolutionCapabilityListResult>(sql, new{solutionId});
-            }
-        }
+        public async Task<IEnumerable<ISolutionCapabilityListResult>> ListSolutionCapabilities(string solutionId, CancellationToken cancellationToken)
+            => await _dbConnector.QueryAsync<SolutionCapabilityListResult>(cancellationToken, sql, new{solutionId});
     }
 }

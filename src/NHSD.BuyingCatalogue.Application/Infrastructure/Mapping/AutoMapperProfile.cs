@@ -45,6 +45,8 @@ namespace NHSD.BuyingCatalogue.Application.Infrastructure.Mapping
             CreateMap<ClientApplication, IClientApplication>().As<ClientApplicationDto>();
             CreateMap<Plugins, PluginsDto>();
             CreateMap<Plugins, IPlugins>().As<PluginsDto>();
+            CreateMap<Contact, ContactDto>();
+            CreateMap<Contact, IContact>().As<ContactDto>();
         }
     }
 }

@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using NHSD.BuyingCatalogue.Contracts.Solutions;
 
 namespace NHSD.BuyingCatalogue.API.ViewModels.Public
 {
@@ -16,13 +17,12 @@ namespace NHSD.BuyingCatalogue.API.ViewModels.Public
         [JsonProperty("email-address")]
         public string EmailAddress { get; }
 
-        // Canned Data --Todo
-        public ContactInformationPublicSection()
+        public ContactInformationPublicSection(IContact contact)
         {
-            DepartmentName = "a contact dept";
-            ContactName = "jim jones";
-            PhoneNumber = "0222 222222";
-            EmailAddress = "jacky@solution.com";
+            DepartmentName = contact.Department;
+            ContactName = contact.Name;
+            PhoneNumber = contact.PhoneNumber;
+            EmailAddress = contact.Email;
         }
     }
 }
