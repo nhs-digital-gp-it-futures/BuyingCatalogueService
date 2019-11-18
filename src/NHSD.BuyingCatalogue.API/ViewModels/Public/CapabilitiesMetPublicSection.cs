@@ -9,6 +9,6 @@ namespace NHSD.BuyingCatalogue.API.ViewModels.Public
         public IEnumerable<string> CapabilitiesMet { get; }
 
         public CapabilitiesMetPublicSection(IEnumerable<string> capabilities)
-            => CapabilitiesMet = new HashSet<string>(capabilities);
+            => CapabilitiesMet = new HashSet<string>(capabilities ?? new List<string>()); 
     }
 }
