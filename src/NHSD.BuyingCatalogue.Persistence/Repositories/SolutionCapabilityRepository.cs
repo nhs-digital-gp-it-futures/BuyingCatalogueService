@@ -29,7 +29,8 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                                         Capability.Description as CapabilityDescription
                                 FROM SolutionCapability
                                      INNER JOIN Capability ON SolutionCapability.CapabilityId = Capability.Id
-                                WHERE SolutionCapability.SolutionId = @solutionId";
+                                WHERE SolutionCapability.SolutionId = @solutionId
+                                ORDER BY Capability.Name";
 
                 return await databaseConnection.QueryAsync<SolutionCapabilityListResult>(sql, new{solutionId});
             }
