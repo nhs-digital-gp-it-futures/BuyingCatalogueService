@@ -51,6 +51,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Infrastructure.Mapping
             yield return new KeyValuePair<Type, Type>(typeof(ClientApplication), typeof(IClientApplication));
             yield return new KeyValuePair<Type, Type>(typeof(Plugins), typeof(PluginsDto));
             yield return new KeyValuePair<Type, Type>(typeof(Plugins), typeof(IPlugins));
+            yield return new KeyValuePair<Type, Type>(typeof(Contact), typeof(ContactDto));
+            yield return new KeyValuePair<Type, Type>(typeof(Contact), typeof(IContact));
         }
 
         [Test]

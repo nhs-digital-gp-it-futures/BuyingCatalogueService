@@ -32,6 +32,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
         public Mock<ISolutionCapabilityRepository> MockSolutionCapabilityRepository { get; private set; }
 
+        public Mock<IMarketingContactRepository> MockMarketingContactRepository { get; private set; }
+
         public ListCapabilitiesHandler ListCapabilitiesHandler => (ListCapabilitiesHandler)_scope.ListCapabilitiesHandler;
 
         public ListSolutionsHandler ListSolutionsHandler => (ListSolutionsHandler)_scope.ListSolutionsHandler;
@@ -89,6 +91,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             serviceCollection.AddSingleton<ISolutionDetailRepository>(MockSolutionDetailRepository.Object);
             MockSolutionCapabilityRepository = new Mock<ISolutionCapabilityRepository>();
             serviceCollection.AddSingleton<ISolutionCapabilityRepository>(MockSolutionCapabilityRepository.Object);
+            MockMarketingContactRepository = new Mock<IMarketingContactRepository>();
+            serviceCollection.AddSingleton<IMarketingContactRepository>(MockMarketingContactRepository.Object);
         }
 
         private IMapper GetAutoMapper()

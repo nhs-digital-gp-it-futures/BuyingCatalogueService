@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -34,7 +35,17 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.OrganisationName).Returns("OrganisationName");
             existingSolution.Setup(s => s.IsFoundation).Returns(true);
 
+            var expectedContact = Mock.Of<IMarketingContactResult>(c =>
+                c.Id == 1 &&
+                c.SolutionId == "Sln1" &&
+                c.FirstName == "Bob" &&
+                c.LastName == "Bobbington" &&
+                c.Email == "Test");
+
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
+            _context.MockMarketingContactRepository
+                .Setup(r => r.BySolutionIdAsync("Sln1", It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new[]{expectedContact});
 
             var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken());
 
@@ -51,6 +62,12 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.ClientApplication.Plugins.Required.Should().BeTrue();
             solution.ClientApplication.Plugins.AdditionalInformation.Should().Be("orem ipsum");
             solution.IsFoundation.Should().BeTrue();
+            solution.Contacts.Count().Should().Be(1);
+            var contact = solution.Contacts.Single();
+            contact.Name.Should().Be("Bob Bobbington");
+            contact.Email.Should().Be(expectedContact.Email);
+            contact.PhoneNumber.Should().Be(expectedContact.PhoneNumber);
+            contact.Department.Should().Be(expectedContact.Department);
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -86,6 +103,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.ClientApplication.Plugins.Should().BeNull();
 
             solution.OrganisationName.Should().BeNull();
+            solution.Contacts.Count().Should().Be(0);
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -121,6 +139,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.ClientApplication.Plugins.Should().BeNull();
             
             solution.OrganisationName.Should().Be("OrganisationName");
+            solution.Contacts.Count().Should().Be(0);
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -151,6 +170,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.Features.Should().BeEquivalentTo(new[] { "Marmite", "Jam", "Marmelade" });
 
             solution.OrganisationName.Should().Be("OrganisationName");
+            solution.Contacts.Count().Should().Be(0);
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -188,6 +208,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.ClientApplication.Plugins.AdditionalInformation.Should().BeNull();
 
             solution.OrganisationName.Should().Be("OrganisationName");
+            solution.Contacts.Count().Should().Be(0);
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
