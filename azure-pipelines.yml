@@ -1,17 +1,27 @@
-# ASP.NET Core
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
-trigger:
-- development
-
 pool:
   vmImage: 'ubuntu-latest'
 
-variables:
-  buildConfiguration: 'Release'
-
 steps:
-- script: docker-compose -f ".\docker-compose.yml" -f ".\docker-compose.development.yml" up -d
-  displayName: docker-compose
+- task: CopyFiles@2
+  displayName: 'Copy Files to: API'
+  inputs:
+    SourceFolder: api
+    TargetFolder: '$(build.artifactstagingdirectory)\service\api'
+
+- task: CopyFiles@2
+  displayName: 'Copy Files to: Data Model'
+  inputs:
+    SourceFolder: datamodel
+    TargetFolder: '$(build.artifactstagingdirectory)\service\datamodel'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)\service\api'
+    ArtifactName: 'api'
+    publishLocation: 'Container'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)\service\datamodel'
+    ArtifactName: 'datamodel'
+    publishLocation: 'Container'
