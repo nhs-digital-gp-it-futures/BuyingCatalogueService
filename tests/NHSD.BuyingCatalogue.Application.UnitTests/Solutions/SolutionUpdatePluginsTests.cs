@@ -26,7 +26,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once);
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
-                r.Id == SolutionId
+                r.SolutionId == SolutionId
                 && JToken.Parse(r.ClientApplication).SelectToken("Plugins.Required").Value<bool>() == true
                 && JToken.Parse(r.ClientApplication).SelectToken("Plugins.AdditionalInformation").Value<string>() == "This is some information"
                 ), It.IsAny<CancellationToken>()), Times.Once);

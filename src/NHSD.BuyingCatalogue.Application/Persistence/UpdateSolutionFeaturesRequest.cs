@@ -8,11 +8,11 @@ namespace NHSD.BuyingCatalogue.Application.Persistence
     {
         public UpdateSolutionFeaturesRequest(string id, IEnumerable<string> features)
         {
-            Id = id;
+            SolutionId = id;
             Features = JsonConvert.SerializeObject(features).ToString();
         }
 
-        public string Id { get; }
+        public string SolutionId { get; }
 
         public string Features { get; }
     }

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Persistence.Infrastructure;
 using NHSD.BuyingCatalogue.Persistence.Models;
 
@@ -25,11 +26,6 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
         /// <returns>A task representing an operation to save the specified updateSolutionRequest to the data store.</returns>
         public async Task UpdateSummaryAsync(IUpdateSolutionSummaryRequest updateSolutionSummaryRequest, CancellationToken cancellationToken)
         {
-            if (updateSolutionSummaryRequest is null)
-            {
-                throw new ArgumentNullException(nameof(updateSolutionSummaryRequest));
-            }
-
             const string updateSql = @"
                                 UPDATE  SolutionDetail                                   
                                 SET     SolutionDetail.FullDescription = @description,
@@ -42,7 +38,7 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                                 IF @@ROWCOUNT = 0
                                     THROW 60000, 'Solution or SolutionDetail not found', 1; ";
 
-            await _dbConnector.ExecuteAsync(cancellationToken, updateSql, new { solutionId = updateSolutionSummaryRequest.Id, description = updateSolutionSummaryRequest.Description, summary = updateSolutionSummaryRequest.Summary, aboutUrl = updateSolutionSummaryRequest.AboutUrl });
+            await _dbConnector.ExecuteAsync(cancellationToken, updateSql, updateSolutionSummaryRequest.ThrowIfNull(nameof(updateSolutionSummaryRequest)));
         }
 
         /// <summary>
@@ -53,11 +49,6 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
         /// <returns>A task representing an operation to save the specified updateSolutionRequest to the data store.</returns>
         public async Task UpdateFeaturesAsync(IUpdateSolutionFeaturesRequest updateSolutionFeaturesRequest, CancellationToken cancellationToken)
         {
-            if (updateSolutionFeaturesRequest is null)
-            {
-                throw new System.ArgumentNullException(nameof(updateSolutionFeaturesRequest));
-            }
-
             const string updateSql = @"
                                 UPDATE  SolutionDetail                                   
                                 SET     SolutionDetail.Features = @features
@@ -68,7 +59,7 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                                 IF @@ROWCOUNT = 0
                                     THROW 60000, 'Solution or SolutionDetail not found', 1; ";
 
-            await _dbConnector.ExecuteAsync(cancellationToken, updateSql, new { solutionId = updateSolutionFeaturesRequest.Id, features = updateSolutionFeaturesRequest.Features });
+            await _dbConnector.ExecuteAsync(cancellationToken, updateSql, updateSolutionFeaturesRequest.ThrowIfNull(nameof(updateSolutionFeaturesRequest)));
         }
 
         /// <summary>
@@ -80,11 +71,6 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
         public async Task UpdateClientApplicationAsync(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest,
             CancellationToken cancellationToken)
         {
-            if (updateSolutionClientApplicationRequest is null)
-            {
-                throw new ArgumentNullException(nameof(updateSolutionClientApplicationRequest));
-            }
-
             const string updateSql = @"
                                 UPDATE  SolutionDetail                                   
                                 SET     SolutionDetail.ClientApplication = @clientApplication
@@ -95,7 +81,7 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                                 IF @@ROWCOUNT = 0
                                     THROW 60000, 'Solution or SolutionDetail not found', 1; ";
                 
-            await _dbConnector.ExecuteAsync(cancellationToken, updateSql, new { solutionId = updateSolutionClientApplicationRequest.Id, clientApplication = updateSolutionClientApplicationRequest.ClientApplication });
+            await _dbConnector.ExecuteAsync(cancellationToken, updateSql, updateSolutionClientApplicationRequest.ThrowIfNull(nameof(updateSolutionClientApplicationRequest)));
         }
 
         public async Task<IClientApplicationResult> GetClientApplicationBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)

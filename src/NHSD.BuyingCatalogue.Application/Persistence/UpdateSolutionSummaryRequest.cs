@@ -6,13 +6,13 @@ namespace NHSD.BuyingCatalogue.Application.Persistence
     {
         public UpdateSolutionSummaryRequest(string id, string summary, string description, string aboutUrl)
         {
-            Id = id;
+            SolutionId = id;
             Summary = summary;
             Description = description;
             AboutUrl = aboutUrl;
         }
 
-        public string Id { get; }
+        public string SolutionId { get; }
 
         public string Summary { get; }
 

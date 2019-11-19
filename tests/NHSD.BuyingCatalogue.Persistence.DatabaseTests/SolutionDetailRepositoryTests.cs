@@ -68,7 +68,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
                 .InsertAndSetCurrentForSolutionAsync();
 
             var mockUpdateSolutionFeaturesRequest = new Mock<IUpdateSolutionFeaturesRequest>();
-            mockUpdateSolutionFeaturesRequest.Setup(m => m.Id).Returns("Sln1");
+            mockUpdateSolutionFeaturesRequest.Setup(m => m.SolutionId).Returns("Sln1");
             mockUpdateSolutionFeaturesRequest.Setup(m => m.Features).Returns("Features4");
 
             await _solutionDetailRepository.UpdateFeaturesAsync(mockUpdateSolutionFeaturesRequest.Object, new CancellationToken());
@@ -85,7 +85,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         public void ShouldThrowOnUpdateFeaturesNotPresent()
         {
             var mockUpdateSolutionFeaturesRequest = new Mock<IUpdateSolutionFeaturesRequest>();
-            mockUpdateSolutionFeaturesRequest.Setup(m => m.Id).Returns("Sln1");
+            mockUpdateSolutionFeaturesRequest.Setup(m => m.SolutionId).Returns("Sln1");
             mockUpdateSolutionFeaturesRequest.Setup(m => m.Features).Returns("Features4");
 
             Assert.ThrowsAsync<SqlException>(() => _solutionDetailRepository.UpdateFeaturesAsync(mockUpdateSolutionFeaturesRequest.Object, new CancellationToken()));
@@ -103,7 +103,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
                 .InsertAsync();
 
             var mockUpdateSolutionFeaturesRequest = new Mock<IUpdateSolutionFeaturesRequest>();
-            mockUpdateSolutionFeaturesRequest.Setup(m => m.Id).Returns("Sln1");
+            mockUpdateSolutionFeaturesRequest.Setup(m => m.SolutionId).Returns("Sln1");
             mockUpdateSolutionFeaturesRequest.Setup(m => m.Features).Returns("Features4");
 
             Assert.ThrowsAsync<SqlException>(() => _solutionDetailRepository.UpdateFeaturesAsync(mockUpdateSolutionFeaturesRequest.Object, new CancellationToken()));
@@ -129,7 +129,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
                 .InsertAndSetCurrentForSolutionAsync();
 
             var mockUpdateSolutionClientApplicationRequest = new Mock<IUpdateSolutionClientApplicationRequest>();
-            mockUpdateSolutionClientApplicationRequest.Setup(m => m.Id).Returns("Sln1");
+            mockUpdateSolutionClientApplicationRequest.Setup(m => m.SolutionId).Returns("Sln1");
             mockUpdateSolutionClientApplicationRequest.Setup(m => m.ClientApplication).Returns("Browser-based");
 
             await _solutionDetailRepository.UpdateClientApplicationAsync(mockUpdateSolutionClientApplicationRequest.Object, new CancellationToken());
@@ -146,7 +146,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         public void ShouldThrowOnUpdateClientApplicationSolutionNotPresent()
         {
             var mockUpdateSolutionClientApplicationRequest = new Mock<IUpdateSolutionClientApplicationRequest>();
-            mockUpdateSolutionClientApplicationRequest.Setup(m => m.Id).Returns("Sln1");
+            mockUpdateSolutionClientApplicationRequest.Setup(m => m.SolutionId).Returns("Sln1");
             mockUpdateSolutionClientApplicationRequest.Setup(m => m.ClientApplication).Returns("Browser-based");
 
             Assert.ThrowsAsync<SqlException>(() => _solutionDetailRepository.UpdateClientApplicationAsync(mockUpdateSolutionClientApplicationRequest.Object, new CancellationToken()));
@@ -164,7 +164,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
                 .InsertAsync();
 
             var mockUpdateSolutionClientApplicationRequest = new Mock<IUpdateSolutionClientApplicationRequest>();
-            mockUpdateSolutionClientApplicationRequest.Setup(m => m.Id).Returns("Sln1");
+            mockUpdateSolutionClientApplicationRequest.Setup(m => m.SolutionId).Returns("Sln1");
             mockUpdateSolutionClientApplicationRequest.Setup(m => m.ClientApplication).Returns("Browser-based");
 
             Assert.ThrowsAsync<SqlException>(() => _solutionDetailRepository.UpdateClientApplicationAsync(mockUpdateSolutionClientApplicationRequest.Object, new CancellationToken()));
@@ -198,7 +198,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
                 .InsertAndSetCurrentForSolutionAsync();
 
             var mockUpdateSolutionSummaryRequest = new Mock<IUpdateSolutionSummaryRequest>();
-            mockUpdateSolutionSummaryRequest.Setup(m => m.Id).Returns("Sln1");
+            mockUpdateSolutionSummaryRequest.Setup(m => m.SolutionId).Returns("Sln1");
             mockUpdateSolutionSummaryRequest.Setup(m => m.Summary).Returns("Sln4Summary");
             mockUpdateSolutionSummaryRequest.Setup(m => m.Description).Returns("Sln4Description");
             mockUpdateSolutionSummaryRequest.Setup(m => m.AboutUrl).Returns("AboutUrl4");
@@ -225,7 +225,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         public void ShouldThrowOnUpdateSummarySolutionNotPresent()
         {
             var mockUpdateSolutionSummaryRequest = new Mock<IUpdateSolutionSummaryRequest>();
-            mockUpdateSolutionSummaryRequest.Setup(m => m.Id).Returns("Sln1");
+            mockUpdateSolutionSummaryRequest.Setup(m => m.SolutionId).Returns("Sln1");
             mockUpdateSolutionSummaryRequest.Setup(m => m.Summary).Returns("Sln4Summary");
             mockUpdateSolutionSummaryRequest.Setup(m => m.Description).Returns("Sln4Description");
             mockUpdateSolutionSummaryRequest.Setup(m => m.AboutUrl).Returns("AboutUrl4");
@@ -245,7 +245,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
                 .InsertAsync();
 
             var mockUpdateSolutionSummaryRequest = new Mock<IUpdateSolutionSummaryRequest>();
-            mockUpdateSolutionSummaryRequest.Setup(m => m.Id).Returns("Sln1");
+            mockUpdateSolutionSummaryRequest.Setup(m => m.SolutionId).Returns("Sln1");
             mockUpdateSolutionSummaryRequest.Setup(m => m.Summary).Returns("Sln4Summary");
             mockUpdateSolutionSummaryRequest.Setup(m => m.Description).Returns("Sln4Description");
             mockUpdateSolutionSummaryRequest.Setup(m => m.AboutUrl).Returns("AboutUrl4");
@@ -291,6 +291,24 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         {
             var result = await _solutionDetailRepository.GetClientApplicationBySolutionIdAsync("Sln1", new CancellationToken());
             result.Should().BeNull();
+        }
+
+        [Test]
+        public void ShouldThrowOnUpdateFeaturesNullRequest()
+        {
+            Assert.ThrowsAsync<ArgumentNullException>(() => _solutionDetailRepository.UpdateFeaturesAsync(null, new CancellationToken()));
+        }
+
+        [Test]
+        public void ShouldThrowOnUpdateClientApplicationNullRequest()
+        {
+            Assert.ThrowsAsync<ArgumentNullException>(() => _solutionDetailRepository.UpdateClientApplicationAsync(null, new CancellationToken()));
+        }
+
+        [Test]
+        public void ShouldThrowOnUpdateSummaryNullRequest()
+        {
+            Assert.ThrowsAsync<ArgumentNullException>(() => _solutionDetailRepository.UpdateSummaryAsync(null, new CancellationToken()));
         }
     }
 }
