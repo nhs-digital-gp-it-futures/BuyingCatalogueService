@@ -1,8 +1,10 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Persistence.Infrastructure;
+using NHSD.BuyingCatalogue.Persistence.Models;
 
 namespace NHSD.BuyingCatalogue.Persistence.Repositories
 {
@@ -94,6 +96,18 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
                                     THROW 60000, 'Solution or SolutionDetail not found', 1; ";
                 
             await _dbConnector.ExecuteAsync(cancellationToken, updateSql, new { solutionId = updateSolutionClientApplicationRequest.Id, clientApplication = updateSolutionClientApplicationRequest.ClientApplication });
+        }
+
+        public async Task<IClientApplicationResult> GetClientApplicationBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
+        {
+            const string sql = @"SELECT
+                                    Solution.Id
+                                    ,SolutionDetail.ClientApplication as ClientApplication
+                                 FROM   Solution
+                                        LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
+                                 WHERE  Solution.Id = @solutionId";
+            var result = await _dbConnector.QueryAsync<ClientApplicationResult>(cancellationToken, sql, new {solutionId});
+            return result.SingleOrDefault();
         }
     }
 }

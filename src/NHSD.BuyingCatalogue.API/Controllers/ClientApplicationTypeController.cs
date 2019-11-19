@@ -41,8 +41,8 @@ namespace NHSD.BuyingCatalogue.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetClientApplicationTypesAsync([FromRoute][Required]string id)
         {
-            var solution = await _mediator.Send(new GetSolutionByIdQuery(id));
-            return solution == null ? (ActionResult)new NotFoundResult() : Ok(new GetClientApplicationTypesResult(solution.ClientApplication));
+            var clientApplication = await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id));
+            return clientApplication == null ? (ActionResult)new NotFoundResult() : Ok(new GetClientApplicationTypesResult(clientApplication));
         }
 
         /// <summary>

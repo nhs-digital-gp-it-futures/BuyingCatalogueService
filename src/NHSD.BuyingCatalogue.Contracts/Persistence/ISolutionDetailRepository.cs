@@ -31,5 +31,13 @@ namespace NHSD.BuyingCatalogue.Contracts.Persistence
         /// <param name="cancellationToken">A token to notify if the task is cancelled.</param>
         /// <returns>A task representing an operation to save the specified solution to the data store.</returns>
         Task UpdateClientApplicationAsync(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Retrieve the client application details for a solution
+        /// </summary>
+        /// <param name="solutionId">The ID of the solution</param>
+        /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
+        /// <returns>A task containing the client application data</returns>
+        Task<IClientApplicationResult> GetClientApplicationBySolutionIdAsync(string solutionId, CancellationToken cancellationToken);
     }
 }

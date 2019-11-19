@@ -252,5 +252,45 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 
             Assert.ThrowsAsync<SqlException>(() => _solutionDetailRepository.UpdateSummaryAsync(mockUpdateSolutionSummaryRequest.Object, new CancellationToken()));
         }
+
+        [Test]
+        public async Task ShouldRetrieveClientApplicationDetailsWhenPresent()
+        {
+            var expectedClientApplication = "I am the client application string";
+            await SolutionEntityBuilder.Create()
+                .WithId("Sln1")
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
+                .Build()
+                .InsertAsync();
+            await SolutionDetailEntityBuilder.Create()
+                .WithClientApplication(expectedClientApplication)
+                .Build()
+                .InsertAndSetCurrentForSolutionAsync();
+
+            var result = await _solutionDetailRepository.GetClientApplicationBySolutionIdAsync("Sln1", new CancellationToken());
+            result.ClientApplication.Should().Be(expectedClientApplication);
+        }
+
+        [Test]
+        public async Task ShouldRetrieveNullClientApplicationWhenSolutionDetailDoesNotExist()
+        {
+            await SolutionEntityBuilder.Create()
+                .WithId("Sln1")
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
+                .Build()
+                .InsertAsync();
+
+            var result = await _solutionDetailRepository.GetClientApplicationBySolutionIdAsync("Sln1", new CancellationToken());
+            result.ClientApplication.Should().BeNull();
+        }
+
+        [Test]
+        public async Task ShouldRetrieveNullResultWhenSolutionDoesNotExist()
+        {
+            var result = await _solutionDetailRepository.GetClientApplicationBySolutionIdAsync("Sln1", new CancellationToken());
+            result.Should().BeNull();
+        }
     }
 }
