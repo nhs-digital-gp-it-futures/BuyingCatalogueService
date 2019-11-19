@@ -16,6 +16,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
     {
         private TestContext _context;
 
+        private readonly DateTime _lastUpdated = DateTime.Today;
+
         [SetUp]
         public void SetUpFixture()
         {
@@ -28,6 +30,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
             existingSolution.Setup(s => s.Name).Returns("Name");
+            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated.ToString);
             existingSolution.Setup(s => s.Description).Returns("Description");
             existingSolution.Setup(s => s.Summary).Returns("Summary");
             existingSolution.Setup(s => s.AboutUrl).Returns("AboutUrl");
@@ -57,6 +60,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             solution.Id.Should().Be("Sln1");
             solution.Name.Should().Be("Name");
+            solution.LastUpdated.Should().Be(_lastUpdated);
             solution.Summary.Should().Be("Summary");
             solution.OrganisationName.Should().Be("OrganisationName");
             solution.Description.Should().Be("Description");
@@ -85,6 +89,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
             existingSolution.Setup(s => s.Name).Returns("Name");
+            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated.ToString);
             existingSolution.Setup(s => s.Description).Returns((string)null);
             existingSolution.Setup(s => s.Summary).Returns((string)null);
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
@@ -99,6 +104,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             solution.Id.Should().Be("Sln1");
             solution.Name.Should().Be("Name");
+            solution.LastUpdated.Should().Be(_lastUpdated);
 
             solution.Summary.Should().BeNullOrEmpty();
             solution.Description.Should().BeNullOrEmpty();
@@ -123,6 +129,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
             existingSolution.Setup(s => s.Name).Returns("Name");
+            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated.ToString);
             existingSolution.Setup(s => s.Description).Returns((string)null);
             existingSolution.Setup(s => s.Summary).Returns("Summary");
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
@@ -141,6 +148,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             solution.Id.Should().Be("Sln1");
             solution.Name.Should().Be("Name");
+            solution.LastUpdated.Should().Be(_lastUpdated);
 
             solution.Summary.Should().Be("Summary");
             solution.Description.Should().BeNullOrEmpty();
@@ -165,6 +173,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
             existingSolution.Setup(s => s.Name).Returns("Name");
+            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated.ToString);
             existingSolution.Setup(s => s.Description).Returns((string)null);
             existingSolution.Setup(s => s.Summary).Returns((string)null);
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
@@ -184,6 +193,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             solution.Id.Should().Be("Sln1");
             solution.Name.Should().Be("Name");
+            solution.LastUpdated.Should().Be(_lastUpdated);
 
             solution.Summary.Should().BeNullOrEmpty();
             solution.Description.Should().BeNullOrEmpty();
@@ -204,12 +214,14 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
             existingSolution.Setup(s => s.Name).Returns("Name");
+            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated.ToString);
             existingSolution.Setup(s => s.Description).Returns((string)null);
             existingSolution.Setup(s => s.Summary).Returns((string)null);
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
             existingSolution.Setup(s => s.Features).Returns((string)null);
             existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : false, 'AdditionalInformation': null } }");
             existingSolution.Setup(s => s.OrganisationName).Returns("OrganisationName");
+            existingSolution.Setup(s => s.IsFoundation).Returns(false);
             var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
 
             _context.MockSolutionCapabilityRepository
@@ -222,6 +234,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             solution.Id.Should().Be("Sln1");
             solution.Name.Should().Be("Name");
+            solution.LastUpdated.Should().Be(_lastUpdated);
 
             solution.Summary.Should().BeNullOrEmpty();
             solution.Description.Should().BeNullOrEmpty();
@@ -239,6 +252,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1"});
             solution.Contacts.Count().Should().Be(0);
 
+            solution.IsFoundation.Should().BeFalse();
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NHSD.BuyingCatalogue.Contracts.Solutions;
 
@@ -17,6 +18,8 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById
         /// Name of the solution, as displayed to a user.
         /// </summary>
         public string Name { get; set; }
+
+        public DateTime LastUpdated { get; set; }
 
         /// <summary>
         /// Full description of the solution, as displayed to the user.

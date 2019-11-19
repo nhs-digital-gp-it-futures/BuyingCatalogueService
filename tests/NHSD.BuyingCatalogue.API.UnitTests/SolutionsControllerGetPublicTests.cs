@@ -59,9 +59,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             publicResult.Id.Should().Be(id);
             publicResult.Name.Should().Be(name);
             publicResult.OrganisationName.Should().Be(organisationName);
-
-            //CURRENTLY HARDCODED --Todo
-            //publicResult.IsFoundation.Should().Be(isFoundation);
+            publicResult.IsFoundation.Should().Be(isFoundation);
         }
 
         [TestCase(null,null,null)]

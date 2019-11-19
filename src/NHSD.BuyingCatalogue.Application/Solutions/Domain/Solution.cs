@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
@@ -16,7 +17,8 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Domain
             IEnumerable<IMarketingContactResult> contactResult)
         {
             Id = solutionResult.Id;
-            Name = solutionResult.Name;
+            Name = solutionResult.Name; 
+            LastUpdated = Convert.ToDateTime(solutionResult.LastUpdated);
             Summary = solutionResult.Summary;
             OrganisationName = solutionResult.OrganisationName;
             Description = solutionResult.Description;
@@ -41,6 +43,11 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Domain
         /// Name of the solution, as displayed to a user.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Record of the latest date the solution was modified
+        /// </summary>
+        public DateTime LastUpdated { get; set; }
 
         /// <summary>
         /// Full description of the solution, as displayed to the user.

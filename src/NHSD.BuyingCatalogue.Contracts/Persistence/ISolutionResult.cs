@@ -6,6 +6,8 @@ namespace NHSD.BuyingCatalogue.Contracts.Persistence
 
         string Name { get; }
 
+        string LastUpdated { get; }
+
         string Summary { get; }
 
         string Description { get; }

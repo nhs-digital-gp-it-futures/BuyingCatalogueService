@@ -1,6 +1,5 @@
 using System;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -30,6 +29,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         private readonly string _orgName = "Org1";
 
         private readonly string _supplierId = "Sup 1";
+        private readonly DateTime _lastUpdated = DateTime.Today;
 
         [SetUp]
         public async Task Setup()
@@ -63,6 +63,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
+                .WithOnLastUpdated(_lastUpdated)
                 .WithOrganisationId(_org1Id)
                 .WithSupplierId(_supplierId)
                 .Build()
@@ -81,6 +82,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             var solution = await _solutionRepository.ByIdAsync("Sln1", new CancellationToken());
             solution.Id.Should().Be("Sln1");
             solution.Name.Should().Be("Solution1");
+            solution.LastUpdated.Should().Be(_lastUpdated.ToString());
             solution.Summary.Should().Be("Sln1Summary");
             solution.Description.Should().Be("Sln1Description");
             solution.AboutUrl.Should().Be("AboutUrl");
@@ -131,6 +133,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
+                .WithOnLastUpdated(_lastUpdated)
                 .WithOrganisationId(_org1Id)
                 .WithSupplierId(_supplierId)
                 .Build()
@@ -139,6 +142,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             var solution = await _solutionRepository.ByIdAsync("Sln1", new CancellationToken());
             solution.Id.Should().Be("Sln1");
             solution.Name.Should().Be("Solution1");
+            solution.LastUpdated.Should().Be(_lastUpdated.ToString());
             solution.Summary.Should().BeNull();
             solution.Description.Should().BeNull();
             solution.OrganisationName.Should().Be(_orgName);
@@ -153,6 +157,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId("Sln1")
+                .WithOnLastUpdated(_lastUpdated)
                 .WithOrganisationId(_org1Id)
                 .WithSupplierId(_supplierId)
                 .WithSupplierStatusId(1)
@@ -167,6 +172,8 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 
             var solution = await SolutionEntity.GetByIdAsync("Sln1");
             solution.Id.Should().Be("Sln1");
+            solution.LastUpdated.Should().Be(_lastUpdated);
+
             solution.SupplierStatusId.Should().Be(2);
         }
 

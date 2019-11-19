@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -21,6 +22,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 await SolutionEntityBuilder.Create()
                     .WithName(solutionTable.SolutionName)
                     .WithId(solutionTable.SolutionID)
+                    .WithOnLastUpdated(solutionTable.LastUpdated)
                     .WithOrganisationId(organisations.First(o => o.Name == solutionTable.OrganisationName).Id)
                     .WithSupplierStatusId(solutionTable.SupplierStatusId)
                     .Build()
@@ -81,6 +83,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             public string OrganisationName { get; set; }
 
             public int SupplierStatusId { get; set; }
+
+            public DateTime LastUpdated { get; set; }
         }
 
         private class SolutionCapabilityTable

@@ -1,4 +1,5 @@
 using System;
+using Microsoft.VisualBasic;
 using NHSD.BuyingCatalogue.Contracts.Solutions;
 
 namespace NHSD.BuyingCatalogue.API.ViewModels.Public
@@ -30,10 +31,8 @@ namespace NHSD.BuyingCatalogue.API.ViewModels.Public
             Id = solution.Id;
             Name = solution.Name;
             OrganisationName = solution.OrganisationName;
-
-            //Canned Data --Todo
-            IsFoundation = true;
-            LastUpdated = DateTime.Today.ToString("dd-MMM-yyyy");
+            LastUpdated = solution.LastUpdated.ToString("dd-MMM-yyyy");
+            IsFoundation = solution.IsFoundation;
 
             Sections = new PublicSections(solution);
         }

@@ -26,7 +26,8 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
         public async Task<ISolutionResult> ByIdAsync(string id, CancellationToken cancellationToken)
         {
             const string sql = @"SELECT Solution.Id,
-                                        Solution.Name,                                           
+                                        Solution.Name,
+                                        Solution.LastUpdated,
                                         Organisation.Name as OrganisationName,
                                         SolutionDetail.Summary AS Summary,
                                         SolutionDetail.FullDescription AS Description,
