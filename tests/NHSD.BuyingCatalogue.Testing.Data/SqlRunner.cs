@@ -22,11 +22,11 @@ namespace NHSD.BuyingCatalogue.Testing.Data
             }
         }
 
-        internal static async Task<IEnumerable<T>> FetchAllAsync<T>(string selectSql)
+        internal static async Task<IEnumerable<T>> FetchAllAsync<T>(string selectSql, object param = null)
         {
             using (IDbConnection databaseConnection = new SqlConnection(ConnectionStrings.GPitFuturesSetup))
             {
-                return (await databaseConnection.QueryAsync<T>(selectSql).ConfigureAwait(false)).ToList();
+                return (await databaseConnection.QueryAsync<T>(selectSql, param).ConfigureAwait(false)).ToList();
             }
         }
     }
