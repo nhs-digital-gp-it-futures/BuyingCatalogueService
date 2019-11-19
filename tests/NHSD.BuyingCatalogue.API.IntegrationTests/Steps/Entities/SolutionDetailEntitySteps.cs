@@ -20,7 +20,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             {
                 await SolutionDetailEntityBuilder.Create()
                     .WithFeatures(solutionDetail.Features)
-                    .WithSummary(solutionDetail.SummaryDescription == "NULL" ? null : solutionDetail.SummaryDescription )
+                    .WithSummary(solutionDetail.SummaryDescription)
                     .WithFullDescription(solutionDetail.FullDescription)
                     .WithAboutUrl(solutionDetail.AboutUrl)
                     .WithSolutionId(solutionDetail.Solution)
