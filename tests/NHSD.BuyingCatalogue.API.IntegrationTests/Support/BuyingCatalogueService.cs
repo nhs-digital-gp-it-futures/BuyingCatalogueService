@@ -50,7 +50,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Drivers
                 var process = Process.Start(new ProcessStartInfo
                 {
                     FileName = "dotnet",
-                    Arguments = $"publish \"{SolutionWorkingDirectory+ "\\NHSD.BuyingCatalogue.sln\""} --configuration Release --output \"{TempOutDirectory}\""
+                    Arguments = $"publish \"{SolutionWorkingDirectory+ "\\src\\NHSD.BuyingCatalogue.API\\NHSD.BuyingCatalogue.API.csproj\""} --configuration Release --output \"{TempOutDirectory}\""
                 });
 
                 process.WaitForExit();

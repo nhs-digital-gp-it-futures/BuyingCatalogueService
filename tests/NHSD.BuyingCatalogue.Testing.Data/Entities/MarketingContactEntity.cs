@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 {
@@ -33,5 +35,23 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             ,'{LastUpdated.ToString("dd-MMM-yyyy")}'
             ,'{LastUpdatedBy}'
             )";
+        
+        public static async Task<IEnumerable<MarketingContactEntity>> FetchForSolutionAsync(string solutionId)
+        {
+            return await SqlRunner.FetchAllAsync<MarketingContactEntity>($@"SELECT
+             [Id]
+            ,[SolutionId]
+            ,[FirstName]
+            ,[LastName]
+            ,[Email]
+            ,[PhoneNumber]
+            ,[Department]
+            ,[LastUpdated]
+            ,[LastUpdatedBy]
+            FROM MarketingContact
+            Where SolutionId = @solutionId",
+            new {solutionId}
+            );
+        }
     }
 }

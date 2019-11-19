@@ -1,18 +1,27 @@
-# ASP.NET Core
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
-trigger:
-- development
-
 pool:
   vmImage: 'ubuntu-latest'
 
-variables:
-  buildConfiguration: 'Release'
-
 steps:
-- script: docker-compose -f ".\docker-compose.yml" -f ".\docker-compose.development.yml" up -d
-  displayName: docker-compose
-- bash: export ConnectionStrings:BuyingCatalogue=Server=tcp:gpitfuture-sqlpri-dev.database.windows.net,1433;Initial Catalog=gpitfuture-db-dev;Persist Security Info=False;User ID=gpitfutureadmin;Password=8rZ*S$Yxnv#Sc*@$92k@UjnAcqsKf7R8;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
+- task: CopyFiles@2
+  displayName: 'Copy Files to: API'
+  inputs:
+    SourceFolder: api
+    TargetFolder: '$(build.artifactstagingdirectory)\service\api'
+
+- task: CopyFiles@2
+  displayName: 'Copy Files to: Data Model'
+  inputs:
+    SourceFolder: datamodel
+    TargetFolder: '$(build.artifactstagingdirectory)\service\datamodel'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)\service\api'
+    ArtifactName: 'api'
+    publishLocation: 'Container'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)\service\datamodel'
+    ArtifactName: 'datamodel'
+    publishLocation: 'Container'
