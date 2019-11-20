@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
@@ -7,7 +8,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.API.Controllers;
-using NHSD.BuyingCatalogue.API.ViewModels;
 using NHSD.BuyingCatalogue.API.ViewModels.Preview;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Contracts.Solutions;
@@ -92,6 +92,15 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             }
         }
 
+        [Test]
+        public async Task GetPreviewFeaturesListItemsIsNull()
+        {
+            var features = new List<string> {null};
+
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s => s.Features == features));
+            previewResult.Sections.Features.Should().BeNull();
+        }
+
         [TestCase(false, false)]
         [TestCase(true, true)]
         public async Task ShouldGetPreviewCalculateFeatures(bool isFeature, bool hasData)
@@ -102,7 +111,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
 
             if (hasData)
             {
-                previewResult.Sections.Features.Answers.HasData.Should().Be(true);
+                previewResult.Sections.Features.Answers.HasData.Should().BeTrue();
                 previewResult.Sections.Features.Answers.Listing.Should()
                     .BeEquivalentTo(new List<string> {"Feature1", "Feature2"});
 
@@ -207,6 +216,24 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
                     c.MobileResponsive == true)));
 
             previewResult.Sections.ClientApplicationTypes.Should().BeNull();
+        }
+
+        [Test]
+        public void NullSolutionShouldThrowNullExceptionSolutionDescriptionPreviewAnswers()
+        {
+            Assert.Throws<ArgumentNullException>(() => new SolutionDescriptionPreviewSectionAnswers(null));
+        }
+
+        [Test]
+        public void NullSolutionShouldThrowNullExceptionPreviewSections()
+        {
+            Assert.Throws<ArgumentNullException>(() => new PreviewSections(null));
+        }
+        
+        [Test]
+        public void NullSolutionShouldThrowNullExceptionPreviewResult()
+        {
+            Assert.Throws<ArgumentNullException>(() => new SolutionPreviewResult(null));
         }
 
         private async Task<SolutionPreviewResult> GetSolutionPreviewSectionAsync(ISolution solution)

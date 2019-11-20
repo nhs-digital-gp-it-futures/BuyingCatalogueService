@@ -10,7 +10,6 @@ using NHSD.BuyingCatalogue.API.Controllers;
 using NHSD.BuyingCatalogue.API.ViewModels;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionClientApplicationTypes;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
-using NHSD.BuyingCatalogue.Contracts;
 using NHSD.BuyingCatalogue.Contracts.Solutions;
 using NUnit.Framework;
 
@@ -32,17 +31,22 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             _clientApplicationTypeController = new ClientApplicationTypeController(_mockMediator.Object);
         }
 
-        [Test]
-        public async Task ShouldGetClientApplicationTypes()
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task ShouldGetClientApplicationTypes(bool hasClientApplicationTypes)
         {
+            var applicationTypes = hasClientApplicationTypes
+                ? new HashSet<string> {"browser-based", "native-desktop"}
+                : null;
+
             _mockMediator.Setup(m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == new HashSet<string> { "browser-based", "native-desktop" }));
+                    c.ClientApplicationTypes == applicationTypes));
 
             var result = (await _clientApplicationTypeController.GetClientApplicationTypesAsync(SolutionId)) as ObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            (result.Value as GetClientApplicationTypesResult).ClientApplicationTypes.Should().BeEquivalentTo(new string[] { "browser-based", "native-desktop" });
+            (result.Value as GetClientApplicationTypesResult).ClientApplicationTypes.Should().BeEquivalentTo(hasClientApplicationTypes ? (new HashSet<string> { "browser-based", "native-desktop" }) : new HashSet<string>());
 
             _mockMediator.Verify(m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
         }

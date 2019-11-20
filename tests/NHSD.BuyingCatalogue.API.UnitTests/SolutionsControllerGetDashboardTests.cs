@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
@@ -9,7 +10,6 @@ using Moq;
 using NHSD.BuyingCatalogue.API.Controllers;
 using NHSD.BuyingCatalogue.API.ViewModels;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
-using NHSD.BuyingCatalogue.Contracts;
 using NHSD.BuyingCatalogue.Contracts.Solutions;
 using NUnit.Framework;
 
@@ -40,6 +40,18 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
 
             _mockMediator.Verify(
                         m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Test]
+        public void NullSolutionShouldThrowNullExceptionDashboardSection()
+        {
+            Assert.Throws<ArgumentNullException>(() => new SolutionDashboardSections(null));
+        }
+
+        [Test]
+        public void NullSolutionShouldThrowNullExceptionDashboardResult()
+        {
+            Assert.Throws<ArgumentNullException>(() => new SolutionDashboardResult(null));
         }
 
         [TestCase(null, null)]

@@ -11,7 +11,6 @@ using NHSD.BuyingCatalogue.API.Controllers;
 using NHSD.BuyingCatalogue.API.ViewModels;
 using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Contracts.SolutionList;
-using NHSD.BuyingCatalogue.Contracts.Solutions;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.API.UnitTests
@@ -73,5 +72,10 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             _mockMediator.Verify(m => m.Send(It.Is<ListSolutionsQuery>(q => q.IsFoundation == true), It.IsAny<CancellationToken>()), Times.Once);
         }
 
+        [Test]
+        public void NullMediatorShouldThrowNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new SolutionsController(null));
+        }
     }
 }

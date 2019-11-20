@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
@@ -9,7 +10,7 @@ namespace NHSD.BuyingCatalogue.API.ViewModels.Preview
         public IEnumerable<string> Listing { get; }
 
         [JsonIgnore]
-        public bool HasData => Listing?.Any() == true;
+        public bool HasData => Listing?.Any(x => !String.IsNullOrWhiteSpace(x)) == true;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="FeaturesPreviewSectionAnswers"/> class.

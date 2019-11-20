@@ -23,7 +23,5 @@ namespace NHSD.BuyingCatalogue.Persistence.Models
         public string OrganisationName { get; set; }
 
         public bool IsFoundation { get; set; }
-
-        public string Capabilities { get; set; }
     }
 }

@@ -317,6 +317,12 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             _context.MockSolutionListRepository.Verify(r => r.ListAsync(true, It.IsAny<CancellationToken>()), Times.Once);
         }
 
+        [Test]
+        public void QueryShouldThrowNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ListSolutionsQuery(null));
+        }
+
         private ListSolutionsFilter Filter(int capabilityId)
         {
             return Filter(new int[] {capabilityId});

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +11,6 @@ using NHSD.BuyingCatalogue.API.Controllers;
 using NHSD.BuyingCatalogue.API.ViewModels;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrowsersSupported;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
-using NHSD.BuyingCatalogue.Contracts;
 using NHSD.BuyingCatalogue.Contracts.Solutions;
 using NUnit.Framework;
 
@@ -94,6 +94,23 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
 
             _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
         }
+
+        [Test]
+        public async Task ShouldGetClientApplicationIsNull()
+        {
+            _mockMediator.Setup(m =>
+                    m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Mock.Of<ISolution>(s =>
+                    s.ClientApplication == null));
+
+            var result = (await _browserSupportedController.GetBrowsersSupportedAsync(SolutionId)) as ObjectResult;
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+
+            var browsersSupported = (result.Value as GetBrowsersSupportedResult);
+            browsersSupported.MobileResponsive.Should().BeNull();
+            browsersSupported.BrowsersSupported.Count().Should().Be(0);
+        }
+
 
         [Test]
         public async Task ShouldReturnNotFound()

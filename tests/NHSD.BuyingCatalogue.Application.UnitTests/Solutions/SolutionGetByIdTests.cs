@@ -96,7 +96,6 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Features).Returns((string)null);
             existingSolution.Setup(s => s.ClientApplication).Returns((string)null);
             existingSolution.Setup(s => s.OrganisationName).Returns((string)null);
-            existingSolution.Setup(s => s.Capabilities).Returns((string)null);
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
@@ -55,6 +56,12 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             var actual = result.Value as SubmitSolutionForReviewResult;
             actual.Should().NotBeNull();
             actual.RequiredSections.Should().BeEquivalentTo(expected.RequiredSections);
+        }
+
+        [Test]
+        public void NullErrorsShouldThrowNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => SubmitSolutionForReviewResult.Create(null));
         }
 
         private void SetupMockMediator(SubmitSolutionForReviewCommandResult result)

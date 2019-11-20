@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
@@ -23,6 +24,8 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
 
         private const string SolutionId1 = "Sln1";
         private const string SolutionId2 = "Sln2";
+
+        private readonly DateTime _lastUpdated = DateTime.Today;
 
         [SetUp]
         public void Setup()
@@ -55,11 +58,13 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
                 s => s.Id == id &&
                      s.Name == name &&
                      s.OrganisationName == organisationName &&
-                     s.IsFoundation == isFoundation), SolutionId1);
+                     s.IsFoundation == isFoundation &&
+                     s.LastUpdated == _lastUpdated), SolutionId1);
             publicResult.Id.Should().Be(id);
             publicResult.Name.Should().Be(name);
             publicResult.OrganisationName.Should().Be(organisationName);
             publicResult.IsFoundation.Should().Be(isFoundation);
+            publicResult.LastUpdated.Should().Be(_lastUpdated.ToString("dd-MMM-yyyy"));
         }
 
         [TestCase(null,null,null)]
@@ -115,6 +120,15 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             }
         }
 
+        [Test]
+        public async Task ShouldCheckForNullClientApplicationTypes()
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == null), SolutionId1);
+
+            publicResult.Sections.ClientApplicationTypes.Should().BeNull();
+        }
+
 
         [TestCase(false, false, null, false)]
         [TestCase(true, false, null, false)]
@@ -124,7 +138,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         [TestCase(true, true, false, true)]
         [TestCase(true, true, true, true)]
 
-        public async Task ShouldGetPreviewCalculateClientApplication(bool isClientApplication, bool isBrowserSupported,
+        public async Task ShouldGetPublicCalculateClientApplication(bool isClientApplication, bool isBrowserSupported,
             bool? mobileResponsive, bool expectData)
         {
             var clientApplicationTypes = isClientApplication
@@ -188,6 +202,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
                 .Should().Be("yes");
         }
 
+
         [Test]
         public async Task ShouldIncludeBrowserBasedDataIfClientApplicationTypesIncludePluginInformation()
         {
@@ -213,7 +228,18 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
 
             publicResult.Sections.ClientApplicationTypes.Should().BeNull();
         }
-        
+
+        [Test]
+        public async Task CapabilitiesIsNullForSolution()
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.Id == SolutionId1 &&
+                s.Capabilities == null), SolutionId1);
+
+            publicResult.Id.Should().Be(SolutionId1);
+            publicResult.Sections.Capabilities.Answers.CapabilitiesMet.Should().BeEquivalentTo(new List<string>());
+        }
+
 
         [TestCase(false)]
         [TestCase(true)]
@@ -249,6 +275,50 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
                 .ContainInOrder(new List<string>() {"cap3", "cap4", "cap5"});
         }
 
+        [Test]
+        public async Task ShouldGetContacts()
+        {
+            var contacts = new List<IContact>
+            {
+                Mock.Of<IContact>(m => m.Name == "name1" && m.Department == "dep1" && m.Email == "test@gmail.com" && m.PhoneNumber == "01234567890"),
+                Mock.Of<IContact>(m => m.Name == "name2" && m.Department == "dep2" && m.Email == "test2@gmail.com" && m.PhoneNumber == "12345678901")
+            };
+            
+            var contact = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.Id == SolutionId1 &&
+                s.Contacts == contacts), SolutionId1);
+
+            contact.Id.Should().Be(SolutionId1);
+
+            contact.Sections.ContactDetails.Answers.Contact1.ContactName.Should().BeEquivalentTo(contacts[0].Name);
+            contact.Sections.ContactDetails.Answers.Contact1.DepartmentName.Should().BeEquivalentTo(contacts[0].Department);
+            contact.Sections.ContactDetails.Answers.Contact1.EmailAddress.Should().BeEquivalentTo(contacts[0].Email);
+            contact.Sections.ContactDetails.Answers.Contact1.PhoneNumber.Should().BeEquivalentTo(contacts[0].PhoneNumber);
+
+            contact.Sections.ContactDetails.Answers.Contact2.ContactName.Should().BeEquivalentTo(contacts[1].Name);
+            contact.Sections.ContactDetails.Answers.Contact2.DepartmentName.Should().BeEquivalentTo(contacts[1].Department);
+            contact.Sections.ContactDetails.Answers.Contact2.EmailAddress.Should().BeEquivalentTo(contacts[1].Email);
+            contact.Sections.ContactDetails.Answers.Contact2.PhoneNumber.Should().BeEquivalentTo(contacts[1].PhoneNumber);
+        }
+
+        [Test]
+        public void NullSolutionShouldThrowNullExceptionPublicResult()
+        {
+            Assert.Throws<ArgumentNullException>(() => new SolutionPublicResult(null));
+        }
+
+        [Test]
+        public void NullSolutionShouldThrowNullExceptionPublicSections()
+        {
+            Assert.Throws<ArgumentNullException>(() => new PublicSections(null));
+        }
+
+        [Test]
+        public void NullSolutionShouldThrowNullExceptionSolutionDescriptionPublicAnswers()
+        {
+            Assert.Throws<ArgumentNullException>(() => new SolutionDescriptionPublicSectionAnswers(null));
+        }
+        
         private async Task<SolutionPublicResult> GetSolutionPublicResultAsync(ISolution solution, string solutionId)
         {
             _mockMediator

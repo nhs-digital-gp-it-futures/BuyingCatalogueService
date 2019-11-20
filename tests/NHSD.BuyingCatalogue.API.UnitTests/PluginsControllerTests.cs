@@ -50,25 +50,46 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
         }
 
-        [TestCase(null, null)]
-        [TestCase(true, "yes")]
-        [TestCase(false, "no")]
-        public async Task ShouldGetPluginRequired(bool? pluginRequired, string expectedPlugin)
+        [TestCase(null, null, null)]
+        [TestCase(true, "yes", null)]
+        [TestCase(true, "yes", "info")]
+        [TestCase(false, "no", null)]
+        [TestCase(false, "no", "add info")]
+        public async Task ShouldGetPluginRequired(bool? pluginRequired, string expectedPlugin, string additionalInfo)
         {
             _mockMediator.Setup(m => m
                     .Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Mock.Of<ISolution>(s =>
                     s.ClientApplication.Plugins == Mock.Of<IPlugins>(c =>
-                        c.Required == pluginRequired)));
+                        c.Required == pluginRequired && c.AdditionalInformation == additionalInfo)));
 
             var result = (await _plugInsController.GetPlugInsAsync(SolutionId)) as ObjectResult;
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
             var plugin = (result.Value as GetPlugInsResult);
             plugin.PlugIns.Should().Be(expectedPlugin);
-            plugin.AdditionalInformation.Should().BeNull();
+            plugin.AdditionalInformation.Should().Be(additionalInfo);
 
             _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Test]
+        public async Task ShouldGetPluginsIsNull()
+        {
+            var clientMock = new Mock<IClientApplication>();
+            clientMock.Setup(c => c.Plugins).Returns<IPlugins>(null);
+
+            _mockMediator.Setup(m =>
+                    m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Mock.Of<ISolution>(s => 
+                    s.ClientApplication == clientMock.Object));
+
+            var result = (await _plugInsController.GetPlugInsAsync(SolutionId)) as ObjectResult;
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+
+            var plugin = (result.Value as GetPlugInsResult);
+            plugin.AdditionalInformation.Should().BeNull();
+            plugin.PlugIns.Should().BeNull();
         }
 
         [Test]
