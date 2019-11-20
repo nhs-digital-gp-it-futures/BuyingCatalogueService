@@ -28,7 +28,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
-                r.Id == "Sln1"
+                r.SolutionId == "Sln1"
                 && JToken.Parse(r.ClientApplication).ReadStringArray("BrowsersSupported").ShouldContainOnly(new List<string> { "Edge", "Google Chrome" }).Count() == 2
                 && JToken.Parse(r.ClientApplication).SelectToken("MobileResponsive").Value<bool>() == true
             ), It.IsAny<CancellationToken>()), Times.Once());

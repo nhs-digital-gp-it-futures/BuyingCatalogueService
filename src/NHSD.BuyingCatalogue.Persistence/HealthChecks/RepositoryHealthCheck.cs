@@ -6,6 +6,7 @@ using Dapper;
 using Microsoft.Extensions.Configuration;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure.HealthChecks;
+using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Persistence.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Persistence.HealthChecks
@@ -23,8 +24,8 @@ namespace NHSD.BuyingCatalogue.Persistence.HealthChecks
         /// </summary>
         public RepositoryHealthCheck(IDbConnectionFactory dbConnectionFactory, IConfiguration configuration)
         {
-            _dbConnectionFactory = dbConnectionFactory ?? throw new ArgumentNullException(nameof(dbConnectionFactory));
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _dbConnectionFactory = dbConnectionFactory.ThrowIfNull(nameof(dbConnectionFactory));
+            _configuration = configuration.ThrowIfNull(nameof(configuration));
         }
 
         /// <summary>

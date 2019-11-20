@@ -29,7 +29,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
 
             _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.Is<IUpdateSolutionSummaryRequest>(r =>
-                r.Id == "Sln1"
+                r.SolutionId == "Sln1"
                 && r.AboutUrl == "Link"
                 && r.Description == "Description"
                 && r.Summary == "Summary"

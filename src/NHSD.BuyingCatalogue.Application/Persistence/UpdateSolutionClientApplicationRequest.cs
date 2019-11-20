@@ -8,11 +8,11 @@ namespace NHSD.BuyingCatalogue.Application.Persistence
     {
         public UpdateSolutionClientApplicationRequest(string id, ClientApplication clientApplication)
         {
-            Id = id;
+            SolutionId = id;
             ClientApplication = JsonConvert.SerializeObject(clientApplication).ToString();
         }
 
-        public string Id { get; }
+        public string SolutionId { get; }
 
         public string ClientApplication { get; }
     }

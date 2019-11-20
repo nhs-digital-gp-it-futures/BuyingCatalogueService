@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
+using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Persistence.Infrastructure
 {
@@ -25,18 +26,14 @@ namespace NHSD.BuyingCatalogue.Persistence.Infrastructure
         /// Initialises a new instance of the <see cref="DbConnectionFactory"/> class.
         /// </summary>
         public DbConnectionFactory(IConfiguration configuration)
-        {
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-        }
+            => _configuration = configuration.ThrowIfNull(nameof(configuration));
 
         /// <summary>
         /// Gets a new database connection.
         /// </summary>
         /// <returns>A new database connection.</returns>
         public async Task<IDbConnection> GetAsync(CancellationToken cancellationToken)
-        {
-            return await GetAsync(cancellationToken, new SqlConnectionStringBuilder(DefaultConnectionString));
-        }
+            => await GetAsync(cancellationToken, new SqlConnectionStringBuilder(DefaultConnectionString));
 
         /// <summary>
         /// Gets a new database connection.
@@ -44,13 +41,8 @@ namespace NHSD.BuyingCatalogue.Persistence.Infrastructure
         /// <returns>A new database connection.</returns>
         public async Task<IDbConnection> GetAsync(CancellationToken cancellationToken, DbConnectionStringBuilder connectionStringBuilder)
         {
-            if (connectionStringBuilder is null)
-            {
-                throw new ArgumentNullException(nameof(connectionStringBuilder));
-            }
-
-            DbConnection connection = SqlClientFactory.Instance.CreateConnection();
-            connection.ConnectionString = connectionStringBuilder.ConnectionString;
+            var connection = SqlClientFactory.Instance.CreateConnection();
+            connection.ConnectionString = connectionStringBuilder.ThrowIfNull().ConnectionString;
 
             await connection.OpenAsync(cancellationToken);
 

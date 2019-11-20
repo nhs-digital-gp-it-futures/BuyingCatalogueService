@@ -36,7 +36,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
 
             _context.MockSolutionDetailRepository.Verify(r => r.UpdateFeaturesAsync(It.Is<IUpdateSolutionFeaturesRequest>(r =>
-                r.Id == SolutionId
+                r.SolutionId == SolutionId
                 && r.Features == JsonConvert.SerializeObject(listing)
                 ), It.IsAny<CancellationToken>()), Times.Once());
         }

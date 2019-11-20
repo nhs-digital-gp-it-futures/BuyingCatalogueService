@@ -186,5 +186,11 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 
             Assert.ThrowsAsync<SqlException>(() =>  _solutionRepository.UpdateSupplierStatusAsync(mockUpdateSolutionSupplierStatusRequest.Object, new CancellationToken()));
         }
+
+        [Test]
+        public void ShouldThrowOnUpdateSupplierStatusNullRequest()
+        {
+            Assert.ThrowsAsync<ArgumentNullException>(() => _solutionRepository.UpdateSupplierStatusAsync(null, new CancellationToken()));
+        }
     }
 }

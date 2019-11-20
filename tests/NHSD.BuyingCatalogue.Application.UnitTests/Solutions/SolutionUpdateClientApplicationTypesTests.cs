@@ -27,7 +27,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
 
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
-                r.Id == "Sln1"
+                r.SolutionId == "Sln1"
                 && JToken.Parse(r.ClientApplication).ReadStringArray("ClientApplicationTypes").ShouldContainOnly(new List<string> { "browser-based", "native-mobile" }).Count() == 2
             ), It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -88,7 +88,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
 
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
-                r.Id == "Sln1"
+                r.SolutionId == "Sln1"
                 && JToken.Parse(r.ClientApplication).ReadStringArray("ClientApplicationTypes").ShouldContainOnly(new List<string> { "browser-based", "native-mobile", "native-desktop" }).Count() == 3
             ), It.IsAny<CancellationToken>()), Times.Once());
         }
