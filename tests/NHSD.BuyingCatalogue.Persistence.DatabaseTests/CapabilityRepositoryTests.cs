@@ -1,14 +1,9 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.Extensions.Configuration;
-using Moq;
-using NHSD.BuyingCatalogue.Persistence.Infrastructure;
-using NHSD.BuyingCatalogue.Persistence.Repositories;
+using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
@@ -19,18 +14,15 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
     [TestFixture]
     public class CapabilityRepositoryTests
     {
-        private Mock<IConfiguration> _configuration;
-
-        private CapabilityRepository _capabilityRepository;
+        private ICapabilityRepository _capabilityRepository;
 
         [SetUp]
         public async Task Setup()
         {
             await Database.ClearAsync();
-            _configuration = new Mock<IConfiguration>();
-            _configuration.Setup(a => a["ConnectionStrings:BuyingCatalogue"]).Returns(ConnectionStrings.ServiceConnectionString());
 
-            _capabilityRepository = new CapabilityRepository(new DbConnector(new DbConnectionFactory(_configuration.Object)));
+            TestContext testContext = new TestContext();
+            _capabilityRepository = testContext.CapabilityRepository;
         }
 
         [Test]

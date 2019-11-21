@@ -3,11 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.Extensions.Configuration;
-using Moq;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
-using NHSD.BuyingCatalogue.Persistence.Infrastructure;
-using NHSD.BuyingCatalogue.Persistence.Repositories;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
@@ -20,9 +16,10 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
     {
         private readonly Guid _org1Id = Guid.NewGuid();
         private readonly string _supplierId = "Sup 1";
-        private readonly string _solutionId1 = "Sol 1";
-        private readonly string _solutionId2 = "Sol 2";
-        private IMarketingContactRepository _repository;
+        private readonly string _solutionId1 = "Sln1";
+        private readonly string _solutionId2 = "Sln2";
+
+        private IMarketingContactRepository _marketingContactRepository;
 
         [SetUp]
         public async Task Setup()
@@ -46,10 +43,9 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
                 .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync();
-            var configuration = new Mock<IConfiguration>();
-            configuration.Setup(a => a["ConnectionStrings:BuyingCatalogue"]).Returns(ConnectionStrings.ServiceConnectionString());
 
-            _repository = new MarketingContactRepository(new DbConnectionFactory(configuration.Object));
+            TestContext testContext = new TestContext();
+            _marketingContactRepository = testContext.MarketingContactRepository;
         }
 
         [Test]
@@ -57,7 +53,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         {
             var expected = await InsertContact(_solutionId1);
 
-            var result = (await _repository.BySolutionIdAsync(_solutionId1, new CancellationToken())).ToList();
+            var result = (await _marketingContactRepository.BySolutionIdAsync(_solutionId1, new CancellationToken())).ToList();
             result.Count().Should().Be(1);
             AssertEquivalent(expected, result.First());
         }
@@ -68,7 +64,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             var expected1 = await InsertContact(_solutionId1);
             var expected2 = await InsertContact(_solutionId1);
 
-            var result = (await _repository.BySolutionIdAsync(_solutionId1, new CancellationToken())).ToList();
+            var result = (await _marketingContactRepository.BySolutionIdAsync(_solutionId1, new CancellationToken())).ToList();
             result.Count().Should().Be(2);
 
             AssertEquivalent(expected1, result.First());
@@ -88,10 +84,10 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             var expected1 = await InsertContact(_solutionId1);
             var expected2 = await InsertContact(_solutionId2);
 
-            var result = (await _repository.BySolutionIdAsync(_solutionId1, new CancellationToken())).ToList();
+            var result = (await _marketingContactRepository.BySolutionIdAsync(_solutionId1, new CancellationToken())).ToList();
             result.Count().Should().Be(1);
             AssertEquivalent(expected1, result.First());
-            result = (await _repository.BySolutionIdAsync(_solutionId2, new CancellationToken())).ToList();
+            result = (await _marketingContactRepository.BySolutionIdAsync(_solutionId2, new CancellationToken())).ToList();
             result.Count().Should().Be(1);
             AssertEquivalent(expected2, result.First());
         }
@@ -99,14 +95,14 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         [Test]
         public async Task NoContactsShouldReturnNothing()
         {
-            var result = (await _repository.BySolutionIdAsync(_solutionId1, new CancellationToken())).ToList();
+            var result = (await _marketingContactRepository.BySolutionIdAsync(_solutionId1, new CancellationToken())).ToList();
             result.Count.Should().Be(0);
         }
 
         [Test]
         public async Task RequestNonExistentSolutionIdShouldReturnNothing()
         {
-            var result = (await _repository.BySolutionIdAsync("IAmNotAnId", new CancellationToken())).ToList();
+            var result = (await _marketingContactRepository.BySolutionIdAsync("IAmNotAnId", new CancellationToken())).ToList();
             result.Count.Should().Be(0);
         }
 

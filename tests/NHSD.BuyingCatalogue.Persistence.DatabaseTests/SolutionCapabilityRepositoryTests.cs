@@ -3,10 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.Extensions.Configuration;
-using Moq;
-using NHSD.BuyingCatalogue.Persistence.Infrastructure;
-using NHSD.BuyingCatalogue.Persistence.Repositories;
+using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
 using NUnit.Framework;
@@ -16,10 +13,6 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
     [TestFixture]
     public class SolutionCapabilityRepositoryTests
     {
-        private Mock<IConfiguration> _configuration;
-
-        private SolutionCapabilityRepository _solutionCapabilityRepository;
-
         private readonly Guid _org1Id = Guid.NewGuid();
 
         private const string Solution1Id = "Sln1";
@@ -30,6 +23,8 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         private readonly Guid _cap1Id = Guid.NewGuid();
         private readonly Guid _cap2Id = Guid.NewGuid();
         private readonly Guid _cap3Id = Guid.NewGuid();
+
+        private ISolutionCapabilityRepository _solutionCapabilityRepository;
 
         [SetUp]
         public async Task Setup()
@@ -54,11 +49,8 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
                 .Build()
                 .InsertAsync();
 
-            _configuration = new Mock<IConfiguration>();
-            _configuration.Setup(a => a["ConnectionStrings:BuyingCatalogue"])
-                .Returns(ConnectionStrings.ServiceConnectionString());
-
-            _solutionCapabilityRepository = new SolutionCapabilityRepository(new DbConnector(new DbConnectionFactory(_configuration.Object)));
+            TestContext testContext = new TestContext();
+            _solutionCapabilityRepository = testContext.SolutionCapabilityRepository;
         }
 
         [Test]
@@ -212,7 +204,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             var solutionCapabilityResponse =
                 await _solutionCapabilityRepository.ListSolutionCapabilities(Solution1Id, CancellationToken.None);
 
-            var solutionCapability = solutionCapabilityResponse.Should().BeEmpty();
+            solutionCapabilityResponse.Should().BeEmpty();
 
         }
 
@@ -222,7 +214,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             var solutionCapabilityResponse =
                 await _solutionCapabilityRepository.ListSolutionCapabilities(Solution2Id, CancellationToken.None);
 
-            var solutionCapability = solutionCapabilityResponse.Should().BeEmpty();
+            solutionCapabilityResponse.Should().BeEmpty();
         }
     }
 }

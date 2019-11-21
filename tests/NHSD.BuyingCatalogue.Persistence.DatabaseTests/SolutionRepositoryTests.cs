@@ -3,11 +3,8 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.Extensions.Configuration;
 using Moq;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
-using NHSD.BuyingCatalogue.Persistence.Infrastructure;
-using NHSD.BuyingCatalogue.Persistence.Repositories;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
@@ -18,10 +15,6 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
     [TestFixture]
     public class SolutionRepositoryTests
     {
-        private Mock<IConfiguration> _configuration;
-
-        private SolutionRepository _solutionRepository;
-
         private readonly Guid _cap1Id = Guid.NewGuid();
         private readonly Guid _cap2Id = Guid.NewGuid();
 
@@ -30,6 +23,10 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 
         private readonly string _supplierId = "Sup 1";
         private readonly DateTime _lastUpdated = DateTime.Today;
+
+        private readonly string _solution1Id = "Sln1";
+
+        private ISolutionRepository _solutionRepository;
 
         [SetUp]
         public async Task Setup()
@@ -51,10 +48,8 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             await CapabilityEntityBuilder.Create().WithName("Cap1").WithId(_cap1Id).WithDescription("Cap1Desc").Build().InsertAsync();
             await CapabilityEntityBuilder.Create().WithName("Cap2").WithId(_cap2Id).WithDescription("Cap2Desc").Build().InsertAsync();
 
-            _configuration = new Mock<IConfiguration>();
-            _configuration.Setup(a => a["ConnectionStrings:BuyingCatalogue"]).Returns(ConnectionStrings.ServiceConnectionString());
-
-            _solutionRepository = new SolutionRepository(new DbConnector(new DbConnectionFactory(_configuration.Object)));
+            TestContext testContext = new TestContext();
+            _solutionRepository = testContext.SolutionRepository;
         }
 
         [Test]
@@ -62,7 +57,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         {
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
-                .WithId("Sln1")
+                .WithId(_solution1Id)
                 .WithOnLastUpdated(_lastUpdated)
                 .WithOrganisationId(_org1Id)
                 .WithSupplierId(_supplierId)
@@ -70,7 +65,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
                 .InsertAsync();
 
             await SolutionDetailEntityBuilder.Create()
-                .WithSolutionId("Sln1")
+                .WithSolutionId(_solution1Id)
                 .WithSummary("Sln1Summary")
                 .WithFullDescription("Sln1Description")
                 .WithAboutUrl("AboutUrl")
@@ -79,8 +74,8 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
                 .Build()
                 .InsertAndSetCurrentForSolutionAsync();
 
-            var solution = await _solutionRepository.ByIdAsync("Sln1", new CancellationToken());
-            solution.Id.Should().Be("Sln1");
+            var solution = await _solutionRepository.ByIdAsync(_solution1Id, new CancellationToken());
+            solution.Id.Should().Be(_solution1Id);
             solution.Name.Should().Be("Solution1");
             solution.LastUpdated.Should().Be(_lastUpdated.ToString());
             solution.Summary.Should().Be("Sln1Summary");
@@ -98,32 +93,32 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         {
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
-                .WithId("Sln1")
+                .WithId(_solution1Id)
                 .WithOrganisationId(_org1Id)
                 .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync();
 
             await SolutionDetailEntityBuilder.Create()
-                .WithSolutionId("Sln1")
+                .WithSolutionId(_solution1Id)
                 .Build()
                 .InsertAndSetCurrentForSolutionAsync();
 
             await FrameworkSolutionEntityBuilder.Create()
-                .WithSolutionId("Sln1")
+                .WithSolutionId(_solution1Id)
                 .WithFoundation(isFoundation)
                 .Build()
                 .InsertAsync();
 
-            var solution = await _solutionRepository.ByIdAsync("Sln1", new CancellationToken());
-            solution.Id.Should().Be("Sln1");
+            var solution = await _solutionRepository.ByIdAsync(_solution1Id, new CancellationToken());
+            solution.Id.Should().Be(_solution1Id);
             solution.IsFoundation.Should().Be(isFoundation);
         }
 
         [Test]
         public async Task ShouldGetByIdNotPresent()
         {
-            var solution = await _solutionRepository.ByIdAsync("Sln1", new CancellationToken());
+            var solution = await _solutionRepository.ByIdAsync(_solution1Id, new CancellationToken());
             solution.Should().BeNull();
         }
 
@@ -132,15 +127,15 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         {
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
-                .WithId("Sln1")
+                .WithId(_solution1Id)
                 .WithOnLastUpdated(_lastUpdated)
                 .WithOrganisationId(_org1Id)
                 .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync();
 
-            var solution = await _solutionRepository.ByIdAsync("Sln1", new CancellationToken());
-            solution.Id.Should().Be("Sln1");
+            var solution = await _solutionRepository.ByIdAsync(_solution1Id, new CancellationToken());
+            solution.Id.Should().Be(_solution1Id);
             solution.Name.Should().Be("Solution1");
             solution.LastUpdated.Should().Be(_lastUpdated.ToString());
             solution.Summary.Should().BeNull();
@@ -156,7 +151,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         {
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
-                .WithId("Sln1")
+                .WithId(_solution1Id)
                 .WithOnLastUpdated(_lastUpdated)
                 .WithOrganisationId(_org1Id)
                 .WithSupplierId(_supplierId)
@@ -165,13 +160,13 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
                 .InsertAsync();
 
             var mockUpdateSolutionSupplierStatusRequest = new Mock<IUpdateSolutionSupplierStatusRequest>();
-            mockUpdateSolutionSupplierStatusRequest.Setup(m => m.Id).Returns("Sln1");
+            mockUpdateSolutionSupplierStatusRequest.Setup(m => m.Id).Returns(_solution1Id);
             mockUpdateSolutionSupplierStatusRequest.Setup(m => m.SupplierStatusId).Returns(2);
 
             await _solutionRepository.UpdateSupplierStatusAsync(mockUpdateSolutionSupplierStatusRequest.Object, new CancellationToken());
 
-            var solution = await SolutionEntity.GetByIdAsync("Sln1");
-            solution.Id.Should().Be("Sln1");
+            var solution = await SolutionEntity.GetByIdAsync(_solution1Id);
+            solution.Id.Should().Be(_solution1Id);
             solution.LastUpdated.Should().Be(_lastUpdated);
 
             solution.SupplierStatusId.Should().Be(2);
@@ -181,10 +176,10 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         public void ShouldThrowOnUpdateSupplierStatusSolutionNotPresent()
         {
             var mockUpdateSolutionSupplierStatusRequest = new Mock<IUpdateSolutionSupplierStatusRequest>();
-            mockUpdateSolutionSupplierStatusRequest.Setup(m => m.Id).Returns("Sln1");
+            mockUpdateSolutionSupplierStatusRequest.Setup(m => m.Id).Returns(_solution1Id);
             mockUpdateSolutionSupplierStatusRequest.Setup(m => m.SupplierStatusId).Returns(2);
 
-            Assert.ThrowsAsync<SqlException>(() =>  _solutionRepository.UpdateSupplierStatusAsync(mockUpdateSolutionSupplierStatusRequest.Object, new CancellationToken()));
+            Assert.ThrowsAsync<SqlException>(() => _solutionRepository.UpdateSupplierStatusAsync(mockUpdateSolutionSupplierStatusRequest.Object, new CancellationToken()));
         }
 
         [Test]
