@@ -1,8 +1,7 @@
 using System;
-using NHSD.BuyingCatalogue.Contracts;
 using NHSD.BuyingCatalogue.Contracts.Capability;
 
-namespace NHSD.BuyingCatalogue.API.ViewModels
+namespace NHSD.BuyingCatalogue.Capabilities.API.ViewModels
 {
 	/// <summary>
 	/// Provides the view representation for the <see cref="Capability"/> entity.

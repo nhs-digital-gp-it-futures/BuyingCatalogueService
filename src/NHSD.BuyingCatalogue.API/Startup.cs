@@ -8,7 +8,6 @@ using NHSD.BuyingCatalogue.API.Infrastructure;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
 using NHSD.BuyingCatalogue.Application;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
-using NHSD.BuyingCatalogue.Data;
 using NHSD.BuyingCatalogue.Persistence;
 
 namespace NHSD.BuyingCatalogue.API

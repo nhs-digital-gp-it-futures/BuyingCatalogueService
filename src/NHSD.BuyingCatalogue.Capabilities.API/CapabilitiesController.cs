@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NHSD.BuyingCatalogue.API.ViewModels;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
+using NHSD.BuyingCatalogue.Capabilities.API.ViewModels;
 
-namespace NHSD.BuyingCatalogue.API.Controllers
+namespace NHSD.BuyingCatalogue.Capabilities.API
 {
     /// <summary>
     /// Provides a set of endpoints for the information related to the capability entity.

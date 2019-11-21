@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using NHSD.BuyingCatalogue.Contracts;
 using NHSD.BuyingCatalogue.Contracts.Capability;
 
-namespace NHSD.BuyingCatalogue.API.ViewModels
+namespace NHSD.BuyingCatalogue.Capabilities.API.ViewModels
 {
     /// <summary>
     /// Provides the result details of the <see cref="ListCapabilitiesResult"/>.

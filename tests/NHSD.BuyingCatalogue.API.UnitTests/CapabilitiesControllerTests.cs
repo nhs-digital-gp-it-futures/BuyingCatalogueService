@@ -7,9 +7,9 @@ using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using NHSD.BuyingCatalogue.API.Controllers;
-using NHSD.BuyingCatalogue.API.ViewModels;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
+using NHSD.BuyingCatalogue.Capabilities.API;
+using NHSD.BuyingCatalogue.Capabilities.API.ViewModels;
 using NHSD.BuyingCatalogue.Contracts.Capability;
 using NUnit.Framework;
 

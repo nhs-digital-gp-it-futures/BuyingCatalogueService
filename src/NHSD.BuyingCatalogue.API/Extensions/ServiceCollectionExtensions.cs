@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.API.Infrastructure.Filters;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
+using NHSD.BuyingCatalogue.Capabilities.API;
 
 namespace NHSD.BuyingCatalogue.API.Extensions
 {
@@ -40,13 +42,16 @@ namespace NHSD.BuyingCatalogue.API.Extensions
 		/// <param name="services">The collection of service descriptors.</param>
 		/// <returns>The extended service collection instance.</returns>
 		public static IServiceCollection AddCustomMvc(this IServiceCollection services)
-		{
+        {
+            Action<MvcOptions> op = options =>
+            {
+                options.Filters.Add(typeof(CustomExceptionFilter));
+            };
+
             services
                 .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
-                .AddControllers(options =>
-                {
-                    options.Filters.Add(typeof(CustomExceptionFilter));
-                })
+                .RegisterCapabilityController(op)
+                .AddControllers(op)
                 .AddNewtonsoftJson(jsonOptions =>
                 {
                     jsonOptions.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
