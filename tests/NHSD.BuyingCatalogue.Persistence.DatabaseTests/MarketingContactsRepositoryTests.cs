@@ -12,7 +12,7 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 {
     [TestFixture]
-    class MarketingContactsRepositoryTests
+    public sealed class MarketingContactsRepositoryTests
     {
         private readonly Guid _org1Id = Guid.NewGuid();
         private readonly string _supplierId = "Sup 1";
@@ -20,6 +20,8 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         private readonly string _solutionId2 = "Sln2";
 
         private IMarketingContactRepository _marketingContactRepository;
+
+        private TestContext _testContext;
 
         [SetUp]
         public async Task Setup()
@@ -44,8 +46,8 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
                 .Build()
                 .InsertAsync();
 
-            TestContext testContext = new TestContext();
-            _marketingContactRepository = testContext.MarketingContactRepository;
+            _testContext = new TestContext();
+            _marketingContactRepository = _testContext.MarketingContactRepository;
         }
 
         [Test]
@@ -106,6 +108,29 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             result.Count.Should().Be(0);
         }
 
+        [Test]
+        public async Task ShouldReturnCorrectId()
+        {
+            await MarketingContactEntityBuilder.Create()
+                .WithSolutionId(_solutionId1)
+                .WithFirstName("FirstName1")
+                .Build()
+                .InsertAsync();
+
+            await MarketingContactEntityBuilder.Create()
+                .WithSolutionId(_solutionId1)
+                .WithFirstName("FirstName2")
+                .Build()
+                .InsertAsync();
+
+            var result = (await _marketingContactRepository.BySolutionIdAsync(_solutionId1, new CancellationToken())).ToList();
+
+            var id = (await _testContext.DbConnector.QueryAsync<int>(new CancellationToken(),
+                "SELECT [Id] FROM MarketingContact Where [FirstName] = 'FirstName2'")).Single();
+
+            result.Single(m => m.FirstName == "FirstName2").Id.Should().Be(id);
+        }
+        
         private async Task<MarketingContactEntity> InsertContact(string solutionId)
         {
             var expected1 = MarketingContactEntityBuilder.Create()

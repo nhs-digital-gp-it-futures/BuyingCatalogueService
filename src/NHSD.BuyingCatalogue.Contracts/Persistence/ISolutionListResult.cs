@@ -8,8 +8,6 @@ namespace NHSD.BuyingCatalogue.Contracts.Persistence
 
         string SolutionName { get; }
 
-        string LastUpdated { get; }
-
         string SolutionSummary { get; }
 
         Guid OrganisationId { get; }

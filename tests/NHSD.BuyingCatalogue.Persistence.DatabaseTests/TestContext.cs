@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Data.Infrastructure;
 using NHSD.BuyingCatalogue.Testing.Data;
 
 namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
@@ -19,6 +20,8 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         public ISolutionListRepository SolutionListRepository => _scope.SolutionListRepository;
 
         public ISolutionRepository SolutionRepository => _scope.SolutionRepository;
+
+        public IDbConnector DbConnector => _scope.DbConnector;
 
         private readonly Scope _scope;
 
@@ -50,12 +53,15 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 
             public ISolutionRepository SolutionRepository { get; }
 
+            public IDbConnector DbConnector { get; }
+
             public Scope(ICapabilityRepository capabilityRepository,
                 IMarketingContactRepository marketingContactRepository,
                 ISolutionCapabilityRepository solutionCapabilityRepository,
                 ISolutionDetailRepository solutionDetailRepository,
                 ISolutionListRepository solutionListRepository,
-                ISolutionRepository solutionRepository)
+                ISolutionRepository solutionRepository,
+                IDbConnector dbConnector)
             {
                 CapabilityRepository = capabilityRepository;
                 MarketingContactRepository = marketingContactRepository;
@@ -63,6 +69,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
                 SolutionDetailRepository = solutionDetailRepository;
                 SolutionListRepository = solutionListRepository;
                 SolutionRepository = solutionRepository;
+                DbConnector = dbConnector;
             }
         }
     }
