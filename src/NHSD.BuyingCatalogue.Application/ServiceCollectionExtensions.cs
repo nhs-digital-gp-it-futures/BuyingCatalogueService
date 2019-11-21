@@ -6,6 +6,7 @@ using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionClientAp
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionPlugins;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
+using NHSD.BuyingCatalogue.Application.Solutions.Persistence;
 
 namespace NHSD.BuyingCatalogue.Application
 {

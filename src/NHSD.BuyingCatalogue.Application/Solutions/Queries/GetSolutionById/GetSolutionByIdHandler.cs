@@ -2,7 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using NHSD.BuyingCatalogue.Application.Persistence;
+using NHSD.BuyingCatalogue.Application.Solutions.Persistence;
 using NHSD.BuyingCatalogue.Contracts.Solutions;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById

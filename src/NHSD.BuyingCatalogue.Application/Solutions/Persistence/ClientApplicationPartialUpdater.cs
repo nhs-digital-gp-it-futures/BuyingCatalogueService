@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 
-namespace NHSD.BuyingCatalogue.Application.Persistence
+namespace NHSD.BuyingCatalogue.Application.Solutions.Persistence
 {
     internal sealed class ClientApplicationPartialUpdater
     {

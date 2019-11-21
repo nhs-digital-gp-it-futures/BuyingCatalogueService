@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using NHSD.BuyingCatalogue.Application.Persistence;
+using NHSD.BuyingCatalogue.Application.Solutions.Persistence;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrowsersSupported
 {

@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 
-namespace NHSD.BuyingCatalogue.Application.Persistence
+namespace NHSD.BuyingCatalogue.Application.Solutions.Persistence
 {
     internal sealed class UpdateSolutionClientApplicationRequest : IUpdateSolutionClientApplicationRequest
     {

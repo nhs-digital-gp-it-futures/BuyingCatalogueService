@@ -10,7 +10,6 @@ using Moq;
 using NHSD.BuyingCatalogue.API.Controllers;
 using NHSD.BuyingCatalogue.API.ViewModels;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
-using NHSD.BuyingCatalogue.Contracts;
 using NHSD.BuyingCatalogue.Contracts.Capability;
 using NUnit.Framework;
 

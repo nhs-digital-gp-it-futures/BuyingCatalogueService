@@ -6,8 +6,6 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.API.Infrastructure.Filters;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
-using NHSD.BuyingCatalogue.Contracts.Infrastructure.HealthChecks;
-using NHSD.BuyingCatalogue.Persistence.HealthChecks;
 
 namespace NHSD.BuyingCatalogue.API.Extensions
 {

@@ -1,10 +1,10 @@
 using System.Threading;
 using System.Threading.Tasks;
-using NHSD.BuyingCatalogue.Application.Exceptions;
 using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 
-namespace NHSD.BuyingCatalogue.Application.Persistence
+namespace NHSD.BuyingCatalogue.Application.Solutions.Persistence
 {
     internal sealed class SolutionReader
     {

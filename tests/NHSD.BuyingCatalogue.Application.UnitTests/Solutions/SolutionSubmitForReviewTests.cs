@@ -3,9 +3,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
-using NHSD.BuyingCatalogue.Application.Exceptions;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions

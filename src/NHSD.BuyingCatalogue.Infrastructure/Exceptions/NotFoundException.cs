@@ -1,6 +1,6 @@
 using System;
 
-namespace NHSD.BuyingCatalogue.Application.Exceptions
+namespace NHSD.BuyingCatalogue.Infrastructure.Exceptions
 {
     public sealed class NotFoundException : Exception
     {
