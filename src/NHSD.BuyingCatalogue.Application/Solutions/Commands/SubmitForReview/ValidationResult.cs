@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
 {
@@ -22,13 +23,6 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
         /// <summary>
         /// Initialises a new instance of the <see cref="ValidationResult"/> class.
         /// </summary>
-        internal ValidationResult(ValidationError error) : this(new List<ValidationError>())
-        {
-        }
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="ValidationResult"/> class.
-        /// </summary>
         internal ValidationResult() : this(new List<ValidationError>())
         {
         }
@@ -44,23 +38,13 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
 
         internal ValidationResult Add(ValidationError validationError)
         {
-            if (validationError is null)
-            {
-                throw new ArgumentNullException(nameof(validationError));
-            }
-
-            _errors.Add(validationError);
+            _errors.Add(validationError.ThrowIfNull(nameof(validationError)));
             return this;
         }
 
         internal ValidationResult Add(ValidationResult validationResult)
         {
-            if (validationResult is null)
-            {
-                throw new ArgumentNullException(nameof(validationResult));
-            }
-
-            return Add(new[] {validationResult});
+            return Add(new[] {validationResult.ThrowIfNull(nameof(validationResult)) });
         }
 
         internal ValidationResult Add(params ValidationResult[] validationResults)

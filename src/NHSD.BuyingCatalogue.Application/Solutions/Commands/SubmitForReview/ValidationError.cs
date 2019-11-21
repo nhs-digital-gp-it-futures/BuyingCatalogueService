@@ -14,13 +14,6 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview
         /// <summary>
         /// Initialises a new instance of the <see cref="ValidationError"/> class.
         /// </summary>
-        private ValidationError()
-        {
-        }
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="ValidationError"/> class.
-        /// </summary>
         internal ValidationError(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
