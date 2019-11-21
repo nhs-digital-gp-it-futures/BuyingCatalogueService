@@ -1,39 +1,31 @@
-using System;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.Infrastructure;
-
-namespace NHSD.BuyingCatalogue.Persistence.Infrastructure
+namespace NHSD.BuyingCatalogue.Data.Infrastructure
 {
     /// <summary>
     /// A factory to provide a new database connection.
     /// </summary>
-    public sealed class DbConnectionFactory : IDbConnectionFactory
+    internal sealed class DbConnectionFactory : IDbConnectionFactory
     {
-        private readonly IConfiguration _configuration;
-
-        /// <summary>
-        /// Gets the database connection details.
-        /// </summary>
-        private string DefaultConnectionString => _configuration.BuyingCatalogueConnectionString();
+        private readonly ISettings _settings;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="DbConnectionFactory"/> class.
         /// </summary>
-        public DbConnectionFactory(IConfiguration configuration)
-            => _configuration = configuration.ThrowIfNull(nameof(configuration));
+        public DbConnectionFactory(ISettings settings)
+            => _settings = settings.ThrowIfNull(nameof(settings));
 
         /// <summary>
         /// Gets a new database connection.
         /// </summary>
         /// <returns>A new database connection.</returns>
         public async Task<IDbConnection> GetAsync(CancellationToken cancellationToken)
-            => await GetAsync(cancellationToken, new SqlConnectionStringBuilder(DefaultConnectionString));
+            => await GetAsync(cancellationToken, new SqlConnectionStringBuilder(_settings.ConnectionString));
 
         /// <summary>
         /// Gets a new database connection.

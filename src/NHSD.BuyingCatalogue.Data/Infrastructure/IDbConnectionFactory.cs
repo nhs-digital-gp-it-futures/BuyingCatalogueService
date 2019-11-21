@@ -3,12 +3,12 @@ using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NHSD.BuyingCatalogue.Persistence.Infrastructure
+namespace NHSD.BuyingCatalogue.Data.Infrastructure
 {
     /// <summary>
     /// Defines the data contract representing a factory to provide a new connection to the data store.
     /// </summary>
-    public interface IDbConnectionFactory
+    internal interface IDbConnectionFactory
     {
         /// <summary>
         /// Gets a new database connection.

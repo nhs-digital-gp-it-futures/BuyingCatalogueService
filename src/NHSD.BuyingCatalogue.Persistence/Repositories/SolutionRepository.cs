@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Data.Infrastructure;
 using NHSD.BuyingCatalogue.Infrastructure;
-using NHSD.BuyingCatalogue.Persistence.Infrastructure;
 using NHSD.BuyingCatalogue.Persistence.Models;
 
 namespace NHSD.BuyingCatalogue.Persistence.Repositories
@@ -14,9 +14,9 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
     /// </summary>
     public sealed class SolutionRepository : ISolutionRepository
     {
-        private readonly DbConnector _dbConnector;
+        private readonly IDbConnector _dbConnector;
 
-        public SolutionRepository(DbConnector dbConnector) => _dbConnector = dbConnector;
+        public SolutionRepository(IDbConnector dbConnector) => _dbConnector = dbConnector;
 
         private const string byIdsql = @"SELECT Solution.Id,
                                         Solution.Name,

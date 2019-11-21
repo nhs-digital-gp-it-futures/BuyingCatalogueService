@@ -4,9 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 
-namespace NHSD.BuyingCatalogue.Persistence.Infrastructure
+namespace NHSD.BuyingCatalogue.Data.Infrastructure
 {
-    public sealed class DbConnector
+    internal sealed class DbConnector : IDbConnector
     {
         private readonly IDbConnectionFactory _dbConnectionFactory;
 
