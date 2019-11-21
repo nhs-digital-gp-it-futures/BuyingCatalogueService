@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using NHSD.BuyingCatalogue.Application.SolutionList.Mapping;
 using NHSD.BuyingCatalogue.Application.Persistence;
 using NHSD.BuyingCatalogue.Application.SolutionList.Persistence;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrowsersSupported;
@@ -6,6 +7,7 @@ using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionClientAp
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionPlugins;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
+using AutoMapper;
 
 namespace NHSD.BuyingCatalogue.Application
 {
@@ -13,20 +15,21 @@ namespace NHSD.BuyingCatalogue.Application
     {
         public static IServiceCollection RegisterApplication(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddTransient<CapabilityReader>();
-            serviceCollection.AddTransient<SolutionListReader>();
-            serviceCollection.AddTransient<SolutionReader>();
-            serviceCollection.AddTransient<ClientApplicationReader>();
-            serviceCollection.AddTransient<SolutionSummaryUpdater>();
-            serviceCollection.AddTransient<SolutionFeaturesUpdater>();
-            serviceCollection.AddTransient<SolutionClientApplicationUpdater>();
-            serviceCollection.AddTransient<ClientApplicationPartialUpdater>();
-            serviceCollection.AddTransient<UpdateSolutionSummaryValidator>();
-            serviceCollection.AddTransient<UpdateSolutionFeaturesValidator>();
-            serviceCollection.AddTransient<UpdateSolutionClientApplicationTypesValidator>();
-            serviceCollection.AddTransient<UpdateSolutionBrowsersSupportedValidator>();
-            serviceCollection.AddTransient<UpdateSolutionPluginsValidator>();
-            return serviceCollection;
+            return serviceCollection
+                .AddTransient<CapabilityReader>()
+                .AddTransient<SolutionListReader>()
+                .AddTransient<SolutionReader>()
+                .AddTransient<ClientApplicationReader>()
+                .AddTransient<SolutionSummaryUpdater>()
+                .AddTransient<SolutionFeaturesUpdater>()
+                .AddTransient<SolutionClientApplicationUpdater>()
+                .AddTransient<ClientApplicationPartialUpdater>()
+                .AddTransient<UpdateSolutionSummaryValidator>()
+                .AddTransient<UpdateSolutionFeaturesValidator>()
+                .AddTransient<UpdateSolutionClientApplicationTypesValidator>()
+                .AddTransient<UpdateSolutionBrowsersSupportedValidator>()
+                .AddTransient<UpdateSolutionPluginsValidator>()
+                .AddAutoMapper(typeof(SolutionListAutoMapperProfile).Assembly);
         }
     }
 }

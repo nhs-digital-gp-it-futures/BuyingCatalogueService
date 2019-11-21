@@ -1,10 +1,8 @@
 using System.Collections.Generic;
-using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
-using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
 using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrowsersSupported;
@@ -62,7 +60,6 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             var serviceCollection = new ServiceCollection();
             RegisterDependencies(serviceCollection);
 
-            serviceCollection.AddSingleton<IMapper>(GetAutoMapper());
             serviceCollection.RegisterApplication();
 
             serviceCollection.AddTransient<IRequestHandler<ListCapabilitiesQuery, IEnumerable<ICapability>>, ListCapabilitiesHandler>();
@@ -96,12 +93,6 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             serviceCollection.AddSingleton<ISolutionCapabilityRepository>(MockSolutionCapabilityRepository.Object);
             MockMarketingContactRepository = new Mock<IMarketingContactRepository>();
             serviceCollection.AddSingleton<IMarketingContactRepository>(MockMarketingContactRepository.Object);
-        }
-
-        private IMapper GetAutoMapper()
-        {
-            var config = new MapperConfiguration(opts => opts.AddProfile(new AutoMapperProfile()));
-            return config.CreateMapper();
         }
 
         private class Scope
