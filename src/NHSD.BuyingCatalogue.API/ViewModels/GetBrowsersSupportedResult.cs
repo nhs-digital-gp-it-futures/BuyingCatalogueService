@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Contracts;
 using NHSD.BuyingCatalogue.Contracts.Solutions;
+using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.API.ViewModels
 {
@@ -21,9 +22,7 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
             bool? clientApplicationMobileResponsive = clientApplication?.MobileResponsive;
 
             BrowsersSupported = clientApplication?.BrowsersSupported ?? new HashSet<string>();
-            MobileResponsive = clientApplicationMobileResponsive.HasValue
-                ? clientApplicationMobileResponsive.Value ? "yes" : "no"
-                : null;
+            MobileResponsive = clientApplicationMobileResponsive.ToYesNoString();
         }
     }
 }

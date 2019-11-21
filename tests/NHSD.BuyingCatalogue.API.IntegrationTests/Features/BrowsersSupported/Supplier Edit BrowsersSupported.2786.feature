@@ -28,7 +28,7 @@ Scenario: 1. Browser Supported is updated
         | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                                         |
     When a PUT request is made to update solution Sln1 browsers-supported section
         | BrowsersSupported | MobileResponsive |
-        | Chrome, Edge      | yes              |
+        | Chrome, Edge      | yeS              |
     Then a successful response is returned
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                    |

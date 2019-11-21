@@ -50,7 +50,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
                 .Select(s => s.ToString()).Should().BeEquivalentTo(table.CreateSet<SelectedBrowsersTable>().Select(s => s.Browser));
         }
 
-        [Then(@"the solution client-application-types section contains mobile responsive with value (yes|no)")]
+        [Then(@"the solution client-application-types section contains mobile responsive with value (Yes|No)")]
         public async Task ThenTheSolutionClient_Application_TypesSectionContainsMobileResponsive(string value)
         {
             var content = await _response.ReadBody();
@@ -64,7 +64,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             content.SelectToken("sections.client-application-types.sections.browser-based.sections.browsers-supported.answers.mobile-responsive").Should().BeNull();
         }
 
-        [Then(@"the solution client-application-types section contains plugin required with value (yes|no)")]
+        [Then(@"the solution client-application-types section contains plugin required with value (Yes|No)")]
         public async Task ThenTheSolutionClientApplicationTypesSectionContainsPluginRequiredWithValue(string value)
         {
             var content = await _response.ReadBody();

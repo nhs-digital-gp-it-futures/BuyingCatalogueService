@@ -49,7 +49,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             var browsersSupported = (result.Value as GetBrowsersSupportedResult);
 
             browsersSupported.BrowsersSupported.Should().BeEquivalentTo(new string[] { "Chrome", "Edge" });
-            browsersSupported.MobileResponsive.Should().Be("yes");
+            browsersSupported.MobileResponsive.Should().Be("Yes");
 
             _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
         }
@@ -70,14 +70,14 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             var browsersSupported = (result.Value as GetBrowsersSupportedResult);
 
             browsersSupported.BrowsersSupported.Should().BeEmpty();
-            browsersSupported.MobileResponsive.Should().Be("yes");
+            browsersSupported.MobileResponsive.Should().Be("Yes");
 
             _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [TestCase(null, null)]
-        [TestCase(true, "yes")]
-        [TestCase(false, "no")]
+        [TestCase(true, "Yes")]
+        [TestCase(false, "No")]
         public async Task ShouldGetMobileResponsive(bool? mobileResponsive, string expectedMobileReponsive)
         {
             _mockMediator.Setup(m => m

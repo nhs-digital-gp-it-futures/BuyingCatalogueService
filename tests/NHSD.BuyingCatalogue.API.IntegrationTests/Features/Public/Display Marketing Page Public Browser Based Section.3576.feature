@@ -37,13 +37,13 @@ Scenario:1. Get Solution Public contains client application types browser based 
         | Browser       |
         | Google Chrome |
         | Edge          |
-    And the solution client-application-types section contains mobile responsive with value no
+    And the solution client-application-types section contains mobile responsive with value No
 
 @3322
 Scenario:2. Get Solution Public contains client application types browser based mobile responsive answer
     When a GET request is made for solution public Sln4
     Then a successful response is returned
-    And the solution client-application-types section contains mobile responsive with value yes
+    And the solution client-application-types section contains mobile responsive with value Yes
     And the solution client-application-types section contains Browsers
         | Browser       |
 
@@ -64,7 +64,7 @@ Scenario:4. Get Solution Public contains client application types browser based 
     When a GET request is made for solution public Sln6
     Then a successful response is returned
     And the solution client-application-types section is returned
-    And the solution client-application-types section contains plugin required with value yes
+    And the solution client-application-types section contains plugin required with value Yes
     And the solution client-application-types section contains Browsers
         | Browser       |
     And the solution client-application-types section contains mobile responsive with value null

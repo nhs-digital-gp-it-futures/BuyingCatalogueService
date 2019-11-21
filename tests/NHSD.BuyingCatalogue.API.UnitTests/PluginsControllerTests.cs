@@ -44,17 +44,17 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
             var plugin = (result.Value as GetPlugInsResult);
-            plugin.PlugIns.Should().Be("yes");
+            plugin.PlugIns.Should().Be("Yes");
             plugin.AdditionalInformation.Should().Be("Additional Information");
 
             _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [TestCase(null, null, null)]
-        [TestCase(true, "yes", null)]
-        [TestCase(true, "yes", "info")]
-        [TestCase(false, "no", null)]
-        [TestCase(false, "no", "add info")]
+        [TestCase(true, "Yes", null)]
+        [TestCase(true, "Yes", "info")]
+        [TestCase(false, "No", null)]
+        [TestCase(false, "No", "add info")]
         public async Task ShouldGetPluginRequired(bool? pluginRequired, string expectedPlugin, string additionalInfo)
         {
             _mockMediator.Setup(m => m

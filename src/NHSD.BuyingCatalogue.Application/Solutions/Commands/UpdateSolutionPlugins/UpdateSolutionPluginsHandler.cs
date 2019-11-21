@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using NHSD.BuyingCatalogue.Application.Solutions.Domain;
 using NHSD.BuyingCatalogue.Application.Solutions.Persistence;
+using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionPlugins
 {
@@ -30,7 +31,7 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionPlug
                 {
                     clientApplication.Plugins = new Plugins()
                     {
-                        Required = MapRequired(request.UpdateSolutionPluginsViewModel.Required),
+                        Required = request.UpdateSolutionPluginsViewModel.Required.ToBoolean(),
                         AdditionalInformation = request.UpdateSolutionPluginsViewModel.AdditionalInformation
                     };
                 },
@@ -39,8 +40,5 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionPlug
 
             return validationResult;
         }
-
-        private bool? MapRequired(string required) => required == "yes" ? true : (required == "no" ? false : (bool?)null);
-
     }
 }

@@ -29,7 +29,7 @@ Background:
 Scenario: 1. Plugins are retrieved for the solution
     When a GET request is made for plug-ins-or-extensions for solution Sln1
     Then a successful response is returned
-    And the required string is yes
+    And the required string is Yes
     And the addition-information string is orem ipsum
 
 @2786

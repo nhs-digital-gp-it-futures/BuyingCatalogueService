@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using NHSD.BuyingCatalogue.Application.Solutions.Persistence;
+using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrowsersSupported
 {
@@ -38,14 +39,12 @@ namespace NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrow
                     clientApplication =>
                     {
                         clientApplication.BrowsersSupported = new HashSet<string>(request.UpdateSolutionBrowsersSupportedViewModel.BrowsersSupported);
-                        clientApplication.MobileResponsive = MapMobileResponsive(request.UpdateSolutionBrowsersSupportedViewModel.MobileResponsive);
+                        clientApplication.MobileResponsive = request.UpdateSolutionBrowsersSupportedViewModel.MobileResponsive.ToBoolean();
                     },
                     cancellationToken);
             }
 
             return validationResult;
         }
-
-        private bool? MapMobileResponsive(string mobileResponsive) => mobileResponsive == "yes" ? true : (mobileResponsive == "no" ? false : (bool?)null);
     }
 }

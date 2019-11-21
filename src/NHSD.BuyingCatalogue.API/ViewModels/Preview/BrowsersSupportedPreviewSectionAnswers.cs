@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Contracts.Solutions;
+using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.API.ViewModels.Preview
 {
@@ -21,12 +22,8 @@ namespace NHSD.BuyingCatalogue.API.ViewModels.Preview
         /// </summary>
         public BrowsersSupportedPreviewSectionAnswers(IClientApplication clientApplication)
         {
-            bool? mobileResponsive = clientApplication?.MobileResponsive;
-
             SupportedBrowsers = clientApplication?.BrowsersSupported;
-            MobileResponsive = mobileResponsive.HasValue
-                ? mobileResponsive.Value ? "yes" : "no"
-                : null;
+            MobileResponsive = clientApplication?.MobileResponsive.ToYesNoString();
         }
     }
 }

@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Contracts;
+using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.API.ViewModels
 {
@@ -13,11 +14,7 @@ namespace NHSD.BuyingCatalogue.API.ViewModels
 
         public GetPlugInsResult(IPlugins plugins)
         {
-            bool? plug_ins = plugins?.Required;
-
-            PlugIns = plug_ins.HasValue
-                ? plug_ins.Value ? "yes" : "no"
-                : null;
+            PlugIns = plugins?.Required.ToYesNoString();
             AdditionalInformation = plugins?.AdditionalInformation;
         }
     }

@@ -32,7 +32,7 @@ Scenario: 1. Supported Browsers are retrieved for the solution
         | BrowsersSupported |
         | Chrome            |
         | Edge              |
-    And the mobile-responsive element is yes
+    And the mobile-responsive element is Yes
 
 @2786
 Scenario: 2. Supported Browsers are retrieved for the solution where no solution detail exists
@@ -74,4 +74,4 @@ Scenario: 7.Supported Browsers are retrieved for the solution where no supported
     Then a successful response is returned
     And the supported-browsers element contains
     | BrowsersSupported |
-    And the mobile-responsive element is no
+    And the mobile-responsive element is No

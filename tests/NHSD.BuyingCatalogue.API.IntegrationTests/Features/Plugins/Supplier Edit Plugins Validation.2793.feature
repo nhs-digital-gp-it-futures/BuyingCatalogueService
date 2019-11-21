@@ -27,7 +27,7 @@ Scenario: 1. Required is empty. AdditionalInformation is valid
 
 @2793
 Scenario: 2. Required has a value. AdditionalInformation length is greater than 500 characters
-    Given plug-ins is a string of yes
+    Given plug-ins is a string of Yes
     And additional-information is a string of 501 characters
     When a PUT request is made to update solution Sln1 plug-ins section
     Then a response status of 400 is returned

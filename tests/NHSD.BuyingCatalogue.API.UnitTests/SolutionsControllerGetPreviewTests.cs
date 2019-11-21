@@ -150,7 +150,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
                 {
                     previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers.MobileResponsive
                         .Should()
-                        .Be(mobileResponsive.GetValueOrDefault() ? "yes" : "no");
+                        .Be(mobileResponsive.GetValueOrDefault() ? "Yes" : "No");
                 }
                 else
                 {
@@ -189,7 +189,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers.SupportedBrowsers
                 .Should().BeEquivalentTo(new HashSet<string> { "Chrome", "Edge" });
             previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers.MobileResponsive
-                .Should().Be("yes");
+                .Should().Be("Yes");
         }
 
         [Test]
@@ -201,7 +201,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
                     && c.Plugins == new PluginsDto { Required = true, AdditionalInformation = "Plugin additional information"} )));
 
             previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.PluginOrExtensionsSection.Answers.Required
-                .Should().Be("yes");
+                .Should().Be("Yes");
             previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.PluginOrExtensionsSection.Answers.AdditionalInformation
                 .Should().Be("Plugin additional information");
         }
