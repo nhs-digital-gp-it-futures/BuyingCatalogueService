@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
-using NHSD.BuyingCatalogue.Persistence.Infrastructure;
+using NHSD.BuyingCatalogue.Data.Infrastructure;
 using NHSD.BuyingCatalogue.Persistence.Models;
 
 namespace NHSD.BuyingCatalogue.Persistence.Repositories
@@ -15,9 +15,9 @@ namespace NHSD.BuyingCatalogue.Persistence.Repositories
     /// </summary>
     public sealed class CapabilityRepository : ICapabilityRepository
     {
-        private readonly DbConnector _dbConnector;
+        private readonly IDbConnector _dbConnector;
 
-		public CapabilityRepository(DbConnector dbConnector) => _dbConnector = dbConnector;
+		public CapabilityRepository(IDbConnector dbConnector) => _dbConnector = dbConnector;
 
         private const string sql = @"SELECT Capability.Id, 
 											 Name, 

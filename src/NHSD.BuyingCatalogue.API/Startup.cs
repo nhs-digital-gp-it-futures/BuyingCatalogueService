@@ -1,15 +1,14 @@
-using AutoMapper;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NHSD.BuyingCatalogue.API.Extensions;
+using NHSD.BuyingCatalogue.API.Infrastructure;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
 using NHSD.BuyingCatalogue.Application;
-using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
-using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
+using NHSD.BuyingCatalogue.Contracts.Infrastructure;
+using NHSD.BuyingCatalogue.Data;
 using NHSD.BuyingCatalogue.Persistence;
 
 namespace NHSD.BuyingCatalogue.API
@@ -27,10 +26,9 @@ namespace NHSD.BuyingCatalogue.API
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddAutoMapper(typeof(AutoMapperProfile).Assembly)
+                .AddTransient<ISettings, Settings>()
                 .RegisterApplication()
                 .RegisterPersistence()
-                .AddMediatR(typeof(ListSolutionsQuery).Assembly)
                 .AddCustomHealthCheck()
                 .AddCustomSwagger()
                 .AddCustomMvc();

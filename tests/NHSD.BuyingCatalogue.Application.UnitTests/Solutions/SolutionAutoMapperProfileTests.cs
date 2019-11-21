@@ -3,46 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper.Configuration;
 using FluentAssertions;
-using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
-using NHSD.BuyingCatalogue.Application.Infrastructure.Mapping;
-using NHSD.BuyingCatalogue.Application.SolutionList.Domain;
-using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
-using NHSD.BuyingCatalogue.Application.Capabilities.Domain;
-using NHSD.BuyingCatalogue.Application.Solutions.Domain;
-using NUnit.Framework;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures;
+using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
+using NHSD.BuyingCatalogue.Application.Solutions.Domain;
+using NHSD.BuyingCatalogue.Application.Solutions.Mapping;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Contracts;
-using NHSD.BuyingCatalogue.Contracts.SolutionList;
 using NHSD.BuyingCatalogue.Contracts.Solutions;
+using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests.Infrastructure.Mapping
 {
     [TestFixture]
-    public sealed class AutoMapperProfileTests
+    public sealed class SolutionAutoMapperProfileTests
     {
-        private AutoMapperProfile _profile;
+        private SolutionAutoMapperProfile _solutionAutoMapperProfile;
 
         [SetUp]
         public void SetUp()
         {
-            _profile = new AutoMapperProfile();
+            _solutionAutoMapperProfile = new SolutionAutoMapperProfile();
         }
 
         public static IEnumerable<KeyValuePair<Type, Type>> SupportedMappings()
         {
-            yield return new KeyValuePair<Type, Type>(typeof(SolutionList.Domain.SolutionList), typeof(SolutionListDto));
-            yield return new KeyValuePair<Type, Type>(typeof(SolutionList.Domain.SolutionList), typeof(ISolutionList));
-            yield return new KeyValuePair<Type, Type>(typeof(SolutionListItem), typeof(ISolutionSummary));
-            yield return new KeyValuePair<Type, Type>(typeof(SolutionListItem), typeof(SolutionSummaryDto));
-            yield return new KeyValuePair<Type, Type>(typeof(SolutionListItemCapability), typeof(SolutionCapabilityDto));
-            yield return new KeyValuePair<Type, Type>(typeof(SolutionListItemOrganisation), typeof(SolutionOrganisationDto));
-            yield return new KeyValuePair<Type, Type>(typeof(SolutionListItemCapability), typeof(ISolutionCapability));
-            yield return new KeyValuePair<Type, Type>(typeof(SolutionListItemOrganisation), typeof(ISolutionOrganisation));
-
-            yield return new KeyValuePair<Type, Type>(typeof(Capability), typeof(CapabilityDto));
-
             yield return new KeyValuePair<Type, Type>(typeof(UpdateSolutionSummaryViewModel), typeof(Solution));
             yield return new KeyValuePair<Type, Type>(typeof(UpdateSolutionFeaturesViewModel), typeof(Solution));
             yield return new KeyValuePair<Type, Type>(typeof(Solution), typeof(SolutionDto));
@@ -58,7 +42,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Infrastructure.Mapping
         [Test]
         public void Profile_MatchesMapping()
         {
-            var configs = ((IProfileConfiguration)_profile).TypeMapConfigs;
+            var configs = ((IProfileConfiguration)_solutionAutoMapperProfile).TypeMapConfigs;
 
             var mappings = configs.Select(tmc => new KeyValuePair<Type, Type>(tmc.SourceType, tmc.DestinationType));
 

@@ -1,6 +1,6 @@
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Testing.Data;
 
@@ -25,10 +25,9 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         public TestContext()
         {
             var serviceCollection = new ServiceCollection();
-
-            var configuration = new Mock<IConfiguration>();
-            configuration.Setup(a => a["ConnectionStrings:BuyingCatalogue"]).Returns(ConnectionStrings.ServiceConnectionString());
-            serviceCollection.AddSingleton<IConfiguration>(configuration.Object);
+            var settings = new Mock<ISettings>();
+            settings.Setup(s => s.ConnectionString).Returns(ConnectionStrings.ServiceConnectionString());
+            serviceCollection.AddSingleton(settings.Object);
 
             serviceCollection.RegisterPersistence();
 

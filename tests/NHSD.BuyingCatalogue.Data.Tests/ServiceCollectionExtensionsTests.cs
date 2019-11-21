@@ -4,12 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure.HealthChecks;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Data.HealthChecks;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
-using NHSD.BuyingCatalogue.Persistence.Repositories;
 using NUnit.Framework;
 
-namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
+namespace NHSD.BuyingCatalogue.Data.Tests
 {
     [TestFixture]
     public sealed class ServiceCollectionExtensionsTests
@@ -19,13 +18,12 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         {
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddSingleton(Mock.Of<ISettings>());
-            serviceCollection.RegisterPersistence();
+            serviceCollection.RegisterData();
 
             var provider = serviceCollection.BuildServiceProvider();
-            provider.GetService<ICapabilityRepository>().Should().BeOfType<CapabilityRepository>();
-            provider.GetService<ISolutionListRepository>().Should().BeOfType<SolutionListRepository>();
-            provider.GetService<ISolutionRepository>().Should().BeOfType<SolutionRepository>();
-            provider.GetService<ISolutionDetailRepository>().Should().BeOfType<SolutionDetailRepository>();
+            provider.GetService<IDbConnectionFactory>().Should().BeOfType<DbConnectionFactory>();
+            provider.GetService<IDbConnector>().Should().BeOfType<DbConnector>();
+            provider.GetService<IRepositoryHealthCheck>().Should().BeOfType<RepositoryHealthCheck>();
         }
     }
 }
