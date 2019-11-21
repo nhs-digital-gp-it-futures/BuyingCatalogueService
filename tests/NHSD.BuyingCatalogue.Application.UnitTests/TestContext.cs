@@ -62,19 +62,6 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
             serviceCollection.RegisterApplication();
 
-            serviceCollection.AddTransient<IRequestHandler<ListCapabilitiesQuery, IEnumerable<ICapability>>, ListCapabilitiesHandler>();
-            serviceCollection.AddTransient<IRequestHandler<ListSolutionsQuery, ISolutionList>, ListSolutionsHandler>();
-            serviceCollection.AddTransient<IRequestHandler<GetSolutionByIdQuery, ISolution>, GetSolutionByIdHandler>();
-            serviceCollection.AddTransient<IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication>, GetClientApplicationBySolutionIdHandler>();
-            serviceCollection.AddTransient<IRequestHandler<UpdateSolutionSummaryCommand, UpdateSolutionSummaryValidationResult>, UpdateSolutionSummaryHandler>();
-            serviceCollection.AddTransient<IRequestHandler<UpdateSolutionFeaturesCommand, UpdateSolutionFeaturesValidationResult>, UpdateSolutionFeaturesHandler>();
-            serviceCollection.AddTransient<IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult>, SubmitSolutionForReviewHandler>();
-            serviceCollection.AddTransient<IRequestHandler<UpdateSolutionClientApplicationTypesCommand, UpdateSolutionClientApplicationTypesValidationResult>, UpdateSolutionClientApplicationTypesHandler>();
-            serviceCollection.AddTransient<IRequestHandler<UpdateSolutionBrowsersSupportedCommand, UpdateSolutionBrowserSupportedValidationResult>, UpdateSolutionBrowsersSupportedHandler>();
-            serviceCollection
-                .AddTransient<IRequestHandler<UpdateSolutionPluginsCommand, UpdateSolutionPluginsValidationResult>,
-                    UpdateSolutionPluginsHandler>();
-
             serviceCollection.AddSingleton<Scope>();
             _scope = serviceCollection.BuildServiceProvider().GetService<Scope>();
         }
