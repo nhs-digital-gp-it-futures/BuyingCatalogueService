@@ -1,5 +1,5 @@
 using System;
-using NHSD.BuyingCatalogue.API.Controllers;
+using NHSD.BuyingCatalogue.Solution.API.Controllers;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.API.UnitTests

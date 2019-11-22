@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.API.Infrastructure.Filters;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
 using NHSD.BuyingCatalogue.Capabilities.API;
+using NHSD.BuyingCatalogue.Solution.API;
 using NHSD.BuyingCatalogue.SolutionList.API;
 
 namespace NHSD.BuyingCatalogue.API.Extensions
@@ -54,6 +55,7 @@ namespace NHSD.BuyingCatalogue.API.Extensions
                 .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
                 .RegisterCapabilityController(op, controllerAction)
                 .RegisterSolutionListController(op, controllerAction)
+                .RegisterSolutionController(op, controllerAction)
                 .AddControllers(op));
 
 			return services;
