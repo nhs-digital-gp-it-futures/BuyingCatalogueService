@@ -7,10 +7,10 @@ using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using NHSD.BuyingCatalogue.API.Controllers;
-using NHSD.BuyingCatalogue.API.ViewModels;
 using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Contracts.SolutionList;
+using NHSD.BuyingCatalogue.SolutionList.API;
+using NHSD.BuyingCatalogue.SolutionList.API.ViewModels;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.API.UnitTests

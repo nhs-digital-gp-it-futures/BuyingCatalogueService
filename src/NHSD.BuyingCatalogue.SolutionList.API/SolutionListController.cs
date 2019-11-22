@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NHSD.BuyingCatalogue.API.ViewModels;
 using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
+using NHSD.BuyingCatalogue.SolutionList.API.ViewModels;
 
-namespace NHSD.BuyingCatalogue.API.Controllers
+namespace NHSD.BuyingCatalogue.SolutionList.API
 {
     /// <summary>
     /// Provides an endpoint to manage the solution list

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using NHSD.BuyingCatalogue.Contracts.SolutionList;
 
-namespace NHSD.BuyingCatalogue.API.ViewModels
+namespace NHSD.BuyingCatalogue.SolutionList.API.ViewModels
 {
     /// <summary>
     /// Represents the result for the <see cref="ListSolutionsQuery"/>.

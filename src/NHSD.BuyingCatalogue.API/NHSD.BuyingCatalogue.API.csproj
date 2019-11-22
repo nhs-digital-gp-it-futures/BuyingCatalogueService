@@ -29,6 +29,7 @@
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Capabilities.API\NHSD.BuyingCatalogue.Capabilities.API.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Infrastructure\NHSD.BuyingCatalogue.Infrastructure.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Persistence\NHSD.BuyingCatalogue.Persistence.csproj" />
+    <ProjectReference Include="..\NHSD.BuyingCatalogue.SolutionList.API\NHSD.BuyingCatalogue.SolutionList.API.csproj" />
   </ItemGroup>
 
     <ItemGroup>
