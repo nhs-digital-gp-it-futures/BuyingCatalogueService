@@ -8,11 +8,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
     {
         public static async Task StartAsync()
         {
-            await BuyingCatalogueService.StartAsync(ConnectionStrings.ServiceConnectionString("db"));
-
-            await Database.CreateAsync();
-
-            await BuyingCatalogueService.WaitAsync();
+            await BuyingCatalogueService.StartAsync();
+            await BuyingCatalogueService.AwaitApiRunningAsync();
         }
 
         public static async Task StopAsync()

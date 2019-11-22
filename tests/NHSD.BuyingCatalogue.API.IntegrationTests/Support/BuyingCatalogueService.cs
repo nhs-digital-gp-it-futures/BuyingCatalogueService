@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using FluentAssertions;
-using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Tools;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Drivers
@@ -20,15 +18,18 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Drivers
             Path.GetFullPath(Path.Combine(SolutionWorkingDirectory, ".\\out"));
         private static readonly TimeSpan TestTimeout = TimeSpan.FromSeconds(60);
 
-        internal static async Task StartAsync(string serviceConnectionString)
+        internal static async Task StartAsync()
         {
             await PublishAsync();
-            await DockerComposeProcess.Create(SolutionWorkingDirectory, $"{DockerFileCommandLineArgument} up -d --build"
-                , new KeyValuePair<string, string>("NHSD_BUYINGCATALOGUE_DB", serviceConnectionString)
-                , new KeyValuePair<string, string>("NHSD_BUYINGCATALOGUE_DB_PASSWORD", DataConstants.SAPassword)).ExecuteAsync((x) => Debug.WriteLine(x), (x) => Debug.WriteLine(x));
+
+            await DockerComposeProcess.Create(SolutionWorkingDirectory, $"{DockerFileCommandLineArgument} build nhsd.buyingcatalogue.api")
+                .ExecuteAsync((x) => Debug.WriteLine(x), (x) => Debug.WriteLine(x));
+            await DockerComposeProcess.Create(SolutionWorkingDirectory, $"{DockerFileCommandLineArgument} up -d")
+                .ExecuteAsync((x) => Debug.WriteLine(x), (x) => Debug.WriteLine(x));
+
         }
 
-        internal static async Task WaitAsync()
+        internal static async Task AwaitApiRunningAsync()
         {
             var started = await HttpClientAwaiter.WaitForGetAsync(WaitServerUrl, TestTimeout);
             if (!started)
@@ -60,8 +61,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Drivers
 
         internal static async Task CleanPublishDirectory()
         {
-            await Task.Run( () =>
-                Directory.Delete(TempOutDirectory, true));
+            await Task.Run(() =>
+               Directory.Delete(TempOutDirectory, true));
         }
 
     }

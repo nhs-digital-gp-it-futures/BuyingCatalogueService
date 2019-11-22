@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Tools;
 
 namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
@@ -10,7 +8,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
     {
         public static async Task StartAsync()
         {
-            await DockerComposeProcess.Create(AppDomain.CurrentDomain.BaseDirectory, "-f docker-compose.yml up -d", new KeyValuePair<string, string>("NHSD_BUYINGCATALOGUE_DB_PASSWORD", DataConstants.SAPassword)).ExecuteAsync();
+            await DockerComposeProcess.Create(AppDomain.CurrentDomain.BaseDirectory, "-f docker-compose.yml up -d").ExecuteAsync();
         }
 
         internal static async Task StopAsync()

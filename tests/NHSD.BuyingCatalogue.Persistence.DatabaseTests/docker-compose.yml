@@ -1,11 +1,7 @@
 version: '3.5'
 services:
  db:
-   image: microsoft/mssql-server-linux:latest
+   image: integration_db:test
    network_mode: bridge
-   environment:
-     - ACCEPT_EULA=Y
-     - SA_PASSWORD=${NHSD_BUYINGCATALOGUE_DB_PASSWORD:-Your_password123}
-     - MSSQL_PID=Developer
    ports:
      - "1433:1433"

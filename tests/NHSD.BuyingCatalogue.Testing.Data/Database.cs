@@ -11,6 +11,11 @@ namespace NHSD.BuyingCatalogue.Testing.Data
             await BuildDatabaseAsync();
         }
 
+        public static async Task AwaitDatabaseAsync()
+        {
+            await ConnectionAwaiter.AwaitConnectionAsync(ConnectionStrings.Master);
+        }
+
         private static async Task BuildDatabaseAsync()
         {
             await ConnectionAwaiter.AwaitConnectionAsync(ConnectionStrings.GPitFuturesSetup, 30);

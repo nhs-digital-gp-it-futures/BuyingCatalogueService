@@ -49,3 +49,15 @@ docker-compose -f ".\docker-compose.yml" -f ".\docker-compose.development.yml" d
 
 </p>
 
+
+#Integration Tests
+
+## Integration DB docker image
+In order to speed up the API Integration test execution, a docker image which contains all the data needed has been build. 
+This docker image needs to be built locally before running the API Integration tests. It only needs to be built once, and then updated every time the DataModel changes.
+To build / update the image run `bash setup-integration-db.sh` in terminal (on Linux) or in GitBash (on Windows).
+
+## Troubleshooting
+`./integration-entrypoint.sh: line 2: $'\r': command not found` during the image build - run `dos2unix` on the integration-entrypoint.sh script
+
+
