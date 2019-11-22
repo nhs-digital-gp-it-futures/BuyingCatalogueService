@@ -9,11 +9,10 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Contracts.SolutionList;
-using NHSD.BuyingCatalogue.SolutionList.API;
-using NHSD.BuyingCatalogue.SolutionList.API.ViewModels;
 using NUnit.Framework;
+using NHSD.BuyingCatalogue.SolutionList.API.ViewModels;
 
-namespace NHSD.BuyingCatalogue.API.UnitTests
+namespace NHSD.BuyingCatalogue.SolutionList.API.UnitTests
 {
     [TestFixture]
     public sealed class SolutionListControllerTests
