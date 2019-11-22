@@ -13,7 +13,7 @@ using NHSD.BuyingCatalogue.Solution.API.Controllers;
 using NHSD.BuyingCatalogue.Solution.API.ViewModels;
 using NUnit.Framework;
 
-namespace NHSD.BuyingCatalogue.API.UnitTests
+namespace NHSD.BuyingCatalogue.Solution.API.UnitTests
 {
     [TestFixture]
     public sealed class SolutionsControllerGetDashboardTests

@@ -7,13 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
-using NHSD.BuyingCatalogue.Contracts;
 using NHSD.BuyingCatalogue.Contracts.Solutions;
 using NHSD.BuyingCatalogue.Solution.API.Controllers;
 using NHSD.BuyingCatalogue.Solution.API.ViewModels;
 using NUnit.Framework;
 
-namespace NHSD.BuyingCatalogue.API.UnitTests
+namespace NHSD.BuyingCatalogue.Solution.API.UnitTests
 {
     [TestFixture]
     public sealed class SolutionDescriptionControllerTests
