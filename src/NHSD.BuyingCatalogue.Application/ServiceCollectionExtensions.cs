@@ -1,10 +1,9 @@
+using System.Reflection;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using NHSD.BuyingCatalogue.Application.Persistence;
-using NHSD.BuyingCatalogue.Application.SolutionList.Mapping;
 using NHSD.BuyingCatalogue.Application.SolutionList.Persistence;
-using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrowsersSupported;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionClientApplicationTypes;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures;
@@ -32,8 +31,8 @@ namespace NHSD.BuyingCatalogue.Application
                 .AddTransient<UpdateSolutionClientApplicationTypesValidator>()
                 .AddTransient<UpdateSolutionBrowsersSupportedValidator>()
                 .AddTransient<UpdateSolutionPluginsValidator>()
-                .AddAutoMapper(typeof(SolutionListAutoMapperProfile).Assembly)
-                .AddMediatR(typeof(ListSolutionsQuery).Assembly);
+                .AddAutoMapper(Assembly.GetExecutingAssembly())
+                .AddMediatR(Assembly.GetExecutingAssembly());
         }
     }
 }

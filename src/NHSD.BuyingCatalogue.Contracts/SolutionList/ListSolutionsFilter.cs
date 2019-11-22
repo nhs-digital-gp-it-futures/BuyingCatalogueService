@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions
+namespace NHSD.BuyingCatalogue.Contracts.SolutionList
 {
     /// <summary>
     /// Provides the filter criteria for the <see cref="ListSolutionsQuery"/> query.

@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using MediatR;
-using NHSD.BuyingCatalogue.Contracts.SolutionList;
 
-namespace NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions
+namespace NHSD.BuyingCatalogue.Contracts.SolutionList
 {
     /// <summary>
     /// Represents the query paramters for the get all solutions request.

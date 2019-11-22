@@ -7,7 +7,6 @@ using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Contracts.SolutionList;
 using NUnit.Framework;
 using NHSD.BuyingCatalogue.SolutionList.API.ViewModels;
