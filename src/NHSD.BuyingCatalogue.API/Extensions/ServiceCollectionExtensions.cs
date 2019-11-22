@@ -44,21 +44,17 @@ namespace NHSD.BuyingCatalogue.API.Extensions
 		/// <returns>The extended service collection instance.</returns>
 		public static IServiceCollection AddCustomMvc(this IServiceCollection services)
         {
-            Action<MvcOptions> op = options =>
-            {
-                options.Filters.Add(typeof(CustomExceptionFilter));
-            };
+            Action<MvcOptions> op = options => options.Filters.Add(typeof(CustomExceptionFilter));
 
-            services
-                .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
-                .RegisterCapabilityController(op)
-                .RegisterSolutionListController(op)
-                .AddControllers(op)
-                .AddNewtonsoftJson(jsonOptions =>
-                {
-                    jsonOptions.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-                })
+            Action<IMvcBuilder> controllerAction = builder => builder
+                .AddNewtonsoftJson(jsonOptions => jsonOptions.SerializerSettings.NullValueHandling = NullValueHandling.Ignore)
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
+            controllerAction(services
+                .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
+                .RegisterCapabilityController(op, controllerAction)
+                .RegisterSolutionListController(op, controllerAction)
+                .AddControllers(op));
 
 			return services;
 		}
