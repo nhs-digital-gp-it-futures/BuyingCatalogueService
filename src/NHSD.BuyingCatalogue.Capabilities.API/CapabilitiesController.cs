@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
 using NHSD.BuyingCatalogue.Capabilities.API.ViewModels;
+using NHSD.BuyingCatalogue.Contracts.Capability;
 
 namespace NHSD.BuyingCatalogue.Capabilities.API
 {

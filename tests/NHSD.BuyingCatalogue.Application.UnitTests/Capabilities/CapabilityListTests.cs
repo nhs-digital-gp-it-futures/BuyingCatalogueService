@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
-using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
+using NHSD.BuyingCatalogue.Contracts.Capability;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NUnit.Framework;
 

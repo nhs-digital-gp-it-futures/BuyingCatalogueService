@@ -7,6 +7,7 @@ using NHSD.BuyingCatalogue.API.Extensions;
 using NHSD.BuyingCatalogue.API.Infrastructure;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
 using NHSD.BuyingCatalogue.Application;
+using NHSD.BuyingCatalogue.Contracts;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.Persistence;
 
@@ -30,7 +31,8 @@ namespace NHSD.BuyingCatalogue.API
                 .RegisterPersistence()
                 .AddCustomHealthCheck()
                 .AddCustomSwagger()
-                .AddCustomMvc();
+                .AddCustomMvc()
+                .RegisterRequests();
         }
 
         /// <summary>
