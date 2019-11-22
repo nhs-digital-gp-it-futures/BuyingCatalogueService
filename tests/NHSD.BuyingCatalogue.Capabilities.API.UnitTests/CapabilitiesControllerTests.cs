@@ -8,12 +8,11 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
-using NHSD.BuyingCatalogue.Capabilities.API;
 using NHSD.BuyingCatalogue.Capabilities.API.ViewModels;
 using NHSD.BuyingCatalogue.Contracts.Capability;
 using NUnit.Framework;
 
-namespace NHSD.BuyingCatalogue.API.UnitTests
+namespace NHSD.BuyingCatalogue.Capabilities.API.UnitTests
 {
     [TestFixture]
 	public sealed class CapabilitiesControllerTests
