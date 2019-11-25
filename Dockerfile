@@ -36,14 +36,6 @@ RUN dotnet restore
 # Copy full solution over
 COPY . .
 RUN dotnet build
-
-FROM build AS testrunner
-CMD ["dotnet", "test", "--logger:trx"]
-
-# run the unit tests
-FROM build AS test
-RUN dotnet test --logger:trx
-
 # Publish the API
 FROM build AS publish
 WORKDIR /app/src/NHSD.BuyingCatalogue.API
