@@ -1,5 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using NHSD.BuyingCatalogue.Application.SolutionList.Persistence;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrowsersSupported;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionClientApplicationTypes;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures;
@@ -14,7 +13,6 @@ namespace NHSD.BuyingCatalogue.Application
         public static IServiceCollection RegisterApplication(this IServiceCollection serviceCollection)
         {
             return serviceCollection
-                .AddTransient<SolutionListReader>()
                 .AddTransient<SolutionReader>()
                 .AddTransient<ClientApplicationReader>()
                 .AddTransient<SolutionSummaryUpdater>()

@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
 
-namespace NHSD.BuyingCatalogue.SolutionList.API.UnitTests
+namespace NHSD.BuyingCatalogue.SolutionLists.API.UnitTests
 {
     [TestFixture]
     internal sealed class ServiceCollectionExtensionsTests

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using NHSD.BuyingCatalogue.Contracts.SolutionList;
 
-namespace NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions
+namespace NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions
 {
     /// <summary>
     /// Represents the data to summarize a <see cref="Solution"/> entity and associated relationships.

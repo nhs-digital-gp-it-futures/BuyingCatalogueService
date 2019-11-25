@@ -3,18 +3,21 @@ using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using NHSD.BuyingCatalogue.Application.SolutionList.Mapping;
-using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrowsersSupported;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionClientApplicationTypes;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionPlugins;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
+using NHSD.BuyingCatalogue.Application.Solutions.Mapping;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Contracts.SolutionList;
 using NHSD.BuyingCatalogue.Contracts.Solutions;
+using NHSD.BuyingCatalogue.SolutionLists.Application;
+using NHSD.BuyingCatalogue.SolutionLists.Application.Mapping;
+using NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions;
+
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests
 {
@@ -58,15 +61,17 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
             var myAssemblies = new[]
             {
+                Assembly.GetAssembly(typeof(SolutionAutoMapperProfile)),
                 Assembly.GetAssembly(typeof(SolutionListAutoMapperProfile)),
+                Assembly.GetAssembly(typeof(SolutionAutoMapperProfile))
             };
-            serviceCollection
+            _scope = serviceCollection
                 .AddAutoMapper(myAssemblies)
-                .AddMediatR(myAssemblies);
-            serviceCollection.RegisterApplication();
-
-            serviceCollection.AddSingleton<Scope>();
-            _scope = serviceCollection.BuildServiceProvider().GetService<Scope>();
+                .AddMediatR(myAssemblies)
+                .RegisterApplication()
+                .RegisterSolutionListApplication()
+                .AddSingleton<Scope>()
+                .BuildServiceProvider().GetService<Scope>();
         }
 
         private void RegisterDependencies(ServiceCollection serviceCollection)

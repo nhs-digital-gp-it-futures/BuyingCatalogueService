@@ -21,7 +21,7 @@
     <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.API\NHSD.BuyingCatalogue.API.csproj" />
     <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.Application\NHSD.BuyingCatalogue.Application.csproj" />
     <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.Solution.API\NHSD.BuyingCatalogue.Solution.API.csproj" />
-    <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.SolutionList.API\NHSD.BuyingCatalogue.SolutionList.API.csproj" />
+    <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.SolutionList.API\NHSD.BuyingCatalogue.SolutionLists.API.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper.Configuration;
 using FluentAssertions;
-using NHSD.BuyingCatalogue.Application.SolutionList.Domain;
-using NHSD.BuyingCatalogue.Application.SolutionList.Mapping;
-using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Contracts.SolutionList;
+using NHSD.BuyingCatalogue.SolutionLists.Application.Domain;
+using NHSD.BuyingCatalogue.SolutionLists.Application.Mapping;
+using NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions;
 using NUnit.Framework;
 
-namespace NHSD.BuyingCatalogue.Application.UnitTests.Infrastructure.Mapping
+namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 {
     [TestFixture]
     public sealed class SolutionListAutoMapperProfileTests
@@ -24,8 +24,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Infrastructure.Mapping
 
         public static IEnumerable<KeyValuePair<Type, Type>> SupportedMappings()
         {
-            yield return new KeyValuePair<Type, Type>(typeof(SolutionList.Domain.SolutionList), typeof(SolutionListDto));
-            yield return new KeyValuePair<Type, Type>(typeof(SolutionList.Domain.SolutionList), typeof(ISolutionList));
+            yield return new KeyValuePair<Type, Type>(typeof(SolutionLists.Application.Domain.SolutionList), typeof(SolutionListDto));
+            yield return new KeyValuePair<Type, Type>(typeof(SolutionLists.Application.Domain.SolutionList), typeof(ISolutionList));
             yield return new KeyValuePair<Type, Type>(typeof(SolutionListItem), typeof(ISolutionSummary));
             yield return new KeyValuePair<Type, Type>(typeof(SolutionListItem), typeof(SolutionSummaryDto));
             yield return new KeyValuePair<Type, Type>(typeof(SolutionListItemCapability), typeof(SolutionCapabilityDto));

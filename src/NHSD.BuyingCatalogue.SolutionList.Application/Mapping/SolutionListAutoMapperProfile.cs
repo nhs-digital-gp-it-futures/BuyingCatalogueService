@@ -1,9 +1,9 @@
 using AutoMapper;
-using NHSD.BuyingCatalogue.Application.SolutionList.Domain;
-using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Contracts.SolutionList;
+using NHSD.BuyingCatalogue.SolutionLists.Application.Domain;
+using NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions;
 
-namespace NHSD.BuyingCatalogue.Application.SolutionList.Mapping
+namespace NHSD.BuyingCatalogue.SolutionLists.Application.Mapping
 {
     /// <summary>
     /// A profile for AutoMapper to define the mapping between entities and view models.
@@ -15,8 +15,8 @@ namespace NHSD.BuyingCatalogue.Application.SolutionList.Mapping
         /// </summary>
         public SolutionListAutoMapperProfile()
         {
-            CreateMap<SolutionList.Domain.SolutionList, SolutionListDto>();
-            CreateMap<SolutionList.Domain.SolutionList, ISolutionList>().As<SolutionListDto>();
+            CreateMap<SolutionList, SolutionListDto>();
+            CreateMap<SolutionList, ISolutionList>().As<SolutionListDto>();
             CreateMap<SolutionListItem, SolutionSummaryDto>();
             CreateMap<SolutionListItem, ISolutionSummary>().As<SolutionSummaryDto>();
             CreateMap<SolutionListItemCapability, SolutionCapabilityDto>();

@@ -2,7 +2,7 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace NHSD.BuyingCatalogue.SolutionList.API
+namespace NHSD.BuyingCatalogue.SolutionLists.API
 {
     public static class ServiceCollectionExtensions
     {

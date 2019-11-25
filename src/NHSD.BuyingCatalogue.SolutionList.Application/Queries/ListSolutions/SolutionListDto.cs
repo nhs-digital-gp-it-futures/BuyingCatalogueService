@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 using NHSD.BuyingCatalogue.Contracts.SolutionList;
 
-namespace NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions
+namespace NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions
 {
     internal sealed class SolutionListDto : ISolutionList
     {

@@ -10,13 +10,15 @@ using NHSD.BuyingCatalogue.API.Extensions;
 using NHSD.BuyingCatalogue.API.Infrastructure;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
 using NHSD.BuyingCatalogue.Application;
-using NHSD.BuyingCatalogue.Application.SolutionList.Mapping;
+using NHSD.BuyingCatalogue.Application.Solutions.Mapping;
 using NHSD.BuyingCatalogue.Capabilities.Application;
 using NHSD.BuyingCatalogue.Capabilities.Application.Mapping;
 using NHSD.BuyingCatalogue.Contracts;
 using NHSD.BuyingCatalogue.Contracts.Capability;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.Persistence;
+using NHSD.BuyingCatalogue.SolutionLists.Application;
+using NHSD.BuyingCatalogue.SolutionLists.Application.Mapping;
 
 namespace NHSD.BuyingCatalogue.API
 {
@@ -34,6 +36,7 @@ namespace NHSD.BuyingCatalogue.API
         {
             var assemblies = new[]
             {
+                Assembly.GetAssembly(typeof(SolutionAutoMapperProfile)),
                 Assembly.GetAssembly(typeof(SolutionListAutoMapperProfile)),
                 Assembly.GetAssembly(typeof(CapabilityAutoMapperProfile)),
                 Assembly.GetAssembly(typeof(ICapability)),
@@ -44,6 +47,7 @@ namespace NHSD.BuyingCatalogue.API
                 .AddAutoMapper(assemblies)
                 .AddMediatR(assemblies)
                 .RegisterApplication()
+                .RegisterSolutionListApplication()
                 .RegisterCapabilitiesApplication()
                 .RegisterPersistence()
                 .AddCustomHealthCheck()

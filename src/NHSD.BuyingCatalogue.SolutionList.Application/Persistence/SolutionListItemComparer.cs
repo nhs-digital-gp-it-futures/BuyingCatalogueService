@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using NHSD.BuyingCatalogue.Application.SolutionList.Domain;
+using NHSD.BuyingCatalogue.SolutionLists.Application.Domain;
 
-namespace NHSD.BuyingCatalogue.Application.SolutionList.Persistence
+namespace NHSD.BuyingCatalogue.SolutionLists.Application.Persistence
 {
     internal sealed class SolutionListItemComparer : IEqualityComparer<SolutionListItem>
     {

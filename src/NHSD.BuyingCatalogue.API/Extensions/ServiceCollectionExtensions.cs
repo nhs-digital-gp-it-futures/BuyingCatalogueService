@@ -9,7 +9,7 @@ using NHSD.BuyingCatalogue.API.Infrastructure.Filters;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
 using NHSD.BuyingCatalogue.Capabilities.API;
 using NHSD.BuyingCatalogue.Solution.API;
-using NHSD.BuyingCatalogue.SolutionList.API;
+using NHSD.BuyingCatalogue.SolutionLists.API;
 
 namespace NHSD.BuyingCatalogue.API.Extensions
 {

@@ -1,7 +1,7 @@
 using System;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 
-namespace NHSD.BuyingCatalogue.Application.SolutionList.Domain
+namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
 {
     internal sealed class SolutionListItemOrganisation
     {

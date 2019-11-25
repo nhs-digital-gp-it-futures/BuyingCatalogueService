@@ -1,7 +1,7 @@
 using System;
 using NHSD.BuyingCatalogue.Contracts.SolutionList;
 
-namespace NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions
+namespace NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions
 {
     /// <summary>
     /// Represents the details of an organisation specific for the view.

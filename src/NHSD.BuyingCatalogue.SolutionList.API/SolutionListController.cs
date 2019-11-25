@@ -6,9 +6,9 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Contracts.SolutionList;
-using NHSD.BuyingCatalogue.SolutionList.API.ViewModels;
+using NHSD.BuyingCatalogue.SolutionLists.API.ViewModels;
 
-namespace NHSD.BuyingCatalogue.SolutionList.API
+namespace NHSD.BuyingCatalogue.SolutionLists.API
 {
     /// <summary>
     /// Provides an endpoint to manage the solution list

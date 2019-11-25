@@ -8,10 +8,10 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Contracts.SolutionList;
+using NHSD.BuyingCatalogue.SolutionLists.API.ViewModels;
 using NUnit.Framework;
-using NHSD.BuyingCatalogue.SolutionList.API.ViewModels;
 
-namespace NHSD.BuyingCatalogue.SolutionList.API.UnitTests
+namespace NHSD.BuyingCatalogue.SolutionLists.API.UnitTests
 {
     [TestFixture]
     public sealed class SolutionListControllerTests

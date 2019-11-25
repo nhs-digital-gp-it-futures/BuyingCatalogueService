@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NHSD.BuyingCatalogue.Application.SolutionList.Persistence;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
+using NHSD.BuyingCatalogue.SolutionLists.Application.Persistence;
 
-namespace NHSD.BuyingCatalogue.Application.SolutionList.Domain
+namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
 {
     internal sealed class SolutionList
     {
