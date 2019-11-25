@@ -25,15 +25,11 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
     {
         public Mock<ISolutionRepository> MockSolutionRepository { get; private set; }
 
-        public Mock<ISolutionListRepository> MockSolutionListRepository { get; private set; }
-
         public Mock<ISolutionDetailRepository> MockSolutionDetailRepository { get; private set; }
 
         public Mock<ISolutionCapabilityRepository> MockSolutionCapabilityRepository { get; private set; }
 
         public Mock<IMarketingContactRepository> MockMarketingContactRepository { get; private set; }
-
-        public ListSolutionsHandler ListSolutionsHandler => (ListSolutionsHandler)_scope.ListSolutionsHandler;
 
         public GetSolutionByIdHandler GetSolutionByIdHandler => (GetSolutionByIdHandler)_scope.GetSolutionByIdHandler;
 
@@ -78,8 +74,6 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
         {
             MockSolutionRepository = new Mock<ISolutionRepository>();
             serviceCollection.AddSingleton<ISolutionRepository>(MockSolutionRepository.Object);
-            MockSolutionListRepository = new Mock<ISolutionListRepository>();
-            serviceCollection.AddSingleton<ISolutionListRepository>(MockSolutionListRepository.Object);
             MockSolutionDetailRepository = new Mock<ISolutionDetailRepository>();
             serviceCollection.AddSingleton<ISolutionDetailRepository>(MockSolutionDetailRepository.Object);
             MockSolutionCapabilityRepository = new Mock<ISolutionCapabilityRepository>();
@@ -90,8 +84,6 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
         private class Scope
         {
-            public IRequestHandler<ListSolutionsQuery, ISolutionList> ListSolutionsHandler { get; }
-
             public IRequestHandler<GetSolutionByIdQuery, ISolution> GetSolutionByIdHandler { get; }
 
             public IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> GetClientApplicationBySolutionIdHandler { get; }
@@ -108,8 +100,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
             public IRequestHandler<UpdateSolutionPluginsCommand, UpdateSolutionPluginsValidationResult> UpdateSolutionPluginsHandler { get; }
 
-            public Scope(IRequestHandler<ListSolutionsQuery, ISolutionList> listSolutionsHandler,
-                IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
+            public Scope(IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
                 IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> getClientApplicationBySolutionIdHandler,
                 IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> submitSolutionForReviewHandler,
                 IRequestHandler<UpdateSolutionSummaryCommand, UpdateSolutionSummaryValidationResult> updateSolutionSummaryHandler,
@@ -118,7 +109,6 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
                 IRequestHandler<UpdateSolutionBrowsersSupportedCommand, UpdateSolutionBrowserSupportedValidationResult> updateSolutionBrowsersSupportedHandler,
                 IRequestHandler<UpdateSolutionPluginsCommand, UpdateSolutionPluginsValidationResult> updateSolutionPluginsHandler)
             {
-                ListSolutionsHandler = listSolutionsHandler;
                 GetSolutionByIdHandler = getSolutionByIdHandler;
                 GetClientApplicationBySolutionIdHandler = getClientApplicationBySolutionIdHandler;
                 SubmitSolutionForReviewHandler = submitSolutionForReviewHandler;

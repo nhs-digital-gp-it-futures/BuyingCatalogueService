@@ -72,6 +72,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Soluti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.SolutionLists.API.UnitTests", "tests\NHSD.BuyingCatalogue.SolutionList.API.UnitTests\NHSD.BuyingCatalogue.SolutionLists.API.UnitTests.csproj", "{BC489782-D92A-4625-8862-389A4F288986}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests", "tests\NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests\NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests.csproj", "{77D37E49-CDCE-4605-9604-B29BC2D75F34}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -154,6 +156,10 @@ Global
 		{BC489782-D92A-4625-8862-389A4F288986}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC489782-D92A-4625-8862-389A4F288986}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC489782-D92A-4625-8862-389A4F288986}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77D37E49-CDCE-4605-9604-B29BC2D75F34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77D37E49-CDCE-4605-9604-B29BC2D75F34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77D37E49-CDCE-4605-9604-B29BC2D75F34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77D37E49-CDCE-4605-9604-B29BC2D75F34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -186,6 +192,7 @@ Global
 		{FBF5C053-FB5C-481E-BD25-7F3954FBC8C1} = {A03BCB1D-3C89-46CB-BE97-9BC9721FFD5F}
 		{581292DA-F937-482B-9DAB-A0967B4C17A1} = {A03BCB1D-3C89-46CB-BE97-9BC9721FFD5F}
 		{BC489782-D92A-4625-8862-389A4F288986} = {83AEF4B0-58A2-4A1E-9D4D-194CA10B3121}
+		{77D37E49-CDCE-4605-9604-B29BC2D75F34} = {83AEF4B0-58A2-4A1E-9D4D-194CA10B3121}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B5E5ECC8-5558-45B1-83AC-F557B4DC8C57}

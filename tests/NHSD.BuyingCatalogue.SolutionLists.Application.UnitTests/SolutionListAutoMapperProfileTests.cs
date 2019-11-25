@@ -9,7 +9,7 @@ using NHSD.BuyingCatalogue.SolutionLists.Application.Mapping;
 using NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions;
 using NUnit.Framework;
 
-namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
+namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
 {
     [TestFixture]
     public sealed class SolutionListAutoMapperProfileTests
@@ -24,8 +24,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
 
         public static IEnumerable<KeyValuePair<Type, Type>> SupportedMappings()
         {
-            yield return new KeyValuePair<Type, Type>(typeof(SolutionLists.Application.Domain.SolutionList), typeof(SolutionListDto));
-            yield return new KeyValuePair<Type, Type>(typeof(SolutionLists.Application.Domain.SolutionList), typeof(ISolutionList));
+            yield return new KeyValuePair<Type, Type>(typeof(SolutionList), typeof(SolutionListDto));
+            yield return new KeyValuePair<Type, Type>(typeof(SolutionList), typeof(ISolutionList));
             yield return new KeyValuePair<Type, Type>(typeof(SolutionListItem), typeof(ISolutionSummary));
             yield return new KeyValuePair<Type, Type>(typeof(SolutionListItem), typeof(SolutionSummaryDto));
             yield return new KeyValuePair<Type, Type>(typeof(SolutionListItemCapability), typeof(SolutionCapabilityDto));

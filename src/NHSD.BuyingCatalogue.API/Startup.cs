@@ -13,7 +13,6 @@ using NHSD.BuyingCatalogue.Application;
 using NHSD.BuyingCatalogue.Application.Solutions.Mapping;
 using NHSD.BuyingCatalogue.Capabilities.Application;
 using NHSD.BuyingCatalogue.Capabilities.Application.Mapping;
-using NHSD.BuyingCatalogue.Contracts;
 using NHSD.BuyingCatalogue.Contracts.Capability;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.Persistence;

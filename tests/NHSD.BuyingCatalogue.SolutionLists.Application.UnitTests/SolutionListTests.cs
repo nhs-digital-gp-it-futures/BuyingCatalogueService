@@ -8,7 +8,7 @@ using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Contracts.SolutionList;
 using NUnit.Framework;
 
-namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions
+namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
 {
     [TestFixture]
     public class SolutionListTests
