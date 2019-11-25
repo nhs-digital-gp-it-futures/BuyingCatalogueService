@@ -6,6 +6,7 @@ COPY *.sln .
 COPY src/NHSD.BuyingCatalogue.Contracts/*.csproj ./src/NHSD.BuyingCatalogue.Contracts/
 COPY src/NHSD.BuyingCatalogue.API/*.csproj ./src/NHSD.BuyingCatalogue.API/
 COPY src/NHSD.BuyingCatalogue.Capabilities.API/*.csproj ./src/NHSD.BuyingCatalogue.Capabilities.API/
+COPY src/NHSD.BuyingCatalogue.Capabilities.Application/*.csproj ./src/NHSD.BuyingCatalogue.Capabilities.Application/
 COPY src/NHSD.BuyingCatalogue.SolutionList.API/*.csproj ./src/NHSD.BuyingCatalogue.SolutionList.API/
 COPY src/NHSD.BuyingCatalogue.Solution.API/*.csproj ./src/NHSD.BuyingCatalogue.Solution.API/
 COPY src/NHSD.BuyingCatalogue.Application/*.csproj ./src/NHSD.BuyingCatalogue.Application/
