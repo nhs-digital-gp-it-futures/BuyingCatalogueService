@@ -18,6 +18,7 @@ COPY src/NHSD.BuyingCatalogue.Data/*.csproj ./src/NHSD.BuyingCatalogue.Data/
 COPY tests/NHSD.BuyingCatalogue.API.IntegrationTests/*.csproj ./tests/NHSD.BuyingCatalogue.API.IntegrationTests/
 COPY tests/NHSD.BuyingCatalogue.API.UnitTests/*.csproj ./tests/NHSD.BuyingCatalogue.API.UnitTests/
 COPY tests/NHSD.BuyingCatalogue.Capabilities.API.UnitTests/*.csproj ./tests/NHSD.BuyingCatalogue.Capabilities.API.UnitTests/
+COPY tests/NHSD.BuyingCatalogue.Capabilities.Application.UnitTests/*.csproj ./tests/NHSD.BuyingCatalogue.Capabilities.Application.UnitTests/
 COPY tests/NHSD.BuyingCatalogue.SolutionList.API.UnitTests/*.csproj ./tests/NHSD.BuyingCatalogue.SolutionList.API.UnitTests/
 COPY tests/NHSD.BuyingCatalogue.Solution.API.UnitTests/*.csproj ./tests/NHSD.BuyingCatalogue.Solution.API.UnitTests/
 COPY tests/NHSD.BuyingCatalogue.Application.UnitTests/*.csproj ./tests/NHSD.BuyingCatalogue.Application.UnitTests/

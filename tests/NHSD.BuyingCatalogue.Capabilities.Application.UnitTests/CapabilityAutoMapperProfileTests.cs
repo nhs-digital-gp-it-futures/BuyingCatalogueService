@@ -7,10 +7,8 @@ using NHSD.BuyingCatalogue.Capabilities.Application.Domain;
 using NHSD.BuyingCatalogue.Capabilities.Application.Mapping;
 using NHSD.BuyingCatalogue.Capabilities.Application.Queries.ListCapabilities;
 using NUnit.Framework;
-using NHSD.BuyingCatalogue.Capabilities.Application.Mapping;
-using NUnit.Framework;
 
-namespace NHSD.BuyingCatalogue.Application.UnitTests.Capabilities
+namespace NHSD.BuyingCatalogue.Capabilities.Application.UnitTests
 {
     [TestFixture]
     public sealed class CapabilityAutoMapperProfileTests

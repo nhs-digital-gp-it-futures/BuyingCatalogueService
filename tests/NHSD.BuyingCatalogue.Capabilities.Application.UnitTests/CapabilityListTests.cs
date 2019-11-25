@@ -9,7 +9,7 @@ using NHSD.BuyingCatalogue.Contracts.Capability;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NUnit.Framework;
 
-namespace NHSD.BuyingCatalogue.Application.UnitTests.Capabilities
+namespace NHSD.BuyingCatalogue.Capabilities.Application.UnitTests
 {
     [TestFixture]
     public class CapabilityListTests

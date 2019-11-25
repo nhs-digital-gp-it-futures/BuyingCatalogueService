@@ -1,11 +1,9 @@
-using System.Collections.Generic;
 using System.Reflection;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NHSD.BuyingCatalogue.Application.SolutionList.Mapping;
-using NHSD.BuyingCatalogue.Capabilities.Application.Queries.ListCapabilities;
 using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrowsersSupported;
@@ -14,9 +12,6 @@ using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionPlugins;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
-using NHSD.BuyingCatalogue.Capabilities.Application;
-using NHSD.BuyingCatalogue.Capabilities.Application.Mapping;
-using NHSD.BuyingCatalogue.Contracts.Capability;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Contracts.SolutionList;
 using NHSD.BuyingCatalogue.Contracts.Solutions;
@@ -25,8 +20,6 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 {
     internal class TestContext
     {
-        public Mock<ICapabilityRepository> MockCapabilityRepository { get; private set; }
-
         public Mock<ISolutionRepository> MockSolutionRepository { get; private set; }
 
         public Mock<ISolutionListRepository> MockSolutionListRepository { get; private set; }
@@ -36,8 +29,6 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
         public Mock<ISolutionCapabilityRepository> MockSolutionCapabilityRepository { get; private set; }
 
         public Mock<IMarketingContactRepository> MockMarketingContactRepository { get; private set; }
-
-        public ListCapabilitiesHandler ListCapabilitiesHandler => (ListCapabilitiesHandler)_scope.ListCapabilitiesHandler;
 
         public ListSolutionsHandler ListSolutionsHandler => (ListSolutionsHandler)_scope.ListSolutionsHandler;
 
@@ -68,10 +59,8 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             var myAssemblies = new[]
             {
                 Assembly.GetAssembly(typeof(SolutionListAutoMapperProfile)),
-                Assembly.GetAssembly(typeof(CapabilityAutoMapperProfile)),
             };
             serviceCollection.AddAutoMapper(myAssemblies);
-            serviceCollection.RegisterCapabilitiesApplication();
             serviceCollection.RegisterApplication();
 
             serviceCollection.AddSingleton<Scope>();
@@ -80,8 +69,6 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
         private void RegisterDependencies(ServiceCollection serviceCollection)
         {
-            MockCapabilityRepository = new Mock<ICapabilityRepository>();
-            serviceCollection.AddSingleton<ICapabilityRepository>(MockCapabilityRepository.Object);
             MockSolutionRepository = new Mock<ISolutionRepository>();
             serviceCollection.AddSingleton<ISolutionRepository>(MockSolutionRepository.Object);
             MockSolutionListRepository = new Mock<ISolutionListRepository>();
@@ -96,8 +83,6 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
         private class Scope
         {
-            public IRequestHandler<ListCapabilitiesQuery, IEnumerable<ICapability>> ListCapabilitiesHandler { get; }
-
             public IRequestHandler<ListSolutionsQuery, ISolutionList> ListSolutionsHandler { get; }
 
             public IRequestHandler<GetSolutionByIdQuery, ISolution> GetSolutionByIdHandler { get; }
@@ -116,8 +101,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
 
             public IRequestHandler<UpdateSolutionPluginsCommand, UpdateSolutionPluginsValidationResult> UpdateSolutionPluginsHandler { get; }
 
-            public Scope(IRequestHandler<ListCapabilitiesQuery, IEnumerable<ICapability>> listCapabilitiesHandler,
-                IRequestHandler<ListSolutionsQuery, ISolutionList> listSolutionsHandler,
+            public Scope(IRequestHandler<ListSolutionsQuery, ISolutionList> listSolutionsHandler,
                 IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
                 IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> getClientApplicationBySolutionIdHandler,
                 IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> submitSolutionForReviewHandler,
@@ -127,7 +111,6 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
                 IRequestHandler<UpdateSolutionBrowsersSupportedCommand, UpdateSolutionBrowserSupportedValidationResult> updateSolutionBrowsersSupportedHandler,
                 IRequestHandler<UpdateSolutionPluginsCommand, UpdateSolutionPluginsValidationResult> updateSolutionPluginsHandler)
             {
-                ListCapabilitiesHandler = listCapabilitiesHandler;
                 ListSolutionsHandler = listSolutionsHandler;
                 GetSolutionByIdHandler = getSolutionByIdHandler;
                 GetClientApplicationBySolutionIdHandler = getClientApplicationBySolutionIdHandler;
