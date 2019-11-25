@@ -51,12 +51,11 @@ namespace NHSD.BuyingCatalogue.API.Extensions
                 .AddNewtonsoftJson(jsonOptions => jsonOptions.SerializerSettings.NullValueHandling = NullValueHandling.Ignore)
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
-            controllerAction(services
+            services
                 .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
                 .RegisterCapabilityController(op, controllerAction)
                 .RegisterSolutionListController(op, controllerAction)
-                .RegisterSolutionController(op, controllerAction)
-                .AddControllers(op));
+                .RegisterSolutionController(op, controllerAction);
 
 			return services;
 		}
