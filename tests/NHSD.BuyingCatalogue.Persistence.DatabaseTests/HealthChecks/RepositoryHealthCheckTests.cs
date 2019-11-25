@@ -43,7 +43,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests.HealthChecks
         }
 
         [Test]
-        public void ShouldReportUnhealthyAfterFiveSeconds()
+        public void ShouldReportUnhealthyInLessThanTenSeconds()
         {
             var start = DateTime.Now;
 
@@ -52,7 +52,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests.HealthChecks
 
             Assert.ThrowsAsync<SqlException>(async () => await _repositoryHealthCheck.RunAsync(new CancellationToken()));
 
-            DateTime.Now.Subtract(start).TotalSeconds.Should().BeInRange(5, 8);
+            DateTime.Now.Subtract(start).TotalSeconds.Should().BeLessThan(10);
         }
     }
 }
