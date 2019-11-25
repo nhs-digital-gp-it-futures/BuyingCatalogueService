@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper.Configuration;
 using FluentAssertions;
-using NHSD.BuyingCatalogue.Application.Capabilities.Domain;
-using NHSD.BuyingCatalogue.Application.Capabilities.Mapping;
-using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
+using NHSD.BuyingCatalogue.Capabilities.Application.Domain;
+using NHSD.BuyingCatalogue.Capabilities.Application.Mapping;
+using NHSD.BuyingCatalogue.Capabilities.Application.Queries.ListCapabilities;
+using NUnit.Framework;
+using NHSD.BuyingCatalogue.Capabilities.Application.Mapping;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests.Capabilities

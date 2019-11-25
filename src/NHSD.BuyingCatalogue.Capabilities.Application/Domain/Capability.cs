@@ -1,7 +1,7 @@
 using System;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 
-namespace NHSD.BuyingCatalogue.Application.Capabilities.Domain
+namespace NHSD.BuyingCatalogue.Capabilities.Application.Domain
 {
     /// <summary>
     /// Represents a competencies for a ‘<see cref="Solution"/>’ can perform or provide eg

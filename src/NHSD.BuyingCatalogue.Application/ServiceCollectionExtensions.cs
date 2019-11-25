@@ -2,7 +2,6 @@ using System.Reflection;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using NHSD.BuyingCatalogue.Application.Persistence;
 using NHSD.BuyingCatalogue.Application.SolutionList.Persistence;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrowsersSupported;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionClientApplicationTypes;
@@ -18,7 +17,6 @@ namespace NHSD.BuyingCatalogue.Application
         public static IServiceCollection RegisterApplication(this IServiceCollection serviceCollection)
         {
             return serviceCollection
-                .AddTransient<CapabilityReader>()
                 .AddTransient<SolutionListReader>()
                 .AddTransient<SolutionReader>()
                 .AddTransient<ClientApplicationReader>()
@@ -31,7 +29,6 @@ namespace NHSD.BuyingCatalogue.Application
                 .AddTransient<UpdateSolutionClientApplicationTypesValidator>()
                 .AddTransient<UpdateSolutionBrowsersSupportedValidator>()
                 .AddTransient<UpdateSolutionPluginsValidator>()
-                .AddAutoMapper(Assembly.GetExecutingAssembly())
                 .AddMediatR(Assembly.GetExecutingAssembly());
         }
     }

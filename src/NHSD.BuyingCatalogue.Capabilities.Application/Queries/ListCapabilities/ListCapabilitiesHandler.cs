@@ -3,10 +3,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using NHSD.BuyingCatalogue.Application.Persistence;
+using NHSD.BuyingCatalogue.Capabilities.Application.Persistence;
 using NHSD.BuyingCatalogue.Contracts.Capability;
 
-namespace NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities
+namespace NHSD.BuyingCatalogue.Capabilities.Application.Queries.ListCapabilities
 {
     /// <summary>
 	/// Defines the request handler for the <see cref="ListCapabilitiesQuery"/>.

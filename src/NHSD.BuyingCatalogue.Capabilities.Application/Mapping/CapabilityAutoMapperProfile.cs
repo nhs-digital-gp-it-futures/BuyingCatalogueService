@@ -1,8 +1,8 @@
 using AutoMapper;
-using NHSD.BuyingCatalogue.Application.Capabilities.Domain;
-using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
+using NHSD.BuyingCatalogue.Capabilities.Application.Domain;
+using NHSD.BuyingCatalogue.Capabilities.Application.Queries.ListCapabilities;
 
-namespace NHSD.BuyingCatalogue.Application.Capabilities.Mapping
+namespace NHSD.BuyingCatalogue.Capabilities.Application.Mapping
 {
     public sealed class CapabilityAutoMapperProfile : Profile
     {

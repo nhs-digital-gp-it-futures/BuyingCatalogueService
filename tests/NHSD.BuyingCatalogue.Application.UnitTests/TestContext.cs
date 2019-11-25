@@ -1,8 +1,11 @@
 using System.Collections.Generic;
+using System.Reflection;
+using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using NHSD.BuyingCatalogue.Application.Capabilities.Queries.ListCapabilities;
+using NHSD.BuyingCatalogue.Application.SolutionList.Mapping;
+using NHSD.BuyingCatalogue.Capabilities.Application.Queries.ListCapabilities;
 using NHSD.BuyingCatalogue.Application.SolutionList.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrowsersSupported;
@@ -11,6 +14,8 @@ using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionPlugins;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Capabilities.Application;
+using NHSD.BuyingCatalogue.Capabilities.Application.Mapping;
 using NHSD.BuyingCatalogue.Contracts.Capability;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Contracts.SolutionList;
@@ -60,6 +65,13 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             var serviceCollection = new ServiceCollection();
             RegisterDependencies(serviceCollection);
 
+            var myAssemblies = new[]
+            {
+                Assembly.GetAssembly(typeof(SolutionListAutoMapperProfile)),
+                Assembly.GetAssembly(typeof(CapabilityAutoMapperProfile)),
+            };
+            serviceCollection.AddAutoMapper(myAssemblies);
+            serviceCollection.RegisterCapabilitiesApplication();
             serviceCollection.RegisterApplication();
 
             serviceCollection.AddSingleton<Scope>();

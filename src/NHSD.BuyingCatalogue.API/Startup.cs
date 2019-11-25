@@ -1,3 +1,5 @@
+using System.Reflection;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +9,9 @@ using NHSD.BuyingCatalogue.API.Extensions;
 using NHSD.BuyingCatalogue.API.Infrastructure;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
 using NHSD.BuyingCatalogue.Application;
+using NHSD.BuyingCatalogue.Application.SolutionList.Mapping;
+using NHSD.BuyingCatalogue.Capabilities.Application;
+using NHSD.BuyingCatalogue.Capabilities.Application.Mapping;
 using NHSD.BuyingCatalogue.Contracts;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.Persistence;
@@ -25,9 +30,17 @@ namespace NHSD.BuyingCatalogue.API
         /// <remarks>This method gets called by the runtime. Use this method to add services to the container.</remarks>
         public void ConfigureServices(IServiceCollection services)
         {
+            var myAssemblies = new[]
+            {
+                Assembly.GetAssembly(typeof(SolutionListAutoMapperProfile)),
+                Assembly.GetAssembly(typeof(CapabilityAutoMapperProfile)),
+            };
+
             services
                 .AddTransient<ISettings, Settings>()
+                .AddAutoMapper(myAssemblies)
                 .RegisterApplication()
+                .RegisterCapabilitiesApplication()
                 .RegisterPersistence()
                 .AddCustomHealthCheck()
                 .AddCustomSwagger()
