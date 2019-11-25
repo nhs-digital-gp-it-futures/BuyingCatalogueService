@@ -11,5 +11,5 @@ if( -NOT (Test-Path ".\SQL"))
 
 Copy-Item "$integration_sql_resource\Create Database.sql" -Destination ".\SQL"
 Copy-Item -Recurse "$integration_sql_resource\*" -Destination ".\SQL"
-docker build -f ".\Dockerfile.build.integration" . -t "integration_db:test"
+docker build -f "Dockerfile.build.integration" . -t "integration_db:test"
 rm -Force -Recurse ".\SQL"
