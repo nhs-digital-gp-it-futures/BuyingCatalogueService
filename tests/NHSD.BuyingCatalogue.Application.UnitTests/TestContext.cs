@@ -60,7 +60,9 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             {
                 Assembly.GetAssembly(typeof(SolutionListAutoMapperProfile)),
             };
-            serviceCollection.AddAutoMapper(myAssemblies);
+            serviceCollection
+                .AddAutoMapper(myAssemblies)
+                .AddMediatR(myAssemblies);
             serviceCollection.RegisterApplication();
 
             serviceCollection.AddSingleton<Scope>();

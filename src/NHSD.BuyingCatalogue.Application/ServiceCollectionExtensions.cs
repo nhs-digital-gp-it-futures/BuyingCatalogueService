@@ -1,6 +1,3 @@
-using System.Reflection;
-using AutoMapper;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using NHSD.BuyingCatalogue.Application.SolutionList.Persistence;
 using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrowsersSupported;
@@ -28,8 +25,7 @@ namespace NHSD.BuyingCatalogue.Application
                 .AddTransient<UpdateSolutionFeaturesValidator>()
                 .AddTransient<UpdateSolutionClientApplicationTypesValidator>()
                 .AddTransient<UpdateSolutionBrowsersSupportedValidator>()
-                .AddTransient<UpdateSolutionPluginsValidator>()
-                .AddMediatR(Assembly.GetExecutingAssembly());
+                .AddTransient<UpdateSolutionPluginsValidator>();
         }
     }
 }

@@ -28,7 +28,9 @@ namespace NHSD.BuyingCatalogue.Capabilities.Application.UnitTests
             {
                 Assembly.GetAssembly(typeof(CapabilityAutoMapperProfile)),
             };
-            serviceCollection.AddAutoMapper(myAssemblies);
+            serviceCollection
+                .AddAutoMapper(myAssemblies)
+                .AddMediatR(myAssemblies);
             serviceCollection.RegisterCapabilitiesApplication();
 
             serviceCollection.AddSingleton<Scope>();
