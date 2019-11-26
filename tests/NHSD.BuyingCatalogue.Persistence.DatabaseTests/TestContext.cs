@@ -1,7 +1,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using NHSD.BuyingCatalogue.Capabilities.Persistence;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Data;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
 using NHSD.BuyingCatalogue.Testing.Data;
 
@@ -32,7 +34,9 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             settings.Setup(s => s.ConnectionString).Returns(ConnectionStrings.ServiceConnectionString());
             serviceCollection.AddSingleton(settings.Object);
 
+            serviceCollection.RegisterData();
             serviceCollection.RegisterPersistence();
+            serviceCollection.RegisterCapabilityPersistence();
 
             serviceCollection.AddSingleton<Scope>();
 

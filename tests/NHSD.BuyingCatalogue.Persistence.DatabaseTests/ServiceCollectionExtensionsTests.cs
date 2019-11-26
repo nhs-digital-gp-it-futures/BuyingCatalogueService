@@ -2,9 +2,12 @@ using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using NHSD.BuyingCatalogue.Capabilities.Persistence;
+using NHSD.BuyingCatalogue.Capabilities.Persistence.Repositories;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure.HealthChecks;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Data;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
 using NHSD.BuyingCatalogue.Persistence.Repositories;
 using NUnit.Framework;
@@ -19,7 +22,9 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         {
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddSingleton(Mock.Of<ISettings>());
+            serviceCollection.RegisterData();
             serviceCollection.RegisterPersistence();
+            serviceCollection.RegisterCapabilityPersistence();
 
             var provider = serviceCollection.BuildServiceProvider();
             provider.GetService<ICapabilityRepository>().Should().BeOfType<CapabilityRepository>();

@@ -11,8 +11,10 @@ using NHSD.BuyingCatalogue.API.Infrastructure;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
 using NHSD.BuyingCatalogue.Capabilities.Application;
 using NHSD.BuyingCatalogue.Capabilities.Application.Mapping;
+using NHSD.BuyingCatalogue.Capabilities.Persistence;
 using NHSD.BuyingCatalogue.Contracts.Capability;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
+using NHSD.BuyingCatalogue.Data;
 using NHSD.BuyingCatalogue.Persistence;
 using NHSD.BuyingCatalogue.SolutionLists.Application;
 using NHSD.BuyingCatalogue.SolutionLists.Application.Mapping;
@@ -48,7 +50,9 @@ namespace NHSD.BuyingCatalogue.API
                 .RegisterSolutionApplication()
                 .RegisterSolutionListApplication()
                 .RegisterCapabilitiesApplication()
+                .RegisterData()
                 .RegisterPersistence()
+                .RegisterCapabilityPersistence()
                 .AddCustomHealthCheck()
                 .AddCustomSwagger()
                 .AddCustomMvc();

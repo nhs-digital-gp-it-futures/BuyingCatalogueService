@@ -1,14 +1,11 @@
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Dapper;
+using NHSD.BuyingCatalogue.Capabilities.Persistence.Models;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
-using NHSD.BuyingCatalogue.Persistence.Models;
 
-namespace NHSD.BuyingCatalogue.Persistence.Repositories
+namespace NHSD.BuyingCatalogue.Capabilities.Persistence.Repositories
 {
     /// <summary>
     /// Represents the data access layer for the <see cref="ICapabilityListResult"/> entity.

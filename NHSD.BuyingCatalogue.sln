@@ -82,6 +82,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Soluti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.SolutionLists.API.UnitTests", "tests\NHSD.BuyingCatalogue.SolutionLists.API.UnitTests\NHSD.BuyingCatalogue.SolutionLists.API.UnitTests.csproj", "{198B640A-63AB-4848-B110-39A8FF082393}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Capabilities.Persistence", "src\NHSD.BuyingCatalogue.Capabilities.Persistence\NHSD.BuyingCatalogue.Capabilities.Persistence.csproj", "{9BD36075-BDE5-48F5-BEEC-E6D9088C85C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -180,6 +182,10 @@ Global
 		{198B640A-63AB-4848-B110-39A8FF082393}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{198B640A-63AB-4848-B110-39A8FF082393}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{198B640A-63AB-4848-B110-39A8FF082393}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BD36075-BDE5-48F5-BEEC-E6D9088C85C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BD36075-BDE5-48F5-BEEC-E6D9088C85C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BD36075-BDE5-48F5-BEEC-E6D9088C85C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BD36075-BDE5-48F5-BEEC-E6D9088C85C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -217,6 +223,7 @@ Global
 		{4E548779-74E9-4580-AAF0-59D2761CA436} = {A03BCB1D-3C89-46CB-BE97-9BC9721FFD5F}
 		{E048A122-1F50-4280-A4A7-BED247ADE0CB} = {A03BCB1D-3C89-46CB-BE97-9BC9721FFD5F}
 		{198B640A-63AB-4848-B110-39A8FF082393} = {83AEF4B0-58A2-4A1E-9D4D-194CA10B3121}
+		{9BD36075-BDE5-48F5-BEEC-E6D9088C85C6} = {2BC69E8C-9C0E-4D40-8840-07A87CDBB270}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B5E5ECC8-5558-45B1-83AC-F557B4DC8C57}

@@ -9,8 +9,6 @@ namespace NHSD.BuyingCatalogue.Persistence
     {
         public static IServiceCollection RegisterPersistence(this IServiceCollection serviceCollection)
         {
-            serviceCollection.RegisterData();
-            serviceCollection.AddTransient<ICapabilityRepository, CapabilityRepository>();
             serviceCollection.AddTransient<ISolutionListRepository, SolutionListRepository>();
             serviceCollection.AddTransient<ISolutionRepository, SolutionRepository>();
             serviceCollection.AddTransient<ISolutionDetailRepository, SolutionDetailRepository>();
