@@ -8,7 +8,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
     {
         public static async Task StartAsync()
         {
-            await BuyingCatalogueService.StartAsync();
+            //await BuyingCatalogueService.StartAsync();
             await BuyingCatalogueService.AwaitApiRunningAsync();
         }
 

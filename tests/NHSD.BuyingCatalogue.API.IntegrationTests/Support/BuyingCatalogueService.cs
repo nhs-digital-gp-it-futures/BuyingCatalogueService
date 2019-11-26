@@ -21,16 +21,16 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Drivers
             Path.GetFullPath(Path.Combine(SolutionWorkingDirectory, ".\\out"));
         private static readonly TimeSpan TestTimeout = TimeSpan.FromSeconds(60);
 
-        internal static async Task StartAsync()
-        {
-            await PublishAsync();
+        //internal static async Task StartAsync()
+        //{
+        //    await PublishAsync();
 
-            await DockerComposeProcess.Create(SolutionWorkingDirectory, $"{DockerFileCommandLineArgument} build nhsd.buyingcatalogue.api")
-                .ExecuteAsync((x) => Debug.WriteLine(x), (x) => Debug.WriteLine(x));
-            await DockerComposeProcess.Create(SolutionWorkingDirectory, $"{DockerFileCommandLineArgument} up -d")
-                .ExecuteAsync((x) => Debug.WriteLine(x), (x) => Debug.WriteLine(x));
+        //    await DockerComposeProcess.Create(SolutionWorkingDirectory, $"{DockerFileCommandLineArgument} build nhsd.buyingcatalogue.api")
+        //        .ExecuteAsync((x) => Debug.WriteLine(x), (x) => Debug.WriteLine(x));
+        //    await DockerComposeProcess.Create(SolutionWorkingDirectory, $"{DockerFileCommandLineArgument} up -d")
+        //        .ExecuteAsync((x) => Debug.WriteLine(x), (x) => Debug.WriteLine(x));
 
-        }
+        //}
 
         internal static async Task AwaitApiRunningAsync()
         {
