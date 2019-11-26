@@ -18,6 +18,7 @@ using NHSD.BuyingCatalogue.Data;
 using NHSD.BuyingCatalogue.Persistence;
 using NHSD.BuyingCatalogue.SolutionLists.Application;
 using NHSD.BuyingCatalogue.SolutionLists.Application.Mapping;
+using NHSD.BuyingCatalogue.SolutionLists.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Application;
 using NHSD.BuyingCatalogue.Solutions.Application.Mapping;
 
@@ -53,6 +54,7 @@ namespace NHSD.BuyingCatalogue.API
                 .RegisterData()
                 .RegisterPersistence()
                 .RegisterCapabilityPersistence()
+                .RegisterSolutionListPersistence()
                 .AddCustomHealthCheck()
                 .AddCustomSwagger()
                 .AddCustomMvc();

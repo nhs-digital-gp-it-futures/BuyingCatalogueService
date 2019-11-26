@@ -1,7 +1,7 @@
 using System;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 
-namespace NHSD.BuyingCatalogue.Persistence.Models
+namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.Models
 {
     internal sealed class SolutionListResult : ISolutionListResult
     {

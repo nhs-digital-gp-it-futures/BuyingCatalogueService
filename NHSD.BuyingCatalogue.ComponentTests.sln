@@ -73,7 +73,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Soluti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.SolutionLists.API.UnitTests", "tests\NHSD.BuyingCatalogue.SolutionLists.API.UnitTests\NHSD.BuyingCatalogue.SolutionLists.API.UnitTests.csproj", "{E2029DB0-BE54-4EE7-B393-3BA51A3F9DB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHSD.BuyingCatalogue.Capabilities.Persistence", "src\NHSD.BuyingCatalogue.Capabilities.Persistence\NHSD.BuyingCatalogue.Capabilities.Persistence.csproj", "{31718F6F-926B-4D97-BBB1-2DADBDA20735}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Capabilities.Persistence", "src\NHSD.BuyingCatalogue.Capabilities.Persistence\NHSD.BuyingCatalogue.Capabilities.Persistence.csproj", "{31718F6F-926B-4D97-BBB1-2DADBDA20735}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHSD.BuyingCatalogue.SolutionLists.Persistence", "src\NHSD.BuyingCatalogue.SolutionLists.Persistence\NHSD.BuyingCatalogue.SolutionLists.Persistence.csproj", "{3F2DBD2D-7A15-4359-97C1-95E73439D13D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -181,6 +183,10 @@ Global
 		{31718F6F-926B-4D97-BBB1-2DADBDA20735}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31718F6F-926B-4D97-BBB1-2DADBDA20735}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31718F6F-926B-4D97-BBB1-2DADBDA20735}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F2DBD2D-7A15-4359-97C1-95E73439D13D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F2DBD2D-7A15-4359-97C1-95E73439D13D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F2DBD2D-7A15-4359-97C1-95E73439D13D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F2DBD2D-7A15-4359-97C1-95E73439D13D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -220,6 +226,7 @@ Global
 		{07EED9B3-5823-4C7D-BDFA-438C08165C69} = {F0963CE6-76F3-4222-B19C-E83A01E831B8}
 		{E2029DB0-BE54-4EE7-B393-3BA51A3F9DB8} = {A0C08CFE-48D7-4449-8AE4-16B63563E774}
 		{31718F6F-926B-4D97-BBB1-2DADBDA20735} = {97B4EF45-1E32-4089-BE2A-D97BB9E1B553}
+		{3F2DBD2D-7A15-4359-97C1-95E73439D13D} = {F0963CE6-76F3-4222-B19C-E83A01E831B8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7DA4FD44-32D4-4FE7-A05E-4C72D05F6476}

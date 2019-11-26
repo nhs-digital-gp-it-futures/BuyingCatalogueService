@@ -10,6 +10,8 @@ using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Data;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
 using NHSD.BuyingCatalogue.Persistence.Repositories;
+using NHSD.BuyingCatalogue.SolutionLists.Persistence;
+using NHSD.BuyingCatalogue.SolutionLists.Persistence.Repositories;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
@@ -25,6 +27,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             serviceCollection.RegisterData();
             serviceCollection.RegisterPersistence();
             serviceCollection.RegisterCapabilityPersistence();
+            serviceCollection.RegisterSolutionListPersistence();
 
             var provider = serviceCollection.BuildServiceProvider();
             provider.GetService<ICapabilityRepository>().Should().BeOfType<CapabilityRepository>();

@@ -10,6 +10,7 @@ COPY src/NHSD.BuyingCatalogue.Capabilities.Application/*.csproj ./src/NHSD.Buyin
 COPY src/NHSD.BuyingCatalogue.Capabilities.Persistence/*.csproj ./src/NHSD.BuyingCatalogue.Capabilities.Persistence/
 COPY src/NHSD.BuyingCatalogue.SolutionLists.API/*.csproj ./src/NHSD.BuyingCatalogue.SolutionLists.API/
 COPY src/NHSD.BuyingCatalogue.SolutionLists.Application/*.csproj ./src/NHSD.BuyingCatalogue.SolutionLists.Application/
+COPY src/NHSD.BuyingCatalogue.SolutionLists.Persistence/*.csproj ./src/NHSD.BuyingCatalogue.SolutionLists.Persistence/
 COPY src/NHSD.BuyingCatalogue.Solutions.API/*.csproj ./src/NHSD.BuyingCatalogue.Solutions.API/
 COPY src/NHSD.BuyingCatalogue.Solutions.Application/*.csproj ./src/NHSD.BuyingCatalogue.Solutions.Application/
 COPY src/NHSD.BuyingCatalogue.Infrastructure/*.csproj ./src/NHSD.BuyingCatalogue.Infrastructure/

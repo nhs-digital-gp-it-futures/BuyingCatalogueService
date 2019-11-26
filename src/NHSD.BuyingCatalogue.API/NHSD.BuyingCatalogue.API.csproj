@@ -32,6 +32,7 @@
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Persistence\NHSD.BuyingCatalogue.Persistence.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalogue.SolutionLists.API\NHSD.BuyingCatalogue.SolutionLists.API.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalogue.SolutionLists.Application\NHSD.BuyingCatalogue.SolutionLists.Application.csproj" />
+    <ProjectReference Include="..\NHSD.BuyingCatalogue.SolutionLists.Persistence\NHSD.BuyingCatalogue.SolutionLists.Persistence.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Solutions.API\NHSD.BuyingCatalogue.Solutions.API.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Solutions.Application\NHSD.BuyingCatalogue.Solutions.Application.csproj" />
   </ItemGroup>
