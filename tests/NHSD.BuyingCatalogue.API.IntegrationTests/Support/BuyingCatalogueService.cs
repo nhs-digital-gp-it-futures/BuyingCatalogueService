@@ -9,7 +9,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Drivers
 {
     internal static class BuyingCatalogueService
     {
-        private const string WaitServerUrl = "http://localhost:8080/health/dependencies";
+        private const string WaitServerUrl = "http://localhost:8080/health/live";
+
+        private const string WaitServerUrlDependencies = "http://localhost:8080/health/dependencies";
+
         private const string DockerFileCommandLineArgument = "-f docker-compose.yml -f docker-compose.integration.yml";
 
         private static readonly string SolutionWorkingDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..\\..\\"));
@@ -31,10 +34,16 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Drivers
 
         internal static async Task AwaitApiRunningAsync()
         {
-            var started = await HttpClientAwaiter.WaitForGetAsync(WaitServerUrl, TestTimeout);
+            await AwaitApiRunningAsync(WaitServerUrl);
+            await AwaitApiRunningAsync(WaitServerUrlDependencies);
+        }
+
+		internal static async Task AwaitApiRunningAsync(string url)
+        {
+            var started = await HttpClientAwaiter.WaitForGetAsync(url, TestTimeout);
             if (!started)
             {
-                throw new Exception($"Start Buying Catalogue API failed, could not get a successful health status from '{WaitServerUrl}' after trying for '{TestTimeout}'");
+                throw new Exception($"Start Buying Catalogue API failed, could not get a successful health status from '{url}' after trying for '{TestTimeout}'");
             }
         }
 
