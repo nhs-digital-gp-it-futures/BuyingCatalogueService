@@ -22,7 +22,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.Contracts\NHSD.BuyingCatalogue.Contracts.csproj" />
-      <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.SolutionList.Application\NHSD.BuyingCatalogue.SolutionLists.Application.csproj" />
+      <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.SolutionLists.Application\NHSD.BuyingCatalogue.SolutionLists.Application.csproj" />
     </ItemGroup>
 
 </Project>
