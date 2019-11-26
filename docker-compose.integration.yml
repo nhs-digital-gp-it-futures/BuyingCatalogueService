@@ -14,7 +14,7 @@ services:
     container_name: integration_api
     build: 
       context: .
-      dockerfile: Dockerfile.integration
+      dockerfile: Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80

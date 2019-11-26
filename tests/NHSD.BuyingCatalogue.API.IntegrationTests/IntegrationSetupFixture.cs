@@ -28,11 +28,5 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests
             Service.Instance.ValueRetrievers.Register(new StringValueRetriever());
             await Database.ClearAsync();
         }
-
-        [AfterTestRun]
-        public static async Task OneTimeTearDownAsync()
-        {
-            await IntegrationTestEnvironment.StopAsync();
-        }
     }
 }
