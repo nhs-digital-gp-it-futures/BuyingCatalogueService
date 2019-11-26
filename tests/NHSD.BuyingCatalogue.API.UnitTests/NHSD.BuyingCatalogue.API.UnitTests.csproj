@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.API\NHSD.BuyingCatalogue.API.csproj" />
-    <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.Solution.API\NHSD.BuyingCatalogue.Solutions.API.csproj" />
+    <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.Solutions.API\NHSD.BuyingCatalogue.Solutions.API.csproj" />
     <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.SolutionList.API\NHSD.BuyingCatalogue.SolutionLists.API.csproj" />
   </ItemGroup>
 
