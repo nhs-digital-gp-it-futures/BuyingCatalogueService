@@ -22,8 +22,8 @@ COPY tests/NHSD.BuyingCatalogue.Capabilities.API.UnitTests/*.csproj ./tests/NHSD
 COPY tests/NHSD.BuyingCatalogue.Capabilities.Application.UnitTests/*.csproj ./tests/NHSD.BuyingCatalogue.Capabilities.Application.UnitTests/
 COPY tests/NHSD.BuyingCatalogue.SolutionList.API.UnitTests/*.csproj ./tests/NHSD.BuyingCatalogue.SolutionList.API.UnitTests/
 COPY tests/NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests/*.csproj ./tests/NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests/
-COPY tests/NHSD.BuyingCatalogue.Solution.API.UnitTests/*.csproj ./tests/NHSD.BuyingCatalogue.Solution.API.UnitTests/
-COPY tests/NHSD.BuyingCatalogue.Application.UnitTests/*.csproj ./tests/NHSD.BuyingCatalogue.Application.UnitTests/
+COPY tests/NHSD.BuyingCatalogue.Solutions.API.UnitTests/*.csproj ./tests/NHSD.BuyingCatalogue.Solutions.API.UnitTests/
+COPY tests/NHSD.BuyingCatalogue.Solutions.Application.UnitTests/*.csproj ./tests/NHSD.BuyingCatalogue.Solutions.Application.UnitTests/
 COPY tests/NHSD.BuyingCatalogue.Data.Tests/*.csproj ./tests/NHSD.BuyingCatalogue.Data.Tests/
 COPY tests/NHSD.BuyingCatalogue.Persistence.DatabaseTests/*.csproj ./tests/NHSD.BuyingCatalogue.Persistence.DatabaseTests/
 COPY tests/NHSD.BuyingCatalogue.Infrastructure.Tests/*.csproj ./tests/NHSD.BuyingCatalogue.Infrastructure.Tests/
