@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using NHSD.BuyingCatalogue.API.ViewModels.Public;
 
-namespace NHSD.BuyingCatalogue.Solution.API.ViewModels.Public
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Public
 {
     public class FeaturesPublicSection
     {

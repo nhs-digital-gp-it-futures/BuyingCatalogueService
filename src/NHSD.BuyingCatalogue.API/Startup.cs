@@ -9,8 +9,6 @@ using Microsoft.Extensions.Hosting;
 using NHSD.BuyingCatalogue.API.Extensions;
 using NHSD.BuyingCatalogue.API.Infrastructure;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
-using NHSD.BuyingCatalogue.Application;
-using NHSD.BuyingCatalogue.Application.Solutions.Mapping;
 using NHSD.BuyingCatalogue.Capabilities.Application;
 using NHSD.BuyingCatalogue.Capabilities.Application.Mapping;
 using NHSD.BuyingCatalogue.Contracts.Capability;
@@ -18,6 +16,8 @@ using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.Persistence;
 using NHSD.BuyingCatalogue.SolutionLists.Application;
 using NHSD.BuyingCatalogue.SolutionLists.Application.Mapping;
+using NHSD.BuyingCatalogue.Solutions.Application;
+using NHSD.BuyingCatalogue.Solutions.Application.Mapping;
 
 namespace NHSD.BuyingCatalogue.API
 {
@@ -45,7 +45,7 @@ namespace NHSD.BuyingCatalogue.API
                 .AddTransient<ISettings, Settings>()
                 .AddAutoMapper(assemblies)
                 .AddMediatR(assemblies)
-                .RegisterApplication()
+                .RegisterSolutionApplication()
                 .RegisterSolutionListApplication()
                 .RegisterCapabilitiesApplication()
                 .RegisterPersistence()

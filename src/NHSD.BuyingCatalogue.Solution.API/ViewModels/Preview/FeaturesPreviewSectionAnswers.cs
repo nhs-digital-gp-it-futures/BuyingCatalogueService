@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace NHSD.BuyingCatalogue.Solution.API.ViewModels.Preview
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Preview
 {
     public class FeaturesPreviewSectionAnswers
     {

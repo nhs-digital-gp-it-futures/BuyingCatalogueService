@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
-using NHSD.BuyingCatalogue.Solution.API.ViewModels;
-using NHSD.BuyingCatalogue.Solution.API.ViewModels.Preview;
-using NHSD.BuyingCatalogue.Solution.API.ViewModels.Public;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Preview;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Public;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 
-namespace NHSD.BuyingCatalogue.Solution.API.Controllers
+namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 {
     /// <summary>
     /// Provides the endpoint to manage a solution.

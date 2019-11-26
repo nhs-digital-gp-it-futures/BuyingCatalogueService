@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper.Configuration;
 using FluentAssertions;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
-using NHSD.BuyingCatalogue.Application.Solutions.Domain;
-using NHSD.BuyingCatalogue.Application.Solutions.Mapping;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Contracts;
 using NHSD.BuyingCatalogue.Contracts.Solutions;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
+using NHSD.BuyingCatalogue.Solutions.Application.Domain;
+using NHSD.BuyingCatalogue.Solutions.Application.Mapping;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests.Infrastructure.Mapping

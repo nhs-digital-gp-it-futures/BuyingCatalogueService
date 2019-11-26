@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrowsersSupported;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowsersSupported;
 
-namespace NHSD.BuyingCatalogue.Solution.API.ViewModels
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 {
     public class UpdateSolutionBrowserSupportedResult
     {

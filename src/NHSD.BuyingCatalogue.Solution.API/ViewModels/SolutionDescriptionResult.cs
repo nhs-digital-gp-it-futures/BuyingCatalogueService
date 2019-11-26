@@ -1,4 +1,4 @@
-namespace NHSD.BuyingCatalogue.Solution.API.ViewModels
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 {
     public sealed class SolutionDescriptionResult
     {

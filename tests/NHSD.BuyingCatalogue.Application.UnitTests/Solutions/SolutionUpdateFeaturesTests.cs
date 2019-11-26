@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using Newtonsoft.Json;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions

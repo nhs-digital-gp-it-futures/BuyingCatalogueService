@@ -1,7 +1,6 @@
 using NHSD.BuyingCatalogue.Contracts.Solutions;
-using NHSD.BuyingCatalogue.Solution.API.ViewModels.Public;
 
-namespace NHSD.BuyingCatalogue.API.ViewModels.Public
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Public
 {
     public class PluginOrExtensionsPublicSection
     {

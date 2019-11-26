@@ -7,9 +7,9 @@ using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview;
-using NHSD.BuyingCatalogue.Solution.API.Controllers;
-using NHSD.BuyingCatalogue.Solution.API.ViewModels;
+using NHSD.BuyingCatalogue.Solutions.API.Controllers;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solution.API.UnitTests

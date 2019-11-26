@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Contracts;
 using NHSD.BuyingCatalogue.Infrastructure;
 
-namespace NHSD.BuyingCatalogue.Solution.API.ViewModels.Public
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Public
 {
     public class PluginOrExtensionsPublicSectionAnswers
     {

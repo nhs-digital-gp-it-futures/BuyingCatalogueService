@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview;
 
-namespace NHSD.BuyingCatalogue.Solution.API.ViewModels
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 {
     public class SubmitSolutionForReviewResult
     {

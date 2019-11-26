@@ -8,8 +8,8 @@ using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.API.Infrastructure.Filters;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
 using NHSD.BuyingCatalogue.Capabilities.API;
-using NHSD.BuyingCatalogue.Solution.API;
 using NHSD.BuyingCatalogue.SolutionLists.API;
+using NHSD.BuyingCatalogue.Solutions.API;
 
 namespace NHSD.BuyingCatalogue.API.Extensions
 {

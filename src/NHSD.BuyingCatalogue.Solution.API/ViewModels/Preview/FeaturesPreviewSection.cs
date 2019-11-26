@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace NHSD.BuyingCatalogue.Solution.API.ViewModels.Preview
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Preview
 {
     public class FeaturesPreviewSection
     {

@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Contracts.Solutions;
 using NHSD.BuyingCatalogue.Infrastructure;
 
-namespace NHSD.BuyingCatalogue.Solution.API.ViewModels.Preview
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Preview
 {
     public class BrowsersSupportedPreviewSectionAnswers
     {

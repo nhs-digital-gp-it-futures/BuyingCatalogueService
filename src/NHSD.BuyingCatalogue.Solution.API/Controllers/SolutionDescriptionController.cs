@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
-using NHSD.BuyingCatalogue.Solution.API.ViewModels;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 
-namespace NHSD.BuyingCatalogue.Solution.API.Controllers
+namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 {
     /// <summary>
     /// Provides the endpoint to manage the solution description section of the solution details data.

@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Contracts.Solutions;
 
-namespace NHSD.BuyingCatalogue.Solution.API.ViewModels.Public
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Public
 {
     public class ContactInformationPublicSection
     {

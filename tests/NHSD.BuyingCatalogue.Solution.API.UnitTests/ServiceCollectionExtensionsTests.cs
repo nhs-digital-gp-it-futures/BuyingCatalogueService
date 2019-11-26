@@ -3,6 +3,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using NHSD.BuyingCatalogue.Solutions.API;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solution.API.UnitTests

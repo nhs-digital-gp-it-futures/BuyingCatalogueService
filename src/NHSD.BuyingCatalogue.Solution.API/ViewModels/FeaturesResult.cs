@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using NHSD.BuyingCatalogue.Contracts.Solutions;
 
-namespace NHSD.BuyingCatalogue.Solution.API.ViewModels
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 {
     public sealed class FeaturesResult
     {

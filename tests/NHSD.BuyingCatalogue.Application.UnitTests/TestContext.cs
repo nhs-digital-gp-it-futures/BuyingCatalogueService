@@ -3,20 +3,19 @@ using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.SubmitForReview;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionBrowsersSupported;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionClientApplicationTypes;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionFeatures;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionPlugins;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
-using NHSD.BuyingCatalogue.Application.Solutions.Mapping;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
-using NHSD.BuyingCatalogue.Contracts.SolutionList;
 using NHSD.BuyingCatalogue.Contracts.Solutions;
 using NHSD.BuyingCatalogue.SolutionLists.Application;
 using NHSD.BuyingCatalogue.SolutionLists.Application.Mapping;
-using NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions;
+using NHSD.BuyingCatalogue.Solutions.Application;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowsersSupported;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClientApplicationTypes;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
+using NHSD.BuyingCatalogue.Solutions.Application.Mapping;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests
@@ -64,7 +63,7 @@ namespace NHSD.BuyingCatalogue.Application.UnitTests
             _scope = serviceCollection
                 .AddAutoMapper(myAssemblies)
                 .AddMediatR(myAssemblies)
-                .RegisterApplication()
+                .RegisterSolutionApplication()
                 .RegisterSolutionListApplication()
                 .AddSingleton<Scope>()
                 .BuildServiceProvider().GetService<Scope>();

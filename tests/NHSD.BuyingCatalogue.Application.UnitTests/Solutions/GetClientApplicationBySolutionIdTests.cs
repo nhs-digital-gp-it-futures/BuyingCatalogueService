@@ -2,9 +2,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
-using NHSD.BuyingCatalogue.Application.Solutions.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Application.UnitTests.Solutions

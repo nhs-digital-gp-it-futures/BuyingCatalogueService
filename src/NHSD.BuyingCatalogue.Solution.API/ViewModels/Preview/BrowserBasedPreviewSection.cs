@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Contracts.Solutions;
 
-namespace NHSD.BuyingCatalogue.Solution.API.ViewModels.Preview
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Preview
 {
     public class BrowserBasedPreviewSection
     {

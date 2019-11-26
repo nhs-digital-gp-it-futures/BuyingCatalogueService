@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using NHSD.BuyingCatalogue.Application.Solutions.Commands.UpdateSolutionSummary;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
 
-namespace NHSD.BuyingCatalogue.Solution.API.ViewModels
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 {
     public class UpdateSolutionSummaryResult
     {

@@ -25,12 +25,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NHSD.BuyingCatalogue.Application\NHSD.BuyingCatalogue.Application.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Capabilities.API\NHSD.BuyingCatalogue.Capabilities.API.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Capabilities.Application\NHSD.BuyingCatalogue.Capabilities.Application.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Infrastructure\NHSD.BuyingCatalogue.Infrastructure.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Persistence\NHSD.BuyingCatalogue.Persistence.csproj" />
-    <ProjectReference Include="..\NHSD.BuyingCatalogue.Solution.API\NHSD.BuyingCatalogue.Solution.API.csproj" />
+    <ProjectReference Include="..\NHSD.BuyingCatalogue.Solution.API\NHSD.BuyingCatalogue.Solutions.API.csproj" />
+    <ProjectReference Include="..\NHSD.BuyingCatalogue.Solution.Application\NHSD.BuyingCatalogue.Solutions.Application.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalogue.SolutionList.API\NHSD.BuyingCatalogue.SolutionLists.API.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalogue.SolutionList.Application\NHSD.BuyingCatalogue.SolutionLists.Application.csproj" />
   </ItemGroup>
