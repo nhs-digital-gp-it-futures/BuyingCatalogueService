@@ -35,8 +35,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Capabi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Capabilities.API.UnitTests", "tests\NHSD.BuyingCatalogue.Capabilities.API.UnitTests\NHSD.BuyingCatalogue.Capabilities.API.UnitTests.csproj", "{23B6CFAD-D2BC-4C95-89C3-263F8DB4D503}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.SolutionLists.API.UnitTests", "tests\NHSD.BuyingCatalogue.SolutionList.API.UnitTests\NHSD.BuyingCatalogue.SolutionLists.API.UnitTests.csproj", "{A57EB5CE-9026-4B4D-9774-9C6FB3C4B1FA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Capabilities.Application", "src\NHSD.BuyingCatalogue.Capabilities.Application\NHSD.BuyingCatalogue.Capabilities.Application.csproj", "{2652557E-01EE-4FA9-AF33-D4C30C6196D3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Capabilities.Application.UnitTests", "tests\NHSD.BuyingCatalogue.Capabilities.Application.UnitTests\NHSD.BuyingCatalogue.Capabilities.Application.UnitTests.csproj", "{3B32C20D-CE1C-4C6F-8493-7E41C0DE9E87}"
@@ -49,7 +47,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solutions", "Solutions", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Capabilities", "Capabilities", "{31EE217A-6D1D-4481-B62E-593E81DEB6D9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionList", "SolutionList", "{A0C08CFE-48D7-4449-8AE4-16B63563E774}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionLists", "SolutionLists", "{A0C08CFE-48D7-4449-8AE4-16B63563E774}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solutions", "Solutions", "{3E9E3FB1-574B-4A0B-9802-60C72F1F465C}"
 EndProject
@@ -72,6 +70,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.SolutionLists.API", "src\NHSD.BuyingCatalogue.SolutionLists.API\NHSD.BuyingCatalogue.SolutionLists.API.csproj", "{EFBD479F-334A-4643-9647-AFDEE4E07BC0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.SolutionLists.Application", "src\NHSD.BuyingCatalogue.SolutionLists.Application\NHSD.BuyingCatalogue.SolutionLists.Application.csproj", "{07EED9B3-5823-4C7D-BDFA-438C08165C69}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.SolutionLists.API.UnitTests", "tests\NHSD.BuyingCatalogue.SolutionLists.API.UnitTests\NHSD.BuyingCatalogue.SolutionLists.API.UnitTests.csproj", "{E2029DB0-BE54-4EE7-B393-3BA51A3F9DB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -135,10 +135,6 @@ Global
 		{23B6CFAD-D2BC-4C95-89C3-263F8DB4D503}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23B6CFAD-D2BC-4C95-89C3-263F8DB4D503}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23B6CFAD-D2BC-4C95-89C3-263F8DB4D503}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A57EB5CE-9026-4B4D-9774-9C6FB3C4B1FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A57EB5CE-9026-4B4D-9774-9C6FB3C4B1FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A57EB5CE-9026-4B4D-9774-9C6FB3C4B1FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A57EB5CE-9026-4B4D-9774-9C6FB3C4B1FA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2652557E-01EE-4FA9-AF33-D4C30C6196D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2652557E-01EE-4FA9-AF33-D4C30C6196D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2652557E-01EE-4FA9-AF33-D4C30C6196D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -175,6 +171,10 @@ Global
 		{07EED9B3-5823-4C7D-BDFA-438C08165C69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07EED9B3-5823-4C7D-BDFA-438C08165C69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07EED9B3-5823-4C7D-BDFA-438C08165C69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2029DB0-BE54-4EE7-B393-3BA51A3F9DB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2029DB0-BE54-4EE7-B393-3BA51A3F9DB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2029DB0-BE54-4EE7-B393-3BA51A3F9DB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2029DB0-BE54-4EE7-B393-3BA51A3F9DB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -194,7 +194,6 @@ Global
 		{D3034B89-21A1-4CBA-A53E-E6F3828C39F0} = {0C3681E5-6A86-4EC3-8AA6-F20BA25BC667}
 		{2EE07EB2-120D-4E13-84CC-C10E9DE3E675} = {97B4EF45-1E32-4089-BE2A-D97BB9E1B553}
 		{23B6CFAD-D2BC-4C95-89C3-263F8DB4D503} = {31EE217A-6D1D-4481-B62E-593E81DEB6D9}
-		{A57EB5CE-9026-4B4D-9774-9C6FB3C4B1FA} = {A0C08CFE-48D7-4449-8AE4-16B63563E774}
 		{2652557E-01EE-4FA9-AF33-D4C30C6196D3} = {97B4EF45-1E32-4089-BE2A-D97BB9E1B553}
 		{3B32C20D-CE1C-4C6F-8493-7E41C0DE9E87} = {31EE217A-6D1D-4481-B62E-593E81DEB6D9}
 		{97B4EF45-1E32-4089-BE2A-D97BB9E1B553} = {F3EA3704-BDA0-4378-9027-827EDA186F48}
@@ -213,6 +212,7 @@ Global
 		{4D8623FA-79C5-4F30-A519-B1A2837D7A65} = {595F1A88-82F8-4EB3-9DEF-A5A9268C20E6}
 		{EFBD479F-334A-4643-9647-AFDEE4E07BC0} = {F0963CE6-76F3-4222-B19C-E83A01E831B8}
 		{07EED9B3-5823-4C7D-BDFA-438C08165C69} = {F0963CE6-76F3-4222-B19C-E83A01E831B8}
+		{E2029DB0-BE54-4EE7-B393-3BA51A3F9DB8} = {A0C08CFE-48D7-4449-8AE4-16B63563E774}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7DA4FD44-32D4-4FE7-A05E-4C72D05F6476}
