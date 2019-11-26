@@ -3,9 +3,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
-using NHSD.BuyingCatalogue.Persistence.Models;
+using NHSD.BuyingCatalogue.Solutions.Persistence.Models;
 
-namespace NHSD.BuyingCatalogue.Persistence.Repositories
+namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 {
     public sealed class SolutionCapabilityRepository : ISolutionCapabilityRepository
     {

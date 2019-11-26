@@ -1,6 +1,6 @@
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 
-namespace NHSD.BuyingCatalogue.Persistence.Models
+namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
 {
     internal sealed class SolutionResult : ISolutionResult
     {

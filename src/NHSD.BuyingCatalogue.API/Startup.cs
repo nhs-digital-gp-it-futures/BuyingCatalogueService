@@ -15,12 +15,12 @@ using NHSD.BuyingCatalogue.Capabilities.Persistence;
 using NHSD.BuyingCatalogue.Contracts.Capability;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.Data;
-using NHSD.BuyingCatalogue.Persistence;
 using NHSD.BuyingCatalogue.SolutionLists.Application;
 using NHSD.BuyingCatalogue.SolutionLists.Application.Mapping;
 using NHSD.BuyingCatalogue.SolutionLists.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Application;
 using NHSD.BuyingCatalogue.Solutions.Application.Mapping;
+using NHSD.BuyingCatalogue.Solutions.Persistence;
 
 namespace NHSD.BuyingCatalogue.API
 {
@@ -52,7 +52,7 @@ namespace NHSD.BuyingCatalogue.API
                 .RegisterSolutionListApplication()
                 .RegisterCapabilitiesApplication()
                 .RegisterData()
-                .RegisterPersistence()
+                .RegisterSolutionsPersistence()
                 .RegisterCapabilityPersistence()
                 .RegisterSolutionListPersistence()
                 .AddCustomHealthCheck()

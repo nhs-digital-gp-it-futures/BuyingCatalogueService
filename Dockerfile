@@ -13,8 +13,8 @@ COPY src/NHSD.BuyingCatalogue.SolutionLists.Application/*.csproj ./src/NHSD.Buyi
 COPY src/NHSD.BuyingCatalogue.SolutionLists.Persistence/*.csproj ./src/NHSD.BuyingCatalogue.SolutionLists.Persistence/
 COPY src/NHSD.BuyingCatalogue.Solutions.API/*.csproj ./src/NHSD.BuyingCatalogue.Solutions.API/
 COPY src/NHSD.BuyingCatalogue.Solutions.Application/*.csproj ./src/NHSD.BuyingCatalogue.Solutions.Application/
+COPY src/NHSD.BuyingCatalogue.Solutions.Persistence/*.csproj ./src/NHSD.BuyingCatalogue.Solutions.Persistence/
 COPY src/NHSD.BuyingCatalogue.Infrastructure/*.csproj ./src/NHSD.BuyingCatalogue.Infrastructure/
-COPY src/NHSD.BuyingCatalogue.Persistence/*.csproj ./src/NHSD.BuyingCatalogue.Persistence/
 COPY src/NHSD.BuyingCatalogue.Data/*.csproj ./src/NHSD.BuyingCatalogue.Data/
 
 # Copy test projects
