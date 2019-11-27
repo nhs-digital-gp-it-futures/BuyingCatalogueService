@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using NHSD.BuyingCatalogue.Capabilities.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Capabilities.Persistence.Models;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Capabilities.Persistence.Repositories

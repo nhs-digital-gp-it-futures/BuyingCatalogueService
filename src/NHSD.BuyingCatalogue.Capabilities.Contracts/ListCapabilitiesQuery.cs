@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using MediatR;
 
-namespace NHSD.BuyingCatalogue.Contracts.Capability
+namespace NHSD.BuyingCatalogue.Capabilities.Contracts
 {
     /// <summary>
     /// Represents the query to retrieve a list of capabilities.

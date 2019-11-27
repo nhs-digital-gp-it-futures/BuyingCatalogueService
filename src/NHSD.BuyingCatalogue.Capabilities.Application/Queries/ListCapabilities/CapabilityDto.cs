@@ -1,5 +1,6 @@
 using System;
-using NHSD.BuyingCatalogue.Contracts.Capability;
+using NHSD.BuyingCatalogue.Capabilities.Application.Domain;
+using NHSD.BuyingCatalogue.Capabilities.Contracts;
 
 namespace NHSD.BuyingCatalogue.Capabilities.Application.Queries.ListCapabilities
 {

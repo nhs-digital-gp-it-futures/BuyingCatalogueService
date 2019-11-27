@@ -1,5 +1,5 @@
 using System;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Capabilities.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Capabilities.Application.Domain
 {

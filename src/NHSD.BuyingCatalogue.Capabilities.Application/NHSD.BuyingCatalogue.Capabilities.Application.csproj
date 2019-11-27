@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
@@ -12,18 +12,16 @@
       <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\NHSD.BuyingCatalogue.Contracts\NHSD.BuyingCatalogue.Contracts.csproj" />
-  </ItemGroup>
-
 
     <ItemGroup>
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
             <_Parameter1>$(AssemblyName).UnitTests</_Parameter1>
         </AssemblyAttribute>
-        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-            <_Parameter1>NHSD.BuyingCatalogue.Application.UnitTests</_Parameter1>
-        </AssemblyAttribute>
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\NHSD.BuyingCatalogue.Capabilities.Contracts\NHSD.BuyingCatalogue.Capabilities.Contracts.csproj" />
     </ItemGroup>
 
 </Project>

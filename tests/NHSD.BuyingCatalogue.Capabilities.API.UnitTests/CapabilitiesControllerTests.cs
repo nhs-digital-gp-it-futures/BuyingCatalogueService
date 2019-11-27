@@ -8,7 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Capabilities.API.ViewModels;
-using NHSD.BuyingCatalogue.Contracts.Capability;
+using NHSD.BuyingCatalogue.Capabilities.Contracts;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Capabilities.API.UnitTests

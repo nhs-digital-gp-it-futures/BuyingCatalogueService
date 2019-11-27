@@ -5,8 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
-using NHSD.BuyingCatalogue.Contracts.Capability;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Capabilities.Contracts;
+using NHSD.BuyingCatalogue.Capabilities.Contracts.Persistence;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Capabilities.Application.UnitTests

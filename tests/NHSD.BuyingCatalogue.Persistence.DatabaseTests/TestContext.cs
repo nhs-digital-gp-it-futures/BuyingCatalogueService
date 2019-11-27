@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using NHSD.BuyingCatalogue.Capabilities.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Capabilities.Persistence;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.Contracts.Persistence;

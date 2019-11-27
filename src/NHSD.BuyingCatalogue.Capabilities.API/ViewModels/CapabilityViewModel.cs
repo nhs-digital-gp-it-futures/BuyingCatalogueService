@@ -1,5 +1,5 @@
 using System;
-using NHSD.BuyingCatalogue.Contracts.Capability;
+using NHSD.BuyingCatalogue.Capabilities.Contracts;
 
 namespace NHSD.BuyingCatalogue.Capabilities.API.ViewModels
 {

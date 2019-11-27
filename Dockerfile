@@ -7,6 +7,7 @@ COPY src/NHSD.BuyingCatalogue.Contracts/*.csproj ./src/NHSD.BuyingCatalogue.Cont
 COPY src/NHSD.BuyingCatalogue.API/*.csproj ./src/NHSD.BuyingCatalogue.API/
 COPY src/NHSD.BuyingCatalogue.Capabilities.API/*.csproj ./src/NHSD.BuyingCatalogue.Capabilities.API/
 COPY src/NHSD.BuyingCatalogue.Capabilities.Application/*.csproj ./src/NHSD.BuyingCatalogue.Capabilities.Application/
+COPY src/NHSD.BuyingCatalogue.Capabilities.Contracts/*.csproj ./src/NHSD.BuyingCatalogue.Capabilities.Contracts/
 COPY src/NHSD.BuyingCatalogue.Capabilities.Persistence/*.csproj ./src/NHSD.BuyingCatalogue.Capabilities.Persistence/
 COPY src/NHSD.BuyingCatalogue.SolutionLists.API/*.csproj ./src/NHSD.BuyingCatalogue.SolutionLists.API/
 COPY src/NHSD.BuyingCatalogue.SolutionLists.Application/*.csproj ./src/NHSD.BuyingCatalogue.SolutionLists.Application/

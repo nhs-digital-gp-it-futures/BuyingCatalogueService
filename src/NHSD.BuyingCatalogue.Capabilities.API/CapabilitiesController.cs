@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Capabilities.API.ViewModels;
-using NHSD.BuyingCatalogue.Contracts.Capability;
+using NHSD.BuyingCatalogue.Capabilities.Contracts;
 
 namespace NHSD.BuyingCatalogue.Capabilities.API
 {

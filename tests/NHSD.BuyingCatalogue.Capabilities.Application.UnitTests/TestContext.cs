@@ -6,8 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NHSD.BuyingCatalogue.Capabilities.Application.Mapping;
 using NHSD.BuyingCatalogue.Capabilities.Application.Queries.ListCapabilities;
-using NHSD.BuyingCatalogue.Contracts.Capability;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Capabilities.Contracts;
+using NHSD.BuyingCatalogue.Capabilities.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Capabilities.Application.UnitTests
 {

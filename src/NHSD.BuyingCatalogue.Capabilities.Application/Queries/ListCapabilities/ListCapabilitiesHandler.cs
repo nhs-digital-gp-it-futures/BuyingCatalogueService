@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using NHSD.BuyingCatalogue.Capabilities.Application.Persistence;
-using NHSD.BuyingCatalogue.Contracts.Capability;
+using NHSD.BuyingCatalogue.Capabilities.Contracts;
 
 namespace NHSD.BuyingCatalogue.Capabilities.Application.Queries.ListCapabilities
 {

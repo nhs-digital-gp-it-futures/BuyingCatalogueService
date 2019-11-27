@@ -1,6 +1,6 @@
 using System;
 
-namespace NHSD.BuyingCatalogue.Contracts.Capability
+namespace NHSD.BuyingCatalogue.Capabilities.Contracts
 {
     public interface ICapability
     {
