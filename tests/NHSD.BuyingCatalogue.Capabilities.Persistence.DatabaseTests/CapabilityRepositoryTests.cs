@@ -9,7 +9,7 @@ using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
 using NUnit.Framework;
 
-namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
+namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
 {
     [TestFixture]
     public class CapabilityRepositoryTests

@@ -1,11 +1,7 @@
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using NHSD.BuyingCatalogue.Capabilities.Contracts.Persistence;
-using NHSD.BuyingCatalogue.Capabilities.Persistence;
-using NHSD.BuyingCatalogue.Capabilities.Persistence.Repositories;
-using NHSD.BuyingCatalogue.Contracts.Infrastructure;
-using NHSD.BuyingCatalogue.Data;
+using NHSD.BuyingCatalogue.Data.Infrastructure;
 using NHSD.BuyingCatalogue.SolutionLists.Contracts.Persistence;
 using NHSD.BuyingCatalogue.SolutionLists.Persistence;
 using NHSD.BuyingCatalogue.SolutionLists.Persistence.Repositories;
@@ -24,14 +20,11 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         public void ShouldRegisterRepositories()
         {
             var serviceCollection = new ServiceCollection();
-            serviceCollection.AddSingleton(Mock.Of<ISettings>());
-            serviceCollection.RegisterData();
+            serviceCollection.AddSingleton(Mock.Of<IDbConnector>());
             serviceCollection.RegisterSolutionsPersistence();
-            serviceCollection.RegisterCapabilityPersistence();
             serviceCollection.RegisterSolutionListPersistence();
 
             var provider = serviceCollection.BuildServiceProvider();
-            provider.GetService<ICapabilityRepository>().Should().BeOfType<CapabilityRepository>();
             provider.GetService<ISolutionListRepository>().Should().BeOfType<SolutionListRepository>();
             provider.GetService<ISolutionRepository>().Should().BeOfType<SolutionRepository>();
             provider.GetService<ISolutionDetailRepository>().Should().BeOfType<SolutionDetailRepository>();

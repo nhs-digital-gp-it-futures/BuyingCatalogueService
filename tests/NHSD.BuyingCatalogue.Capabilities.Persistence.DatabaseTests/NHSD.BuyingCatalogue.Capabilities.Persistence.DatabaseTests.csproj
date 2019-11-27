@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="coverlet.msbuild" Version="2.7.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="FluentAssertions" Version="5.9.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
+        <PackageReference Include="Moq" Version="4.13.1" />
+        <PackageReference Include="nunit" Version="3.12.0" />
+        <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+    <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.Capabilities.Persistence\NHSD.BuyingCatalogue.Capabilities.Persistence.csproj" />
+    <ProjectReference Include="..\NHSD.BuyingCatalogue.Testing.Data\NHSD.BuyingCatalogue.Testing.Data.csproj" />
+  </ItemGroup>
+
+</Project>

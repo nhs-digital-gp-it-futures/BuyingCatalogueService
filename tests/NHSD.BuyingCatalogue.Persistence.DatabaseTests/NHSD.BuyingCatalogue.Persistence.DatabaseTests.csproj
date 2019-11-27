@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.Capabilities.Persistence\NHSD.BuyingCatalogue.Capabilities.Persistence.csproj" />
     <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.SolutionLists.Persistence\NHSD.BuyingCatalogue.SolutionLists.Persistence.csproj" />
     <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.Solutions.Contracts\NHSD.BuyingCatalogue.Solutions.Contracts.csproj" />
     <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.Solutions.Persistence\NHSD.BuyingCatalogue.Solutions.Persistence.csproj" />
