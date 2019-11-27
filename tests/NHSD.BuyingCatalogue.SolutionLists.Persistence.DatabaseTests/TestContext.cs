@@ -1,15 +1,16 @@
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using NHSD.BuyingCatalogue.Capabilities.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.Data;
+using NHSD.BuyingCatalogue.SolutionLists.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Testing.Data;
 
-namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
+namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
 {
     internal class TestContext
     {
-        public ICapabilityRepository CapabilityRepository => _scope.CapabilityRepository;
+
+        public ISolutionListRepository SolutionListRepository => _scope.SolutionListRepository;
 
         private readonly Scope _scope;
 
@@ -21,7 +22,7 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
             serviceCollection.AddSingleton(settings.Object);
 
             serviceCollection.RegisterData();
-            serviceCollection.RegisterCapabilityPersistence();
+            serviceCollection.RegisterSolutionListPersistence();
 
             serviceCollection.AddSingleton<Scope>();
 
@@ -30,11 +31,11 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
         
         private class Scope
         {
-            public ICapabilityRepository CapabilityRepository { get; }
+            public ISolutionListRepository SolutionListRepository { get; }
 
-            public Scope(ICapabilityRepository capabilityRepository)
+            public Scope(ISolutionListRepository solutionListRepository)
             {
-                CapabilityRepository = capabilityRepository;
+                SolutionListRepository = solutionListRepository;
             }
         }
     }

@@ -3,8 +3,6 @@ using Moq;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.Data;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
-using NHSD.BuyingCatalogue.SolutionLists.Contracts.Persistence;
-using NHSD.BuyingCatalogue.SolutionLists.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Persistence;
 using NHSD.BuyingCatalogue.Testing.Data;
@@ -18,8 +16,6 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         public ISolutionCapabilityRepository SolutionCapabilityRepository => _scope.SolutionCapabilityRepository;
 
         public ISolutionDetailRepository SolutionDetailRepository => _scope.SolutionDetailRepository;
-
-        public ISolutionListRepository SolutionListRepository => _scope.SolutionListRepository;
 
         public ISolutionRepository SolutionRepository => _scope.SolutionRepository;
 
@@ -36,7 +32,6 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 
             serviceCollection.RegisterData();
             serviceCollection.RegisterSolutionsPersistence();
-            serviceCollection.RegisterSolutionListPersistence();
 
             serviceCollection.AddSingleton<Scope>();
 
@@ -51,8 +46,6 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
 
             public ISolutionDetailRepository SolutionDetailRepository { get; }
 
-            public ISolutionListRepository SolutionListRepository { get; }
-
             public ISolutionRepository SolutionRepository { get; }
 
             public IDbConnector DbConnector { get; }
@@ -60,14 +53,12 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
             public Scope(IMarketingContactRepository marketingContactRepository,
                 ISolutionCapabilityRepository solutionCapabilityRepository,
                 ISolutionDetailRepository solutionDetailRepository,
-                ISolutionListRepository solutionListRepository,
                 ISolutionRepository solutionRepository,
                 IDbConnector dbConnector)
             {
                 MarketingContactRepository = marketingContactRepository;
                 SolutionCapabilityRepository = solutionCapabilityRepository;
                 SolutionDetailRepository = solutionDetailRepository;
-                SolutionListRepository = solutionListRepository;
                 SolutionRepository = solutionRepository;
                 DbConnector = dbConnector;
             }

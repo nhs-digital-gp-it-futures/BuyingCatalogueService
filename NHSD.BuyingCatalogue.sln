@@ -94,6 +94,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Soluti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests", "tests\NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests\NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests.csproj", "{57D4F422-491C-4239-8CE2-31BF0638E615}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests", "tests\NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests\NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests.csproj", "{8638969F-E3FA-4FF5-BC35-C39390A9C1E9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -216,6 +218,10 @@ Global
 		{57D4F422-491C-4239-8CE2-31BF0638E615}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57D4F422-491C-4239-8CE2-31BF0638E615}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57D4F422-491C-4239-8CE2-31BF0638E615}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8638969F-E3FA-4FF5-BC35-C39390A9C1E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8638969F-E3FA-4FF5-BC35-C39390A9C1E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8638969F-E3FA-4FF5-BC35-C39390A9C1E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8638969F-E3FA-4FF5-BC35-C39390A9C1E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -259,6 +265,7 @@ Global
 		{EEC0BB0B-34DC-49C6-8DBD-954D522D8D4C} = {A03BCB1D-3C89-46CB-BE97-9BC9721FFD5F}
 		{434705B5-CAF3-4DC8-A060-C3923C67763B} = {81166EBD-E7BB-4C24-8FBA-A77588282884}
 		{57D4F422-491C-4239-8CE2-31BF0638E615} = {3434AA68-30C6-43D2-BCE4-8E7AB5A5A187}
+		{8638969F-E3FA-4FF5-BC35-C39390A9C1E9} = {83AEF4B0-58A2-4A1E-9D4D-194CA10B3121}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B5E5ECC8-5558-45B1-83AC-F557B4DC8C57}
