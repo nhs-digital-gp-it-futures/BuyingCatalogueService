@@ -52,16 +52,17 @@ docker-compose -f ".\docker-compose.yml" -f ".\docker-compose.development.yml" d
 # Integration Tests
 
 Integration Tests and Persistence Tests run against Docker images of service and database. These must be re-created before running tests.
+<br/>
 Alternatively use the supplied powershell scripts "Run Integration Tests.ps1" and "Run Code coverage.ps1" 
 
-##Before running such tests in Visual Studio
+## Before running such tests in Visual Studio
 ```
 dotnet publish "src\NHSD.BuyingCatalogue.API\NHSD.BuyingCatalogue.API.csproj" --configuration Release --output "out"
 docker-compose -f "docker-compose.yml" -f "docker-compose.integration.yml" up -d
 ```
 (Or run "Launch Integration Environment.ps1")
 
-##After running such tests in Visual Studio
+## After running such tests in Visual Studio
 
 Run "Tear Down Integration Environment.ps1"
 
@@ -79,6 +80,6 @@ To build / update the image run `setup-integration-db` script either in Powershe
 ## Troubleshooting
 `./integration-entrypoint.sh: line 2: $'\r': command not found` during the image build - run `dos2unix` on the integration-entrypoint.sh script
 
-##Error: "Start Buying Catalogue API failed, could not get a successful health status from 'http://localhost:8080/health/live' after trying for '01:00'"
+## Error: "Start Buying Catalogue API failed, could not get a successful health status from 'http://localhost:8080/health/live' after trying for '01:00'"
 
 Have you remembered to run "Launch Integration Environment.ps1" :) ?
