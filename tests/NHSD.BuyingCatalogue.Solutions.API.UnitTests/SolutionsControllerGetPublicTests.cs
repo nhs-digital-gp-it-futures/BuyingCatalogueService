@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Public;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
@@ -209,7 +209,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
                     c.ClientApplicationTypes == new HashSet<string> { "browser-based", "native-mobile" }
-                    && c.Plugins == new PluginsDto { Required = true, AdditionalInformation = "Plugin additional information" })), SolutionId1);
+                    && c.Plugins == Mock.Of<IPlugins>(p => p.Required == true && p.AdditionalInformation == "Plugin additional information"))), SolutionId1);
 
             publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.PluginOrExtensionsSection.Answers.Required
                 .Should().Be("Yes");
