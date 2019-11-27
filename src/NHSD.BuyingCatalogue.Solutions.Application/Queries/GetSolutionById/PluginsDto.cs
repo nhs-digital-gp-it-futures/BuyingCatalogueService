@@ -1,4 +1,4 @@
-using NHSD.BuyingCatalogue.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
 {

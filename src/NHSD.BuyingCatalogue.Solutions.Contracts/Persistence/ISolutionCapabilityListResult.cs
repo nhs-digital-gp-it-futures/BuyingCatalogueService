@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace NHSD.BuyingCatalogue.Contracts.Persistence
+namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
 {
     public interface ISolutionCapabilityListResult
     {

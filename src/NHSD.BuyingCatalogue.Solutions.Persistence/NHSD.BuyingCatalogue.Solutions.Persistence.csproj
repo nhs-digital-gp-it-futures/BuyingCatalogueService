@@ -9,8 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NHSD.BuyingCatalogue.Contracts\NHSD.BuyingCatalogue.Contracts.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Data\NHSD.BuyingCatalogue.Data.csproj" />
+    <ProjectReference Include="..\NHSD.BuyingCatalogue.Solutions.Contracts\NHSD.BuyingCatalogue.Solutions.Contracts.csproj" />
   </ItemGroup>
   
 </Project>

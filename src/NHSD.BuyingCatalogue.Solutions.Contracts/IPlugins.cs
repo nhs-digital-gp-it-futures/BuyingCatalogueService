@@ -1,4 +1,4 @@
-namespace NHSD.BuyingCatalogue.Contracts
+namespace NHSD.BuyingCatalogue.Solutions.Contracts
 {
     public interface IPlugins
     {

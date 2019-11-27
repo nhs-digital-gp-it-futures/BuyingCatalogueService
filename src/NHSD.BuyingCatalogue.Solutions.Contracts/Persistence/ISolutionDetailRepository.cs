@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NHSD.BuyingCatalogue.Contracts.Persistence
+namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
 {
     /// <summary>
     /// Defines a data contract representing the functionality for the persistence layer specific to the solution detail domain.
