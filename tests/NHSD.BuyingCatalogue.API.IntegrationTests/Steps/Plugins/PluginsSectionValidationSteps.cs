@@ -20,7 +20,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             _response = response;
         }
 
-        [Given(@"plug-ins is a string of (yes|no)")]
+        [Given(@"plug-ins is a string of (Yes|No)")]
         public void GivenPluginsIsBool(string field)
         {
             _context["required"] = field;

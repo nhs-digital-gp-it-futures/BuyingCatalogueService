@@ -7,13 +7,15 @@ Background:
     Given Organisations exist
         | Name     |
         | GPs-R-Us |
-        | Drs. Inc |
+    And Suppliers exist
+        | Id    | OrganisationName |
+        | Sup 1 | GPs-R-Us         |
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | FullDescription     | SupplierStatusId |
-        | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | Online medicine 1   | 1                |
-    And MarketingDetail exist
-        | Solution | AboutUrl | Features                          |
-        | Sln1     | UrlSln1  | [ "Appointments", "Prescribing" ] |
+        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
+    And SolutionDetail exist
+        | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
+        | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
 
 @3319
 Scenario: 1. No features are filled out
@@ -21,11 +23,11 @@ Scenario: 1. No features are filled out
     When the update features request is made for Sln1
     Then a successful response is returned
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | FullDescription     | SupplierStatusId |
-        | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | Online medicine 1   | 1                |
-    And MarketingDetail exist
-        | Solution | AboutUrl | Features                        |
-        | Sln1     | UrlSln1  | ["","","","","","","","","",""] |
+        | SolutionID | SolutionName   |
+        | Sln1       | MedicOnline    |
+    And SolutionDetail exist
+        | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                        |
+        | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1   | ["","","","","","","","","",""] |
 
 @3319
 Scenario: 2. listing-1 exceeds the character limit
@@ -35,11 +37,11 @@ Scenario: 2. listing-1 exceeds the character limit
     Then a response status of 400 is returned
     And the features response required field contains listing-1
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | FullDescription     | SupplierStatusId |
-        | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | Online medicine 1   | 1                |
-    And MarketingDetail exist
-        | Solution | AboutUrl | Features                          |
-        | Sln1     | UrlSln1  | [ "Appointments", "Prescribing" ] |
+        | SolutionID | SolutionName   |
+        | Sln1       | MedicOnline    |
+    And SolutionDetail exist
+        | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
+        | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
 
 @3319
 Scenario: 3. listing-1 & listing-3 are within the character limit. listing-5 & listing-8 exceeds the character limit
@@ -52,8 +54,8 @@ Scenario: 3. listing-1 & listing-3 are within the character limit. listing-5 & l
     Then a response status of 400 is returned
     And the features response required field contains listing-5,listing-8
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | FullDescription     | SupplierStatusId |
-        | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | Online medicine 1   | 1                |
-    And MarketingDetail exist
-        | Solution | AboutUrl | Features                          |
-        | Sln1     | UrlSln1  | [ "Appointments", "Prescribing" ] |
+        | SolutionID | SolutionName   |
+        | Sln1       | MedicOnline    |
+    And SolutionDetail exist
+        | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
+        | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |

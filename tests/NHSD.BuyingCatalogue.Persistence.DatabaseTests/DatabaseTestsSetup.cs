@@ -10,14 +10,7 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
         [OneTimeSetUp]
         public async Task OneTimeSetUpAsync()
         {
-            await DockerSqlServer.StartAsync();
-            await Database.CreateAsync();
-        }
-
-        [OneTimeTearDown]
-        public async Task OneTimeTearDownAsync()
-        {
-            await DockerSqlServer.StopAsync();
+            await Database.AwaitDatabaseAsync();
         }
     }
 }

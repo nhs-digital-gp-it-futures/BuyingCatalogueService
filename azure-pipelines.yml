@@ -1,0 +1,27 @@
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: CopyFiles@2
+  displayName: 'Copy Files to: API'
+  inputs:
+    SourceFolder: api
+    TargetFolder: '$(build.artifactstagingdirectory)\service\api'
+
+- task: CopyFiles@2
+  displayName: 'Copy Files to: Data Model'
+  inputs:
+    SourceFolder: datamodel
+    TargetFolder: '$(build.artifactstagingdirectory)\service\datamodel'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)\service\api'
+    ArtifactName: 'api'
+    publishLocation: 'Container'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)\service\datamodel'
+    ArtifactName: 'datamodel'
+    publishLocation: 'Container'

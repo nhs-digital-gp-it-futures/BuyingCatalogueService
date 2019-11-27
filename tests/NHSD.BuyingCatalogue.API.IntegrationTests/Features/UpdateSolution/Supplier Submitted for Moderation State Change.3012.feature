@@ -6,15 +6,18 @@ Background:
     Given Organisations exist
         | Name     |
         | GPs-R-Us |
+    And Suppliers exist
+        | Id    | OrganisationName |
+        | Sup 1 | GPs-R-Us         |
 
 @3012
 Scenario: 1. Supplier status successfully updated upon Solution submitted for review
     Given Solutions exist
-        | SolutionID | SolutionName | SummaryDescription             | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline  | An full online medicine system | GPs-R-Us         | 1                |
-    And MarketingDetail exist
-        | Solution | ClientApplication                                                                                           |
-        | Sln1     | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true, "Plugins": { "Required": false } } |
+        | SolutionID | SolutionName | OrganisationName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline  | GPs-R-Us         | 1                | Sup 1      |
+    And SolutionDetail exist
+        | Solution | SummaryDescription             | ClientApplication                                                                                                                             |
+        | Sln1     | An full online medicine system | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true, "Plugins": { "Required": false } } |
 	When a request is made to submit Solution Sln1 for review
     Then a successful response is returned
     And the field [SupplierStatusId] for Solution Sln1 should correspond to 'Authority Review'
@@ -22,8 +25,8 @@ Scenario: 1. Supplier status successfully updated upon Solution submitted for re
 @3012
 Scenario: 2. Supplier status not updated due to missing Solution summary
     Given Solutions exist
-        | SolutionID | SolutionName | SummaryDescription | OrganisationName | SupplierStatusId |
-        | Sln1       | MedicOnline  |                    | GPs-R-Us         | 1                |
+        | SolutionID | SolutionName | SummaryDescription | OrganisationName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline  |                    | GPs-R-Us         | 1                | Sup 1      |
 	When a request is made to submit Solution Sln1 for review
     Then a response status of 400 is returned
     And the field [SupplierStatusId] for Solution Sln1 should correspond to 'Draft'

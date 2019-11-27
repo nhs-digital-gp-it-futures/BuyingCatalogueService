@@ -20,6 +20,11 @@ namespace NHSD.BuyingCatalogue.Contracts.SolutionList
         string Summary { get; }
 
         /// <summary>
+        /// Determines whether this is a foundation solution.
+        /// </summary>
+        bool IsFoundation { get; }
+
+        /// <summary>
         /// Details of the organisation associated with the solution.
         /// </summary>
         ISolutionOrganisation Organisation { get; }

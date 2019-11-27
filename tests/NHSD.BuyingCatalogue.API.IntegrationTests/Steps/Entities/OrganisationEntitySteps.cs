@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
 using TechTalk.SpecFlow;
@@ -22,7 +23,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         {
             await OrganisationEntityBuilder.Create()
                 .WithName(organisationTable.Name)
-                .WithId(organisationTable.Name.Substring(3))
+                .WithId(Guid.NewGuid())
                 .Build()
                 .InsertAsync();
         }

@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,8 +7,9 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.API.Infrastructure.Filters;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
-using NHSD.BuyingCatalogue.Contracts.Infrastructure.HealthChecks;
-using NHSD.BuyingCatalogue.Persistence.HealthChecks;
+using NHSD.BuyingCatalogue.Capabilities.API;
+using NHSD.BuyingCatalogue.SolutionLists.API;
+using NHSD.BuyingCatalogue.Solutions.API;
 
 namespace NHSD.BuyingCatalogue.API.Extensions
 {
@@ -42,18 +44,18 @@ namespace NHSD.BuyingCatalogue.API.Extensions
 		/// <param name="services">The collection of service descriptors.</param>
 		/// <returns>The extended service collection instance.</returns>
 		public static IServiceCollection AddCustomMvc(this IServiceCollection services)
-		{
+        {
+            Action<MvcOptions> op = options => options.Filters.Add(typeof(CustomExceptionFilter));
+
+            Action<IMvcBuilder> controllerAction = builder => builder
+                .AddNewtonsoftJson(jsonOptions => jsonOptions.SerializerSettings.NullValueHandling = NullValueHandling.Ignore)
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
             services
                 .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
-                .AddControllers(options =>
-                {
-                    options.Filters.Add(typeof(CustomExceptionFilter));
-                })
-                .AddNewtonsoftJson(jsonOptions =>
-                {
-                    jsonOptions.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-                })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+                .RegisterCapabilityController(op, controllerAction)
+                .RegisterSolutionListController(op, controllerAction)
+                .RegisterSolutionController(op, controllerAction);
 
 			return services;
 		}

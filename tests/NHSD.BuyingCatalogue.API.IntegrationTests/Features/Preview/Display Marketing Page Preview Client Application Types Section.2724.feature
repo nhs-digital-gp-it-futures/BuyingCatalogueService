@@ -8,20 +8,24 @@ Background:
         | Name     |
         | GPs-R-Us |
         | Drs. Inc |
+    And Suppliers exist
+        | Id    | OrganisationName |
+        | Sup 1 | GPs-R-Us         |
+        | Sup 2 | Drs. Inc         |
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | FullDescription     | SupplierStatusId |
-        | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | Online medicine 1   | 1                |
-        | Sln2       | TakeTheRedPill | Eye opening experience         | Drs. Inc         | Eye opening6        | 1                |
-        | Sln3       | PracticeMgr    | Fully fledged GP system        | Drs. Inc         | Fully fledged GP 12 | 1                |
-        | Sln4       | PracticeMgr    | Fully fledged GP system        | Drs. Inc         | Fully fledged GP 12 | 1                |
-        | Sln5       | Potions        | Lotions                        | GPs-R-Us         | Cauldronsinc.       | 1                |
+        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                | Sup 2      |
+        | Sln3       | PracticeMgr    | Drs. Inc         | 1                | Sup 2      |
+        | Sln4       | PracticeMgr    | Drs. Inc         | 1                | Sup 2      |
+        | Sln5       | Potions        | GPs-R-Us         | 1                | Sup 1      |
 
-    And MarketingDetail exist
-        | Solution | ClientApplication                                                                               |
-        | Sln1     | { "ClientApplicationTypes" : [ "browser-based" ], "BrowsersSupported" : [ "Edge", "Chrome" ]  } |
-        | Sln3     |                                                                                                 |
-        | Sln4     | { "ClientApplicationTypes" : [] }                                                               |
-        | Sln5     | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                            |
+    And SolutionDetail exist
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                               |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based" ], "BrowsersSupported" : [ "Edge", "Chrome" ]  } |
+        | Sln3     | Eye opening experience         | Eye opening6        |                                                                                                 |
+        | Sln4     | Fully fledged GP system        | Fully fledged GP 12 | { "ClientApplicationTypes" : [] }                                                               |
+        | Sln5     | Fully fledged GP system        | Fully fledged GP 12 | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                            |
 
 @2724
 Scenario: 1. When a client application type is selected and it contains data, client application types should show
@@ -31,7 +35,7 @@ Scenario: 1. When a client application type is selected and it contains data, cl
     And the client-application-types section contains subsection browser-based
 
 @2724
-Scenario Outline: 2. When MarketingDetail record does not exist, client application types should not show
+Scenario Outline: 2. When SolutionDetail record does not exist, client application types should not show
     When a GET request is made for solution preview <Solution>
     Then a successful response is returned
     And the client-application-types section is missing
@@ -41,7 +45,7 @@ Examples:
     | Sln3     |
 
 @2724
-Scenario: 3. When MarketingDetail.ClientApplicationTypes is empty, client application types should not show
+Scenario: 3. When SolutionDetail.ClientApplicationTypes is empty, client application types should not show
     When a GET request is made for solution preview Sln4
     Then a successful response is returned
     And the client-application-types section is missing

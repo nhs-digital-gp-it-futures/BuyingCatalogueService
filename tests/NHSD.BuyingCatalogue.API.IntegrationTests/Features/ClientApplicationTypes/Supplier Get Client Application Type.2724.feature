@@ -7,16 +7,20 @@ Background:
         | Name     |
         | GPs-R-Us |
         | Drs. Inc |
+    And Suppliers exist
+        | Id    | OrganisationName |
+        | Sup 1 | GPs-R-Us         |
+        | Sup 2 | Drs. Inc         |
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | FullDescription     | SupplierStatusId |
-        | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | Online medicine 1   | 1                |
-        | Sln2       | TakeTheRedPill | Eye opening experience         | Drs. Inc         | Eye opening6        | 1                |
-        | Sln3       | PracticeMgr    | Fully fledged GP system        | Drs. Inc         | Fully fledged GP 12 | 1                |
-    And MarketingDetail exist
-        | Solution | ClientApplication                                                    |
-        | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] } |
-        | Sln3     |                                                                      |
-
+        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                | Sup 2      |
+        | Sln3       | PracticeMgr    | Drs. Inc         | 1                | Sup 2      |
+    And SolutionDetail exist
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                    |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] } |
+        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                      |
+                
 @2724
 Scenario: 1. Client Application Types are retrieved for the solution
     When a GET request is made for client-application-types for solution Sln1
@@ -27,7 +31,7 @@ Scenario: 1. Client Application Types are retrieved for the solution
     | native-desktop         |
 
 @2724
-Scenario: 2. Client Application Types are retrieved for the solution where no marketing detail exists
+Scenario: 2. Client Application Types are retrieved for the solution where no solution detail exists
     When a GET request is made for client-application-types for solution Sln2
     Then a successful response is returned
     And the client-application-types element contains

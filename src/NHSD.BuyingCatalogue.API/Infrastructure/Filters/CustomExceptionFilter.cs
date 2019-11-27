@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NHSD.BuyingCatalogue.API.Extensions;
+using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 
 namespace NHSD.BuyingCatalogue.API.Infrastructure.Filters
 {

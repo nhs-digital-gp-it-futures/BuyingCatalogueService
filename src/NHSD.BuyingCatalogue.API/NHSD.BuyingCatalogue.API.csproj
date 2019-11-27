@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
@@ -11,12 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
-    <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="MediatR" Version="7.0.0" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions" Version="3.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc3" />
@@ -30,9 +25,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NHSD.BuyingCatalogue.Application\NHSD.BuyingCatalogue.Application.csproj" />
-    <ProjectReference Include="..\NHSD.BuyingCatalogue.Domain\NHSD.BuyingCatalogue.Domain.csproj" />
-    <ProjectReference Include="..\NHSD.BuyingCatalogue.Persistence\NHSD.BuyingCatalogue.Persistence.csproj" />
+    <ProjectReference Include="..\NHSD.BuyingCatalogue.Capabilities.API\NHSD.BuyingCatalogue.Capabilities.API.csproj" />
+    <ProjectReference Include="..\NHSD.BuyingCatalogue.Capabilities.Application\NHSD.BuyingCatalogue.Capabilities.Application.csproj" />
+    <ProjectReference Include="..\NHSD.BuyingCatalogue.Capabilities.Persistence\NHSD.BuyingCatalogue.Capabilities.Persistence.csproj" />
+    <ProjectReference Include="..\NHSD.BuyingCatalogue.Infrastructure\NHSD.BuyingCatalogue.Infrastructure.csproj" />
+    <ProjectReference Include="..\NHSD.BuyingCatalogue.SolutionLists.API\NHSD.BuyingCatalogue.SolutionLists.API.csproj" />
+    <ProjectReference Include="..\NHSD.BuyingCatalogue.SolutionLists.Application\NHSD.BuyingCatalogue.SolutionLists.Application.csproj" />
+    <ProjectReference Include="..\NHSD.BuyingCatalogue.SolutionLists.Persistence\NHSD.BuyingCatalogue.SolutionLists.Persistence.csproj" />
+    <ProjectReference Include="..\NHSD.BuyingCatalogue.Solutions.API\NHSD.BuyingCatalogue.Solutions.API.csproj" />
+    <ProjectReference Include="..\NHSD.BuyingCatalogue.Solutions.Application\NHSD.BuyingCatalogue.Solutions.Application.csproj" />
+    <ProjectReference Include="..\NHSD.BuyingCatalogue.Solutions.Persistence\NHSD.BuyingCatalogue.Solutions.Persistence.csproj" />
   </ItemGroup>
 
     <ItemGroup>

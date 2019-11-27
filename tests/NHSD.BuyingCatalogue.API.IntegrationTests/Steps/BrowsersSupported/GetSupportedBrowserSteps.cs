@@ -31,7 +31,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         }
 
 
-        [Then(@"the mobile-responsive element is (yes|no)")]
+        [Then(@"the mobile-responsive element is (Yes|No)")]
         public async Task ThenTheMobile_ResponsiveElementContains(string mobileResponsive)
         {
             var context = await _response.ReadBody();

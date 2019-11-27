@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace NHSD.BuyingCatalogue.Contracts.Solutions
@@ -13,6 +14,11 @@ namespace NHSD.BuyingCatalogue.Contracts.Solutions
         /// Name of the solution, as displayed to a user.
         /// </summary>
         string Name { get; }
+
+        /// <summary>
+        /// Date when the solution was last modified, as displayed to the user
+        /// </summary>
+        DateTime LastUpdated { get; }
 
         /// <summary>
         /// Full description of the solution, as displayed to the user.
@@ -48,5 +54,20 @@ namespace NHSD.BuyingCatalogue.Contracts.Solutions
         /// Marketing information related to the clients application.
         /// </summary>
         IClientApplication ClientApplication { get; }
+
+        /// <summary>
+        /// Is this a foundation solution?
+        /// </summary>
+        bool IsFoundation { get; }
+
+        /// <summary>
+        /// Capabilities claimed by the solution
+        /// </summary>
+        IEnumerable<string> Capabilities { get; }
+
+        /// <summary>
+        /// The contacts for the solution
+        /// </summary>
+        IEnumerable<IContact> Contacts { get; }
     }
 }

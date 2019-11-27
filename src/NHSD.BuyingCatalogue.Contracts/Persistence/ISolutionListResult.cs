@@ -10,7 +10,7 @@ namespace NHSD.BuyingCatalogue.Contracts.Persistence
 
         string SolutionSummary { get; }
 
-        string OrganisationId { get; }
+        Guid OrganisationId { get; }
 
         string OrganisationName { get; }
 
@@ -19,5 +19,7 @@ namespace NHSD.BuyingCatalogue.Contracts.Persistence
         string CapabilityName { get; }
 
         string CapabilityDescription { get; }
+
+        bool IsFoundation { get; }
     }
 }

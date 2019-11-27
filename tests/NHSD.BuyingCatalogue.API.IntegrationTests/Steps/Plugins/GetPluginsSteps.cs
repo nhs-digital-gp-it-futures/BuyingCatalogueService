@@ -17,7 +17,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             _response = response;
         }
 
-        [Then(@"the required string is (yes|no)")]
+        [Then(@"the required string is (Yes|No)")]
         public async Task ThenTheRequiredElementContains(string required)
         {
             var content = await _response.ReadBody();

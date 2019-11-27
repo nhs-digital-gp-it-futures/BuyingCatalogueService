@@ -8,17 +8,21 @@ Background:
         | Name     |
         | GPs-R-Us |
         | Drs. Inc |
+    And Suppliers exist
+        | Id    | OrganisationName |
+        | Sup 1 | GPs-R-Us         |
+        | Sup 2 | Drs. Inc         |
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | FullDescription     | SupplierStatusId |
-        | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | Online medicine 1   | 1                |
-        | Sln2       | TakeTheRedPill | Eye opening experience         | Drs. Inc         | Eye opening6        | 1                |
-        | Sln3       | PracticeMgr    | Fully fledged GP system        | Drs. Inc         | Fully fledged GP 12 | 1                |
-        | Sln5       | SolutionTest   | Testing System                 | GPs-R-Us         | Full System         | 1                |
-    And MarketingDetail exist
-        | Solution | ClientApplication                                                        |
-        | Sln1     | { "BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true } |
-        | Sln3     |                                                                          |
-        | Sln5     | {"MobileResponsive": false }                                             |
+        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                | Sup 2      |
+        | Sln3       | PracticeMgr    | Drs. Inc         | 1                | Sup 2      |
+        | Sln5       | SolutionTest   | GPs-R-Us         | 1                | Sup 2      |
+    And SolutionDetail exist
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                        |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true } |
+        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                          |
+        | Sln5     | Testing System                 | Full System         | {"MobileResponsive": false }                                             |
 
 @2786
 Scenario: 1. Supported Browsers are retrieved for the solution
@@ -28,10 +32,10 @@ Scenario: 1. Supported Browsers are retrieved for the solution
         | BrowsersSupported |
         | Chrome            |
         | Edge              |
-    And the mobile-responsive element is yes
+    And the mobile-responsive element is Yes
 
 @2786
-Scenario: 2. Supported Browsers are retrieved for the solution where no marketing detail exists
+Scenario: 2. Supported Browsers are retrieved for the solution where no solution detail exists
     When a GET request is made for browsers-supported for solution Sln2
     Then a successful response is returned
     And the supported-browsers element contains
@@ -70,4 +74,4 @@ Scenario: 7.Supported Browsers are retrieved for the solution where no supported
     Then a successful response is returned
     And the supported-browsers element contains
     | BrowsersSupported |
-    And the mobile-responsive element is no
+    And the mobile-responsive element is No

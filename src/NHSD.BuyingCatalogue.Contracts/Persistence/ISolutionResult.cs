@@ -6,6 +6,8 @@ namespace NHSD.BuyingCatalogue.Contracts.Persistence
 
         string Name { get; }
 
+        string LastUpdated { get; }
+
         string Summary { get; }
 
         string Description { get; }
@@ -17,5 +19,7 @@ namespace NHSD.BuyingCatalogue.Contracts.Persistence
         string ClientApplication { get; }
 
         string OrganisationName { get; }
+
+        bool IsFoundation { get; }
     }
 }

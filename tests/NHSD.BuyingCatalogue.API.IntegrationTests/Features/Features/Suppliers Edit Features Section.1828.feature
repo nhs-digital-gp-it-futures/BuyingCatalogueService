@@ -8,54 +8,45 @@ Background:
         | Name     |
         | GPs-R-Us |
         | Drs. Inc |
+    And Suppliers exist
+        | Id    | OrganisationName |
+        | Sup 1 | GPs-R-Us         |
+        | Sup 2 | Drs. Inc         |
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | FullDescription     | SupplierStatusId |
-        | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | Online medicine 1   | 1                |
-        | Sln2       | TakeTheRedPill | Eye opening experience         | Drs. Inc         | Eye opening6        | 1                |
-        | Sln3       | PracticeMgr    | Fully fledged GP system        | Drs. Inc         | Fully fledged GP 12 | 1                |
+        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                | Sup 2      |
+        | Sln3       | PracticeMgr    | Drs. Inc         | 1                | Sup 2      |
 
 @1828
 Scenario: 1. Marketing Data is updated against the solution
-    Given MarketingDetail exist
-        | Solution | AboutUrl | Features                          |
-        | Sln1     | UrlSln1  | [ "Appointments", "Prescribing" ] |
-        | Sln2     | UrlSln2  | [ "Workflow", "Referrals" ]       |
-        | Sln3     | UrlSln3  | [ "Dispensing" ]                  |
+    Given SolutionDetail exist
+        | Solution | SummaryDescription             | FullDescription     | AboutUrl | Features                          |
+        | Sln1     | An full online medicine system | Online medicine 1   | UrlSln1  | [ "Appointments", "Prescribing" ] |
+        | Sln2     | Eye opening experience         | Eye opening6        | UrlSln2  | [ "Workflow", "Referrals" ]       |
+        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 | UrlSln3  | [ "Dispensing" ]                  |
     When a PUT request is made to update solution Sln1 features section
         | Features                      |
         | Dispensing,Referrals,Workflow |
     Then a successful response is returned
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | FullDescription     | SupplierStatusId |
-        | Sln1       | MedicOnline    | An full online medicine system | Online medicine 1   | 1                |
-        | Sln2       | TakeTheRedPill | Eye opening experience         | Eye opening6        | 1                |
-        | Sln3       | PracticeMgr    | Fully fledged GP system        | Fully fledged GP 12 | 1                |
-    And MarketingDetail exist
-        | Solution | AboutUrl | Features                              |
-        | Sln1     | UrlSln1  | ["Dispensing","Referrals","Workflow"] |
-        | Sln2     | UrlSln2  | [ "Workflow", "Referrals" ]           |
-        | Sln3     | UrlSln3  | [ "Dispensing" ]                      |
+        | SolutionID | SolutionName   |
+        | Sln1       | MedicOnline    |
+        | Sln2       | TakeTheRedPill |
+        | Sln3       | PracticeMgr    |
+    And SolutionDetail exist
+        | Solution | SummaryDescription             | FullDescription     | AboutUrl | Features                              |
+        | Sln1     | An full online medicine system | Online medicine 1   | UrlSln1  | ["Dispensing","Referrals","Workflow"] |
+        | Sln2     | Eye opening experience         | Eye opening6        | UrlSln2  | [ "Workflow", "Referrals" ]           |
+        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 | UrlSln3  | [ "Dispensing" ]                      |
 
 @1828
 Scenario: 2. Marketing Data is added to the solution
-    Given MarketingDetail exist
-        | Solution | AboutUrl | Features                          |
-        | Sln2     | UrlSln2  | [ "Workflow", "Referrals" ]       |
-        | Sln3     | UrlSln3  | [ "Dispensing" ]                  |
+	Given a SolutionDetail Sln1 does not exist
     When a PUT request is made to update solution Sln1 features section
         | Features                      |
         | Dispensing,Referrals,Workflow |
-    Then a successful response is returned
-    And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | FullDescription     | SupplierStatusId |
-        | Sln1       | MedicOnline    | An full online medicine system | Online medicine 1   | 1                |
-        | Sln2       | TakeTheRedPill | Eye opening experience         | Eye opening6        | 1                |
-        | Sln3       | PracticeMgr    | Fully fledged GP system        | Fully fledged GP 12 | 1                |
-    And MarketingDetail exist
-        | Solution | AboutUrl | Features                              |
-        | Sln1     |          | ["Dispensing","Referrals","Workflow"] |
-        | Sln2     | UrlSln2  | [ "Workflow", "Referrals" ]           |
-        | Sln3     | UrlSln3  | [ "Dispensing" ]                      |
+    Then a response status of 500 is returned
 
 @1828
 Scenario: 3. Solution not found

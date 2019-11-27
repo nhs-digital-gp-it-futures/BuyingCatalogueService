@@ -2,7 +2,7 @@ namespace NHSD.BuyingCatalogue.Contracts.Persistence
 {
     public interface IUpdateSolutionSummaryRequest
     {
-        string Id { get; }
+        string SolutionId { get; }
 
         string Summary { get; }
 

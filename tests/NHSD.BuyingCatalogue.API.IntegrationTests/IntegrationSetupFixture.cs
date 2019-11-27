@@ -1,7 +1,9 @@
+using System.Linq;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using NHSD.BuyingCatalogue.Testing.Data;
 using TechTalk.SpecFlow;
+using TechTalk.SpecFlow.Assist;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests
 {
@@ -17,13 +19,14 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests
         [BeforeScenario()]
         public static async Task SetUpAsync()
         {
-            await Database.ClearAsync();
-        }
+            var defaultStringValueRetriever = Service.Instance.ValueRetrievers.FirstOrDefault(vr => vr is TechTalk.SpecFlow.Assist.ValueRetrievers.StringValueRetriever);
+            if (defaultStringValueRetriever != null)
+            {
+                Service.Instance.ValueRetrievers.Unregister(defaultStringValueRetriever);
+            }
 
-        [AfterTestRun]
-        public static async Task OneTimeTearDownAsync()
-        {
-            await IntegrationTestEnvironment.StopAsync();
+            Service.Instance.ValueRetrievers.Register(new StringValueRetriever());
+            await Database.ClearAsync();
         }
     }
 }

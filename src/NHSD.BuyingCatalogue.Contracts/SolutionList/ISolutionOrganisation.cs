@@ -1,3 +1,5 @@
+using System;
+
 namespace NHSD.BuyingCatalogue.Contracts.SolutionList
 {
     public interface ISolutionOrganisation
@@ -5,7 +7,7 @@ namespace NHSD.BuyingCatalogue.Contracts.SolutionList
         /// <summary>
         /// Identifier of organisation.
         /// </summary>
-        string Id { get; }
+        Guid Id { get; }
 
         /// <summary>
         /// Name of organisation.

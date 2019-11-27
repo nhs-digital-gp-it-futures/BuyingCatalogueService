@@ -1,8 +1,6 @@
-using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using TechTalk.SpecFlow;
-using TechTalk.SpecFlow.Assist;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
 {
@@ -32,7 +30,5 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             var content = await _response.ReadBody();
             content.SelectToken(element).Should().BeNull();
         }
-
-
     }
 }

@@ -1,6 +1,10 @@
 DELETE FROM [FrameworkCapabilities]
-DELETE FROM [MarketingDetail]
+DELETE FROM [FrameworkSolutions]
+UPDATE [Solution] SET SolutionDetailId = NULL
+DELETE FROM [SolutionDetail]
 DELETE FROM [SolutionCapability]
 DELETE FROM [Solution]
 DELETE FROM [Capability]
+DELETE FROM [Supplier]
 DELETE FROM [Organisation]
+DELETE FROM [SupplierContact]

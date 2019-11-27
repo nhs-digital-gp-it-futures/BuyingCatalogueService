@@ -3,23 +3,22 @@ version: '3.5'
 services:
 
   db:
-    image: microsoft/mssql-server-linux:latest
+    image: integration_db:test
     container_name: integration_db
     networks:
       - integration_network
-    environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=${NHSD_BUYINGCATALOGUE_DB_PASSWORD:-Your_password123}
-      - MSSQL_PID=Express
     ports:
       - "1433:1433"
 
   nhsd.buyingcatalogue.api:
     container_name: integration_api
+    build: 
+      context: .
+      dockerfile: Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      - ConnectionStrings:BuyingCatalogue=${NHSD_BUYINGCATALOGUE_DB}
+      - ConnectionStrings:BuyingCatalogue=Server=db;Initial Catalog=gpitfuture-db-dev;Persist Security Info=False;User Id=NHSD;Password=DisruptTheMarket1!
     networks:
       - integration_network
     depends_on:

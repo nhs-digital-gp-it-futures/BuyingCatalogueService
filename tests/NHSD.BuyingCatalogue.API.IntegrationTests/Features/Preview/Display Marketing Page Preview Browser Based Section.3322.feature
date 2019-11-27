@@ -8,21 +8,25 @@ Background:
         | Name     |
         | GPs-R-Us |
         | Drs. Inc |
+    And Suppliers exist
+        | Id    | OrganisationName |
+        | Sup 1 | GPs-R-Us         |
+        | Sup 2 | Drs. Inc         |
     And Solutions exist
-        | SolutionID | SolutionName        | SummaryDescription          | OrganisationName | FullDescription         | SupplierStatusId |
-        | Sln1       | MedicOnline         |                             | GPs-R-Us         | Online medicine 1       | 1                |
-        | Sln2       | TakeTheRedPill      | Eye opening experience      | Drs. Inc         | Eye opening6            | 1                |
-        | Sln3       | PracticeMgr         | Fully fledged GP system     | Drs. Inc         | Fully fledged GP 12     | 1                |
-        | Sln4       | SubStandardPractice | Not Quite fledged GP system | GPs-R-Us         | Not Quite fledged GP 16 | 1                |
-        | Sln5       | Banana              | Fruit delivery system       | Drs. Inc         | Banana 1152             | 1                |
-        | Sln6       | Water Bottle        | Water supplier system       | Drs. Inc         | High quality H20        | 1                |
-    And MarketingDetail exist
-        | Solution | ClientApplication                                                                                                                               |
-        | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ], "BrowsersSupported": ["Google Chrome", "Edge"], "MobileResponsive": false } |
-        | Sln3     | { "ClientApplicationTypes" : [ "browser-based" ], "BrowsersSupported": [ ], "MobileResponsive": null }                                          |
-        | Sln4     | { "ClientApplicationTypes" : [ "browser-based" ], "BrowsersSupported": [ ], "MobileResponsive": true }                                          |
-        | Sln5     | { "ClientApplicationTypes" : [ "browser-based" ], "BrowsersSupported": ["Google Chrome", "Edge", "Safari"] }                                    |
-        | Sln6     | { "ClientApplicationTypes" : [ "browser-based" ], "Plugins": { "Required": true, "AdditionalInformation": "Colourful water extension" } }       |
+        | SolutionID | SolutionName        | OrganisationName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline         | GPs-R-Us         | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill      | Drs. Inc         | 1                | Sup 2      |
+        | Sln3       | PracticeMgr         | Drs. Inc         | 1                | Sup 2      |
+        | Sln4       | SubStandardPractice | GPs-R-Us         | 1                | Sup 1      |
+        | Sln5       | Banana              | Drs. Inc         | 1                | Sup 2      |
+        | Sln6       | Water Bottle        | Drs. Inc         | 1                | Sup 2      |
+    And SolutionDetail exist
+        | Solution | SummaryDescription          | FullDescription         | ClientApplication                                                                                                                               |
+        | Sln1     |                             | Online medicine 1       | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ], "BrowsersSupported": ["Google Chrome", "Edge"], "MobileResponsive": false } |
+        | Sln3     | Eye opening experience      | Eye opening6            | { "ClientApplicationTypes" : [ "browser-based" ], "BrowsersSupported": [ ], "MobileResponsive": null }                                          |
+        | Sln4     | Fully fledged GP system     | Fully fledged GP 12     | { "ClientApplicationTypes" : [ "browser-based" ], "BrowsersSupported": [ ], "MobileResponsive": true }                                          |
+        | Sln5     | Not Quite fledged GP system | Not Quite fledged GP 16 | { "ClientApplicationTypes" : [ "browser-based" ], "BrowsersSupported": ["Google Chrome", "Edge", "Safari"] }                                    |
+        | Sln6     | Fruit delivery system       | Banana 1152             | { "ClientApplicationTypes" : [ "browser-based" ], "Plugins": { "Required": true, "AdditionalInformation": "Colourful water extension" } }       |
 
 @3322
 Scenario:1. Get Solution Preview contains client application types browser based answers for all data
@@ -33,13 +37,13 @@ Scenario:1. Get Solution Preview contains client application types browser based
         | Browser       |
         | Google Chrome |
         | Edge          |
-    And the solution client-application-types section contains mobile responsive with value no
+    And the solution client-application-types section contains mobile responsive with value No
 
 @3322
 Scenario:2. Get Solution Preview contains client application types browser based mobile responsive answer
     When a GET request is made for solution preview Sln4
     Then a successful response is returned
-    And the solution client-application-types section contains mobile responsive with value yes
+    And the solution client-application-types section contains mobile responsive with value Yes
     And the solution client-application-types section contains Browsers
         | Browser       |
 
@@ -60,7 +64,7 @@ Scenario:4. Get Solution Preview contains client application types browser based
     When a GET request is made for solution preview Sln6
     Then a successful response is returned
     And the solution client-application-types section is returned
-    And the solution client-application-types section contains plugin required with value yes
+    And the solution client-application-types section contains plugin required with value Yes
     And the solution client-application-types section contains Browsers
         | Browser       |
     And the solution client-application-types section contains mobile responsive with value null

@@ -334,3 +334,8 @@ ASALocalRun/
 
 #SpecFlow generated feature files
 *.feature.cs
+No newline at end of file
+*.feature.cs
+
+#output file for builds
+/out

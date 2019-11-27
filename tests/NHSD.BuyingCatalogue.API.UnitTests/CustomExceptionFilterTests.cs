@@ -3,8 +3,7 @@ using System.Linq;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NHSD.BuyingCatalogue.API.Extensions;
-using NHSD.BuyingCatalogue.Application.Exceptions;
+using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.API.UnitTests

@@ -8,20 +8,24 @@ Background:
         | Name     |
         | GPs-R-Us |
         | Drs. Inc |
+    And Suppliers exist
+        | Id    | OrganisationName |
+        | Sup 1 | GPs-R-Us         |
+        | Sup 2 | Drs. Inc         |
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | FullDescription     | SupplierStatusId |
-        | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | Online medicine 1   | 1                |
-        | Sln2       | TakeTheRedPill | Eye opening experience         | Drs. Inc         | Eye opening6        | 1                |
-        | Sln3       | PracticeMgr    | Fully fledged GP system        | Drs. Inc         | Fully fledged GP 12 | 1                |
-        | Sln4       | PracticeMgr    | Fully fledged GP system        | Drs. Inc         | Fully fledged GP 12 | 1                |
-        | Sln5       | Integral       | Mostly a system                | GPs-R-Us         | Mostly Systemic 17  | 1                |
+        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                | Sup 2      |
+        | Sln3       | PracticeMgr    | Drs. Inc         | 1                | Sup 2      |
+        | Sln4       | PracticeMgr    | Drs. Inc         | 1                | Sup 2      |
+        | Sln5       | Integral       | GPs-R-Us         | 1                | Sup 1      |
 
-    And MarketingDetail exist
-        | Solution | ClientApplication                                                    |
-        | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] } |
-        | Sln3     |                                                                      |
-        | Sln4     | { "ClientApplicationTypes" : [] }                                    |
-        | Sln5     | { "ClientApplicationTypes" : [ "browser-based", "native-desktop", "native-mobile" ] } |
+    And SolutionDetail exist
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                     |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
+        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                       |
+        | Sln4     | Thrills                        | Bellyaches          | { "ClientApplicationTypes" : [] }                                                     |
+        | Sln5     | Fully fledged GP system        | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop", "native-mobile" ] } |
 
 
 @2724
@@ -32,7 +36,7 @@ Scenario: 1. Sections presented where the Solution exists
     And the solution client-application-types section requirement is Mandatory
 
 @2724
-Scenario Outline: 2.Sections presented where the MarketingDetail does not exist
+Scenario Outline: 2.Sections presented where the SolutionDetail does not exist
     When a GET request is made for solution dashboard <Solution>
     Then a successful response is returned
     And the solution client-application-types section status is INCOMPLETE
