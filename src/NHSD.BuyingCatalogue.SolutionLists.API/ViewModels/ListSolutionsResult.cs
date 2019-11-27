@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using NHSD.BuyingCatalogue.Contracts.SolutionList;
+using NHSD.BuyingCatalogue.SolutionLists.Contracts;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.API.ViewModels
 {

@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading;
 using FluentAssertions;
 using Moq;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
-using NHSD.BuyingCatalogue.Contracts.SolutionList;
+using NHSD.BuyingCatalogue.SolutionLists.Contracts;
+using NHSD.BuyingCatalogue.SolutionLists.Contracts.Persistence;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests

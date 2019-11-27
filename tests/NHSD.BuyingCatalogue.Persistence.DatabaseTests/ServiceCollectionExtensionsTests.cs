@@ -7,6 +7,7 @@ using NHSD.BuyingCatalogue.Capabilities.Persistence.Repositories;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Data;
+using NHSD.BuyingCatalogue.SolutionLists.Contracts.Persistence;
 using NHSD.BuyingCatalogue.SolutionLists.Persistence;
 using NHSD.BuyingCatalogue.SolutionLists.Persistence.Repositories;
 using NHSD.BuyingCatalogue.Solutions.Persistence;

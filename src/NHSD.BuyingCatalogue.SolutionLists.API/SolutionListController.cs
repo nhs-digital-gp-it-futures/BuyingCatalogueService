@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NHSD.BuyingCatalogue.Contracts.SolutionList;
 using NHSD.BuyingCatalogue.SolutionLists.API.ViewModels;
+using NHSD.BuyingCatalogue.SolutionLists.Contracts;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.API
 {

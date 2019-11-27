@@ -1,6 +1,6 @@
 using System;
 
-namespace NHSD.BuyingCatalogue.Contracts.Persistence
+namespace NHSD.BuyingCatalogue.SolutionLists.Contracts.Persistence
 {
     public interface ISolutionListResult
     {

@@ -1,16 +1,16 @@
 using System;
 
-namespace NHSD.BuyingCatalogue.Contracts.SolutionList
+namespace NHSD.BuyingCatalogue.SolutionLists.Contracts
 {
-    public interface ISolutionCapability
+    public interface ISolutionOrganisation
     {
         /// <summary>
-        /// Identifier of the capability.
+        /// Identifier of organisation.
         /// </summary>
         Guid Id { get; }
 
         /// <summary>
-        /// Name of the capability.
+        /// Name of organisation.
         /// </summary>
         string Name { get; }
     }

@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NHSD.BuyingCatalogue.Contracts\NHSD.BuyingCatalogue.Contracts.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Data\NHSD.BuyingCatalogue.Data.csproj" />
+    <ProjectReference Include="..\NHSD.BuyingCatalogue.SolutionLists.Contracts\NHSD.BuyingCatalogue.SolutionLists.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

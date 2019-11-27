@@ -3,10 +3,10 @@ using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
-using NHSD.BuyingCatalogue.Contracts.SolutionList;
 using NHSD.BuyingCatalogue.SolutionLists.Application.Mapping;
 using NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions;
+using NHSD.BuyingCatalogue.SolutionLists.Contracts;
+using NHSD.BuyingCatalogue.SolutionLists.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
 {

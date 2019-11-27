@@ -2,8 +2,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using NHSD.BuyingCatalogue.Contracts.SolutionList;
 using NHSD.BuyingCatalogue.SolutionLists.Application.Persistence;
+using NHSD.BuyingCatalogue.SolutionLists.Contracts;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions
 {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace NHSD.BuyingCatalogue.Contracts.SolutionList
+namespace NHSD.BuyingCatalogue.SolutionLists.Contracts
 {
     public interface ISolutionSummary
     {

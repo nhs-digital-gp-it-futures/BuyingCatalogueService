@@ -19,5 +19,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.SolutionLists.API\NHSD.BuyingCatalogue.SolutionLists.API.csproj" />
+    <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.SolutionLists.Contracts\NHSD.BuyingCatalogue.SolutionLists.Contracts.csproj" />
   </ItemGroup>
 </Project>

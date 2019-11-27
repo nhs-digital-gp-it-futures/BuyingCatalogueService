@@ -1,7 +1,7 @@
 using AutoMapper;
-using NHSD.BuyingCatalogue.Contracts.SolutionList;
 using NHSD.BuyingCatalogue.SolutionLists.Application.Domain;
 using NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions;
+using NHSD.BuyingCatalogue.SolutionLists.Contracts;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.Application.Mapping
 {
