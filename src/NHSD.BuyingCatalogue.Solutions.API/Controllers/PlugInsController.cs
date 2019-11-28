@@ -27,10 +27,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         }
 
         /// <summary>
-        /// Gets the browsers supported for the client application types of a solution matching the supplied ID.
+        /// Gets the plug ins for the client application types of a solution matching the supplied ID.
         /// </summary>
         /// <param name="id">A value to uniquely identify a solution.</param>
-        /// <returns>A task representing an operation to retrieve the details of the browsers supported section.</returns>
+        /// <returns>A task representing an operation to retrieve the details of the plug ins section.</returns>
         [HttpGet]
         [Route("{id}/sections/plug-ins-or-extensions")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -38,19 +38,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetPlugInsAsync([FromRoute][Required]string id)
         {
-            //Canned data
-            //return Ok(new GetPlugInsResult { PlugIns = _plugIns, AdditionalInformation = _additionalInformation });
-
             var solution = await _mediator.Send(new GetSolutionByIdQuery(id));
             return solution == null ? (ActionResult)new NotFoundResult() : Ok(new GetPlugInsResult(solution.ClientApplication.Plugins));
         }
 
         /// <summary>
-        /// Updates the browsers supported of a solution matching the supplied ID.
+        /// Updates the plug ins of a solution matching the supplied ID.
         /// </summary>
         /// <param name="id">A value to uniquely identify a solution.</param>
-        /// <param name="updateSolutionPlugInsViewModel">The details of the supported browsers.</param>
-        /// <returns>A task representing an operation to update the details of the browser supported section.</returns>
+        /// <param name="updateSolutionPlugInsViewModel">The details of the plug ins.</param>
+        /// <returns>A task representing an operation to update the details of the plug ins section.</returns>
         [HttpPut]
         [Route("{id}/sections/plug-ins-or-extensions")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -61,17 +58,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
             var validationResult =
                 await _mediator.Send(new UpdateSolutionPluginsCommand(id, updateSolutionPlugInsViewModel));
 
-            //TODO REMOVE when complete - canned data
-            _plugIns = updateSolutionPlugInsViewModel.Required;
-            _additionalInformation = updateSolutionPlugInsViewModel.AdditionalInformation;
-
             return validationResult.IsValid
                 ? (ActionResult)new NoContentResult()
                 : BadRequest(new UpdateSolutionPluginsResult(validationResult));
         }
-
-        private static string _plugIns;
-
-        private static string _additionalInformation;
     }
 }
