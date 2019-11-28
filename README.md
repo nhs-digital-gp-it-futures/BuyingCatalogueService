@@ -33,10 +33,10 @@ The application is broken down into the following project libraries:
 
 <p>
 
-To run the application in a container in development mode, run the following command (from the buying catalogue directory):
+To run the application in a container in development mode, run the following script:
 
 ```
-docker-compose -f ".\docker-compose.yml" -f ".\docker-compose.development.yml" up -d
+Launch Development Environment.ps1
 ```
 
 You can now access the API in your browser at 'http://localhost:8080/swagger/index.html'
