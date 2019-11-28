@@ -7,8 +7,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
     {
         public Contact(IMarketingContactResult contact)
         {
-            var concatName = $"{contact.FirstName} {contact.LastName}".Trim();
-            Name = String.IsNullOrWhiteSpace(concatName) ? null : concatName;
+            FirstName = contact.FirstName;
+            LastName = contact.LastName;
             PhoneNumber = contact.PhoneNumber;
             Email = contact.Email;
             Department = contact.Department;
@@ -17,7 +17,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         /// <summary>
         /// The full name of the contact
         /// </summary>
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        /// <summary>
+        /// The full name of the contact
+        /// </summary>
+        public string LastName { get; set; }
+        /// <summary>
+        /// The full name of the contact
+        /// </summary>
+        public string Name => GetName();
         /// <summary>
         /// The phone number of the contact
         /// </summary>
@@ -30,5 +38,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         /// The department of the contact
         /// </summary>
         public string Department { get; set; }
+
+        private string GetName()
+        {
+            var concatName = $"{FirstName} {LastName}".Trim();
+            return String.IsNullOrWhiteSpace(concatName) ? null : concatName;
+        }
     }
 }

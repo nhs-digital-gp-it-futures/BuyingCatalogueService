@@ -32,11 +32,12 @@ The application is broken down into the following project libraries:
 > Also download and store the Buying Catalogue Data Model repository along side this repository.
 
 <p>
+# Running the API
 
 To run the application in a container in development mode, run the following script:
 
 ```
-Launch Development Environment.ps1
+Launch Environment.ps1
 ```
 
 You can now access the API in your browser at 'http://localhost:8080/swagger/index.html'
@@ -44,7 +45,7 @@ You can now access the API in your browser at 'http://localhost:8080/swagger/ind
 To stop the application running in a container and to delete all the  associated resources run the command:
 
 ```
-docker-compose -f ".\docker-compose.yml" -f ".\docker-compose.development.yml" down -v --rmi "all"
+Tear Down Environment.ps1
 ```
 
 </p>
@@ -57,14 +58,24 @@ Alternatively use the supplied powershell scripts "Run Integration Tests.ps1" an
 
 ## Before running such tests in Visual Studio
 ```
-dotnet publish "src\NHSD.BuyingCatalogue.API\NHSD.BuyingCatalogue.API.csproj" --configuration Release --output "out"
-docker-compose -f "docker-compose.yml" -f "docker-compose.integration.yml" up -d
+Launch Environment.ps1 -env i
 ```
-(Or run "Launch Integration Environment.ps1")
+or
+```
+Launch Environment.ps1 -env integration
+```
+
+
 
 ## After running such tests in Visual Studio
 
-Run "Tear Down Integration Environment.ps1"
+```
+Tear Down Environment -env i
+```
+or
+```
+Tear Down Environment -env integration
+```
 
 ## Integration DB docker image
 In order to speed up the API Integration test execution, a docker image which contains all the data needed has been build. 
@@ -82,4 +93,4 @@ To build / update the image run `setup-integration-db` script either in Powershe
 
 ## Error: "Start Buying Catalogue API failed, could not get a successful health status from 'http://localhost:8080/health/live' after trying for '01:00'"
 
-Have you remembered to run "Launch Integration Environment.ps1" :) ?
+Have you remembered to run `Launch Environment.ps1 -env i` :) ?
