@@ -2,6 +2,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
 {
     public interface IContact
     {
+        string FirstName { get; }
+
+        string LastName { get; }
+
         /// <summary>
         /// The full name of the contact, as displayed to the user.
         /// </summary>

@@ -27,5 +27,17 @@ namespace NHSD.BuyingCatalogue.Data.Infrastructure
                 await databaseConnection.ExecuteAsync(sql, args);
             }
         }
+        public async Task ExecuteMultipleWithTransactionAsync(CancellationToken cancellationToken, IEnumerable<(string sql, object args)> functions)
+        {
+            using (var databaseConnection = await _dbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false))
+            {
+                var transaction = databaseConnection.BeginTransaction();
+                foreach (var (sql, args) in functions)
+                {
+                    await databaseConnection.ExecuteAsync(sql, args, transaction);
+                }
+                transaction.Commit();
+            }
+        }
     }
 }

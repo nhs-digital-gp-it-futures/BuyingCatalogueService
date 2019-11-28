@@ -9,5 +9,7 @@ namespace NHSD.BuyingCatalogue.Data.Infrastructure
         Task<IEnumerable<T>> QueryAsync<T>(CancellationToken cancellationToken, string sql, object args = null);
 
         Task ExecuteAsync(CancellationToken cancellationToken, string sql, object args = null);
+
+        Task ExecuteMultipleWithTransactionAsync(CancellationToken cancellationToken, IEnumerable<(string sql, object args)> functions);
     }
 }

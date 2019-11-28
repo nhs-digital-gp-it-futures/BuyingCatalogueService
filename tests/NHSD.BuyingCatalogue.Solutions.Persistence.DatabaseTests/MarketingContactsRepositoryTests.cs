@@ -1,8 +1,12 @@
 using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Moq;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
@@ -130,16 +134,51 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             result.Single(m => m.FirstName == "FirstName2").Id.Should().Be(id);
         }
-        
+
+        [Test]
+        public async Task InsertingContactsReplacesCurrent()
+        {
+            await InsertContact(_solutionId1);
+            await InsertContact(_solutionId1);
+
+            var expectedContacts = new List<IContact> { Mock.Of<IContact>(c => c.FirstName == "BillyBob") };
+            await _marketingContactRepository.ReplaceContactsForSolution(_solutionId1, expectedContacts, new CancellationToken());
+            var newContacts = (await _marketingContactRepository.BySolutionIdAsync(_solutionId1, new CancellationToken())).ToList();
+            newContacts.Should().BeEquivalentTo(expectedContacts, config => config.Excluding(e => e.Name));
+        }
+
+        [Test]
+        public async Task InsertingZeroContactsRemovesCurrent()
+        {
+            await InsertContact(_solutionId1);
+            await InsertContact(_solutionId1);
+            var expectedContacts = new List<IContact>();
+
+            await _marketingContactRepository.ReplaceContactsForSolution(_solutionId1, expectedContacts, new CancellationToken());
+            var newContacts = (await _marketingContactRepository.BySolutionIdAsync(_solutionId1, new CancellationToken())).ToList();
+            newContacts.Count.Should().Be(0);
+        }
+
+        [Test]
+        public async Task InsertingBadDataThrowsAndDoesNotUpdate()
+        {
+            var expectedContacts = new List<MarketingContactEntity> {await InsertContact(_solutionId1), await InsertContact(_solutionId1)};
+            var badData = new List<IContact> { Mock.Of<IContact>(c => c.FirstName == "IAmLongerThan35CharactersAndSoIShouldFail") };
+
+            Assert.ThrowsAsync<SqlException>(() => _marketingContactRepository.ReplaceContactsForSolution(_solutionId1, badData, new CancellationToken()));
+            var newContacts = (await _marketingContactRepository.BySolutionIdAsync(_solutionId1, new CancellationToken())).ToList();
+            newContacts.Should().BeEquivalentTo(expectedContacts, config => config.Excluding(c => c.LastUpdated).Excluding(c => c.LastUpdatedBy));
+        }
+
         private async Task<MarketingContactEntity> InsertContact(string solutionId)
         {
             var expected1 = MarketingContactEntityBuilder.Create()
                 .WithSolutionId(solutionId)
-                .WithFirstName($"{solutionId}FirstName")
-                .WithLastName($"{solutionId}LastName")
-                .WithDepartment($"{solutionId}Dept")
-                .WithEmail($"{solutionId}Email")
-                .WithPhoneNumber($"{solutionId}Number")
+                .WithFirstName(Guid.NewGuid().ToString().Substring(0, 25))
+                .WithLastName(Guid.NewGuid().ToString().Substring(0, 25))
+                .WithDepartment(Guid.NewGuid().ToString().Substring(0, 25))
+                .WithEmail(Guid.NewGuid().ToString().Substring(0, 25))
+                .WithPhoneNumber(Guid.NewGuid().ToString().Substring(0, 25))
                 .Build();
 
             await expected1.InsertAsync();
