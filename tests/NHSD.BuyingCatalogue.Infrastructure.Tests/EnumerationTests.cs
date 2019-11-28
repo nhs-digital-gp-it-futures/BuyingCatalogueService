@@ -20,6 +20,25 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
         }
 
         [Test]
+        public void GivenNullValues_ShouldNotBeEqual()
+        {
+            SizeType nullValue = null;
+            SizeType.Small.Equals(nullValue).Should().BeFalse();
+        }
+
+        [Test]
+        public void GivenNonEnumerableValues_ShouldNotBeEqual()
+        {
+            SizeType.Small.Should().NotBe("Elephant");
+        }
+
+        [Test]
+        public void GivenPrimitiveValues_ShouldNotBeEqual()
+        {
+            SizeType.Small.Should().NotBe(4);
+        }
+
+        [Test]
         public void GetAll_ShouldReturnAllValues()
         {
             var expected = new[]
@@ -82,6 +101,12 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
         public void ToString_GivenSizeTypeSmall_ShouldBeEqual()
         {
             SizeType.Small.ToString().Should().Be("Small");
+        }
+
+        [Test]
+        public void GetHashCode_ShouldBeEqual_ToIdHashCode()
+        {
+            SizeType.Small.GetHashCode().Should().Be(1.GetHashCode());
         }
 
         private sealed class SizeType : Enumeration

@@ -19,6 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\NHSD.BuyingCatalogue.Infrastructure\NHSD.BuyingCatalogue.Infrastructure.csproj" />
       <ProjectReference Include="..\NHSD.BuyingCatalogue.SolutionLists.Contracts\NHSD.BuyingCatalogue.SolutionLists.Contracts.csproj" />
     </ItemGroup>
 

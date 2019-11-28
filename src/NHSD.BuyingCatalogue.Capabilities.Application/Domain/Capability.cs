@@ -26,11 +26,6 @@ namespace NHSD.BuyingCatalogue.Capabilities.Application.Domain
         public string Name { get; set; }
 
         /// <summary>
-        /// Description of the capability.
-        /// </summary>
-        public string Description { get; set; }
-
-        /// <summary>
         /// A true or false value to determine whether or not this entity is part of the criteria to make a foundation solution.
         /// </summary>
         public bool IsFoundation { get; set; }

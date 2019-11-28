@@ -58,6 +58,32 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         }
 
         [Test]
+        public async Task ShouldUpdatePluginsNullAdditionalInformation()
+        {
+            SetUpMockSolutionRepositoryGetByIdAsync("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], 'MobileResponsive': false, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' } }");
+
+            var calledBack = false;
+
+            Context.MockSolutionDetailRepository
+                .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()))
+                .Callback((IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken cancellationToken) =>
+                {
+                    calledBack = true;
+                    var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+
+                    json.SelectToken("Plugins.Required").Value<bool>().Should().BeTrue();
+                    json.SelectToken("Plugins.AdditionalInformation").Should().BeNullOrEmpty();
+                });
+
+            var validationResult = await UpdatePlugins("yes", null);
+            validationResult.IsValid.Should().BeTrue();
+
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+
+            calledBack.Should().BeTrue();
+        }
+
+        [Test]
         public async Task ShouldNotUpdateInvalidPlugins()
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");

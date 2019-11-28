@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -146,6 +147,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
 
             _context.MockSolutionRepository.Verify(r => r.UpdateSupplierStatusAsync(It.IsAny<IUpdateSolutionSupplierStatusRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+        }
+
+        [TestCase("")]
+        [TestCase(null)]
+        [TestCase("   ")]
+        public void ShouldThrowWhenSolutionIdNotPresent(string blanks)
+        {
+            Assert.Throws<ArgumentException>(() => new SubmitSolutionForReviewCommand(blanks));
         }
     }
 }
