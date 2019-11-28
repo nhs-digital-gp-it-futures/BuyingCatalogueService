@@ -6,10 +6,10 @@ using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 
-namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.MarketingContacts
+namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
 {
     [Binding]
-    internal sealed class MarketingContactSteps
+    internal sealed class MarketingContactEntitySteps
     {
         [Given(@"MarketingContacts exist")]
         public async Task GivenMarketingContactsExist(Table table)
