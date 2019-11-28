@@ -3,12 +3,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
-using NHSD.BuyingCatalogue.Solutions.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Persistence.Repositories;
 using NUnit.Framework;
 
-
-namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
+namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 {
     [TestFixture]
     public sealed class ServiceCollectionExtensionsTests

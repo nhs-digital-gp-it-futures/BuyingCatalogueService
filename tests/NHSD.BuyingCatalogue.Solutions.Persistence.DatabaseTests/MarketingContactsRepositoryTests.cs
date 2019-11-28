@@ -9,7 +9,7 @@ using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
 using NUnit.Framework;
 
-namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
+namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 {
     [TestFixture]
     public sealed class MarketingContactsRepositoryTests

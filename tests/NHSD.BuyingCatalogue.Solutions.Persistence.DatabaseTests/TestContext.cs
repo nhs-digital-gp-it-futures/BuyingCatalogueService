@@ -4,10 +4,9 @@ using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.Data;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
-using NHSD.BuyingCatalogue.Solutions.Persistence;
 using NHSD.BuyingCatalogue.Testing.Data;
 
-namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests
+namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 {
     internal class TestContext
     {
