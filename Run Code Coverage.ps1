@@ -15,7 +15,7 @@ Write-Host ""
 Write-Host "Run code coverage tests"
 Write-Host "----- Code Coverage --------"
 
-& ".\Launch Integration Environment.ps1"
+& ".\Launch Environment.ps1" -env i
 
 dotnet test "tests\NHSD.BuyingCatalogue.Infrastructure.Tests\NHSD.BuyingCatalogue.Infrastructure.Tests.csproj" --no-build --nologo /p:CollectCoverage=true /p:CoverletOutput=../../OpenCover/ /p:Exclude=[*.Testing.*]*
 dotnet test "tests\NHSD.BuyingCatalogue.API.UnitTests\NHSD.BuyingCatalogue.API.UnitTests.csproj" --no-build --nologo /p:CollectCoverage=true /p:CoverletOutput=../../OpenCover/ /p:Exclude=[*.Testing.*]* /p:MergeWith="../../OpenCover/coverage.json"
@@ -40,4 +40,4 @@ reportgenerator "-reports:OpenCover\coverage.opencover.xml" "-targetdir:OpenCove
 
 Write-Host "----- Report Output--------"
 
-& ".\Tear Down Integration Environment.ps1"
+& ".\Tear Down Environment.ps1" -env i
