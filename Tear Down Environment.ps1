@@ -16,14 +16,16 @@ function remove_integration(){
 
     docker rm integration_api -f
     docker rm integration_db -f
-    docker image rm nhsd/buying-catalogue-api:latest -f
+    docker image rm nhsd/buying-catalogue-api:test 
+    docker image rm nhsd/buying-catalogue/api:latest
     docker ps -a
 }
 
 function remove_development() {
     docker rm nhsd_bcapi -f
     docker rm nhsd_bcdb -f
-    docker rmi $(docker images -f "dangling=true" -q)
+    docker image rm nhsd/buying-catalogue-db:latest
+    docker image rm nhsd/buying-catalogue/api:latest 
     docker ps -a
     }
 

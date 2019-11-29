@@ -5,7 +5,7 @@ services:
   db:
     image: ${REGISTRY:-nhsd}/buying-catalogue-db:${TAG:-latest}
     build: 
-      context: "../DataModel"
+      context: "../../DataModel"
       dockerfile: Dockerfile
     container_name: nhsd_bcdb
     volumes:
