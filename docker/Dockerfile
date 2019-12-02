@@ -1,5 +1,5 @@
 # Run the API
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.0.101-bionic AS runtime
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.0-bionic AS runtime
 COPY out /app
 WORKDIR /app
 EXPOSE 80
