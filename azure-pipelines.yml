@@ -13,55 +13,55 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-  - task: NodeTool@0
-    inputs:
-      versionSpec: '10.x'
-    displayName: 'Install Node.js'
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
 
-  - script: |
-      npm install -g webpack webpack-cli --save-dev
-      npm install
-    displayName: 'NPM install'
+- script: |
+    npm install -g webpack webpack-cli --save-dev
+    npm install
+  displayName: 'NPM install'
 
-  - script: |
-      npx webpack --config webpack.config.js
-    displayName: 'NPX Webpack'
+- script: |
+    npx webpack --config webpack.config.js
+  displayName: 'NPX Webpack'
 
-  - script: |
-      npm run test
-    displayName: 'Unit test'
+- script: |
+    npm run test
+  displayName: 'Unit test'
 
-  - task: PublishTestResults@2
-    displayName: Publish unit test results
-    inputs:
-      testResultsFormat: NUnit
-      testResultsFiles: '$(System.DefaultWorkingDirectory)/unit-test-report.xml'
-      testRunTitle: Unit test results
-      failTaskOnFailedTests: true
-    condition: succeededOrFailed()
+- task: PublishTestResults@2
+  displayName: Publish unit test results
+  inputs:
+    testResultsFormat: NUnit
+    testResultsFiles: '$(System.DefaultWorkingDirectory)/unit-test-report.xml'
+    testRunTitle: Unit test results
+    failTaskOnFailedTests: true
+  condition: succeededOrFailed()
 
-  - script: |
-      npm run test:integration
-    displayName: 'Integration test'
+- script: |
+    npm run test:integration
+  displayName: 'Integration test'
 
-  - task: PublishTestResults@2
-    displayName: Publish integration test results
-    inputs:
-      testResultsFormat: NUnit
-      testResultsFiles: '$(System.DefaultWorkingDirectory)/integration-test-report.xml'
-      testRunTitle: Integration test results
-      failTaskOnFailedTests: true
-    condition: succeededOrFailed()
+- task: PublishTestResults@2
+  displayName: Publish integration test results
+  inputs:
+    testResultsFormat: NUnit
+    testResultsFiles: '$(System.DefaultWorkingDirectory)/integration-test-report.xml'
+    testRunTitle: Integration test results
+    failTaskOnFailedTests: true
+  condition: succeededOrFailed()
 
-  - task: DockerInstaller@0
-    inputs:
-      dockerVersion: '17.09.0-ce'
-      
+- task: DockerInstaller@0
+  inputs:
+    dockerVersion: '17.09.0-ce'
+
 - task: DockerCompose@0
   inputs:
     containerregistrytype: 'Azure Container Registry'
     azureSubscription: 'NHSAPP-BuyingCatalogue'
-    azureContainerRegistry: '{"loginServer":"gpitfuturesacrdev.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-acr-dev/providers/Microsoft.ContainerRegistry/registries/gpitfuturesacrdev"}'
+    azureContainerRegistry: '{"loginServer":"gpitfutureacrdev.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfuture-acr-dev/providers/Microsoft.ContainerRegistry/registries/gpitfutureacrdev"}'
     dockerComposeFile: '**/docker-compose.yml'
     action: 'Build services'
 
@@ -69,17 +69,6 @@ steps:
   inputs:
     containerregistrytype: 'Azure Container Registry'
     azureSubscription: 'NHSAPP-BuyingCatalogue'
-    azureContainerRegistry: '{"loginServer":"gpitfuturesacrdev.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-acr-dev/providers/Microsoft.ContainerRegistry/registries/gpitfuturesacrdev"}'
+    azureContainerRegistry: '{"loginServer":"gpitfutureacrdev.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfuture-acr-dev/providers/Microsoft.ContainerRegistry/registries/gpitfutureacrdev"}'
     dockerComposeFile: '**/docker-compose.yml'
     action: 'Push services'
-
-  - task: CopyFiles@2
-    inputs:
-      Contents: '**'
-      TargetFolder: '$(build.artifactstagingdirectory)'
-
-  - task: PublishBuildArtifacts@1
-    inputs:
-      PathtoPublish: '$(build.artifactstagingdirectory)'
-      ArtifactName: 'frontend'
-      publishLocation: 'Container'
