@@ -23,5 +23,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
         /// <returns>A task representing an operation to update the supplier status of the specified solution in the data store.</returns>
         Task UpdateSupplierStatusAsync(IUpdateSolutionSupplierStatusRequest updateSolutionSupplierStatusRequest, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Checks if the solution exists
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>True if it exists</returns>
+        Task<bool> CheckExists(string id, CancellationToken cancellationToken);
     }
 }

@@ -19,7 +19,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ContactDetails
             _response = response;
         }
 
-        [When(@"a GET request is made for contact-details (.*)")]
+        [When(@"a GET request is made for contact-details with solutionId (.*)")]
         public async Task WhenGetRequestIsMadeToDisplaySolutionContactDetailsSections(string solutionId)
         {
             _response.Result = await Client.GetAsync(string.Format(ContactDetailsUrl, solutionId));

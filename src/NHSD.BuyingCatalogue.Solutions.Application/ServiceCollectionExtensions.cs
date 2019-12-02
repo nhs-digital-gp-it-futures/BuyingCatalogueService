@@ -15,6 +15,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
             return serviceCollection
                 .AddTransient<SolutionReader>()
                 .AddTransient<ClientApplicationReader>()
+                .AddTransient<ContactDetailsReader>()
+                .AddTransient<SolutionVerifier>()
                 .AddTransient<SolutionSummaryUpdater>()
                 .AddTransient<SolutionFeaturesUpdater>()
                 .AddTransient<SolutionClientApplicationUpdater>()

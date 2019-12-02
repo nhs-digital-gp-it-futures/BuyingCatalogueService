@@ -2,8 +2,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
 {
     public interface IContact
     {
+        /// <summary>
+        /// The first name of the contact, as displayed to the user
+        /// </summary>
         string FirstName { get; }
 
+        /// <summary>
+        /// The last name of the contact, as displayed to the user
+        /// </summary>
         string LastName { get; }
 
         /// <summary>

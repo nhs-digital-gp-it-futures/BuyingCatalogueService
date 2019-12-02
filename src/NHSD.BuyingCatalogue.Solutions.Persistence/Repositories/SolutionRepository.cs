@@ -40,6 +40,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                                 IF @@ROWCOUNT = 0
                                     THROW 60000, 'Solution or SolutionDetail not found', 1; ";
 
+        private const string doesSolutionExist = @"
+                                        SELECT COUNT(*)
+                                 FROM   Solution
+                                 WHERE  Solution.Id = @id";
+
         /// <summary>
         /// Gets a <see cref="ISolutionResult"/> matching the specified ID.
         /// </summary>
@@ -57,5 +62,21 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         /// <returns>A task representing an operation to update the supplier status of the specified updateSolutionRequest in the data store.</returns>
         public async Task UpdateSupplierStatusAsync(IUpdateSolutionSupplierStatusRequest updateSolutionSupplierStatusRequest, CancellationToken cancellationToken)
             => await _dbConnector.ExecuteAsync(cancellationToken, updateSolutionSupplierStatusSql, updateSolutionSupplierStatusRequest.ThrowIfNull(nameof(updateSolutionSupplierStatusRequest)));
+
+        /// <summary>
+        /// Checks if the solution exists
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>True if it exists</returns>
+        public async Task<bool> CheckExists(string id, CancellationToken cancellationToken)
+        {
+            var solutionCount = await _dbConnector.QueryAsync<int>(cancellationToken, doesSolutionExist, new {
+                id
+            });
+
+            return solutionCount.Sum() == 1;
+        }
+        
     }
 }

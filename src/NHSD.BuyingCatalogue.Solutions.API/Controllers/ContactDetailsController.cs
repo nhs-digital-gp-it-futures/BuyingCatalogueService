@@ -1,10 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 {
@@ -14,6 +16,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
     [AllowAnonymous]
     public class ContactDetailsController : ControllerBase
     {
+        private readonly IMediator _mediator;
+
+        public ContactDetailsController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
         /// <summary>
         /// Gets the contact details of a solution matching the supplied ID.
         /// </summary>
@@ -26,12 +35,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetContactDetailsAsync([FromRoute][Required]string id)
         {
-            //Canned data
-            return await Task.Run(() => Ok(new GetContactDetailsResult
-            {
-                Contact1 = Map(_updateSolutionContactDetailsViewModel?.Contact1),
-                Contact2 = Map(_updateSolutionContactDetailsViewModel?.Contact2)
-            }));
+            var contactDetails = await _mediator.Send(new GetContactDetailBySolutionIdQuery(id));
+            return contactDetails == null ? (ActionResult)new NotFoundResult() : Ok(new GetContactDetailsResult(contactDetails));
         }
 
         /// <summary>
@@ -62,18 +67,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 
         private static UpdateSolutionContactDetailsViewModel _updateSolutionContactDetailsViewModel;
 
-        private GetContactDetailsResultSection Map(UpdateSolutionContactViewModel contact)
-        {
-            return contact == null
-                ? null
-                : new GetContactDetailsResultSection
-                {
-                    DepartmentName = contact.DepartmentName,
-                    EmailAddress = contact.EmailAddress,
-                    FirstName = contact.FirstName,
-                    LastName = contact.LastName,
-                    PhoneNumber = contact.PhoneNumber
-                };
-        }
+       
     }
 }
