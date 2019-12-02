@@ -1,27 +1,4 @@
 version: '3.5'
-
-services:
-
-  db:
-    image: ${REGISTRY:-nhsd}/buying-catalogue-db:${TAG:-latest}
-    build:
-      context: ../DataModel
-      dockerfile: Dockerfile
-    container_name: nhsd_bcdb
-    volumes:
-      - nhsd_bcvolume:/var/opt/mssql/
-    networks:
-      - nhsd_bcnetwork
-    environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=MyTestPassword123!
-      - MSSQL_PID=Developer
-      - DB_NAME=buyingcatalogue
-      - DB_USER=NHSD
-      - DB_PASSWORD=DisruptTheMarket1!
-    ports:
-      - "1433:1433"
-
   nhsd.buyingcatalogue.api:
     image: ${REGISTRY:-nhsd}/buying-catalogue-api:${TAG:-latest}
     container_name: nhsd_bcapi
