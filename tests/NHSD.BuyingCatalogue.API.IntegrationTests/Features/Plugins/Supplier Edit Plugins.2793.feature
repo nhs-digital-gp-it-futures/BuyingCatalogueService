@@ -26,7 +26,7 @@ Scenario: 1. Plugins is updated
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                                            |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : { "Required" : true , "AdditionalInformation": "This is extra information"} } |
-
+    And Last Updated has updated on the SolutionDetail for solution Sln1
                                                                                                                                                                              
 @2786
 Scenario: 2. Solution is not found

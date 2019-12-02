@@ -74,6 +74,20 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             solution.SupplierStatusId.Should().Be(status.Id);
         }
 
+        [Then(@"Last Updated has updated on the SolutionEntity for solution (.*)")]
+        public async Task LastUpdatedHasUpdatedOnMarketingContact(string solutionId)
+        {
+            var contacts = await SolutionEntity.GetByIdAsync(solutionId);
+
+            var lastUpdated = contacts.LastUpdated;
+
+            var currentDateTime = DateTime.Now;
+            var pastDateTime = currentDateTime.AddSeconds(-5);
+
+            lastUpdated.Should().BeOnOrAfter(pastDateTime);
+            lastUpdated.Should().BeOnOrAfter(currentDateTime);
+        }
+
         private class SolutionTable
         {
             public string SolutionID { get; set; }

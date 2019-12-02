@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -59,6 +60,20 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 m.FullDescription,
                 ClientApplication = string.IsNullOrWhiteSpace(m.ClientApplication) ? null : JToken.Parse(m.ClientApplication).ToString()
             }).Should().BeEquivalentTo(expectedSolutionDetails);
+        }
+
+        [Then(@"Last Updated has updated on the SolutionDetail for solution (.*)")]
+        public async Task LastUpdatedHasUpdatedOnSolutionDetail(string solutionId)
+        {
+            var contacts = await SolutionDetailEntity.GetBySolutionIdAsync(solutionId);
+
+            var lastUpdated = contacts.LastUpdated;
+
+            var currentDateTime = DateTime.Now;
+            var pastDateTime = currentDateTime.AddSeconds(-5);
+
+            lastUpdated.Should().BeOnOrAfter(pastDateTime);
+            lastUpdated.Should().BeOnOrAfter(currentDateTime);
         }
 
         private class SolutionDetailTable

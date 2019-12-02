@@ -21,6 +21,7 @@ Scenario: 1. Supplier status successfully updated upon Solution submitted for re
 	When a request is made to submit Solution Sln1 for review
     Then a successful response is returned
     And the field [SupplierStatusId] for Solution Sln1 should correspond to 'Authority Review'
+    And Last Updated has updated on the SolutionEntity for solution Sln1
 
 @3012
 Scenario: 2. Supplier status not updated due to missing Solution summary
@@ -30,3 +31,4 @@ Scenario: 2. Supplier status not updated due to missing Solution summary
 	When a request is made to submit Solution Sln1 for review
     Then a response status of 400 is returned
     And the field [SupplierStatusId] for Solution Sln1 should correspond to 'Draft'
+    And Last Updated has updated on the SolutionEntity for solution Sln1

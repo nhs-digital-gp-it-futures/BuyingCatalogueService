@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using TechTalk.SpecFlow;
 
-namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
+namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
 {
     [Binding]
     internal sealed class GetSolutionsByIdSteps
@@ -48,11 +48,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         }
 
         [Then(@"the solution lastUpdated is (.*)")]
-        public async Task ThenTheSolutionLastUpdatedIs(string date)
+        public async Task LastUpdatedGet(string date)
         {
             var content = await _response.ReadBody();
             content.SelectToken("lastUpdated").Value<string>().Should().Be(date);
         }
-
     }
 }
