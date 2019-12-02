@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins
+namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails
 {
     public sealed class UpdateSolutionContactDetailsViewModel
     {
@@ -14,7 +14,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlug
     public sealed class UpdateSolutionContactViewModel
     {
         [JsonProperty("department-name")]
-        public string DepartmentName { get; set; }
+        public string Department { get; set; }
 
         [JsonProperty("first-name")]
         public string FirstName { get; set; }
@@ -26,6 +26,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlug
         public string PhoneNumber { get; set; }
 
         [JsonProperty("email-address")]
-        public string EmailAddress { get; set; }
+        public string Email { get; set; }
     }
 }

@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
@@ -71,7 +69,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             _entity.LastUpdatedBy = lastUpdatedBy;
             return this;
         }
-
+        
         public MarketingContactEntity Build()
         {
             return _entity;

@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
@@ -52,21 +52,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> UpdateContactDetailsAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionContactDetailsViewModel updateSolutionContactDetailsViewModel)
         {
-            _updateSolutionContactDetailsViewModel = updateSolutionContactDetailsViewModel;
+            var validationResult =
+                await _mediator.Send(new UpdateSolutionContactDetailsCommand(id, updateSolutionContactDetailsViewModel));
 
-
-            //var validationResult =
-            //    await _mediator.Send(new UpdateSolutionPluginsCommand(id, updateSolutionPlugInsViewModel));
-
-            //return validationResult.IsValid
-            //    ? (ActionResult)new NoContentResult()
-            //    : BadRequest(new UpdateSolutionPluginsResult(validationResult));
-
-            return await Task.Run(() => NoContent());
+            return validationResult.IsValid
+                ? (ActionResult)new NoContentResult()
+                : BadRequest(new UpdateSolutionContactDetailsResult(validationResult));
         }
-
-        private static UpdateSolutionContactDetailsViewModel _updateSolutionContactDetailsViewModel;
-
-       
     }
 }

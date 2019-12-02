@@ -53,5 +53,12 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             new {solutionId}
             );
         }
+
+        public MarketingContactEntity SetLastUpdated()
+        {
+            LastUpdated = DateTime.Now;
+            LastUpdatedBy = Guid.NewGuid();
+            return this;
+        }
     }
 }
