@@ -71,7 +71,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             var solution = await SolutionEntity.GetByIdAsync(_solution1Id);
             solution.Id.Should().Be(_solution1Id);
-            //solution.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
 
             var marketingData = await SolutionDetailEntity.GetBySolutionIdAsync(_solution1Id);
             marketingData.AboutUrl.Should().Be("AboutUrl");
@@ -135,7 +134,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             var solution = await SolutionEntity.GetByIdAsync(_solution1Id);
             solution.Id.Should().Be(_solution1Id);
-            //solution.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
 
             var marketingData = await SolutionDetailEntity.GetBySolutionIdAsync(_solution1Id);
             marketingData.AboutUrl.Should().Be("AboutUrl");
@@ -210,12 +208,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             var solution = await SolutionEntity.GetByIdAsync(_solution1Id);
             solution.Id.Should().Be(_solution1Id);
             solution.Name.Should().Be("Solution1");
-            //solution.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
 
             solution = await SolutionEntity.GetByIdAsync(_solution2Id);
             solution.Id.Should().Be(_solution2Id);
             solution.Name.Should().Be("Solution2");
-            //solution.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
 
             var solutionDetail = await SolutionDetailEntity.GetBySolutionIdAsync(_solution1Id);
             solutionDetail.Summary.Should().Be("Sln4Summary");
