@@ -6,6 +6,7 @@ using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
+using NHSD.BuyingCatalogue.Testing.Tools;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
 {
@@ -78,15 +79,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         [Then(@"Last Updated has updated on the SolutionEntity for solution (.*)")]
         public async Task LastUpdatedHasUpdatedOnMarketingContact(string solutionId)
         {
-            var contacts = await SolutionEntity.GetByIdAsync(solutionId);
-
-            var lastUpdated = contacts.LastUpdated;
-
-            var currentDateTime = DateTime.Now;
-            var pastDateTime = currentDateTime.AddSeconds(-5);
-
-            lastUpdated.Should().BeOnOrAfter(pastDateTime);
-            lastUpdated.Should().BeOnOrBefore(currentDateTime);
+            var contact = await SolutionEntity.GetByIdAsync(solutionId);
+            contact.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
         }
 
         private class SolutionTable

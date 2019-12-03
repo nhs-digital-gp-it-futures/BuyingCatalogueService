@@ -11,6 +11,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
+using NHSD.BuyingCatalogue.Testing.Tools;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
@@ -144,13 +145,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             var expectedContacts = new List<IContact> { Mock.Of<IContact>(c => c.FirstName == "BillyBob") };
             await _marketingContactRepository.ReplaceContactsForSolution(_solutionId1, expectedContacts, new CancellationToken());
 
-            var currentDateTime = DateTime.Now;
-            var pastDateTime = currentDateTime.AddSeconds(-5);
-
             var newContacts = (await _marketingContactRepository.BySolutionIdAsync(_solutionId1, new CancellationToken())).ToList();
             newContacts.Should().BeEquivalentTo(expectedContacts, config => config.Excluding(e => e.Name));
 
-            newContacts.Should().Match(x => x.All(x => x.LastUpdated > pastDateTime && x.LastUpdated < currentDateTime));
+            newContacts.ForEach(x => x.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5)));
         }
 
         [Test]

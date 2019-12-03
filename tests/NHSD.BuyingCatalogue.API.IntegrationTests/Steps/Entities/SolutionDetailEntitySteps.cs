@@ -5,6 +5,7 @@ using FluentAssertions;
 using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
+using NHSD.BuyingCatalogue.Testing.Tools;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 
@@ -65,15 +66,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         [Then(@"Last Updated has updated on the SolutionDetail for solution (.*)")]
         public async Task LastUpdatedHasUpdatedOnSolutionDetail(string solutionId)
         {
-            var contacts = await SolutionDetailEntity.GetBySolutionIdAsync(solutionId);
-
-            var lastUpdated = contacts.LastUpdated;
-
-            var currentDateTime = DateTime.Now;
-            var pastDateTime = currentDateTime.AddSeconds(-5);
-
-            lastUpdated.Should().BeOnOrAfter(pastDateTime);
-            lastUpdated.Should().BeOnOrBefore(currentDateTime);
+            var solutionDetail = await SolutionDetailEntity.GetBySolutionIdAsync(solutionId);
+            solutionDetail.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
         }
 
         private class SolutionDetailTable

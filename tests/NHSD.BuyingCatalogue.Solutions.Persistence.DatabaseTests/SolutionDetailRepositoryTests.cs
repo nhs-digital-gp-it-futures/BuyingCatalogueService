@@ -8,6 +8,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
+using NHSD.BuyingCatalogue.Testing.Tools;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
@@ -68,20 +69,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await _solutionDetailRepository.UpdateFeaturesAsync(mockUpdateSolutionFeaturesRequest.Object, new CancellationToken());
 
-            var currentDateTime = DateTime.Now;
-            var pastDateTime = currentDateTime.AddSeconds(-5);
-
             var solution = await SolutionEntity.GetByIdAsync(_solution1Id);
             solution.Id.Should().Be(_solution1Id);
-            //solution.LastUpdated.Should().BeOnOrAfter(pastDateTime);
-            //solution.LastUpdated.Should().BeOnOrBefore(currentDateTime);
+            //solution.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
 
             var marketingData = await SolutionDetailEntity.GetBySolutionIdAsync(_solution1Id);
             marketingData.AboutUrl.Should().Be("AboutUrl");
             marketingData.Features.Should().Be("Features4");
 
-            marketingData.LastUpdated.Should().BeOnOrAfter(pastDateTime);
-            marketingData.LastUpdated.Should().BeOnOrBefore(currentDateTime);
+            marketingData.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
         }
 
         [Test]
@@ -137,19 +133,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await _solutionDetailRepository.UpdateClientApplicationAsync(mockUpdateSolutionClientApplicationRequest.Object, new CancellationToken());
 
-            var currentDateTime = DateTime.Now;
-            var pastDateTime = currentDateTime.AddSeconds(-5);
-
             var solution = await SolutionEntity.GetByIdAsync(_solution1Id);
             solution.Id.Should().Be(_solution1Id);
-            //solution.LastUpdated.Should().BeOnOrAfter(pastDateTime);
-            //solution.LastUpdated.Should().BeOnOrBefore(currentDateTime);
+            //solution.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
 
             var marketingData = await SolutionDetailEntity.GetBySolutionIdAsync(_solution1Id);
             marketingData.AboutUrl.Should().Be("AboutUrl");
             marketingData.ClientApplication.Should().Be("Browser-based");
-            marketingData.LastUpdated.Should().BeOnOrAfter(pastDateTime);
-            marketingData.LastUpdated.Should().BeOnOrBefore(currentDateTime);
+
+            marketingData.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
         }
 
         [Test]
@@ -215,20 +207,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await _solutionDetailRepository.UpdateSummaryAsync(mockUpdateSolutionSummaryRequest.Object, new CancellationToken());
 
-            var currentDateTime = DateTime.Now;
-            var pastDateTime = currentDateTime.AddSeconds(-5);
-
             var solution = await SolutionEntity.GetByIdAsync(_solution1Id);
             solution.Id.Should().Be(_solution1Id);
             solution.Name.Should().Be("Solution1");
-            //solution.LastUpdated.Should().BeOnOrAfter(pastDateTime);
-            //solution.LastUpdated.Should().BeOnOrBefore(currentDateTime);
+            //solution.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
 
             solution = await SolutionEntity.GetByIdAsync(_solution2Id);
             solution.Id.Should().Be(_solution2Id);
             solution.Name.Should().Be("Solution2");
-            //solution.LastUpdated.Should().BeOnOrAfter(pastDateTime);
-            //solution.LastUpdated.Should().BeOnOrBefore(currentDateTime);
+            //solution.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
 
             var solutionDetail = await SolutionDetailEntity.GetBySolutionIdAsync(_solution1Id);
             solutionDetail.Summary.Should().Be("Sln4Summary");
@@ -236,8 +223,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             solutionDetail.AboutUrl.Should().Be("AboutUrl4");
             solutionDetail.Features.Should().Be("Features");
             solutionDetail.ClientApplication.Should().Be("Browser-based");
-            solutionDetail.LastUpdated.Should().BeOnOrAfter(pastDateTime);
-            solutionDetail.LastUpdated.Should().BeOnOrBefore(currentDateTime);
+            solutionDetail.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
         }
 
         [Test]

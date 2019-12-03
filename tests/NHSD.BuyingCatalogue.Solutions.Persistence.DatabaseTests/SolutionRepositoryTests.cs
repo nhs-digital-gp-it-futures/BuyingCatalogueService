@@ -8,6 +8,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
+using NHSD.BuyingCatalogue.Testing.Tools;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
@@ -165,14 +166,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await _solutionRepository.UpdateSupplierStatusAsync(mockUpdateSolutionSupplierStatusRequest.Object, new CancellationToken());
 
-            var currentDateTime = DateTime.Now;
-            var pastDateTime = currentDateTime.AddSeconds(-5);
-
             var solution = await SolutionEntity.GetByIdAsync(_solution1Id);
             solution.Id.Should().Be(_solution1Id);
 
-            solution.LastUpdated.Should().BeOnOrAfter(pastDateTime);
-            solution.LastUpdated.Should().BeOnOrBefore(currentDateTime);
+            solution.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
 
             solution.SupplierStatusId.Should().Be(2);
         }
