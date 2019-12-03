@@ -2,9 +2,9 @@ using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
-namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Public
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 {
-    public class PluginOrExtensionsPublicSectionAnswers
+    public class PluginOrExtensionsSectionAnswers
     {
         [JsonProperty("plugins-required")]
         public string Required { get; }
@@ -16,9 +16,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Public
         public bool HasData => Required != null;
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="PluginOrExtensionsPublicSectionAnswers"/> class.
+        /// Initialises a new instance of the <see cref="PluginOrExtensionsSectionAnswers"/> class.
         /// </summary>
-        public PluginOrExtensionsPublicSectionAnswers(IPlugins clientApplicationPlugins)
+        public PluginOrExtensionsSectionAnswers(IPlugins clientApplicationPlugins)
         {
             Required = clientApplicationPlugins?.Required.ToYesNoString();
             AdditionalInformation = clientApplicationPlugins?.AdditionalInformation;

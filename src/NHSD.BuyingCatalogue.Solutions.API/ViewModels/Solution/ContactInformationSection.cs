@@ -1,9 +1,9 @@
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
-namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Public
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 {
-    public class ContactInformationPublicSection
+    public class ContactInformationSection
     {
         [JsonProperty("department-name")]
         public string DepartmentName { get; }
@@ -17,7 +17,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Public
         [JsonProperty("email-address")]
         public string EmailAddress { get; }
 
-        public ContactInformationPublicSection(IContact contact)
+        public ContactInformationSection(IContact contact)
         {
             DepartmentName = contact.Department;
             ContactName = contact.Name;
