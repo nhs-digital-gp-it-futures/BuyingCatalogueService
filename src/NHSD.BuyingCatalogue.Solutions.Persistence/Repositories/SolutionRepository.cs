@@ -35,7 +35,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         private const string updateSolutionSupplierStatusSql = @"
                                         UPDATE  Solution
-                                        SET		Solution.SupplierStatusId = @supplierStatusId
+                                        SET		Solution.SupplierStatusId = @supplierStatusId,
+                                                Solution.LastUpdated = GETDATE()
                                         WHERE   Solution.Id = @id
                                 IF @@ROWCOUNT = 0
                                     THROW 60000, 'Solution or SolutionDetail not found', 1; ";

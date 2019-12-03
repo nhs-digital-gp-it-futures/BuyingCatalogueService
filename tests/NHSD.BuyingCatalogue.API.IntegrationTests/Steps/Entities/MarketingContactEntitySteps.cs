@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -25,6 +26,17 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         {
             var contacts = await MarketingContactEntity.FetchForSolutionAsync(solutionId);
             contacts.Should().BeEmpty();
+        }
+
+        [Then(@"Last Updated has updated on the MarketingContact for solution (.*)")]
+        public async Task LastUpdatedHasUpdatedOnMarketingContact(string solutionId)
+        {
+            var contacts = await MarketingContactEntity.FetchForSolutionAsync(solutionId);
+          
+            var currentDateTime = DateTime.Now;
+            var pastDateTime = currentDateTime.AddSeconds(-5);
+
+            contacts.Should().Match(x => x.All(x => x.LastUpdated > pastDateTime && x.LastUpdated < currentDateTime));
         }
 
         [Then(@"MarketingContacts exist for solution (.*)")]

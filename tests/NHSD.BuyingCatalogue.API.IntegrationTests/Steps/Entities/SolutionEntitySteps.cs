@@ -6,6 +6,7 @@ using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
+using NHSD.BuyingCatalogue.Testing.Tools;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
 {
@@ -73,6 +74,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             var solution = await SolutionEntity.GetByIdAsync(solutionId);
 
             solution.SupplierStatusId.Should().Be(status.Id);
+        }
+
+        [Then(@"Last Updated has updated on the SolutionEntity for solution (.*)")]
+        public async Task LastUpdatedHasUpdatedOnMarketingContact(string solutionId)
+        {
+            var contact = await SolutionEntity.GetByIdAsync(solutionId);
+            contact.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
         }
 
         private class SolutionTable

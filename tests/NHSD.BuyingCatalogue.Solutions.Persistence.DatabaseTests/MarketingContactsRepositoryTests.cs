@@ -11,6 +11,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
+using NHSD.BuyingCatalogue.Testing.Tools;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
@@ -143,8 +144,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             var expectedContacts = new List<IContact> { Mock.Of<IContact>(c => c.FirstName == "BillyBob") };
             await _marketingContactRepository.ReplaceContactsForSolution(_solutionId1, expectedContacts, new CancellationToken());
+
             var newContacts = (await _marketingContactRepository.BySolutionIdAsync(_solutionId1, new CancellationToken())).ToList();
             newContacts.Should().BeEquivalentTo(expectedContacts, config => config.Excluding(e => e.Name));
+
+            newContacts.ForEach(x => x.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5)));
         }
 
         [Test]
@@ -167,6 +171,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             Assert.ThrowsAsync<SqlException>(() => _marketingContactRepository.ReplaceContactsForSolution(_solutionId1, badData, new CancellationToken()));
             var newContacts = (await _marketingContactRepository.BySolutionIdAsync(_solutionId1, new CancellationToken())).ToList();
+
             newContacts.Should().BeEquivalentTo(expectedContacts, config => config.Excluding(c => c.LastUpdated).Excluding(c => c.LastUpdatedBy));
         }
 

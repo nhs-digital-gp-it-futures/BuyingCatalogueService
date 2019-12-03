@@ -1,9 +1,11 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
+using NHSD.BuyingCatalogue.Testing.Tools;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 
@@ -59,6 +61,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 m.FullDescription,
                 ClientApplication = string.IsNullOrWhiteSpace(m.ClientApplication) ? null : JToken.Parse(m.ClientApplication).ToString()
             }).Should().BeEquivalentTo(expectedSolutionDetails);
+        }
+
+        [Then(@"Last Updated has updated on the SolutionDetail for solution (.*)")]
+        public async Task LastUpdatedHasUpdatedOnSolutionDetail(string solutionId)
+        {
+            var solutionDetail = await SolutionDetailEntity.GetBySolutionIdAsync(solutionId);
+            solutionDetail.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
         }
 
         private class SolutionDetailTable

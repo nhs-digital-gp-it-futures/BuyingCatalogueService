@@ -21,6 +21,7 @@ Scenario: 1. Solution successfully submitted for review
         | Sln1     | An full online medicine system | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true, "Plugins": { "Required": false } } |
     When a request is made to submit Solution Sln1 for review
     Then a response status of 204 is returned
+    And Last Updated has updated on the SolutionEntity for solution Sln1
 
 @2836
 Scenario: 2. Solution not found

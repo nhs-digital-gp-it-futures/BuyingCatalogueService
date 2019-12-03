@@ -28,6 +28,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                                     ,MarketingContact.Email
                                     ,MarketingContact.PhoneNumber
                                     ,MarketingContact.Department
+                                    ,MarketingContact.LastUpdated
                                     FROM Solution
                                     INNER JOIN MarketingContact ON MarketingContact.SolutionId = Solution.Id
                                     WHERE Solution.Id = @solutionId";

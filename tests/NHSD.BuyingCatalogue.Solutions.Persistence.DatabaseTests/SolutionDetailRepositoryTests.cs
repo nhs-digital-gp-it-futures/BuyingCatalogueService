@@ -8,6 +8,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
+using NHSD.BuyingCatalogue.Testing.Tools;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
@@ -74,6 +75,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             var marketingData = await SolutionDetailEntity.GetBySolutionIdAsync(_solution1Id);
             marketingData.AboutUrl.Should().Be("AboutUrl");
             marketingData.Features.Should().Be("Features4");
+
+            marketingData.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
         }
 
         [Test]
@@ -135,6 +138,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             var marketingData = await SolutionDetailEntity.GetBySolutionIdAsync(_solution1Id);
             marketingData.AboutUrl.Should().Be("AboutUrl");
             marketingData.ClientApplication.Should().Be("Browser-based");
+
+            marketingData.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
         }
 
         [Test]
@@ -214,6 +219,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             solutionDetail.AboutUrl.Should().Be("AboutUrl4");
             solutionDetail.Features.Should().Be("Features");
             solutionDetail.ClientApplication.Should().Be("Browser-based");
+            solutionDetail.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
         }
 
         [Test]
