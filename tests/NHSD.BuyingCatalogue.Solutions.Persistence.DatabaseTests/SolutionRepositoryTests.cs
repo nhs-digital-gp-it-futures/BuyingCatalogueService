@@ -164,6 +164,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             mockUpdateSolutionSupplierStatusRequest.Setup(m => m.Id).Returns(_solution1Id);
             mockUpdateSolutionSupplierStatusRequest.Setup(m => m.SupplierStatusId).Returns(2);
 
+            _solutionRepository.CheckExists(_solution1Id, new CancellationToken()).Result.Should().BeTrue();
+
             await _solutionRepository.UpdateSupplierStatusAsync(mockUpdateSolutionSupplierStatusRequest.Object, new CancellationToken());
 
             var solution = await SolutionEntity.GetByIdAsync(_solution1Id);
@@ -172,6 +174,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             solution.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
 
             solution.SupplierStatusId.Should().Be(2);
+        }
+
+        [Test]
+        public void SolutionIdDoesNotExist()
+        {
+            _solutionRepository.CheckExists(_solution1Id, new CancellationToken()).Result.Should().BeFalse();
         }
 
         [Test]

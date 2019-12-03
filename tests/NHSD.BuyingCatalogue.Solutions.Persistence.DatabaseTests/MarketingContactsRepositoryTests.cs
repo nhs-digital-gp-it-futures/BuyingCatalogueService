@@ -8,6 +8,7 @@ using FluentAssertions;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Solutions.Persistence.Repositories;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
@@ -52,9 +53,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .InsertAsync();
 
             _testContext = new TestContext();
+
             _marketingContactRepository = _testContext.MarketingContactRepository;
         }
 
+        [Test]
+        public void NullConnectorThrows()
+        {
+            Assert.Throws<ArgumentNullException>(() => new MarketingContactRepository(null));
+        }
+        
         [Test]
         public async Task SingleContactShouldReturnAllDetails()
         {
