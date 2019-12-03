@@ -10,6 +10,6 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure
 
         public Settings(IConfiguration configuration) => _configuration = configuration.ThrowIfNull();
 
-        public string ConnectionString => _configuration["ConnectionStrings:BuyingCatalogue"];
+        public string ConnectionString => _configuration["ConnectionStrings__BuyingCatalogue"];
     }
 }

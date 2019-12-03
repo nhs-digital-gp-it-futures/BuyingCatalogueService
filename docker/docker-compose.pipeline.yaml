@@ -11,7 +11,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      - ConnectionStrings:BuyingCatalogue=${NHSD_BUYINGCATALOGUE_DB:-Data Source=db;Initial Catalog=buyingcatalogue;MultipleActiveResultSets=True;User Id=sa;Password=MyTestPassword123!}
+      - ConnectionStrings__BuyingCatalogue=${NHSD_BUYINGCATALOGUE_DB:-Data Source=db;Initial Catalog=buyingcatalogue;MultipleActiveResultSets=True;User Id=sa;Password=MyTestPassword123!}
     networks:
       - nhsd_bcnetwork
     ports:
