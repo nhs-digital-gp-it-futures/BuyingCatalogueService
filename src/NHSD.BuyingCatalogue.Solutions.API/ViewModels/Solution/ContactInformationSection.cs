@@ -1,4 +1,6 @@
+using System;
 using Newtonsoft.Json;
+using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
@@ -19,10 +21,19 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 
         public ContactInformationSection(IContact contact)
         {
-            DepartmentName = contact.Department;
-            ContactName = contact.Name;
-            PhoneNumber = contact.PhoneNumber;
-            EmailAddress = contact.Email;
+            DepartmentName = contact?.Department.NullIfWhitespace();
+            ContactName = contact?.Name.NullIfWhitespace();
+            PhoneNumber = contact?.PhoneNumber.NullIfWhitespace();
+            EmailAddress = contact?.Email.NullIfWhitespace();
         }
+
+        public bool IsPopulated()
+            => DepartmentName != null
+               || ContactName != null
+               || PhoneNumber != null
+               || EmailAddress != null;
+
+        public ContactInformationSection IfPopulated()
+            => IsPopulated() ? this : null;
     }
 }

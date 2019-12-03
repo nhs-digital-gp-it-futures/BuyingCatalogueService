@@ -302,6 +302,48 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         }
 
         [Test]
+        public async Task EmptyContactShouldReturnNoData()
+        {
+            var contacts = new List<IContact>
+            {
+                Mock.Of<IContact>(m =>
+                    m.Name == null && m.Department == "" && m.Email == "" && m.PhoneNumber == "   "),
+                Mock.Of<IContact>(m => m.Name == "" && m.Department == "" && m.Email == "" && m.PhoneNumber == "")
+            };
+
+            var contact = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.Id == SolutionId1 &&
+                s.Contacts == contacts), SolutionId1);
+
+            contact.Id.Should().Be(SolutionId1);
+            contact.Sections.ContactDetails.Should().BeNull();
+        }
+
+        [Test]
+        public async Task SingleContactShouldReturnNullForEmptyData()
+        {
+            var contacts = new List<IContact>
+            {
+                Mock.Of<IContact>(m =>
+                    m.Name == "Hello" && m.Department == "" && m.Email == "" && m.PhoneNumber == "   "),
+                Mock.Of<IContact>(m => m.Name == "" && m.Department == "" && m.Email == "" && m.PhoneNumber == "")
+            };
+
+            var contact = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.Id == SolutionId1 &&
+                s.Contacts == contacts), SolutionId1);
+
+            contact.Id.Should().Be(SolutionId1);
+            contact.Sections.ContactDetails.Should().NotBeNull();
+            contact.Sections.ContactDetails.Answers.HasData().Should().BeTrue();
+            contact.Sections.ContactDetails.Answers.Contact2.Should().BeNull();
+            contact.Sections.ContactDetails.Answers.Contact1.ContactName.Should().NotBeNull();
+            contact.Sections.ContactDetails.Answers.Contact1.PhoneNumber.Should().BeNull();
+            contact.Sections.ContactDetails.Answers.Contact1.DepartmentName.Should().BeNull();
+            contact.Sections.ContactDetails.Answers.Contact1.EmailAddress.Should().BeNull();
+        }
+
+        [Test]
         public void NullSolutionShouldThrowNullExceptionPublicResult()
         {
             Assert.Throws<ArgumentNullException>(() => new SolutionResult(null));

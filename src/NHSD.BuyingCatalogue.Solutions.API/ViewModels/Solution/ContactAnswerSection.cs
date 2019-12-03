@@ -14,10 +14,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 
         [JsonProperty("contact-1")]
         public ContactInformationSection Contact1
-            => _contacts.FirstOrDefault();
+            => _contacts.FirstOrDefault()?.IfPopulated();
 
         [JsonProperty("contact-2")]
         public ContactInformationSection Contact2
-            => _contacts.Skip(1).FirstOrDefault();
+            => _contacts.Skip(1).FirstOrDefault()?.IfPopulated();
+
+        public bool HasData()
+            => Contact1?.IsPopulated() == true || Contact2?.IsPopulated() == true;
     }
 }
