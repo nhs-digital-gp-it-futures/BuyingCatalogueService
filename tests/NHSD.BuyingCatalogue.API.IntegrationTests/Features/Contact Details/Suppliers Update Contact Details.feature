@@ -29,7 +29,7 @@ Scenario: 1. Contacts are added when none existed before
         | FirstName | LastName   | Email         | PhoneNumber  | Department |
         | Bob       |            | bob@bob.bob   | 66666 666666 | Sales      |
         |           | Bobbington | betty@bob.bob | 99999 999999 |            |
-    Last Updated has updated on the MarketingContact for solution Sln1
+    And Last Updated has updated on the MarketingContact for solution Sln1
 
 @3655
 Scenario: 2. Contacts are added when contacts previously existed
@@ -44,7 +44,7 @@ Given MarketingContacts exist
     And MarketingContacts exist for solution Sln1
         | FirstName | LastName   | Email          | PhoneNumber | Department |
         | Bill      | Billington | bill@bill.bill | 1           | Billing    |
-    Last Updated has updated on the MarketingContact for solution
+    And Last Updated has updated on the MarketingContact for solution Sln1
 @3655
 Scenario: 3. Contacts are removed when contacts previously existed
 Given MarketingContacts exist
@@ -70,7 +70,7 @@ Given MarketingContacts exist
         | FirstName | LastName | Email | PhoneNumber | Department |
         | NULL      | NULL     | NULL  | NULL        | NULL       |
         | NULL      | NULL     | NULL  | NULL        | NULL       |
-    Last Updated has updated on the MarketingContact for solution
+    And Last Updated has updated on the MarketingContact for solution Sln1
 
 @3655
 Scenario: 5. Solution not found

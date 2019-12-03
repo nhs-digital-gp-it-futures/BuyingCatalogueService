@@ -1,3 +1,5 @@
+using System;
+
 namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
 {
     public interface IMarketingContactResult
@@ -9,5 +11,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         string Email { get; }
         string PhoneNumber { get; }
         string Department { get; }
+        DateTime LastUpdated { get; }
     }
 }

@@ -32,17 +32,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         public async Task LastUpdatedHasUpdatedOnMarketingContact(string solutionId)
         {
             var contacts = await MarketingContactEntity.FetchForSolutionAsync(solutionId);
-
-            var lastUpdated = contacts.Select(x => x.LastUpdated).ToList();
           
             var currentDateTime = DateTime.Now;
             var pastDateTime = currentDateTime.AddSeconds(-5);
 
-            lastUpdated.FirstOrDefault().Should().BeOnOrAfter(pastDateTime);
-            lastUpdated.FirstOrDefault().Should().BeOnOrAfter(currentDateTime);
-
-            lastUpdated.Skip(1).FirstOrDefault().Should().BeOnOrAfter(pastDateTime);
-            lastUpdated.Skip(1).FirstOrDefault().Should().BeOnOrAfter(currentDateTime);
+            contacts.Should().Match(x => x.All(x => x.LastUpdated > pastDateTime && x.LastUpdated < currentDateTime));
         }
 
         [Then(@"MarketingContacts exist for solution (.*)")]

@@ -19,7 +19,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         private const string updateTemplate = @"
                                 UPDATE  SolutionDetail                                   
-                                SET     [Setters]
+                                SET     [Setters],
+								SolutionDetail.LastUpdated = GETDATE()
                                 FROM SolutionDetail
                                     INNER JOIN Solution
                                         ON solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
@@ -54,7 +55,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
         /// <returns>A task representing an operation to save the specified updateSolutionRequest to the data store.</returns>
         public async Task UpdateFeaturesAsync(IUpdateSolutionFeaturesRequest updateSolutionFeaturesRequest, CancellationToken cancellationToken)
-            => await _dbConnector.ExecuteAsync(cancellationToken, updateTemplate.Replace("[Setters]", @"SolutionDetail.Features = @features"),
+            => await _dbConnector.ExecuteAsync(cancellationToken, updateTemplate.Replace("[Setters]",
+                    @"SolutionDetail.Features = @features"),
                 updateSolutionFeaturesRequest.ThrowIfNull(nameof(updateSolutionFeaturesRequest)));
 
         /// <summary>
@@ -64,7 +66,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
         /// <returns>A task representing an operation to save the specified <paramref name="updateSolutionClientApplicationRequest"/> details to the data store.</returns>
         public async Task UpdateClientApplicationAsync(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken cancellationToken)
-            => await _dbConnector.ExecuteAsync(cancellationToken, updateTemplate.Replace("[Setters]", @"SolutionDetail.ClientApplication = @clientApplication"),
+            => await _dbConnector.ExecuteAsync(cancellationToken, updateTemplate.Replace("[Setters]",
+                    @"SolutionDetail.ClientApplication = @clientApplication"),
                 updateSolutionClientApplicationRequest.ThrowIfNull(nameof(updateSolutionClientApplicationRequest)));
 
         public async Task<IClientApplicationResult> GetClientApplicationBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)

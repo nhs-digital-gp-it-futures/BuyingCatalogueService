@@ -85,7 +85,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             var pastDateTime = currentDateTime.AddSeconds(-5);
 
             lastUpdated.Should().BeOnOrAfter(pastDateTime);
-            lastUpdated.Should().BeOnOrAfter(currentDateTime);
+            lastUpdated.Should().BeOnOrBefore(currentDateTime);
         }
 
         private class SolutionTable

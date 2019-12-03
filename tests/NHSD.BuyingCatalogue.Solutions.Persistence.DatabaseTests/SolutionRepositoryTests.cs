@@ -165,9 +165,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await _solutionRepository.UpdateSupplierStatusAsync(mockUpdateSolutionSupplierStatusRequest.Object, new CancellationToken());
 
+            var currentDateTime = DateTime.Now;
+            var pastDateTime = currentDateTime.AddSeconds(-5);
+
             var solution = await SolutionEntity.GetByIdAsync(_solution1Id);
             solution.Id.Should().Be(_solution1Id);
-            solution.LastUpdated.Should().Be(_lastUpdated);
+
+            solution.LastUpdated.Should().BeOnOrAfter(pastDateTime);
+            solution.LastUpdated.Should().BeOnOrBefore(currentDateTime);
 
             solution.SupplierStatusId.Should().Be(2);
         }
