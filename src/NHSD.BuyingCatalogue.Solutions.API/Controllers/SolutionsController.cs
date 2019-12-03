@@ -6,8 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
-using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Preview;
-using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Public;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
@@ -55,13 +54,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         /// <returns>A task representing an operation to retrieve the details of a Solution.</returns>
         [HttpGet]
         [Route("{id}/Preview")]
-        [ProducesResponseType(typeof(SolutionPreviewResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(SolutionResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<SolutionPreviewResult>> Preview([FromRoute][Required]string id)
+        public async Task<ActionResult<SolutionResult>> Preview([FromRoute][Required]string id)
         {
             var result = await _mediator.Send(new GetSolutionByIdQuery(id));
-            return result == null ? (ActionResult)new NotFoundResult() : Ok(new SolutionPreviewResult(result));
+            return result == null ? (ActionResult)new NotFoundResult() : Ok(new SolutionResult(result));
         }
 
         /// <summary>
@@ -71,13 +70,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         /// <returns>A task representing an operation to retrieve the details of a Solution.</returns>
         [HttpGet]
         [Route("{id}/Public")]
-        [ProducesResponseType(typeof(SolutionPreviewResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(SolutionResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<SolutionPreviewResult>> Public([FromRoute][Required]string id)
+        public async Task<ActionResult<SolutionResult>> Public([FromRoute][Required]string id)
         {
             var result = await _mediator.Send(new GetSolutionByIdQuery(id));
-            return result == null ? (ActionResult)new NotFoundResult() : Ok(new SolutionPublicResult(result));
+            return result == null ? (ActionResult)new NotFoundResult() : Ok(new SolutionResult(result));
         }
 
         /// <summary>

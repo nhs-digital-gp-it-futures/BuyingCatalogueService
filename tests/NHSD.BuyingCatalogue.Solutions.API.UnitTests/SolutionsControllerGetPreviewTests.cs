@@ -8,7 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
-using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Preview;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
@@ -221,22 +221,22 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public void NullSolutionShouldThrowNullExceptionSolutionDescriptionPreviewAnswers()
         {
-            Assert.Throws<ArgumentNullException>(() => new SolutionDescriptionPreviewSectionAnswers(null));
+            Assert.Throws<ArgumentNullException>(() => new SolutionDescriptionSectionAnswers(null));
         }
 
         [Test]
         public void NullSolutionShouldThrowNullExceptionPreviewSections()
         {
-            Assert.Throws<ArgumentNullException>(() => new PreviewSections(null));
+            Assert.Throws<ArgumentNullException>(() => new SolutionResult(null));
         }
         
         [Test]
         public void NullSolutionShouldThrowNullExceptionPreviewResult()
         {
-            Assert.Throws<ArgumentNullException>(() => new SolutionPreviewResult(null));
+            Assert.Throws<ArgumentNullException>(() => new SolutionResult(null));
         }
 
-        private async Task<SolutionPreviewResult> GetSolutionPreviewSectionAsync(ISolution solution)
+        private async Task<SolutionResult> GetSolutionPreviewSectionAsync(ISolution solution)
         {
             _mockMediator.Setup(m =>
                     m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
@@ -249,7 +249,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()),
                 Times.Once);
 
-            return result.Value as SolutionPreviewResult;
+            return result.Value as SolutionResult;
         }
     }
 }

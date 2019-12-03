@@ -20,10 +20,11 @@ Background:
         | Sup 1 | GPs-R-Us         |
         | Sup 2 | Drs. Inc         |
     And Solutions exist
-        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                | Sup 2      |
-        | Sln3       | PracticeMgr    | Drs. Inc         | 1                | Sup 2      |
+        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId | PublicationStatus |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      | 3                 |
+        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                | Sup 2      | 3                 |
+        | Sln3       | PracticeMgr    | Drs. Inc         | 1                | Sup 2      | 3                 |
+        | Sln4       | Unpublished    | Drs. Inc         | 1                | Sup 2      | 1                 |
     And Solutions are linked to Capabilities
         | Solution       | Capability              |
         | MedicOnline    | Appointments Management |
@@ -44,6 +45,7 @@ Scenario: 1. No selection criteria applied
     When a GET request is made containing no selection criteria
     Then a successful response is returned
     And the solutions MedicOnline,TakeTheRedPill,PracticeMgr are found in the response
+    And the solutions Unpublished are not found in the response
 
 @2053
 Scenario: 2. Card Content

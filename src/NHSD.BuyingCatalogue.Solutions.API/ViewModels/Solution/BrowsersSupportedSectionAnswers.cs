@@ -4,9 +4,9 @@ using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
-namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Preview
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 {
-    public class BrowsersSupportedPreviewSectionAnswers
+    public class BrowsersSupportedSectionAnswers
     {
         [JsonProperty("supported-browsers")]
         public IEnumerable<string> SupportedBrowsers { get; }
@@ -18,12 +18,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Preview
         public bool HasData => SupportedBrowsers?.Any() == true || MobileResponsive != null;
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="BrowsersSupportedPreviewSectionAnswers"/> class.
+        /// Initialises a new instance of the <see cref="BrowsersSupportedSectionAnswers"/> class.
         /// </summary>
-        public BrowsersSupportedPreviewSectionAnswers(IClientApplication clientApplication)
+        public BrowsersSupportedSectionAnswers(IClientApplication clientApplication)
         {
+            bool? mobileResponsive = clientApplication?.MobileResponsive;
+
             SupportedBrowsers = clientApplication?.BrowsersSupported;
-            MobileResponsive = clientApplication?.MobileResponsive.ToYesNoString();
+            MobileResponsive = mobileResponsive.ToYesNoString();
         }
     }
 }

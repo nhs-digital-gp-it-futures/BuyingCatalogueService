@@ -2,9 +2,9 @@ using System;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
-namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Preview
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 {
-    public class SolutionDescriptionPreviewSectionAnswers
+    public class SolutionDescriptionSectionAnswers
     {
         public string Summary { get; }
 
@@ -18,9 +18,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Preview
                                  && string.IsNullOrWhiteSpace(Link));
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="SolutionDescriptionPreviewSectionAnswers"/> class.
+        /// Initialises a new instance of the <see cref="SolutionDescriptionSectionAnswers"/> class.
         /// </summary>
-        public SolutionDescriptionPreviewSectionAnswers(ISolution solution)
+        public SolutionDescriptionSectionAnswers(ISolution solution)
         {
             if (solution is null)
             {

@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Public
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 {
-    public class CapabilitiesMetPublicSection
+    public class CapabilitiesMetSection
     {
         [JsonProperty("capabilities-met")]
         public IEnumerable<string> CapabilitiesMet { get; }
 
-        public CapabilitiesMetPublicSection(IEnumerable<string> capabilities)
+        public CapabilitiesMetSection(IEnumerable<string> capabilities)
             => CapabilitiesMet = new HashSet<string>(capabilities ?? new List<string>()); 
     }
 }

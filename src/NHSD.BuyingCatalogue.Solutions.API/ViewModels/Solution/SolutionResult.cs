@@ -1,9 +1,9 @@
 using System;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
-namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Public
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 {
-    public class SolutionPublicResult
+    public class SolutionResult
     {
         public string Id { get; }
 
@@ -15,12 +15,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Public
 
         public string LastUpdated { get; }
 
-        public PublicSections Sections { get; }
+        public Sections Sections { get; }
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="SolutionPublicResult"/> class.
+        /// Initialises a new instance of the <see cref="SolutionResult"/> class.
         /// </summary>
-        public SolutionPublicResult(ISolution solution)
+        public SolutionResult(ISolution solution)
         {
             if (solution is null)
             {
@@ -33,7 +33,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Public
             LastUpdated = solution.LastUpdated.ToString("dd-MMM-yyyy");
             IsFoundation = solution.IsFoundation;
 
-            Sections = new PublicSections(solution);
+            Sections = new Sections(solution);
         }
     }
 }

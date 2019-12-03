@@ -8,7 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
-using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Public;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
@@ -304,22 +304,22 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public void NullSolutionShouldThrowNullExceptionPublicResult()
         {
-            Assert.Throws<ArgumentNullException>(() => new SolutionPublicResult(null));
+            Assert.Throws<ArgumentNullException>(() => new SolutionResult(null));
         }
 
         [Test]
         public void NullSolutionShouldThrowNullExceptionPublicSections()
         {
-            Assert.Throws<ArgumentNullException>(() => new PublicSections(null));
+            Assert.Throws<ArgumentNullException>(() => new Sections(null));
         }
 
         [Test]
         public void NullSolutionShouldThrowNullExceptionSolutionDescriptionPublicAnswers()
         {
-            Assert.Throws<ArgumentNullException>(() => new SolutionDescriptionPublicSectionAnswers(null));
+            Assert.Throws<ArgumentNullException>(() => new SolutionDescriptionSectionAnswers(null));
         }
         
-        private async Task<SolutionPublicResult> GetSolutionPublicResultAsync(ISolution solution, string solutionId)
+        private async Task<SolutionResult> GetSolutionPublicResultAsync(ISolution solution, string solutionId)
         {
             _mockMediator
                 .Setup(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == solutionId), It.IsAny<CancellationToken>()))
@@ -331,7 +331,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == solutionId), It.IsAny<CancellationToken>()), Times.Once);
 
-            return result.Value as SolutionPublicResult;
+            return result.Value as SolutionResult;
         }
     }
 }

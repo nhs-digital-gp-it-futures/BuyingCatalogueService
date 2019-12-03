@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Public
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 {
-    public class FeaturesPublicSectionAnswers
+    public class FeaturesSectionAnswers
     {
         public IEnumerable<string> Listing { get; }
 
@@ -13,9 +13,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Public
         public bool HasData => Listing?.Any(x=> !String.IsNullOrWhiteSpace(x)) == true;
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="FeaturesPublicSectionAnswers"/> class.
+        /// Initialises a new instance of the <see cref="FeaturesSectionAnswers"/> class.
         /// </summary>
-        public FeaturesPublicSectionAnswers(IEnumerable<string> features)
+        public FeaturesSectionAnswers(IEnumerable<string> features)
         {
             Listing = features;
         }

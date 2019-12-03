@@ -25,6 +25,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                     .WithOnLastUpdated(solutionTable.LastUpdated)
                     .WithOrganisationId(organisations.First(o => o.Name == solutionTable.OrganisationName).Id)
                     .WithSupplierStatusId(solutionTable.SupplierStatusId)
+                    .WithPublishedStatusId(solutionTable.PublishedStatusId)
                     .Build()
                     .InsertAsync();
             }
@@ -97,6 +98,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             public string OrganisationName { get; set; }
 
             public int SupplierStatusId { get; set; }
+
+            public int PublishedStatusId { get; set; } = 3;
 
             public DateTime LastUpdated { get; set; }
         }

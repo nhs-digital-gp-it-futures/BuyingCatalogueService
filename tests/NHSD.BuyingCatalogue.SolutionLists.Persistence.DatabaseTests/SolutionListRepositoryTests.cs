@@ -60,6 +60,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .WithId(Solution1Id)
                 .WithOrganisationId(_org1Id)
                 .WithSupplierId(_supplierId)
+                .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync();
 
@@ -76,6 +77,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .WithId(Solution1Id)
                 .WithOrganisationId(_org1Id)
                 .WithSupplierId(_supplierId)
+                .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync();
 
@@ -114,6 +116,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .WithId(Solution1Id)
                 .WithOrganisationId(_org1Id)
                 .WithSupplierId(_supplierId)
+                .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync();
 
@@ -149,6 +152,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .WithId(Solution1Id)
                 .WithOrganisationId(_org1Id)
                 .WithSupplierId(_supplierId)
+                .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync();
 
@@ -203,6 +207,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .WithId(Solution1Id)
                 .WithOrganisationId(_org1Id)
                 .WithSupplierId(_supplierId)
+                .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync();
 
@@ -211,6 +216,16 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .WithId("Sln2")
                 .WithOrganisationId(_org1Id)
                 .WithSupplierId(_supplierId)
+                .WithPublishedStatusId(3)
+                .Build()
+                .InsertAsync();
+
+            await SolutionEntityBuilder.Create()
+                .WithName("Solution3")
+                .WithId("Sln3")
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
+                .WithPublishedStatusId(1)
                 .Build()
                 .InsertAsync();
 
@@ -223,6 +238,12 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
             await SolutionDetailEntityBuilder.Create()
                 .WithSolutionId("Sln2")
                 .WithSummary("Sln2Summary")
+                .Build()
+                .InsertAndSetCurrentForSolutionAsync();
+
+            await SolutionDetailEntityBuilder.Create()
+                .WithSolutionId("Sln3")
+                .WithSummary("Sln3Summary")
                 .Build()
                 .InsertAndSetCurrentForSolutionAsync();
 
@@ -322,6 +343,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .WithId(solutionId)
                 .WithOrganisationId(_org1Id)
                 .WithSupplierId(_supplierId)
+                .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync();
 
