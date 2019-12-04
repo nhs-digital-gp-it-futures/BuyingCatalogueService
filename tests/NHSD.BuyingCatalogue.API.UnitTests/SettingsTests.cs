@@ -13,7 +13,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         public void ShouldReadConnectionString()
         {
             var configuration = new Mock<IConfiguration>();
-            configuration.SetupGet(x => x["ConnectionStrings:BuyingCatalogue"]).Returns("ConnectionString");
+            configuration.SetupGet(x => x["ConnectionStrings__BuyingCatalogue"]).Returns("ConnectionString");
 
             var settings = new Settings(configuration.Object);
             settings.ConnectionString.Should().Be("ConnectionString");
