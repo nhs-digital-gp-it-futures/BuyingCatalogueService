@@ -18,7 +18,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      - ConnectionStrings:BuyingCatalogue=Server=db;Initial Catalog=gpitfuture-db-dev;Persist Security Info=False;User Id=NHSD;Password=DisruptTheMarket1!
+      - ConnectionStrings__BuyingCatalogue=Server=db;Initial Catalog=gpitfuture-db-dev;Persist Security Info=False;User Id=NHSD;Password=DisruptTheMarket1!
     networks:
       - integration_network
     depends_on:
