@@ -27,6 +27,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                     .WithOrganisationId(organisations.First(o => o.Name == solutionTable.OrganisationName).Id)
                     .WithSupplierStatusId(solutionTable.SupplierStatusId)
                     .WithPublishedStatusId(solutionTable.PublishedStatusId)
+                    .WithOnLastUpdated(solutionTable.LastUpdated)
                     .Build()
                     .InsertAsync();
             }

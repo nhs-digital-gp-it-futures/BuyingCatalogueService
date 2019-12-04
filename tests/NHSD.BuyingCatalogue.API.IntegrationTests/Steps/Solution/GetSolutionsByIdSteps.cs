@@ -1,3 +1,5 @@
+using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
@@ -53,5 +55,16 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
             var content = await _response.ReadBody();
             content.SelectToken("lastUpdated").Value<string>().Should().Be(date);
         }
+
+        [Then(@"the last updated date in the solution is (.*)")]
+        public async Task ThenTheLastUpdatedDateInTheSolutionIs(string lastUpdated)
+        {
+            var dateTimeLastUpdated = DateTime.ParseExact(lastUpdated, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+
+            var content = await _response.ReadBody();
+            var contentLastUpdated = (DateTime)content.SelectToken("lastUpdated");
+            contentLastUpdated.Should().Be(dateTimeLastUpdated);
+        }
+
     }
 }

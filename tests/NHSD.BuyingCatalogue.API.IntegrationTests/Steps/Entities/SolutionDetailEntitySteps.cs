@@ -27,6 +27,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                     .WithAboutUrl(solutionDetail.AboutUrl)
                     .WithSolutionId(solutionDetail.Solution)
                     .WithClientApplication(solutionDetail.ClientApplication)
+                    .WithLastUpdated(solutionDetail.LastUpdated)
                     .Build()
                     .InsertAndSetCurrentForSolutionAsync();
             }
@@ -83,6 +84,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             public string Features { get; set; }
 
             public string ClientApplication { get; set; }
+
+            public DateTime LastUpdated { get; set; }
         }
     }
 }
