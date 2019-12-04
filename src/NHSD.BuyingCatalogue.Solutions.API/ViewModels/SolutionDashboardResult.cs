@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
@@ -60,7 +61,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
             ClientApplicationTypesSection = DashboardSection.MandatoryWithSubSection(
                 solution.ClientApplication?.ClientApplicationTypes?.Any() == true,
                 new ClientApplicationTypesSubSections(solution.ClientApplication));
-            ContactDetailsSection = DashboardSection.Optional(solution.Contacts?.Any() == true);
+            ContactDetailsSection = DashboardSection.Optional(new ContactAnswerSection(solution.Contacts).HasData());
         }
     }
 

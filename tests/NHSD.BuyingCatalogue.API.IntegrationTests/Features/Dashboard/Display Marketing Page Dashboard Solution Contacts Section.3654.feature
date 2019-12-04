@@ -16,13 +16,16 @@ Background:
         | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | Drs. Inc         | 1                | Sup 2      |
+        | Sln3       | NoContact      | Drs. Inc         | 1                | Sup 2      |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                     |
-        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
-        | Sln2     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                       |
+        | Solution | SummaryDescription             | FullDescription        | ClientApplication                                                    |
+        | Sln1     | An full online medicine system | Online medicine 1      | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] } |
+        | Sln2     | Fully fledged GP system        | Fully fledged GP 12    |                                                                      |
+        | Sln3     | We cannot be contacted         | Seriously, no contacts |                                                                      |
     And MarketingContacts exist
          | SolutionId | FirstName |
          | Sln1       | Bob       |
+         | Sln3       |           |
         
 @3654
 Scenario: 1. Sections presented where the Solution exists
@@ -37,5 +40,11 @@ Scenario: 2.Sections presented where the MarketingContacts do not exist
     Then a successful response is returned
     And the solution contact-details section status is INCOMPLETE
     And the solution contact-details section requirement is Optional
-
+    
+@3654
+Scenario: 3.Sections presented where the MarketingContacts have no details
+    When a GET request is made for solution dashboard Sln3
+    Then a successful response is returned
+    And the solution contact-details section status is INCOMPLETE
+    And the solution contact-details section requirement is Optional
 

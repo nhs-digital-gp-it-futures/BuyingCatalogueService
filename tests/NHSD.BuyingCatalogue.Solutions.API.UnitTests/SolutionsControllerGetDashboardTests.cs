@@ -189,6 +189,46 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             clientApplicationTypesSubSections.BrowserBasedSection.Status.Should().Be(result);
         }
 
+        [Test]
+        public async Task ShouldGetDashboardWithContacts()
+        {
+            var contactMock = new List<IContact>
+            {
+                Mock.Of<IContact>(c => c.Name == "Cool McRule")
+            };
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s =>
+                s.Contacts == contactMock));
+            dashboardResult.SolutionDashboardSections.Should().NotBeNull();
+            dashboardResult.SolutionDashboardSections.ContactDetailsSection.Should().NotBeNull();
+            dashboardResult.SolutionDashboardSections.ContactDetailsSection.Status.Should().Be("COMPLETE");
+        }
+
+        [Test]
+        public async Task ShouldGetDashboardWithNoContacts()
+        {
+            var contactMock = new List<IContact>();
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s =>
+                s.Contacts == contactMock));
+            dashboardResult.SolutionDashboardSections.Should().NotBeNull();
+            dashboardResult.SolutionDashboardSections.ContactDetailsSection.Should().NotBeNull();
+            dashboardResult.SolutionDashboardSections.ContactDetailsSection.Status.Should().Be("INCOMPLETE");
+        }
+
+
+        [Test]
+        public async Task ShouldGetDashboardWithEmptyContacts()
+        {
+            var contactMock = new List<IContact>
+            {
+                Mock.Of<IContact>(c => c.Name == "" && c.Department == "            ")
+            };
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s =>
+                s.Contacts == contactMock));
+            dashboardResult.SolutionDashboardSections.Should().NotBeNull();
+            dashboardResult.SolutionDashboardSections.ContactDetailsSection.Should().NotBeNull();
+            dashboardResult.SolutionDashboardSections.ContactDetailsSection.Status.Should().Be("INCOMPLETE");
+        }
+
         private async Task<SolutionDashboardResult> GetSolutionDashboardSectionAsync(ISolution solution)
         {
             _mockMediator.Setup(m =>
