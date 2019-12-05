@@ -91,7 +91,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         }
 
         [Test]
-        public async Task NullDataShouldUpdateContacts()
+        public async Task NullDataShouldRemoveContacts()
         {
             _contact1.FirstName = null;
             _contact1.LastName = null;
@@ -109,11 +109,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             result.IsValid.Should().BeTrue();
             result.MaxLength.Should().BeEmpty();
 
-            _context.MockMarketingContactRepository.Verify(x => x.ReplaceContactsForSolution(_existingSolutionId, It.Is<IEnumerable<IContact>>(c => VerifyContacts(c)), It.IsAny<CancellationToken>()), Times.Once);
+            _context.MockMarketingContactRepository.Verify(x => x.ReplaceContactsForSolution(_existingSolutionId, It.Is<IEnumerable<IContact>>(c => !c.Any()), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
-        public async Task NullContactsShouldUpdate()
+        public async Task NullContactsShouldRemoveContacts()
         {
             _contact1 = null;
             _contact2 = null;

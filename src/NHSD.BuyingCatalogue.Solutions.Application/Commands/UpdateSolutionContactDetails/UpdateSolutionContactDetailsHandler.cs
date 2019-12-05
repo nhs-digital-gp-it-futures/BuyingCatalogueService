@@ -41,15 +41,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
 
         private static IContact ToContact(UpdateSolutionContactViewModel contact)
         {
-            return contact == null ? null :
-                new ContactDto
+            return contact?.HasData() == true ? new ContactDto
                 {
                     Department = contact.Department,
                     FirstName = contact.FirstName,
                     LastName = contact.LastName,
                     Email = contact.Email,
                     PhoneNumber = contact.PhoneNumber
-                };
+                }
+                : null;
         }
     }
 }

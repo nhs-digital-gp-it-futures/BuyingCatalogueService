@@ -56,7 +56,7 @@ Given MarketingContacts exist
     And No contacts exist for solution Sln1
 
 @3655
-Scenario: 4. Contacts are added when they have only null values
+Scenario: 4. Contacts are not added when they have only null values
 Given MarketingContacts exist
         | SolutionId | FirstName | LastName   | Email         | PhoneNumber  | Department |
         | Sln1       | Bob       | Bobbington | bob@bob.bob   | 66666 666666 | Sales      |
@@ -66,11 +66,7 @@ Given MarketingContacts exist
         | NULL      | NULL     | NULL  | NULL        | NULL       |
         | NULL      | NULL     | NULL  | NULL        | NULL       |
     Then a successful response is returned
-    And MarketingContacts exist for solution Sln1
-        | FirstName | LastName | Email | PhoneNumber | Department |
-        | NULL      | NULL     | NULL  | NULL        | NULL       |
-        | NULL      | NULL     | NULL  | NULL        | NULL       |
-    And Last Updated has updated on the MarketingContact for solution Sln1
+    And No contacts exist for solution Sln1
 
 @3655
 Scenario: 5. Solution not found

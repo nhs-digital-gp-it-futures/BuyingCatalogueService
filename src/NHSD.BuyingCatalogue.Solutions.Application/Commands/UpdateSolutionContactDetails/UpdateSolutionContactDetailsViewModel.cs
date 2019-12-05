@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails
@@ -27,5 +28,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
 
         [JsonProperty("email-address")]
         public string Email { get; set; }
+
+        public bool HasData()
+        {
+            return !(String.IsNullOrWhiteSpace(FirstName) &&
+                     String.IsNullOrWhiteSpace(LastName) &&
+                     String.IsNullOrWhiteSpace(PhoneNumber) &&
+                     String.IsNullOrWhiteSpace(Email) &&
+                     String.IsNullOrWhiteSpace(Department));
+        }
     }
 }
