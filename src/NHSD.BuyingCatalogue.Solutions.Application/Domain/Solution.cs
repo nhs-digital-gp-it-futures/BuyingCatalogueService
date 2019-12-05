@@ -32,6 +32,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
             IsFoundation = solutionResult.IsFoundation;
             Capabilities = new HashSet<string>(solutionCapabilityListResult.Select(c => c.CapabilityName));
             Contacts = contactResult.Select(c => new Contact(c));
+            PublishedStatus = solutionResult.PublishedStatus;
         }
 
         /// <summary>
@@ -100,11 +101,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public IEnumerable<Contact> Contacts { get; set; }
 
         /// <summary>
+        /// The publishing status of the solution
+        /// </summary>
+        public PublishedStatus PublishedStatus { get; set; }
+
+        /// <summary>
         /// Initialises a new instance of the <see cref="Solution"/> class.
         /// </summary>
         public Solution()
         {
             SupplierStatus = SupplierStatus.Draft;
+            PublishedStatus = PublishedStatus.Draft;
         }
     }
 }

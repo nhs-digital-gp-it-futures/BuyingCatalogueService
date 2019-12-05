@@ -69,5 +69,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         /// The contacts for the solution
         /// </summary>
         IEnumerable<IContact> Contacts { get; }
+
+        /// <summary>
+        /// The publish status of the solution
+        /// </summary>
+        PublishedStatus PublishedStatus { get;  }
     }
 }

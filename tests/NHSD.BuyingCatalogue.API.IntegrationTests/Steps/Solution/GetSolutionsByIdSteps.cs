@@ -42,6 +42,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
             content.SelectToken("isFoundation").Value<bool>().Should().Be(response);
         }
 
+        [Then(@"the solution Name is (.*)")]
+        public async Task ThenTheSolutionNameIs(string name)
+        {
+            var content = await _response.ReadBody();
+            content.SelectToken("name").Value<string>().Should().Be(name);
+        }
+
         [Then(@"the solution organisationName is (.*)")]
         public async Task ThenTheSolutionOrganisationNameIs(string name)
         {

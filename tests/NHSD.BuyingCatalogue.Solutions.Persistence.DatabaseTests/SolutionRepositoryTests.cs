@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
@@ -62,6 +63,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithOnLastUpdated(_lastUpdated)
                 .WithOrganisationId(_org1Id)
                 .WithSupplierId(_supplierId)
+                .WithPublishedStatusId((int)PublishedStatus.Published)
                 .Build()
                 .InsertAsync();
 
@@ -86,6 +88,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             solution.ClientApplication.Should().Be("Browser-based");
             solution.OrganisationName.Should().Be(_orgName);
             solution.IsFoundation.Should().BeFalse();
+            solution.PublishedStatus.Should().Be(PublishedStatus.Published);
         }
 
         [TestCase(true)]

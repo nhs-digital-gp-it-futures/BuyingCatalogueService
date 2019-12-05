@@ -1,3 +1,4 @@
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
@@ -23,5 +24,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
         public string OrganisationName { get; set; }
 
         public bool IsFoundation { get; set; }
+
+        public PublishedStatus PublishedStatus { get; set; }
     }
 }

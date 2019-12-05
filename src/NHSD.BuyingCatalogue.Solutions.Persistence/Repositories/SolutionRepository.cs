@@ -20,6 +20,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         private const string byIdsql = @"SELECT Solution.Id,
                                         Solution.Name,
                                         Solution.LastUpdated,
+                                        Solution.PublishedStatusId AS PublishedStatus,
                                         Organisation.Name as OrganisationName,
                                         SolutionDetail.Summary AS Summary,
                                         SolutionDetail.FullDescription AS Description,

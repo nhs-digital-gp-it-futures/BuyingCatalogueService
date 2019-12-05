@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
@@ -76,7 +77,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         public async Task<ActionResult<SolutionResult>> Public([FromRoute][Required]string id)
         {
             var result = await _mediator.Send(new GetSolutionByIdQuery(id));
-            return result == null ? (ActionResult)new NotFoundResult() : Ok(new SolutionResult(result));
+            return result == null || result.PublishedStatus != PublishedStatus.Published ? (ActionResult)new NotFoundResult() : Ok(new SolutionResult(result));
         }
 
         /// <summary>
