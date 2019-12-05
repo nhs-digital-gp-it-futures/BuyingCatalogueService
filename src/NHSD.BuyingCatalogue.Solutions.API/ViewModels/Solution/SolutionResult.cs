@@ -13,7 +13,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 
         public bool IsFoundation { get; }
 
-        public string LastUpdated { get; }
+        public DateTime LastUpdated { get; }
 
         public Sections Sections { get; }
 
@@ -30,7 +30,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
             Id = solution.Id;
             Name = solution.Name;
             OrganisationName = solution.OrganisationName;
-            LastUpdated = solution.LastUpdated.ToString("dd-MMM-yyyy");
+            LastUpdated = solution.LastUpdated;
             IsFoundation = solution.IsFoundation;
 
             Sections = new Sections(solution);

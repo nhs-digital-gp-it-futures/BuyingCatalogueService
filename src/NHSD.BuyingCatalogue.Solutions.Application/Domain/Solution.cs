@@ -18,7 +18,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         {
             Id = solutionResult.Id;
             Name = solutionResult.Name; 
-            LastUpdated = Convert.ToDateTime(solutionResult.LastUpdated);
+            LastUpdated = GetLatestLastUpdated(solutionResult, contactResult);
             Summary = solutionResult.Summary;
             OrganisationName = solutionResult.OrganisationName;
             Description = solutionResult.Description;
@@ -34,6 +34,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
             Contacts = contactResult.Select(c => new Contact(c));
             PublishedStatus = solutionResult.PublishedStatus;
         }
+
+        private DateTime GetLatestLastUpdated(ISolutionResult solutionResult, IEnumerable<IMarketingContactResult> contactResult) =>
+            new List<DateTime>
+            {
+                solutionResult.LastUpdated,
+                solutionResult.SolutionDetailLastUpdated,
+                contactResult?.Any() == false ? DateTime.MinValue : contactResult.Max(x => x.LastUpdated)
+            }.Max();
 
         /// <summary>
         /// Id of the solution.

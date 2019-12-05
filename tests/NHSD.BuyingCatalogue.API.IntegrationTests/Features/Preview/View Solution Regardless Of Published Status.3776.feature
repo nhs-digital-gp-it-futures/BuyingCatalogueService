@@ -12,10 +12,10 @@ Background:
         | Sup 1 | GPs-R-Us         |
     And Solutions exist
         | SolutionID | SolutionName      | OrganisationName | LastUpdated | SupplierStatusId | SupplierId | PublishedStatusId |
-        | Sln1       | MedicOnline       | GPs-R-Us         | 19-Nov-2019 | 1                | Sup 1      | 1                 |
-        | Sln2       | TakeTheRedPill    | GPs-R-Us         | 15-Nov-2019 | 1                | Sup 1      | 2                 |
-        | Sln3       | TakeTheBluePill   | GPs-R-Us         | 15-Nov-2019 | 1                | Sup 1      | 3                 |
-        | Sln4       | TakeThePurplePill | GPs-R-Us         | 15-Nov-2019 | 1                | Sup 1      | 4                 |
+        | Sln1       | MedicOnline       | GPs-R-Us         | 19/11/2019  | 1                | Sup 1      | 1                 |
+        | Sln2       | TakeTheRedPill    | GPs-R-Us         | 15/11/2019  | 1                | Sup 1      | 2                 |
+        | Sln3       | TakeTheBluePill   | GPs-R-Us         | 15/11/2019  | 1                | Sup 1      | 3                 |
+        | Sln4       | TakeThePurplePill | GPs-R-Us         | 15/11/2019  | 1                | Sup 1      | 4                 |
 
 @3776
 Scenario: 1. Solution section is presented where the solution is Drafted

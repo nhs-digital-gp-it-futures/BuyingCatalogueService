@@ -84,7 +84,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             publicResult.Name.Should().Be(name);
             publicResult.OrganisationName.Should().Be(organisationName);
             publicResult.IsFoundation.Should().Be(isFoundation);
-            publicResult.LastUpdated.Should().Be(_lastUpdated.ToString("dd-MMM-yyyy"));
+            publicResult.LastUpdated.Should().Be(_lastUpdated);
         }
 
         [TestCase(null,null,null)]

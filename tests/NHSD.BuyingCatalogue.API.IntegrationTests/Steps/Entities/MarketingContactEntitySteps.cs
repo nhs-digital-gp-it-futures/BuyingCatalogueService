@@ -16,7 +16,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         {
             foreach (var contact in table.CreateSet<MarketingContactEntity>())
             {
-                await contact.SetLastUpdated().InsertAsync();
+                await contact.InsertAsync();
             }
         }
 

@@ -4,6 +4,8 @@ using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using NHSD.BuyingCatalogue.Testing.Data;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
+using DateTimeValueRetriever = NHSD.BuyingCatalogue.API.IntegrationTests.Support.DateTimeValueRetriever;
+using StringValueRetriever = NHSD.BuyingCatalogue.API.IntegrationTests.Support.StringValueRetriever;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests
 {
@@ -25,6 +27,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests
                 Service.Instance.ValueRetrievers.Unregister(defaultStringValueRetriever);
             }
 
+            var defaultDateTimeValueRetriever = Service.Instance.ValueRetrievers.FirstOrDefault(vr => vr is TechTalk.SpecFlow.Assist.ValueRetrievers.DateTimeValueRetriever);
+            if (defaultDateTimeValueRetriever != null)
+            {
+                Service.Instance.ValueRetrievers.Unregister(defaultDateTimeValueRetriever);
+            }
+
+            Service.Instance.ValueRetrievers.Register(new DateTimeValueRetriever());
             Service.Instance.ValueRetrievers.Register(new StringValueRetriever());
             await Database.ClearAsync();
         }

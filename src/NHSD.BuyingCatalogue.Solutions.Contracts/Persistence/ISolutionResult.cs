@@ -1,3 +1,5 @@
+using System;
+
 namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
 {
     public interface ISolutionResult
@@ -6,7 +8,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
 
         string Name { get; }
 
-        string LastUpdated { get; }
+        DateTime LastUpdated { get; }
 
         string Summary { get; }
 
@@ -22,6 +24,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
 
         bool IsFoundation { get; }
 
+        DateTime SolutionDetailLastUpdated { get; }
+        
         PublishedStatus PublishedStatus { get; }
     }
 }

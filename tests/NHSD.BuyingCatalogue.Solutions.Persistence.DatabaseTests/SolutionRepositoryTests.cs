@@ -80,7 +80,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             var solution = await _solutionRepository.ByIdAsync(_solution1Id, new CancellationToken());
             solution.Id.Should().Be(_solution1Id);
             solution.Name.Should().Be("Solution1");
-            solution.LastUpdated.Should().Be(_lastUpdated.ToString());
+            solution.LastUpdated.Should().Be(_lastUpdated);
             solution.Summary.Should().Be("Sln1Summary");
             solution.Description.Should().Be("Sln1Description");
             solution.AboutUrl.Should().Be("AboutUrl");
@@ -141,7 +141,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             var solution = await _solutionRepository.ByIdAsync(_solution1Id, new CancellationToken());
             solution.Id.Should().Be(_solution1Id);
             solution.Name.Should().Be("Solution1");
-            solution.LastUpdated.Should().Be(_lastUpdated.ToString());
+            solution.LastUpdated.Should().Be(_lastUpdated);
             solution.Summary.Should().BeNull();
             solution.Description.Should().BeNull();
             solution.OrganisationName.Should().Be(_orgName);

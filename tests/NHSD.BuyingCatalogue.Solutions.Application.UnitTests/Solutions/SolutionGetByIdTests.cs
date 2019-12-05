@@ -30,7 +30,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
             existingSolution.Setup(s => s.Name).Returns("Name");
-            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated.ToString);
+            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated);
             existingSolution.Setup(s => s.Description).Returns("Description");
             existingSolution.Setup(s => s.Summary).Returns("Summary");
             existingSolution.Setup(s => s.AboutUrl).Returns("AboutUrl");
@@ -89,7 +89,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
             existingSolution.Setup(s => s.Name).Returns("Name");
-            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated.ToString);
+            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated);
             existingSolution.Setup(s => s.Description).Returns((string)null);
             existingSolution.Setup(s => s.Summary).Returns((string)null);
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
@@ -128,7 +128,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
             existingSolution.Setup(s => s.Name).Returns("Name");
-            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated.ToString);
+            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated);
             existingSolution.Setup(s => s.Description).Returns((string)null);
             existingSolution.Setup(s => s.Summary).Returns("Summary");
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
@@ -172,7 +172,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
             existingSolution.Setup(s => s.Name).Returns("Name");
-            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated.ToString);
+            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated);
             existingSolution.Setup(s => s.Description).Returns((string)null);
             existingSolution.Setup(s => s.Summary).Returns((string)null);
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
@@ -213,7 +213,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
             existingSolution.Setup(s => s.Name).Returns("Name");
-            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated.ToString);
+            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated);
             existingSolution.Setup(s => s.Description).Returns((string)null);
             existingSolution.Setup(s => s.Summary).Returns((string)null);
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
