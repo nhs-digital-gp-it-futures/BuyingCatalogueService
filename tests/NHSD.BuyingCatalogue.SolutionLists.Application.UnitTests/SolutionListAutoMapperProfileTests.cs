@@ -35,7 +35,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
         }
 
         [Test]
-        public void Profile_MatchesMapping()
+        public void ProfileMatchesMapping()
         {
             var configs = ((IProfileConfiguration)_solutionListAutoMapperProfile).TypeMapConfigs;
 

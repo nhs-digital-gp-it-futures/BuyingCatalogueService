@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using FluentAssertions;
 using Moq;
+using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.SolutionLists.Contracts;
 using NHSD.BuyingCatalogue.SolutionLists.Contracts.Persistence;
 using NUnit.Framework;
@@ -240,7 +241,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S13", "Org1", false, 1, 3));
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(filterCapabilityIds)), new CancellationToken());
+            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(filterCapabilityIds.ThrowIfNull())), new CancellationToken());
 
             solutions.Result.Solutions.Select(s => s.Id).Should().BeEquivalentTo(expectedFilteredSolutions);
         }
@@ -262,7 +263,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S13", "Org2", false, 1, 3));
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(filterCapabilityIds)), new CancellationToken());
+            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(filterCapabilityIds.ThrowIfNull())), new CancellationToken());
 
             solutions.Result.Solutions.Select(s => s.Id).Should().BeEquivalentTo(expectedFilteredSolutions);
         }
@@ -278,7 +279,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(), new CancellationToken());
 
             solutions.Result.Solutions.Should().HaveCount(2);
-            var solution = solutions.Result.Solutions.Should().ContainSingle(s => s.Id.Equals("S1")).Subject;
+            var solution = solutions.Result.Solutions.Should().ContainSingle(s => string.Equals(s.Id, "S1", StringComparison.InvariantCulture)).Subject;
             solution.Name.Should().Be("S1Name");
             solution.Summary.Should().Be("S1Summary");
             solution.IsFoundation.Should().BeFalse();
@@ -292,7 +293,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             capability = solution.Capabilities.Should().ContainSingle(c => c.Id == Capabilities[2].Id).Subject;
             capability.Name.Should().Be(Capabilities[2].Name);
 
-            solution = solutions.Result.Solutions.Should().ContainSingle(s => s.Id.Equals("S2")).Subject;
+            solution = solutions.Result.Solutions.Should().ContainSingle(s => string.Equals(s.Id, "S2", StringComparison.InvariantCulture)).Subject;
             solution.Name.Should().Be("S2Name");
             solution.Summary.Should().Be("S2Summary");
             solution.IsFoundation.Should().BeTrue();
