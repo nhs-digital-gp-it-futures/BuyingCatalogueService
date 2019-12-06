@@ -19,22 +19,22 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
         [SetUp]
         public async Task Setup()
         {
-            await Database.ClearAsync();
+            await Database.ClearAsync().ConfigureAwait(false);
 
             TestContext testContext = new TestContext();
             _capabilityRepository = testContext.CapabilityRepository;
         }
 
         [Test]
-        public async Task ShouldReadCapabilities_NoCapabilities()
+        public async Task ShouldReadCapabilitiesNoCapabilities()
         {
-            var capabilities = await _capabilityRepository.ListAsync(new CancellationToken());
+            var capabilities = await _capabilityRepository.ListAsync(new CancellationToken()).ConfigureAwait(false);
 
             capabilities.Should().BeEmpty();
         }
 
         [Test]
-        public async Task ShouldReadCapabilities_NoFrameworks()
+        public async Task ShouldReadCapabilitiesNoFrameworks()
         {
             var capabilityEntities = new List<CapabilityEntity>
             {
@@ -44,19 +44,19 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
 
             foreach (var capabilityEntity in capabilityEntities)
             {
-                await capabilityEntity.InsertAsync();
+                await capabilityEntity.InsertAsync().ConfigureAwait(false);
             }
 
-            var capabilities = await _capabilityRepository.ListAsync(new CancellationToken());
+            var capabilities = await _capabilityRepository.ListAsync(new CancellationToken()).ConfigureAwait(false);
 
             capabilities.Should().BeEquivalentTo(capabilityEntities.Select(ce => new
             {
-                Id = ce.Id, Name = ce.Name, IsFoundation = false
+                ce.Id, ce.Name, IsFoundation = false
             }));
         }
 
         [Test]
-        public async Task ShouldReadCapabilities_WithFrameworks()
+        public async Task ShouldReadCapabilitiesWithFrameworks()
         {
             var capabilityEntities = new List<CapabilityEntity>
             {
@@ -67,25 +67,25 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
 
             foreach (var capabilityEntity in capabilityEntities)
             {
-                await capabilityEntity.InsertAsync();
+                await capabilityEntity.InsertAsync().ConfigureAwait(false);
             }
 
 
-            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Cap1").Id).WithIsFoundation(false).Build().InsertAsync();
-            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Cap2").Id).WithIsFoundation(true).Build().InsertAsync();
+            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Cap1").Id).WithIsFoundation(false).Build().InsertAsync().ConfigureAwait(false);
+            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Cap2").Id).WithIsFoundation(true).Build().InsertAsync().ConfigureAwait(false);
 
-            var capabilities = await _capabilityRepository.ListAsync(new CancellationToken());
+            var capabilities = await _capabilityRepository.ListAsync(new CancellationToken()).ConfigureAwait(false);
 
             capabilities.Should().BeEquivalentTo(capabilityEntities.Select(ce => new
             {
-                Id = ce.Id,
-                Name = ce.Name,
+                ce.Id,
+                ce.Name,
                 IsFoundation = (ce.Name == "Cap2")
             }));
         }
 
         [Test]
-        public async Task ShouldReadCapabilities_WithFrameworks_CorrectlyOrderedByIsFoundationAndName()
+        public async Task ShouldReadCapabilitiesWithFrameworksCorrectlyOrderedByIsFoundationAndName()
         {
             var capabilityEntities = new List<CapabilityEntity>
             {
@@ -97,13 +97,13 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
 
             foreach (var capabilityEntity in capabilityEntities)
             {
-                await capabilityEntity.InsertAsync();
+                await capabilityEntity.InsertAsync().ConfigureAwait(false);
             }
 
-            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Charlie").Id).WithIsFoundation(true).Build().InsertAsync();
-            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Delta").Id).WithIsFoundation(true).Build().InsertAsync();
+            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Charlie").Id).WithIsFoundation(true).Build().InsertAsync().ConfigureAwait(false);
+            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Delta").Id).WithIsFoundation(true).Build().InsertAsync().ConfigureAwait(false);
 
-            var capabilities = (await _capabilityRepository.ListAsync(new CancellationToken())).ToList();
+            var capabilities = (await _capabilityRepository.ListAsync(new CancellationToken()).ConfigureAwait(false)).ToList();
 
             Assert.That(capabilities[0].Name, Is.EqualTo("Charlie"));
             Assert.That(capabilities[1].Name, Is.EqualTo("Delta"));
