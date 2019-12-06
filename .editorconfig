@@ -152,3 +152,6 @@ csharp_space_after_dot = false
 # Wrapping preferences
 csharp_preserve_single_line_statements = true
 csharp_preserve_single_line_blocks = true
+
+# CA1054: Uri parameters should not be strings
+dotnet_diagnostic.CA1054.severity = none
