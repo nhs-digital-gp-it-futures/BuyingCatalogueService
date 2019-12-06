@@ -27,7 +27,7 @@ namespace NHSD.BuyingCatalogue.Capabilities.Application.UnitTests
         }
 
         [Test]
-        public void Profile_MatchesMapping()
+        public void ProfileMatchesMapping()
         {
             var configs = ((IProfileConfiguration)_capabilityAutoMapperProfile).TypeMapConfigs;
 
