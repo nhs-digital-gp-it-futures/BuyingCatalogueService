@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Domain
 	public class SolutionTests
 	{
         [Test]
-        public void GivenSolution_CheckSupplierStatus_ShouldBeEqualToDraft()
+        public void GivenSolutionCheckSupplierStatusShouldBeEqualToDraft()
         {
             //Arrange
             var expected = SupplierStatus.Draft;

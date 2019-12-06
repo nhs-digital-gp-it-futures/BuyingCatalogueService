@@ -37,7 +37,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 );
 
             var clientApplication = await _context.GetClientApplicationBySolutionIdHandler.Handle(
-                new GetClientApplicationBySolutionIdQuery(_solutionId), _cancellationToken);
+                new GetClientApplicationBySolutionIdQuery(_solutionId), _cancellationToken).ConfigureAwait(false);
             clientApplication.Should().NotBeNull();
             clientApplication.ClientApplicationTypes.Should().BeEquivalentTo(new[] { "browser-based", "native-mobile" });
             clientApplication.BrowsersSupported.Should().BeEquivalentTo(new[] { "Chrome", "Edge" });
@@ -55,7 +55,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 );
 
             var clientApplication = await _context.GetClientApplicationBySolutionIdHandler.Handle(
-                new GetClientApplicationBySolutionIdQuery(_solutionId), _cancellationToken);
+                new GetClientApplicationBySolutionIdQuery(_solutionId), _cancellationToken).ConfigureAwait(false);
             clientApplication.Should().NotBeNull();
             clientApplication.Should().BeEquivalentTo(new ClientApplicationDto());
         }

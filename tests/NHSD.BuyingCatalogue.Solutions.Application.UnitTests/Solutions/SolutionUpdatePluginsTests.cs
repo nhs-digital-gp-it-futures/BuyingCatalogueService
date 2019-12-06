@@ -20,7 +20,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdatePlugins("yes", "This is some information");
+            var validationResult = await UpdatePlugins("yes", "This is some information").ConfigureAwait(false);
             validationResult.IsValid.Should().BeTrue();
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once);
@@ -49,7 +49,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                     json.SelectToken("Plugins.AdditionalInformation").Value<string>().Should().Contain("orem ipsum");
                 });
 
-            var validationResult = await UpdatePlugins("yes", "orem ipsum");
+            var validationResult = await UpdatePlugins("yes", "orem ipsum").ConfigureAwait(false);
             validationResult.IsValid.Should().BeTrue();
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
@@ -75,7 +75,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                     json.SelectToken("Plugins.AdditionalInformation").Should().BeNullOrEmpty();
                 });
 
-            var validationResult = await UpdatePlugins("yes", null);
+            var validationResult = await UpdatePlugins("yes", null).ConfigureAwait(false);
             validationResult.IsValid.Should().BeTrue();
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
@@ -88,7 +88,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdatePlugins(null, new string('a', 501));
+            var validationResult = await UpdatePlugins(null, new string('a', 501)).ConfigureAwait(false);
             validationResult.IsValid.Should().Be(false);
             validationResult.Required.Should().BeEquivalentTo(new [] { "plugins-required" });
             validationResult.MaxLength.Should().BeEquivalentTo(new[] { "plugins-detail" });
@@ -113,7 +113,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             {
                 Required = required,
                 AdditionalInformation = additionalInformation
-            }), CancellationToken.None);
+            }), CancellationToken.None).ConfigureAwait(false);
         }
     }
 }

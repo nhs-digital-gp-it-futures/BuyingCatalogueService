@@ -52,7 +52,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public async Task ShouldUpdateContactDetails()
         {
-            var result = await CallHandle(_existingSolutionId);
+            var result = await CallHandle(_existingSolutionId)
+                .ConfigureAwait(false);
             result.IsValid.Should().BeTrue();
             result.MaxLength.Should().BeEmpty();
 
@@ -74,7 +75,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             _contact2.PhoneNumber = _reallyLongString;
             _contact2.Email = _reallyLongString + _reallyLongString + _reallyLongString;
 
-            var result = await CallHandle(_existingSolutionId);
+            var result = await CallHandle(_existingSolutionId)
+                .ConfigureAwait(false);
             result.IsValid.Should().BeFalse();
             result.MaxLength.Should().Contain("contact1-first-name");
             result.MaxLength.Should().Contain("contact1-last-name");
@@ -105,7 +107,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             _contact2.PhoneNumber = null;
             _contact2.Email = null;
 
-            var result = await CallHandle(_existingSolutionId);
+            var result = await CallHandle(_existingSolutionId)
+                .ConfigureAwait(false);
             result.IsValid.Should().BeTrue();
             result.MaxLength.Should().BeEmpty();
 
@@ -118,7 +121,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             _contact1 = null;
             _contact2 = null;
 
-            var result = await CallHandle(_existingSolutionId);
+            var result = await CallHandle(_existingSolutionId)
+                .ConfigureAwait(false);
             result.IsValid.Should().BeTrue();
             result.MaxLength.Should().BeEmpty();
 
@@ -149,7 +153,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         private async Task<UpdateSolutionContactDetailsValidationResult> CallHandle(string solutionId)
         {
             var command = new UpdateSolutionContactDetailsCommand(solutionId, new UpdateSolutionContactDetailsViewModel{Contact1 = _contact1, Contact2 = _contact2});
-            return await _context.UpdateSolutionContactDetailsHandler.Handle(command, new CancellationToken());
+            return await _context.UpdateSolutionContactDetailsHandler.Handle(command, new CancellationToken())
+                .ConfigureAwait(false);
         }
     }
 }

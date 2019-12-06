@@ -32,7 +32,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
-            await _context.SubmitSolutionForReviewHandler.Handle(new SubmitSolutionForReviewCommand("Sln1"), new CancellationToken());
+            await _context.SubmitSolutionForReviewHandler.Handle(new SubmitSolutionForReviewCommand("Sln1"), new CancellationToken())
+                .ConfigureAwait(false);
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
 
@@ -53,7 +54,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
-            var result = await _context.SubmitSolutionForReviewHandler.Handle(new SubmitSolutionForReviewCommand("Sln1"), new CancellationToken());
+            var result = await _context.SubmitSolutionForReviewHandler.Handle(new SubmitSolutionForReviewCommand("Sln1"), new CancellationToken())
+                .ConfigureAwait(false);
 
             result.IsFailure.Should().BeTrue();
             result.Errors.Select(s => s.Id).Should().BeEquivalentTo(errorList);
@@ -73,7 +75,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
-            var result = await _context.SubmitSolutionForReviewHandler.Handle(new SubmitSolutionForReviewCommand("Sln1"), new CancellationToken());
+            var result = await _context.SubmitSolutionForReviewHandler.Handle(new SubmitSolutionForReviewCommand("Sln1"), new CancellationToken())
+                .ConfigureAwait(false);
 
             result.IsFailure.Should().BeTrue();
             result.Errors.Select(s => s.Id).Should().BeEquivalentTo(errorList);
@@ -92,7 +95,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
-            var result = await _context.SubmitSolutionForReviewHandler.Handle(new SubmitSolutionForReviewCommand("Sln1"), new CancellationToken());
+            var result = await _context.SubmitSolutionForReviewHandler.Handle(new SubmitSolutionForReviewCommand("Sln1"), new CancellationToken())
+                .ConfigureAwait(false);
 
             result.IsFailure.Should().BeTrue();
             result.Errors.Select(s => s.Id).Should().BeEquivalentTo(errorList);
@@ -110,7 +114,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
-            var result = await _context.SubmitSolutionForReviewHandler.Handle(new SubmitSolutionForReviewCommand("Sln1"), new CancellationToken());
+            var result = await _context.SubmitSolutionForReviewHandler.Handle(new SubmitSolutionForReviewCommand("Sln1"), new CancellationToken())
+                .ConfigureAwait(false);
 
             result.IsFailure.Should().BeTrue();
             result.Errors.Select(s => s.Id).Should().BeEquivalentTo(errorList);
@@ -130,7 +135,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
-            var result = await _context.SubmitSolutionForReviewHandler.Handle(new SubmitSolutionForReviewCommand("Sln1"), new CancellationToken());
+            var result = await _context.SubmitSolutionForReviewHandler.Handle(new SubmitSolutionForReviewCommand("Sln1"), new CancellationToken())
+                .ConfigureAwait(false);
 
             result.IsFailure.Should().BeTrue();
             result.Errors.Select(s => s.Id).Should().BeEquivalentTo(errorList);

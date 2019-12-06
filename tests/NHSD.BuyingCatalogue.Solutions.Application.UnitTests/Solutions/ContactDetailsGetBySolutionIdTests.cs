@@ -60,7 +60,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             _marketingContactResult.Add(MarketingContact2);
 
             var marketingContact = (await _context.GetContactDetailBySolutionIdHandler.Handle(
-                new GetContactDetailBySolutionIdQuery(SolutionId), _cancellationToken)).ToArray();
+                new GetContactDetailBySolutionIdQuery(SolutionId), _cancellationToken).ConfigureAwait(false)).ToArray();
       
             marketingContact.Count().Should().Be(2);
 
@@ -92,7 +92,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         public async Task ContactDetailsAreEmptyList()
         {
             var marketingContact = (await _context.GetContactDetailBySolutionIdHandler.Handle(
-                new GetContactDetailBySolutionIdQuery(SolutionId), _cancellationToken)).ToArray();
+                new GetContactDetailBySolutionIdQuery(SolutionId), _cancellationToken).ConfigureAwait(false)).ToArray();
 
             marketingContact.Length.Should().Be(0);
         }
