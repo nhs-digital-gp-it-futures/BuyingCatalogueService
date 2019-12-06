@@ -22,10 +22,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public bool Deleted { get; set; }
 
-        public DateTime LastUpdated { get; set; }
-
-        public Guid LastUpdatedBy { get; set; }
-
         protected override string InsertSql => $@"
         INSERT INTO [dbo].[Organisation]
         ([Id]

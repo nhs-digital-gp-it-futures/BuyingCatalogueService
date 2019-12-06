@@ -19,9 +19,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             {
                 SolutionId = "SolutionId",
                 CapabilityId = Guid.NewGuid(),
-                StatusId = 1,
-                LastUpdated = DateTime.UtcNow,
-                LastUpdatedBy = Guid.Empty
+                StatusId = 1
             };
         }
 

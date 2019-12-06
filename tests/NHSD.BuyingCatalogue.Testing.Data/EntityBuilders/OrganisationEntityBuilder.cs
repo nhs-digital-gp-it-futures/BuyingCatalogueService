@@ -18,8 +18,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             _organisationEntity = new OrganisationEntity
             {
                 Id = Guid.NewGuid(),
-                Name = "Organis1",
-                LastUpdated = DateTime.UtcNow
+                Name = "Organis1"
             };
         }
 

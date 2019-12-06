@@ -16,9 +16,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
         {
             _entity = new MarketingContactEntity
             {
-                SolutionId = "Sup 1",
-                LastUpdated = DateTime.Now,
-                LastUpdatedBy = Guid.NewGuid()
+                SolutionId = "Sup 1"
             };
         }
 
@@ -69,7 +67,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             _entity.LastUpdatedBy = lastUpdatedBy;
             return this;
         }
-        
+
         public MarketingContactEntity Build()
         {
             return _entity;

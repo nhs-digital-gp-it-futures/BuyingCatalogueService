@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,10 +10,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         public string SolutionId { get; set; }
 
         public bool IsFoundation { get; set; }
-
-        public DateTime LastUpdated { get; set; }
-
-        public Guid LastUpdatedBy { get; set; }
 
         protected override string InsertSql => $@"
         INSERT INTO [dbo].[FrameworkSolutions]

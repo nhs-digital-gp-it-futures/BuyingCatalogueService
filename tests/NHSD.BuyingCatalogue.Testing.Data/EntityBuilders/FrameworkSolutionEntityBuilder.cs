@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
@@ -20,9 +18,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             {
                 FrameworkId = "NHSDGP001",
                 SolutionId = "Sln1",
-                IsFoundation = true,
-                LastUpdated = DateTime.Now,
-                LastUpdatedBy = Guid.Empty
+                IsFoundation = true
             };
         }
 

@@ -5,12 +5,10 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
     public sealed class SolutionCapabilityEntity : EntityBase
     {
         public string SolutionId { get; set; }
+
         public Guid CapabilityId { get; set; }
+
         public int StatusId { get; set; }
-
-        public DateTime LastUpdated { get; set; }
-
-        public Guid LastUpdatedBy { get; set; }
 
         protected override string InsertSql => $@"
         INSERT INTO [dbo].[SolutionCapability]

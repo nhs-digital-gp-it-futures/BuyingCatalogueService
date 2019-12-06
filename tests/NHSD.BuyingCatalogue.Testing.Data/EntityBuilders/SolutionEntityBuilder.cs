@@ -31,9 +31,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
                 SupplierStatusId = 1,
                 OnCatalogueVersion = 0,
                 ServiceLevelAgreement = null,
-                WorkOfPlan = null,
-                LastUpdated = DateTime.Now,
-                LastUpdatedBy = Guid.NewGuid()
+                WorkOfPlan = null
             };
         }
 

@@ -16,10 +16,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public Guid? CrmRef { get; set; }
 
-        public DateTime LastUpdated { get; set; }
-
-        public Guid LastUpdatedBy { get; set; }
-
         protected override string InsertSql => $@"
             INSERT INTO [dbo].[Supplier]
             ([Id]
