@@ -6,15 +6,15 @@ using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NUnit.Framework;
 
-namespace NHSD.BuyingCatalogue.API.UnitTests
+namespace NHSD.BuyingCatalogue.Infrastructure.Tests
 {
     [TestFixture]
-    public sealed class CustomExceptionFilterTests
+    public sealed class ExceptionExtensionsTests
     {
         [Test]
         public void ShouldReturnStatusCode404()
         {
-            var exception = new NotFoundException("exception", this);
+            var exception = new NotFoundException();
             exception.ToStatusCode().Should().Be(404);
         }
 
@@ -48,6 +48,12 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
 
             json.SelectToken("errors").First().Value<string>().Should().Be("An unexpected error occurred.");
             json.SelectToken("detail").Value<string>().Should().Be(exception.ToString());
+        }
+
+        [Test]
+        public void NullExceptionToJsonMessageShouldThrowException()
+        {
+            Assert.Throws<ArgumentNullException>(() => ((Exception)null).ToJsonMessage(false));
         }
     }
 }
