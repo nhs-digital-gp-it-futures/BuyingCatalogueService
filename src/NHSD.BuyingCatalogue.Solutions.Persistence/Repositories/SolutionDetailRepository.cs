@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -45,7 +46,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
             => await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
                         @"SolutionDetail.FullDescription = @description,
                         SolutionDetail.Summary = @summary,
-                        SolutionDetail.AboutUrl = @aboutUrl"), cancellationToken,updateSolutionSummaryRequest.ThrowIfNull(nameof(updateSolutionSummaryRequest))).ConfigureAwait(false);
+                        SolutionDetail.AboutUrl = @aboutUrl", StringComparison.InvariantCulture), cancellationToken,updateSolutionSummaryRequest.ThrowIfNull(nameof(updateSolutionSummaryRequest))).ConfigureAwait(false);
 
         /// <summary>
         /// Updates or inserts the features of the solution.
@@ -55,7 +56,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         /// <returns>A task representing an operation to save the specified updateSolutionRequest to the data store.</returns>
         public async Task UpdateFeaturesAsync(IUpdateSolutionFeaturesRequest updateSolutionFeaturesRequest, CancellationToken cancellationToken)
             => await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
-                    @"SolutionDetail.Features = @features"),
+                    @"SolutionDetail.Features = @features", StringComparison.InvariantCulture),
                 cancellationToken,
                 updateSolutionFeaturesRequest.ThrowIfNull(nameof(updateSolutionFeaturesRequest))).ConfigureAwait(false);
 
@@ -67,7 +68,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         /// <returns>A task representing an operation to save the specified <paramref name="updateSolutionClientApplicationRequest"/> details to the data store.</returns>
         public async Task UpdateClientApplicationAsync(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken cancellationToken)
             => await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
-                    @"SolutionDetail.ClientApplication = @clientApplication"),
+                    @"SolutionDetail.ClientApplication = @clientApplication", StringComparison.InvariantCulture),
                 cancellationToken,
                 updateSolutionClientApplicationRequest.ThrowIfNull(nameof(updateSolutionClientApplicationRequest))).ConfigureAwait(false);
 
