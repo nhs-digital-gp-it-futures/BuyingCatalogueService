@@ -22,6 +22,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                                 ORDER BY Capability.Name";
 
         public async Task<IEnumerable<ISolutionCapabilityListResult>> ListSolutionCapabilities(string solutionId, CancellationToken cancellationToken)
-            => await _dbConnector.QueryAsync<SolutionCapabilityListResult>(cancellationToken, sql, new{solutionId});
+            => await _dbConnector.QueryAsync<SolutionCapabilityListResult>(sql, cancellationToken, new{solutionId}).ConfigureAwait(false);
     }
 }

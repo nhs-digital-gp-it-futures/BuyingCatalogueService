@@ -38,7 +38,6 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.Repositories
         /// </summary>
         /// <returns>A list of <see cref="ISolutionListResult"/> objects.</returns>
         public async Task<IEnumerable<ISolutionListResult>> ListAsync(bool foundationOnly, CancellationToken cancellationToken)
-            => await _dbConnector.QueryAsync<SolutionListResult>(cancellationToken,
-                foundationOnly ? sql + " AND COALESCE(FrameworkSolutions.IsFoundation, 0) = 1" : sql);
+            => await _dbConnector.QueryAsync<SolutionListResult>(foundationOnly ? sql + " AND COALESCE(FrameworkSolutions.IsFoundation, 0) = 1" : sql, cancellationToken).ConfigureAwait(false);
     }
 }

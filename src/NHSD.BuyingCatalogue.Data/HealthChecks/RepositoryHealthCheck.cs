@@ -39,10 +39,8 @@ namespace NHSD.BuyingCatalogue.Data.HealthChecks
                 ConnectTimeout = ConnectTimeout
             };
 
-            using (var dbConnection = await _dbConnectionFactory.GetAsync(cancellationToken, sqlConnectionStringBuilder))
-            {
-                var result = await dbConnection.QuerySingleAsync<int>(Sql);
-            }
+            using var dbConnection = await _dbConnectionFactory.GetAsync(sqlConnectionStringBuilder, cancellationToken).ConfigureAwait(false);
+            var result = await dbConnection.QuerySingleAsync<int>(Sql).ConfigureAwait(false);
         }
     }
 }

@@ -138,8 +138,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             var result = (await _marketingContactRepository.BySolutionIdAsync(_solutionId1, new CancellationToken())).ToList();
 
-            var id = (await _testContext.DbConnector.QueryAsync<int>(new CancellationToken(),
-                "SELECT [Id] FROM MarketingContact Where [FirstName] = 'FirstName2'")).Single();
+            var id = (await _testContext.DbConnector.QueryAsync<int>("SELECT [Id] FROM MarketingContact Where [FirstName] = 'FirstName2'", new CancellationToken()).ConfigureAwait(false)).Single();
 
             result.Single(m => m.FirstName == "FirstName2").Id.Should().Be(id);
         }

@@ -55,7 +55,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
             @lastUpdatedBy)";
 
         public async Task<IEnumerable<IMarketingContactResult>> BySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
-                => await _dbConnector.QueryAsync<MarketingContactResult>(cancellationToken, getSql, new { solutionId });
+                => await _dbConnector.QueryAsync<MarketingContactResult>( getSql, cancellationToken, new { solutionId }).ConfigureAwait(false);
 
         public async Task ReplaceContactsForSolution(string solutionId, IEnumerable<IContact> newContacts, CancellationToken cancellationToken)
         {
@@ -75,7 +75,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                         lastUpdatedBy = Guid.Empty
                     })));
 
-            await _dbConnector.ExecuteMultipleWithTransactionAsync(cancellationToken, queries);
+            await _dbConnector.ExecuteMultipleWithTransactionAsync(queries, cancellationToken).ConfigureAwait(false);
         }
     }
 }
