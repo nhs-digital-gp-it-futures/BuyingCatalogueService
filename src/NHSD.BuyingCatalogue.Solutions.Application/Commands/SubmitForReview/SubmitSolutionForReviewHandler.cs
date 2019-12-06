@@ -31,14 +31,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview
         /// <returns>A task representing an operation to get the result of this command.</returns>
         public async Task<SubmitSolutionForReviewCommandResult> Handle(SubmitSolutionForReviewCommand request, CancellationToken cancellationToken)
         {
-            Solution solution = await _solutionReader.ByIdAsync(request.SolutionId, cancellationToken);
+            Solution solution = await _solutionReader.ByIdAsync(request.SolutionId, cancellationToken).ConfigureAwait(false);
 
             ValidationResult validationResult = new SubmitSolutionForReviewValidator(solution).Validate();
 
             SubmitSolutionForReviewCommandResult result = new SubmitSolutionForReviewCommandResult(validationResult.Errors);
             if (result.IsSuccess)
             {
-                await _solutionRepository.UpdateSupplierStatusAsync(new UpdateSolutionSupplierStatusRequest(solution.Id, SupplierStatus.AuthorityReview.Id), cancellationToken);
+                await _solutionRepository.UpdateSupplierStatusAsync(new UpdateSolutionSupplierStatusRequest(solution.Id, SupplierStatus.AuthorityReview.Id), cancellationToken)
+                    .ConfigureAwait(false);
             }
 
             return result;

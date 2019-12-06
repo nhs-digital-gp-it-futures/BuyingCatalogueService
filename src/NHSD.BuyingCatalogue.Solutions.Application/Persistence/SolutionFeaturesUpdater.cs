@@ -16,9 +16,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
             => _solutionDetailRepository = solutionDetailRepository;
 
         public async Task UpdateAsync(Solution solution, CancellationToken cancellationToken)
-            => await _solutionDetailRepository.UpdateFeaturesAsync(Map(solution), cancellationToken);
+            => await _solutionDetailRepository.UpdateFeaturesAsync(Map(solution), cancellationToken)
+                .ConfigureAwait(false);
 
-        private IUpdateSolutionFeaturesRequest Map(Solution solution)
+        private static IUpdateSolutionFeaturesRequest Map(Solution solution)
             => new UpdateSolutionFeaturesRequest(solution.Id, solution.Features);
     }
 }

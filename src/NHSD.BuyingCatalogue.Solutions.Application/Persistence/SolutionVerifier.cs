@@ -14,11 +14,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
          => _solutionRepository = solutionRepository;
 
         public async Task<bool> CheckExists(string solutionId, CancellationToken cancellationToken)
-            => await _solutionRepository.CheckExists(solutionId, cancellationToken);
+            => await _solutionRepository.CheckExists(solutionId, cancellationToken).ConfigureAwait(false);
         
         public async Task ThrowWhenMissing(string solutionId, CancellationToken cancellationToken)
         {
-            if (!await CheckExists(solutionId, cancellationToken))
+            if (!await CheckExists(solutionId, cancellationToken).ConfigureAwait(false))
             {
                 throw new NotFoundException(nameof(Solution), solutionId);
             }

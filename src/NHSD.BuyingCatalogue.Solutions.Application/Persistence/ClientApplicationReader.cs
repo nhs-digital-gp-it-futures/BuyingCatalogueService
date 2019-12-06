@@ -18,7 +18,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 
         public async Task<ClientApplication> BySolutionIdAsync(string id, CancellationToken cancellationToken)
         {
-            var clientApplicationResult = await _solutionDetailRepository.GetClientApplicationBySolutionIdAsync(id, cancellationToken)
+            var clientApplicationResult = await _solutionDetailRepository.GetClientApplicationBySolutionIdAsync(id, cancellationToken).ConfigureAwait(false)
                                  ?? throw new NotFoundException(nameof(Solution), id);
 
             return string.IsNullOrWhiteSpace(clientApplicationResult.ClientApplication)

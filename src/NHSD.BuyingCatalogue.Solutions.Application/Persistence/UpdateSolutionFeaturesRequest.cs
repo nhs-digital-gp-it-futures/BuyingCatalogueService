@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
         public UpdateSolutionFeaturesRequest(string id, IEnumerable<string> features)
         {
             SolutionId = id;
-            Features = JsonConvert.SerializeObject(features).ToString();
+            Features = JsonConvert.SerializeObject(features);
         }
 
         public string SolutionId { get; }

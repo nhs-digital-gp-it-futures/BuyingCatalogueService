@@ -18,6 +18,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
         }
 
         public async Task<IEnumerable<Contact>> ByIdAsync(string solutionId, CancellationToken cancellationToken)
-            => (await _marketingContactRepository.BySolutionIdAsync(solutionId, cancellationToken)).Select(c => new Contact(c));
+            => (await _marketingContactRepository.BySolutionIdAsync(solutionId, cancellationToken).ConfigureAwait(false)).Select(c => new Contact(c));
     }
 }

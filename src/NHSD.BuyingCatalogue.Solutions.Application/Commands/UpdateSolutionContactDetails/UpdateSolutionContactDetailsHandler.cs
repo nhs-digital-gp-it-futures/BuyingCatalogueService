@@ -24,13 +24,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
 
         public async Task<UpdateSolutionContactDetailsValidationResult> Handle(UpdateSolutionContactDetailsCommand request, CancellationToken cancellationToken)
         {
-            await _verifier.ThrowWhenMissing(request.SolutionId, cancellationToken);
+            await _verifier.ThrowWhenMissing(request.SolutionId, cancellationToken).ConfigureAwait(false);
 
             var validationResult = _validator.Validation(request.Details);
 
             if (validationResult.IsValid)
             {
-                await _updater.UpdateAsync(request.SolutionId, MapContacts(request.Details), cancellationToken);
+                await _updater.UpdateAsync(request.SolutionId, MapContacts(request.Details), cancellationToken).ConfigureAwait(false);
             }
 
             return validationResult;

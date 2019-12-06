@@ -6,13 +6,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClie
 {
     public sealed class UpdateSolutionClientApplicationTypesViewModel
     {
-        private static readonly HashSet<string> _acceptedClientApplicationTypes = new HashSet<string> { "browser-based", "native-mobile", "native-desktop" };
+        private static readonly HashSet<string> AcceptedClientApplicationTypes = new HashSet<string> { "browser-based", "native-mobile", "native-desktop" };
 
         [JsonProperty("client-application-types")]
-        public HashSet<string> ClientApplicationTypes { get; set; }
+        public HashSet<string> ClientApplicationTypes { get; internal set; }
 
         [JsonIgnore]
         public List<string> FilteredClientApplicationTypes =>
-            ClientApplicationTypes.Where(s => _acceptedClientApplicationTypes.Contains(s)).ToList();
+            ClientApplicationTypes.Where(s => AcceptedClientApplicationTypes.Contains(s)).ToList();
     }
 }

@@ -23,6 +23,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
 
         public async Task<IClientApplication> Handle(GetClientApplicationBySolutionIdQuery request,
             CancellationToken cancellationToken)
-            => _mapper.Map<IClientApplication>(await _reader.BySolutionIdAsync(request.Id, cancellationToken));
+            => _mapper.Map<IClientApplication>(await _reader.BySolutionIdAsync(request.Id, cancellationToken).ConfigureAwait(false));
     }
 }

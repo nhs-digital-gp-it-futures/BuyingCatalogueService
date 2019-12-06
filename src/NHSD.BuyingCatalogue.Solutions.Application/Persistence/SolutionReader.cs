@@ -24,9 +24,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
         }
 
         public async Task<Solution> ByIdAsync(string id, CancellationToken cancellationToken) =>
-            new Solution((await _solutionRepository.ByIdAsync(id, cancellationToken))
+            new Solution(await _solutionRepository.ByIdAsync(id, cancellationToken).ConfigureAwait(false)
                          ?? throw new NotFoundException(nameof(Solution), id),
-                await _solutionCapabilityRepository.ListSolutionCapabilities(id, cancellationToken),
-                await _contactRepository.BySolutionIdAsync(id, cancellationToken));
+                await _solutionCapabilityRepository.ListSolutionCapabilities(id, cancellationToken)
+                    .ConfigureAwait(false),
+                await _contactRepository.BySolutionIdAsync(id, cancellationToken)
+                    .ConfigureAwait(false));
     }
 }

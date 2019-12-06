@@ -17,7 +17,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
             return result;
         }
 
-        private void ValidateContact(UpdateSolutionContactDetailsValidationResult result, UpdateSolutionContactViewModel contact, string contactTag)
+        private static void ValidateContact(UpdateSolutionContactDetailsValidationResult result, UpdateSolutionContactViewModel contact, string contactTag)
         {
             if ((contact?.FirstName?.Length ?? 0) > FirstNameMaxLength)
             {

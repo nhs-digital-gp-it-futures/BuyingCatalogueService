@@ -41,7 +41,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrow
                         clientApplication.BrowsersSupported = new HashSet<string>(request.UpdateSolutionBrowsersSupportedViewModel.BrowsersSupported);
                         clientApplication.MobileResponsive = request.UpdateSolutionBrowsersSupportedViewModel.MobileResponsive.ToBoolean();
                     },
-                    cancellationToken);
+                    cancellationToken)
+                    .ConfigureAwait(false);
             }
 
             return validationResult;

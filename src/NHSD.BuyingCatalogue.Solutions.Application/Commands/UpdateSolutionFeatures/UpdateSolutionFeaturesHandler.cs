@@ -37,9 +37,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeat
 
             if (validationResult.IsValid)
             {
-                Solution solution = await _solutionReader.ByIdAsync(request.SolutionId, cancellationToken);
+                Solution solution = await _solutionReader.ByIdAsync(request.SolutionId, cancellationToken).ConfigureAwait(false);
                 await _solutionFeaturesUpdater.UpdateAsync(
-                    _mapper.Map(request.UpdateSolutionFeaturesViewModel, solution), cancellationToken);
+                    _mapper.Map(request.UpdateSolutionFeaturesViewModel, solution), cancellationToken)
+                    .ConfigureAwait(false);
             }
 
             return validationResult;

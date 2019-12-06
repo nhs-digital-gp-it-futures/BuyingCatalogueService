@@ -16,6 +16,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
         }
 
         public async Task UpdateAsync(string solutionId, IEnumerable<IContact> newContacts, CancellationToken cancellationToken)
-            => await _repository.ReplaceContactsForSolution(solutionId, newContacts, cancellationToken);
+            => await _repository.ReplaceContactsForSolution(solutionId, newContacts, cancellationToken).ConfigureAwait(false);
     }
 }

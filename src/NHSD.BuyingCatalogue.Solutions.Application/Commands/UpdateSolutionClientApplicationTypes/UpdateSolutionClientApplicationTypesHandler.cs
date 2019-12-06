@@ -35,7 +35,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClie
             {
                 await _clientApplicationPartialUpdater.UpdateAsync(request.SolutionId,
                     clientApplication => clientApplication.ClientApplicationTypes = new HashSet<string>(request.UpdateSolutionClientApplicationTypesViewModel.FilteredClientApplicationTypes),
-                    cancellationToken);
+                    cancellationToken)
+                    .ConfigureAwait(false);
             }
 
             return validationResult;
