@@ -155,3 +155,6 @@ csharp_preserve_single_line_blocks = true
 
 # CA1054: Uri parameters should not be strings
 dotnet_diagnostic.CA1054.severity = none
+
+# CA1056: Uri properties should not be strings
+dotnet_diagnostic.CA1056.severity = none
