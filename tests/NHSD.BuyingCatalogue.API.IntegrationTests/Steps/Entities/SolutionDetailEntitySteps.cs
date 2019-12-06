@@ -27,7 +27,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                     .WithAboutUrl(solutionDetail.AboutUrl)
                     .WithSolutionId(solutionDetail.Solution)
                     .WithClientApplication(solutionDetail.ClientApplication)
-                    .WithLastUpdated(solutionDetail.LastUpdated)
+                    .WithLastUpdated(solutionDetail.LastUpdated != DateTime.MinValue ? solutionDetail.LastUpdated : DateTime.UtcNow)
                     .Build()
                     .InsertAndSetCurrentForSolutionAsync();
             }

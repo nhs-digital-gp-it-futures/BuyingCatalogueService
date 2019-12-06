@@ -26,7 +26,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public int CategoryId { get; set; }
 
-        protected override string InsertSql  => $@"
+        protected override string InsertSql => $@"
         INSERT INTO [dbo].[Capability]
         ([Id]
         ,[CapabilityRef]
@@ -40,16 +40,16 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         ,[CategoryId])
 
         VALUES
-            ('{Id}'
-            ,'{CapabilityRef}'
-            ,'{Version}'
-            ,'{PreviousVersion}'
-            ,{StatusId}
-            ,'{Name}'
-            ,'{Description}'
-            ,'{SourceUrl}'
-            ,'{EffectiveDate.ToString("dd-MMM-yyyy")}'
-            ,{CategoryId})";
+            (@Id
+            ,@CapabilityRef
+            ,@Version
+            ,@PreviousVersion
+            ,@StatusId
+            ,@Name
+            ,@Description
+            ,@SourceUrl
+            ,@EffectiveDate
+            ,@CategoryId)";
 
         public static async Task<IEnumerable<CapabilityEntity>> FetchAllAsync()
         {
@@ -63,7 +63,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
                                 ,[SourceUrl]
                                 ,[EffectiveDate]
                                 ,[CategoryId]
-                                FROM Capability");
+                                FROM Capability").ConfigureAwait(false);
         }
     }
 }

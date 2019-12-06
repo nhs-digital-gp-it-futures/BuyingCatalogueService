@@ -35,7 +35,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public Guid LastUpdatedBy { get; set; }
 
-        protected override string InsertSql  => $@"
+        protected override string InsertSql => $@"
         INSERT INTO [dbo].[SolutionDetail]
         ([Id]
         ,[SolutionId]
@@ -52,20 +52,20 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         ,[LastUpdated]
         ,[LastUpdatedBy])
         VALUES
-            ('{Id}'          
-            ,'{SolutionId}'
-            ,'{PublishedStatusId}'
-            ,{NullOrWrapQuotes(Features)}
-            ,{NullOrWrapQuotes(ClientApplication)}
-            ,{NullOrWrapQuotes(Hosting)}
-            ,{NullOrWrapQuotes(ImplementationDetail)}
-            ,{NullOrWrapQuotes(RoadMap)}
-            ,{NullOrWrapQuotes(RoadMapImageUrl)}
-            ,{NullOrWrapQuotes(AboutUrl)}
-            ,{NullOrWrapQuotes(Summary)}
-            ,{NullOrWrapQuotes(FullDescription)}
-            ,'{LastUpdated.ToString("dd-MMM-yyyy")}'
-            ,'{LastUpdatedBy}')";
+            (@Id          
+            ,@SolutionId
+            ,@PublishedStatusId
+            ,@Features
+            ,@ClientApplication
+            ,@Hosting
+            ,@ImplementationDetail
+            ,@RoadMap
+            ,@RoadMapImageUrl
+            ,@AboutUrl
+            ,@Summary
+            ,@FullDescription
+            ,@LastUpdated
+            ,@LastUpdatedBy)";
 
 
         public static async Task<IEnumerable<SolutionDetailEntity>> FetchAllAsync()
@@ -85,20 +85,23 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
                             ,[FullDescription]
                             ,[LastUpdated]
                             ,[LastUpdatedBy]
-                            FROM SolutionDetail");
+                            FROM SolutionDetail")
+                .ConfigureAwait(false);
         }
 
         public async Task InsertAndSetCurrentForSolutionAsync()
         {
-            await base.InsertAsync();
+            await base.InsertAsync().ConfigureAwait(false);
             await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup,
-                $@"UPDATE Solution SET SolutionDetailId = '{this.Id}'
-                    WHERE Id = '{this.SolutionId}'");
+                $@"UPDATE Solution SET SolutionDetailId = @Id
+                    WHERE Id = @SolutionId",
+                this)
+                .ConfigureAwait(false);
         }
 
         public static async Task<SolutionDetailEntity> GetBySolutionIdAsync(string solutionId)
         {
-            return (await FetchAllAsync()).First(item => solutionId.Equals(item.SolutionId));
+            return (await FetchAllAsync().ConfigureAwait(false)).First(item => solutionId == item.SolutionId);
         }
     }
 }

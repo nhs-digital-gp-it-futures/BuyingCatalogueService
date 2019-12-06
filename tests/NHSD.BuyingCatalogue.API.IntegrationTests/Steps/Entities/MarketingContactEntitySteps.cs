@@ -16,6 +16,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         {
             foreach (var contact in table.CreateSet<MarketingContactEntity>())
             {
+                if (contact.LastUpdated == DateTime.MinValue)
+                {
+                    contact.LastUpdated = DateTime.UtcNow;
+                }
                 await contact.InsertAsync();
             }
         }
@@ -32,7 +36,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         public async Task LastUpdatedHasUpdatedOnMarketingContact(string solutionId)
         {
             var contacts = await MarketingContactEntity.FetchForSolutionAsync(solutionId);
-          
+
             var currentDateTime = DateTime.Now;
             var pastDateTime = currentDateTime.AddSeconds(-5);
 

@@ -26,16 +26,16 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             ,[LastUpdated]
             ,[LastUpdatedBy])
             VALUES
-            ('{SolutionId}'
-            ,{NullOrWrapQuotes(FirstName)}
-            ,{NullOrWrapQuotes(LastName)}
-            ,{NullOrWrapQuotes(Email)}
-            ,{NullOrWrapQuotes(PhoneNumber)}
-            ,{NullOrWrapQuotes(Department)}
-            ,'{LastUpdated.ToString("dd-MMM-yyyy")}'
-            ,'{LastUpdatedBy}'
+            (@SolutionId
+            ,@FirstName
+            ,@LastName
+            ,@Email
+            ,@PhoneNumber
+            ,@Department
+            ,@LastUpdated
+            ,@LastUpdatedBy
             )";
-        
+
         public static async Task<IEnumerable<MarketingContactEntity>> FetchForSolutionAsync(string solutionId)
         {
             return await SqlRunner.FetchAllAsync<MarketingContactEntity>($@"SELECT
@@ -50,8 +50,8 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             ,[LastUpdatedBy]
             FROM MarketingContact
             Where SolutionId = @solutionId",
-            new {solutionId}
-            );
+            new { solutionId }
+            ).ConfigureAwait(false);
         }
     }
 }

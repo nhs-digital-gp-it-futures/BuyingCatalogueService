@@ -23,11 +23,11 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         )
         VALUES
         (
-             '{SolutionId}'
-            ,'{CapabilityId}'
-            ,'{StatusId}'
-            ,'{LastUpdated.ToString("dd-MMM-yyyy")}'
-            ,'{LastUpdatedBy}'
+             @SolutionId
+            ,@CapabilityId
+            ,@StatusId
+            ,@LastUpdated
+            ,@LastUpdatedBy
         )";
     }
 }

@@ -44,22 +44,21 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         )
         VALUES
         (
-             '{Id}'
-            ,{NullOrWrapQuotes(ParentId)}
-            ,'{SupplierId}'
-            ,'{OrganisationId}'
-            ,{NullOrWrapQuotes(SolutionDetailId?.ToString())}
-            ,'{Name}'
-            ,{NullOrWrapQuotes(Version)}
-            ,'{PublishedStatusId}'
-            ,'{AuthorityStatusId}'
-            ,'{SupplierStatusId}'
-            ,'{OnCatalogueVersion}'
-            ,{NullOrWrapQuotes(ServiceLevelAgreement)}
-            ,{NullOrWrapQuotes(WorkOfPlan)}
-            ,'{LastUpdated.ToString("dd-MMM-yyyy")}'
-            ,'{LastUpdatedBy}'
-
+             @Id
+            ,@ParentId
+            ,@SupplierId
+            ,@OrganisationId
+            ,@SolutionDetailId
+            ,@Name
+            ,@Version
+            ,@PublishedStatusId
+            ,@AuthorityStatusId
+            ,@SupplierStatusId
+            ,@OnCatalogueVersion
+            ,@ServiceLevelAgreement
+            ,@WorkOfPlan
+            ,@LastUpdated
+            ,@LastUpdatedBy
         )";
 
         public static async Task<IEnumerable<SolutionEntity>> FetchAllAsync()
@@ -79,13 +78,13 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 	                            ,[WorkOfPlan]
 	                            ,[LastUpdated]
 	                            ,[LastUpdatedBy]
-
-                                FROM Solution");
+                                FROM Solution")
+                .ConfigureAwait(false);
         }
 
         public static async Task<SolutionEntity> GetByIdAsync(string solutionId)
         {
-            return (await FetchAllAsync()).First(item => solutionId.Equals(item.Id));
+            return (await FetchAllAsync().ConfigureAwait(false)).First(item => solutionId == item.Id);
         }
     }
 }

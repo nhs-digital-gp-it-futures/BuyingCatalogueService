@@ -16,13 +16,13 @@ namespace NHSD.BuyingCatalogue.Testing.Data
                 {
                     using (var sqlConnection = new SqlConnection(connectionString))
                     {
-                        await sqlConnection.OpenAsync();
+                        await sqlConnection.OpenAsync().ConfigureAwait(false);
                         return;
                     }
                 }
-                catch
+                catch (SqlException)
                 {
-                    await Task.Delay(1000);
+                    await Task.Delay(1000).ConfigureAwait(false);
                 }
             }
 

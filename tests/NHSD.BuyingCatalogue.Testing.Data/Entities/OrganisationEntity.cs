@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 {
-
     public sealed class OrganisationEntity : EntityBase
     {
         public Guid Id { get; set; }
@@ -41,16 +40,16 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         ,[LastUpdatedBy])
 
         VALUES
-            ('{Id}'
-            ,'{Name}'
-            ,{NullOrWrapQuotes(OdsCode)}
-            ,{NullOrWrapQuotes(PrimaryRoleId)}
-            ,'{CrmRef}'
-            ,{NullOrWrapQuotes(Address)}
-            ,'{CatalogueAgreementSigned}'
-            ,'{Deleted}'
-            ,'{LastUpdated.ToString("dd-MMM-yyyy")}'
-            ,'{LastUpdatedBy}')";
+            (@Id
+            ,@Name
+            ,@OdsCode
+            ,@PrimaryRoleId
+            ,@CrmRef
+            ,@Address
+            ,@CatalogueAgreementSigned
+            ,@Deleted
+            ,@LastUpdated
+            ,@LastUpdatedBy)";
 
         public static async Task<IEnumerable<OrganisationEntity>> FetchAllAsync()
         {
@@ -64,7 +63,8 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
                                     ,[Deleted]
                                     ,[LastUpdated]
                                     ,[LastUpdatedBy]
-                                FROM Organisation");
+                                FROM Organisation")
+                .ConfigureAwait(false);
         }
     }
 }

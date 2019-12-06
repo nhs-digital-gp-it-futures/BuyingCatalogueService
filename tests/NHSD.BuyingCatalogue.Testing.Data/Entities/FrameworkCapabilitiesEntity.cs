@@ -10,14 +10,14 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public bool IsFoundation { get; set; }
 
-        protected override string InsertSql  => $@"
+        protected override string InsertSql => $@"
         INSERT INTO [dbo].[FrameworkCapabilities]
         ([CapabilityId]
         ,[FrameworkId]
         ,[IsFoundation])
         VALUES
-            ('{CapabilityId}'
-            ,'{FrameworkId}'
-            ,{(IsFoundation? 1 : 0)})";
+            (@CapabilityId
+            ,@FrameworkId
+            ,@IsFoundation)";
     }
 }

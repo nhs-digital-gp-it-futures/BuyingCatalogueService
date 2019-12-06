@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
+using NHSD.BuyingCatalogue.Testing.Tools;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
-using NHSD.BuyingCatalogue.Testing.Tools;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
 {
@@ -27,7 +27,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                     .WithOrganisationId(organisations.First(o => o.Name == solutionTable.OrganisationName).Id)
                     .WithSupplierStatusId(solutionTable.SupplierStatusId)
                     .WithPublishedStatusId(solutionTable.PublishedStatusId)
-                    .WithOnLastUpdated(solutionTable.LastUpdated)
+                    .WithOnLastUpdated(solutionTable.LastUpdated != DateTime.MinValue ? solutionTable.LastUpdated : DateTime.UtcNow)
                     .Build()
                     .InsertAsync();
             }
