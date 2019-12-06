@@ -33,22 +33,26 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         [SetUp]
         public async Task Setup()
         {
-            await Database.ClearAsync();
+            await Database.ClearAsync().ConfigureAwait(false);
 
             await OrganisationEntityBuilder.Create()
                 .WithName(_orgName)
                 .WithId(_org1Id)
                 .Build()
-                .InsertAsync();
+                .InsertAsync()
+                .ConfigureAwait(false);
 
             await SupplierEntityBuilder.Create()
                 .WithId(_supplierId)
                 .WithOrganisation(_org1Id)
                 .Build()
-                .InsertAsync();
+                .InsertAsync()
+                .ConfigureAwait(false);
 
-            await CapabilityEntityBuilder.Create().WithName("Cap1").WithId(_cap1Id).WithDescription("Cap1Desc").Build().InsertAsync();
-            await CapabilityEntityBuilder.Create().WithName("Cap2").WithId(_cap2Id).WithDescription("Cap2Desc").Build().InsertAsync();
+            await CapabilityEntityBuilder.Create().WithName("Cap1").WithId(_cap1Id).WithDescription("Cap1Desc").Build().InsertAsync()
+                .ConfigureAwait(false);
+            await CapabilityEntityBuilder.Create().WithName("Cap2").WithId(_cap2Id).WithDescription("Cap2Desc").Build().InsertAsync()
+                .ConfigureAwait(false);
 
             TestContext testContext = new TestContext();
             _solutionRepository = testContext.SolutionRepository;
@@ -65,7 +69,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithSupplierId(_supplierId)
                 .WithPublishedStatusId((int)PublishedStatus.Published)
                 .Build()
-                .InsertAsync();
+                .InsertAsync()
+                .ConfigureAwait(false);
 
             await SolutionDetailEntityBuilder.Create()
                 .WithSolutionId(_solution1Id)
@@ -75,9 +80,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithFeatures("Features")
                 .WithClientApplication("Browser-based")
                 .Build()
-                .InsertAndSetCurrentForSolutionAsync();
+                .InsertAndSetCurrentForSolutionAsync()
+                .ConfigureAwait(false);
 
-            var solution = await _solutionRepository.ByIdAsync(_solution1Id, new CancellationToken());
+            var solution = await _solutionRepository.ByIdAsync(_solution1Id, new CancellationToken())
+                .ConfigureAwait(false);
             solution.Id.Should().Be(_solution1Id);
             solution.Name.Should().Be("Solution1");
             solution.LastUpdated.Should().Be(_lastUpdated);
@@ -101,20 +108,23 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithOrganisationId(_org1Id)
                 .WithSupplierId(_supplierId)
                 .Build()
-                .InsertAsync();
+                .InsertAsync()
+                .ConfigureAwait(false);
 
             await SolutionDetailEntityBuilder.Create()
                 .WithSolutionId(_solution1Id)
                 .Build()
-                .InsertAndSetCurrentForSolutionAsync();
+                .InsertAndSetCurrentForSolutionAsync()
+                .ConfigureAwait(false);
 
             await FrameworkSolutionEntityBuilder.Create()
                 .WithSolutionId(_solution1Id)
                 .WithFoundation(isFoundation)
                 .Build()
-                .InsertAsync();
+                .InsertAsync()
+                .ConfigureAwait(false);
 
-            var solution = await _solutionRepository.ByIdAsync(_solution1Id, new CancellationToken());
+            var solution = await _solutionRepository.ByIdAsync(_solution1Id, new CancellationToken()).ConfigureAwait(false);
             solution.Id.Should().Be(_solution1Id);
             solution.IsFoundation.Should().Be(isFoundation);
         }
@@ -122,7 +132,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         [Test]
         public async Task ShouldGetByIdNotPresent()
         {
-            var solution = await _solutionRepository.ByIdAsync(_solution1Id, new CancellationToken());
+            var solution = await _solutionRepository.ByIdAsync(_solution1Id, new CancellationToken()).ConfigureAwait(false);
             solution.Should().BeNull();
         }
 
@@ -136,9 +146,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithOrganisationId(_org1Id)
                 .WithSupplierId(_supplierId)
                 .Build()
-                .InsertAsync();
+                .InsertAsync()
+                .ConfigureAwait(false);
 
-            var solution = await _solutionRepository.ByIdAsync(_solution1Id, new CancellationToken());
+            var solution = await _solutionRepository.ByIdAsync(_solution1Id, new CancellationToken())
+                .ConfigureAwait(false);
             solution.Id.Should().Be(_solution1Id);
             solution.Name.Should().Be("Solution1");
             solution.LastUpdated.Should().Be(_lastUpdated);
@@ -161,7 +173,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithSupplierId(_supplierId)
                 .WithSupplierStatusId(1)
                 .Build()
-                .InsertAsync();
+                .InsertAsync()
+                .ConfigureAwait(false);
 
             var mockUpdateSolutionSupplierStatusRequest = new Mock<IUpdateSolutionSupplierStatusRequest>();
             mockUpdateSolutionSupplierStatusRequest.Setup(m => m.Id).Returns(_solution1Id);
@@ -169,9 +182,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             _solutionRepository.CheckExists(_solution1Id, new CancellationToken()).Result.Should().BeTrue();
 
-            await _solutionRepository.UpdateSupplierStatusAsync(mockUpdateSolutionSupplierStatusRequest.Object, new CancellationToken());
+            await _solutionRepository.UpdateSupplierStatusAsync(mockUpdateSolutionSupplierStatusRequest.Object, new CancellationToken()).ConfigureAwait(false);
 
-            var solution = await SolutionEntity.GetByIdAsync(_solution1Id);
+            var solution = await SolutionEntity.GetByIdAsync(_solution1Id)
+                .ConfigureAwait(false);
             solution.Id.Should().Be(_solution1Id);
 
             solution.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));

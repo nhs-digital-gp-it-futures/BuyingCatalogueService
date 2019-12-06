@@ -10,7 +10,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         [OneTimeSetUp]
         public async Task OneTimeSetUpAsync()
         {
-            await Database.AwaitDatabaseAsync();
+            await Database.AwaitDatabaseAsync().ConfigureAwait(false);
         }
     }
 }
