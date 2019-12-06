@@ -9,10 +9,9 @@ namespace NHSD.BuyingCatalogue.Capabilities.API.ViewModels
 	/// </summary>
 	public sealed class CapabilityViewModel
 	{
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "False Positive")]
-        public CapabilityViewModel(ICapability capability)
+        internal CapabilityViewModel(ICapability capability)
         {
-            Id = capability.ThrowIfNull().Id;
+            Id = capability.Id;
             Name = capability.Name;
             IsFoundation = capability.IsFoundation;
         }
