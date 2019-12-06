@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
+using NHSD.BuyingCatalogue.Solutions.Application.Domain;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
@@ -17,6 +20,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         private TestContext _context;
 
         private readonly DateTime _lastUpdated = DateTime.Today;
+
+        private const string DateFormat = "dd/MM/yyyy";
 
         [SetUp]
         public void SetUpFixture()
@@ -205,6 +210,46 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.Contacts.Count().Should().Be(0);
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+        }
+
+        [TestCase("01/01/0001", "01/01/0001", "01/01/0001","01/01/0001")]
+        [TestCase("31/12/9999", "31/12/9999", "31/12/9999", "31/12/9999")]
+        [TestCase("01/03/2019", "02/05/2018", "28/02/2019", "01/03/2019")]
+        [TestCase("15/03/2020", "16/03/2020", "17/03/2019", "16/03/2020")]
+        [TestCase("24/12/2019", "31/12/2018", "25/12/2019", "25/12/2019")]
+        public void ShouldGetLastUpdatedForSolution(string existingSolutionDate, string marketingContact1Date, string marketingContact2Date, string expectedDate)
+        {
+            var dateTimeExpected = DateTime.ParseExact(expectedDate, DateFormat, CultureInfo.InvariantCulture);
+            var existingSolution = Mock.Of<ISolutionResult>(s => s.LastUpdated == (DateTime.ParseExact(existingSolutionDate, DateFormat, CultureInfo.InvariantCulture)));
+           
+            var contact1Date = DateTime.ParseExact(marketingContact1Date, DateFormat, CultureInfo.InvariantCulture);
+            var contact2Date = DateTime.ParseExact(marketingContact2Date, DateFormat, CultureInfo.InvariantCulture);
+            
+            var existingMarketingContactResult = new List<IMarketingContactResult>
+            {
+                Mock.Of<IMarketingContactResult>(s => s.LastUpdated == contact1Date),
+                Mock.Of<IMarketingContactResult>(s => s.LastUpdated == contact2Date),
+            };
+
+            var solution = new Solution(existingSolution, new List<ISolutionCapabilityListResult>(),
+                existingMarketingContactResult);
+
+            solution.LastUpdated.Should().Be(dateTimeExpected);
+        }
+
+        [TestCase("01/01/0001", "01/01/0001")]
+        [TestCase("31/12/9999", "31/12/9999")]
+        [TestCase("01/03/2025", "01/03/2025")]
+        [TestCase("15/03/2020", "15/03/2020")]
+        public void ShouldGetLastUpdatedForSolutionWithNoMarketingContacts(string existingSolutionDate, string expectedDate)
+        {
+            var dateTimeExpected = DateTime.ParseExact(expectedDate, DateFormat, CultureInfo.InvariantCulture);
+            var existingSolution = Mock.Of<ISolutionResult>(s => s.LastUpdated == (DateTime.ParseExact(existingSolutionDate, DateFormat, CultureInfo.InvariantCulture)));
+            
+            var solution = new Solution(existingSolution, new List<ISolutionCapabilityListResult>(),
+                new List<IMarketingContactResult>());
+
+            solution.LastUpdated.Should().Be(dateTimeExpected);
         }
 
         [Test]
