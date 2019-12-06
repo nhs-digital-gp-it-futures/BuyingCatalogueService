@@ -35,7 +35,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetContactDetailsAsync([FromRoute][Required]string id)
         {
-            var contactDetails = await _mediator.Send(new GetContactDetailBySolutionIdQuery(id));
+            var contactDetails = await _mediator.Send(new GetContactDetailBySolutionIdQuery(id)).ConfigureAwait(false);
             return contactDetails == null ? (ActionResult)new NotFoundResult() : Ok(new GetContactDetailsResult(contactDetails));
         }
 
@@ -53,7 +53,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         public async Task<ActionResult> UpdateContactDetailsAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionContactDetailsViewModel updateSolutionContactDetailsViewModel)
         {
             var validationResult =
-                await _mediator.Send(new UpdateSolutionContactDetailsCommand(id, updateSolutionContactDetailsViewModel));
+                await _mediator.Send(new UpdateSolutionContactDetailsCommand(id, updateSolutionContactDetailsViewModel)).ConfigureAwait(false);
 
             return validationResult.IsValid
                 ? (ActionResult)new NoContentResult()

@@ -17,7 +17,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         /// <summary>
         /// Initialises a new instance of the <see cref="BrowserBasedSubSections"/> class.
         /// </summary>
-        public BrowserBasedSubSections(IClientApplication clientApplication)
+        internal BrowserBasedSubSections(IClientApplication clientApplication)
         {
             BrowsersSupported = new BrowsersSupportedSection(clientApplication);
             PluginOrExtensionsSection = new PluginOrExtensionsSection(clientApplication);

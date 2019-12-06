@@ -5,7 +5,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 {
     public class UpdateSolutionContactDetailsResult
     {
-        public UpdateSolutionContactDetailsResult(UpdateSolutionContactDetailsValidationResult updateSolutionFeaturesValidationResult)
+        internal UpdateSolutionContactDetailsResult(UpdateSolutionContactDetailsValidationResult updateSolutionFeaturesValidationResult)
         {
             MaxLength = updateSolutionFeaturesValidationResult.MaxLength;
         }

@@ -38,7 +38,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetBrowsersSupportedAsync([FromRoute][Required]string id)
         {
-            var solution = await _mediator.Send(new GetSolutionByIdQuery(id));
+            var solution = await _mediator.Send(new GetSolutionByIdQuery(id)).ConfigureAwait(false);
             return solution == null ? (ActionResult)new NotFoundResult() : Ok(new GetBrowsersSupportedResult(solution.ClientApplication));
         }
 
@@ -55,7 +55,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> UpdateBrowsersSupportedAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionBrowsersSupportedViewModel updateSolutionBrowsersSupportedViewModel)
         {
-            var validationResult = await _mediator.Send(new UpdateSolutionBrowsersSupportedCommand(id, updateSolutionBrowsersSupportedViewModel));
+            var validationResult = await _mediator.Send(new UpdateSolutionBrowsersSupportedCommand(id, updateSolutionBrowsersSupportedViewModel)).ConfigureAwait(false);
 
             return validationResult.IsValid ? (ActionResult)new NoContentResult()
                 : BadRequest(new UpdateSolutionBrowserSupportedResult(validationResult));

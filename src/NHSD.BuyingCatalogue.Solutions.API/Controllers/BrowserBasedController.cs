@@ -37,7 +37,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetBrowserBasedAsync([FromRoute][Required]string id)
         { 
-            var solution = await _mediator.Send(new GetSolutionByIdQuery(id));
+            var solution = await _mediator.Send(new GetSolutionByIdQuery(id)).ConfigureAwait(false);
             return solution == null ? (ActionResult) new NotFoundResult() : Ok(new BrowserBasedResult(solution.ClientApplication));
         }
     }

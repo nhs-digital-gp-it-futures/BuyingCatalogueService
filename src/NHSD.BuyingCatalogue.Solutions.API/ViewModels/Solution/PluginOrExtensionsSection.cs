@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         /// <summary>
         /// Initialises a new instance of the <see cref="PluginOrExtensionsSection"/> class.
         /// </summary>
-        public PluginOrExtensionsSection(IClientApplication clientApplication)
+        internal PluginOrExtensionsSection(IClientApplication clientApplication)
         {
             Answers = new PluginOrExtensionsSectionAnswers(clientApplication.Plugins);
         }

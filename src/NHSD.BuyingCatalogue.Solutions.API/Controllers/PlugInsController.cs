@@ -38,7 +38,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetPlugInsAsync([FromRoute][Required]string id)
         {
-            var solution = await _mediator.Send(new GetSolutionByIdQuery(id));
+            var solution = await _mediator.Send(new GetSolutionByIdQuery(id)).ConfigureAwait(false);
             return solution == null ? (ActionResult)new NotFoundResult() : Ok(new GetPlugInsResult(solution.ClientApplication.Plugins));
         }
 
@@ -56,7 +56,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         public async Task<ActionResult> UpdatePlugInsAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionPluginsViewModel updateSolutionPlugInsViewModel)
         {
             var validationResult =
-                await _mediator.Send(new UpdateSolutionPluginsCommand(id, updateSolutionPlugInsViewModel));
+                await _mediator.Send(new UpdateSolutionPluginsCommand(id, updateSolutionPlugInsViewModel)).ConfigureAwait(false);
 
             return validationResult.IsValid
                 ? (ActionResult)new NoContentResult()

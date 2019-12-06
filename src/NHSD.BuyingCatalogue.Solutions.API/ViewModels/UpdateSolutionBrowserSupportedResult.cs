@@ -5,7 +5,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 {
     public class UpdateSolutionBrowserSupportedResult
     {
-        public UpdateSolutionBrowserSupportedResult(UpdateSolutionBrowserSupportedValidationResult updateSolutionBrowserSupportedValidationResult)
+        internal UpdateSolutionBrowserSupportedResult(UpdateSolutionBrowserSupportedValidationResult updateSolutionBrowserSupportedValidationResult)
         {
             Required = updateSolutionBrowserSupportedValidationResult.Required;
         }

@@ -23,7 +23,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 
     public sealed class GetContactDetailsResultSection
     {
-        public GetContactDetailsResultSection (IContact contact)
+        internal GetContactDetailsResultSection (IContact contact)
         {
             DepartmentName = contact.Department;
             EmailAddress = contact.Email;
