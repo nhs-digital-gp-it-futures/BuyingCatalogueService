@@ -1,6 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.API
 {
@@ -8,7 +9,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API
     {
         public static IServiceCollection RegisterSolutionListController(this IServiceCollection services, Action<MvcOptions> controllerOptions, Action<IMvcBuilder> controllerAction)
         {
-            controllerAction(services.AddControllers(controllerOptions));
+            controllerAction.ThrowIfNull().Invoke(services.AddControllers(controllerOptions));
             return services;
         }
     }

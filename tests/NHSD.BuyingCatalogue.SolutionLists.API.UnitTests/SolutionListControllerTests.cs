@@ -81,5 +81,11 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.UnitTests
         {
             Assert.Throws<ArgumentNullException>(() => new SolutionListController(null));
         }
+
+        [Test]
+        public void ListSolutionsResultThrowsIfNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ListSolutionsResult(null));
+        }
     }
 }

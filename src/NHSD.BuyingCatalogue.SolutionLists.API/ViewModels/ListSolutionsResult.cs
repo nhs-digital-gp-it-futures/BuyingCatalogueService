@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.SolutionLists.Contracts;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.API.ViewModels
@@ -16,6 +17,6 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.ViewModels
         /// <summary>
         /// Initialises a new instance of the <see cref="ListSolutionsResult"/> class.
         /// </summary>
-        public ListSolutionsResult(ISolutionList solutionList) => Solutions = solutionList.Solutions;
+        public ListSolutionsResult(ISolutionList solutionList) => Solutions = solutionList.ThrowIfNull().Solutions;
     }
 }
