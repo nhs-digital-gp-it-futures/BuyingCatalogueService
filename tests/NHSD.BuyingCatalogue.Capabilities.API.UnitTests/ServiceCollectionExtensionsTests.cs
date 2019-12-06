@@ -35,5 +35,16 @@ namespace NHSD.BuyingCatalogue.Capabilities.API.UnitTests
             action(new MvcOptions());
             optionsExecuted.Should().BeTrue();
         }
+
+        [Test]
+        public void ControllerActionThrowsIfNull()
+        {
+            bool optionsExecuted = false;
+
+            Action<MvcOptions> op = options => optionsExecuted = true;
+            var serviceCollection = new ServiceCollection();
+
+            Assert.Throws<ArgumentNullException>(() => serviceCollection.RegisterCapabilityController(op, null));
+        }
     }
 }

@@ -43,5 +43,11 @@ namespace NHSD.BuyingCatalogue.Capabilities.API.UnitTests
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
             (result.Value as ListCapabilitiesResult).Capabilities.Should().BeEquivalentTo(capabilities);
         }
+
+        [Test]
+        public void CapabilityViewModelThrowsIfNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => new CapabilityViewModel(null));
+        }
     }
 }

@@ -3,6 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
   <ItemGroup>
       <PackageReference Include="MediatR" Version="7.0.0" />
       <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
@@ -12,6 +17,7 @@
 
   <ItemGroup>
       <ProjectReference Include="..\NHSD.BuyingCatalogue.Capabilities.Contracts\NHSD.BuyingCatalogue.Capabilities.Contracts.csproj" />
+      <ProjectReference Include="..\NHSD.BuyingCatalogue.Infrastructure\NHSD.BuyingCatalogue.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
