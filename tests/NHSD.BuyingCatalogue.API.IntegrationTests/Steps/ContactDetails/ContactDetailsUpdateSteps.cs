@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -23,13 +24,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ContactDetails
         public async Task WhenGetRequestIsMadeToDisplaySolutionContactDetailsSections(string solutionId, Table table)
         {
             var contacts = table.CreateSet<ContactDetailsRequestTable>();
-            _response.Result = await Client.PutAsJsonAsync(string.Format(ContactDetailsUrl, solutionId), new ContactDetailsPayload { Contact1 = contacts.FirstOrDefault(), Contact2 = contacts.Skip(1).FirstOrDefault() }).ConfigureAwait(false);
+            _response.Result = await Client.PutAsJsonAsync(string.Format(CultureInfo.InvariantCulture, ContactDetailsUrl, solutionId), new ContactDetailsPayload { Contact1 = contacts.FirstOrDefault(), Contact2 = contacts.Skip(1).FirstOrDefault() }).ConfigureAwait(false);
         }
 
         [When(@"a PUT request is made for empty solution (.*) contact details")]
         public async Task WhenGetRequestIsMadeToDisplaySolutionContactDetailsSections(string solutionId)
         {
-            _response.Result = await Client.PutAsJsonAsync(string.Format(ContactDetailsUrl, solutionId), new ContactDetailsPayload { Contact1 = null, Contact2 = null }).ConfigureAwait(false);
+            _response.Result = await Client.PutAsJsonAsync(string.Format(CultureInfo.InvariantCulture, ContactDetailsUrl, solutionId), new ContactDetailsPayload { Contact1 = null, Contact2 = null }).ConfigureAwait(false);
         }
 
         [When(@"a PUT request is made to update solution contact details with no solution id")]

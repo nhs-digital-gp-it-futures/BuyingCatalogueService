@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -22,7 +23,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ContactDetails
         [When(@"a GET request is made for contact-details with solutionId (.*)")]
         public async Task WhenGetRequestIsMadeToDisplaySolutionContactDetailsSections(string solutionId)
         {
-            _response.Result = await Client.GetAsync(string.Format(ContactDetailsUrl, solutionId)).ConfigureAwait(false);
+            _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, ContactDetailsUrl, solutionId)).ConfigureAwait(false);
         }
 
         [Then(@"the contact-detail (contact-1|contact-2) has details")]

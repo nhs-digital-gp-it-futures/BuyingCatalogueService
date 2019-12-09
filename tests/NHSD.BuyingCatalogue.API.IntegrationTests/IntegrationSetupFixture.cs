@@ -10,7 +10,7 @@ using StringValueRetriever = NHSD.BuyingCatalogue.API.IntegrationTests.Support.S
 namespace NHSD.BuyingCatalogue.API.IntegrationTests
 {
     [Binding]
-    public class IntegrationSetupFixture
+    public static class IntegrationSetupFixture
     {
         [BeforeTestRun]
         public static async Task OneTimeSetUpAsync()

@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
@@ -32,7 +33,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         {
             var content = table.CreateInstance<SolutionDescriptionPostTable>();
 
-            _response.Result = await Client.PutAsJsonAsync(string.Format(SolutionDescriptionUrl, solutionId), content).ConfigureAwait(false);
+            _response.Result = await Client.PutAsJsonAsync(string.Format(CultureInfo.InvariantCulture, SolutionDescriptionUrl, solutionId), content).ConfigureAwait(false);
         }
 
         [Then(@"the solution solution-description section contains (link|summary|description) of (.*)")]

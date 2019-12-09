@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Newtonsoft.Json;
@@ -24,7 +25,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         public async Task WhenAPUTRequestIsMadeToUpdateSolutionSlnBrowsers_SupportedSection(string solutionId, Table table)
         {
             var content = table.CreateInstance<SupportedBrowsersTable>();
-            _response.Result = await Client.PutAsJsonAsync(string.Format(SupportedBrowserUrl, solutionId), new SupportedBrowserPayload { BrowsersSupported = content.BrowsersSupported, MobileResponsive = content.MobileResponsive }).ConfigureAwait(false);
+            _response.Result = await Client.PutAsJsonAsync(string.Format(CultureInfo.InvariantCulture, SupportedBrowserUrl, solutionId), new SupportedBrowserPayload { BrowsersSupported = content.BrowsersSupported, MobileResponsive = content.MobileResponsive }).ConfigureAwait(false);
 
         }
 

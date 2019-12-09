@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -26,13 +27,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         [When(@"a request is made to submit Solution (.*) for review")]
         public async Task WhenARequestIsMadeToSubmitSlnForReview(string solutionId)
         {
-            _response.Result = await Client.PutAsync(string.Format(SubmitForReviewSolutionsUrl, solutionId)).ConfigureAwait(false);
+            _response.Result = await Client.PutAsync(string.Format(CultureInfo.InvariantCulture, SubmitForReviewSolutionsUrl, solutionId)).ConfigureAwait(false);
         }
 
         [When(@"a request is made to submit Solution for review with no solution id")]
         public async Task WhenARequestIsMadeToSubmitForReviewWithNoSolutionId()
         {
-            _response.Result = await Client.PutAsync(string.Format(SubmitForReviewSolutionsUrl, " ")).ConfigureAwait(false);
+            _response.Result = await Client.PutAsync(string.Format(CultureInfo.InvariantCulture, SubmitForReviewSolutionsUrl, " ")).ConfigureAwait(false);
         }
 
         [Then(@"the response details of the submit Solution for review request are as follows")]

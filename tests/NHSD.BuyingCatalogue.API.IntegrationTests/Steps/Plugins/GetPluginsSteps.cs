@@ -8,8 +8,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
     [Binding]
     internal sealed class GetPluginsSteps
     {
-        private const string PluginsUrl = "http://localhost:8080/api/v1/solutions/{0}/sections/plug-ins-or-extensions";
-
         private readonly Response _response;
 
         public GetPluginsSteps(Response response)

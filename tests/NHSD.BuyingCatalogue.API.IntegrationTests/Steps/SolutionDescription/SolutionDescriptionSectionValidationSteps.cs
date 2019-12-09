@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -37,7 +38,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
                 link = _context.ContainsKey("link") ? _context["link"] : "DUMMY"
             };
 
-            _response.Result = await Client.PutAsJsonAsync(string.Format(SolutionDescriptionUrl, solutionId), content).ConfigureAwait(false);
+            _response.Result = await Client.PutAsJsonAsync(string.Format(CultureInfo.InvariantCulture, SolutionDescriptionUrl, solutionId), content).ConfigureAwait(false);
         }
 
         [Then(@"the response required field contains summary")]
@@ -55,7 +56,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         }
 
 
-        private string GenerateStringOfLength(int chars)
+        private static string GenerateStringOfLength(int chars)
         {
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < chars; i++)

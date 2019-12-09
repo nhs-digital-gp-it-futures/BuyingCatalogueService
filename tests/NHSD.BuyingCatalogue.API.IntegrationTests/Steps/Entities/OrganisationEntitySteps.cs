@@ -11,7 +11,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
     {
 
         [Given(@"Organisations exist")]
-        public async Task GivenOrganisationsExist(Table table)
+        public static async Task GivenOrganisationsExist(Table table)
         {
             foreach (var organisation in table.CreateSet<OrganisationTable>())
             {
@@ -19,7 +19,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             }
         }
 
-        private async Task InsertOrganisationAsync(OrganisationTable organisationTable)
+        private static async Task InsertOrganisationAsync(OrganisationTable organisationTable)
         {
             await OrganisationEntityBuilder.Create()
                 .WithName(organisationTable.Name)

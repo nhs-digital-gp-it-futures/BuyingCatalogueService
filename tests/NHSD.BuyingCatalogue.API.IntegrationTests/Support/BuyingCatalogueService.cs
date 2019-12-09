@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Testing.Tools;
 
@@ -11,10 +10,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Drivers
 
         private const string WaitServerUrlDependencies = "http://localhost:8080/health/dependencies";
 
-        private static readonly string SolutionWorkingDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..\\..\\"));
-
-        private static readonly string TempOutDirectory =
-            Path.GetFullPath(Path.Combine(SolutionWorkingDirectory, ".\\out"));
         private static readonly TimeSpan TestTimeout = TimeSpan.FromSeconds(60);
 
         internal static async Task AwaitApiRunningAsync()

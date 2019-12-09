@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Newtonsoft.Json;
@@ -24,7 +25,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         public async Task WhenAPutRequestIsMadeToUpdateClientApplicationTypesSection(string solutionId, Table table)
         {
             var content = table.CreateInstance<ClientApplicationTypeTable>();
-            _response.Result = await Client.PutAsJsonAsync(string.Format(ClientApplicationTypeUrl, solutionId), new ClientApplicationTypesPayload { ClientApplicationTypes = content.ClientApplicationTypes }).ConfigureAwait(false);
+            _response.Result = await Client.PutAsJsonAsync(string.Format(CultureInfo.InvariantCulture, ClientApplicationTypeUrl, solutionId), new ClientApplicationTypesPayload { ClientApplicationTypes = content.ClientApplicationTypes }).ConfigureAwait(false);
         }
 
         private class ClientApplicationTypesPayload

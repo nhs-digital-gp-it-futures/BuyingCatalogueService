@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -34,7 +35,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         {
             var content = table.CreateInstance<FeaturesPostTable>();
 
-            _response.Result = await Client.PutAsJsonAsync(string.Format(FeaturesUrl, solutionId), new { Listing = content.Features }).ConfigureAwait(false);
+            _response.Result = await Client.PutAsJsonAsync(string.Format(CultureInfo.InvariantCulture, FeaturesUrl, solutionId), new { Listing = content.Features }).ConfigureAwait(false);
         }
 
         [Then(@"the solution features section contains Features")]

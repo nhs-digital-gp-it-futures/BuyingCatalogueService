@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
@@ -23,7 +24,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         {
             var content = table.CreateInstance<PluginsTable>();
 
-            _response.Result = await Client.PutAsJsonAsync(string.Format(PluginsUrl, solutionId),
+            _response.Result = await Client.PutAsJsonAsync(string.Format(CultureInfo.InvariantCulture, PluginsUrl, solutionId),
                 new PluginsPayload()
                 {
                     PluginsRequired = content.Required,

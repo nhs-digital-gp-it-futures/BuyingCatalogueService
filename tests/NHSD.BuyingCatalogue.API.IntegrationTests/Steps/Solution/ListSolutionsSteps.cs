@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -54,7 +55,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             _response.Result = await Client.PostAsJsonAsync(ListSolutionsUrl, solutionsRequest).ConfigureAwait(false);
         }
 
-        private async Task<SolutionsRequest> BuildRequestAsync(IEnumerable<string> capabilityNames)
+        private static async Task<SolutionsRequest> BuildRequestAsync(IEnumerable<string> capabilityNames)
         {
             var capabilities = await CapabilityEntity.FetchAllAsync().ConfigureAwait(false);
             return new SolutionsRequest { Capabilities = new HashSet<string>(capabilityNames.Select(cn => capabilities.First(c => c.Name == cn).Id.ToString())) };
@@ -91,7 +92,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
                 solution.SelectToken("summary")?.ToString().Should().Be(expectedSolution.SummaryDescription);
                 solution.SelectToken("organisation.name").ToString().Should().Be(expectedSolution.OrganisationName);
                 solution.SelectToken("capabilities").Select(t => t.SelectToken("name").ToString()).Should().BeEquivalentTo(expectedSolution.Capabilities.Split(",").Select(t => t.Trim()));
-                solution.SelectToken("isFoundation").ToString().Should().Be(expectedSolution.IsFoundation.ToString());
+                solution.SelectToken("isFoundation").ToString().Should().Be(expectedSolution.IsFoundation.ToString(CultureInfo.InvariantCulture));
             }
         }
 

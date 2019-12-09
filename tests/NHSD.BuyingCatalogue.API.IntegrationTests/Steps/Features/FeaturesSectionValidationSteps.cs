@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,7 +50,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
                 listing = _features
             };
 
-            _response.Result = await Client.PutAsJsonAsync(string.Format(FeaturesUrl, featuresId), content).ConfigureAwait(false);
+            _response.Result = await Client.PutAsJsonAsync(string.Format(CultureInfo.InvariantCulture, FeaturesUrl, featuresId), content).ConfigureAwait(false);
         }
 
         [Then(@"the features response required field contains (.*)")]

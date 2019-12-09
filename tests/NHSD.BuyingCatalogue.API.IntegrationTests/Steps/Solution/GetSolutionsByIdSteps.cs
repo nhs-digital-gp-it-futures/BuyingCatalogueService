@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
@@ -31,7 +32,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
         [When(@"a GET request is made for solution (dashboard|preview|public) (.*)")]
         public async Task WhenAGETRequestIsMadeForSolutionSln(string view, string solutionId)
         {
-            _response.Result = await Client.GetAsync(string.Format(ByIdSolutionsUrl, solutionId, view)).ConfigureAwait(false);
+            _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, ByIdSolutionsUrl, solutionId, view)).ConfigureAwait(false);
         }
 
         [Then(@"the solution IsFoundation is (true|false)")]

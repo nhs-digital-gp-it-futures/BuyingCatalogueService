@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
@@ -26,7 +27,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         [When(@"a GET request is made to display solution (.*) browser-based sections")]
         public async Task WhenGETRequestIsMadeToDisplaySolutionBrowserBasedSections(string solutionId)
         {
-            _response.Result = await Client.GetAsync(string.Format(BrowserBasedUrl, solutionId)).ConfigureAwait(false);
+            _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, BrowserBasedUrl, solutionId)).ConfigureAwait(false);
         }
 
         [When(@"a GET request is made to display solution browser-based sections with no solution id")]

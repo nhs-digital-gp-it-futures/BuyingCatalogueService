@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
     public sealed class FrameworkSolutionsSteps
     {
         [Given(@"Framework Solutions exist")]
-        public async Task GivenFrameworkSolutionsExist(Table table)
+        public static async Task GivenFrameworkSolutionsExist(Table table)
         {
             foreach (var frameworkSolution in table.CreateSet<FrameworkSolutionsTable>())
             {
@@ -17,7 +17,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             }
         }
 
-        private async Task InsertFrameworkSolutionsAsync(FrameworkSolutionsTable table)
+        private static async Task InsertFrameworkSolutionsAsync(FrameworkSolutionsTable table)
         {
             await FrameworkSolutionEntityBuilder.Create()
                 .WithSolutionId(table.SolutionId)

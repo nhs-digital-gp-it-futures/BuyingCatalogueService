@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -48,7 +49,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
                 {
                     Id = Guid.Parse(t.SelectToken("id").ToString()),
                     Name = t.SelectToken("name").ToString(),
-                    IsFoundation = Convert.ToBoolean(t.SelectToken("isFoundation").ToString())
+                    IsFoundation = Convert.ToBoolean(t.SelectToken("isFoundation").ToString(), CultureInfo.InvariantCulture)
                 });
 
             capabilities.Should().BeEquivalentTo(expectedCapabilities, options => options.WithStrictOrdering());
