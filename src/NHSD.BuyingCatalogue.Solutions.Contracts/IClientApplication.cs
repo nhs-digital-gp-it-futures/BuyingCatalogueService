@@ -8,5 +8,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         HashSet<string> BrowsersSupported { get; }
         bool? MobileResponsive { get; }
         IPlugins Plugins { get; }
+        string HardwareRequirements { get; }
     }
 }

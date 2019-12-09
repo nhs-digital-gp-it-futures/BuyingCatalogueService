@@ -12,5 +12,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         public bool? MobileResponsive { get; set; }
 
         public IPlugins Plugins { get; set; }
+        public string HardwareRequirements { get; set; }
     }
 }

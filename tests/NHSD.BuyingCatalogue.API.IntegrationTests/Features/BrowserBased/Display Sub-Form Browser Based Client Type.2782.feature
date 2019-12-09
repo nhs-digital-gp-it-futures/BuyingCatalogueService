@@ -23,12 +23,12 @@ Scenario: 1. Sub-Form Browser Based Client Type all sections are Displayed
     When a GET request is made to display solution Sln1 browser-based sections
     Then a successful response is returned
     And Solutions browser-based section contains all BrowserBased Sections   
-        | Id                          | Status     | Requirement |
-        | browsers-supported          | INCOMPLETE | Mandatory   |
-        | plug-ins-or-extensions      | INCOMPLETE | Mandatory   |
-        | connectivity-and-resolution | INCOMPLETE | Mandatory   |
-        | hardware-requirements       | INCOMPLETE | Optional    |
-        | additional-information      | INCOMPLETE | Optional    |
+        | Id                            | Status     | Requirement |
+        | browsers-supported            | INCOMPLETE | Mandatory   |
+        | plug-ins-or-extensions        | INCOMPLETE | Mandatory   |
+        | connectivity-and-resolution   | INCOMPLETE | Mandatory   |
+        | browser-hardware-requirements | INCOMPLETE | Optional    |
+        | additional-information        | INCOMPLETE | Optional    |
 
 @2782
 Scenario: 2. Solution not found
