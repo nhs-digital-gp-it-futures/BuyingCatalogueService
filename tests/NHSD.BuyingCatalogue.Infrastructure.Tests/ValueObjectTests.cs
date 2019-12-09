@@ -10,7 +10,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
         private Size _size1 = new Size(1, 2);
 
         [Test]
-        public void GivenSameValues_ShouldReturnTrue()
+        public void GivenSameValuesShouldReturnTrue()
         {
             var size2 = new Size(1, 2);
 
@@ -19,7 +19,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
         }
 
         [Test]
-        public void GivenDifferentValues_ShouldReturnFalse()
+        public void GivenDifferentValuesShouldReturnFalse()
         {
             var size2 = new Size(2, 1);
 
@@ -28,7 +28,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
         }
 
         [Test]
-        public void GivenNullComparison_ShouldReturnFalse()
+        public void GivenNullComparisonShouldReturnFalse()
         {
             ValueObject size2 = null;
             _size1.Equals(size2).Should().BeFalse();
@@ -37,7 +37,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
         }
 
         [Test]
-        public void GivenTwoNulls_ShouldReturnTrue()
+        public void GivenTwoNullsShouldReturnTrue()
         {
             _size1 = null;
             ValueObject size2 = null;
@@ -45,7 +45,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
         }
 
         [Test]
-        public void GivenInvalidObjectType_ShouldReturnFalse()
+        public void GivenInvalidObjectTypeShouldReturnFalse()
         {
             _size1.Equals("Yo Heave Ho").Should().BeFalse();
         }

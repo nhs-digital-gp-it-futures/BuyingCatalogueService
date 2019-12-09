@@ -26,7 +26,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         [JsonProperty("connectivity-and-resolution")]
         public BrowserBasedDashboardSection ConnectivityAndResolutionSection { get; }
 
-        [JsonProperty("hardware-requirements")]
+        [JsonProperty("browser-hardware-requirements")]
         public BrowserBasedDashboardSection HardwareRequirementsSection { get; }
 
         [JsonProperty("additional-information")]
