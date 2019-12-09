@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using FluentAssertions;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using TechTalk.SpecFlow;
 
@@ -20,7 +19,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
         [When(@"a GET request is made for foundation solutions")]
         public async Task WhenAGetRequestIsMadeForFoundation_Solutions()
         {
-            _response.Result = await Client.GetAsync(string.Format(foundationSolutionUrl));
+            _response.Result = await Client.GetAsync(string.Format(foundationSolutionUrl)).ConfigureAwait(false);
         }
     }
 

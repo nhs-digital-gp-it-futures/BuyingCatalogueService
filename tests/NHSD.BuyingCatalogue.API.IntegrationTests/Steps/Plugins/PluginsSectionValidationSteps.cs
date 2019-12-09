@@ -44,20 +44,20 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             var required = _context["required"]?.ToString();
             var additionalInformation = _context["additionalInfo"].ToString();
 
-             _response.Result = await Client.PutAsJsonAsync(string.Format(PluginsUrl, solutionId), new PluginsPayload(){PluginsRequired = required, PluginsDetail = additionalInformation });
+            _response.Result = await Client.PutAsJsonAsync(string.Format(PluginsUrl, solutionId), new PluginsPayload() { PluginsRequired = required, PluginsDetail = additionalInformation }).ConfigureAwait(false);
         }
 
         [Then(@"the plug-ins required field contains (.*)")]
         public async Task ThenThePlug_InsRequiredFieldContainsRequired(string field)
         {
-            var context = await _response.ReadBody();
+            var context = await _response.ReadBody().ConfigureAwait(false);
             context.SelectToken("required").ToString().Should().Contain(field);
         }
 
         [Then(@"the plug-ins maxLength field contains (.*)")]
         public async Task ThenThePlug_InsMaxLengthFieldContainsRequired(string field)
         {
-            var context = await _response.ReadBody();
+            var context = await _response.ReadBody().ConfigureAwait(false);
             context.SelectToken("maxLength").ToString().Should().Contain(field);
         }
 

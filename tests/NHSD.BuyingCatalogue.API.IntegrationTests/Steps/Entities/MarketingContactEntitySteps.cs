@@ -20,7 +20,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 {
                     contact.LastUpdated = DateTime.UtcNow;
                 }
-                await contact.InsertAsync();
+                await contact.InsertAsync().ConfigureAwait(false);
             }
         }
 
@@ -28,14 +28,14 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         [Then(@"No contacts exist for solution (.*)")]
         public async Task NoContactsExist(string solutionId)
         {
-            var contacts = await MarketingContactEntity.FetchForSolutionAsync(solutionId);
+            var contacts = await MarketingContactEntity.FetchForSolutionAsync(solutionId).ConfigureAwait(false);
             contacts.Should().BeEmpty();
         }
 
         [Then(@"Last Updated has updated on the MarketingContact for solution (.*)")]
         public async Task LastUpdatedHasUpdatedOnMarketingContact(string solutionId)
         {
-            var contacts = await MarketingContactEntity.FetchForSolutionAsync(solutionId);
+            var contacts = await MarketingContactEntity.FetchForSolutionAsync(solutionId).ConfigureAwait(false);
 
             var currentDateTime = DateTime.Now;
             var pastDateTime = currentDateTime.AddSeconds(-5);
@@ -47,7 +47,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         public async Task ThenMarketingContactsExist(string solutionId, Table table)
         {
             var expected = table.CreateSet<MarketingContactEntity>().ToList();
-            var contacts = await MarketingContactEntity.FetchForSolutionAsync(solutionId);
+            var contacts = await MarketingContactEntity.FetchForSolutionAsync(solutionId).ConfigureAwait(false);
             contacts.Count().Should().Be(expected.Count());
             contacts.Should().BeEquivalentTo(expected, config => config.Excluding(c => c.LastUpdated).Excluding(c => c.LastUpdatedBy).Excluding(c => c.SolutionId));
         }

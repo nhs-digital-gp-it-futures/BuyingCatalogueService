@@ -19,7 +19,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         [Given(@"the call to the database to set the field will fail")]
         public async Task GivenTheCallToTheDatabaseToSetTheFieldFails()
         {
-            await Database.DropServerRoleAsync();
+            await Database.DropServerRoleAsync().ConfigureAwait(false);
         }
     }
 }

@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
@@ -27,19 +26,19 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         [When(@"a GET request is made to display solution (.*) browser-based sections")]
         public async Task WhenGETRequestIsMadeToDisplaySolutionBrowserBasedSections(string solutionId)
         {
-            _response.Result = await Client.GetAsync(string.Format(BrowserBasedUrl, solutionId));
+            _response.Result = await Client.GetAsync(string.Format(BrowserBasedUrl, solutionId)).ConfigureAwait(false);
         }
 
         [When(@"a GET request is made to display solution browser-based sections with no solution id")]
         public async Task WhenGETRequestIsMadeToDisplaySolutionBrowserBasedSectionsWithNoSolutionId()
         {
-            await WhenGETRequestIsMadeToDisplaySolutionBrowserBasedSections(@" ");
+            await WhenGETRequestIsMadeToDisplaySolutionBrowserBasedSections(@" ").ConfigureAwait(false);
         }
 
         [Then(@"Solutions browser-based section contains all BrowserBased Sections")]
         public async Task SolutionBrowserBasedSectionContainsAllBrowserBasedSections(Table table)
         {
-            var content = await _response.ReadBody();
+            var content = await _response.ReadBody().ConfigureAwait(false);
 
             foreach (var section in table.CreateSet<BrowserBasedSection>())
             {
@@ -51,7 +50,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         [Then(@"the status of the (browsers-supported|plug-ins-or-extensions) section is (COMPLETE|INCOMPLETE)")]
         public async Task StatusOfPluginsSectionIs(string section, string status)
         {
-            var content = await _response.ReadBody();
+            var content = await _response.ReadBody().ConfigureAwait(false);
             content.SelectToken("sections." + section + ".status").ToString().Should().BeEquivalentTo(status);
         }
 

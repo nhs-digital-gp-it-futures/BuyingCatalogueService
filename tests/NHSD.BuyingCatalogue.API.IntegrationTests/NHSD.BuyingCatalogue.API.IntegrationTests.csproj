@@ -5,6 +5,11 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
+
   <ItemGroup>
     <SpecFlowObsoleteCodeBehindFiles Remove="Features\Preview\View Solution Only When Published.feature.cs" />
     <SpecFlowObsoleteCodeBehindFiles Remove="Features\Public\Display Marketing Page Public Solution Section - Copy.3507.feature.cs" />

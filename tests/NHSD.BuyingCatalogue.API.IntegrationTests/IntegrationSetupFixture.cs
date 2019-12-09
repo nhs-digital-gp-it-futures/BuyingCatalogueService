@@ -15,7 +15,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests
         [BeforeTestRun]
         public static async Task OneTimeSetUpAsync()
         {
-            await IntegrationTestEnvironment.StartAsync();
+            await IntegrationTestEnvironment.StartAsync().ConfigureAwait(false);
         }
 
         [BeforeScenario()]
@@ -35,7 +35,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests
 
             Service.Instance.ValueRetrievers.Register(new DateTimeValueRetriever());
             Service.Instance.ValueRetrievers.Register(new StringValueRetriever());
-            await Database.ClearAsync();
+            await Database.ClearAsync().ConfigureAwait(false);
         }
     }
 }

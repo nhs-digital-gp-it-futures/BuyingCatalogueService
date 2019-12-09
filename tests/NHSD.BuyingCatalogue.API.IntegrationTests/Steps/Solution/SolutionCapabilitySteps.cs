@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using TechTalk.SpecFlow;
@@ -22,7 +19,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
         [Then(@"the solution capabilities section contains Capabilities")]
         public async Task ThenTheSolutionCapabilitiesSectionContainsCapabilities(Table table)
         {
-            var content = await _response.ReadBody();
+            var content = await _response.ReadBody().ConfigureAwait(false);
 
             content.SelectToken("sections.capabilities.answers.capabilities-met")
                 .Select(s => s.ToString()).Should().BeEquivalentTo(table.CreateSet<CapabilitiesTable>().Select(s => s.Capability));
@@ -31,7 +28,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
         [Then(@"the solution capabilities section contains no Capabilities")]
         public async Task ThenTheSolutionContainsNoCapabilities()
         {
-            var content = await _response.ReadBody();
+            var content = await _response.ReadBody().ConfigureAwait(false);
             content.SelectToken("sections.capabilities.answers.capabilities-met")
                 .Should().BeNullOrEmpty();
         }

@@ -38,7 +38,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         public void GivenFeatureAtPositionIsAStringOfCharacters(int position, int length)
         {
             // List is zero based, so need to minus one.
-            _features[position-1] = GenerateStringOfLength(length);
+            _features[position - 1] = GenerateStringOfLength(length);
         }
 
         [When(@"the update features request is made for (.*)")]
@@ -49,13 +49,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
                 listing = _features
             };
 
-            _response.Result = await Client.PutAsJsonAsync(string.Format(FeaturesUrl, featuresId), content);
+            _response.Result = await Client.PutAsJsonAsync(string.Format(FeaturesUrl, featuresId), content).ConfigureAwait(false);
         }
 
         [Then(@"the features response required field contains (.*)")]
         public async Task ThenTheFeaturesResponseRequiredFieldContainsListing(List<string> listing)
         {
-            var content = await _response.ReadBody();
+            var content = await _response.ReadBody().ConfigureAwait(false);
             content.SelectToken("maxLength").Select(x => x.ToString()).Should().BeEquivalentTo(listing);
         }
 

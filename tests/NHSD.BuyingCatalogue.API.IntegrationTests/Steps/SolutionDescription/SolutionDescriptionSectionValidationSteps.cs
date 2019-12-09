@@ -37,20 +37,20 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
                 link = _context.ContainsKey("link") ? _context["link"] : "DUMMY"
             };
 
-            _response.Result = await Client.PutAsJsonAsync(string.Format(SolutionDescriptionUrl, solutionId), content);
+            _response.Result = await Client.PutAsJsonAsync(string.Format(SolutionDescriptionUrl, solutionId), content).ConfigureAwait(false);
         }
 
         [Then(@"the response required field contains summary")]
         public async Task ThenTheResponseRequiredFieldContainsSummary()
         {
-            var content = await _response.ReadBody();
+            var content = await _response.ReadBody().ConfigureAwait(false);
             content.SelectToken("required").ToString().Should().Contain("summary");
         }
 
         [Then(@"the response maxlength field contains (summary|description|link)")]
         public async Task ThenTheResponseMaxlengthFieldContainsSummary(string field)
         {
-            var content = await _response.ReadBody();
+            var content = await _response.ReadBody().ConfigureAwait(false);
             content.SelectToken("maxLength").ToString().Should().Contain(field);
         }
 

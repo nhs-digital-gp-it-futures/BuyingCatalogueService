@@ -28,13 +28,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
                 {
                     PluginsRequired = content.Required,
                     PluginsDetail = content.AdditionalInformation
-                });
+                }).ConfigureAwait(false);
         }
 
         [When(@"a PUT request is made to update plug-ins section with no solution id")]
         public async Task WhenAPUTRequestIsMadeToUpdatePlug_InsSectionWithNoSolutionId(Table table)
         {
-            await WhenAPUTRequestIsToUpdateSolutionSlnPlug_InsSection(" ", table);
+            await WhenAPUTRequestIsToUpdateSolutionSlnPlug_InsSection(" ", table).ConfigureAwait(false);
         }
 
 

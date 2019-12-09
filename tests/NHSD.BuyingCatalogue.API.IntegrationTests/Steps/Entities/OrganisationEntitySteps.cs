@@ -15,7 +15,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         {
             foreach (var organisation in table.CreateSet<OrganisationTable>())
             {
-                await InsertOrganisationAsync(organisation);
+                await InsertOrganisationAsync(organisation).ConfigureAwait(false);
             }
         }
 
@@ -25,7 +25,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
                 .WithName(organisationTable.Name)
                 .WithId(Guid.NewGuid())
                 .Build()
-                .InsertAsync();
+                .InsertAsync()
+                .ConfigureAwait(false);
         }
 
         private class OrganisationTable

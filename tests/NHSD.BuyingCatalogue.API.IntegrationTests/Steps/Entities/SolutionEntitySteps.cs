@@ -16,7 +16,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         [Given(@"Solutions exist")]
         public async Task GivenSolutionsExist(Table table)
         {
-            var organisations = await OrganisationEntity.FetchAllAsync();
+            var organisations = await OrganisationEntity.FetchAllAsync().ConfigureAwait(false);
 
             foreach (var solutionTable in table.CreateSet<SolutionTable>())
             {
@@ -29,15 +29,16 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                     .WithPublishedStatusId(solutionTable.PublishedStatusId)
                     .WithOnLastUpdated(solutionTable.LastUpdated != DateTime.MinValue ? solutionTable.LastUpdated : DateTime.UtcNow)
                     .Build()
-                    .InsertAsync();
+                    .InsertAsync()
+                    .ConfigureAwait(false);
             }
         }
 
         [Given(@"Solutions are linked to Capabilities")]
         public async Task GivenSolutionsAreLinkedToCapabilities(Table table)
         {
-            var solutions = await SolutionEntity.FetchAllAsync();
-            var capabilities = await CapabilityEntity.FetchAllAsync();
+            var solutions = await SolutionEntity.FetchAllAsync().ConfigureAwait(false);
+            var capabilities = await CapabilityEntity.FetchAllAsync().ConfigureAwait(false);
 
             foreach (var solutionCapabilityTable in table.CreateSet<SolutionCapabilityTable>())
             {
@@ -45,14 +46,15 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                     .WithSolutionId(solutions.First(s => s.Name == solutionCapabilityTable.Solution).Id)
                     .WithCapabilityId(capabilities.First(s => s.Name == solutionCapabilityTable.Capability).Id)
                     .Build()
-                    .InsertAsync();
+                    .InsertAsync()
+                    .ConfigureAwait(false);
             }
         }
 
         [Given(@"a Solution (.*) does not exist")]
         public async Task GivenASolutionSlnDoesNotExist(string solutionId)
         {
-            var solutionList = await SolutionEntity.FetchAllAsync();
+            var solutionList = await SolutionEntity.FetchAllAsync().ConfigureAwait(false);
             solutionList.Select(x => x.Id).Should().NotContain(solutionId);
         }
 
@@ -60,7 +62,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         public async Task ThenSolutionsExist(Table table)
         {
             var expectedSolutions = table.CreateSet<SolutionUpdatedTable>();
-            var solutions = await SolutionEntity.FetchAllAsync();
+            var solutions = await SolutionEntity.FetchAllAsync().ConfigureAwait(false);
             solutions.Select(s => new
             {
                 SolutionID = s.Id,
@@ -71,8 +73,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         [Then(@"the field \[SupplierStatusId] for Solution (.*) should correspond to '(.*)'")]
         public async Task ThenFieldSolutionSupplierStatusIdShouldCorrespondTo(string solutionId, string supplierStatusName)
         {
-            var status = await SolutionSupplierStatusEntity.GetByNameAsync(supplierStatusName);
-            var solution = await SolutionEntity.GetByIdAsync(solutionId);
+            var status = await SolutionSupplierStatusEntity.GetByNameAsync(supplierStatusName).ConfigureAwait(false);
+            var solution = await SolutionEntity.GetByIdAsync(solutionId).ConfigureAwait(false);
 
             solution.SupplierStatusId.Should().Be(status.Id);
         }
@@ -80,7 +82,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         [Then(@"Last Updated has updated on the SolutionEntity for solution (.*)")]
         public async Task LastUpdatedHasUpdatedOnMarketingContact(string solutionId)
         {
-            var contact = await SolutionEntity.GetByIdAsync(solutionId);
+            var contact = await SolutionEntity.GetByIdAsync(solutionId).ConfigureAwait(false);
             contact.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
         }
 

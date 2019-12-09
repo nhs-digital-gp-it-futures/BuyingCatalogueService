@@ -1,8 +1,6 @@
-using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
-using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 
@@ -26,7 +24,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         [When(@"a PUT request is made to update solution solution-description section with no solution id")]
         public async Task WhenARequestIsMadeToSubmitForReviewWithNoSolutionId(Table table)
         {
-            await WhenAPUTRequestIsMadeToUpdateSolutionDescriptionSection(" ", table);
+            await WhenAPUTRequestIsMadeToUpdateSolutionDescriptionSection(" ", table).ConfigureAwait(false);
         }
 
         [When(@"a PUT request is made to update solution (.*) solution-description section")]
@@ -34,20 +32,20 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         {
             var content = table.CreateInstance<SolutionDescriptionPostTable>();
 
-            _response.Result = await Client.PutAsJsonAsync(string.Format(SolutionDescriptionUrl, solutionId), content);
+            _response.Result = await Client.PutAsJsonAsync(string.Format(SolutionDescriptionUrl, solutionId), content).ConfigureAwait(false);
         }
 
         [Then(@"the solution solution-description section contains (link|summary|description) of (.*)")]
         public async Task ThenTheSolutionContains(string field, string value)
         {
-            var content = await _response.ReadBody();
+            var content = await _response.ReadBody().ConfigureAwait(false);
             content.SelectToken($"sections.solution-description.answers.{field}").ToString().Should().Be(value);
         }
 
         [Then(@"the solution solution-description section does not contain (link|summary|description)")]
         public async Task ThenTheSolutionDoesNotContainLink(string field)
         {
-            var content = await _response.ReadBody();
+            var content = await _response.ReadBody().ConfigureAwait(false);
             content.SelectToken($"sections.solution-description.answers.{field}").Should().BeNull();
         }
 

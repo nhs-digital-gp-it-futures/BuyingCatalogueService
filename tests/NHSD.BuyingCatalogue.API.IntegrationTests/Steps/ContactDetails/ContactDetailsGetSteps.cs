@@ -22,14 +22,14 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ContactDetails
         [When(@"a GET request is made for contact-details with solutionId (.*)")]
         public async Task WhenGetRequestIsMadeToDisplaySolutionContactDetailsSections(string solutionId)
         {
-            _response.Result = await Client.GetAsync(string.Format(ContactDetailsUrl, solutionId));
+            _response.Result = await Client.GetAsync(string.Format(ContactDetailsUrl, solutionId)).ConfigureAwait(false);
         }
 
         [Then(@"the contact-detail (contact-1|contact-2) has details")]
         public async Task ThenTheContact_DetailContactHasDetails(string contact, Table table)
         {
             var expected = table.CreateSet<ContactDetailsResultTable>().Single();
-            var content = await _response.ReadBody();
+            var content = await _response.ReadBody().ConfigureAwait(false);
             var contactDetails = content.SelectToken($"{contact}");
             contactDetails.SelectToken("department-name")?.ToString().Should().BeEquivalentTo(expected.DepartmentName);
             contactDetails.SelectToken("first-name")?.ToString().Should().BeEquivalentTo(expected.FirstName);
@@ -41,7 +41,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ContactDetails
         [Then(@"there is no (contact-1|contact-2|contact-3) for the contact-detail")]
         public async Task ThenThereIsNoContactForTheContact_Detail(string contact)
         {
-            var content = await _response.ReadBody();
+            var content = await _response.ReadBody().ConfigureAwait(false);
             var contactDetails = content.SelectToken($"{contact}");
             contactDetails.Should().BeNull();
         }

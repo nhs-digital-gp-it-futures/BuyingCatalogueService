@@ -1,8 +1,6 @@
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-using FluentAssertions;
 using NHSD.BuyingCatalogue.Testing.Tools;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Drivers
@@ -21,13 +19,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Drivers
 
         internal static async Task AwaitApiRunningAsync()
         {
-            await AwaitApiRunningAsync(WaitServerUrl);
-            await AwaitApiRunningAsync(WaitServerUrlDependencies);
+            await AwaitApiRunningAsync(WaitServerUrl).ConfigureAwait(false);
+            await AwaitApiRunningAsync(WaitServerUrlDependencies).ConfigureAwait(false);
         }
 
-		internal static async Task AwaitApiRunningAsync(string url)
+        internal static async Task AwaitApiRunningAsync(string url)
         {
-            var started = await HttpClientAwaiter.WaitForGetAsync(url, TestTimeout);
+            var started = await HttpClientAwaiter.WaitForGetAsync(url, TestTimeout).ConfigureAwait(false);
             if (!started)
             {
                 throw new Exception($"Start Buying Catalogue API failed, could not get a successful health status from '{url}' after trying for '{TestTimeout}'");

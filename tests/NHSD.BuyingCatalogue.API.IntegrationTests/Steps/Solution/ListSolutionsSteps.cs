@@ -28,35 +28,35 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         [When(@"a GET request is made containing no selection criteria")]
         public async Task WhenAGETRequestIsMadeContainingNoSelectionCriteria()
         {
-            _response.Result = await Client.GetAsync(ListSolutionsUrl);
+            _response.Result = await Client.GetAsync(ListSolutionsUrl).ConfigureAwait(false);
         }
 
         [When(@"a POST request is made containing no selection criteria")]
         public async Task WhenAPOSTRequestIsMadeContainingNoSelectionCriteria()
         {
-            await SendPostRequest(await BuildRequestAsync(new List<string>()));
+            await SendPostRequest(await BuildRequestAsync(new List<string>()).ConfigureAwait(false)).ConfigureAwait(false);
         }
 
         [When(@"a POST request is made containing a single capability '(.*)'")]
         public async Task WhenAPOSTRequestIsMadeContainingASingleCapability(string capability)
         {
-            await SendPostRequest(await BuildRequestAsync(new List<string> { capability }));
+            await SendPostRequest(await BuildRequestAsync(new List<string> { capability }).ConfigureAwait(false)).ConfigureAwait(false);
         }
 
         [When(@"a POST request is made containing the capabilities (.*)")]
         public async Task WhenARequestContainingTheCapabilities(List<string> capabilities)
         {
-            await SendPostRequest(await BuildRequestAsync(capabilities));
+            await SendPostRequest(await BuildRequestAsync(capabilities).ConfigureAwait(false)).ConfigureAwait(false);
         }
 
         private async Task SendPostRequest(SolutionsRequest solutionsRequest)
         {
-            _response.Result = await Client.PostAsJsonAsync(ListSolutionsUrl, solutionsRequest);
+            _response.Result = await Client.PostAsJsonAsync(ListSolutionsUrl, solutionsRequest).ConfigureAwait(false);
         }
 
         private async Task<SolutionsRequest> BuildRequestAsync(IEnumerable<string> capabilityNames)
         {
-            var capabilities = await CapabilityEntity.FetchAllAsync();
+            var capabilities = await CapabilityEntity.FetchAllAsync().ConfigureAwait(false);
             return new SolutionsRequest { Capabilities = new HashSet<string>(capabilityNames.Select(cn => capabilities.First(c => c.Name == cn).Id.ToString())) };
         }
 
@@ -64,14 +64,14 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         public async Task ThenTheSolutionsAreFoundInTheResponse(List<string> solutions)
         {
             solutions = solutions.Where(s => !String.IsNullOrWhiteSpace(s)).ToList();
-            var content = await _response.ReadBody();
+            var content = await _response.ReadBody().ConfigureAwait(false);
             content.SelectToken("solutions").Select(t => t.SelectToken("name").ToString()).Should().BeEquivalentTo(solutions);
         }
 
         [Then(@"the solutions (.*) are not found in the response")]
         public async Task ThenTheSolutionsAreNotFoundInTheResponse(List<string> solutions)
         {
-            var content = await _response.ReadBody();
+            var content = await _response.ReadBody().ConfigureAwait(false);
             foreach (var solution in solutions)
             {
                 content.SelectToken("solutions").Select(t => t.SelectToken("name").ToString()).Should().NotContain(solution);
@@ -82,7 +82,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         public async Task ThenTheDetailsOfTheSolutionsReturnedAreAsFollows(Table table)
         {
             var expectedSolutions = table.CreateSet<SolutionDetailsTable>();
-            var solutions = (await _response.ReadBody()).SelectToken("solutions");
+            var solutions = (await _response.ReadBody().ConfigureAwait(false)).SelectToken("solutions");
 
             foreach (var expectedSolution in expectedSolutions)
             {

@@ -22,7 +22,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         [Then(@"the features element contains")]
         public async Task ThenTheFeaturesElementContains(Table table)
         {
-            var content = await _response.ReadBody();
+            var content = await _response.ReadBody().ConfigureAwait(false);
             content.SelectToken("listing")
                 .Select(s => s.ToString())
                 .Should().BeEquivalentTo(table.CreateSet<FeaturesTable>().Select(s => s.Features));

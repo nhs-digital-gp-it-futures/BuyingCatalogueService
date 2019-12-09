@@ -26,19 +26,19 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         [When(@"a request is made to submit Solution (.*) for review")]
         public async Task WhenARequestIsMadeToSubmitSlnForReview(string solutionId)
         {
-            _response.Result = await Client.PutAsync(string.Format(SubmitForReviewSolutionsUrl, solutionId));
+            _response.Result = await Client.PutAsync(string.Format(SubmitForReviewSolutionsUrl, solutionId)).ConfigureAwait(false);
         }
 
         [When(@"a request is made to submit Solution for review with no solution id")]
         public async Task WhenARequestIsMadeToSubmitForReviewWithNoSolutionId()
         {
-            _response.Result = await Client.PutAsync(string.Format(SubmitForReviewSolutionsUrl, " "));
+            _response.Result = await Client.PutAsync(string.Format(SubmitForReviewSolutionsUrl, " ")).ConfigureAwait(false);
         }
 
         [Then(@"the response details of the submit Solution for review request are as follows")]
         public async Task ThenTheDetailsOfTheSolutionsReturnedAreAsFollows(Table table)
         {
-            var response = await _response.ReadBody();
+            var response = await _response.ReadBody().ConfigureAwait(false);
 
             var expectedSectionErrorTable = table.CreateSet<SubmitSolutionForReviewResponseTable>();
             foreach (var expectedSectionError in expectedSectionErrorTable)

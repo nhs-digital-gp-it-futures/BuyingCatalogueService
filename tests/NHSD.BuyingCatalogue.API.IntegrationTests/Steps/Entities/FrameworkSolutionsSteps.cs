@@ -13,7 +13,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         {
             foreach (var frameworkSolution in table.CreateSet<FrameworkSolutionsTable>())
             {
-                await InsertFrameworkSolutionsAsync(frameworkSolution);
+                await InsertFrameworkSolutionsAsync(frameworkSolution).ConfigureAwait(false);
             }
         }
 
@@ -23,7 +23,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 .WithSolutionId(table.SolutionId)
                 .WithFoundation(table.IsFoundation)
                 .Build()
-                .InsertAsync();
+                .InsertAsync()
+                .ConfigureAwait(false);
         }
 
         private class FrameworkSolutionsTable

@@ -26,7 +26,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         [When(@"a PUT request is made to update solution features section with no solution id")]
         public async Task WhenARequestIsMadeToSubmitForReviewWithNoSolutionId(Table table)
         {
-            await WhenAPUTRequestIsMadeToUpdateSolutionSlnFeatures(" ", table);
+            await WhenAPUTRequestIsMadeToUpdateSolutionSlnFeatures(" ", table).ConfigureAwait(false);
         }
 
         [When(@"a PUT request is made to update solution (.*) features section")]
@@ -34,13 +34,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         {
             var content = table.CreateInstance<FeaturesPostTable>();
 
-            _response.Result = await Client.PutAsJsonAsync(string.Format(FeaturesUrl, solutionId), new { Listing = content.Features });
+            _response.Result = await Client.PutAsJsonAsync(string.Format(FeaturesUrl, solutionId), new { Listing = content.Features }).ConfigureAwait(false);
         }
 
         [Then(@"the solution features section contains Features")]
         public async Task ThenTheSolutionContainsFeatures(Table table)
         {
-            var content = await _response.ReadBody();
+            var content = await _response.ReadBody().ConfigureAwait(false);
             content.SelectToken("sections.features.answers.listing")
                 .Select(s => s.ToString()).Should().BeEquivalentTo(table.CreateSet<FeaturesTable>().Select(s => s.Feature));
         }
@@ -48,7 +48,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         [Then(@"the solution features section contains no features")]
         public async Task ThenTheSolutionContainsNoFeatures()
         {
-            var content = await _response.ReadBody();
+            var content = await _response.ReadBody().ConfigureAwait(false);
             content.SelectToken("sections.features.answers.listing")
                 .Should().BeNullOrEmpty();
         }

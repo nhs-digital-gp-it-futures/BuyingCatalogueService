@@ -27,13 +27,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         [When(@"a GET request is made for the capability list")]
         public async Task WhenAGETRequestIsMadeForTheCapabilityList()
         {
-            _response.Result = await Client.GetAsync(ListCapabilitiesUrl);
+            _response.Result = await Client.GetAsync(ListCapabilitiesUrl).ConfigureAwait(false);
         }
 
         [Then(@"the capabilities are returned ordered by IsFoundation then Capability Name")]
         public async Task ThenTheCapabilitiesAreReturnedOrderedByIsFoundationThenCapabilityName(Table table)
         {
-            var storedCapabilities = await CapabilityEntity.FetchAllAsync();
+            var storedCapabilities = await CapabilityEntity.FetchAllAsync().ConfigureAwait(false);
 
             var expectedCapabilities = table.CreateSet<CapabilityTable>().Select(t => new
             {
@@ -42,7 +42,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
                 IsFoundation = t.IsFoundation
             });
 
-            var capabilities = (await _response.ReadBody())
+            var capabilities = (await _response.ReadBody().ConfigureAwait(false))
                 .SelectToken("capabilities")
                 .Select(t => new
                 {

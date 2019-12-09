@@ -1,4 +1,3 @@
-using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,46 +11,46 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
         public static async Task<HttpResponseMessage> GetAsync(string requestUrl)
         {
             using HttpClient client = new HttpClient();
-            return await client.GetAsync(requestUrl);
+            return await client.GetAsync(requestUrl).ConfigureAwait(false);
         }
 
         public static async Task<HttpResponseMessage> PostAsJsonAsync(string requestUrl, object content)
         {
-            return await PostAsync(requestUrl, JsonConvert.SerializeObject(content));
+            return await PostAsync(requestUrl, JsonConvert.SerializeObject(content)).ConfigureAwait(false);
         }
 
         public static async Task<HttpResponseMessage> PostAsync(string requestUrl, string content, string contentType = "application/json")
         {
             using HttpClient client = new HttpClient();
-            return await client.PostAsync(requestUrl, new StringContent(content, Encoding.UTF8, contentType));
+            return await client.PostAsync(requestUrl, new StringContent(content, Encoding.UTF8, contentType)).ConfigureAwait(false);
         }
 
         public static async Task<HttpResponseMessage> PutAsJsonAsync(string requestUrl, JObject content)
         {
-            return await PutAsync(requestUrl, content);
+            return await PutAsync(requestUrl, content).ConfigureAwait(false);
         }
 
         public static async Task<HttpResponseMessage> PutAsync(string requestUrl, JObject content, string contentType = "application/json")
         {
             using HttpClient client = new HttpClient();
-            return await client.PutAsync(requestUrl, new StringContent(content.ToString(), Encoding.UTF8, contentType));
+            return await client.PutAsync(requestUrl, new StringContent(content.ToString(), Encoding.UTF8, contentType)).ConfigureAwait(false);
         }
 
         public static async Task<HttpResponseMessage> PutAsJsonAsync(string requestUrl, object content)
         {
-            return await PutAsync(requestUrl, JsonConvert.SerializeObject(content));
+            return await PutAsync(requestUrl, JsonConvert.SerializeObject(content)).ConfigureAwait(false);
         }
 
         public static async Task<HttpResponseMessage> PutAsync(string requestUrl, object content, string contentType = "application/json")
         {
             using HttpClient client = new HttpClient();
-            return await client.PutAsync(requestUrl, new StringContent(content.ToString(), Encoding.UTF8, contentType));
+            return await client.PutAsync(requestUrl, new StringContent(content.ToString(), Encoding.UTF8, contentType)).ConfigureAwait(false);
         }
 
         public static async Task<HttpResponseMessage> PutAsync(string requestUrl)
         {
             using HttpClient client = new HttpClient();
-            return await client.PutAsync(requestUrl, null);
+            return await client.PutAsync(requestUrl, null).ConfigureAwait(false);
         }
     }
 }

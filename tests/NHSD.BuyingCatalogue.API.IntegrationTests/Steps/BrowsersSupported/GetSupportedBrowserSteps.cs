@@ -1,5 +1,4 @@
 using System.Linq;
-using System.Net.Mime;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
@@ -24,7 +23,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         [Then(@"the supported-browsers element contains")]
         public async Task ThenTheSupportedBrowsersElementContains(Table table)
         {
-            var context = await _response.ReadBody();
+            var context = await _response.ReadBody().ConfigureAwait(false);
             context.SelectToken("supported-browsers")
                 .Select(s => s.ToString())
                 .Should().BeEquivalentTo(table.CreateSet<SupportedBrowsersTable>().Select(s => s.BrowsersSupported));
@@ -34,7 +33,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         [Then(@"the mobile-responsive element is (Yes|No)")]
         public async Task ThenTheMobile_ResponsiveElementContains(string mobileResponsive)
         {
-            var context = await _response.ReadBody();
+            var context = await _response.ReadBody().ConfigureAwait(false);
             context.SelectToken("mobile-responsive").Value<string>()
                 .Should().Be(mobileResponsive);
         }
@@ -42,7 +41,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         [Then(@"the mobile-responsive element is null")]
         public async Task ThenTheMobile_ResponsiveElementIsNull()
         {
-            var context = await _response.ReadBody();
+            var context = await _response.ReadBody().ConfigureAwait(false);
             context.SelectToken("mobile-responsive")
                 .Should().BeNull();
         }

@@ -29,14 +29,15 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                     .WithClientApplication(solutionDetail.ClientApplication)
                     .WithLastUpdated(solutionDetail.LastUpdated != DateTime.MinValue ? solutionDetail.LastUpdated : DateTime.UtcNow)
                     .Build()
-                    .InsertAndSetCurrentForSolutionAsync();
+                    .InsertAndSetCurrentForSolutionAsync()
+                    .ConfigureAwait(false);
             }
         }
 
         [Given(@"a SolutionDetail (.*) does not exist")]
         public async Task GivenASolutionDetailDoesNotExist(string solutionId)
         {
-            var solutionDetailList = await SolutionDetailEntity.FetchAllAsync();
+            var solutionDetailList = await SolutionDetailEntity.FetchAllAsync().ConfigureAwait(false);
             solutionDetailList.Select(x => x.SolutionId).Should().NotContain(solutionId);
         }
 
@@ -52,7 +53,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 FullDescription = string.IsNullOrWhiteSpace(m.FullDescription) ? null : m.FullDescription,
                 ClientApplication = string.IsNullOrWhiteSpace(m.ClientApplication) ? null : JToken.Parse(m.ClientApplication).ToString()
             });
-            var solutionDetails = await SolutionDetailEntity.FetchAllAsync();
+            var solutionDetails = await SolutionDetailEntity.FetchAllAsync().ConfigureAwait(false);
             solutionDetails.Select(m => new
             {
                 Solution = m.SolutionId,
@@ -67,7 +68,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         [Then(@"Last Updated has updated on the SolutionDetail for solution (.*)")]
         public async Task LastUpdatedHasUpdatedOnSolutionDetail(string solutionId)
         {
-            var solutionDetail = await SolutionDetailEntity.GetBySolutionIdAsync(solutionId);
+            var solutionDetail = await SolutionDetailEntity.GetBySolutionIdAsync(solutionId).ConfigureAwait(false);
             solutionDetail.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
         }
 
