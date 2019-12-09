@@ -41,7 +41,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Mock.Of<ISolution>(s => s.Features == expected));
 
-            var result = (await _featuresController.GetFeaturesAsync(SolutionId)) as ObjectResult;
+            var result = (await _featuresController.GetFeaturesAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
             (result.Value as FeaturesResult).Listing.Should().BeEquivalentTo(expected);
@@ -63,7 +63,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             };
             _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionFeaturesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionFeaturesViewModel == featuresUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
             var result =
-                (await _featuresController.UpdateFeaturesAsync(SolutionId, featuresUpdateViewModel)) as
+                (await _featuresController.UpdateFeaturesAsync(SolutionId, featuresUpdateViewModel).ConfigureAwait(false)) as
                     BadRequestObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
@@ -83,7 +83,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionFeaturesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionFeaturesViewModel == featuresUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
             var result =
-                (await _featuresController.UpdateFeaturesAsync(SolutionId, featuresUpdateViewModel)) as NoContentResult;
+                (await _featuresController.UpdateFeaturesAsync(SolutionId, featuresUpdateViewModel).ConfigureAwait(false)) as NoContentResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
             _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionFeaturesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionFeaturesViewModel == featuresUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);

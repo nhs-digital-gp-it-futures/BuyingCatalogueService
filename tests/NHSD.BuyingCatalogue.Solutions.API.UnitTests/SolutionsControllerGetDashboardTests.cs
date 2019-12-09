@@ -34,7 +34,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task ShouldReturnNotFound()
         {
-            var result = (await _solutionsController.Dashboard(SolutionId)).Result as NotFoundResult;
+            var result = (await _solutionsController.Dashboard(SolutionId).ConfigureAwait(false)).Result as NotFoundResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
 
@@ -60,7 +60,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase("Sln2", "Bob")]
         public async Task ShouldReturnNameId(string id, string name)
         {
-            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s => s.Id == id && s.Name == name));
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s => s.Id == id && s.Name == name)).ConfigureAwait(false);
             dashboardResult.Id.Should().Be(id);
             dashboardResult.Name.Should().Be(name);
         }
@@ -68,7 +68,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task ShouldReturnSolutionDashboardStaticData()
         {
-            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>());
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>()).ConfigureAwait(false);
             var solutionDashboardSections = dashboardResult.SolutionDashboardSections;
 
             solutionDashboardSections.Should().NotBeNull();
@@ -85,7 +85,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task ShouldGetDashboardCalculateCompleteNull()
         {
-            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>());
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>()).ConfigureAwait(false);
             var solutionDashboardSections = dashboardResult.SolutionDashboardSections;
 
             solutionDashboardSections.Should().NotBeNull();
@@ -108,7 +108,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
         public async Task ShouldGetDashboardCalculateSolutionDescription(string summary, string description, string link, string result)
         {
-            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s => s.Summary == summary && s.Description == description && s.AboutUrl == link));
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s => s.Summary == summary && s.Description == description && s.AboutUrl == link)).ConfigureAwait(false);
             dashboardResult.SolutionDashboardSections.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.SolutionDescriptionSection.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.SolutionDescriptionSection.Status.Should().Be(result);
@@ -118,9 +118,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase(true, "COMPLETE")]
         public async Task ShouldGetDashboardCalculateCompleteFeatures(bool isFeatures, string result)
         {
-            var features = isFeatures ? new[] { "Feature1", "Feature2" } : new string[0];
+            var features = isFeatures ? new[] { "Feature1", "Feature2" } : Array.Empty<string>();
 
-            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s => s.Features == features));
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s => s.Features == features)).ConfigureAwait(false);
             dashboardResult.SolutionDashboardSections.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.FeaturesSection.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.FeaturesSection.Status.Should().Be(result);
@@ -131,7 +131,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s =>
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == new HashSet<string> { "browser-based" })));
+                    c.ClientApplicationTypes == new HashSet<string> { "browser-based" }))).ConfigureAwait(false);
 
             dashboardResult.SolutionDashboardSections.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section.Should().BeOfType<ClientApplicationTypesSubSections>();
@@ -145,7 +145,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s =>
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == new HashSet<string> { "native-mobile" })));
+                    c.ClientApplicationTypes == new HashSet<string> { "native-mobile" }))).ConfigureAwait(false);
 
             dashboardResult.SolutionDashboardSections.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section.Should().BeOfType<ClientApplicationTypesSubSections>();
@@ -159,7 +159,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s =>
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == new HashSet<string> { "native-desktop" })));
+                    c.ClientApplicationTypes == new HashSet<string> { "native-desktop" }))).ConfigureAwait(false);
 
             dashboardResult.SolutionDashboardSections.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section.Should().BeOfType<ClientApplicationTypesSubSections>();
@@ -180,7 +180,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
                     c.ClientApplicationTypes == new HashSet<string> { "browser-based" } &&
                     c.BrowsersSupported == (someBrowsersSupported ? new HashSet<string> { "Edge", "Chrome" } : new HashSet<string>()) &&
-                    c.MobileResponsive == mobileResponsive)));
+                    c.MobileResponsive == mobileResponsive))).ConfigureAwait(false);
 
             dashboardResult.SolutionDashboardSections.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section.Should().BeOfType<ClientApplicationTypesSubSections>();
@@ -197,7 +197,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 Mock.Of<IContact>(c => c.Name == "Cool McRule")
             };
             var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s =>
-                s.Contacts == contactMock));
+                s.Contacts == contactMock)).ConfigureAwait(false);
             dashboardResult.SolutionDashboardSections.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.ContactDetailsSection.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.ContactDetailsSection.Status.Should().Be("COMPLETE");
@@ -208,7 +208,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var contactMock = new List<IContact>();
             var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s =>
-                s.Contacts == contactMock));
+                s.Contacts == contactMock)).ConfigureAwait(false);
             dashboardResult.SolutionDashboardSections.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.ContactDetailsSection.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.ContactDetailsSection.Status.Should().Be("INCOMPLETE");
@@ -223,7 +223,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 Mock.Of<IContact>(c => c.Name == "" && c.Department == "            ")
             };
             var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s =>
-                s.Contacts == contactMock));
+                s.Contacts == contactMock)).ConfigureAwait(false);
             dashboardResult.SolutionDashboardSections.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.ContactDetailsSection.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.ContactDetailsSection.Status.Should().Be("INCOMPLETE");
@@ -235,7 +235,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(solution);
 
-            var result = (await _solutionsController.Dashboard(SolutionId)).Result as ObjectResult;
+            var result = (await _solutionsController.Dashboard(SolutionId).ConfigureAwait(false)).Result as ObjectResult;
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
             _mockMediator.Verify(

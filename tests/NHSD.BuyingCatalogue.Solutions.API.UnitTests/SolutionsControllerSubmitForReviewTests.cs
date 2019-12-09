@@ -35,7 +35,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             SetupMockMediator(new SubmitSolutionForReviewCommandResult());
 
-            var result = await _solutionsController.SubmitForReviewAsync(SolutionId) as NoContentResult;
+            var result = await _solutionsController.SubmitForReviewAsync(SolutionId).ConfigureAwait(false) as NoContentResult;
 
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(204);
@@ -49,7 +49,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var expected = SubmitSolutionForReviewResult.Create(new ReadOnlyCollection<ValidationError>(expectedErrorList));
             SetupMockMediator(new SubmitSolutionForReviewCommandResult(expectedErrorList));
 
-            var result = await _solutionsController.SubmitForReviewAsync(SolutionId) as BadRequestObjectResult;
+            var result = await _solutionsController.SubmitForReviewAsync(SolutionId).ConfigureAwait(false) as BadRequestObjectResult;
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(400);
 

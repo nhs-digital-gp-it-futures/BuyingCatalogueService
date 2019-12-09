@@ -75,7 +75,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             if(hasThirdContact)
                 _returnedContacts.Add(Contact3);
 
-            var result = (await _contactDetailsController.GetContactDetailsAsync(SolutionId)) as ObjectResult;
+            var result = (await _contactDetailsController.GetContactDetailsAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
 
             result.StatusCode.Should().Be(200);
 
@@ -101,7 +101,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             _returnedContacts.Add(Contact1);
 
-            var result = (await _contactDetailsController.GetContactDetailsAsync(SolutionId)) as ObjectResult;
+            var result = (await _contactDetailsController.GetContactDetailsAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
 
             result.StatusCode.Should().Be(200);
 
@@ -120,7 +120,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         public async Task ContactDetailsNotFoundWhenContactsIsNull()
         {
             _returnedContacts = null;
-            var result = (await _contactDetailsController.GetContactDetailsAsync(SolutionId)) as NotFoundResult;
+            var result = (await _contactDetailsController.GetContactDetailsAsync(SolutionId).ConfigureAwait(false)) as NotFoundResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
 
@@ -130,7 +130,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task TwoNullContactFromEmptyList()
         {
-            var result = (await _contactDetailsController.GetContactDetailsAsync(SolutionId)) as ObjectResult;
+            var result = (await _contactDetailsController.GetContactDetailsAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
 
             result.StatusCode.Should().Be(200);
 
@@ -146,7 +146,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         public async Task UpdateContactDetailsSuccessReturnsNoErrors()
         {
             var sentModel = new UpdateSolutionContactDetailsViewModel();
-            var result = await _contactDetailsController.UpdateContactDetailsAsync(SolutionId, sentModel) as NoContentResult;
+            var result = await _contactDetailsController.UpdateContactDetailsAsync(SolutionId, sentModel).ConfigureAwait(false) as NoContentResult;
             result.Should().NotBeNull();
             result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
             _mockMediator.Verify(x => x.Send(It.Is<UpdateSolutionContactDetailsCommand>(x => x.SolutionId == SolutionId && x.Details == sentModel), It.IsAny<CancellationToken>()));
@@ -158,7 +158,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             _validationResult = new UpdateSolutionContactDetailsValidationResult { MaxLength = { "This update was too cool for school" } };
             var expectedResponse = new UpdateSolutionContactDetailsResult(_validationResult);
 
-            var result = await _contactDetailsController.UpdateContactDetailsAsync(SolutionId, new UpdateSolutionContactDetailsViewModel()) as BadRequestObjectResult;
+            var result = await _contactDetailsController.UpdateContactDetailsAsync(SolutionId, new UpdateSolutionContactDetailsViewModel()).ConfigureAwait(false) as BadRequestObjectResult;
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(400);
 
