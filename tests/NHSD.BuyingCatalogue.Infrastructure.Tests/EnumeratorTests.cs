@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Infrastructure.Tests
 {
     [TestFixture]
-    public class EnumerationTests
+    public class EnumeratorTests
     {
         [Test]
         public void GivenSameValuesShouldBeEqual()
@@ -48,7 +48,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
                 SizeType.Large
             };
 
-            var actual = Enumeration.GetAll<SizeType>();
+            var actual = Enumerator.GetAll<SizeType>();
 
             actual.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
         }
@@ -56,17 +56,17 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
         [Test]
         public void FromValueGivenValueSmallShouldBeEqual()
         {
-            Enumeration.FromValue<SizeType>(1).Should().Be(SizeType.Small);
+            Enumerator.FromValue<SizeType>(1).Should().Be(SizeType.Small);
         }
 
         [Test]
         public void FromValueGivenValueFourShouldThrow()
         {
             var expectedValue = 4;
-            
+
             var exception = Assert.Throws<InvalidOperationException>(() =>
             {
-                var actual = Enumeration.FromValue<SizeType>(expectedValue);
+                var actual = Enumerator.FromValue<SizeType>(expectedValue);
             });
 
             exception.Message.Should().Be($"'{expectedValue}' is not a valid value in {typeof(SizeType)}");
@@ -75,7 +75,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
         [Test]
         public void FromNameGivenNameMediumShouldBeEqual()
         {
-            Enumeration.FromName<SizeType>("medium").Should().Be(SizeType.Medium);            
+            Enumerator.FromName<SizeType>("medium").Should().Be(SizeType.Medium);
         }
 
         [Test]
@@ -85,16 +85,10 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
 
             var exception = Assert.Throws<InvalidOperationException>(() =>
             {
-                _ = Enumeration.FromName<SizeType>(expectedName);
+                _ = Enumerator.FromName<SizeType>(expectedName);
             });
 
             exception.Message.Should().Be($"'{expectedName}' is not a valid name in {typeof(SizeType)}");
-        }
-
-        [Test]
-        public void CompareToGivenSizeTypeSmallShouldBeEqual()
-        {
-            SizeType.Small.CompareTo(SizeType.Small).Should().Be(0);   
         }
 
         [Test]
@@ -109,7 +103,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
             SizeType.Small.GetHashCode().Should().Be(1.GetHashCode());
         }
 
-        private sealed class SizeType : Enumeration
+        private sealed class SizeType : Enumerator
         {
             public static SizeType Small = new SizeType(1, "Small");
             public static SizeType Medium = new SizeType(2, "Medium");
