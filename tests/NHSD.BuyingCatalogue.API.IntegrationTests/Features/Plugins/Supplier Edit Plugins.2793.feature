@@ -17,15 +17,15 @@ Background:
 @2786
 Scenario: 1. Plugins is updated
     Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                             |
-        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : false, "AdditionalInformation": "orem ipsum" } } |
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                      |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : false, "AdditionalInformation": "orem ipsum" }, "HardwareRequirements": "Hardware Info" } |
     When a PUT request is to update solution Sln1 plug-ins section
         | Required | AdditionalInformation     |
         | yEs      | This is extra information |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                                            |
-        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : { "Required" : true , "AdditionalInformation": "This is extra information"} } |
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                     |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : { "Required" : true , "AdditionalInformation": "This is extra information"}, "HardwareRequirements": "Hardware Info" } |
     And Last Updated has updated on the SolutionDetail for solution Sln1
                                                                                                                                                                              
 @2786

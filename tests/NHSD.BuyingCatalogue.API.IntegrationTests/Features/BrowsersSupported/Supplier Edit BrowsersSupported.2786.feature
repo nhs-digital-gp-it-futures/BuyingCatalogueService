@@ -22,19 +22,19 @@ Background:
 @2786
 Scenario: 1. Browser Supported is updated
     Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                    |
-        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins": null } |
-        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                                      |
-        | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                                         |
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                    |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins": null, "HardwareRequirements": "Hardware Information" } |
+        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                                                                                      |
+        | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                                                                                         |
     When a PUT request is made to update solution Sln1 browsers-supported section
         | BrowsersSupported | MobileResponsive |
         | Chrome, Edge      | yeS              |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                    |
-        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true, "Plugins": null} |
-        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                                      |
-        | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                                         |
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                    |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true, "Plugins": null, "HardwareRequirements": "Hardware Information"} |
+        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                                                                                      |
+        | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                                                                                         |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @2786

@@ -11,5 +11,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public bool? MobileResponsive { get; set; }
 
         public Plugins Plugins { get; set; }
+
+        public string HardwareRequirements { get; set; }
     }
 }

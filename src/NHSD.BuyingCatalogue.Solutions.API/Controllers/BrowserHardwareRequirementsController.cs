@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionHardwareRequirements;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 {
@@ -15,11 +16,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
     [ApiController]
     [Produces("application/json")]
     [AllowAnonymous]
-    public class HardwareRequirementsController : ControllerBase
+    public class BrowserHardwareRequirementsController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public HardwareRequirementsController(IMediator mediator)
+        public BrowserHardwareRequirementsController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -29,16 +30,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public ActionResult GetHardwareRequirementsAsync([FromRoute][Required]string id)
+        public async Task<ActionResult> GetHardwareRequirementsAsync([FromRoute][Required]string id)
         {
-            var result = new GetHardwareRequirementsResult()
-            {
-                HardwareRequirements = _cannedData.Keys.Contains(id) ? _cannedData[id] : null
-            };
-
-            return Ok(result);
-            //var solution = await _mediator.Send(new GetSolutionByIdQuery(id)).ConfigureAwait(false);
-            //return solution == null ? (ActionResult)new NotFoundResult() : Ok(new GetHardwareRequirementsResult());
+            var solution = await _mediator.Send(new GetSolutionByIdQuery(id)).ConfigureAwait(false);
+            return solution == null ? (ActionResult)new NotFoundResult() : Ok(new GetBrowserHardwareRequirementsResult(solution.ClientApplication.HardwareRequirements));
         }
 
         [HttpPut]
