@@ -16,12 +16,13 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             return await SqlRunner.FetchAllAsync<SolutionSupplierStatusEntity>($@"
             SELECT  [Id]
                     ,[Name]
-            FROM    SolutionSupplierStatus");
+            FROM    SolutionSupplierStatus")
+                .ConfigureAwait(false);
         }
 
         public static async Task<SolutionSupplierStatusEntity> GetByNameAsync(string name, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
         {
-            return (await FetchAllAsync()).First(item => name.Equals(item.Name, stringComparison));
+            return (await FetchAllAsync().ConfigureAwait(false)).First(item => name.Equals(item.Name, stringComparison));
         }
     }
 }

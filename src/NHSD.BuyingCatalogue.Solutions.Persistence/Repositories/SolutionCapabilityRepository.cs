@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Persistence.Models;
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
@@ -22,6 +22,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                                 ORDER BY Capability.Name";
 
         public async Task<IEnumerable<ISolutionCapabilityListResult>> ListSolutionCapabilities(string solutionId, CancellationToken cancellationToken)
-            => await _dbConnector.QueryAsync<SolutionCapabilityListResult>(cancellationToken, sql, new{solutionId});
+            => await _dbConnector.QueryAsync<SolutionCapabilityListResult>(sql, cancellationToken, new{solutionId}).ConfigureAwait(false);
     }
 }

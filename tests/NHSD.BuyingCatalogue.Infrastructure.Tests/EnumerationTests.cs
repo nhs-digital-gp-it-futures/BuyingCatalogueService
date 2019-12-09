@@ -8,19 +8,38 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
     public class EnumerationTests
     {
         [Test]
-        public void GivenSameValues_ShouldBeEqual()
+        public void GivenSameValuesShouldBeEqual()
         {
             SizeType.Small.Equals(SizeType.Small);
         }
 
         [Test]
-        public void GivenDifferentValues_ShouldNotBeEqual()
+        public void GivenDifferentValuesShouldNotBeEqual()
         {
             SizeType.Small.Should().NotBe(SizeType.Large);
         }
 
         [Test]
-        public void GetAll_ShouldReturnAllValues()
+        public void GivenNullValuesShouldNotBeEqual()
+        {
+            SizeType nullValue = null;
+            SizeType.Small.Equals(nullValue).Should().BeFalse();
+        }
+
+        [Test]
+        public void GivenNonEnumerableValuesShouldNotBeEqual()
+        {
+            SizeType.Small.Should().NotBe("Elephant");
+        }
+
+        [Test]
+        public void GivenPrimitiveValuesShouldNotBeEqual()
+        {
+            SizeType.Small.Should().NotBe(4);
+        }
+
+        [Test]
+        public void GetAllShouldReturnAllValues()
         {
             var expected = new[]
             {
@@ -35,13 +54,13 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
         }
 
         [Test]
-        public void FromValue_GivenValueSmall_ShouldBeEqual()
+        public void FromValueGivenValueSmallShouldBeEqual()
         {
             Enumeration.FromValue<SizeType>(1).Should().Be(SizeType.Small);
         }
 
         [Test]
-        public void FromValue_GivenValueFour_ShouldThrow()
+        public void FromValueGivenValueFourShouldThrow()
         {
             var expectedValue = 4;
             
@@ -54,13 +73,13 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
         }
 
         [Test]
-        public void FromName_GivenNameMedium_ShouldBeEqual()
+        public void FromNameGivenNameMediumShouldBeEqual()
         {
             Enumeration.FromName<SizeType>("medium").Should().Be(SizeType.Medium);            
         }
 
         [Test]
-        public void FromName_GivenNameExtraLarge_ShouldThrow()
+        public void FromNameGivenNameExtraLargeShouldThrow()
         {
             var expectedName = "extra large";
 
@@ -73,15 +92,21 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
         }
 
         [Test]
-        public void CompareTo_GivenSizeTypeSmall_ShouldBeEqual()
+        public void CompareToGivenSizeTypeSmallShouldBeEqual()
         {
             SizeType.Small.CompareTo(SizeType.Small).Should().Be(0);   
         }
 
         [Test]
-        public void ToString_GivenSizeTypeSmall_ShouldBeEqual()
+        public void ToStringGivenSizeTypeSmallShouldBeEqual()
         {
             SizeType.Small.ToString().Should().Be("Small");
+        }
+
+        [Test]
+        public void GetHashCodeShouldBeEqualToIdHashCode()
+        {
+            SizeType.Small.GetHashCode().Should().Be(1.GetHashCode());
         }
 
         private sealed class SizeType : Enumeration

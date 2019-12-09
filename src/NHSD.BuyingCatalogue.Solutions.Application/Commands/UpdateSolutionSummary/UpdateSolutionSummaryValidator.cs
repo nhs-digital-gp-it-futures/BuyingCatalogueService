@@ -20,7 +20,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSumm
             return validationResult;
         }
 
-        private void ValidateLength(HashSet<string> maxLength, string candidate, int length, string description)
+        private static void ValidateLength(HashSet<string> maxLength, string candidate, int length, string description)
         {
             if ((candidate?.Length ?? 0) > length)
             {

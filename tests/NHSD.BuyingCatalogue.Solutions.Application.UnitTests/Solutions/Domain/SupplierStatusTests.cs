@@ -1,7 +1,7 @@
 using System;
 using FluentAssertions;
-using NHSD.BuyingCatalogue.Contracts.Solutions;
 using NHSD.BuyingCatalogue.Infrastructure;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Domain
@@ -10,19 +10,19 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Domain
     public sealed class SupplierStatusTests
     {
         [Test]
-        public void GivenSameValues_ShouldBeEqual()
+        public void GivenSameValuesShouldBeEqual()
         {
             SupplierStatus.Draft.Should().Be(SupplierStatus.Draft);
         }
 
         [Test]
-        public void GivenDifferentValues_ShouldNotBeEqual()
+        public void GivenDifferentValuesShouldNotBeEqual()
         {
             SupplierStatus.Draft.Should().NotBe(SupplierStatus.AuthorityReview);
         }
 
         [Test]
-        public void GetAll_ShouldReturnAllValues()
+        public void GetAllShouldReturnAllValues()
         {
             var expected = new[]
             {
@@ -36,19 +36,19 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Domain
         }
 
         [Test]
-        public void FromValue_GivenValueOne_ShouldBeDraft()
+        public void FromValueGivenValueOneShouldBeDraft()
         {
             Enumeration.FromValue<SupplierStatus>(1).Should().Be(SupplierStatus.Draft);
         }
 
         [Test]
-        public void FromValue_GivenValueTwo_ShouldBeAuthorityReview()
+        public void FromValueGivenValueTwoShouldBeAuthorityReview()
         {
             Enumeration.FromValue<SupplierStatus>(2).Should().Be(SupplierStatus.AuthorityReview);
         }
 
         [Test]
-        public void FromValue_GivenValueFour_ShouldThrow()
+        public void FromValueGivenValueFourShouldThrow()
         {
             var expectedValue = 4;
 
@@ -61,13 +61,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Domain
         }
 
         [Test]
-        public void FromName_GivenNameAuthorityReview_ShouldBeEqual()
+        public void FromNameGivenNameAuthorityReviewShouldBeEqual()
         {
             Enumeration.FromName<SupplierStatus>("authorityreview").Should().Be(SupplierStatus.AuthorityReview);
         }
 
         [Test]
-        public void FromName_GivenNameTest_ShouldThrow()
+        public void FromNameGivenNameTestShouldThrow()
         {
             var expectedName = "Test";
 
@@ -80,13 +80,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Domain
         }
 
         [Test]
-        public void CompareTo_GivenSupplierStatusDraft_ShouldBeEqual()
+        public void CompareToGivenSupplierStatusDraftShouldBeEqual()
         {
             SupplierStatus.Draft.CompareTo(SupplierStatus.Draft).Should().Be(0);
         }
 
         [Test]
-        public void ToString_GivenSupplierStatusDraft_ShouldBeEqual()
+        public void ToStringGivenSupplierStatusDraftShouldBeEqual()
         {
             SupplierStatus.Draft.ToString().Should().Be("Draft");
         }

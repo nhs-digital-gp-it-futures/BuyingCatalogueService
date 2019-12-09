@@ -41,7 +41,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetClientApplicationTypesAsync([FromRoute][Required]string id)
         {
-            var clientApplication = await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id));
+            var clientApplication = await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
             return clientApplication == null ? (ActionResult)new NotFoundResult() : Ok(new GetClientApplicationTypesResult(clientApplication));
         }
 
@@ -58,7 +58,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> UpdateClientApplicationTypesAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionClientApplicationTypesViewModel updateSolutionClientApplicationTypesViewModel)
         {
-            var validationResult =  await _mediator.Send(new UpdateSolutionClientApplicationTypesCommand(id, updateSolutionClientApplicationTypesViewModel));
+            var validationResult =  await _mediator.Send(new UpdateSolutionClientApplicationTypesCommand(id, updateSolutionClientApplicationTypesViewModel)).ConfigureAwait(false);
 
             return validationResult.IsValid ? (ActionResult)new NoContentResult()
                 : BadRequest(new UpdateSolutionClientApplicationTypesResult(validationResult));

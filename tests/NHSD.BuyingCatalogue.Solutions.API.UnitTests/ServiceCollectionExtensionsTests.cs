@@ -34,5 +34,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             action(new MvcOptions());
             optionsExecuted.Should().BeTrue();
         }
+
+        [Test]
+        public void ControllerActionThrowsIfNull()
+        {
+            var serviceCollection = new ServiceCollection();
+
+            Assert.Throws<ArgumentNullException>(() => serviceCollection.RegisterSolutionController(op => {}, null));
+        }
     }
 }

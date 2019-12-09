@@ -7,8 +7,8 @@ using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using NHSD.BuyingCatalogue.Contracts.SolutionList;
 using NHSD.BuyingCatalogue.SolutionLists.API.ViewModels;
+using NHSD.BuyingCatalogue.SolutionLists.Contracts;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.API.UnitTests
@@ -40,7 +40,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.UnitTests
         [Test]
         public async Task ShouldListFoundationSolutions()
         {
-            var result = (await _solutionListController.ListFoundationAsync()).Result as ObjectResult;
+            var result = (await _solutionListController.ListFoundationAsync().ConfigureAwait(false)).Result as ObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
             (result.Value as ListSolutionsResult).Solutions.Should().BeEquivalentTo(_solutions);
@@ -51,7 +51,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.UnitTests
         [Test]
         public async Task ShouldListSolutions()
         {
-            var result = (await _solutionListController.ListAsync()).Result as ObjectResult;
+            var result = (await _solutionListController.ListAsync().ConfigureAwait(false)).Result as ObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
             (result.Value as ListSolutionsResult).Solutions.Should().BeEquivalentTo(_solutions);
@@ -65,7 +65,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.UnitTests
         {
             var filter = new ListSolutionsFilter {Capabilities = {Guid.Empty}};
 
-            var result = (await _solutionListController.ListByFilterAsync(filter)).Result as ObjectResult;
+            var result = (await _solutionListController.ListByFilterAsync(filter).ConfigureAwait(false)).Result as ObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
             (result.Value as ListSolutionsResult).Solutions.Should().BeEquivalentTo(_solutions);
@@ -80,6 +80,12 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.UnitTests
         public void NullMediatorShouldThrowNullException()
         {
             Assert.Throws<ArgumentNullException>(() => new SolutionListController(null));
+        }
+
+        [Test]
+        public void ListSolutionsResultThrowsIfNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ListSolutionsResult(null));
         }
     }
 }

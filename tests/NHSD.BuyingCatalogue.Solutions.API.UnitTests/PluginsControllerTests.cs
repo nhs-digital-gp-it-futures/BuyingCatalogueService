@@ -5,12 +5,11 @@ using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using NHSD.BuyingCatalogue.Contracts;
-using NHSD.BuyingCatalogue.Contracts.Solutions;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
@@ -40,7 +39,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     s.ClientApplication.Plugins == Mock.Of<IPlugins>(c =>
                         c.Required == true && c.AdditionalInformation == "Additional Information")));
 
-            var result = (await _plugInsController.GetPlugInsAsync(SolutionId)) as ObjectResult;
+            var result = (await _plugInsController.GetPlugInsAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
             var plugin = (result.Value as GetPlugInsResult);
@@ -63,7 +62,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     s.ClientApplication.Plugins == Mock.Of<IPlugins>(c =>
                         c.Required == pluginRequired && c.AdditionalInformation == additionalInfo)));
 
-            var result = (await _plugInsController.GetPlugInsAsync(SolutionId)) as ObjectResult;
+            var result = (await _plugInsController.GetPlugInsAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
             var plugin = (result.Value as GetPlugInsResult);
@@ -84,7 +83,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 .ReturnsAsync(Mock.Of<ISolution>(s => 
                     s.ClientApplication == clientMock.Object));
 
-            var result = (await _plugInsController.GetPlugInsAsync(SolutionId)) as ObjectResult;
+            var result = (await _plugInsController.GetPlugInsAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
             var plugin = (result.Value as GetPlugInsResult);
@@ -95,7 +94,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task ShouldReturnNotFound()
         {
-            var result = (await _plugInsController.GetPlugInsAsync(SolutionId)) as NotFoundResult;
+            var result = (await _plugInsController.GetPlugInsAsync(SolutionId).ConfigureAwait(false)) as NotFoundResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
 
@@ -115,7 +114,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                         q.SolutionId == SolutionId && q.UpdateSolutionPluginsViewModel == pluginsViewModel),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
 
-            var result = (await _plugInsController.UpdatePlugInsAsync(SolutionId, pluginsViewModel)) as NoContentResult;
+            var result = (await _plugInsController.UpdatePlugInsAsync(SolutionId, pluginsViewModel).ConfigureAwait(false)) as NoContentResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
 
@@ -143,7 +142,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                         q.SolutionId == SolutionId && q.UpdateSolutionPluginsViewModel == pluginsViewModel),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
 
-            var result = (await _plugInsController.UpdatePlugInsAsync(SolutionId, pluginsViewModel)) as BadRequestObjectResult;
+            var result = (await _plugInsController.UpdatePlugInsAsync(SolutionId, pluginsViewModel).ConfigureAwait(false)) as BadRequestObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
             (result.Value as UpdateSolutionPluginsResult).Required.Should().BeEquivalentTo(new[] {"plugins-required"});

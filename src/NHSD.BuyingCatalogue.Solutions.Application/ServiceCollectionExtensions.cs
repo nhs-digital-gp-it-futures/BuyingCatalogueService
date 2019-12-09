@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowsersSupported;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClientApplicationTypes;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
@@ -15,14 +16,18 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
             return serviceCollection
                 .AddTransient<SolutionReader>()
                 .AddTransient<ClientApplicationReader>()
+                .AddTransient<ContactDetailsReader>()
+                .AddTransient<SolutionVerifier>()
                 .AddTransient<SolutionSummaryUpdater>()
                 .AddTransient<SolutionFeaturesUpdater>()
                 .AddTransient<SolutionClientApplicationUpdater>()
+                .AddTransient<SolutionContactDetailsUpdater>()
                 .AddTransient<ClientApplicationPartialUpdater>()
                 .AddTransient<UpdateSolutionSummaryValidator>()
                 .AddTransient<UpdateSolutionFeaturesValidator>()
                 .AddTransient<UpdateSolutionClientApplicationTypesValidator>()
                 .AddTransient<UpdateSolutionBrowsersSupportedValidator>()
+                .AddTransient<UpdateSolutionContactDetailsValidator>()
                 .AddTransient<UpdateSolutionPluginsValidator>();
         }
     }

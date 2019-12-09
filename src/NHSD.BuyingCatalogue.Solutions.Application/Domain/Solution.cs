@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
-using NHSD.BuyingCatalogue.Contracts.Solutions;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 {
@@ -18,7 +18,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         {
             Id = solutionResult.Id;
             Name = solutionResult.Name; 
-            LastUpdated = Convert.ToDateTime(solutionResult.LastUpdated);
+            LastUpdated = GetLatestLastUpdated(solutionResult, contactResult);
             Summary = solutionResult.Summary;
             OrganisationName = solutionResult.OrganisationName;
             Description = solutionResult.Description;
@@ -32,7 +32,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
             IsFoundation = solutionResult.IsFoundation;
             Capabilities = new HashSet<string>(solutionCapabilityListResult.Select(c => c.CapabilityName));
             Contacts = contactResult.Select(c => new Contact(c));
+            PublishedStatus = solutionResult.PublishedStatus;
         }
+
+        private DateTime GetLatestLastUpdated(ISolutionResult solutionResult, IEnumerable<IMarketingContactResult> contactResult) =>
+            new List<DateTime>
+            {
+                solutionResult.LastUpdated,
+                solutionResult.SolutionDetailLastUpdated,
+                contactResult?.Any() == false ? DateTime.MinValue : contactResult.Max(x => x.LastUpdated)
+            }.Max();
 
         /// <summary>
         /// Id of the solution.
@@ -100,11 +109,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public IEnumerable<Contact> Contacts { get; set; }
 
         /// <summary>
+        /// The publishing status of the solution
+        /// </summary>
+        public PublishedStatus PublishedStatus { get; set; }
+
+        /// <summary>
         /// Initialises a new instance of the <see cref="Solution"/> class.
         /// </summary>
         public Solution()
         {
             SupplierStatus = SupplierStatus.Draft;
+            PublishedStatus = PublishedStatus.Draft;
         }
     }
 }

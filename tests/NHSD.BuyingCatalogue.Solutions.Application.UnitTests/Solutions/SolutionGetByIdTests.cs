@@ -1,12 +1,15 @@
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Solutions.Application.Domain;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
@@ -17,6 +20,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         private TestContext _context;
 
         private readonly DateTime _lastUpdated = DateTime.Today;
+
+        private const string DateFormat = "dd/MM/yyyy";
 
         [SetUp]
         public void SetUpFixture()
@@ -30,7 +35,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
             existingSolution.Setup(s => s.Name).Returns("Name");
-            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated.ToString);
+            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated);
             existingSolution.Setup(s => s.Description).Returns("Description");
             existingSolution.Setup(s => s.Summary).Returns("Summary");
             existingSolution.Setup(s => s.AboutUrl).Returns("AboutUrl");
@@ -56,7 +61,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 .Setup(r => r.BySolutionIdAsync("Sln1", It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new[]{expectedContact});
 
-            var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken());
+            var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken()).ConfigureAwait(false);
 
             solution.Id.Should().Be("Sln1");
             solution.Name.Should().Be("Name");
@@ -89,7 +94,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
             existingSolution.Setup(s => s.Name).Returns("Name");
-            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated.ToString);
+            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated);
             existingSolution.Setup(s => s.Description).Returns((string)null);
             existingSolution.Setup(s => s.Summary).Returns((string)null);
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
@@ -99,7 +104,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
-            var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken());
+            var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken()).ConfigureAwait(false);
 
             solution.Id.Should().Be("Sln1");
             solution.Name.Should().Be("Name");
@@ -128,7 +133,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
             existingSolution.Setup(s => s.Name).Returns("Name");
-            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated.ToString);
+            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated);
             existingSolution.Setup(s => s.Description).Returns((string)null);
             existingSolution.Setup(s => s.Summary).Returns("Summary");
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
@@ -143,7 +148,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
-            var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken());
+            var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken()).ConfigureAwait(false);
 
             solution.Id.Should().Be("Sln1");
             solution.Name.Should().Be("Name");
@@ -172,7 +177,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
             existingSolution.Setup(s => s.Name).Returns("Name");
-            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated.ToString);
+            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated);
             existingSolution.Setup(s => s.Description).Returns((string)null);
             existingSolution.Setup(s => s.Summary).Returns((string)null);
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
@@ -188,7 +193,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
-            var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken());
+            var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken()).ConfigureAwait(false);
 
             solution.Id.Should().Be("Sln1");
             solution.Name.Should().Be("Name");
@@ -207,13 +212,53 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
 
+        [TestCase("01/01/0001", "01/01/0001", "01/01/0001","01/01/0001")]
+        [TestCase("31/12/9999", "31/12/9999", "31/12/9999", "31/12/9999")]
+        [TestCase("01/03/2019", "02/05/2018", "28/02/2019", "01/03/2019")]
+        [TestCase("15/03/2020", "16/03/2020", "17/03/2019", "16/03/2020")]
+        [TestCase("24/12/2019", "31/12/2018", "25/12/2019", "25/12/2019")]
+        public void ShouldGetLastUpdatedForSolution(string existingSolutionDate, string marketingContact1Date, string marketingContact2Date, string expectedDate)
+        {
+            var dateTimeExpected = DateTime.ParseExact(expectedDate, DateFormat, CultureInfo.InvariantCulture);
+            var existingSolution = Mock.Of<ISolutionResult>(s => s.LastUpdated == (DateTime.ParseExact(existingSolutionDate, DateFormat, CultureInfo.InvariantCulture)));
+           
+            var contact1Date = DateTime.ParseExact(marketingContact1Date, DateFormat, CultureInfo.InvariantCulture);
+            var contact2Date = DateTime.ParseExact(marketingContact2Date, DateFormat, CultureInfo.InvariantCulture);
+            
+            var existingMarketingContactResult = new List<IMarketingContactResult>
+            {
+                Mock.Of<IMarketingContactResult>(s => s.LastUpdated == contact1Date),
+                Mock.Of<IMarketingContactResult>(s => s.LastUpdated == contact2Date),
+            };
+
+            var solution = new Solution(existingSolution, new List<ISolutionCapabilityListResult>(),
+                existingMarketingContactResult);
+
+            solution.LastUpdated.Should().Be(dateTimeExpected);
+        }
+
+        [TestCase("01/01/0001", "01/01/0001")]
+        [TestCase("31/12/9999", "31/12/9999")]
+        [TestCase("01/03/2025", "01/03/2025")]
+        [TestCase("15/03/2020", "15/03/2020")]
+        public void ShouldGetLastUpdatedForSolutionWithNoMarketingContacts(string existingSolutionDate, string expectedDate)
+        {
+            var dateTimeExpected = DateTime.ParseExact(expectedDate, DateFormat, CultureInfo.InvariantCulture);
+            var existingSolution = Mock.Of<ISolutionResult>(s => s.LastUpdated == (DateTime.ParseExact(existingSolutionDate, DateFormat, CultureInfo.InvariantCulture)));
+            
+            var solution = new Solution(existingSolution, new List<ISolutionCapabilityListResult>(),
+                new List<IMarketingContactResult>());
+
+            solution.LastUpdated.Should().Be(dateTimeExpected);
+        }
+
         [Test]
         public async Task ShouldGetPartialSolutionWithClientApplicationById()
         {
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
             existingSolution.Setup(s => s.Name).Returns("Name");
-            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated.ToString);
+            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated);
             existingSolution.Setup(s => s.Description).Returns((string)null);
             existingSolution.Setup(s => s.Summary).Returns((string)null);
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
@@ -229,7 +274,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
-            var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken());
+            var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken()).ConfigureAwait(false);
 
             solution.Id.Should().Be("Sln1");
             solution.Name.Should().Be("Name");

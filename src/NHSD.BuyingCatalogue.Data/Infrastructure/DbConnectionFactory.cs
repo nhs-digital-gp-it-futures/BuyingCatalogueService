@@ -25,18 +25,18 @@ namespace NHSD.BuyingCatalogue.Data.Infrastructure
         /// </summary>
         /// <returns>A new database connection.</returns>
         public async Task<IDbConnection> GetAsync(CancellationToken cancellationToken)
-            => await GetAsync(cancellationToken, new SqlConnectionStringBuilder(_settings.ConnectionString));
+            => await GetAsync(new SqlConnectionStringBuilder(_settings.ConnectionString), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Gets a new database connection.
         /// </summary>
         /// <returns>A new database connection.</returns>
-        public async Task<IDbConnection> GetAsync(CancellationToken cancellationToken, DbConnectionStringBuilder connectionStringBuilder)
+        public async Task<IDbConnection> GetAsync(DbConnectionStringBuilder connectionStringBuilder, CancellationToken cancellationToken)
         {
             var connection = SqlClientFactory.Instance.CreateConnection();
             connection.ConnectionString = connectionStringBuilder.ThrowIfNull().ConnectionString;
 
-            await connection.OpenAsync(cancellationToken);
+            await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
 
             return connection;
         }

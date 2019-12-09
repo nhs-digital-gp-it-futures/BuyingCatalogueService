@@ -1,24 +1,23 @@
+using System;
 using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 {
     public abstract class EntityBase
     {
+        public EntityBase()
+        {
+            LastUpdated = DateTime.UtcNow;
+            LastUpdatedBy = Guid.Empty;
+        }
+
         protected abstract string InsertSql { get; }
 
+        public DateTime LastUpdated { get; set; }
+
+        public Guid LastUpdatedBy { get; set; }
+
         public async Task InsertAsync()
-        {
-            await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, InsertSql);
-        }
-
-        protected string NullOrWrapQuotes(string candidate)
-        {
-            return candidate == null ? "NULL" : $"'{candidate}'";
-        }
-
-        protected int ToOneZero(bool value)
-        {
-            return value ? 1 : 0;
-        }
+            => await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, InsertSql, this).ConfigureAwait(false);
     }
 }

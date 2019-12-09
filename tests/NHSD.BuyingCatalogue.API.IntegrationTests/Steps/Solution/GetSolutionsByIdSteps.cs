@@ -1,10 +1,11 @@
+using System;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using TechTalk.SpecFlow;
 
-namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
+namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
 {
     [Binding]
     internal sealed class GetSolutionsByIdSteps
@@ -40,6 +41,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             content.SelectToken("isFoundation").Value<bool>().Should().Be(response);
         }
 
+        [Then(@"the solution Name is (.*)")]
+        public async Task ThenTheSolutionNameIs(string name)
+        {
+            var content = await _response.ReadBody();
+            content.SelectToken("name").Value<string>().Should().Be(name);
+        }
+
         [Then(@"the solution organisationName is (.*)")]
         public async Task ThenTheSolutionOrganisationNameIs(string name)
         {
@@ -47,11 +55,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             content.SelectToken("organisationName").Value<string>().Should().Be(name);
         }
 
-        [Then(@"the solution lastUpdated is (.*)")]
-        public async Task ThenTheSolutionLastUpdatedIs(string date)
+        [Then(@"the last updated date in the solution is (.*)")]
+        public async Task ThenTheLastUpdatedDateInTheSolutionIs(DateTime lastUpdated)
         {
             var content = await _response.ReadBody();
-            content.SelectToken("lastUpdated").Value<string>().Should().Be(date);
+            var contentLastUpdated = (DateTime)content.SelectToken("lastUpdated");
+
+            contentLastUpdated.Should().Be(lastUpdated);
         }
 
     }

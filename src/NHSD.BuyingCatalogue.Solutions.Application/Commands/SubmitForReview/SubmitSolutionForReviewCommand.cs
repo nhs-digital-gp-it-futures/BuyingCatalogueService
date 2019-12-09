@@ -1,4 +1,5 @@
 using MediatR;
+using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview
 {
@@ -17,12 +18,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview
         /// </summary>
         public SubmitSolutionForReviewCommand(string solutionId)
         {
-            if (string.IsNullOrWhiteSpace(solutionId))
-            {
-                throw new System.ArgumentException("message", nameof(solutionId));
-            }
-
-            SolutionId = solutionId;
+            SolutionId = solutionId.ThrowIfNullOrWhitespace();
         }
     }
 }

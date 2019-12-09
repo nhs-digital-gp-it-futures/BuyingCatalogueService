@@ -2,9 +2,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
@@ -37,7 +37,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 );
 
             var clientApplication = await _context.GetClientApplicationBySolutionIdHandler.Handle(
-                new GetClientApplicationBySolutionIdQuery(_solutionId), _cancellationToken);
+                new GetClientApplicationBySolutionIdQuery(_solutionId), _cancellationToken).ConfigureAwait(false);
             clientApplication.Should().NotBeNull();
             clientApplication.ClientApplicationTypes.Should().BeEquivalentTo(new[] { "browser-based", "native-mobile" });
             clientApplication.BrowsersSupported.Should().BeEquivalentTo(new[] { "Chrome", "Edge" });
@@ -55,7 +55,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 );
 
             var clientApplication = await _context.GetClientApplicationBySolutionIdHandler.Handle(
-                new GetClientApplicationBySolutionIdQuery(_solutionId), _cancellationToken);
+                new GetClientApplicationBySolutionIdQuery(_solutionId), _cancellationToken).ConfigureAwait(false);
             clientApplication.Should().NotBeNull();
             clientApplication.Should().BeEquivalentTo(new ClientApplicationDto());
         }

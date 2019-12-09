@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using NHSD.BuyingCatalogue.Contracts.Solutions;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
 {
@@ -70,5 +70,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         /// The contacts for the solution
         /// </summary>
         public IEnumerable<IContact> Contacts { get; set; }
+
+        /// <summary>
+        /// The publishing status of the solution
+        /// </summary>
+        public PublishedStatus PublishedStatus { get; set; }
     }
 }

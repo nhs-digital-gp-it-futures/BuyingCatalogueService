@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.Entities
@@ -13,10 +11,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public bool IsFoundation { get; set; }
 
-        public DateTime LastUpdated { get; set; }
-
-        public Guid LastUpdatedBy { get; set; }
-
         protected override string InsertSql => $@"
         INSERT INTO [dbo].[FrameworkSolutions]
         ([FrameworkId]
@@ -26,11 +20,11 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         ,[LastUpdatedBy])
 
         VALUES
-            ('{FrameworkId}'
-            ,'{SolutionId}'
-            ,{ToOneZero(IsFoundation)}
-            ,'{LastUpdated.ToString("dd-MMM-yyyy")}'
-            ,'{LastUpdatedBy}')";
+            (@FrameworkId
+            ,@SolutionId
+            ,@IsFoundation
+            ,@LastUpdated
+            ,@LastUpdatedBy)";
 
         public static async Task<IEnumerable<FrameworkSolutionEntity>> FetchAllAsync()
         {
@@ -38,7 +32,8 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
                                   ,[SolutionId]
                                   ,[IsFoundation]
                                   ,[LastUpdated]
-                                  ,[LastUpdatedBy]");
+                                  ,[LastUpdatedBy]")
+                .ConfigureAwait(false);
         }
     }
 }

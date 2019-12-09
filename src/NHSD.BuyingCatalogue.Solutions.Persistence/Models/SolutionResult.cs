@@ -1,4 +1,6 @@
-using NHSD.BuyingCatalogue.Contracts.Persistence;
+using System;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
 {
@@ -8,7 +10,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
 
         public string Name { get; set; }
 
-        public string LastUpdated { get; set; }
+        public DateTime LastUpdated { get; set; }
 
         public string Summary { get; set; }
 
@@ -23,5 +25,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
         public string OrganisationName { get; set; }
 
         public bool IsFoundation { get; set; }
+
+        public DateTime SolutionDetailLastUpdated { get; set; }
+        
+        public PublishedStatus PublishedStatus { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using NHSD.BuyingCatalogue.Capabilities.Contracts;
+using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Capabilities.API.ViewModels
 {
@@ -8,7 +9,7 @@ namespace NHSD.BuyingCatalogue.Capabilities.API.ViewModels
 	/// </summary>
 	public sealed class CapabilityViewModel
 	{
-        public CapabilityViewModel(ICapability capability)
+        internal CapabilityViewModel(ICapability capability)
         {
             Id = capability.Id;
             Name = capability.Name;

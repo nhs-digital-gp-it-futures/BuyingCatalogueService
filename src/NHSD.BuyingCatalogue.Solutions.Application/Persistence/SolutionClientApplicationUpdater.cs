@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 {
@@ -16,6 +16,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
             => _solutionDetailRepository = solutionDetailRepository;
 
         public async Task UpdateAsync(ClientApplication clientApplication, string solutionId, CancellationToken cancellationToken)
-            => await _solutionDetailRepository.UpdateClientApplicationAsync(new UpdateSolutionClientApplicationRequest(solutionId, clientApplication), cancellationToken);
+            => await _solutionDetailRepository.UpdateClientApplicationAsync(new UpdateSolutionClientApplicationRequest(solutionId, clientApplication), cancellationToken)
+                .ConfigureAwait(false);
     }
 }

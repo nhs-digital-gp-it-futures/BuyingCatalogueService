@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper.Configuration;
 using FluentAssertions;
-using NHSD.BuyingCatalogue.Contracts;
-using NHSD.BuyingCatalogue.Contracts.Solutions;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
 using NHSD.BuyingCatalogue.Solutions.Application.Mapping;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
@@ -40,7 +39,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         }
 
         [Test]
-        public void Profile_MatchesMapping()
+        public void ProfileMatchesMapping()
         {
             var configs = ((IProfileConfiguration)_solutionAutoMapperProfile).TypeMapConfigs;
 

@@ -5,7 +5,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 {
     public class UpdateSolutionClientApplicationTypesResult
     {
-        public UpdateSolutionClientApplicationTypesResult(UpdateSolutionClientApplicationTypesValidationResult updateSolutionClientApplicationTypesValidationResult)
+        internal UpdateSolutionClientApplicationTypesResult(UpdateSolutionClientApplicationTypesValidationResult updateSolutionClientApplicationTypesValidationResult)
         {
             Required = updateSolutionClientApplicationTypesValidationResult.Required;
         }

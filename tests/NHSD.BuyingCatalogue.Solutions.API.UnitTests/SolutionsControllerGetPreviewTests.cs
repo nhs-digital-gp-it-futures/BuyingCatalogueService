@@ -7,10 +7,10 @@ using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using NHSD.BuyingCatalogue.Contracts.Solutions;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
-using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Preview;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
@@ -34,7 +34,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task ShouldReturnNotFound()
         {
-            var result = (await _solutionsController.Preview(SolutionId)).Result as NotFoundResult;
+            var result = (await _solutionsController.Preview(SolutionId).ConfigureAwait(false)).Result as NotFoundResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
 
@@ -54,7 +54,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
                 s.Id == id &&
                 s.Name == name &&
-                s.OrganisationName == organization));
+                s.OrganisationName == organization)).ConfigureAwait(false);
 
             previewResult.Id.Should().Be(id);
             previewResult.Name.Should().Be(name);
@@ -76,7 +76,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
                 s.Summary == summary &&
                 s.Description == description &&
-                s.AboutUrl == link));
+                s.AboutUrl == link)).ConfigureAwait(false);
 
             if (hasData)
             {
@@ -97,7 +97,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var features = new List<string> {null};
 
-            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s => s.Features == features));
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s => s.Features == features)).ConfigureAwait(false);
             previewResult.Sections.Features.Should().BeNull();
         }
 
@@ -107,7 +107,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var features = isFeature ? new List<string> { "Feature1", "Feature2" } : new List<string>();
 
-            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s => s.Features == features));
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s => s.Features == features)).ConfigureAwait(false);
 
             if (hasData)
             {
@@ -140,7 +140,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     s.ClientApplication == Mock.Of<IClientApplication>(c =>
                         c.ClientApplicationTypes == clientApplicationTypes &&
                         c.BrowsersSupported == browsersSupported &&
-                        c.MobileResponsive == mobileResponsive)));
+                        c.MobileResponsive == mobileResponsive))).ConfigureAwait(false);
 
             if (expectData)
             {
@@ -184,7 +184,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
                     c.ClientApplicationTypes == new HashSet<string> { "browser-based", "native-mobile" } &&
                     c.BrowsersSupported == new HashSet<string> { "Chrome", "Edge" } &&
-                    c.MobileResponsive == true)));
+                    c.MobileResponsive == true))).ConfigureAwait(false);
 
             previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers.SupportedBrowsers
                 .Should().BeEquivalentTo(new HashSet<string> { "Chrome", "Edge" });
@@ -198,7 +198,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
                     c.ClientApplicationTypes == new HashSet<string> { "browser-based", "native-mobile" }
-                    && c.Plugins == new PluginsDto { Required = true, AdditionalInformation = "Plugin additional information"} )));
+                    && c.Plugins == Mock.Of<IPlugins>(p => p.Required == true && p.AdditionalInformation == "Plugin additional information")))).ConfigureAwait(false);
 
             previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.PluginOrExtensionsSection.Answers.Required
                 .Should().Be("Yes");
@@ -213,7 +213,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
                     c.ClientApplicationTypes == new HashSet<string> { "native-desktop", "native-mobile" } &&
                     c.BrowsersSupported == new HashSet<string> { "Chrome", "Edge" } &&
-                    c.MobileResponsive == true)));
+                    c.MobileResponsive == true))).ConfigureAwait(false);
 
             previewResult.Sections.ClientApplicationTypes.Should().BeNull();
         }
@@ -221,35 +221,35 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public void NullSolutionShouldThrowNullExceptionSolutionDescriptionPreviewAnswers()
         {
-            Assert.Throws<ArgumentNullException>(() => new SolutionDescriptionPreviewSectionAnswers(null));
+            Assert.Throws<ArgumentNullException>(() => new SolutionDescriptionSectionAnswers(null));
         }
 
         [Test]
         public void NullSolutionShouldThrowNullExceptionPreviewSections()
         {
-            Assert.Throws<ArgumentNullException>(() => new PreviewSections(null));
+            Assert.Throws<ArgumentNullException>(() => new SolutionResult(null));
         }
         
         [Test]
         public void NullSolutionShouldThrowNullExceptionPreviewResult()
         {
-            Assert.Throws<ArgumentNullException>(() => new SolutionPreviewResult(null));
+            Assert.Throws<ArgumentNullException>(() => new SolutionResult(null));
         }
 
-        private async Task<SolutionPreviewResult> GetSolutionPreviewSectionAsync(ISolution solution)
+        private async Task<SolutionResult> GetSolutionPreviewSectionAsync(ISolution solution)
         {
             _mockMediator.Setup(m =>
                     m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(solution);
 
-            var result = (await _solutionsController.Preview(SolutionId)).Result as ObjectResult;
+            var result = (await _solutionsController.Preview(SolutionId).ConfigureAwait(false)).Result as ObjectResult;
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
             _mockMediator.Verify(
                 m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()),
                 Times.Once);
 
-            return result.Value as SolutionPreviewResult;
+            return result.Value as SolutionResult;
         }
     }
 }

@@ -17,8 +17,16 @@ namespace NHSD.BuyingCatalogue.Testing.Data
             {
                 foreach (var command in sqlCommands)
                 {
-                    await sqlConnection.ExecuteAsync(command);
+                    await sqlConnection.ExecuteAsync(command).ConfigureAwait(false);
                 }
+            }
+        }
+
+        internal static async Task ExecuteAsync<T>(string connectionString, string sql, T instance)
+        {
+            using (IDbConnection databaseConnection = new SqlConnection(connectionString))
+            {
+                await databaseConnection.ExecuteAsync(sql, instance).ConfigureAwait(false);
             }
         }
 

@@ -6,11 +6,10 @@ using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using NHSD.BuyingCatalogue.Contracts;
-using NHSD.BuyingCatalogue.Contracts.Solutions;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
@@ -34,7 +33,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task ShouldReturnNotFound()
         {
-            var result = (await _browserBasedController.GetBrowserBasedAsync(SolutionId)) as NotFoundResult;
+            var result = (await _browserBasedController.GetBrowserBasedAsync(SolutionId).ConfigureAwait(false)) as NotFoundResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
 
@@ -46,7 +45,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task ShouldGetBrowserBasedStaticData()
         {
-            var browserBasedResult = await GetBrowserBasedSectionAsync(Mock.Of<ISolution>());
+            var browserBasedResult = await GetBrowserBasedSectionAsync(Mock.Of<ISolution>()).ConfigureAwait(false);
 
             browserBasedResult.Should().NotBeNull();
             browserBasedResult.BrowserBasedDashboardSections.Should().NotBeNull();
@@ -70,7 +69,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task ShouldGetBrowserBasedCalculateCompleteNullClientApplication()
         {
-            var browserBasedResult = await GetBrowserBasedSectionAsync(Mock.Of<ISolution>());
+            var browserBasedResult = await GetBrowserBasedSectionAsync(Mock.Of<ISolution>()).ConfigureAwait(false);
             AssertBrowsersSupportedSectionComplete(browserBasedResult, false);
         }
 
@@ -78,7 +77,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         public async Task ShouldGetBrowserBasedCalculateCompleteNullBrowsersSupported()
         {
             var browserBasedResult = await GetBrowserBasedSectionAsync(Mock.Of<ISolution>(s =>
-                s.ClientApplication == Mock.Of<IClientApplication>()));
+                s.ClientApplication == Mock.Of<IClientApplication>())).ConfigureAwait(false);
 
             AssertBrowsersSupportedSectionComplete(browserBasedResult, false);
         }
@@ -88,7 +87,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var browserBasedResult = await GetBrowserBasedSectionAsync(Mock.Of<ISolution>(s =>
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.BrowsersSupported == new HashSet<string>())));
+                    c.BrowsersSupported == new HashSet<string>()))).ConfigureAwait(false);
 
             AssertBrowsersSupportedSectionComplete(browserBasedResult, false);
         }
@@ -98,7 +97,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var browserBasedResult = await GetBrowserBasedSectionAsync(Mock.Of<ISolution>(s =>
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.BrowsersSupported == new HashSet<string>{ "A" })));
+                    c.BrowsersSupported == new HashSet<string>{ "A" }))).ConfigureAwait(false);
 
             AssertBrowsersSupportedSectionComplete(browserBasedResult, false);
         }
@@ -108,7 +107,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var browserBasedResult = await GetBrowserBasedSectionAsync(Mock.Of<ISolution>(s =>
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.MobileResponsive == false)));
+                    c.MobileResponsive == false))).ConfigureAwait(false);
 
             AssertBrowsersSupportedSectionComplete(browserBasedResult, false);
         }
@@ -118,7 +117,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var browserBasedResult = await GetBrowserBasedSectionAsync(Mock.Of<ISolution>(s =>
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.BrowsersSupported == new HashSet<string>{ "A" } && c.MobileResponsive == false)));
+                    c.BrowsersSupported == new HashSet<string>{ "A" } && c.MobileResponsive == false))).ConfigureAwait(false);
 
             AssertBrowsersSupportedSectionComplete(browserBasedResult, true);
         }
@@ -129,7 +128,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         public async Task ShouldGetBrowserBasedCalculateCompletePluginRequired(bool? pluginRequired, bool complete)
         {
             var browserBasedResult = await GetBrowserBasedSectionAsync(Mock.Of<ISolution>(s =>
-                s.ClientApplication.Plugins == Mock.Of<IPlugins>(c => c.Required == pluginRequired && c.AdditionalInformation == null)));
+                s.ClientApplication.Plugins == Mock.Of<IPlugins>(c => c.Required == pluginRequired && c.AdditionalInformation == null))).ConfigureAwait(false);
 
             AssertPluginsSectionComplete(browserBasedResult, complete);
         }
@@ -141,7 +140,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(solution);
 
-            var result = (await _browserBasedController.GetBrowserBasedAsync(SolutionId)) as ObjectResult;
+            var result = (await _browserBasedController.GetBrowserBasedAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
             _mockMediator.Verify(

@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 {
@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
         public UpdateSolutionClientApplicationRequest(string id, ClientApplication clientApplication)
         {
             SolutionId = id;
-            ClientApplication = JsonConvert.SerializeObject(clientApplication).ToString();
+            ClientApplication = JsonConvert.SerializeObject(clientApplication);
         }
 
         public string SolutionId { get; }

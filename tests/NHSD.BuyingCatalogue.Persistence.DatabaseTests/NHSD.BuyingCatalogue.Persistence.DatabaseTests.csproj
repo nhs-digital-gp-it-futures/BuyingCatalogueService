@@ -5,6 +5,11 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
+
   <ItemGroup>
       <PackageReference Include="coverlet.msbuild" Version="2.7.0">
         <PrivateAssets>all</PrivateAssets>
@@ -20,17 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.Capabilities.Persistence\NHSD.BuyingCatalogue.Capabilities.Persistence.csproj" />
-    <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.SolutionLists.Persistence\NHSD.BuyingCatalogue.SolutionLists.Persistence.csproj" />
+    <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.Solutions.Contracts\NHSD.BuyingCatalogue.Solutions.Contracts.csproj" />
     <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.Solutions.Persistence\NHSD.BuyingCatalogue.Solutions.Persistence.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Testing.Data\NHSD.BuyingCatalogue.Testing.Data.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Testing.Tools\NHSD.BuyingCatalogue.Testing.Tools.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="docker-compose.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

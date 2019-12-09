@@ -25,6 +25,8 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Exceptions
 
         public static JsonResult ToJsonMessage(this Exception exception, bool verbose)
         {
+            exception.ThrowIfNull();
+
             return new JsonResult(new
             {
                 errors = new[] { "An unexpected error occurred." },

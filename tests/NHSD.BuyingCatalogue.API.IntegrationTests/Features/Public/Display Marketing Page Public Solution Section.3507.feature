@@ -14,9 +14,9 @@ Background:
         | Sup 2 | Drs. Inc         |
     And Solutions exist
         | SolutionID | SolutionName   | OrganisationName | LastUpdated | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | GPs-R-Us         | 19-Nov-2019 | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill | Drs. Inc         | 15-Nov-2019 | 1                | Sup 2      |
-        | Sln3       | PracticeMgr    | Drs. Inc         | 20-Nov-2019 | 1                | Sup 2      |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 19/11/2019  | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill | Drs. Inc         | 15/11/2019  | 1                | Sup 2      |
+        | Sln3       | PracticeMgr    | Drs. Inc         | 20/11/2019  | 1                | Sup 2      |
     And Framework Solutions exist
         | SolutionId | IsFoundation |
         | Sln1       | true         |
@@ -28,7 +28,7 @@ Scenario: 1. Solution section is presented where the solution isFoundation is tr
     Then a successful response is returned
     And the solution organisationName is GPs-R-Us
     And the solution IsFoundation is true
-    And the solution lastUpdated is 19-Nov-2019
+    And the last updated date in the solution is 19/11/2019
 
 @3507
 Scenario: 2. Solution section is presented where the solution isFoundation is false
@@ -36,7 +36,7 @@ Scenario: 2. Solution section is presented where the solution isFoundation is fa
     Then a successful response is returned
     And the solution organisationName is Drs. Inc
     And the solution IsFoundation is false
-    And the solution lastUpdated is 15-Nov-2019
+    And the last updated date in the solution is 15/11/2019
 
 @3507
 Scenario: 3. Solution is not linked to Framwork Solution
@@ -44,4 +44,4 @@ Scenario: 3. Solution is not linked to Framwork Solution
     Then a successful response is returned
     And the solution organisationName is Drs. Inc
     And the solution IsFoundation is false
-    And the solution lastUpdated is 20-Nov-2019
+    And the last updated date in the solution is 20/11/2019

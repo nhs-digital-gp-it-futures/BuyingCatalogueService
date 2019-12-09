@@ -7,10 +7,10 @@ using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using NHSD.BuyingCatalogue.Contracts.Solutions;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
-using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Public;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
@@ -35,9 +35,28 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         }
 
         [Test]
-        public async Task ShouldReturnNotFound()
+        public async Task NoSolutionShouldReturnNotFound()
         {
-            var result = (await _solutionsController.Public(SolutionId1)).Result as NotFoundResult;
+            var result = (await _solutionsController.Public(SolutionId1).ConfigureAwait(false)).Result as NotFoundResult;
+
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+
+            _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId1), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Test]
+        public async Task UnpublishedSolutionShouldReturnNotFound()
+        {
+            var solution = Mock.Of<ISolution>(
+                s => s.Id == SolutionId1 &&
+                     s.PublishedStatus == PublishedStatus.Draft);
+
+            _mockMediator
+                .Setup(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId1), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(solution);
+
+            var result = (await _solutionsController.Public(SolutionId1).ConfigureAwait(false)).Result as NotFoundResult;
 
             result.Should().NotBeNull();
             result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
@@ -59,12 +78,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                      s.Name == name &&
                      s.OrganisationName == organisationName &&
                      s.IsFoundation == isFoundation &&
-                     s.LastUpdated == _lastUpdated), SolutionId1);
+                     s.LastUpdated == _lastUpdated &&
+                     s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
             publicResult.Id.Should().Be(id);
             publicResult.Name.Should().Be(name);
             publicResult.OrganisationName.Should().Be(organisationName);
             publicResult.IsFoundation.Should().Be(isFoundation);
-            publicResult.LastUpdated.Should().Be(_lastUpdated.ToString("dd-MMM-yyyy"));
+            publicResult.LastUpdated.Should().Be(_lastUpdated);
         }
 
         [TestCase(null,null,null)]
@@ -81,7 +101,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 s.Id == SolutionId1 &&
                 s.Summary == summary &&
                 s.Description == description &&
-                s.AboutUrl == link), SolutionId1);
+                s.AboutUrl == link &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
 
             publicResult.Id.Should().Be(SolutionId1);
 
@@ -105,7 +126,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.Id == SolutionId1 &&
-                s.Features == feature), SolutionId1);
+                s.Features == feature &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
 
             publicResult.Id.Should().Be(SolutionId1);
 
@@ -124,7 +146,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         public async Task ShouldCheckForNullClientApplicationTypes()
         {
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
-                s.ClientApplication == null), SolutionId1);
+                s.ClientApplication == null &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
 
             publicResult.Sections.ClientApplicationTypes.Should().BeNull();
         }
@@ -150,7 +173,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
                     c.ClientApplicationTypes == clientApplicationTypes &&
                     c.BrowsersSupported == browsersSupported &&
-                    c.MobileResponsive == mobileResponsive)), SolutionId1);
+                    c.MobileResponsive == mobileResponsive) &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
             if (expectData)
             {
                 publicResult.Sections.ClientApplicationTypes.Sections.HasData.Should().Be(true);
@@ -194,7 +218,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
                     c.ClientApplicationTypes == new HashSet<string> { "browser-based", "native-mobile" } &&
                     c.BrowsersSupported == new HashSet<string> { "Chrome", "Edge" } &&
-                    c.MobileResponsive == true)), SolutionId1);
+                    c.MobileResponsive == true) &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
 
             publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers.SupportedBrowsers
                 .Should().BeEquivalentTo(new HashSet<string> { "Chrome", "Edge" });
@@ -209,7 +234,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
                     c.ClientApplicationTypes == new HashSet<string> { "browser-based", "native-mobile" }
-                    && c.Plugins == new PluginsDto { Required = true, AdditionalInformation = "Plugin additional information" })), SolutionId1);
+                    && c.Plugins == Mock.Of<IPlugins>(p => p.Required == true && p.AdditionalInformation == "Plugin additional information")) &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
 
             publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.PluginOrExtensionsSection.Answers.Required
                 .Should().Be("Yes");
@@ -224,7 +250,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
                     c.ClientApplicationTypes == new HashSet<string> { "native-desktop", "native-mobile" } &&
                     c.BrowsersSupported == new HashSet<string> { "Chrome", "Edge" } &&
-                    c.MobileResponsive == true)), SolutionId1);
+                    c.MobileResponsive == true) &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
 
             publicResult.Sections.ClientApplicationTypes.Should().BeNull();
         }
@@ -234,7 +261,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.Id == SolutionId1 &&
-                s.Capabilities == null), SolutionId1);
+                s.Capabilities == null &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
 
             publicResult.Id.Should().Be(SolutionId1);
             publicResult.Sections.Capabilities.Answers.CapabilitiesMet.Should().BeEquivalentTo(new List<string>());
@@ -249,7 +277,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.Id == SolutionId1 &&
-                s.Capabilities == capabilities), SolutionId1);
+                s.Capabilities == capabilities &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
 
             publicResult.Id.Should().Be(SolutionId1);
             publicResult.Sections.Capabilities.Answers.CapabilitiesMet.Should().ContainInOrder(hasCapability ? new List<string>{ "cap1", "cap2" } : new List<string>());
@@ -260,11 +289,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var publicResult1 = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.Id == SolutionId1 &&
-                s.Capabilities == new List<string>() {"cap1", "cap2"}), SolutionId1);
+                s.Capabilities == new List<string>() {"cap1", "cap2" } &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
 
             var publicResult2 = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.Id == SolutionId2 &&
-                s.Capabilities == new List<string>() {"cap3", "cap4", "cap5"}), SolutionId2);
+                s.Capabilities == new List<string>() {"cap3", "cap4", "cap5" } &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId2).ConfigureAwait(false);
 
             publicResult1.Id.Should().Be(SolutionId1);
             publicResult1.Sections.Capabilities.Answers.CapabilitiesMet.Should()
@@ -286,7 +317,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             
             var contact = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.Id == SolutionId1 &&
-                s.Contacts == contacts), SolutionId1);
+                s.Contacts == contacts &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
 
             contact.Id.Should().Be(SolutionId1);
 
@@ -302,36 +334,80 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         }
 
         [Test]
+        public async Task EmptyContactShouldReturnNoData()
+        {
+            var contacts = new List<IContact>
+            {
+                Mock.Of<IContact>(m =>
+                    m.Name == null && m.Department == "" && m.Email == "" && m.PhoneNumber == "   "),
+                Mock.Of<IContact>(m => m.Name == "" && m.Department == "" && m.Email == "" && m.PhoneNumber == "")
+            };
+
+            var contact = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.Id == SolutionId1 &&
+                s.Contacts == contacts &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
+
+            contact.Id.Should().Be(SolutionId1);
+            contact.Sections.ContactDetails.Should().BeNull();
+        }
+
+        [Test]
+        public async Task SingleContactShouldReturnNullForEmptyData()
+        {
+            var contacts = new List<IContact>
+            {
+                Mock.Of<IContact>(m =>
+                    m.Name == "Hello" && m.Department == "" && m.Email == "" && m.PhoneNumber == "   "),
+                Mock.Of<IContact>(m => m.Name == "" && m.Department == "" && m.Email == "" && m.PhoneNumber == "")
+            };
+
+            var contact = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.Id == SolutionId1 &&
+                s.Contacts == contacts &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
+
+            contact.Id.Should().Be(SolutionId1);
+            contact.Sections.ContactDetails.Should().NotBeNull();
+            contact.Sections.ContactDetails.Answers.HasData().Should().BeTrue();
+            contact.Sections.ContactDetails.Answers.Contact2.Should().BeNull();
+            contact.Sections.ContactDetails.Answers.Contact1.ContactName.Should().NotBeNull();
+            contact.Sections.ContactDetails.Answers.Contact1.PhoneNumber.Should().BeNull();
+            contact.Sections.ContactDetails.Answers.Contact1.DepartmentName.Should().BeNull();
+            contact.Sections.ContactDetails.Answers.Contact1.EmailAddress.Should().BeNull();
+        }
+
+        [Test]
         public void NullSolutionShouldThrowNullExceptionPublicResult()
         {
-            Assert.Throws<ArgumentNullException>(() => new SolutionPublicResult(null));
+            Assert.Throws<ArgumentNullException>(() => new SolutionResult(null));
         }
 
         [Test]
         public void NullSolutionShouldThrowNullExceptionPublicSections()
         {
-            Assert.Throws<ArgumentNullException>(() => new PublicSections(null));
+            Assert.Throws<ArgumentNullException>(() => new Sections(null));
         }
 
         [Test]
         public void NullSolutionShouldThrowNullExceptionSolutionDescriptionPublicAnswers()
         {
-            Assert.Throws<ArgumentNullException>(() => new SolutionDescriptionPublicSectionAnswers(null));
+            Assert.Throws<ArgumentNullException>(() => new SolutionDescriptionSectionAnswers(null));
         }
         
-        private async Task<SolutionPublicResult> GetSolutionPublicResultAsync(ISolution solution, string solutionId)
+        private async Task<SolutionResult> GetSolutionPublicResultAsync(ISolution solution, string solutionId)
         {
             _mockMediator
                 .Setup(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == solutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(solution);
 
-            var result = (await _solutionsController.Public(solutionId)).Result as ObjectResult;
+            var result = (await _solutionsController.Public(solutionId).ConfigureAwait(false)).Result as ObjectResult;
             result.Should().NotBeNull();
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
             _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == solutionId), It.IsAny<CancellationToken>()), Times.Once);
 
-            return result.Value as SolutionPublicResult;
+            return result.Value as SolutionResult;
         }
     }
 }

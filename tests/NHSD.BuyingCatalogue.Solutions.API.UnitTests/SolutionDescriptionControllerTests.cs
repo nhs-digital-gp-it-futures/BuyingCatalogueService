@@ -5,11 +5,11 @@ using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using NHSD.BuyingCatalogue.Contracts.Solutions;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
@@ -38,7 +38,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                         m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
                         .ReturnsAsync(solutionMock);
 
-            var result = (await _solutionDescriptionController.GetSolutionDescriptionAsync(SolutionId)) as ObjectResult;
+            var result = (await _solutionDescriptionController.GetSolutionDescriptionAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
             ((SolutionDescriptionResult) result.Value).Summary.Should().Be(solutionMock.Summary);
@@ -57,7 +57,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionSummaryViewModel == solutionSummaryUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
 
             var result =
-                (await _solutionDescriptionController.UpdateAsync(SolutionId, solutionSummaryUpdateViewModel)) as
+                (await _solutionDescriptionController.UpdateAsync(SolutionId, solutionSummaryUpdateViewModel).ConfigureAwait(false)) as
                     NoContentResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
@@ -81,7 +81,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionSummaryViewModel == solutionSummaryUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
 
             var result =
-                (await _solutionDescriptionController.UpdateAsync(SolutionId, solutionSummaryUpdateViewModel)) as BadRequestObjectResult;
+                (await _solutionDescriptionController.UpdateAsync(SolutionId, solutionSummaryUpdateViewModel).ConfigureAwait(false)) as BadRequestObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
             var resultValue = result.Value as UpdateSolutionSummaryResult;

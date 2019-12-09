@@ -20,6 +20,6 @@ namespace NHSD.BuyingCatalogue.Data.Infrastructure
         /// Gets a new database connection.
         /// </summary>
         /// <returns>A new database connection.</returns>
-        Task<IDbConnection> GetAsync(CancellationToken cancellationToken, DbConnectionStringBuilder connectionStringBuilder);
+        Task<IDbConnection> GetAsync(DbConnectionStringBuilder connectionStringBuilder, CancellationToken cancellationToken);
     }
 }

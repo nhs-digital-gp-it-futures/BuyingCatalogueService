@@ -39,18 +39,17 @@ namespace NHSD.BuyingCatalogue.Persistence.DatabaseTests.HealthChecks
             _settings.Setup(a => a.ConnectionString).Returns(ConnectionStrings.ServiceConnectionString());
             _repositoryHealthCheck = new RepositoryHealthCheck(new DbConnectionFactory(_settings.Object), _settings.Object);
 
-            await _repositoryHealthCheck.RunAsync(new CancellationToken());
+            await _repositoryHealthCheck.RunAsync(new CancellationToken()).ConfigureAwait(false);
         }
 
         [Test]
         public void ShouldReportUnhealthyInLessThanTenSeconds()
         {
             var start = DateTime.Now;
-
-            _settings.Setup(a => a.ConnectionString).Returns(ConnectionStrings.ServiceConnectionString().Replace("localhost", "someotherserver"));
+            _settings.Setup(a => a.ConnectionString).Returns(ConnectionStrings.ServiceConnectionString().Replace("localhost", "someotherserver", StringComparison.InvariantCulture));
             _repositoryHealthCheck = new RepositoryHealthCheck(new DbConnectionFactory(_settings.Object), _settings.Object);
 
-            Assert.ThrowsAsync<SqlException>(async () => await _repositoryHealthCheck.RunAsync(new CancellationToken()));
+            Assert.ThrowsAsync<SqlException>(async () => await _repositoryHealthCheck.RunAsync(new CancellationToken()).ConfigureAwait(false));
 
             DateTime.Now.Subtract(start).TotalSeconds.Should().BeLessThan(10);
         }

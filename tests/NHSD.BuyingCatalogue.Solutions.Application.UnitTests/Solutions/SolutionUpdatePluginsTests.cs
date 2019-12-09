@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using Newtonsoft.Json.Linq;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
@@ -20,7 +20,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdatePlugins("yes", "This is some information");
+            var validationResult = await UpdatePlugins("yes", "This is some information").ConfigureAwait(false);
             validationResult.IsValid.Should().BeTrue();
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once);
@@ -49,7 +49,33 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                     json.SelectToken("Plugins.AdditionalInformation").Value<string>().Should().Contain("orem ipsum");
                 });
 
-            var validationResult = await UpdatePlugins("yes", "orem ipsum");
+            var validationResult = await UpdatePlugins("yes", "orem ipsum").ConfigureAwait(false);
+            validationResult.IsValid.Should().BeTrue();
+
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+
+            calledBack.Should().BeTrue();
+        }
+
+        [Test]
+        public async Task ShouldUpdatePluginsNullAdditionalInformation()
+        {
+            SetUpMockSolutionRepositoryGetByIdAsync("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], 'MobileResponsive': false, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' } }");
+
+            var calledBack = false;
+
+            Context.MockSolutionDetailRepository
+                .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()))
+                .Callback((IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken cancellationToken) =>
+                {
+                    calledBack = true;
+                    var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+
+                    json.SelectToken("Plugins.Required").Value<bool>().Should().BeTrue();
+                    json.SelectToken("Plugins.AdditionalInformation").Should().BeNullOrEmpty();
+                });
+
+            var validationResult = await UpdatePlugins("yes", null).ConfigureAwait(false);
             validationResult.IsValid.Should().BeTrue();
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
@@ -62,7 +88,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdatePlugins(null, new string('a', 501));
+            var validationResult = await UpdatePlugins(null, new string('a', 501)).ConfigureAwait(false);
             validationResult.IsValid.Should().Be(false);
             validationResult.Required.Should().BeEquivalentTo(new [] { "plugins-required" });
             validationResult.MaxLength.Should().BeEquivalentTo(new[] { "plugins-detail" });
@@ -87,7 +113,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             {
                 Required = required,
                 AdditionalInformation = additionalInformation
-            }), CancellationToken.None);
+            }), CancellationToken.None).ConfigureAwait(false);
         }
     }
 }

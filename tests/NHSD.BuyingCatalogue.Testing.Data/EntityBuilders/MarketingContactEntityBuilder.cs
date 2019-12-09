@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
@@ -18,9 +16,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
         {
             _entity = new MarketingContactEntity
             {
-                SolutionId = "Sup 1",
-                LastUpdated = DateTime.Now,
-                LastUpdatedBy = Guid.NewGuid()
+                SolutionId = "Sup 1"
             };
         }
 

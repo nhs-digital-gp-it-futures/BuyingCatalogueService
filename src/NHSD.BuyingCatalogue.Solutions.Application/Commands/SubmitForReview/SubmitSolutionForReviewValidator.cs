@@ -71,7 +71,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview
             return result;
         }
 
-        private ValidationResult ValidateSupportedBrowsers(ClientApplication clientApplication)
+        private static ValidationResult ValidateSupportedBrowsers(ClientApplication clientApplication)
         {
             ValidationResult result = new ValidationResult();
 
@@ -83,7 +83,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview
             return result;
         }
 
-        private ValidationResult ValidateMobileResponsive(ClientApplication clientApplication)
+        private static ValidationResult ValidateMobileResponsive(ClientApplication clientApplication)
         {
             ValidationResult result = new ValidationResult();
 
@@ -95,7 +95,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview
             return result;
         }
 
-        private ValidationResult ValidateClientApplicationPlugins(Plugins clientApplicationPlugins)
+        private static ValidationResult ValidateClientApplicationPlugins(Plugins clientApplicationPlugins)
         {
             ValidationResult result = new ValidationResult();
 
@@ -104,7 +104,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview
             return result;
         }
 
-        private ValidationResult ValidatePluginRequirement(Plugins clientApplicationPlugins)
+        private static ValidationResult ValidatePluginRequirement(Plugins clientApplicationPlugins)
         {
             ValidationResult result = new ValidationResult();
 

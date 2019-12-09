@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Persistence.Repositories;
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence

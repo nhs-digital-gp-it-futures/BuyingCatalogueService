@@ -10,5 +10,11 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Exceptions
         public NotFoundException(string name, object key) : base($"Entity named '{name}' could not be found matching the ID '{key}'.")
         {
         }
+
+        public NotFoundException(string message, Exception innerException) : base(message, innerException) { }
+
+        public NotFoundException(string message) : base(message) { }
+
+        public NotFoundException() { }
     }
 }

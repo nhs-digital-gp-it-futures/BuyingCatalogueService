@@ -16,12 +16,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview
         /// </summary>
         internal ValidationError(string id)
         {
-            if (string.IsNullOrWhiteSpace(id))
-            {
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(id));
-            }
-
-            Id = id;
+            Id = id.ThrowIfNullOrWhitespace();
         }
 
         /// <inheritdoc />

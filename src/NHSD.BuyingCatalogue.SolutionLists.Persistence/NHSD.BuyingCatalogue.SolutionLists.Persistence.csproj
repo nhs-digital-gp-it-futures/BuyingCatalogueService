@@ -4,9 +4,18 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\NHSD.BuyingCatalogue.Contracts\NHSD.BuyingCatalogue.Contracts.csproj" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Data\NHSD.BuyingCatalogue.Data.csproj" />
+    <ProjectReference Include="..\NHSD.BuyingCatalogue.SolutionLists.Contracts\NHSD.BuyingCatalogue.SolutionLists.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

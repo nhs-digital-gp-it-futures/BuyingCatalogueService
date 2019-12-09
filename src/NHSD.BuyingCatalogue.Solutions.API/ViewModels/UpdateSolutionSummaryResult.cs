@@ -12,7 +12,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         /// <summary>
         /// Initialises a new instance of the <see cref="UpdateSolutionSummaryResult"/> class.
         /// </summary>
-        public UpdateSolutionSummaryResult(UpdateSolutionSummaryValidationResult updateSolutionSummaryValidationResult)
+        internal UpdateSolutionSummaryResult(UpdateSolutionSummaryValidationResult updateSolutionSummaryValidationResult)
         {
             Required = updateSolutionSummaryValidationResult.Required;
             MaxLength = updateSolutionSummaryValidationResult.MaxLength;

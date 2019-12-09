@@ -35,7 +35,7 @@ namespace NHSD.BuyingCatalogue.Capabilities.Application.UnitTests
                 t.IsFoundation
             });
 
-            var capabilities = await _context.ListCapabilitiesHandler.Handle(new ListCapabilitiesQuery(), new CancellationToken());
+            var capabilities = await _context.ListCapabilitiesHandler.Handle(new ListCapabilitiesQuery(), new CancellationToken()).ConfigureAwait(false);
             capabilities.Should().BeEquivalentTo(expectedCapabilities);
         }
 
@@ -44,7 +44,7 @@ namespace NHSD.BuyingCatalogue.Capabilities.Application.UnitTests
         {
             _context.MockCapabilityRepository.Setup(r => r.ListAsync(It.IsAny<CancellationToken>())).ReturnsAsync(new List<ICapabilityListResult>());
 
-            var capabilities = await _context.ListCapabilitiesHandler.Handle(new ListCapabilitiesQuery(), new CancellationToken());
+            var capabilities = await _context.ListCapabilitiesHandler.Handle(new ListCapabilitiesQuery(), new CancellationToken()).ConfigureAwait(false);
             capabilities.Should().BeEmpty();
         }
 
@@ -54,7 +54,7 @@ namespace NHSD.BuyingCatalogue.Capabilities.Application.UnitTests
             var capabilityData = GetCapabilities();
             _context.MockCapabilityRepository.Setup(r => r.ListAsync(It.IsAny<CancellationToken>())).ReturnsAsync(capabilityData);
 
-            var capabilities = await _context.ListCapabilitiesHandler.Handle(new ListCapabilitiesQuery(), new CancellationToken());
+            var capabilities = await _context.ListCapabilitiesHandler.Handle(new ListCapabilitiesQuery(), new CancellationToken()).ConfigureAwait(false);
             _context.MockCapabilityRepository.Verify(r => r.ListAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
 
@@ -68,7 +68,7 @@ namespace NHSD.BuyingCatalogue.Capabilities.Application.UnitTests
             };
         }
 
-        private ICapabilityListResult GetCapability(string name, bool isFoundation)
+        private static ICapabilityListResult GetCapability(string name, bool isFoundation)
         {
             var capability = new Mock<ICapabilityListResult>();
             capability.Setup(c => c.Id).Returns(Guid.NewGuid());

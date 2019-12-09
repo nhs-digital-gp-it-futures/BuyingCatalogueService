@@ -152,3 +152,15 @@ csharp_space_after_dot = false
 # Wrapping preferences
 csharp_preserve_single_line_statements = true
 csharp_preserve_single_line_blocks = true
+
+# CA1054: Uri parameters should not be strings
+dotnet_diagnostic.CA1054.severity = none
+
+# CA1056: Uri properties should not be strings
+dotnet_diagnostic.CA1056.severity = none
+
+# CA1056: Internal classes should be instantiated
+dotnet_diagnostic.CA1812.severity = none
+
+# CA1820: Test for empty strings using length
+dotnet_diagnostic.CA1820.severity = none

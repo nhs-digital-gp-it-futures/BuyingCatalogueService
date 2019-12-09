@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 {
@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
         public UpdateSolutionFeaturesRequest(string id, IEnumerable<string> features)
         {
             SolutionId = id;
-            Features = JsonConvert.SerializeObject(features).ToString();
+            Features = JsonConvert.SerializeObject(features);
         }
 
         public string SolutionId { get; }

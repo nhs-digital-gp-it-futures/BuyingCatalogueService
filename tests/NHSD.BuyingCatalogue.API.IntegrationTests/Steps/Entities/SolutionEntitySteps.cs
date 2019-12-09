@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
+using NHSD.BuyingCatalogue.Testing.Tools;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 
@@ -25,6 +26,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                     .WithOnLastUpdated(solutionTable.LastUpdated)
                     .WithOrganisationId(organisations.First(o => o.Name == solutionTable.OrganisationName).Id)
                     .WithSupplierStatusId(solutionTable.SupplierStatusId)
+                    .WithPublishedStatusId(solutionTable.PublishedStatusId)
+                    .WithOnLastUpdated(solutionTable.LastUpdated != DateTime.MinValue ? solutionTable.LastUpdated : DateTime.UtcNow)
                     .Build()
                     .InsertAsync();
             }
@@ -74,6 +77,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             solution.SupplierStatusId.Should().Be(status.Id);
         }
 
+        [Then(@"Last Updated has updated on the SolutionEntity for solution (.*)")]
+        public async Task LastUpdatedHasUpdatedOnMarketingContact(string solutionId)
+        {
+            var contact = await SolutionEntity.GetByIdAsync(solutionId);
+            contact.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
+        }
+
         private class SolutionTable
         {
             public string SolutionID { get; set; }
@@ -83,6 +93,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             public string OrganisationName { get; set; }
 
             public int SupplierStatusId { get; set; }
+
+            public int PublishedStatusId { get; set; } = 3;
 
             public DateTime LastUpdated { get; set; }
         }

@@ -2,8 +2,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using NHSD.BuyingCatalogue.Contracts.Solutions;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
 {
@@ -23,6 +23,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
 
         public async Task<IClientApplication> Handle(GetClientApplicationBySolutionIdQuery request,
             CancellationToken cancellationToken)
-            => _mapper.Map<IClientApplication>(await _reader.BySolutionIdAsync(request.Id, cancellationToken));
+            => _mapper.Map<IClientApplication>(await _reader.BySolutionIdAsync(request.Id, cancellationToken).ConfigureAwait(false));
     }
 }

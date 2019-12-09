@@ -28,6 +28,6 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.Repositories
         /// </summary>
         /// <returns>A task representing an operation to retrieve a list of <see cref="ICapabilityListResult"/> objects.</returns>
         public async Task<IEnumerable<ICapabilityListResult>> ListAsync(CancellationToken cancellationToken)
-            => await _dbConnector.QueryAsync<CapabilityListResult>(cancellationToken, sql);
+            => await _dbConnector.QueryAsync<CapabilityListResult>(sql, cancellationToken).ConfigureAwait(false);
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 {
@@ -41,7 +41,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetSolutionDescriptionAsync([FromRoute][Required]string id)
         {
-            var solution = await _mediator.Send(new GetSolutionByIdQuery(id));
+            var solution = await _mediator.Send(new GetSolutionByIdQuery(id)).ConfigureAwait(false);
             return solution == null ? (ActionResult)new NotFoundResult() : Ok(new SolutionDescriptionResult(solution.Summary, solution.Description, solution.AboutUrl));
         }
 
@@ -58,7 +58,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> UpdateAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionSummaryViewModel updateSolutionSummaryViewModel)
         {
-            var validationResult = await _mediator.Send(new UpdateSolutionSummaryCommand(id, updateSolutionSummaryViewModel));
+            var validationResult = await _mediator.Send(new UpdateSolutionSummaryCommand(id, updateSolutionSummaryViewModel)).ConfigureAwait(false);
             return validationResult.IsValid ? (ActionResult)new NoContentResult() : BadRequest(new UpdateSolutionSummaryResult(validationResult));
 
         }

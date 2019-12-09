@@ -38,7 +38,7 @@ namespace NHSD.BuyingCatalogue.Capabilities.API.UnitTests
 
             _mockMediator.Setup(m => m.Send(It.IsAny<ListCapabilitiesQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(capabilities);
 
-            var result = (await _capabilitiesController.ListAsync()).Result as ObjectResult;
+            var result = (await _capabilitiesController.ListAsync().ConfigureAwait(false)).Result as ObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
             (result.Value as ListCapabilitiesResult).Capabilities.Should().BeEquivalentTo(capabilities);

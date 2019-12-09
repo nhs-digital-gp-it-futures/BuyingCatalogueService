@@ -32,11 +32,12 @@ The application is broken down into the following project libraries:
 > Also download and store the Buying Catalogue Data Model repository along side this repository.
 
 <p>
+# Running the API
 
-To run the application in a container in development mode, run the following command (from the buying catalogue directory):
+To run the application in a container in development mode, run the following script:
 
 ```
-docker-compose -f ".\docker-compose.yml" -f ".\docker-compose.development.yml" up -d
+Launch Environment.ps1
 ```
 
 You can now access the API in your browser at 'http://localhost:8080/swagger/index.html'
@@ -44,7 +45,7 @@ You can now access the API in your browser at 'http://localhost:8080/swagger/ind
 To stop the application running in a container and to delete all the  associated resources run the command:
 
 ```
-docker-compose -f ".\docker-compose.yml" -f ".\docker-compose.development.yml" down -v --rmi "all"
+Tear Down Environment.ps1
 ```
 
 </p>
@@ -52,18 +53,29 @@ docker-compose -f ".\docker-compose.yml" -f ".\docker-compose.development.yml" d
 # Integration Tests
 
 Integration Tests and Persistence Tests run against Docker images of service and database. These must be re-created before running tests.
+<br/>
 Alternatively use the supplied powershell scripts "Run Integration Tests.ps1" and "Run Code coverage.ps1" 
 
-##Before running such tests in Visual Studio
+## Before running such tests in Visual Studio
 ```
-dotnet publish "src\NHSD.BuyingCatalogue.API\NHSD.BuyingCatalogue.API.csproj" --configuration Release --output "out"
-docker-compose -f "docker-compose.yml" -f "docker-compose.integration.yml" up -d
+Launch Environment.ps1 -env i
 ```
-(Or run "Launch Integration Environment.ps1")
+or
+```
+Launch Environment.ps1 -env integration
+```
 
-##After running such tests in Visual Studio
 
-Run "Tear Down Integration Environment.ps1"
+
+## After running such tests in Visual Studio
+
+```
+Tear Down Environment -env i
+```
+or
+```
+Tear Down Environment -env integration
+```
 
 ## Integration DB docker image
 In order to speed up the API Integration test execution, a docker image which contains all the data needed has been build. 
@@ -79,6 +91,6 @@ To build / update the image run `setup-integration-db` script either in Powershe
 ## Troubleshooting
 `./integration-entrypoint.sh: line 2: $'\r': command not found` during the image build - run `dos2unix` on the integration-entrypoint.sh script
 
-##Error: "Start Buying Catalogue API failed, could not get a successful health status from 'http://localhost:8080/health/live' after trying for '01:00'"
+## Error: "Start Buying Catalogue API failed, could not get a successful health status from 'http://localhost:8080/health/live' after trying for '01:00'"
 
-Have you remembered to run "Launch Integration Environment.ps1" :) ?
+Have you remembered to run `Launch Environment.ps1 -env i` :) ?

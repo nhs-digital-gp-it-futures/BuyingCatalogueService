@@ -2,9 +2,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
@@ -23,7 +23,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public async Task ShouldUpdateSolutionSummary()
         {
-            var validationResult = await UpdateSolutionDescriptionAsync();
+            var validationResult = await UpdateSolutionDescriptionAsync().ConfigureAwait(false);
             validationResult.IsValid.Should().BeTrue();
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
@@ -42,7 +42,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [TestCase(" ")]//space
         public async Task ShouldValidateForExistenceOfSummary(string summary)
         {
-            var validationResult = await UpdateSolutionDescriptionAsync(summary: summary);
+            var validationResult = await UpdateSolutionDescriptionAsync(summary: summary).ConfigureAwait(false);
 
             validationResult.IsValid.Should().BeFalse();
             validationResult.Required.Should().BeEquivalentTo(new [] {"summary"});
@@ -55,7 +55,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public async Task ShouldValidateForMaxLengthDescription()
         {
-            var validationResult = await UpdateSolutionDescriptionAsync(description: new string('a', 1001));
+            var validationResult = await UpdateSolutionDescriptionAsync(description: new string('a', 1001)).ConfigureAwait(false);
 
             validationResult.IsValid.Should().BeFalse();
             validationResult.Required.Should().BeEmpty();
@@ -68,7 +68,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public async Task ShouldValidateForMaxLengthLink()
         {
-            var validationResult = await UpdateSolutionDescriptionAsync(link: new string('a', 1001));
+            var validationResult = await UpdateSolutionDescriptionAsync(link: new string('a', 1001)).ConfigureAwait(false);
 
             validationResult.IsValid.Should().BeFalse();
             validationResult.Required.Should().BeEmpty();
@@ -81,7 +81,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public async Task ShouldValidateForMaxLengthSummary()
         {
-            var validationResult = await UpdateSolutionDescriptionAsync(summary: new string('a', 301));
+            var validationResult = await UpdateSolutionDescriptionAsync(summary: new string('a', 301)).ConfigureAwait(false);
 
             validationResult.IsValid.Should().BeFalse();
             validationResult.Required.Should().BeEmpty();
@@ -95,7 +95,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public async Task ShouldValidateCombinations()
         {
-            var validationResult = await UpdateSolutionDescriptionAsync(summary: "", description: new string('a', 1001), link: new string('a', 1001));
+            var validationResult = await UpdateSolutionDescriptionAsync(summary: "", description: new string('a', 1001), link: new string('a', 1001)).ConfigureAwait(false);
 
             validationResult.IsValid.Should().BeFalse();
             validationResult.Required.Should().BeEquivalentTo(new[] { "summary" });
@@ -108,7 +108,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public async Task ShouldValidateValidCases()
         {
-            var validationResult = await UpdateSolutionDescriptionAsync(summary: "Summary", description: null, link: null);
+            var validationResult = await UpdateSolutionDescriptionAsync(summary: "Summary", description: null, link: null).ConfigureAwait(false);
 
             validationResult.IsValid.Should().BeTrue();
             validationResult.Required.Should().BeEmpty();
@@ -149,7 +149,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                     Description = description,
                     Link = link,
                     Summary = summary
-                }), new CancellationToken());
+                }), new CancellationToken()).ConfigureAwait(false);
             return validationResult;
         }
     }

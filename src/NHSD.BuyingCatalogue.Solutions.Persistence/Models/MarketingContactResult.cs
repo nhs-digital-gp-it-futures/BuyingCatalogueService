@@ -1,4 +1,5 @@
-using NHSD.BuyingCatalogue.Contracts.Persistence;
+using System;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
 {
@@ -11,5 +12,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
         public string Email { get; }
         public string PhoneNumber { get; }
         public string Department { get; }
+        public DateTime LastUpdated { get; }
     }
 }

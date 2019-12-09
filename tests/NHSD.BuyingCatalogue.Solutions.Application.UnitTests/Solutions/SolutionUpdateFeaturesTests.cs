@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using Newtonsoft.Json;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
@@ -29,7 +29,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             var listing = new List<string> { "sheep", "cow", "donkey" };
 
-            var validationResult = await UpdateSolutionFeaturesAsync(listing);
+            var validationResult = await UpdateSolutionFeaturesAsync(listing)
+                .ConfigureAwait(false);
             validationResult.IsValid.Should().BeTrue();
             validationResult.MaxLength.Should().BeEmpty();
 
@@ -44,7 +45,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public async Task ShouldValidateSingleMaxLength()
         {
-            var validationResult = await UpdateSolutionFeaturesAsync(new List<string>() {new string('a', 101), "test"});
+            var validationResult = await UpdateSolutionFeaturesAsync(new List<string>() {new string('a', 101), "test"})
+                .ConfigureAwait(false);
             validationResult.IsValid.Should().BeFalse();
             validationResult.MaxLength.Should().BeEquivalentTo(new[] {"listing-1"});
 
@@ -55,7 +57,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public async Task ShouldValidateMultipleMaxLength()
         {
-            var validationResult = await UpdateSolutionFeaturesAsync(new List<string>() { new string('a', 101), "test", new string('b', 200), "test", "test", new string('c', 105) });
+            var validationResult = await UpdateSolutionFeaturesAsync(new List<string>() { new string('a', 101), "test", new string('b', 200), "test", "test", new string('c', 105) })
+                .ConfigureAwait(false);
             validationResult.IsValid.Should().BeFalse();
             validationResult.MaxLength.Should().BeEquivalentTo(new[] { "listing-1", "listing-3", "listing-6"});
 
@@ -91,7 +94,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             var validationResult = await _context.UpdateSolutionFeaturesHandler.Handle(
                 new UpdateSolutionFeaturesCommand(SolutionId,
-                    new UpdateSolutionFeaturesViewModel() {Listing = listing}), new CancellationToken());
+                    new UpdateSolutionFeaturesViewModel() {Listing = listing}), new CancellationToken())
+                .ConfigureAwait(false);
             return validationResult;
         }
     }

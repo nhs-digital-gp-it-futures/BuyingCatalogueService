@@ -1,20 +1,15 @@
 using System;
+using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins
 {
     internal sealed class UpdateSolutionPluginsValidator
     {
-        public UpdateSolutionPluginsValidationResult Validation(
-            UpdateSolutionPluginsViewModel updateSolutionPluginsViewModel)
+        public UpdateSolutionPluginsValidationResult Validation(UpdateSolutionPluginsViewModel updateSolutionPluginsViewModel)
         {
-            if (updateSolutionPluginsViewModel == null)
-            {
-                throw new ArgumentNullException(nameof(updateSolutionPluginsViewModel));
-            }
-
             var validationResult = new UpdateSolutionPluginsValidationResult();
 
-            if (string.IsNullOrWhiteSpace(updateSolutionPluginsViewModel.Required))
+            if (string.IsNullOrWhiteSpace(updateSolutionPluginsViewModel.ThrowIfNull(nameof(updateSolutionPluginsViewModel)).Required))
             {
                 validationResult.Required.Add("plugins-required");
             }

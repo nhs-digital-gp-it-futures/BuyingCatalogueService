@@ -1,9 +1,9 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
 using NHSD.BuyingCatalogue.Infrastructure;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Persistence.Models;
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
@@ -20,12 +20,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         private const string byIdsql = @"SELECT Solution.Id,
                                         Solution.Name,
                                         Solution.LastUpdated,
+                                        Solution.PublishedStatusId AS PublishedStatus,
                                         Organisation.Name as OrganisationName,
                                         SolutionDetail.Summary AS Summary,
                                         SolutionDetail.FullDescription AS Description,
                                         SolutionDetail.AboutUrl AS AboutUrl,
                                         SolutionDetail.Features As Features,
                                         SolutionDetail.ClientApplication as ClientApplication,
+                                        SolutionDetail.LastUpdated as SolutionDetailLastUpdated,                                     
                                         FrameworkSolutions.IsFoundation as IsFoundation
                                  FROM   Solution
                                         INNER JOIN Organisation ON Organisation.Id = Solution.OrganisationId
@@ -35,10 +37,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         private const string updateSolutionSupplierStatusSql = @"
                                         UPDATE  Solution
-                                        SET		Solution.SupplierStatusId = @supplierStatusId
+                                        SET		Solution.SupplierStatusId = @supplierStatusId,
+                                                Solution.LastUpdated = GETDATE()
                                         WHERE   Solution.Id = @id
                                 IF @@ROWCOUNT = 0
                                     THROW 60000, 'Solution or SolutionDetail not found', 1; ";
+
+        private const string doesSolutionExist = @"
+                                        SELECT COUNT(*)
+                                 FROM   Solution
+                                 WHERE  Solution.Id = @id";
 
         /// <summary>
         /// Gets a <see cref="ISolutionResult"/> matching the specified ID.
@@ -47,7 +55,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
         /// <returns>A task representing an operation to retrieve a <see cref="ISolutionResult"/> matching the specified ID.</returns>
         public async Task<ISolutionResult> ByIdAsync(string id, CancellationToken cancellationToken)
-            => (await _dbConnector.QueryAsync<SolutionResult>(cancellationToken, byIdsql, new { id })).SingleOrDefault();
+            => (await _dbConnector.QueryAsync<SolutionResult>(byIdsql, cancellationToken, new { id }).ConfigureAwait(false)).SingleOrDefault();
 
         /// <summary>
         /// Updates the supplier status of the specified updateSolutionRequest in the data store.
@@ -56,6 +64,22 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
         /// <returns>A task representing an operation to update the supplier status of the specified updateSolutionRequest in the data store.</returns>
         public async Task UpdateSupplierStatusAsync(IUpdateSolutionSupplierStatusRequest updateSolutionSupplierStatusRequest, CancellationToken cancellationToken)
-            => await _dbConnector.ExecuteAsync(cancellationToken, updateSolutionSupplierStatusSql, updateSolutionSupplierStatusRequest.ThrowIfNull(nameof(updateSolutionSupplierStatusRequest)));
+            => await _dbConnector.ExecuteAsync(updateSolutionSupplierStatusSql, cancellationToken, updateSolutionSupplierStatusRequest.ThrowIfNull(nameof(updateSolutionSupplierStatusRequest))).ConfigureAwait(false);
+
+        /// <summary>
+        /// Checks if the solution exists
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>True if it exists</returns>
+        public async Task<bool> CheckExists(string id, CancellationToken cancellationToken)
+        {
+            var solutionCount = await _dbConnector.QueryAsync<int>(doesSolutionExist, cancellationToken, new {
+                id
+            }).ConfigureAwait(false);
+
+            return solutionCount.Sum() == 1;
+        }
+        
     }
 }

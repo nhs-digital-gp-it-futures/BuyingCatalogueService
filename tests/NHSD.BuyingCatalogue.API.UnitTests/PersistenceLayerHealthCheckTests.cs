@@ -43,7 +43,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             var context = new HealthCheckContext();
             var cancelToken = new CancellationToken();
 
-            var result = (await _persistenceLayerHealthCheck.CheckHealthAsync(context, cancelToken));
+            var result = (await _persistenceLayerHealthCheck.CheckHealthAsync(context, cancelToken).ConfigureAwait(false));
 
             result.Status.Should().Be(2);
         }
@@ -59,7 +59,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
             var context = new HealthCheckContext(){Registration = new HealthCheckRegistration("Test", _persistenceLayerHealthCheck, HealthStatus.Unhealthy, new List<string>())};
             var cancelToken = new CancellationToken();
 
-            var result = (await _persistenceLayerHealthCheck.CheckHealthAsync(context, cancelToken));
+            var result = (await _persistenceLayerHealthCheck.CheckHealthAsync(context, cancelToken).ConfigureAwait(false));
 
             result.Status.Should().Be(0);
             result.Exception.Message.Should().Be(new IOException().Message);

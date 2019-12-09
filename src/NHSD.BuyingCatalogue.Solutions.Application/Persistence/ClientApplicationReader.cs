@@ -1,9 +1,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 {
@@ -18,7 +18,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 
         public async Task<ClientApplication> BySolutionIdAsync(string id, CancellationToken cancellationToken)
         {
-            var clientApplicationResult = await _solutionDetailRepository.GetClientApplicationBySolutionIdAsync(id, cancellationToken)
+            var clientApplicationResult = await _solutionDetailRepository.GetClientApplicationBySolutionIdAsync(id, cancellationToken).ConfigureAwait(false)
                                  ?? throw new NotFoundException(nameof(Solution), id);
 
             return string.IsNullOrWhiteSpace(clientApplicationResult.ClientApplication)

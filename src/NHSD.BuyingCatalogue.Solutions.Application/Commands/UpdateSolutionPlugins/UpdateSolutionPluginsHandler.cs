@@ -27,14 +27,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlug
             if (validationResult.IsValid)
             {
                 await _clientApplicationPartialUpdater.UpdateAsync(request.SolutionId, clientApplication =>
-                {
-                    clientApplication.Plugins = new Plugins()
-                    {
-                        Required = request.UpdateSolutionPluginsViewModel.Required.ToBoolean(),
-                        AdditionalInformation = request.UpdateSolutionPluginsViewModel.AdditionalInformation
-                    };
-                },
-                    cancellationToken);
+                        {
+                            clientApplication.Plugins = new Plugins()
+                            {
+                                Required = request.UpdateSolutionPluginsViewModel.Required.ToBoolean(),
+                                AdditionalInformation = request.UpdateSolutionPluginsViewModel.AdditionalInformation
+                            };
+                        },
+                    cancellationToken).ConfigureAwait(false);
             }
 
             return validationResult;

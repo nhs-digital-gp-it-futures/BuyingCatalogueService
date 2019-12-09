@@ -18,9 +18,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             {
                 Id = "Sup",
                 OrganisationId = Guid.Empty,
-                Name = "Supplier",
-                LastUpdated = DateTime.Now,
-                LastUpdatedBy = Guid.Empty
+                Name = "Supplier"
             };
         }
 

@@ -5,7 +5,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 {
     public class UpdateSolutionFeaturesResult
     {
-        public UpdateSolutionFeaturesResult(UpdateSolutionFeaturesValidationResult updateSolutionFeaturesValidationResult)
+        internal UpdateSolutionFeaturesResult(UpdateSolutionFeaturesValidationResult updateSolutionFeaturesValidationResult)
         {
             MaxLength = updateSolutionFeaturesValidationResult.MaxLength;
         }

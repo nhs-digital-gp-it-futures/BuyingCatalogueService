@@ -6,9 +6,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrow
     public sealed class UpdateSolutionBrowsersSupportedViewModel
     {
         [JsonProperty("supported-browsers")]
-        public HashSet<string> BrowsersSupported { get; set; }
+        public HashSet<string> BrowsersSupported { get; internal set; }
 
         [JsonProperty("mobile-responsive")]
-        public string MobileResponsive { get; set; }
+        public string MobileResponsive { get; internal set; }
     }
 }

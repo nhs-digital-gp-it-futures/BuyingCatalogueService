@@ -31,6 +31,6 @@ namespace NHSD.BuyingCatalogue.Capabilities.API
         [HttpGet]
         [ProducesResponseType(typeof(ListCapabilitiesResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult<ListCapabilitiesResult>> ListAsync() => Ok(new ListCapabilitiesResult(await _mediator.Send(new ListCapabilitiesQuery())));
+        public async Task<ActionResult<ListCapabilitiesResult>> ListAsync() => Ok(new ListCapabilitiesResult(await _mediator.Send(new ListCapabilitiesQuery()).ConfigureAwait(false)));
     }
 }

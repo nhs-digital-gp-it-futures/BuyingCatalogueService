@@ -20,14 +20,14 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             _response = response;
         }
 
-        [Then(@"the solution (features|solution-description|client-application-types) section status is (COMPLETE|INCOMPLETE)")]
+        [Then(@"the solution (features|solution-description|client-application-types|contact-details) section status is (COMPLETE|INCOMPLETE)")]
         public async Task ThenTheSolutionSectionStatusIs(string section, string status)
         {
             var content = await _response.ReadBody();
             content.SelectToken($"sections.{section}.status").ToString().Should().Be(status);
         }
 
-        [Then(@"the solution (features|solution-description|client-application-types) section requirement is (Mandatory|Optional)")]
+        [Then(@"the solution (features|solution-description|client-application-types|contact-details) section requirement is (Mandatory|Optional)")]
         public async Task ThenTheSolutionSectionRequirementIsMandatory(string section, string requirement)
         {
             var content = await _response.ReadBody();
@@ -41,7 +41,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             content.SelectToken($"sections.client-application-types.sections.{section}.requirement").ToString().Should().Be(requirement);
         }
 
-        [When(@"a GET request is made for (client-application-types|features|solution-description|browsers-supported|plug-ins-or-extensions) with no solution id")]
+        [When(@"a GET request is made for (client-application-types|features|solution-description|browsers-supported|plug-ins-or-extensions|contact-details) with no solution id")]
         public async Task GetRequestSectionNoSolutionId(string section)
         {
             await GetSectionRequest(section, " ");

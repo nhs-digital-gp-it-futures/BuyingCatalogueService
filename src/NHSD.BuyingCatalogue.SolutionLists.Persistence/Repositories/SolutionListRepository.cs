@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
+using NHSD.BuyingCatalogue.SolutionLists.Contracts.Persistence;
 using NHSD.BuyingCatalogue.SolutionLists.Persistence.Models;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.Repositories
@@ -30,14 +30,14 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.Repositories
                                         INNER JOIN SolutionCapability ON Solution.Id = SolutionCapability.SolutionId
                                         INNER JOIN Capability ON Capability.Id = SolutionCapability.CapabilityId
                                         LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
-                                        LEFT JOIN FrameworkSolutions ON Solution.Id = FrameworkSolutions.SolutionId";
+                                        LEFT JOIN FrameworkSolutions ON Solution.Id = FrameworkSolutions.SolutionId
+                                WHERE   Solution.PublishedStatusId = 3";
 
         /// <summary>
         /// Gets a list of <see cref="ISolutionListResult"/> objects.
         /// </summary>
         /// <returns>A list of <see cref="ISolutionListResult"/> objects.</returns>
         public async Task<IEnumerable<ISolutionListResult>> ListAsync(bool foundationOnly, CancellationToken cancellationToken)
-            => await _dbConnector.QueryAsync<SolutionListResult>(cancellationToken,
-                foundationOnly ? sql + " WHERE COALESCE(FrameworkSolutions.IsFoundation, 0) = 1" : sql);
+            => await _dbConnector.QueryAsync<SolutionListResult>(foundationOnly ? sql + " AND COALESCE(FrameworkSolutions.IsFoundation, 0) = 1" : sql, cancellationToken).ConfigureAwait(false);
     }
 }

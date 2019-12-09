@@ -37,9 +37,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSumm
 
             if (validationResult.IsValid)
             {
-                Solution solution = await _solutionReader.ByIdAsync(request.SolutionId, cancellationToken);
+                Solution solution = await _solutionReader.ByIdAsync(request.SolutionId, cancellationToken).ConfigureAwait(false);
 
-                await _solutionSummaryUpdater.UpdateSummaryAsync(_mapper.Map(request.UpdateSolutionSummaryViewModel, solution), cancellationToken);
+                await _solutionSummaryUpdater.UpdateSummaryAsync(_mapper.Map(request.UpdateSolutionSummaryViewModel, solution), cancellationToken).ConfigureAwait(false);
             }
 
             return validationResult;

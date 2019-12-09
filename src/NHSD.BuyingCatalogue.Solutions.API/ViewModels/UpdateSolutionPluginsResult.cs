@@ -5,7 +5,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 {
     public class UpdateSolutionPluginsResult
     {
-        public UpdateSolutionPluginsResult(UpdateSolutionPluginsValidationResult updateSolutionPluginsValidationResult)
+        internal UpdateSolutionPluginsResult(UpdateSolutionPluginsValidationResult updateSolutionPluginsValidationResult)
         {
             Required = updateSolutionPluginsValidationResult.Required;
             MaxLength = updateSolutionPluginsValidationResult.MaxLength;

@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using Newtonsoft.Json.Linq;
-using NHSD.BuyingCatalogue.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowsersSupported;
 using NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Tools;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
@@ -22,7 +22,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateBrowsersSupported(new HashSet<string> { "Edge", "Google Chrome" }, "yes");
+            var validationResult = await UpdateBrowsersSupported(new HashSet<string> { "Edge", "Google Chrome" }, "yes")
+                .ConfigureAwait(false);
             validationResult.IsValid.Should().BeTrue();
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
@@ -53,7 +54,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                     json.SelectToken("MobileResponsive").Value<bool>().Should().BeTrue();
                 });
 
-            var validationResult = await UpdateBrowsersSupported(new HashSet<string> { "Edge", "Google Chrome" }, "yes");
+            var validationResult = await UpdateBrowsersSupported(new HashSet<string> { "Edge", "Google Chrome" }, "yes")
+                .ConfigureAwait(false);
             validationResult.IsValid.Should().BeTrue();
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
@@ -66,7 +68,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateBrowsersSupported(new HashSet<string>());
+            var validationResult = await UpdateBrowsersSupported(new HashSet<string>())
+                .ConfigureAwait(false);
             validationResult.IsValid.Should().BeFalse();
             validationResult.Required.Should().BeEquivalentTo(new[] { "supported-browsers", "mobile-responsive"});
 
@@ -90,10 +93,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         private async Task<UpdateSolutionBrowserSupportedValidationResult> UpdateBrowsersSupported(HashSet<string> browsersSupported, string mobileResponsive = null)
         {
             return await Context.UpdateSolutionBrowsersSupportedHandler.Handle(new UpdateSolutionBrowsersSupportedCommand("Sln1", new UpdateSolutionBrowsersSupportedViewModel()
-            {
-                BrowsersSupported = browsersSupported,
-                MobileResponsive = mobileResponsive
-            }), new CancellationToken());
+                {
+                    BrowsersSupported = browsersSupported,
+                    MobileResponsive = mobileResponsive
+                }), new CancellationToken())
+                .ConfigureAwait(false);
         }
     }
 }
