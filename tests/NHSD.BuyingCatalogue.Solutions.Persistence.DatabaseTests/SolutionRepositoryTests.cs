@@ -188,7 +188,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .ConfigureAwait(false);
             solution.Id.Should().Be(_solution1Id);
 
-            solution.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
+            await solution.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5)).ConfigureAwait(false);
 
             solution.SupplierStatusId.Should().Be(2);
         }

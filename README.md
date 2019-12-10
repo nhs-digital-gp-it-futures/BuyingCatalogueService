@@ -1,3 +1,4 @@
+
 # BuyingCatalogueService - Service architecture for the NHS Digital Buying Catalogue
 .Net Core application, based on a service architecture.
 
@@ -31,7 +32,7 @@ The application is broken down into the following project libraries:
 > Before you begin please install <b>Docker</b> on your machine.
 > Also download and store the Buying Catalogue Data Model repository along side this repository.
 
-<p>
+
 # Running the API
 
 To run the application in a container in development mode, run the following script:
@@ -42,19 +43,31 @@ Launch Environment.ps1
 
 You can now access the API in your browser at 'http://localhost:8080/swagger/index.html'
 
-To stop the application running in a container and to delete all the  associated resources run the command:
+To stop the application running in a container and to delete the associated images, run the command: 
 
 ```
 Tear Down Environment.ps1
 ```
+To stop the application running in a container and to remove all images, resources and networks associated with it, run the command
+
+In Powershell:
+```
+Tear Down Environment.ps1 -clearAll
+``` 
+In Bash:
+```
+tear_down_environment.sh dev true
+``` 
 
 </p>
 
 # Integration Tests
 
-Integration Tests and Persistence Tests run against Docker images of service and database. These must be re-created before running tests.
+Integration Tests and Persistence Tests run against Docker images of service and database. These must be re-created before running tests using Visual Studio.
 <br/>
-Alternatively use the supplied powershell scripts "Run Integration Tests.ps1" and "Run Code coverage.ps1" 
+Alternatively, use the supplied powershell scripts 
+`Run Component Tests.ps1` and 
+`Run Code Coverage.ps1` 
 
 ## Before running such tests in Visual Studio
 ```

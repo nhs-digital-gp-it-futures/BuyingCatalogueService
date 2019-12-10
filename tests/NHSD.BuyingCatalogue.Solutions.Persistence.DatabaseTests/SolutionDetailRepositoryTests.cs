@@ -83,7 +83,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             marketingData.AboutUrl.Should().Be("AboutUrl");
             marketingData.Features.Should().Be("Features4");
 
-            marketingData.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
+            await marketingData.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5)).ConfigureAwait(false);
         }
 
         [Test]
@@ -152,7 +152,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             marketingData.AboutUrl.Should().Be("AboutUrl");
             marketingData.ClientApplication.Should().Be("Browser-based");
 
-            marketingData.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
+            await marketingData.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5)).ConfigureAwait(false);
         }
 
         [Test]
@@ -240,7 +240,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             solutionDetail.AboutUrl.Should().Be("AboutUrl4");
             solutionDetail.Features.Should().Be("Features");
             solutionDetail.ClientApplication.Should().Be("Browser-based");
-            solutionDetail.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
+            await solutionDetail.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5)).ConfigureAwait(false);
         }
 
         [Test]

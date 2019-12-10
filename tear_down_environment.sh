@@ -1,6 +1,7 @@
 #!/bin/bash
 
 env="${1:-development}"
+clearAll="${2:-false}"
 
 
 determine_environment () {
@@ -25,6 +26,11 @@ determine_environment () {
 }
 
 remove_development () {
+	if [ "$clearAll" == "true" ]; then
+		docker-compose -f "docker/docker-compose.yml" -f "docker/docker-compose.development.yml" down -v --rmi "all"
+		return
+	fi
+
     docker rm nhsd_bcapi -f
     docker rm nhsd_bcdb -f
     docker image rm nhsd/buying-catalogue-db:latest
