@@ -2,9 +2,9 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
-using NHSD.BuyingCatalogue.Testing.Tools;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 
@@ -83,7 +83,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         public static async Task LastUpdatedHasUpdatedOnMarketingContact(string solutionId)
         {
             var contact = await SolutionEntity.GetByIdAsync(solutionId).ConfigureAwait(false);
-            contact.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
+            await contact.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5)).ConfigureAwait(false);
         }
 
         private class SolutionTable

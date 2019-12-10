@@ -12,7 +12,6 @@ using NHSD.BuyingCatalogue.Solutions.Persistence.Repositories;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
-using NHSD.BuyingCatalogue.Testing.Tools;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
@@ -65,7 +64,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             Assert.Throws<ArgumentNullException>(() => new MarketingContactRepository(null));
         }
-        
+
         [Test]
         public async Task SingleContactShouldReturnAllDetails()
         {
@@ -170,7 +169,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .ConfigureAwait(false)).ToList();
             newContacts.Should().BeEquivalentTo(expectedContacts, config => config.Excluding(e => e.Name));
 
-            newContacts.ForEach(x => x.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5)));
+            newContacts.ForEach(async x => await x.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5)).ConfigureAwait(false));
         }
 
         [Test]
@@ -190,7 +189,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         [Test]
         public async Task InsertingBadDataThrowsAndDoesNotUpdate()
         {
-            var expectedContacts = new List<MarketingContactEntity> {await InsertContact(_solutionId1).ConfigureAwait(false), await InsertContact(_solutionId1).ConfigureAwait(false)};
+            var expectedContacts = new List<MarketingContactEntity> { await InsertContact(_solutionId1).ConfigureAwait(false), await InsertContact(_solutionId1).ConfigureAwait(false) };
             var badData = new List<IContact> { Mock.Of<IContact>(c => c.FirstName == "IAmLongerThan35CharactersAndSoIShouldFail") };
 
             Assert.ThrowsAsync<SqlException>(() => _marketingContactRepository.ReplaceContactsForSolution(_solutionId1, badData, new CancellationToken()));
