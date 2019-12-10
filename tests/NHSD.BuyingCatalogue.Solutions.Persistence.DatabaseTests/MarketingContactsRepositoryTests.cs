@@ -169,7 +169,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .ConfigureAwait(false)).ToList();
             newContacts.Should().BeEquivalentTo(expectedContacts, config => config.Excluding(e => e.Name));
 
-            newContacts.ForEach(async x => await x.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5)).ConfigureAwait(false));
+            newContacts.ForEach(async x => (await x.LastUpdated.SecondsFromNow().ConfigureAwait(false)).Should().BeLessOrEqualTo(5));
         }
 
         [Test]

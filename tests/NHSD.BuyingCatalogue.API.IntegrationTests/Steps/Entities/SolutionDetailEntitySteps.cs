@@ -69,7 +69,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         public static async Task LastUpdatedHasUpdatedOnSolutionDetail(string solutionId)
         {
             var solutionDetail = await SolutionDetailEntity.GetBySolutionIdAsync(solutionId).ConfigureAwait(false);
-            await solutionDetail.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5)).ConfigureAwait(false);
+            (await solutionDetail.LastUpdated.SecondsFromNow().ConfigureAwait(false)).Should().BeLessOrEqualTo(5);
         }
 
         private class SolutionDetailTable

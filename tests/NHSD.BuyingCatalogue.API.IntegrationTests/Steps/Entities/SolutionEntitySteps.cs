@@ -83,7 +83,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         public static async Task LastUpdatedHasUpdatedOnMarketingContact(string solutionId)
         {
             var contact = await SolutionEntity.GetByIdAsync(solutionId).ConfigureAwait(false);
-            await contact.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5)).ConfigureAwait(false);
+            (await contact.LastUpdated.SecondsFromNow().ConfigureAwait(false)).Should().BeLessOrEqualTo(5);
         }
 
         private class SolutionTable
