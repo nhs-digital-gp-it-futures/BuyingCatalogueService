@@ -1,13 +1,11 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionHardwareRequirements;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserHardwareRequirements;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
@@ -41,15 +39,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public ActionResult UpdateHardwareRequirementsAsync([FromRoute][Required]string id, [FromBody][Required] UpdateSolutionHardwareRequirementsViewModel updateSolutionHardwareRequirementsViewModel)
+        public async Task<ActionResult> UpdateHardwareRequirementsAsync([FromRoute][Required]string id, [FromBody][Required] UpdateSolutionBrowserHardwareRequirementsViewModel updateSolutionHardwareRequirementsViewModel)
         {
-            _cannedData[id] = updateSolutionHardwareRequirementsViewModel.ThrowIfNull().HardwareRequirements;
-            return NoContent();
+            var validationResult = await _mediator
+                .Send(new UpdateSolutionBrowserHardwareRequirementsCommand(id, updateSolutionHardwareRequirementsViewModel))
+                .ConfigureAwait(false);
+
+            return validationResult.IsValid
+                ? (ActionResult)new NoContentResult()
+                : BadRequest(new UpdateSolutionBrowserHardwareRequirementResult(validationResult));
         }
-
-        //canned data
-
-        private static readonly Dictionary<string, string> _cannedData = new Dictionary<string, string>();
-
     }
 }

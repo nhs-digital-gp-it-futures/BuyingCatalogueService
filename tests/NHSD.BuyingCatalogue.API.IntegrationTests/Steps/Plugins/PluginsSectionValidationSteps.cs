@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using TechTalk.SpecFlow;
 
-namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
+namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Plugins
 {
     [Binding]
     internal sealed class PluginsSectionValidationSteps
