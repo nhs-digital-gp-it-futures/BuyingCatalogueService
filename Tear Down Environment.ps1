@@ -1,5 +1,6 @@
 ﻿param (
-    [string]$env = "development"
+    [string]$env = "development",
+    [switch]$clearAll
 )
 
 function determine_environment() {
@@ -22,14 +23,21 @@ function remove_integration(){
 }
 
 function remove_development() {
+    if ($clearAll) {
+        docker-compose -f "docker\docker-compose.yml" -f "docker\docker-compose.development.yml" down -v --rmi "all"
+        return
+    }
+
     docker rm nhsd_bcapi -f
     docker rm nhsd_bcdb -f
     docker image rm nhsd/buying-catalogue-db:latest
     docker image rm nhsd/buying-catalogue/api:latest 
+
     docker ps -a
     }
 
 $env=determine_environment
+
 if ($env -eq "development") {
     remove_development
 } else {
