@@ -207,6 +207,18 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         }
 
         [Test]
+        public async Task IfBrowserBasedThenHardwareRequirementsCanBeSet()
+        {
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> {"browser-based", "native-mobile"}
+                    && c.HardwareRequirements == "New Hardware"))).ConfigureAwait(false);
+
+            previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections
+                .BrowserHardwareRequirementsSection.Answers.HardwareRequirements.Should().Be("New Hardware");
+        }
+
+        [Test]
         public async Task ShouldNotIncludeBrowserBasedDataIfClientApplicationTypesDoNotIncludeBrowserBased()
         {
             var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>

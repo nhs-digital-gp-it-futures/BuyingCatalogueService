@@ -11,8 +11,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         [JsonProperty("plug-ins-or-extensions")]
         public PluginOrExtensionsSection PluginOrExtensionsSection { get; }
 
+        [JsonProperty("browser-hardware-requirements")]
+        public BrowserHardwareRequirementsSection BrowserHardwareRequirementsSection { get; }
+
         [JsonIgnore]
-        public bool HasData => BrowsersSupported.Answers.HasData || PluginOrExtensionsSection.Answers.HasData;
+        public bool HasData => BrowsersSupported.Answers.HasData || PluginOrExtensionsSection.Answers.HasData ||
+                               BrowserHardwareRequirementsSection.Answers.HasData;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="BrowserBasedSubSections"/> class.
@@ -21,6 +25,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         {
             BrowsersSupported = new BrowsersSupportedSection(clientApplication);
             PluginOrExtensionsSection = new PluginOrExtensionsSection(clientApplication);
+            BrowserHardwareRequirementsSection = new BrowserHardwareRequirementsSection(clientApplication);
         }
     }
 }
