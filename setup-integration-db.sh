@@ -17,6 +17,8 @@ then
    read -ra ADDR <<< "$id" # id is read into an array as tokens separated by IFS
    id_hash=${ADDR[1]} #get the actual id hash (id is in format of 'shaxxx:hash')
    docker image rm "$id_hash"
+   echo "[ x ] Getting rid of any dangling images..."
+   docker rmi -f $(docker images -f "dangling=true" -q) || true
 fi
 
 # copy over sql files from the BuyingCatalog integration test directory

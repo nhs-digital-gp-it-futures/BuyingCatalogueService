@@ -13,6 +13,8 @@ if($NoImage.Count -eq 0) {
     $arr=$id.split(':')
     $id_hash=$arr[1]
     docker image rm "$id_hash"
+    Write-Host "[ x ] Getting rid of any dangling images..."
+    docker rmi -f $(docker images -f "dangling=true" -q)
 }
 Write-Host "[ x ] Creating new image ..."
 cd .\tests\NHSD.BuyingCatalogue.Testing.Data\IntegrationDbSetup
