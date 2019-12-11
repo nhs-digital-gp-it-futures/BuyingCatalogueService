@@ -54,8 +54,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         public async Task ThenTheSolutionClient_Application_TypesSectionDoesNotContainSupportedBrowsersOf()
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
-            content.SelectToken("sections.client-application-types.sections.browser-based.sections.browsers-supported.answers.supported-browsers")
-                .Select(s => s.ToString()).Should().BeNull();
+            content.SelectToken("sections.client-application-types.sections.browser-based.sections.browsers-supported.answers.supported-browsers").Should().BeNull();
         }
 
         [Then(@"the solution client-application-types section contains mobile responsive with value (Yes|No)")]
