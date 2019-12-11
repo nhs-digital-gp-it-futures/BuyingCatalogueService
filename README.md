@@ -1,4 +1,5 @@
 
+
 # BuyingCatalogueService - Service architecture for the NHS Digital Buying Catalogue
 .Net Core application, based on a service architecture.
 
@@ -25,7 +26,7 @@ The application is broken down into the following project libraries:
 ## Setting up your development environment for the Buying Catalogue
 
 ### Requirements
-- .NET Core Version 2.2
+- .NET Core Version 3.0
 - Docker
 - Data Model repository
 
@@ -56,7 +57,7 @@ Tear Down Environment.ps1 -clearAll
 ``` 
 In Bash:
 ```
-tear_down_environment.sh dev true
+tear_down_environment.sh -c
 ``` 
 
 </p>
@@ -71,7 +72,7 @@ Alternatively, use the supplied powershell scripts
 
 ## Before running such tests in Visual Studio
 ```
-Launch Environment.ps1 -env i
+Launch Environment.ps1 i
 ```
 or
 ```
@@ -83,7 +84,7 @@ Launch Environment.ps1 -env integration
 ## After running such tests in Visual Studio
 
 ```
-Tear Down Environment -env i
+Tear Down Environment i
 ```
 or
 ```
@@ -106,4 +107,4 @@ To build / update the image run `setup-integration-db` script either in Powershe
 
 ## Error: "Start Buying Catalogue API failed, could not get a successful health status from 'http://localhost:8080/health/live' after trying for '01:00'"
 
-Have you remembered to run `Launch Environment.ps1 -env i` :) ?
+Have you remembered to run `Launch Environment.ps1 i` :) ?
