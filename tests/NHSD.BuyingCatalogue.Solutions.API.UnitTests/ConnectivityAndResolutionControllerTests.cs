@@ -44,18 +44,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         }
 
         [Test]
-        public async Task InvalidMaxLengthResultForCommandReturnsValidationDetails()
-        {
-            _validationResult.MaxLength.Add("Hello");
-            var result = await _controller.UpdateConnectivityAndResolutionAsync(_solutionId, _viewModel).ConfigureAwait(false) as ObjectResult;
-            result.Should().NotBeNull();
-            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-
-            var validationResult = result.Value as UpdateSolutionConnectivityAndResolutionResult;
-            validationResult.MaxLength.Should().BeEquivalentTo(_validationResult.MaxLength);
-        }
-
-        [Test]
         public async Task InvalidRequiredResultForCommandReturnsValidationDetails()
         {
             _validationResult.Required.Add("Hello");

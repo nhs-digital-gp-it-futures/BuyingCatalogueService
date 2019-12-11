@@ -8,6 +8,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserHardwareRequirements;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowsersSupported;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClientApplicationTypes;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionConnectivityAndResolution;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins;
@@ -53,6 +54,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
         public UpdateSolutionBrowserHardwareRequirementsHandler UpdateSolutionBrowserHardwareRequirementsHandler =>
             (UpdateSolutionBrowserHardwareRequirementsHandler)_scope.UpdateSolutionBrowserHardwareRequirementsHandler;
+
+        public UpdateSolutionConnectivityAndResolutionHandler UpdateSolutionConnectivityAndResolutionHandler =>
+            (UpdateSolutionConnectivityAndResolutionHandler)_scope.UpdateSolutionConnectivityAndResolutionHandler;
 
         private readonly Scope _scope;
 
@@ -109,6 +113,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public IRequestHandler<UpdateSolutionBrowserHardwareRequirementsCommand, UpdateSolutionBrowserHardwareRequirementsValidationResult> UpdateSolutionBrowserHardwareRequirementsHandler { get; }
 
+            public IRequestHandler<UpdateSolutionConnectivityAndResolutionCommand, UpdateSolutionConnectivityAndResolutionValidationResult> UpdateSolutionConnectivityAndResolutionHandler { get; }
+
             public Scope(IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
                 IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> getClientApplicationBySolutionIdHandler,
                 IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> submitSolutionForReviewHandler,
@@ -119,7 +125,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdateSolutionPluginsCommand, UpdateSolutionPluginsValidationResult> updateSolutionPluginsHandler,
                 IRequestHandler<UpdateSolutionContactDetailsCommand, UpdateSolutionContactDetailsValidationResult> updateSolutionContactDetailsHandler,
                 IRequestHandler<GetContactDetailBySolutionIdQuery, IEnumerable<IContact>> getContactDetailBySolutionIdHandler,
-                IRequestHandler<UpdateSolutionBrowserHardwareRequirementsCommand, UpdateSolutionBrowserHardwareRequirementsValidationResult> updateSolutionBrowserHardwareRequirementsHandler)
+                IRequestHandler<UpdateSolutionBrowserHardwareRequirementsCommand, UpdateSolutionBrowserHardwareRequirementsValidationResult> updateSolutionBrowserHardwareRequirementsHandler,
+                IRequestHandler<UpdateSolutionConnectivityAndResolutionCommand, UpdateSolutionConnectivityAndResolutionValidationResult> updateSolutionConnectivityAndResolutionHandler)
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;
                 GetClientApplicationBySolutionIdHandler = getClientApplicationBySolutionIdHandler;
@@ -132,6 +139,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 UpdateSolutionContactDetailsHandler = updateSolutionContactDetailsHandler;
                 GetContactDetailBySolutionIdHandler = getContactDetailBySolutionIdHandler;
                 UpdateSolutionBrowserHardwareRequirementsHandler = updateSolutionBrowserHardwareRequirementsHandler;
+                UpdateSolutionConnectivityAndResolutionHandler = updateSolutionConnectivityAndResolutionHandler;
             }
         }
     }

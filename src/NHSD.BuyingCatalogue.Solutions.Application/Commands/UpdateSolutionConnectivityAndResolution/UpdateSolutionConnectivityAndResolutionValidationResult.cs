@@ -5,9 +5,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionConn
 {
     public class UpdateSolutionConnectivityAndResolutionValidationResult
     {
-        public bool IsValid => !MaxLength.Any() && !Required.Any();
-
-        public HashSet<string> MaxLength { get; } = new HashSet<string>();
+        public bool IsValid => !Required.Any();
         
         public HashSet<string> Required { get; } = new HashSet<string>();
     }

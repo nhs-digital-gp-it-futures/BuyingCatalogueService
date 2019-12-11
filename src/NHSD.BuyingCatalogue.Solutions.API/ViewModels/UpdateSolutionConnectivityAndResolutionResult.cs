@@ -9,11 +9,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         internal UpdateSolutionConnectivityAndResolutionResult(UpdateSolutionConnectivityAndResolutionValidationResult validation)
         {
             Required = validation.ThrowIfNull().Required;
-            MaxLength = validation.MaxLength;
         }
 
         public HashSet<string> Required { get; }
-
-        public HashSet<string> MaxLength { get; }
     }
 }

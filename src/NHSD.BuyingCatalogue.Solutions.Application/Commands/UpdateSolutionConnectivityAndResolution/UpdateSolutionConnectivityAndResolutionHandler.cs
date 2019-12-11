@@ -18,7 +18,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionConn
 
         public async Task<UpdateSolutionConnectivityAndResolutionValidationResult> Handle(UpdateSolutionConnectivityAndResolutionCommand request, CancellationToken cancellationToken)
         {
-            var validationResult = _updateSolutionConnectivityAndResolutionValidator.Validation();
+            var validationResult = _updateSolutionConnectivityAndResolutionValidator.Validation(request.ViewModel);
 
             if (validationResult.IsValid)
             {
