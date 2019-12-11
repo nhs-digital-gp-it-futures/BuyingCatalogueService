@@ -1,8 +1,28 @@
 #!/bin/bash
 
-env="${1:-development}"
-clearAll="${2:-false}"
+clearAll="false"
+env="development"
 
+while test $# -gt 0; do
+	case "$1" in
+		-c|--clearAll)
+			clearAll="true"
+		  shift
+		  ;;
+		-d|--dev|--development)
+			env="development"
+		  shift
+		  ;;
+		-i|--int|--integration)
+		  env="integration"
+		  shift
+		  ;;
+		*)
+		  env=$1
+		  shift
+		  ;;
+	esac
+done
 
 determine_environment () {
 	if [[ "integration" == $env* ]]; then
@@ -16,31 +36,25 @@ determine_environment () {
 	echo $env
 }
 
- remove_integration () {
-
+remove_integration () {
 	docker rm integration_api -f
 	docker rm integration_db -f
 	docker image rm nhsd/buying-catalogue-api:test 
     docker image rm nhsd/buying-catalogue/api:latest
-    docker ps -a
 }
 
 remove_development () {
+	docker_compose_down='docker-compose -f "docker/docker-compose.yml" -f "docker/docker-compose.development.yml" down'
 	if [ "$clearAll" == "true" ]; then
-		docker-compose -f "docker/docker-compose.yml" -f "docker/docker-compose.development.yml" down -v --rmi "all"
-		return
+		docker_args='-v --rmi "all"'
 	fi
-
-    docker rm nhsd_bcapi -f
-    docker rm nhsd_bcdb -f
-    docker image rm nhsd/buying-catalogue-db:latest
-    docker image rm nhsd/buying-catalogue/api:latest 
-    docker ps -a
+	eval $docker_compose_down $docker_args
     }
-	
+
 env=$(determine_environment)
 if [ $env = "development" ]; then
 	remove_development
 else
 	remove_integration
 fi
+docker ps
