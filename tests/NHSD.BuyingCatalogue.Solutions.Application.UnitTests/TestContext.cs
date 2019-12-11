@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserAdditionalInformation;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserHardwareRequirements;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowsersSupported;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClientApplicationTypes;
@@ -57,6 +58,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
         public UpdateSolutionConnectivityAndResolutionHandler UpdateSolutionConnectivityAndResolutionHandler =>
             (UpdateSolutionConnectivityAndResolutionHandler)_scope.UpdateSolutionConnectivityAndResolutionHandler;
+        public UpdateSolutionBrowserAdditionalInformationHandler UpdateSolutionBrowserAdditionalInformationHandler =>
+            (UpdateSolutionBrowserAdditionalInformationHandler)_scope.UpdateSolutionBrowserAdditionalInformationHandler;
 
         private readonly Scope _scope;
 
@@ -114,6 +117,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             public IRequestHandler<UpdateSolutionBrowserHardwareRequirementsCommand, UpdateSolutionBrowserHardwareRequirementsValidationResult> UpdateSolutionBrowserHardwareRequirementsHandler { get; }
 
             public IRequestHandler<UpdateSolutionConnectivityAndResolutionCommand, UpdateSolutionConnectivityAndResolutionValidationResult> UpdateSolutionConnectivityAndResolutionHandler { get; }
+            public IRequestHandler<UpdateSolutionBrowserAdditionalInformationCommand, UpdateSolutionBrowserAdditionalInformationValidationResult> UpdateSolutionBrowserAdditionalInformationHandler {get;}
 
             public Scope(IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
                 IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> getClientApplicationBySolutionIdHandler,
@@ -126,7 +130,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdateSolutionContactDetailsCommand, UpdateSolutionContactDetailsValidationResult> updateSolutionContactDetailsHandler,
                 IRequestHandler<GetContactDetailBySolutionIdQuery, IEnumerable<IContact>> getContactDetailBySolutionIdHandler,
                 IRequestHandler<UpdateSolutionBrowserHardwareRequirementsCommand, UpdateSolutionBrowserHardwareRequirementsValidationResult> updateSolutionBrowserHardwareRequirementsHandler,
-                IRequestHandler<UpdateSolutionConnectivityAndResolutionCommand, UpdateSolutionConnectivityAndResolutionValidationResult> updateSolutionConnectivityAndResolutionHandler)
+                IRequestHandler<UpdateSolutionConnectivityAndResolutionCommand, UpdateSolutionConnectivityAndResolutionValidationResult> updateSolutionConnectivityAndResolutionHandler,
+                IRequestHandler<UpdateSolutionBrowserAdditionalInformationCommand, UpdateSolutionBrowserAdditionalInformationValidationResult> updateSolutionBrowserAdditionalInformationHandler)
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;
                 GetClientApplicationBySolutionIdHandler = getClientApplicationBySolutionIdHandler;
@@ -139,6 +144,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 UpdateSolutionContactDetailsHandler = updateSolutionContactDetailsHandler;
                 GetContactDetailBySolutionIdHandler = getContactDetailBySolutionIdHandler;
                 UpdateSolutionBrowserHardwareRequirementsHandler = updateSolutionBrowserHardwareRequirementsHandler;
+                UpdateSolutionBrowserAdditionalInformationHandler = updateSolutionBrowserAdditionalInformationHandler;
                 UpdateSolutionConnectivityAndResolutionHandler = updateSolutionConnectivityAndResolutionHandler;
             }
         }

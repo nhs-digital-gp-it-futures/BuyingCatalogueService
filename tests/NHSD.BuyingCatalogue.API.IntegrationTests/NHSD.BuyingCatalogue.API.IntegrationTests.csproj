@@ -11,10 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <SpecFlowObsoleteCodeBehindFiles Remove="Features\SolutionConnectionAndResolution\Supplier Edit Client Application Type.2726.feature.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="nunit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
@@ -27,40 +23,6 @@
   <ItemGroup>
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Testing.Data\NHSD.BuyingCatalogue.Testing.Data.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Testing.Tools\NHSD.BuyingCatalogue.Testing.Tools.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Features\BrowserHardwareRequirements\Supplier Get BrowserHardwareRequirements.3600.feature.cs">
-      <DependentUpon>Supplier Get BrowserHardwareRequirements.3600.feature</DependentUpon>
-    </Compile>
-    <Compile Update="Features\Preview\View Solution Regardless Of Published Status.3776.feature.cs">
-      <DependentUpon>View Solution Regardless Of Published Status.3776.feature</DependentUpon>
-    </Compile>
-    <Compile Update="Features\Public\View Solution Only When Published.3776.feature.cs">
-      <DependentUpon>View Solution Only When Published.3776.feature</DependentUpon>
-    </Compile>
-    <Compile Update="Features\SolutionConnectionAndResolution\Supplier Edit Solution Connection And Resolution.3599.feature.cs">
-      <DependentUpon>Supplier Edit Solution Connection And Resolution.3599.feature</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <SpecFlowFeatureFiles Update="Features\BrowserHardwareRequirements\Supplier Get BrowserHardwareRequirements.3600.feature">
-      <Visible>$(UsingMicrosoftNETSdk)</Visible>
-      <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-    </SpecFlowFeatureFiles>
-    <SpecFlowFeatureFiles Update="Features\Preview\View Solution Regardless Of Published Status.3776.feature">
-      <Visible>$(UsingMicrosoftNETSdk)</Visible>
-      <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-    </SpecFlowFeatureFiles>
-    <SpecFlowFeatureFiles Update="Features\Public\View Solution Only When Published.3776.feature">
-      <Visible>$(UsingMicrosoftNETSdk)</Visible>
-      <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-    </SpecFlowFeatureFiles>
-    <SpecFlowFeatureFiles Update="Features\SolutionConnectionAndResolution\Supplier Edit Solution Connection And Resolution.3599.feature">
-      <Visible>$(UsingMicrosoftNETSdk)</Visible>
-      <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-    </SpecFlowFeatureFiles>
   </ItemGroup>
 
 </Project>

@@ -15,6 +15,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
 
         public string HardwareRequirements { get; set; }
 
+        public string AdditionalInformation { get; set; }
+        
         public string MinimumConnectionSpeed { get; set; }
 
         public string MinimumDesktopResolution { get; set; }

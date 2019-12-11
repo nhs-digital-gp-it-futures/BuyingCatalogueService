@@ -17,5 +17,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public string MinimumDesktopResolution { get; set; }
 
         public string HardwareRequirements { get; set; }
+
+        public string AdditionalInformation { get; set; }
     }
 }

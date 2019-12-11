@@ -27,8 +27,8 @@ Scenario: 1. Client Application Types are updated for the solution
         | SolutionID | SolutionName   |
         | Sln1       | MedicOnline    |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                      |
-        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": [], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null, "MinimumConnectionSpeed": "1GBps", "MinimumDesktopResolution": "800x600", "HardwareRequirements": null } |
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                            |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null, "MinimumConnectionSpeed": "1GBps", "MinimumDesktopResolution": "800x600", "HardwareRequirements": null, "AdditionalInformation": null } |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @3599
