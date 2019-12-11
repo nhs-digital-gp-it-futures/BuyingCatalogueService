@@ -107,3 +107,30 @@ Examples:
     | { "Plugins": {"Required" : true, "AdditionalInformation": null } }                                                 | COMPLETE   |
 
 
+@3600
+Scenario: 9. Browser Hardware Requirements incomplete when record is not preset
+    When a GET request is made to display solution Sln1 browser-based sections
+    Then a successful response is returned
+    And the status of the browser-hardware-requirements section is INCOMPLETE
+
+@3600
+Scenario Outline: 10. Browser Hardware Requirements Based on data in Client Application
+    Given SolutionDetail exist
+        | Solution | ClientApplication   |
+        | Sln1     | <ClientApplication> |
+    When a GET request is made to display solution Sln1 browser-based sections
+    Then a successful response is returned
+    And the status of the browser-hardware-requirements section is <Status>
+Examples:
+    | ClientApplication                                                                                | Status     |
+    |                                                                                                  | INCOMPLETE |
+    | { "ClientApplicationTypes" : [ "native-desktop" ] }                                              | INCOMPLETE |
+    | { "ClientApplicationTypes" : [ ] }                                                               | INCOMPLETE |
+    | { "ClientApplicationTypes" : [ ], "HardwareRequirements": null }                                 | INCOMPLETE |
+    | { "ClientApplicationTypes" : [ ], "HardwareRequirements": "Another Requirement"}                 | COMPLETE   |
+    | { "HardwareRequirements": null }                                                                 | INCOMPLETE |
+    | { "HardwareRequirements": "This is a new Hardware Requirement" }                                 | COMPLETE   |
+    | { "ClientApplicationTypes" : ["browser-based" ], "HardwareRequirements": null }                  | INCOMPLETE |
+    | { "ClientApplicationTypes" : ["browser-based" ], "HardwareRequirements": "	" }                | INCOMPLETE |
+    | { "ClientApplicationTypes" : ["browser-based" ], "HardwareRequirements": "" }                    | INCOMPLETE |
+    | { "ClientApplicationTypes" : ["browser-based" ], "HardwareRequirements": "Another Requirement" } | COMPLETE   |

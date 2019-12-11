@@ -48,7 +48,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             }
         }
 
-        [Then(@"the status of the (browsers-supported|plug-ins-or-extensions) section is (COMPLETE|INCOMPLETE)")]
+        [Then(@"the status of the (browsers-supported|plug-ins-or-extensions|browser-hardware-requirements) section is (COMPLETE|INCOMPLETE)")]
         public async Task StatusOfPluginsSectionIs(string section, string status)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);

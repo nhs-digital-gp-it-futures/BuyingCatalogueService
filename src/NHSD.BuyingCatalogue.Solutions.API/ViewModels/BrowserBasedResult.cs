@@ -40,7 +40,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
             BrowsersSupportedSection = new BrowserBasedDashboardSection(IsBrowserSupportedComplete(clientApplication), true);
             PluginsOrExtensionsSection = new BrowserBasedDashboardSection(IsPluginsComplete(clientApplication?.Plugins), true);
             ConnectivityAndResolutionSection = new BrowserBasedDashboardSection(false, true);
-            HardwareRequirementsSection = new BrowserBasedDashboardSection(false, false);
+            HardwareRequirementsSection = new BrowserBasedDashboardSection(IsHardwareRequirementsComplete(clientApplication), false);
             AdditionalInformationSection = new BrowserBasedDashboardSection(false, false);
         }
 
@@ -52,6 +52,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         private bool IsPluginsComplete(IPlugins plugins)
         {
             return plugins?.Required.HasValue == true;
+        }
+
+        private bool IsHardwareRequirementsComplete(IClientApplication clientApplication)
+        {
+            return !string.IsNullOrWhiteSpace(clientApplication?.HardwareRequirements);
         }
     }
 
