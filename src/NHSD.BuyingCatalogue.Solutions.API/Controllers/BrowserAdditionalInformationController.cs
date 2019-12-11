@@ -11,7 +11,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserA
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 {
-    [Microsoft.AspNetCore.Components.Route("api/v1/solutions")]
+    [Route("api/v1/solutions")]
     [ApiController]
     [Produces("application/json")]
     [AllowAnonymous]
