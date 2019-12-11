@@ -87,7 +87,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             publicResult.LastUpdated.Should().Be(_lastUpdated);
         }
 
-        [TestCase(null,null,null)]
+        [TestCase(null, null, null)]
         [TestCase("summary", null, null)]
         [TestCase(null, "description", null)]
         [TestCase(null, null, "link")]
@@ -122,7 +122,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase(true)]
         public async Task ShouldGetFeaturesForSolution(bool hasFeature)
         {
-            var feature = hasFeature ? new List<string>() {"feature1", "feature2"} : new List<string>();
+            var feature = hasFeature ? new List<string>() { "feature1", "feature2" } : new List<string>();
 
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.Id == SolutionId1 &&
@@ -134,7 +134,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             if (hasFeature)
             {
                 publicResult.Sections.Features.Answers.Listing.Should()
-                    .BeEquivalentTo(new List<string>() {"feature1", "feature2"});
+                    .BeEquivalentTo(new List<string>() { "feature1", "feature2" });
             }
             else
             {
@@ -165,9 +165,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             bool? mobileResponsive, bool expectData)
         {
             var clientApplicationTypes = isClientApplication
-                ? new HashSet<string> {"browser-based", "native-mobile"}
+                ? new HashSet<string> { "browser-based", "native-mobile" }
                 : new HashSet<string>();
-            var browsersSupported = isBrowserSupported ? new HashSet<string> {"Chrome", "Edge"} : new HashSet<string>();
+            var browsersSupported = isBrowserSupported ? new HashSet<string> { "Chrome", "Edge" } : new HashSet<string>();
 
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
@@ -201,7 +201,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 else
                 {
                     publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers
-                        .SupportedBrowsers.Should().BeEmpty();
+                        .SupportedBrowsers.Should().BeNull();
                 }
             }
             else
@@ -286,7 +286,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase(true)]
         public async Task ShouldGetCapabilitiesOnlyForSolution(bool hasCapability)
         {
-            var capabilities = hasCapability ? new List<string>() {"cap1", "cap2"} : new List<string>(); 
+            var capabilities = hasCapability ? new List<string>() { "cap1", "cap2" } : new List<string>();
 
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.Id == SolutionId1 &&
@@ -294,7 +294,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
 
             publicResult.Id.Should().Be(SolutionId1);
-            publicResult.Sections.Capabilities.Answers.CapabilitiesMet.Should().ContainInOrder(hasCapability ? new List<string>{ "cap1", "cap2" } : new List<string>());
+            publicResult.Sections.Capabilities.Answers.CapabilitiesMet.Should().ContainInOrder(hasCapability ? new List<string> { "cap1", "cap2" } : new List<string>());
         }
 
         [Test]
@@ -302,21 +302,21 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var publicResult1 = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.Id == SolutionId1 &&
-                s.Capabilities == new List<string>() {"cap1", "cap2" } &&
+                s.Capabilities == new List<string>() { "cap1", "cap2" } &&
                 s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
 
             var publicResult2 = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.Id == SolutionId2 &&
-                s.Capabilities == new List<string>() {"cap3", "cap4", "cap5" } &&
+                s.Capabilities == new List<string>() { "cap3", "cap4", "cap5" } &&
                 s.PublishedStatus == PublishedStatus.Published), SolutionId2).ConfigureAwait(false);
 
             publicResult1.Id.Should().Be(SolutionId1);
             publicResult1.Sections.Capabilities.Answers.CapabilitiesMet.Should()
-                .ContainInOrder(new List<string>() {"cap1", "cap2"});
+                .ContainInOrder(new List<string>() { "cap1", "cap2" });
 
             publicResult2.Id.Should().Be(SolutionId2);
             publicResult2.Sections.Capabilities.Answers.CapabilitiesMet.Should()
-                .ContainInOrder(new List<string>() {"cap3", "cap4", "cap5"});
+                .ContainInOrder(new List<string>() { "cap3", "cap4", "cap5" });
         }
 
         [Test]
@@ -327,7 +327,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 Mock.Of<IContact>(m => m.Name == "name1" && m.Department == "dep1" && m.Email == "test@gmail.com" && m.PhoneNumber == "01234567890"),
                 Mock.Of<IContact>(m => m.Name == "name2" && m.Department == "dep2" && m.Email == "test2@gmail.com" && m.PhoneNumber == "12345678901")
             };
-            
+
             var contact = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.Id == SolutionId1 &&
                 s.Contacts == contacts &&
@@ -407,7 +407,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             Assert.Throws<ArgumentNullException>(() => new SolutionDescriptionSectionAnswers(null));
         }
-        
+
         private async Task<SolutionResult> GetSolutionPublicResultAsync(ISolution solution, string solutionId)
         {
             _mockMediator

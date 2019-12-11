@@ -50,6 +50,14 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
                 .Select(s => s.ToString()).Should().BeEquivalentTo(table.CreateSet<SelectedBrowsersTable>().Select(s => s.Browser));
         }
 
+        [Then(@"the solution client-application-types section does not contain Supported Browsers")]
+        public async Task ThenTheSolutionClient_Application_TypesSectionDoesNotContainSupportedBrowsersOf()
+        {
+            var content = await _response.ReadBody().ConfigureAwait(false);
+            content.SelectToken("sections.client-application-types.sections.browser-based.sections.browsers-supported.answers.supported-browsers")
+                .Select(s => s.ToString()).Should().BeNull();
+        }
+
         [Then(@"the solution client-application-types section contains mobile responsive with value (Yes|No)")]
         public async Task ThenTheSolutionClient_Application_TypesSectionContainsMobileResponsive(string value)
         {

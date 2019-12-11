@@ -44,8 +44,7 @@ Scenario:2. Get Solution Public contains client application types browser based 
     When a GET request is made for solution public Sln4
     Then a successful response is returned
     And the solution client-application-types section contains mobile responsive with value Yes
-    And the solution client-application-types section contains Browsers
-        | Browser       |
+    And the solution client-application-types section does not contain Supported Browsers
 
 @3322
 Scenario:3. Get Solution Public contains client application types browser based browser supported answer
@@ -65,8 +64,7 @@ Scenario:4. Get Solution Public contains client application types browser based 
     Then a successful response is returned
     And the solution client-application-types section is returned
     And the solution client-application-types section contains plugin required with value Yes
-    And the solution client-application-types section contains Browsers
-        | Browser       |
+    And the solution client-application-types section does not contain Supported Browsers
     And the solution client-application-types section contains mobile responsive with value null
 
 @2793
@@ -75,6 +73,5 @@ Scenario:5. Get Solution Public contains client application types browser based 
     Then a successful response is returned
     And the solution client-application-types section is returned
     And the solution client-application-types section contains plugin detail with value Colourful water extension
-    And the solution client-application-types section contains Browsers
-        | Browser       |
+    And the solution client-application-types section does not contain Supported Browsers
     And the solution client-application-types section contains mobile responsive with value null

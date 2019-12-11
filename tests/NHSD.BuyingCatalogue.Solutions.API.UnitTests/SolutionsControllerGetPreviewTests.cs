@@ -60,7 +60,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             previewResult.Name.Should().Be(name);
             previewResult.OrganisationName.Should().Be(organization);
         }
-        
+
 
         [TestCase(null, null, null, false)]
         [TestCase("summary", null, null, true)]
@@ -71,7 +71,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase(null, "Desc", "Link", true)]
         [TestCase("summary", "Desc", "Link", true)]
 
-        public async Task ShouldGetPreviewCalculateSolutionDescription(string summary, string description, string link,bool hasData)
+        public async Task ShouldGetPreviewCalculateSolutionDescription(string summary, string description, string link, bool hasData)
         {
             var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
                 s.Summary == summary &&
@@ -95,7 +95,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task GetPreviewFeaturesListItemsIsNull()
         {
-            var features = new List<string> {null};
+            var features = new List<string> { null };
 
             var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s => s.Features == features)).ConfigureAwait(false);
             previewResult.Sections.Features.Should().BeNull();
@@ -113,7 +113,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             {
                 previewResult.Sections.Features.Answers.HasData.Should().BeTrue();
                 previewResult.Sections.Features.Answers.Listing.Should()
-                    .BeEquivalentTo(new List<string> {"Feature1", "Feature2"});
+                    .BeEquivalentTo(new List<string> { "Feature1", "Feature2" });
 
             }
             else
@@ -162,13 +162,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 {
                     previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers.SupportedBrowsers
                         .Should().BeEquivalentTo(isClientApplication
-                            ? new HashSet<string> {"Chrome", "Edge"}
+                            ? new HashSet<string> { "Chrome", "Edge" }
                             : new HashSet<string>());
                 }
                 else
                 {
                     previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers
-                        .SupportedBrowsers.Should().BeEmpty();
+                        .SupportedBrowsers.Should().BeNull();
                 }
             }
             else
@@ -211,7 +211,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == new HashSet<string> {"browser-based", "native-mobile"}
+                    c.ClientApplicationTypes == new HashSet<string> { "browser-based", "native-mobile" }
                     && c.HardwareRequirements == "New Hardware"))).ConfigureAwait(false);
 
             previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections
@@ -241,7 +241,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             Assert.Throws<ArgumentNullException>(() => new SolutionResult(null));
         }
-        
+
         [Test]
         public void NullSolutionShouldThrowNullExceptionPreviewResult()
         {
