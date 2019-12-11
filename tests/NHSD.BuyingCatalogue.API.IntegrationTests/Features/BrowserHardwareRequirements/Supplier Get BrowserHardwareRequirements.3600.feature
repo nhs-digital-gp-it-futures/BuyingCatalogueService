@@ -26,7 +26,7 @@ Background:
 Scenario: 1. Browser Hardware Requirements are retreived for the solution
     When a GET request is made for browser-hardware-requirements for solution Sln1
     Then a successful response is returned
-    And the browser-hardware-requirements string is Hardware Information
+    And the string value of element hardware-requirements-description is Hardware Information
 
 @3600
 Scenario: 2. Browser Hardware Requirements are retrieved for the solution where no solutiondetail exists

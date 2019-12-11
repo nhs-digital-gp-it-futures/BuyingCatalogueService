@@ -42,13 +42,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             content.SelectToken($"sections.client-application-types.sections.{section}.requirement").ToString().Should().Be(requirement);
         }
 
-        [When(@"a GET request is made for (client-application-types|features|solution-description|browsers-supported|plug-ins-or-extensions|contact-details|browser-hardware-requirements) with no solution id")]
+        [When(@"a GET request is made for (client-application-types|features|solution-description|browsers-supported|plug-ins-or-extensions|contact-details|browser-hardware-requirements|connectivity-and-resolution) with no solution id")]
         public async Task GetRequestSectionNoSolutionId(string section)
         {
             await GetSectionRequest(section, " ").ConfigureAwait(false);
         }
 
-        [When(@"a GET request is made for (client-application-types|features|solution-description|browsers-supported|plug-ins-or-extensions|browser-hardware-requirements) for solution (.*)")]
+        [When(@"a GET request is made for (client-application-types|features|solution-description|browsers-supported|plug-ins-or-extensions|browser-hardware-requirements|connectivity-and-resolution) for solution (.*)")]
         public async Task GetSectionRequest(string section, string solutionId)
         {
             _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, RootSectionsUrl, solutionId, section)).ConfigureAwait(false);
