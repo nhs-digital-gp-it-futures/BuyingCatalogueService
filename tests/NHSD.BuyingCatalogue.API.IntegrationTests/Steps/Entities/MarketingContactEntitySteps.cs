@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
@@ -35,12 +36,9 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         [Then(@"Last Updated has updated on the MarketingContact for solution (.*)")]
         public async Task LastUpdatedHasUpdatedOnMarketingContact(string solutionId)
         {
-            var contacts = await MarketingContactEntity.FetchForSolutionAsync(solutionId).ConfigureAwait(false);
-
-            var currentDateTime = DateTime.Now;
-            var pastDateTime = currentDateTime.AddSeconds(-5);
-
-            contacts.Should().Match(x => x.All(x => x.LastUpdated > pastDateTime && x.LastUpdated < currentDateTime));
+            var contacts = (await MarketingContactEntity.FetchForSolutionAsync(solutionId).ConfigureAwait(false)).ToList();
+            
+            contacts.ForEach(async x => (await x.LastUpdated.SecondsFromNow().ConfigureAwait(false)).Should().BeLessOrEqualTo(5));
         }
 
         [Then(@"MarketingContacts exist for solution (.*)")]

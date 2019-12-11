@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -45,10 +46,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public ActionResult UpdateHardwareRequirementsAsync([FromRoute][Required]string id, [FromBody][Required] UpdateSolutionConnectivityAndResolutionViewModel viewModel)
+        public async Task<ActionResult> UpdateConnectivityAndResolutionAsync([FromRoute][Required]string id, [FromBody][Required] UpdateSolutionConnectivityAndResolutionViewModel viewModel)
         {
             CannedData[id] = (viewModel.ThrowIfNull().MinimumConnectionSpeed, viewModel.ThrowIfNull().MinimumDesktopResolution);
-            return NoContent();
+
+            var validationResult = await _mediator.Send(new UpdateSolutionConnectivityAndResolutionCommand(id, viewModel)).ConfigureAwait(false);
+
+            return validationResult.IsValid ? (ActionResult)new NoContentResult()
+                : BadRequest(new UpdateSolutionConnectivityAndResolutionResult(validationResult));
         }
 
         //canned data

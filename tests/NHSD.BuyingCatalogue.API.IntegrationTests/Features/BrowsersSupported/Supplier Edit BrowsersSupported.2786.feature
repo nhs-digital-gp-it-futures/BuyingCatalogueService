@@ -32,7 +32,7 @@ Scenario: 1. Browser Supported is updated
     Then a successful response is returned
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                    |
-        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true, "Plugins": null, "HardwareRequirements": "Hardware Information"} |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true, "Plugins": null, "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null, "HardwareRequirements": "Hardware Information"} |
         | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                                                                                      |
         | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                                                                                         |
     And Last Updated has updated on the SolutionDetail for solution Sln1

@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserHardwareRequirements;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowsersSupported;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClientApplicationTypes;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionConnectivityAndResolution;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins;
@@ -30,8 +31,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<UpdateSolutionBrowsersSupportedValidator>()
                 .AddTransient<UpdateSolutionContactDetailsValidator>()
                 .AddTransient<UpdateSolutionPluginsValidator>()
-                .AddTransient<UpdateSolutionBrowserHardwareRequirementsValidator>();
-
+                .AddTransient<UpdateSolutionBrowserHardwareRequirementsValidator>()
+                .AddTransient<UpdateSolutionConnectivityAndResolutionValidator>();
         }
     }
 }

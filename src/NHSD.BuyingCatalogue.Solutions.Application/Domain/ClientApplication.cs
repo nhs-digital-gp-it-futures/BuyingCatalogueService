@@ -12,6 +12,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 
         public Plugins Plugins { get; set; }
 
+        public string MinimumConnectionSpeed { get; set; }
+
+        public string MinimumDesktopResolution { get; set; }
+
         public string HardwareRequirements { get; set; }
     }
 }
