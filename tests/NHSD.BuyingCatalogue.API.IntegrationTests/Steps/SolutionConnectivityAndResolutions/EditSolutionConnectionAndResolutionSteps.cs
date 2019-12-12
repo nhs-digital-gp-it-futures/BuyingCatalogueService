@@ -40,20 +40,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.SolutionConnectivityAn
             content.SelectToken(token).ToString().Should().Be(field);
         }
 
-        [Then(@"the required field contains (.*)")]
-        public async Task ThenTheRequiredFieldContains(string field)
-        {
-            var context = await _response.ReadBody().ConfigureAwait(false);
-            context.SelectToken("required").ToString().Should().Contain(field);
-        }
-
-        [Then(@"the required field does not contain (.*)")]
-        public async Task ThenTheRequiredFieldDoesNotContain(string field)
-        {
-            var context = await _response.ReadBody().ConfigureAwait(false);
-            context.SelectToken("required").ToString().Should().NotContain(field);
-        }
-
         private class StepTable
         {
             [JsonProperty("minimum-connection-speed")]

@@ -23,7 +23,7 @@ Scenario: 1. Required is empty. AdditionalInformation is valid
     And additional-information is a string of 30 characters
     When a PUT request is made to update solution Sln1 plug-ins section
     Then a response status of 400 is returned
-    And the plug-ins required field contains plugins-required
+    And the required field contains plugins-required
 
 @2793
 Scenario: 2. Required has a value. AdditionalInformation length is greater than 500 characters
@@ -31,7 +31,7 @@ Scenario: 2. Required has a value. AdditionalInformation length is greater than 
     And additional-information is a string of 501 characters
     When a PUT request is made to update solution Sln1 plug-ins section
     Then a response status of 400 is returned
-    And the plug-ins maxLength field contains plugins-detail
+    And the maxLength field contains plugins-detail
     
 @2793
 Scenario: 3. Required is empty and AdditionalInformations length is greater than 500 characters
@@ -39,5 +39,5 @@ Scenario: 3. Required is empty and AdditionalInformations length is greater than
     And additional-information is a string of 501 characters
     When a PUT request is made to update solution Sln1 plug-ins section
     Then a response status of 400 is returned
-    And the plug-ins required field contains plugins-required
-    And the plug-ins maxLength field contains plugins-detail
+    And the required field contains plugins-required
+    And the maxLength field contains plugins-detail

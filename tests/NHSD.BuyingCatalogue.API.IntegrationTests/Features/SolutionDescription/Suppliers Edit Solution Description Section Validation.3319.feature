@@ -22,7 +22,7 @@ Scenario: 1. Summary is not filled out
     Given a request where the summary is a string of 0 characters
     When the update solution description request is made for Sln1
     Then a response status of 400 is returned
-    And the response required field contains summary
+    And the required field contains summary
     And Solutions exist
         | SolutionID | SolutionName |
         | Sln1       | MedicOnline  |
@@ -36,7 +36,7 @@ Scenario: 2. Summary exceeds the character limit
     Given a request where the summary is a string of 301 characters
     When the update solution description request is made for Sln1
     Then a response status of 400 is returned
-    And the response maxlength field contains summary
+    And the maxLength field contains summary
     And Solutions exist
         | SolutionID | SolutionName | 
         | Sln1       | MedicOnline  | 
@@ -49,7 +49,7 @@ Scenario: 3. Description exceeds the character limit
     Given a request where the description is a string of 1001 characters
     When the update solution description request is made for Sln1
     Then a response status of 400 is returned
-    And the response maxlength field contains description
+    And the maxLength field contains description
     And Solutions exist
         | SolutionID | SolutionName |
         | Sln1       | MedicOnline  |
@@ -62,7 +62,7 @@ Scenario: 4. Link exceeds the character limit
     Given a request where the link is a string of 1001 characters
     When the update solution description request is made for Sln1
     Then a response status of 400 is returned
-    And the response maxlength field contains link
+    And the maxLength field contains link
        And Solutions exist
         | SolutionID | SolutionName |
         | Sln1       | MedicOnline  |
@@ -76,8 +76,8 @@ Scenario: 5. Summary is not filled out & Description exceeds the character limit
     And a request where the description is a string of 1001 characters
     When the update solution description request is made for Sln1
     Then a response status of 400 is returned
-    And the response required field contains summary
-    And the response maxlength field contains description
+    And the required field contains summary
+    And the maxLength field contains description
     And Solutions exist
         | SolutionID | SolutionName |
         | Sln1       | MedicOnline  |
@@ -91,8 +91,8 @@ Scenario: 6. Summary is not filled out & Link exceeds the character limit
     And a request where the link is a string of 1001 characters
     When the update solution description request is made for Sln1
     Then a response status of 400 is returned
-    And the response required field contains summary
-    And the response maxlength field contains link
+    And the required field contains summary
+    And the maxLength field contains link
     And Solutions exist
         | SolutionID | SolutionName |
         | Sln1       | MedicOnline  |
@@ -106,8 +106,8 @@ Scenario: 7. Summary & Description exceeds the character limit
     And a request where the description is a string of 1001 characters
     When the update solution description request is made for Sln1
     Then a response status of 400 is returned
-    And the response maxlength field contains description
-    And the response maxlength field contains summary
+    And the maxLength field contains description
+    And the maxLength field contains summary
     And Solutions exist
         | SolutionID | SolutionName | 
         | Sln1       | MedicOnline  | 
@@ -121,8 +121,8 @@ Scenario: 8. Summary & Link exceeds the character limit
     And a request where the link is a string of 1001 characters
     When the update solution description request is made for Sln1
     Then a response status of 400 is returned
-    And the response maxlength field contains summary
-    And the response maxlength field contains link
+    And the maxLength field contains summary
+    And the maxLength field contains link
     And Solutions exist
         | SolutionID | SolutionName | 
         | Sln1       | MedicOnline  | 
@@ -136,8 +136,8 @@ Scenario: 9. Description & Link exceeds the character limit
     And a request where the link is a string of 1001 characters
     When the update solution description request is made for Sln1
     Then a response status of 400 is returned
-    And the response maxlength field contains link
-    And the response maxlength field contains description
+    And the maxLength field contains link
+    And the maxLength field contains description
     And Solutions exist
         | SolutionID | SolutionName |
         | Sln1       | MedicOnline  |
@@ -152,9 +152,9 @@ Scenario: 10. Summary is not filled out, Description & Link exceeds the characte
     And a request where the link is a string of 1001 characters
     When the update solution description request is made for Sln1
     Then a response status of 400 is returned
-    And the response required field contains summary
-    And the response maxlength field contains description
-    And the response maxlength field contains link
+    And the required field contains summary
+    And the maxLength field contains description
+    And the maxLength field contains link
        And Solutions exist
         | SolutionID | SolutionName | 
         | Sln1       | MedicOnline  | 
@@ -169,9 +169,9 @@ Scenario: 11. Summary, Description & Link exceeds the character limit
     And a request where the link is a string of 1001 characters    
     When the update solution description request is made for Sln1
     Then a response status of 400 is returned
-    And the response maxlength field contains summary
-    And the response maxlength field contains description
-    And the response maxlength field contains link
+    And the maxLength field contains summary
+    And the maxLength field contains description
+    And the maxLength field contains link
     And Solutions exist
         | SolutionID | SolutionName | 
         | Sln1       | MedicOnline  | 
