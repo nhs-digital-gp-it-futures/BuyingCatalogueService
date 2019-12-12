@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserAdditionalInformation;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 {
@@ -30,14 +31,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public ActionResult GetAdditionalInformationAsync([FromRoute] [Required] string id)
+        public async Task<ActionResult> GetAdditionalInformationAsync([FromRoute] [Required] string id)
         {
-            var result = new GetBrowserAdditionalInformationResult
-            {
-                AdditionalInformation = CannedData.Keys.Contains(id) ? CannedData[id] : null
-            };
-
-            return Ok(result);
+            var solution = await _mediator.Send(new GetSolutionByIdQuery(id)).ConfigureAwait(false);
+            return solution == null? (ActionResult)new NotFoundResult() : Ok(new GetBrowserAdditionalInformationResult(solution.ClientApplication.AdditionalInformation));
         }
 
         [HttpPut]
@@ -49,8 +46,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
             [FromBody] [Required]
             UpdateSolutionBrowserAdditionalInformationViewModel viewModel)
         {
-            CannedData[id] = (viewModel.ThrowIfNull().AdditionalInformation);
-
             var validationResult = await _mediator.Send(new UpdateSolutionBrowserAdditionalInformationCommand(id, viewModel))
                 .ConfigureAwait(false);
 
@@ -58,8 +53,5 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
                 ? (ActionResult)new NoContentResult()
                 : BadRequest(new UpdateSolutionBrowserAdditionalInformationResult(validationResult));
         }
-
-        //canned data
-        private static readonly Dictionary<string, string> CannedData = new Dictionary<string, string>();
     }
 }

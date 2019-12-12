@@ -8,6 +8,8 @@ using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserAdditionalInformation;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
@@ -26,6 +28,42 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             _mockMediator = new Mock<IMediator>();
             _browserAdditionalInformationController = new BrowserAdditionalInformationController(_mockMediator.Object);
+        }
+
+        [TestCase(null)]
+        [TestCase("Some additional Information")]
+        public async Task ShouldGetBrowserAdditionalInformation(string information)
+        {
+            _mockMediator
+                .Setup(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Mock.Of<ISolution>(s =>
+                    s.ClientApplication == Mock.Of<IClientApplication>(c => c.AdditionalInformation == information)));
+
+            var result = (await _browserAdditionalInformationController.GetAdditionalInformationAsync(SolutionId)
+                .ConfigureAwait(false)) as ObjectResult;
+
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+
+            var browserAdditionalInformation = result.Value as GetBrowserAdditionalInformationResult;
+
+            browserAdditionalInformation.AdditionalInformation.Should().Be(information);
+            _mockMediator.Verify(
+                m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()),
+                Times.Once);
+        }
+
+        [Test]
+        public async Task ShouldReturnNotFound()
+        {
+            var result =
+                (await _browserAdditionalInformationController.GetAdditionalInformationAsync(SolutionId)
+                    .ConfigureAwait(false)) as NotFoundResult;
+
+            result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+
+            _mockMediator.Verify(
+                m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()),
+                Times.Once);
         }
 
         [Test]

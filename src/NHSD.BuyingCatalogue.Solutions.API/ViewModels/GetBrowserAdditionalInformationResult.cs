@@ -6,5 +6,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
     {
         [JsonProperty("additional-information")]
         public string AdditionalInformation { get; set; }
+
+        public GetBrowserAdditionalInformationResult(string additionalInformation)
+        {
+            AdditionalInformation = additionalInformation;
+        }
     }
 }

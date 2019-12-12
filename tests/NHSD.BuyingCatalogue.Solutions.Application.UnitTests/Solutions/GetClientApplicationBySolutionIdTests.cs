@@ -33,7 +33,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             _clientApplicationResult = Mock.Of<IClientApplicationResult>(r =>
                 r.Id == _solutionId &&
-                r.ClientApplication == "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'HardwareRequirements': 'New Hardware' }"
+                r.ClientApplication == "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'HardwareRequirements': 'New Hardware', 'AdditionalInformation': 'Some Additional Info' }"
                 );
 
             var clientApplication = await _context.GetClientApplicationBySolutionIdHandler.Handle(
@@ -45,6 +45,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             clientApplication.Plugins.Required.Should().BeTrue();
             clientApplication.Plugins.AdditionalInformation.Should().Be("orem ipsum");
             clientApplication.HardwareRequirements.Should().Be("New Hardware");
+            clientApplication.AdditionalInformation.Should().Be("Some Additional Info");
         }
 
         [Test]
