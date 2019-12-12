@@ -30,16 +30,20 @@ The application is broken down into the following project libraries:
 - Docker
 - Data Model repository
 
-> Before you begin please install <b>Docker</b> on your machine.
+> Before you begin please install <b>.NET Core 3.0</b> & <b>Docker</b> on your machine.
 > Also download and store the Buying Catalogue Data Model repository along side this repository.
 
 
 # Running the API
 
+
+## On a Windows Box
+*All scripts are meant to be run in PowerShell from within this directory*
+
 To run the application in a container in development mode, run the following script:
 
 ```
-Launch Environment.ps1
+ & '.\Launch Environment.ps1'
 ```
 
 You can now access the API in your browser at 'http://localhost:8080/swagger/index.html'
@@ -47,64 +51,92 @@ You can now access the API in your browser at 'http://localhost:8080/swagger/ind
 To stop the application running in a container and to delete the associated images, run the command: 
 
 ```
-Tear Down Environment.ps1
+& '.\Tear Down Environment.ps1'
 ```
 To stop the application running in a container and to remove all images, resources and networks associated with it, run the command
 
-In Powershell:
 ```
-Tear Down Environment.ps1 -clearAll
-``` 
-In Bash:
-```
-tear_down_environment.sh -c
+& '.\Tear Down Environment.ps1' -clearAll
 ``` 
 
+## On a Linux/Mac Box
+*All scripts are meant to be run in bash from within this directory*
+
+To run the application in a container in development mode, run the following script:
+```
+bash launch_environment.sh
+```
+You can now access the API in your browser at 'http://localhost:8080/swagger/index.html'
+
+To stop the application running in a container and to delete the associated images:
+```
+bash tear_down_environment.sh
+```
+To stop the application running in a container and to remove all images, resources and networks associated with it:
+
+```
+bash tear_down_environment.sh -c
+``` 
 </p>
 
 # Integration Tests
 
-Integration Tests and Persistence Tests run against Docker images of service and database. These must be re-created before running tests using Visual Studio.
+Integration Tests and Persistence Tests run against Docker containers of service and database.
+These tests rely on a docker image 'integration_db', this image must be created before running any tests. [How to is listed below.](#integration_db_setup_id)
 <br/>
-Alternatively, use the supplied powershell scripts 
-`Run Component Tests.ps1` and 
-`Run Code Coverage.ps1` 
 
-## Before running such tests in Visual Studio
-```
-Launch Environment.ps1 i
-```
-or
-```
-Launch Environment.ps1 -env integration
-```
+## On a Windows Box
 
-
-
-## After running such tests in Visual Studio
-
+### Before running tests
 ```
-Tear Down Environment i
+'.\Launch Environment.ps1' i
 ```
-or
+### Running tests
 ```
-Tear Down Environment -env integration
+& '.\Run Component Tests.ps1'
+```
+or 
+
+Test Explorer in your favourite IDE
+
+### After running tests
+```
+& '.\Tear Down Environment.ps1' i
 ```
 
-## Integration DB docker image
+## On a Linux/Mac Box
+
+### Before running tests
+```
+bash launch_environment i
+```
+### Running tests
+```
+bash run_component_tests.sh
+```
+or 
+
+Test Explorer in your favourite IDE
+
+### After running tests
+```
+bash tear_down_environment.sh i
+```
+
+## <a name="integration_db_setup_id"></a> Integration db setup
 In order to speed up the API Integration test execution, a docker image which contains all the data needed has been build. 
 This docker image needs to be built locally before running the API Integration tests. It only needs to be built once, and then updated every time the DataModel changes.
-To build / update the image run `setup-integration-db` script either in Powershell or Bash
+To build / update the image run `setup-integration-db` script either in PowerShell or Bash
 
-## Running the Script
+### Running the Script
 | CLI | Command |
 |---------------|--------------------|
 |`bash` | `bash setup-integration-db.sh` |
 | `PowerShell` | `.\setup-integration-db.ps1` |
 
 ## Troubleshooting
-`./integration-entrypoint.sh: line 2: $'\r': command not found` during the image build - run `dos2unix` on the integration-entrypoint.sh script
+- `./integration-entrypoint.sh: line 2: $'\r': command not found` during the image build
+ run `dos2unix` on the integration-entrypoint.sh script
 
-## Error: "Start Buying Catalogue API failed, could not get a successful health status from 'http://localhost:8080/health/live' after trying for '01:00'"
-
+ - Error: "Start Buying Catalogue API failed, could not get a successful health status from 'http://localhost:8080/health/live' after trying for '01:00'"
 Have you remembered to run `Launch Environment.ps1 i` :) ?
