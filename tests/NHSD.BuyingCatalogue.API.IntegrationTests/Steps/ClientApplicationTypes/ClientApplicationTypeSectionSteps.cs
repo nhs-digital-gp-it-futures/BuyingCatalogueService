@@ -109,6 +109,22 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
                 .ToString().Should().Be(value);
         }
 
+        [Then(@"the solution client-application-types section contains minimum-connection-speed with value (.*)")]
+        public async Task ThenTheSolutionClient_Application_TypesSectionContainsMinimumConnectionSpeedWithValue(string value)
+        {
+            var content = await _response.ReadBody().ConfigureAwait(false);
+            content.SelectToken("sections.client-application-types.sections.browser-based.sections.connectivity-and-resolution.answers.minimum-connection-speed")
+                .ToString().Should().Be(value);
+        }
+
+        [Then(@"the solution client-application-types section contains minimum-desktop-resolution with value (.*)")]
+        public async Task ThenTheSolutionClient_Application_TypesSectionContainsMinimumDesktopResolutionWithValue(string value)
+        {
+            var content = await _response.ReadBody().ConfigureAwait(false);
+            content.SelectToken("sections.client-application-types.sections.browser-based.sections.connectivity-and-resolution.answers.minimum-desktop-resolution")
+                .ToString().Should().Be(value);
+        }
+
         [Then(@"the solution client-application-types section contains additional-information with value (.*)")]
         public async Task ThenTheSolutionClient_Application_TypesSectionContainsAdditional_InformationWithValueSomeAdditionalInfo(string value)
         {

@@ -19,11 +19,11 @@ Background:
         | Sln3       | Banana              | Drs. Inc         | 1                | Sup 2      |
         | Sln4       | Water Bottle        | Drs. Inc         | 1                | Sup 2      |
     And SolutionDetail exist
-        | Solution | SummaryDescription          | FullDescription         | ClientApplication                                                                                                                                                                                                                                                                                                           |
-        | Sln1     |                             | Online medicine 1       | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ], "BrowsersSupported": ["Google Chrome", "Edge"], "MobileResponsive": false, "Plugins": null, "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null, "HardwareRequirements": "New Hardware", "AdditionalInformation": "Some Additional Info" } |
-        | Sln2     | Fully fledged GP system     | Fully fledged GP 12     | { "ClientApplicationTypes" : [ "browser-based" ], "BrowsersSupported": [ ], "MobileResponsive": true }                                                                                                                                                                                                                      |
-        | Sln3     | Not Quite fledged GP system | Not Quite fledged GP 16 | { "ClientApplicationTypes" : [ "browser-based" ], "BrowsersSupported": ["Google Chrome", "Edge", "Safari"] }                                                                                                                                                                                                                |
-        | Sln4     | Fruit delivery system       | Banana 1152             | { "ClientApplicationTypes" : [ "browser-based" ], "Plugins": { "Required": true, "AdditionalInformation": "Colourful water extension" } }                                                                                                                                                                                   |
+        | Solution | SummaryDescription          | FullDescription         | ClientApplication                                                                                                                                                                                                                                                                                                               |
+        | Sln1     |                             | Online medicine 1       | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ], "BrowsersSupported": ["Google Chrome", "Edge"], "MobileResponsive": false, "Plugins": null, "MinimumConnectionSpeed": "1GBps", "MinimumDesktopResolution": "1x1", "HardwareRequirements": "New Hardware", "AdditionalInformation": "Some Additional Info" } |
+        | Sln2     | Fully fledged GP system     | Fully fledged GP 12     | { "ClientApplicationTypes" : [ "browser-based" ], "BrowsersSupported": [ ], "MobileResponsive": true }                                                                                                                                                                                                                          |
+        | Sln3     | Not Quite fledged GP system | Not Quite fledged GP 16 | { "ClientApplicationTypes" : [ "browser-based" ], "BrowsersSupported": ["Google Chrome", "Edge", "Safari"] }                                                                                                                                                                                                                    |
+        | Sln4     | Fruit delivery system       | Banana 1152             | { "ClientApplicationTypes" : [ "browser-based" ], "Plugins": { "Required": true, "AdditionalInformation": "Colourful water extension" } }                                                                                                                                                                                       |
 
 @3322
 Scenario: 1. Get Solution Preview contains client application types browser based answers for all data
@@ -37,6 +37,8 @@ Scenario: 1. Get Solution Preview contains client application types browser base
     And the solution client-application-types section contains mobile responsive with value No
     And the solution client-application-types section contains hardware-requirements with value New Hardware
     And the solution client-application-types section contains additional-information with value Some Additional Info
+    And the solution client-application-types section contains minimum-connection-speed with value 1GBps
+    And the solution client-application-types section contains minimum-desktop-resolution with value 1x1
 
 @3322
 Scenario:2. Get Solution Preview contains client application types browser based mobile responsive answer

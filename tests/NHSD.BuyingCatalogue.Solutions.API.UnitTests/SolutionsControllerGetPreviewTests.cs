@@ -241,7 +241,36 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             previewResult.Sections.ClientApplicationTypes.Should().BeNull();
         }
+        
+        [TestCase("1GBps", "1x1", true)]
+        [TestCase(null, "1x1", true)]
+        [TestCase("1GBps", null, true)]
+        [TestCase(null, null, false)]
+        [TestCase("    ", "    ", false)]
+        [TestCase("", "", false)]
+        [TestCase("	", "	", false)]
+        public async Task ConnectivityAndResolutionSectionIsSetCorrectly(string connectivity, string resolution, bool hasData)
+        {
+            var publicResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                s.PublishedStatus == PublishedStatus.Published &&
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "browser-based" } &&
+                    c.MinimumConnectionSpeed == connectivity &&
+                    c.MinimumDesktopResolution == resolution))).ConfigureAwait(false);
+            var connectivitySection = publicResult?.Sections?.ClientApplicationTypes?.Sections?.BrowserBased?.Sections?
+                .BrowserConnectivityAndResolutionSection;
 
+            if (!hasData)
+            {
+                connectivitySection.Should().BeNull();
+                return;
+            }
+
+            connectivitySection.Should().NotBeNull();
+            connectivitySection.Answers.HasData.Should().Be(hasData);
+            connectivitySection.Answers.MinimumConnectionSpeed.Should().Be(connectivity);
+            connectivitySection.Answers.MinimumDesktopResolution.Should().Be(resolution);
+        }
         [Test]
         public void NullSolutionShouldThrowNullExceptionSolutionDescriptionPreviewAnswers()
         {
