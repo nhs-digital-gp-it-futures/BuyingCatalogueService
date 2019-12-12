@@ -44,8 +44,8 @@ Scenario: 2. Connection and Resolution are updated for the solution with empty r
         | SolutionID | SolutionName   |
         | Sln1       | MedicOnline    |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                      |
-        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": [], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null, "MinimumConnectionSpeed": "1GBps", "MinimumDesktopResolution": null, "HardwareRequirements": null } |
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                       |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null, "MinimumConnectionSpeed": "1GBps", "MinimumDesktopResolution": null, "HardwareRequirements": null, "AdditionalInformation": null } |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @3599

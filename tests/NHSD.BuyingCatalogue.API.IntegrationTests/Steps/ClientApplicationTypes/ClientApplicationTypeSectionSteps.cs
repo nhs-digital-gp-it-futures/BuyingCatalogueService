@@ -101,6 +101,22 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             content.SelectToken("sections.client-application-types").Should().NotBeNullOrEmpty();
         }
 
+        [Then(@"the solution client-application-types section contains hardware-requirements with value (.*)")]
+        public async Task ThenTheSolutionClient_Application_TypesSectionContainsHardware_RequirementsWithValueSomeNewHardware(string value)
+        {
+            var content = await _response.ReadBody().ConfigureAwait(false);
+            content.SelectToken("sections.client-application-types.sections.browser-based.sections.browser-hardware-requirements.answers.hardware-requirements-description")
+                .ToString().Should().Be(value);
+        }
+
+        [Then(@"the solution client-application-types section contains additional-information with value (.*)")]
+        public async Task ThenTheSolutionClient_Application_TypesSectionContainsAdditional_InformationWithValueSomeAdditionalInfo(string value)
+        {
+            var content = await _response.ReadBody().ConfigureAwait(false);
+            content.SelectToken("sections.client-application-types.sections.browser-based.sections.browser-additional-information.answers.additional-information")
+                .ToString().Should().Be(value);
+        }
+
         private class ClientApplicationTypesTable
         {
             public string ClientApplication { get; set; }
