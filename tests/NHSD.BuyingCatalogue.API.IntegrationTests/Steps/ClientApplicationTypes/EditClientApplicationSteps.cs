@@ -40,13 +40,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             await WhenAPutRequestIsMadeToUpdateClientApplicationTypesSection(" ", table).ConfigureAwait(false);
         }
 
-        [Then(@"the client-application-types required field contains (.*)")]
-        public async Task ThenTheClient_Application_TypesRequiredFieldContainsClient_Application_Types(string field)
-        {
-            var content = await _response.ReadBody().ConfigureAwait(false);
-            content.SelectToken("required").ToString().Should().Contain(field);
-        }
-
         private class ClientApplicationTypeTable
         {
             public List<string> ClientApplicationTypes { get; set; }

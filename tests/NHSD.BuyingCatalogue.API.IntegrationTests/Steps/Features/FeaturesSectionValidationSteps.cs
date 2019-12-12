@@ -53,13 +53,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             _response.Result = await Client.PutAsJsonAsync(string.Format(CultureInfo.InvariantCulture, FeaturesUrl, featuresId), content).ConfigureAwait(false);
         }
 
-        [Then(@"the features response required field contains (.*)")]
-        public async Task ThenTheFeaturesResponseRequiredFieldContainsListing(List<string> listing)
-        {
-            var content = await _response.ReadBody().ConfigureAwait(false);
-            content.SelectToken("maxLength").Select(x => x.ToString()).Should().BeEquivalentTo(listing);
-        }
-
         private static string GenerateStringOfLength(int length)
         {
             StringBuilder builder = new StringBuilder();

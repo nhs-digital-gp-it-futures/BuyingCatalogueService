@@ -41,21 +41,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             _response.Result = await Client.PutAsJsonAsync(string.Format(CultureInfo.InvariantCulture, SolutionDescriptionUrl, solutionId), content).ConfigureAwait(false);
         }
 
-        [Then(@"the response required field contains summary")]
-        public async Task ThenTheResponseRequiredFieldContainsSummary()
-        {
-            var content = await _response.ReadBody().ConfigureAwait(false);
-            content.SelectToken("required").ToString().Should().Contain("summary");
-        }
-
-        [Then(@"the response maxlength field contains (summary|description|link)")]
-        public async Task ThenTheResponseMaxlengthFieldContainsSummary(string field)
-        {
-            var content = await _response.ReadBody().ConfigureAwait(false);
-            content.SelectToken("maxLength").ToString().Should().Contain(field);
-        }
-
-
         private static string GenerateStringOfLength(int chars)
         {
             StringBuilder builder = new StringBuilder();
