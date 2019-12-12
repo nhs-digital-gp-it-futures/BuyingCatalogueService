@@ -257,6 +257,19 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         }
 
         [Test]
+        public async Task IfBrowserBasedThenAdditionalInformationCanBeSet()
+        {
+            var previewResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.PublishedStatus == PublishedStatus.Published &&
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "browser-based", "native-mobile" } &&
+                    c.AdditionalInformation == "Some Additional Info")), SolutionId1).ConfigureAwait(false);
+
+            previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections
+                .BrowserAdditionalInformationSection.Answers.AdditionalInformation.Should().Be("Some Additional Info");
+        }
+
+        [Test]
         public async Task ShouldNotIncludeBrowserBasedDataIfClientApplicationTypesDoNotIncludeBrowserBased()
         {
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
