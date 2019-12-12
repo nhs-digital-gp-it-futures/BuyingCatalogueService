@@ -23,12 +23,12 @@ Scenario: 1. Sub-Form Browser Based Client Type all sections are Displayed
     When a GET request is made to display solution Sln1 browser-based sections
     Then a successful response is returned
     And Solutions browser-based section contains all BrowserBased Sections   
-        | Id                            | Status     | Requirement |
-        | browsers-supported            | INCOMPLETE | Mandatory   |
-        | plug-ins-or-extensions        | INCOMPLETE | Mandatory   |
-        | connectivity-and-resolution   | INCOMPLETE | Mandatory   |
-        | browser-hardware-requirements | INCOMPLETE | Optional    |
-        | additional-information        | INCOMPLETE | Optional    |
+        | Id                             | Status     | Requirement |
+        | browsers-supported             | INCOMPLETE | Mandatory   |
+        | plug-ins-or-extensions         | INCOMPLETE | Mandatory   |
+        | connectivity-and-resolution    | INCOMPLETE | Mandatory   |
+        | browser-hardware-requirements  | INCOMPLETE | Optional    |
+        | browser-additional-information | INCOMPLETE | Optional    |
 
 @2782
 Scenario: 2. Solution not found
@@ -150,3 +150,24 @@ Examples:
     | { "MinimumConnectionSpeed": '1GBps', "MinimumDesktopResolution": null }  | COMPLETE   |
     | { "MinimumConnectionSpeed": null, "MinimumDesktopResolution": '1x1' }    | INCOMPLETE |
     | { "MinimumConnectionSpeed": '1GBps', "MinimumDesktopResolution": '1x1' } | COMPLETE   |
+
+@3601
+Scenario: 12. Browser Additional Information incomplete when record is not preset
+    When a GET request is made to display solution Sln1 browser-based sections
+    Then a successful response is returned
+    And the status of the browser-hardware-requirements section is INCOMPLETE
+
+@3601
+Scenario Outline: 13 Browser Additional Information Based on data in Client Application
+  Given SolutionDetail exist
+        | Solution | ClientApplication   |
+        | Sln1     | <ClientApplication> |
+         When a GET request is made to display solution Sln1 browser-based sections
+    Then a successful response is returned
+    And the status of the browser-additional-information section is <Status>
+Examples:
+    | ClientApplication                                               | Status     |
+    | { "AdditionalInformation": "This is an additional information"} | COMPLETE   |
+    | { "AdditionalInformation": null }                               | INCOMPLETE |
+    | { "AdditionalInformation": "	" }                               | INCOMPLETE |
+    | { "AdditionalInformation": "" }                                 | INCOMPLETE |

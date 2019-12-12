@@ -30,8 +30,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         [JsonProperty("browser-hardware-requirements")]
         public BrowserBasedDashboardSection HardwareRequirementsSection { get; }
 
-        [JsonProperty("additional-information")]
-        public BrowserBasedDashboardSection AdditionalInformationSection { get; }
+        [JsonProperty("browser-additional-information")]
+        public BrowserBasedDashboardSection BrowserAdditionalInformationSection { get; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="BrowserBasedDashboardSections"/> class.
@@ -42,7 +42,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
             PluginsOrExtensionsSection = new BrowserBasedDashboardSection(IsPluginsComplete(clientApplication?.Plugins), true);
             ConnectivityAndResolutionSection = new BrowserBasedDashboardSection(!String.IsNullOrWhiteSpace(clientApplication?.MinimumConnectionSpeed), true);
             HardwareRequirementsSection = new BrowserBasedDashboardSection(IsHardwareRequirementsComplete(clientApplication), false);
-            AdditionalInformationSection = new BrowserBasedDashboardSection(false, false);
+            BrowserAdditionalInformationSection = new BrowserBasedDashboardSection(IsBrowserAdditionalInformationComplete(clientApplication), false);
         }
 
         private bool IsBrowserSupportedComplete(IClientApplication clientApplication)
@@ -58,6 +58,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         private bool IsHardwareRequirementsComplete(IClientApplication clientApplication)
         {
             return !string.IsNullOrWhiteSpace(clientApplication?.HardwareRequirements);
+        }
+
+        private bool IsBrowserAdditionalInformationComplete(IClientApplication clientApplication)
+        {
+            return !string.IsNullOrWhiteSpace(clientApplication?.AdditionalInformation);
         }
     }
 

@@ -62,7 +62,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var hardwareSection = browserBasedResult.BrowserBasedDashboardSections.HardwareRequirementsSection;
             AssertSectionMandatoryAndComplete(hardwareSection, false, false);
 
-            var additionalSection = browserBasedResult.BrowserBasedDashboardSections.AdditionalInformationSection;
+            var additionalSection = browserBasedResult.BrowserBasedDashboardSections.BrowserAdditionalInformationSection;
             AssertSectionMandatoryAndComplete(additionalSection, false, false);
         }
 
@@ -143,6 +143,28 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 s.ClientApplication.Plugins == Mock.Of<IPlugins>(c => c.Required == pluginRequired && c.AdditionalInformation == null))).ConfigureAwait(false);
 
             AssertPluginsSectionComplete(browserBasedResult, complete);
+        }
+
+        [TestCase(null, false)]
+        [TestCase("Some Hardware", true)]
+        public async Task ShouldGetBrowserHardwareRequirementIsComplete(string hardware, bool isComplete)
+        {
+            var browserBasedResult = await GetBrowserBasedSectionAsync(Mock.Of<ISolution>(s =>
+                    s.ClientApplication == Mock.Of<IClientApplication>(c => c.HardwareRequirements == hardware)))
+                .ConfigureAwait(false);
+
+            browserBasedResult.BrowserBasedDashboardSections.HardwareRequirementsSection.Status.Should().Be(isComplete ? "COMPLETE" : "INCOMPLETE");
+        }
+
+        [TestCase(null, false)]
+        [TestCase("Additional Info", true)]
+        public async Task ShouldGetBrowserAdditionalInformationIsComplete(string information, bool isComplete)
+        {
+            var browserBasedResult = await GetBrowserBasedSectionAsync(Mock.Of<ISolution>(s =>
+                    s.ClientApplication == Mock.Of<IClientApplication>(c => c.AdditionalInformation == information)))
+                .ConfigureAwait(false);
+
+            browserBasedResult.BrowserBasedDashboardSections.BrowserAdditionalInformationSection.Status.Should().Be(isComplete ? "COMPLETE" : "INCOMPLETE");
         }
 
 
