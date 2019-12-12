@@ -11,5 +11,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         string HardwareRequirements { get; }
         string MinimumConnectionSpeed { get; }
         string MinimumDesktopResolution { get; }
+        string AdditionalInformation { get; }
     }
 }
