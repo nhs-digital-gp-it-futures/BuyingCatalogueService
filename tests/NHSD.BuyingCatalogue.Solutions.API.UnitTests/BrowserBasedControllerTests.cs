@@ -121,6 +121,18 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             AssertBrowsersSupportedSectionComplete(browserBasedResult, true);
         }
+        
+        [TestCase("1GBps", "1x1", true)]
+        [TestCase("1GBps", null, true)]
+        [TestCase(null, "1x1", false)]
+        [TestCase(null, null, false)]
+        public async Task ShouldGetConnectivityAndResolutionCompleteWhenConnectivityIsComplete(string speed, string resolution, bool isComplete)
+        {
+            var browserBasedResult = await GetBrowserBasedSectionAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c => c.MinimumConnectionSpeed == speed && c.MinimumDesktopResolution == resolution))).ConfigureAwait(false);
+            browserBasedResult.BrowserBasedDashboardSections.ConnectivityAndResolutionSection.Status.Should()
+                .Be(isComplete ? "COMPLETE" : "INCOMPLETE");
+        }
 
         [TestCase(null, false)]
         [TestCase(false, true)]

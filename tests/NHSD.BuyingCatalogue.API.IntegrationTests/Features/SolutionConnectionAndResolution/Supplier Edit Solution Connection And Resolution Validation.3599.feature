@@ -24,22 +24,13 @@ Scenario: 1. Minimum connection speed is null and Minimum desktop resolution is 
         | NULL                   |                          |
     Then a response status of 400 is returned
     And the required field contains minimum-connection-speed
-    And the required field contains minimum-desktop-resolution
-
-@3599
-Scenario: 2. Minimum connection speed is null and Minimum desktop resolution is valid
-    When a PUT request is made to update solution Sln1 connectivity-and-resolution section
-        | MinimumConnectionSpeed | MinimumDesktopResolution |
-        | NULL                   | 1x1                      |
-    Then a response status of 400 is returned
-    And the required field contains minimum-connection-speed
     And the required field does not contain minimum-desktop-resolution
 
 @3599
-Scenario: 3. Minimum connection speed is valid and Minimum desktop resolution is empty
+Scenario: 2. Minimum connection speed is empty and Minimum desktop resolution is valid
     When a PUT request is made to update solution Sln1 connectivity-and-resolution section
         | MinimumConnectionSpeed | MinimumDesktopResolution |
-        | "1GBps"                |                          |
+        |                        | 1x1                      |
     Then a response status of 400 is returned
-    And the required field does not contain minimum-connection-speed
-    And the required field contains minimum-desktop-resolution
+    And the required field contains minimum-connection-speed
+    And the required field does not contain minimum-desktop-resolution

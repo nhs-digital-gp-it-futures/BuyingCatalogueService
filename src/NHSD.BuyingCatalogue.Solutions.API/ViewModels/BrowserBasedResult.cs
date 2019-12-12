@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
@@ -39,7 +40,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         {
             BrowsersSupportedSection = new BrowserBasedDashboardSection(IsBrowserSupportedComplete(clientApplication), true);
             PluginsOrExtensionsSection = new BrowserBasedDashboardSection(IsPluginsComplete(clientApplication?.Plugins), true);
-            ConnectivityAndResolutionSection = new BrowserBasedDashboardSection(false, true);
+            ConnectivityAndResolutionSection = new BrowserBasedDashboardSection(!String.IsNullOrWhiteSpace(clientApplication?.MinimumConnectionSpeed), true);
             HardwareRequirementsSection = new BrowserBasedDashboardSection(IsHardwareRequirementsComplete(clientApplication), false);
             AdditionalInformationSection = new BrowserBasedDashboardSection(false, false);
         }

@@ -134,3 +134,19 @@ Examples:
     | { "ClientApplicationTypes" : ["browser-based" ], "HardwareRequirements": "	" }                | INCOMPLETE |
     | { "ClientApplicationTypes" : ["browser-based" ], "HardwareRequirements": "" }                    | INCOMPLETE |
     | { "ClientApplicationTypes" : ["browser-based" ], "HardwareRequirements": "Another Requirement" } | COMPLETE   |
+
+@3599
+Scenario Outline: 11. Browser Connectivity and Resolution Based on data in Client Application
+    Given SolutionDetail exist
+        | Solution | ClientApplication   |
+        | Sln1     | <ClientApplication> |
+    When a GET request is made to display solution Sln1 browser-based sections
+    Then a successful response is returned
+    And the status of the connectivity-and-resolution section is <Status>
+Examples:
+    | ClientApplication                                                        | Status     |
+    |                                                                          | INCOMPLETE |
+    | { "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null }     | INCOMPLETE |
+    | { "MinimumConnectionSpeed": '1GBps', "MinimumDesktopResolution": null }  | COMPLETE   |
+    | { "MinimumConnectionSpeed": null, "MinimumDesktopResolution": '1x1' }    | INCOMPLETE |
+    | { "MinimumConnectionSpeed": '1GBps', "MinimumDesktopResolution": '1x1' } | COMPLETE   |

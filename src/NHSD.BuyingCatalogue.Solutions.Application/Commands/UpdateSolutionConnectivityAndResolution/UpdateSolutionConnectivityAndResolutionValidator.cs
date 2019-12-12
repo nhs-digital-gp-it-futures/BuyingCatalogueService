@@ -13,11 +13,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionConn
                 result.Required.Add("minimum-connection-speed");
             }
 
-            if (String.IsNullOrWhiteSpace(viewModel.MinimumDesktopResolution))
-            {
-                result.Required.Add("minimum-desktop-resolution");
-            }
-
             return result;
         }
     }
