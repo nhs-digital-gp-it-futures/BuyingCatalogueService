@@ -171,3 +171,19 @@ Examples:
     | { "AdditionalInformation": null }                               | INCOMPLETE |
     | { "AdditionalInformation": "	" }                               | INCOMPLETE |
     | { "AdditionalInformation": "" }                                 | INCOMPLETE |
+
+@3602
+Scenario Outline: 14. Browser Mobile Frst Based on data in Client Application
+  Given SolutionDetail exist
+        | Solution | ClientApplication   |
+        | Sln1     | <ClientApplication> |
+    When a GET request is made to display solution Sln1 browser-based sections
+    Then a successful response is returned
+    And the status of the browser-mobile-first section is <Status>
+Examples:
+    | ClientApplication              | Status     |
+    |                                | INCOMPLETE |
+    | { "MobileFirstDesign": null }  | INCOMPLETE |
+    | { "MobileFirstDesign": false } | COMPLETE   |
+    | { "MobileFirstDesign": true }  | COMPLETE   |
+

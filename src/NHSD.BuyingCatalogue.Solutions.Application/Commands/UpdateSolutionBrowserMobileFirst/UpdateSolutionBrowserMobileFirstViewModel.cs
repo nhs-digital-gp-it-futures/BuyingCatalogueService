@@ -5,6 +5,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrow
     public class UpdateSolutionBrowserMobileFirstViewModel
     {
         [JsonProperty("mobile-first-design")]
-        public bool? MobileFirstDesign { get; set; }
+        public string MobileFirstDesign { get; set; }
     }
 }

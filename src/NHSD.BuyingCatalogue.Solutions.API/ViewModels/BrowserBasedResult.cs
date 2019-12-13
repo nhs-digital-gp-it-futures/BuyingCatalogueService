@@ -21,6 +21,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         [JsonProperty("browsers-supported")]
         public BrowserBasedDashboardSection BrowsersSupportedSection { get; }
 
+        [JsonProperty("browser-mobile-first")]
+        public BrowserBasedDashboardSection BrowserMobileFirstSection { get; }
+
         [JsonProperty("plug-ins-or-extensions")]
         public BrowserBasedDashboardSection PluginsOrExtensionsSection { get; }
 
@@ -39,6 +42,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         public BrowserBasedDashboardSections(IClientApplication clientApplication)
         {
             BrowsersSupportedSection = new BrowserBasedDashboardSection(IsBrowserSupportedComplete(clientApplication), true);
+            BrowserMobileFirstSection = new BrowserBasedDashboardSection(IsMobileFirstComplete(clientApplication), true);
             PluginsOrExtensionsSection = new BrowserBasedDashboardSection(IsPluginsComplete(clientApplication?.Plugins), true);
             ConnectivityAndResolutionSection = new BrowserBasedDashboardSection(!String.IsNullOrWhiteSpace(clientApplication?.MinimumConnectionSpeed), true);
             HardwareRequirementsSection = new BrowserBasedDashboardSection(IsHardwareRequirementsComplete(clientApplication), false);
@@ -48,6 +52,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         private bool IsBrowserSupportedComplete(IClientApplication clientApplication)
         {
             return clientApplication?.BrowsersSupported?.Any() == true && clientApplication?.MobileResponsive.HasValue == true;
+        }
+
+        private bool IsMobileFirstComplete(IClientApplication clientApplication)
+        {
+            return clientApplication?.MobileFirstDesign.HasValue == true;
         }
 
         private bool IsPluginsComplete(IPlugins plugins)

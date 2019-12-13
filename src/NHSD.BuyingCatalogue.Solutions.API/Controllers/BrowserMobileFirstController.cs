@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -49,14 +49,20 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public ActionResult UpdateMobileFirstAsync([FromRoute] [Required] string id,
+        public async Task<ActionResult> UpdateMobileFirstAsync([FromRoute] [Required] string id,
             [FromBody] [Required] UpdateSolutionBrowserMobileFirstViewModel viewModel)
         {
             CannedData[id] = (viewModel.ThrowIfNull().MobileFirstDesign);
-            return NoContent();
+
+            var validationResult = await _mediator.Send(new UpdateSolutionBrowserMobileFirstCommand(id, viewModel))
+                .ConfigureAwait(false);
+
+            return validationResult.IsValid
+                ? (ActionResult)new NoContentResult()
+                : BadRequest(new UpdateSolutionBrowserMobileFirstResult(validationResult));
         }
 
         //Canned Data
-        private static readonly Dictionary<string, bool?> CannedData = new Dictionary<string, bool?>();
+        private static readonly Dictionary<string, string> CannedData = new Dictionary<string, string>();
     }
 }

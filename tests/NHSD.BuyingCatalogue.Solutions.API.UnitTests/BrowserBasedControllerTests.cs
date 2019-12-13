@@ -53,6 +53,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var browsersSupportedSection = browserBasedResult.BrowserBasedDashboardSections.BrowsersSupportedSection;
             AssertSectionMandatoryAndComplete(browsersSupportedSection, true, false);
 
+            var mobileFirstSection = browserBasedResult.BrowserBasedDashboardSections.BrowserMobileFirstSection;
+            AssertSectionMandatoryAndComplete(mobileFirstSection, true, false);
+
             var plugInsSection = browserBasedResult.BrowserBasedDashboardSections.PluginsOrExtensionsSection;
             AssertSectionMandatoryAndComplete(plugInsSection, true, false);
 
@@ -121,7 +124,19 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             AssertBrowsersSupportedSectionComplete(browserBasedResult, true);
         }
-        
+
+        [TestCase(null, false)]
+        [TestCase(false, true)]
+        [TestCase(true, true)]
+        public async Task ShouldGetMobileFirstCalculateCompleteMobileFirstRequired(bool? required, bool isComplete)
+        {
+            var browserBasedResult = await GetBrowserBasedSectionAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication.MobileFirstDesign == required)).ConfigureAwait(false);
+
+            browserBasedResult.BrowserBasedDashboardSections.BrowserMobileFirstSection.Status.Should().Be(isComplete ? "COMPLETE" : "INCOMPLETE");
+        }
+
+
         [TestCase("1GBps", "1x1", true)]
         [TestCase("1GBps", null, true)]
         [TestCase(null, "1x1", false)]
