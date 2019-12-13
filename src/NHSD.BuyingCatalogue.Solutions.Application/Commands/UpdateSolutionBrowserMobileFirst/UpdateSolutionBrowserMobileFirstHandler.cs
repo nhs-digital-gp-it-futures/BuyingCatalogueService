@@ -28,7 +28,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrow
                 await _clientApplicationPartialUpdater.UpdateAsync(request.SolutionId, clientApplication =>
                     {
                         clientApplication.MobileFirstDesign =
-                            request.UpdateSolutionBrowserMobileFirstViewModel?.MobileFirstDesign.ToBoolean(); 
+                            request.UpdateSolutionBrowserMobileFirstViewModel.MobileFirstDesign.ToBoolean(); 
                     },
                     cancellationToken).ConfigureAwait(false);
             }

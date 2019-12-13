@@ -9,9 +9,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         [JsonProperty("mobile-first-design")]
         public string MobileFirstDesign { get; set; }
 
-        //public GetBrowserMobileFirstResult(IClientApplication clientApplication)
-        //{
-        //    MobileFirstDesign = clientApplication?.MobileFirstDesign.ToYesNoString();
-        //}
+        public GetBrowserMobileFirstResult(IClientApplication clientApplication)
+        {
+            MobileFirstDesign = clientApplication?.MobileFirstDesign.ToYesNoString();
+        }
     }
 }
