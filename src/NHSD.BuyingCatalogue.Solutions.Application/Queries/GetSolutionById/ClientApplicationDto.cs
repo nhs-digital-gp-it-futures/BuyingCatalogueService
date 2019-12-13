@@ -20,5 +20,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         public string MinimumConnectionSpeed { get; set; }
 
         public string MinimumDesktopResolution { get; set; }
+
+        public bool? MobileFirstDesign { get; set; }
     }
 }
