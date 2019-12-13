@@ -1,6 +1,6 @@
 ﻿param (
     [string]$env = "development",
-    [switch]$clearAll
+    [switch]$c
 )
 
 function determine_environment() {
@@ -24,7 +24,7 @@ function remove_integration(){
 function remove_development() {
     $DockerComposeDown = 'docker-compose -f "docker\docker-compose.yml" -f "docker\docker-compose.development.yml" down'
     $Args=''
-    if ($clearAll) {
+    if ($c) {
         $Args='-v --rmi "all"'
     }
 

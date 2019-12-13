@@ -56,7 +56,7 @@ To stop the application running in a container and to delete the associated imag
 To stop the application running in a container and to remove all images, resources and networks associated with it, run the command
 
 ```
-& '.\Tear Down Environment.ps1' -clearAll
+& '.\Tear Down Environment.ps1' -c
 ``` 
 
 ## On a Linux/Mac Box
