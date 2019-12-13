@@ -362,6 +362,31 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             connectivitySection.Answers.MinimumDesktopResolution.Should().Be(resolution);
         }
 
+        [TestCase(null, null)]
+        [TestCase(false, "No")]
+        [TestCase(true, "Yes")]
+        public async Task BrowserMobileFirstIsSetCorrectly(bool? mobileFirst, string result)
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.Id == SolutionId1 &&
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "browser-based" } &&
+                    c.MobileFirstDesign == mobileFirst) &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
+
+            var mobileFirstSection = publicResult?.Sections?.ClientApplicationTypes?.Sections?.BrowserBased?.Sections
+                ?.BrowserMobileFirstSection;
+
+            if (result == null)
+            {
+                mobileFirstSection.Should().BeNull();
+                return;
+            }
+
+            mobileFirstSection.Answers.MobileFirstDesign.Should().Be(result);
+        }
+
+
         [Test]
         public async Task ShouldGetContacts()
         {

@@ -4,18 +4,15 @@ using FluentAssertions;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 
-namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
+namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
 {
     [Binding]
     internal sealed class ClientApplicationTypeSectionSteps
     {
-        private readonly ScenarioContext _context;
-
         private readonly Response _response;
 
-        public ClientApplicationTypeSectionSteps(ScenarioContext context, Response response)
+        public ClientApplicationTypeSectionSteps(Response response)
         {
-            _context = context;
             _response = response;
         }
 
@@ -132,6 +129,15 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             content.SelectToken("sections.client-application-types.sections.browser-based.sections.browser-additional-information.answers.additional-information")
                 .ToString().Should().Be(value);
         }
+
+        [Then(@"the solution client-application-types section contains browser-mobile-first with value (Yes|No)")]
+        public async Task ThenTheSolutionClient_Application_TypesSectionContainsBrowser_Mobile_FirstWithValueYes(string value)
+        {
+            var content = await _response.ReadBody().ConfigureAwait(false);
+            content.SelectToken("sections.client-application-types.sections.browser-based.sections.browser-mobile-first.answers.mobile-first-design")
+                .ToString().Should().Be(value);
+        }
+
 
         private class ClientApplicationTypesTable
         {

@@ -271,6 +271,31 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             connectivitySection.Answers.MinimumConnectionSpeed.Should().Be(connectivity);
             connectivitySection.Answers.MinimumDesktopResolution.Should().Be(resolution);
         }
+
+        [TestCase(null, null)]
+        [TestCase(false, "No")]
+        [TestCase(true, "Yes")]
+        public async Task BrowserMobileFirstIsSetCorrectly(bool? mobileFirst, string result)
+        {
+            var publicResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                    s.ClientApplication == Mock.Of<IClientApplication>(
+                        c =>
+                            c.ClientApplicationTypes == new HashSet<string> { "browser-based" }
+                            && c.MobileFirstDesign == mobileFirst)))
+                .ConfigureAwait(false);
+
+            var mobileFirstSection = publicResult?.Sections?.ClientApplicationTypes?.Sections?.BrowserBased?.Sections
+                ?.BrowserMobileFirstSection;
+
+            if (result == null)
+            {
+                mobileFirstSection.Should().BeNull();
+                return;
+            }
+
+            mobileFirstSection.Answers.MobileFirstDesign.Should().Be(result);
+        }
+
         [Test]
         public void NullSolutionShouldThrowNullExceptionSolutionDescriptionPreviewAnswers()
         {
