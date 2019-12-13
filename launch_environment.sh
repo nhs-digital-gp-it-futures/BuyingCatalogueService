@@ -1,8 +1,32 @@
 #!/bin/bash
 
+
 set -e
-env="${1:-development}"
+env="development"
+attached="false"
 out_directory="docker/out"
+
+while test $# -gt 0; do
+	case "$1" in
+		-a|--attached)
+			attached="true"
+		  shift
+		  ;;
+		-d|--dev|--development)
+			env="development"
+		  shift
+		  ;;
+		-i|--int|--integration)
+		  	env="integration"
+		  shift
+		  ;;
+		*)
+		  env=$1
+		  shift
+		  ;;
+	esac
+done
+
 
 determine_environment () {
 	if [[ "integration" == $env* ]]; then
@@ -23,18 +47,29 @@ clean_out_directory () {
 	fi
 }
 
-launch_environment () {
-
-    dotnet build ./NHSD.BuyingCatalogue.sln --configuration Release
-    clean_out_directory 
+build_api_locally () {
+	dotnet build ./NHSD.BuyingCatalogue.sln --configuration Release
+    clean_out_directory
     dotnet publish "src/NHSD.BuyingCatalogue.API/NHSD.BuyingCatalogue.API.csproj" --configuration Release --output "$out_directory"
-    cd docker
-    docker-compose build --no-cache 
-    docker-compose -f "docker-compose.yml" -f "docker-compose.$environment.yml" up -d
+}
+
+spin_containers_up () {
+	docker_compose_up="docker-compose -f \"docker-compose.yml\" -f \"docker-compose.$environment.yml\" up"
+	if [ "$attached" == "false" ]; then
+		docker_args="-d"
+	fi
+
+	cd docker
+    docker-compose build --no-cache
+    eval $docker_compose_up $docker_args
     docker ps -a
     cd ..
-  
+}
+
+launch_environment () {
+	build_api_locally
+	spin_containers_up
 }
 environment=$(determine_environment)
 launch_environment
-#echo $environment
+

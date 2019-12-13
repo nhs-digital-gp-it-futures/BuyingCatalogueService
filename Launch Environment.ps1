@@ -1,5 +1,6 @@
 ﻿param (
-    [string]$env = "development"
+    [string]$env = "development",
+    [switch]$a
 )
 [string]$out_directory="docker/out"
 
@@ -19,18 +20,28 @@ function clean_out_directory() {
     }
 }
 
-function launch_environment(){
-
+function build_api_locally() {
     dotnet build .\NHSD.BuyingCatalogue.sln --configuration Release
     clean_out_directory
     dotnet publish "src\NHSD.BuyingCatalogue.API\NHSD.BuyingCatalogue.API.csproj" --configuration Release --output "$out_directory"
+}
+
+function spin_containers_up {
+    $DockerComposeUp = "docker-compose -f `"docker-compose.yml`" -f `"docker-compose.$($env).yml`" up"
+    $Args="-d"
+    if ($a) {
+        $Args=""
+    }
     cd docker
     docker-compose build --no-cache
-    $dockercomposefile=(-join("docker-compose.","$env",".yml"))
-    docker-compose -f "docker-compose.yml" -f "$dockercomposefile" up -d
+    Invoke-Expression "$DockerComposeUp $Args"
     docker ps -a
     cd ..
-  
+}
+
+function launch_environment(){
+    build_api_locally
+    spin_containers_up
 }
 
 

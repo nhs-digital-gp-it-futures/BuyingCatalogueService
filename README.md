@@ -10,7 +10,7 @@
 This application uses <b>.NET core</b> to provide an API capable of running on Linux or Windows.
 
 > For the frontend web application see <a>https://github.com/nhs-digital-gp-it-futures/public-browse</a>.
-> 
+>
 > For the data model see <a>https://github.com/nhs-digital-gp-it-futures/DataModel</a>
 
 ### Overview of the application code
@@ -40,7 +40,7 @@ The application is broken down into the following project libraries:
 ## On a Windows Box
 *All scripts are meant to be run in PowerShell from within this directory*
 
-To run the application in a container in development mode, run the following script:
+To run the application in a container in development environment, run the following script:
 
 ```
  & '.\Launch Environment.ps1'
@@ -57,12 +57,18 @@ To stop the application running in a container and to remove all images, resourc
 
 ```
 & '.\Tear Down Environment.ps1' -c
-``` 
+```
+
+### Extra flags
+To run the application in a container in development environment, in attached mode run the following script:
+```
+& '.\Launch Environment.ps1' -a
+```
 
 ## On a Linux/Mac Box
 *All scripts are meant to be run in bash from within this directory*
 
-To run the application in a container in development mode, run the following script:
+To run the application in a container in development environment, run the following script:
 ```
 bash launch_environment.sh
 ```
@@ -76,7 +82,7 @@ To stop the application running in a container and to remove all images, resourc
 
 ```
 bash tear_down_environment.sh -c
-``` 
+```
 </p>
 
 # Integration Tests
@@ -95,7 +101,7 @@ These tests rely on a docker image 'integration_db', this image must be created 
 ```
 & '.\Run Component Tests.ps1'
 ```
-or 
+or
 
 Test Explorer in your favourite IDE
 
@@ -104,17 +110,23 @@ Test Explorer in your favourite IDE
 & '.\Tear Down Environment.ps1' i
 ```
 
+### Extra flags
+To run the application in a container in integration environment, in attached mode run the following script:
+```
+& '.\Launch Environment.ps1' i -a
+```
+
 ## On a Linux/Mac Box
 
 ### Before running tests
 ```
-bash launch_environment i
+bash launch_environment.sh i
 ```
 ### Running tests
 ```
 bash run_component_tests.sh
 ```
-or 
+or
 
 Test Explorer in your favourite IDE
 
@@ -124,7 +136,7 @@ bash tear_down_environment.sh i
 ```
 
 ## <a name="integration_db_setup_id"></a> Integration db setup
-In order to speed up the API Integration test execution, a docker image which contains all the data needed has been build. 
+In order to speed up the API Integration test execution, a docker image which contains all the data needed has been build.
 This docker image needs to be built locally before running the API Integration tests. It only needs to be built once, and then updated every time the DataModel changes.
 To build / update the image run `setup-integration-db` script either in PowerShell or Bash
 
