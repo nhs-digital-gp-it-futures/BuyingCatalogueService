@@ -10,6 +10,7 @@ using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowsersSupported;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
@@ -36,79 +37,83 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         public async Task ShouldGetBrowsersSupported()
         {
             _mockMediator.Setup(m => m
-                    .Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
-                    .ReturnsAsync(Mock.Of<ISolution>(s =>
-                        s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    .Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
+                    .ReturnsAsync(Mock.Of<IClientApplication>(c =>
                             c.BrowsersSupported == new HashSet<string>{ "Chrome", "Edge" } &&
-                            c.MobileResponsive == true)));
+                            c.MobileResponsive == true));
 
             var result = (await _browserSupportedController.GetBrowsersSupportedAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result?.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
-            var browsersSupported = (result.Value as GetBrowsersSupportedResult);
+            var browsersSupported = (result?.Value as GetBrowsersSupportedResult);
 
-            browsersSupported.BrowsersSupported.Should().BeEquivalentTo(new string[] { "Chrome", "Edge" });
-            browsersSupported.MobileResponsive.Should().Be("Yes");
+            browsersSupported?.BrowsersSupported.Should().BeEquivalentTo(new string[] { "Chrome", "Edge" });
+            browsersSupported?.MobileResponsive.Should().Be("Yes");
 
-            _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+            _mockMediator.Verify(
+                m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                    It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
         public async Task ShouldGetEmptyBrowsersSupported()
         {
             _mockMediator.Setup(m => m
-                    .Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
-                    .ReturnsAsync(Mock.Of<ISolution>(s =>
-                        s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                            c.MobileResponsive == true)));
+                    .Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                        It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Mock.Of<IClientApplication>(c =>
+                    c.MobileResponsive == true));
 
             var result = (await _browserSupportedController.GetBrowsersSupportedAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result?.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
-            var browsersSupported = (result.Value as GetBrowsersSupportedResult);
+            var browsersSupported = (result?.Value as GetBrowsersSupportedResult);
 
-            browsersSupported.BrowsersSupported.Should().BeEmpty();
-            browsersSupported.MobileResponsive.Should().Be("Yes");
+            browsersSupported?.BrowsersSupported.Should().BeEmpty();
+            browsersSupported?.MobileResponsive.Should().Be("Yes");
 
-            _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+            _mockMediator.Verify(
+                m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                    It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [TestCase(null, null)]
         [TestCase(true, "Yes")]
         [TestCase(false, "No")]
-        public async Task ShouldGetMobileResponsive(bool? mobileResponsive, string expectedMobileReponsive)
+        public async Task ShouldGetMobileResponsive(bool? mobileResponsive, string expectedMobileResponsive)
         {
             _mockMediator.Setup(m => m
-                    .Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
-                    .ReturnsAsync(Mock.Of<ISolution>(s =>
-                        s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                            c.MobileResponsive == mobileResponsive)));
+                    .Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                        It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Mock.Of<IClientApplication>(c =>
+                    c.MobileResponsive == mobileResponsive));
 
             var result = (await _browserSupportedController.GetBrowsersSupportedAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result?.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
-            var browsersSupported = (result.Value as GetBrowsersSupportedResult);
-            browsersSupported.MobileResponsive.Should().Be(expectedMobileReponsive);
+            var browsersSupported = (result?.Value as GetBrowsersSupportedResult);
+            browsersSupported?.MobileResponsive.Should().Be(expectedMobileResponsive);
 
-            _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+            _mockMediator.Verify(
+                m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                    It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
         public async Task ShouldGetClientApplicationIsNull()
         {
             _mockMediator.Setup(m =>
-                    m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(Mock.Of<ISolution>(s =>
-                    s.ClientApplication == null));
+                    m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(() => null);
 
             var result = (await _browserSupportedController.GetBrowsersSupportedAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result?.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
-            var browsersSupported = (result.Value as GetBrowsersSupportedResult);
-            browsersSupported.MobileResponsive.Should().BeNull();
-            browsersSupported.BrowsersSupported.Count().Should().Be(0);
+            var browsersSupported = (result?.Value as GetBrowsersSupportedResult);
+            browsersSupported?.MobileResponsive.Should().BeNull();
+            browsersSupported?.BrowsersSupported.Count().Should().Be(0);
         }
 
 
@@ -117,9 +122,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var result = (await _browserSupportedController.GetBrowsersSupportedAsync(SolutionId).ConfigureAwait(false)) as NotFoundResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+            result?.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
 
-            _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+            _mockMediator.Verify(
+                m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                    It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
@@ -140,7 +147,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 (await _browserSupportedController.UpdateBrowsersSupportedAsync(SolutionId,
                     browsersSupportedUpdateViewModel).ConfigureAwait(false)) as NoContentResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+            result?.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionBrowsersSupportedCommand>(q =>
@@ -169,8 +176,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 (await _browserSupportedController.UpdateBrowsersSupportedAsync(SolutionId,
                     browsersSupportedUpdateViewModel).ConfigureAwait(false)) as BadRequestObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            (result.Value as UpdateSolutionBrowserSupportedResult).Required.Should().BeEquivalentTo(new [] { "browsers-supported", "mobile-responsive" });
+            result?.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            (result?.Value as UpdateSolutionBrowserSupportedResult)?.Required.Should().BeEquivalentTo(new [] { "browsers-supported", "mobile-responsive" });
 
             _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionBrowsersSupportedCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionBrowsersSupportedViewModel == browsersSupportedUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
         }

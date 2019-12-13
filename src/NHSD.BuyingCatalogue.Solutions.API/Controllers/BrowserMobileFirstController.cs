@@ -30,10 +30,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetMobileFirstAsync([FromRoute] [Required] string id)
         {
-            var solution = await _mediator.Send(new GetSolutionByIdQuery(id)).ConfigureAwait(false);
-            return solution == null
+            var clientApplication = await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
+            return clientApplication == null
                 ? (ActionResult)new NotFoundResult()
-                : Ok(new GetBrowserMobileFirstResult(solution.ClientApplication));
+                : Ok(new GetBrowserMobileFirstResult(clientApplication));
         }
 
         [HttpPut]

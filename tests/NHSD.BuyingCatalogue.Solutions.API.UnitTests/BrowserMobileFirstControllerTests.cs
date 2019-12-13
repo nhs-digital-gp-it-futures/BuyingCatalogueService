@@ -8,6 +8,7 @@ using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserMobileFirst;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
@@ -36,43 +37,47 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         public async Task ShouldGetMobileFirst(bool? mobileFirstDesign, string response)
         {
             _mockMediator.Setup(m => m
-                    .Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(Mock.Of<ISolution>(s =>
-                    s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                        c.MobileFirstDesign == mobileFirstDesign)));
+                    .Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Mock.Of<IClientApplication>(c =>
+                        c.MobileFirstDesign == mobileFirstDesign));
 
             var result = (await _browserMobileFirstController.GetMobileFirstAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result?.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
-            var mobileFirst = (result.Value as GetBrowserMobileFirstResult);
+            var mobileFirst = (result?.Value as GetBrowserMobileFirstResult);
 
-            mobileFirst.MobileFirstDesign.Should().Be(response);
+            mobileFirst?.MobileFirstDesign.Should().Be(response);
 
-            _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+            _mockMediator.Verify(
+                m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                    It.IsAny<CancellationToken>()), Times.Once);
         }
         
         [Test]
         public async Task ShouldGetClientApplicationIsNull()
         {
             _mockMediator.Setup(m =>
-                    m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(Mock.Of<ISolution>(s => s.ClientApplication == null));
+                    m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                        It.IsAny<CancellationToken>()))
+                .ReturnsAsync(() => null);
 
             var result = (await _browserMobileFirstController.GetMobileFirstAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result?.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
-            var mobileFirst = (result.Value as GetBrowserMobileFirstResult);
-            mobileFirst.MobileFirstDesign.Should().BeNull();
+            var mobileFirst = (result?.Value as GetBrowserMobileFirstResult);
+            mobileFirst?.MobileFirstDesign.Should().BeNull();
         }
 
         [Test]
         public async Task ShouldReturnNotFound()
         {
             var result = (await _browserMobileFirstController.GetMobileFirstAsync(SolutionId).ConfigureAwait(false)) as NotFoundResult;
-            result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
-            _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+            result?.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+            _mockMediator.Verify(
+                m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                    It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
@@ -90,7 +95,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             var result = await _browserMobileFirstController.UpdateMobileFirstAsync(SolutionId, viewModel).ConfigureAwait(false) as NoContentResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+            result?.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionBrowserMobileFirstCommand>(q =>
@@ -116,8 +121,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             var result = await _browserMobileFirstController.UpdateMobileFirstAsync(SolutionId, viewModel).ConfigureAwait(false) as BadRequestObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            (result.Value as UpdateSolutionBrowserMobileFirstResult).Required.Should()
+            result?.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            (result?.Value as UpdateSolutionBrowserMobileFirstResult)?.Required.Should()
                 .BeEquivalentTo(new[] {"mobile-first-design"});
 
             _mockMediator.Verify(

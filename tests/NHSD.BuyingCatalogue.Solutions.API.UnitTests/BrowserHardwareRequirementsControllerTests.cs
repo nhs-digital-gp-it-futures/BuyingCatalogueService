@@ -8,6 +8,7 @@ using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserHardwareRequirements;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
@@ -35,21 +36,22 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         public async Task ShouldGetBrowserHardwareRequirement(string requirement)
         {
             _mockMediator.Setup(m =>
-                    m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(Mock.Of<ISolution>(s => s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                                                          c.HardwareRequirements == requirement)));
+                    m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                        It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Mock.Of<IClientApplication>(c =>
+                    c.HardwareRequirements == requirement));
 
             var result =
                 (await _hardwareRequirementsController.GetHardwareRequirementsAsync(SolutionId)
                     .ConfigureAwait(false)) as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result?.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
-            var browserHardwareRequirements = result.Value as GetBrowserHardwareRequirementsResult;
+            var browserHardwareRequirements = result?.Value as GetBrowserHardwareRequirementsResult;
 
-            browserHardwareRequirements.HardwareRequirements.Should().Be(requirement);
+            browserHardwareRequirements?.HardwareRequirements.Should().Be(requirement);
             _mockMediator.Verify(
-                m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()),
+                m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()),
                 Times.Once);
         }
 
@@ -58,9 +60,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var result = (await _hardwareRequirementsController.GetHardwareRequirementsAsync(SolutionId).ConfigureAwait(false)) as NotFoundResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+            result?.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
 
-            _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+            _mockMediator.Verify(
+                m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                    It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
@@ -79,7 +83,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var result = await _hardwareRequirementsController.UpdateHardwareRequirementsAsync(SolutionId, viewModel)
                 .ConfigureAwait(false) as NoContentResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+            result?.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionBrowserHardwareRequirementsCommand>(q =>
@@ -105,8 +109,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var result = await _hardwareRequirementsController.UpdateHardwareRequirementsAsync(SolutionId, viewModel)
                 .ConfigureAwait(false) as BadRequestObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            (result.Value as UpdateSolutionBrowserHardwareRequirementResult).MaxLength.Should().BeEquivalentTo(new [] { "hardware-requirements-description" });
+            result?.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            (result?.Value as UpdateSolutionBrowserHardwareRequirementResult)?.MaxLength.Should().BeEquivalentTo(new [] { "hardware-requirements-description" });
 
             _mockMediator.Verify(
                 m => m.Send(

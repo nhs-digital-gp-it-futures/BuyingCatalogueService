@@ -38,8 +38,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetPlugInsAsync([FromRoute][Required]string id)
         {
-            var solution = await _mediator.Send(new GetSolutionByIdQuery(id)).ConfigureAwait(false);
-            return solution == null ? (ActionResult)new NotFoundResult() : Ok(new GetPlugInsResult(solution.ClientApplication.Plugins));
+            var clientApplication = await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
+            return clientApplication == null ? (ActionResult)new NotFoundResult() : Ok(new GetPlugInsResult(clientApplication.Plugins));
         }
 
         /// <summary>

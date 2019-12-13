@@ -1,12 +1,9 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserAdditionalInformation;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
@@ -33,8 +30,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetAdditionalInformationAsync([FromRoute] [Required] string id)
         {
-            var solution = await _mediator.Send(new GetSolutionByIdQuery(id)).ConfigureAwait(false);
-            return solution == null? (ActionResult)new NotFoundResult() : Ok(new GetBrowserAdditionalInformationResult(solution.ClientApplication.AdditionalInformation));
+            var clientApplication = await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
+            return clientApplication == null? (ActionResult)new NotFoundResult() : Ok(new GetBrowserAdditionalInformationResult(clientApplication.AdditionalInformation));
         }
 
         [HttpPut]

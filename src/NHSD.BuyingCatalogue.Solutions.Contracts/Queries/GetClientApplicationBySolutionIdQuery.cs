@@ -1,8 +1,6 @@
 using MediatR;
-using NHSD.BuyingCatalogue.Solutions.Application.Domain;
-using NHSD.BuyingCatalogue.Solutions.Contracts;
 
-namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
+namespace NHSD.BuyingCatalogue.Solutions.Contracts.Queries
 {
     /// <summary>
     /// Represents the query parameters for the get client application by solution ID request
