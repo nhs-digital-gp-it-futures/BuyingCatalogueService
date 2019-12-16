@@ -21,22 +21,22 @@ Background:
 Scenario: 1. Solution section is presented where the solution is Drafted
     When a GET request is made for solution preview Sln1
     Then a successful response is returned
-    And the solution Name is MedicOnline
+    And the string value of element name is MedicOnline
 
 @3776
 Scenario: 2. Solution section is presented where the solution is Unpublished
     When a GET request is made for solution preview Sln2
     Then a successful response is returned
-    And the solution Name is TakeTheRedPill
+    And the string value of element name is TakeTheRedPill
     
 @3776
 Scenario: 3. Solution section is presented where the solution is Published
     When a GET request is made for solution preview Sln3
     Then a successful response is returned
-    And the solution Name is TakeTheBluePill
+    And the string value of element name is TakeTheBluePill
 
 @3776
 Scenario: 4. Solution section is presented where the solution is Withdrawn
     When a GET request is made for solution preview Sln4
     Then a successful response is returned
-    And the solution Name is TakeThePurplePill
+    And the string value of element name is TakeThePurplePill

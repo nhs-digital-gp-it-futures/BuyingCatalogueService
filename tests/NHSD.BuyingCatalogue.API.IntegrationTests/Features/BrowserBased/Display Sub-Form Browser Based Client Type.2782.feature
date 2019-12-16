@@ -20,7 +20,7 @@ Background:
 
 @2782
 Scenario: 1. Sub-Form Browser Based Client Type all sections are Displayed
-    When a GET request is made to display solution Sln1 browser-based sections
+    When a GET request is made for browser-based for solution Sln1
     Then a successful response is returned
     And Solutions browser-based section contains all BrowserBased Sections   
         | Id                             | Status     | Requirement |
@@ -34,23 +34,23 @@ Scenario: 1. Sub-Form Browser Based Client Type all sections are Displayed
 @2782
 Scenario: 2. Solution not found
     Given a Solution Sln4 does not exist
-    When a GET request is made to display solution Sln4 browser-based sections
+    When a GET request is made for browser-based for solution Sln4
     Then a response status of 404 is returned
 
 @2782
 Scenario: 3. Service failure
     Given the call to the database to set the field will fail
-    When a GET request is made to display solution Sln1 browser-based sections
+    When a GET request is made for browser-based for solution Sln1
     Then a response status of 500 is returned
 
 @2782
 Scenario: 4. Solution id not present in request
-    When a GET request is made to display solution browser-based sections with no solution id
+    When a GET request is made for browser-based with no solution id
     Then a response status of 400 is returned
 
 @2782
 Scenario: 5. Browser Supported status incomplete when record not present
-    When a GET request is made to display solution Sln1 browser-based sections
+    When a GET request is made for browser-based for solution Sln1
     Then a successful response is returned
     And the status of the browsers-supported section is INCOMPLETE
 
@@ -59,8 +59,8 @@ Scenario Outline: 6. Browser Supported status based on data in ClientApplication
     Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
-
-    When a GET request is made to display solution Sln1 browser-based sections
+        
+    When a GET request is made for browser-based for solution Sln1
     Then a successful response is returned
     And the status of the browsers-supported section is <Status>
 Examples:
@@ -82,7 +82,7 @@ Examples:
 
 @2793
 Scenario: 7. Plugins status incomplete when record not present
-    When a GET request is made to display solution Sln1 browser-based sections
+    When a GET request is made for browser-based for solution Sln1
     Then a successful response is returned
     And the status of the plug-ins-or-extensions section is INCOMPLETE
 
@@ -91,8 +91,8 @@ Scenario Outline: 8. Plugins status based on data in ClientApplication
     Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
-
-    When a GET request is made to display solution Sln1 browser-based sections
+        
+    When a GET request is made for browser-based for solution Sln1
     Then a successful response is returned
     And the status of the plug-ins-or-extensions section is <Status>
 Examples:
@@ -110,7 +110,7 @@ Examples:
 
 @3600
 Scenario: 9. Browser Hardware Requirements incomplete when record is not preset
-    When a GET request is made to display solution Sln1 browser-based sections
+    When a GET request is made for browser-based for solution Sln1
     Then a successful response is returned
     And the status of the browser-hardware-requirements section is INCOMPLETE
 
@@ -119,7 +119,7 @@ Scenario Outline: 10. Browser Hardware Requirements Based on data in Client Appl
     Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
-    When a GET request is made to display solution Sln1 browser-based sections
+    When a GET request is made for browser-based for solution Sln1
     Then a successful response is returned
     And the status of the browser-hardware-requirements section is <Status>
 Examples:
@@ -141,7 +141,7 @@ Scenario Outline: 11. Browser Connectivity and Resolution Based on data in Clien
     Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
-    When a GET request is made to display solution Sln1 browser-based sections
+    When a GET request is made for browser-based for solution Sln1
     Then a successful response is returned
     And the status of the connectivity-and-resolution section is <Status>
 Examples:
@@ -154,7 +154,7 @@ Examples:
 
 @3601
 Scenario: 12. Browser Additional Information incomplete when record is not preset
-    When a GET request is made to display solution Sln1 browser-based sections
+    When a GET request is made for browser-based for solution Sln1
     Then a successful response is returned
     And the status of the browser-hardware-requirements section is INCOMPLETE
 
@@ -163,7 +163,7 @@ Scenario Outline: 13 Browser Additional Information Based on data in Client Appl
   Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
-         When a GET request is made to display solution Sln1 browser-based sections
+    When a GET request is made for browser-based for solution Sln1
     Then a successful response is returned
     And the status of the browser-additional-information section is <Status>
 Examples:
@@ -178,7 +178,7 @@ Scenario Outline: 14. Browser Mobile Frst Based on data in Client Application
   Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
-    When a GET request is made to display solution Sln1 browser-based sections
+    When a GET request is made for browser-based for solution Sln1
     Then a successful response is returned
     And the status of the browser-mobile-first section is <Status>
 Examples:

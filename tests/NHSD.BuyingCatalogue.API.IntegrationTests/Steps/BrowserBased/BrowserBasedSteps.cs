@@ -1,7 +1,5 @@
-using System.Globalization;
 using System.Threading.Tasks;
 using FluentAssertions;
-using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 
@@ -11,9 +9,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
     [Binding]
     internal sealed class BrowserBasedSteps
     {
-        private const string BrowserBasedUrl = "http://localhost:8080/api/v1/solutions/{0}/sections/browser-based";
-
-
         private readonly ScenarioContext _context;
 
         private readonly Response _response;
@@ -22,18 +17,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         {
             _context = context;
             _response = response;
-        }
-
-        [When(@"a GET request is made to display solution (.*) browser-based sections")]
-        public async Task WhenGETRequestIsMadeToDisplaySolutionBrowserBasedSections(string solutionId)
-        {
-            _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, BrowserBasedUrl, solutionId)).ConfigureAwait(false);
-        }
-
-        [When(@"a GET request is made to display solution browser-based sections with no solution id")]
-        public async Task WhenGETRequestIsMadeToDisplaySolutionBrowserBasedSectionsWithNoSolutionId()
-        {
-            await WhenGETRequestIsMadeToDisplaySolutionBrowserBasedSections(@" ").ConfigureAwait(false);
         }
 
         [Then(@"Solutions browser-based section contains all BrowserBased Sections")]

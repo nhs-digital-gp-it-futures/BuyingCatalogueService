@@ -11,19 +11,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ContactDetails
     [Binding]
     internal sealed class ContactDetailsGetSteps
     {
-        private const string ContactDetailsUrl = "http://localhost:8080/api/v1/solutions/{0}/sections/contact-details";
-
         private readonly Response _response;
 
         public ContactDetailsGetSteps(Response response)
         {
             _response = response;
-        }
-
-        [When(@"a GET request is made for contact-details with solutionId (.*)")]
-        public async Task WhenGetRequestIsMadeToDisplaySolutionContactDetailsSections(string solutionId)
-        {
-            _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, ContactDetailsUrl, solutionId)).ConfigureAwait(false);
         }
 
         [Then(@"the contact-detail (contact-1|contact-2) has details")]
