@@ -19,15 +19,17 @@ Background:
 
 @3600
 Scenario: 1. HardwareRequirements exceeds the maxLength
-    Given hardware-requirements-description is a string of 501 characters
     When a PUT request is made to update solution Sln1 hardware-requirements-description section
+    | HardwareRequirements        |
+    | A string with length of 501 |
     Then a response status of 400 is returned
     And the browser-hardware-requirements maxLength field contains hardware-requirements-description
 
 @3600
 Scenario: 2. Hardware requirements is set to null
-    Given hardware-requirements-description is null
     When a PUT request is made to update solution Sln1 hardware-requirements-description section
+    | HardwareRequirements |
+    | NULL                 |
     Then a successful response is returned
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                                                      |

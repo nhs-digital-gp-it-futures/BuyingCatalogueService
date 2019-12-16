@@ -1,9 +1,9 @@
 using System.Globalization;
 using System.Threading.Tasks;
-using FluentAssertions;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using TechTalk.SpecFlow;
+using TechTalk.SpecFlow.Assist;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Plugins
 {
@@ -12,40 +12,18 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Plugins
     {
         private const string PluginsUrl = "http://localhost:8080/api/v1/solutions/{0}/sections/plug-ins-or-extensions";
 
-        private readonly ScenarioContext _context;
         private readonly Response _response;
 
-        public PluginsSectionValidationSteps(ScenarioContext context, Response response)
+        public PluginsSectionValidationSteps(Response response)
         {
-            _context = context;
             _response = response;
         }
 
-        [Given(@"plug-ins is a string of (Yes|No)")]
-        public void GivenPluginsIsBool(string field)
-        {
-            _context["required"] = field;
-        }
-
-        [Given(@"plug-ins is a string of null")]
-        public void GivenPluginIsNull()
-        {
-            GivenPluginsIsBool(null);
-        }
-
-        [Given(@"additional-information is a string of (.*) characters")]
-        public void GivenAdditionalInfoIsAStringOfCharacters(int length)
-        {
-            _context["additionalInfo"] = new string('a', length);
-        }
-
         [When(@"a PUT request is made to update solution (.*) plug-ins section")]
-        public async Task WhenAPUTRequestIsMadeToUpdateSolutionSlnPlug_InsSection(string solutionId)
+        public async Task WhenAPUTRequestIsMadeToUpdateSolutionSlnPlug_InsSection(string solutionId, Table table)
         {
-            var required = _context["required"]?.ToString();
-            var additionalInformation = _context["additionalInfo"].ToString();
-
-            _response.Result = await Client.PutAsJsonAsync(string.Format(CultureInfo.InvariantCulture, PluginsUrl, solutionId), new PluginsPayload() { PluginsRequired = required, PluginsDetail = additionalInformation }).ConfigureAwait(false);
+            var content = table.CreateInstance<PluginsPayload>();
+            _response.Result = await Client.PutAsJsonAsync(string.Format(CultureInfo.InvariantCulture, PluginsUrl, solutionId), content).ConfigureAwait(false);
         }
 
         private class PluginsPayload

@@ -22,28 +22,15 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         [When(@"a PUT request is to update solution (.*) plug-ins section")]
         public async Task WhenAPUTRequestIsToUpdateSolutionSlnPlug_InsSection(string solutionId, Table table)
         {
-            var content = table.CreateInstance<PluginsTable>();
+            var content = table.CreateInstance<PluginsPayload>();
 
-            _response.Result = await Client.PutAsJsonAsync(string.Format(CultureInfo.InvariantCulture, PluginsUrl, solutionId),
-                new PluginsPayload()
-                {
-                    PluginsRequired = content.Required,
-                    PluginsDetail = content.AdditionalInformation
-                }).ConfigureAwait(false);
+            _response.Result = await Client.PutAsJsonAsync(string.Format(CultureInfo.InvariantCulture, PluginsUrl, solutionId), content).ConfigureAwait(false);
         }
 
         [When(@"a PUT request is made to update plug-ins section with no solution id")]
         public async Task WhenAPUTRequestIsMadeToUpdatePlug_InsSectionWithNoSolutionId(Table table)
         {
             await WhenAPUTRequestIsToUpdateSolutionSlnPlug_InsSection(" ", table).ConfigureAwait(false);
-        }
-
-
-        private class PluginsTable
-        {
-            public string Required { get; set; }
-
-            public string AdditionalInformation { get; set; }
         }
 
         private class PluginsPayload

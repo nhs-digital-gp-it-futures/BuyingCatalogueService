@@ -19,15 +19,17 @@ Background:
 
 @3601
 Scenario: 1. AdditionalInformation exceeds the maxLength
-    Given additional-information on BrowserAdditionalInformation is a string of 501 characters
     When a PUT request is made to update solution Sln1 additional-information section
+    | AdditionalInformation       |
+    | A string with length of 501 |
     Then a response status of 400 is returned
     And the additional-information maxLength field contains additional-information
 
 @3601
 Scenario: 2. AdditionalInformation is set to null
-    Given additional-information on BrowserAdditionalInformation is null
     When a PUT request is made to update solution Sln1 additional-information section
+    | AdditionalInformation |
+    | NULL                  |
     Then a successful response is returned
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                                                                         |

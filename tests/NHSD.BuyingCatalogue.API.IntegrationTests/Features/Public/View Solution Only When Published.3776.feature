@@ -31,7 +31,7 @@ Then a response status of 404 is returned
 Scenario: 3. Solution section is presented where the solution is Published
 When a GET request is made for solution public Sln3
 Then a successful response is returned
-And the solution Name is TakeTheBluePill
+And the string value of element name is TakeTheBluePill
 
 @3776
 Scenario: 4. Solution section is not presented where the solution is Withdrawn

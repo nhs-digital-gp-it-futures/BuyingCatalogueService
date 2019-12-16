@@ -35,27 +35,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
             _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, ByIdSolutionsUrl, solutionId, view)).ConfigureAwait(false);
         }
 
-        [Then(@"the solution IsFoundation is (true|false)")]
-        public async Task ThenTheSolutionIsFoundationIsBool(bool response)
-        {
-            var content = await _response.ReadBody().ConfigureAwait(false);
-            content.SelectToken("isFoundation").Value<bool>().Should().Be(response);
-        }
-
-        [Then(@"the solution Name is (.*)")]
-        public async Task ThenTheSolutionNameIs(string name)
-        {
-            var content = await _response.ReadBody().ConfigureAwait(false);
-            content.SelectToken("name").Value<string>().Should().Be(name);
-        }
-
-        [Then(@"the solution organisationName is (.*)")]
-        public async Task ThenTheSolutionOrganisationNameIs(string name)
-        {
-            var content = await _response.ReadBody().ConfigureAwait(false);
-            content.SelectToken("organisationName").Value<string>().Should().Be(name);
-        }
-
         [Then(@"the last updated date in the solution is (.*)")]
         public async Task ThenTheLastUpdatedDateInTheSolutionIs(DateTime lastUpdated)
         {

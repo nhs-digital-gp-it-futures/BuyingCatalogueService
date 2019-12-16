@@ -4,6 +4,7 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using TechTalk.SpecFlow;
+using TechTalk.SpecFlow.Assist;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.BrowserAdditionalInformation
 {
@@ -12,36 +13,20 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.BrowserAdditionalInfor
     {
         private const string BrowserAdditionalInformationUrl = "http://localhost:8080/api/v1/solutions/{0}/sections/browser-additional-information";
 
-        private readonly ScenarioContext _context;
         private readonly Response _response;
 
-        public BrowserAdditionalInformationValidationSteps(ScenarioContext context, Response response)
+        public BrowserAdditionalInformationValidationSteps(Response response)
         {
-            _context = context;
             _response = response;
         }
 
-        [Given(@"additional-information on BrowserAdditionalInformation is a string of (.*) characters")]
-        public void GivenAdditional_InformationOnBrowserAdditionalInformationIsAStringOfCharacters(int length)
-        {
-            _context["browserAdditionalInformation"] = new string('a', length);
-        }
-
-        [Given(@"additional-information on BrowserAdditionalInformation is null")]
-        public void GivenAdditional_InformationOnBrowserAdditionalInformationIsNull()
-        {
-            _context["browserAdditionalInformation"] = null;
-        }
-
         [When(@"a PUT request is made to update solution (.*) additional-information section")]
-        public async Task WhenAPUTRequestIsMadeToUpdateSolutionSlnAdditional_InformationSection(string solutionId)
+        public async Task WhenAPUTRequestIsMadeToUpdateSolutionSlnAdditional_InformationSection(string solutionId, Table table)
         {
-            var browserAdditionalInformation = _context["browserAdditionalInformation"]?.ToString();
-
+            var content = table.CreateInstance<BrowserAdditionalInformationPayload>();
             _response.Result = await Client
                 .PutAsJsonAsync(
-                    string.Format(CultureInfo.InvariantCulture, BrowserAdditionalInformationUrl, solutionId),
-                    new BrowserAdditionalInformationPayload() {AdditionalInformation = browserAdditionalInformation})
+                    string.Format(CultureInfo.InvariantCulture, BrowserAdditionalInformationUrl, solutionId), content)
                 .ConfigureAwait(false);
         }
 

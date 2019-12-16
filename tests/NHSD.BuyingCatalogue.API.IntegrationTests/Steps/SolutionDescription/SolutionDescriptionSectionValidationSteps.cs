@@ -2,8 +2,11 @@ using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using TechTalk.SpecFlow;
+using TechTalk.SpecFlow.Assist;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
 {
@@ -12,44 +15,30 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
     {
         private const string SolutionDescriptionUrl = "http://localhost:8080/api/v1/Solutions/{0}/sections/solution-description";
 
-        private readonly ScenarioContext _context;
-
         private readonly Response _response;
 
-        public SolutionDescriptionSectionStepsValidation(ScenarioContext context, Response response)
+        public SolutionDescriptionSectionStepsValidation(Response response)
         {
-            _context = context;
             _response = response;
         }
 
-        [Given(@"a request where the (summary|description|link) is a string of (.*) characters")]
-        public void GivenARequestWhereTheFieldIsAStringOfCharacters(string field, int length)
-        {
-            _context[field] = GenerateStringOfLength(length);
-        }
-
         [When(@"the update solution description request is made for (.*)")]
-        public async Task WhenTheRequestIsMade(string solutionId)
+        public async Task WhenTheRequestIsMade(string solutionId, Table table)
         {
-            var content = new
-            {
-                summary = _context.ContainsKey("summary") ? _context["summary"] : "DUMMY",
-                description = _context.ContainsKey("description") ? _context["description"] : "DUMMY",
-                link = _context.ContainsKey("link") ? _context["link"] : "DUMMY"
-            };
-
+            var content = table.CreateInstance<SolutionDescriptionPayload>();
             _response.Result = await Client.PutAsJsonAsync(string.Format(CultureInfo.InvariantCulture, SolutionDescriptionUrl, solutionId), content).ConfigureAwait(false);
         }
 
-        private static string GenerateStringOfLength(int chars)
+        private class SolutionDescriptionPayload
         {
-            StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < chars; i++)
-            {
-                builder.Append("a");
-            }
+            [JsonProperty("summary")]
+            public string Summary { get; set; }
 
-            return builder.ToString();
+            [JsonProperty("description")]
+            public string Description { get; set; }
+
+            [JsonProperty("link")]
+            public string Link { get; set; }
         }
     }
 }
