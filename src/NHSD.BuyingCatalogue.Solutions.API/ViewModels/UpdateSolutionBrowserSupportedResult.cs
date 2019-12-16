@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowsersSupported;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 {
     public class UpdateSolutionBrowserSupportedResult
     {
-        internal UpdateSolutionBrowserSupportedResult(UpdateSolutionBrowserSupportedValidationResult updateSolutionBrowserSupportedValidationResult)
+        internal UpdateSolutionBrowserSupportedResult(RequiredResult updateSolutionBrowserSupportedValidationResult)
         {
             Required = updateSolutionBrowserSupportedValidationResult.Required;
         }

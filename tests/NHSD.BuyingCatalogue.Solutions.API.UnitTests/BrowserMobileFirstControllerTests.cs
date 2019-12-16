@@ -8,7 +8,7 @@ using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserMobileFirst;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
@@ -53,7 +53,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
                     It.IsAny<CancellationToken>()), Times.Once);
         }
-        
+
         [Test]
         public async Task ShouldGetClientApplicationIsNull()
         {
@@ -85,7 +85,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var viewModel = new UpdateSolutionBrowserMobileFirstViewModel();
 
-            var validationResult = new UpdateSolutionBrowserMobileFirstValidationResult();
+            var validationResult = new RequiredResult();
 
             _mockMediator
                 .Setup(m => m.Send(
@@ -108,7 +108,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var viewModel = new UpdateSolutionBrowserMobileFirstViewModel();
 
-            var validationResult = new UpdateSolutionBrowserMobileFirstValidationResult()
+            var validationResult = new RequiredResult()
             {
                 Required = { "mobile-first-design" }
             };
@@ -123,7 +123,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             result?.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
             (result?.Value as UpdateSolutionBrowserMobileFirstResult)?.Required.Should()
-                .BeEquivalentTo(new[] {"mobile-first-design"});
+                .BeEquivalentTo(new[] { "mobile-first-design" });
 
             _mockMediator.Verify(
                 m => m.Send(

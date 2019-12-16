@@ -8,7 +8,7 @@ using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionConnectivityAndResolution;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
@@ -22,7 +22,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         private ConnectivityAndResolutionController _controller;
         private const string SolutionId = "Sln1";
         private UpdateSolutionConnectivityAndResolutionViewModel _viewModel;
-        private UpdateSolutionConnectivityAndResolutionValidationResult _validationResult;
+        private RequiredResult _validationResult;
         private IClientApplication _clientApplication;
 
         [SetUp]
@@ -37,7 +37,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     It.IsAny<CancellationToken>()))
                 .ReturnsAsync(() => _clientApplication);
             _controller = new ConnectivityAndResolutionController(_mockMediator.Object);
-            _validationResult = new UpdateSolutionConnectivityAndResolutionValidationResult();
+            _validationResult = new RequiredResult();
             _viewModel = new UpdateSolutionConnectivityAndResolutionViewModel { MinimumConnectionSpeed = "1 PPH (Pigeon Per Hour)", MinimumDesktopResolution = "1x1" };
         }
 

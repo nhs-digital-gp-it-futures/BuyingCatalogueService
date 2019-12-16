@@ -1,13 +1,13 @@
 using System;
-using NHSD.BuyingCatalogue.Infrastructure;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionConnectivityAndResolution
 {
     internal class UpdateSolutionConnectivityAndResolutionValidator
     {
-        public UpdateSolutionConnectivityAndResolutionValidationResult Validation(UpdateSolutionConnectivityAndResolutionViewModel viewModel)
+        public RequiredResult Validation(UpdateSolutionConnectivityAndResolutionViewModel viewModel)
         {
-            var result = new UpdateSolutionConnectivityAndResolutionValidationResult();
+            var result = new RequiredResult();
             if (String.IsNullOrWhiteSpace(viewModel.MinimumConnectionSpeed))
             {
                 result.Required.Add("minimum-connection-speed");

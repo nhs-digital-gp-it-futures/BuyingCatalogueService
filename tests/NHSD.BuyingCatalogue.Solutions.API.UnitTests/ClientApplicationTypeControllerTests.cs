@@ -9,7 +9,7 @@ using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClientApplicationTypes;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
@@ -37,7 +37,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         public async Task ShouldGetClientApplicationTypes(bool hasClientApplicationTypes)
         {
             var applicationTypes = hasClientApplicationTypes
-                ? new HashSet<string> {"browser-based", "native-desktop"}
+                ? new HashSet<string> { "browser-based", "native-desktop" }
                 : null;
 
             _mockMediator.Setup(m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
@@ -81,7 +81,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var clientApplicationUpdateViewModel = new UpdateSolutionClientApplicationTypesViewModel();
 
-            var validationModel = new UpdateSolutionClientApplicationTypesValidationResult();
+            var validationModel = new RequiredResult();
 
             _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionClientApplicationTypesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionClientApplicationTypesViewModel == clientApplicationUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
 
@@ -99,7 +99,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var clientApplicationUpdateViewModel = new UpdateSolutionClientApplicationTypesViewModel();
 
-            var validationModel = new UpdateSolutionClientApplicationTypesValidationResult();
+            var validationModel = new RequiredResult();
             validationModel.Required.Add("client-application-types");
 
             _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionClientApplicationTypesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionClientApplicationTypesViewModel == clientApplicationUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
@@ -109,7 +109,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     clientApplicationUpdateViewModel).ConfigureAwait(false)) as BadRequestObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            (result.Value as UpdateSolutionClientApplicationTypesResult).Required.Should().BeEquivalentTo(new [] { "client-application-types" });
+            (result.Value as UpdateSolutionClientApplicationTypesResult).Required.Should().BeEquivalentTo(new[] { "client-application-types" });
 
             _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionClientApplicationTypesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionClientApplicationTypesViewModel == clientApplicationUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
         }

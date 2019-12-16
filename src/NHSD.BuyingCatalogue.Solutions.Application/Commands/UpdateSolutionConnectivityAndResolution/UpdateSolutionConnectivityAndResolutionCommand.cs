@@ -1,8 +1,9 @@
 using MediatR;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionConnectivityAndResolution
 {
-    public class UpdateSolutionConnectivityAndResolutionCommand : IRequest<UpdateSolutionConnectivityAndResolutionValidationResult>
+    public class UpdateSolutionConnectivityAndResolutionCommand : IRequest<RequiredResult>
     {
         public string Id { get; }
         public UpdateSolutionConnectivityAndResolutionViewModel ViewModel { get; }

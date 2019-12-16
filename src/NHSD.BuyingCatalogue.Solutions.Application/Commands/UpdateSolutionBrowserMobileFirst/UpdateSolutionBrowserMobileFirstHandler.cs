@@ -2,11 +2,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using NHSD.BuyingCatalogue.Infrastructure;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserMobileFirst
 {
-    internal sealed class UpdateSolutionBrowserMobileFirstHandler : IRequestHandler<UpdateSolutionBrowserMobileFirstCommand, UpdateSolutionBrowserMobileFirstValidationResult>
+    internal sealed class UpdateSolutionBrowserMobileFirstHandler : IRequestHandler<UpdateSolutionBrowserMobileFirstCommand, RequiredResult>
     {
         private readonly ClientApplicationPartialUpdater _clientApplicationPartialUpdater;
 
@@ -18,7 +19,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrow
             _updateSolutionBrowserMobileFirstValidator = updateSolutionBrowserMobileFirstValidator;
         }
 
-        public async Task<UpdateSolutionBrowserMobileFirstValidationResult> Handle(UpdateSolutionBrowserMobileFirstCommand request,
+        public async Task<RequiredResult> Handle(UpdateSolutionBrowserMobileFirstCommand request,
             CancellationToken cancellationToken)
         {
             var validationResult = _updateSolutionBrowserMobileFirstValidator.Validation(request.UpdateSolutionBrowserMobileFirstViewModel);
@@ -28,7 +29,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrow
                 await _clientApplicationPartialUpdater.UpdateAsync(request.SolutionId, clientApplication =>
                     {
                         clientApplication.MobileFirstDesign =
-                            request.UpdateSolutionBrowserMobileFirstViewModel.MobileFirstDesign.ToBoolean(); 
+                            request.UpdateSolutionBrowserMobileFirstViewModel.MobileFirstDesign.ToBoolean();
                     },
                     cancellationToken).ConfigureAwait(false);
             }

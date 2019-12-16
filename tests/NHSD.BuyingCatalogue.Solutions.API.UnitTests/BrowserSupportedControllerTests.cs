@@ -10,7 +10,7 @@ using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowsersSupported;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
@@ -25,7 +25,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         private BrowsersSupportedController _browserSupportedController;
 
         private const string SolutionId = "Sln1";
-        
+
         [SetUp]
         public void Setup()
         {
@@ -39,7 +39,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             _mockMediator.Setup(m => m
                     .Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
                     .ReturnsAsync(Mock.Of<IClientApplication>(c =>
-                            c.BrowsersSupported == new HashSet<string>{ "Chrome", "Edge" } &&
+                            c.BrowsersSupported == new HashSet<string> { "Chrome", "Edge" } &&
                             c.MobileResponsive == true));
 
             var result = (await _browserSupportedController.GetBrowsersSupportedAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
@@ -134,7 +134,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var browsersSupportedUpdateViewModel = new UpdateSolutionBrowsersSupportedViewModel();
 
-            var validationModel = new UpdateSolutionBrowserSupportedValidationResult();
+            var validationModel = new RequiredResult();
 
             _mockMediator.Setup(m =>
                     m.Send(
@@ -160,9 +160,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var browsersSupportedUpdateViewModel = new UpdateSolutionBrowsersSupportedViewModel();
 
-            var validationModel = new UpdateSolutionBrowserSupportedValidationResult()
+            var validationModel = new RequiredResult()
             {
-                Required = { "browsers-supported", "mobile-responsive"}
+                Required = { "browsers-supported", "mobile-responsive" }
             };
 
             _mockMediator.Setup(m =>
@@ -177,7 +177,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     browsersSupportedUpdateViewModel).ConfigureAwait(false)) as BadRequestObjectResult;
 
             result?.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            (result?.Value as UpdateSolutionBrowserSupportedResult)?.Required.Should().BeEquivalentTo(new [] { "browsers-supported", "mobile-responsive" });
+            (result?.Value as UpdateSolutionBrowserSupportedResult)?.Required.Should().BeEquivalentTo(new[] { "browsers-supported", "mobile-responsive" });
 
             _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionBrowsersSupportedCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionBrowsersSupportedViewModel == browsersSupportedUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
         }

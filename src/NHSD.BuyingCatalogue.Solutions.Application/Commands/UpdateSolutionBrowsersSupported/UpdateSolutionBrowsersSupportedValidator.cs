@@ -1,13 +1,14 @@
 using System.Linq;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowsersSupported
 {
     internal sealed class UpdateSolutionBrowsersSupportedValidator
     {
-        public UpdateSolutionBrowserSupportedValidationResult Validation(
+        public RequiredResult Validation(
             UpdateSolutionBrowsersSupportedViewModel updateSolutionBrowsersSupportedViewModel)
         {
-            var validationResult = new UpdateSolutionBrowserSupportedValidationResult();
+            var validationResult = new RequiredResult();
 
             if (!updateSolutionBrowsersSupportedViewModel.BrowsersSupported.Any())
             {

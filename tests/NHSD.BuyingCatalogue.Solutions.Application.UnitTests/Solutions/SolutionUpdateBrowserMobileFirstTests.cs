@@ -6,6 +6,7 @@ using Moq;
 using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserMobileFirst;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Tools;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
@@ -99,13 +100,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
-        private async Task<UpdateSolutionBrowserMobileFirstValidationResult> UpdateBrowserMobileFirst(
+        private async Task<RequiredResult> UpdateBrowserMobileFirst(
             string mobileFirstDesign = null)
         {
             return await Context.UpdateSolutionBrowserMobileFirstHandler
                 .Handle(
                     new UpdateSolutionBrowserMobileFirstCommand(SolutionId,
-                        new UpdateSolutionBrowserMobileFirstViewModel() {MobileFirstDesign = mobileFirstDesign}),
+                        new UpdateSolutionBrowserMobileFirstViewModel() { MobileFirstDesign = mobileFirstDesign }),
                     new CancellationToken()).ConfigureAwait(false);
         }
     }

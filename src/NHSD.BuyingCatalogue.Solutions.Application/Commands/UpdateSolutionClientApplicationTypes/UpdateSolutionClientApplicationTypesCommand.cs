@@ -1,8 +1,9 @@
 using MediatR;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClientApplicationTypes
 {
-    public sealed class UpdateSolutionClientApplicationTypesCommand : IRequest<UpdateSolutionClientApplicationTypesValidationResult>
+    public sealed class UpdateSolutionClientApplicationTypesCommand : IRequest<RequiredResult>
     {
         /// <summary>
         /// A value to uniquely identify a solution.

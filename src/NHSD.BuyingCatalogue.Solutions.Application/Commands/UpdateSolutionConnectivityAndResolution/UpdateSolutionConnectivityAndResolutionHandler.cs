@@ -1,11 +1,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionConnectivityAndResolution
 {
-    internal class UpdateSolutionConnectivityAndResolutionHandler : IRequestHandler<UpdateSolutionConnectivityAndResolutionCommand, UpdateSolutionConnectivityAndResolutionValidationResult>
+    internal class UpdateSolutionConnectivityAndResolutionHandler : IRequestHandler<UpdateSolutionConnectivityAndResolutionCommand, RequiredResult>
     {
         private readonly ClientApplicationPartialUpdater _clientApplicationPartialUpdater;
         private readonly UpdateSolutionConnectivityAndResolutionValidator _updateSolutionConnectivityAndResolutionValidator;
@@ -16,7 +17,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionConn
             _updateSolutionConnectivityAndResolutionValidator = updateSolutionConnectivityAndResolutionValidator;
         }
 
-        public async Task<UpdateSolutionConnectivityAndResolutionValidationResult> Handle(UpdateSolutionConnectivityAndResolutionCommand request, CancellationToken cancellationToken)
+        public async Task<RequiredResult> Handle(UpdateSolutionConnectivityAndResolutionCommand request, CancellationToken cancellationToken)
         {
             var validationResult = _updateSolutionConnectivityAndResolutionValidator.Validation(request.ViewModel);
 

@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionConnectivityAndResolution
+namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
 {
-    public class UpdateSolutionConnectivityAndResolutionValidationResult
+    public class RequiredResult
     {
         public bool IsValid => !Required.Any();
-        
+
         public HashSet<string> Required { get; } = new HashSet<string>();
     }
 }

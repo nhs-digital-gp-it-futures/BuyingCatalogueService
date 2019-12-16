@@ -2,11 +2,12 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClientApplicationTypes
 {
-    internal sealed class UpdateSolutionClientApplicationTypesHandler : IRequestHandler<UpdateSolutionClientApplicationTypesCommand, UpdateSolutionClientApplicationTypesValidationResult>
+    internal sealed class UpdateSolutionClientApplicationTypesHandler : IRequestHandler<UpdateSolutionClientApplicationTypesCommand, RequiredResult>
     {
         private readonly ClientApplicationPartialUpdater _clientApplicationPartialUpdater;
 
@@ -28,7 +29,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClie
         /// <param name="request">The command parameters.</param>
         /// <param name="cancellationToken">Token to cancel the request.</param>
         /// <returns>A task representing an operation to get the result of this command.</returns>
-        public async Task<UpdateSolutionClientApplicationTypesValidationResult> Handle(UpdateSolutionClientApplicationTypesCommand request, CancellationToken cancellationToken)
+        public async Task<RequiredResult> Handle(UpdateSolutionClientApplicationTypesCommand request, CancellationToken cancellationToken)
         {
             var validationResult = _updateSolutionClientApplicationTypesValidator.Validate(request.UpdateSolutionClientApplicationTypesViewModel);
             if (validationResult.IsValid)

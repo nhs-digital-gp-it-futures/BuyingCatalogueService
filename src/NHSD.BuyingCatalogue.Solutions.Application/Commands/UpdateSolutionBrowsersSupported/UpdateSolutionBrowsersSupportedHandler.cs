@@ -3,11 +3,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using NHSD.BuyingCatalogue.Infrastructure;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowsersSupported
 {
-    internal sealed class UpdateSolutionBrowsersSupportedHandler : IRequestHandler<UpdateSolutionBrowsersSupportedCommand, UpdateSolutionBrowserSupportedValidationResult>
+    internal sealed class UpdateSolutionBrowsersSupportedHandler : IRequestHandler<UpdateSolutionBrowsersSupportedCommand, RequiredResult>
     {
         private readonly ClientApplicationPartialUpdater _clientApplicationPartialUpdater;
 
@@ -28,7 +29,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrow
         /// <param name="request">The command parameters.</param>
         /// <param name="cancellationToken">Token to cancel the request.</param>
         /// <returns>A validationResult representing an operation to get the result of this command. Deeming if it is valid</returns>
-        public async Task<UpdateSolutionBrowserSupportedValidationResult> Handle(UpdateSolutionBrowsersSupportedCommand request, CancellationToken cancellationToken)
+        public async Task<RequiredResult> Handle(UpdateSolutionBrowsersSupportedCommand request, CancellationToken cancellationToken)
         {
             var validationResult =
                 _updateSolutionBrowsersSupportedValidator.Validation(request.UpdateSolutionBrowsersSupportedViewModel);

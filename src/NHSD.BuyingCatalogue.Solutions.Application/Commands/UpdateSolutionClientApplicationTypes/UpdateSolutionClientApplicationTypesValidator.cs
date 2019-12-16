@@ -1,12 +1,13 @@
 using System.Linq;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClientApplicationTypes
 {
     internal sealed class UpdateSolutionClientApplicationTypesValidator
     {
-        public UpdateSolutionClientApplicationTypesValidationResult Validate(UpdateSolutionClientApplicationTypesViewModel updateSolutionClientApplicationTypesViewModel)
+        public RequiredResult Validate(UpdateSolutionClientApplicationTypesViewModel updateSolutionClientApplicationTypesViewModel)
         {
-            var validationResult = new UpdateSolutionClientApplicationTypesValidationResult();
+            var validationResult = new RequiredResult();
 
             if (!updateSolutionClientApplicationTypesViewModel.FilteredClientApplicationTypes.Any())
             {
