@@ -7,10 +7,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
         private readonly RequiredResult _requiredResult;
         private readonly MaxLengthResult _maxLengthResult;
 
-        public RequiredMaxLengthResult()
+        public RequiredMaxLengthResult(RequiredResult requiredResult = null, MaxLengthResult maxLengthResult = null)
         {
-            _requiredResult = new RequiredResult();
-            _maxLengthResult = new MaxLengthResult();
+            _requiredResult = requiredResult ?? new RequiredResult();
+            _maxLengthResult = maxLengthResult ?? new MaxLengthResult();
         }
 
         public HashSet<string> Required => _requiredResult.Required;

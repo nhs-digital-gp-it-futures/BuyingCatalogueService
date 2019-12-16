@@ -1,4 +1,3 @@
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins
@@ -6,19 +5,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlug
     internal sealed class UpdateSolutionPluginsValidator
     {
         public RequiredMaxLengthResult Validation(UpdateSolutionPluginsViewModel updateSolutionPluginsViewModel)
-        {
-            var validationResult = new RequiredMaxLengthResult();
-
-            if (string.IsNullOrWhiteSpace(updateSolutionPluginsViewModel.ThrowIfNull(nameof(updateSolutionPluginsViewModel)).Required))
-            {
-                validationResult.Required.Add("plugins-required");
-            }
-            if (updateSolutionPluginsViewModel.AdditionalInformation?.Length > 500)
-            {
-                validationResult.MaxLength.Add("plugins-detail");
-            }
-
-            return validationResult;
-        }
+            => new RequiredMaxLengthResult(
+                new RequiredValidator().Validate(updateSolutionPluginsViewModel.Required, "plugins-required").Result(),
+                new MaxLengthValidator().Validate(updateSolutionPluginsViewModel.AdditionalInformation, 500, "plugins-detail").Result()
+            );
     }
 }
