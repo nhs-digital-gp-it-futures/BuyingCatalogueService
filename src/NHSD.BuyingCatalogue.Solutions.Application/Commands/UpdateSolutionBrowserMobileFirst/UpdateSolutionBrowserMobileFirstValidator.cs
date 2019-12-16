@@ -5,15 +5,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrow
     internal sealed class UpdateSolutionBrowserMobileFirstValidator
     {
         public RequiredResult Validation(UpdateSolutionBrowserMobileFirstViewModel updateSolutionBrowserMobileFirstViewModel)
-        {
-            var validationResult = new RequiredResult();
-
-            if (string.IsNullOrEmpty(updateSolutionBrowserMobileFirstViewModel.MobileFirstDesign))
-            {
-                validationResult.Required.Add("mobile-first-design");
-            }
-
-            return validationResult;
-        }
+            => new RequiredValidator()
+                .Validate(updateSolutionBrowserMobileFirstViewModel.MobileFirstDesign, "mobile-first-design")
+                .Result();
     }
 }
