@@ -18,7 +18,7 @@ Scenario: 1. Browser Mobile First is updated to be empty
     Given SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                |
         | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins": null, "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null, "AdditionalInformation": "Some Info", "HardwareRequirements": "New Hardware", "MobileFirstDesign": false } |
-    When a PUT request is made to update solution Sln1 browser-mobile-first section
+    When a PUT request is made to update the browser-mobile-first section for solution Sln1
         | MobileFirstDesign |
         | NULL              |
     Then a response status of 400 is returned

@@ -10,30 +10,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
     [Binding]
     internal sealed class SolutionDescriptionSectionSteps
     {
-        private const string SolutionDescriptionUrl = "http://localhost:8080/api/v1/Solutions/{0}/sections/solution-description";
-
-        private readonly ScenarioContext _context;
-
         private readonly Response _response;
 
-        public SolutionDescriptionSectionSteps(ScenarioContext context, Response response)
+        public SolutionDescriptionSectionSteps(Response response)
         {
-            _context = context;
             _response = response;
-        }
-
-        [When(@"a PUT request is made to update solution solution-description section with no solution id")]
-        public async Task WhenARequestIsMadeToSubmitForReviewWithNoSolutionId(Table table)
-        {
-            await WhenAPUTRequestIsMadeToUpdateSolutionDescriptionSection(" ", table).ConfigureAwait(false);
-        }
-
-        [When(@"a PUT request is made to update solution (.*) solution-description section")]
-        public async Task WhenAPUTRequestIsMadeToUpdateSolutionDescriptionSection(string solutionId, Table table)
-        {
-            var content = table.CreateInstance<SolutionDescriptionPostTable>();
-
-            _response.Result = await Client.PutAsJsonAsync(string.Format(CultureInfo.InvariantCulture, SolutionDescriptionUrl, solutionId), content).ConfigureAwait(false);
         }
 
         [Then(@"the solution solution-description section contains (link|summary|description) of (.*)")]
@@ -48,15 +29,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
             content.SelectToken($"sections.solution-description.answers.{field}").Should().BeNull();
-        }
-
-        private class SolutionDescriptionPostTable
-        {
-            public string Summary { get; set; }
-
-            public string Description { get; set; }
-
-            public string Link { get; set; }
         }
     }
 }

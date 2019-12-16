@@ -19,7 +19,7 @@ Background:
 
 @3319
 Scenario: 1. Summary is not filled out
-    When the update solution description request is made for Sln1
+    When a PUT request is made to update the solution-description section for solution Sln1
          | Summary                   | Description | Link |
          | A string with length of 0 | NULL        | NULL |
     Then a response status of 400 is returned
@@ -31,10 +31,9 @@ Scenario: 1. Summary is not filled out
         | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
 
-
 @3319
 Scenario: 2. Summary exceeds the character limit
-    When the update solution description request is made for Sln1
+    When a PUT request is made to update the solution-description section for solution Sln1
         | Summary                     | Description | Link |
         | A string with length of 301 | NULL        | NULL |
     Then a response status of 400 is returned
@@ -48,7 +47,7 @@ Scenario: 2. Summary exceeds the character limit
 
 @3319
 Scenario: 3. Description exceeds the character limit
-    When the update solution description request is made for Sln1
+    When a PUT request is made to update the solution-description section for solution Sln1
         | Summary   | Description                  | Link |
         | A Summary | A string with length of 1001 | NULL |
     Then a response status of 400 is returned
@@ -62,7 +61,7 @@ Scenario: 3. Description exceeds the character limit
 
 @3319
 Scenario: 4. Link exceeds the character limit
-    When the update solution description request is made for Sln1
+    When a PUT request is made to update the solution-description section for solution Sln1
         | Summary   | Description                  | Link                         |
         | A Summary | It's the link's fault really | A string with length of 1001 |
     Then a response status of 400 is returned
@@ -76,7 +75,7 @@ Scenario: 4. Link exceeds the character limit
 
 @3319
 Scenario: 5. Summary is not filled out & Description exceeds the character limit
-    When the update solution description request is made for Sln1
+    When a PUT request is made to update the solution-description section for solution Sln1
         | Summary                   | Description                  | Link |
         | A string with length of 0 | A string with length of 1001 | NULL |
     Then a response status of 400 is returned
@@ -91,7 +90,7 @@ Scenario: 5. Summary is not filled out & Description exceeds the character limit
 
 @3319
 Scenario: 6. Summary is not filled out & Link exceeds the character limit
-    When the update solution description request is made for Sln1
+    When a PUT request is made to update the solution-description section for solution Sln1
         | Summary                   | Description | Link                         |
         | A string with length of 0 | NULL        | A string with length of 1001 |
     Then a response status of 400 is returned
@@ -106,7 +105,7 @@ Scenario: 6. Summary is not filled out & Link exceeds the character limit
 
 @3319
 Scenario: 7. Summary & Description exceeds the character limit
-    When the update solution description request is made for Sln1
+    When a PUT request is made to update the solution-description section for solution Sln1
         | Summary                     | Description                  | Link |
         | A string with length of 301 | A string with length of 1001 | Null |
     Then a response status of 400 is returned
@@ -121,7 +120,7 @@ Scenario: 7. Summary & Description exceeds the character limit
 
 @3319
 Scenario: 8. Summary & Link exceeds the character limit
-    When the update solution description request is made for Sln1
+    When a PUT request is made to update the solution-description section for solution Sln1
         | Summary                     | Description | Link                         |
         | A string with length of 301 | NULL        | A string with length of 1001 |
     Then a response status of 400 is returned
@@ -136,7 +135,7 @@ Scenario: 8. Summary & Link exceeds the character limit
 
 @3319
 Scenario: 9. Description & Link exceeds the character limit
-    When the update solution description request is made for Sln1
+    When a PUT request is made to update the solution-description section for solution Sln1
         | Summary   | Description                  | Link                         |
         | A Summary | A string with length of 1001 | A string with length of 1001 |
     Then a response status of 400 is returned
@@ -151,7 +150,7 @@ Scenario: 9. Description & Link exceeds the character limit
 
 @3319
 Scenario: 10. Summary is not filled out, Description & Link exceeds the character limit
-    When the update solution description request is made for Sln1
+    When a PUT request is made to update the solution-description section for solution Sln1
         | Summary                   | Description                  | Link                         |
         | A string with length of 0 | A string with length of 1001 | A string with length of 1001 |
     Then a response status of 400 is returned
@@ -167,7 +166,7 @@ Scenario: 10. Summary is not filled out, Description & Link exceeds the characte
 
 @3319
 Scenario: 11. Summary, Description & Link exceeds the character limit
-    When the update solution description request is made for Sln1
+    When a PUT request is made to update the solution-description section for solution Sln1
         | Summary                     | Description                  | Link                         |
         | A string with length of 301 | A string with length of 1001 | A string with length of 1001 |
     Then a response status of 400 is returned

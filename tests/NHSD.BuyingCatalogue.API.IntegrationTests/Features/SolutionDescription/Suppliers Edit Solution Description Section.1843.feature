@@ -24,7 +24,7 @@ Background:
 
 @1843
 Scenario: 1. Solution description section data is updated
-    When a PUT request is made to update solution Sln1 solution-description section
+    When a PUT request is made to update the solution-description section for solution Sln1
         | Summary                | Description            | Link       |
         | New type of medicine 4 | A new full description | UrlSln1New |
     Then a successful response is returned
@@ -41,7 +41,7 @@ Scenario: 1. Solution description section data is updated
 
 Scenario: 2. Solution description section data is not created on update, fail fast in this case
     Given a SolutionDetail Sln3 does not exist
-    When a PUT request is made to update solution Sln3 solution-description section
+    When a PUT request is made to update the solution-description section for solution Sln3
         | Summary                 | Description         | Link       |
         | Fully fledged GP system | Fully fledged GP 12 | UrlSln3New |
     Then a response status of 500 is returned
@@ -49,7 +49,7 @@ Scenario: 2. Solution description section data is not created on update, fail fa
 @1828
 Scenario: 3. Solution not found
     Given a Solution Sln4 does not exist
-    When a PUT request is made to update solution Sln4 solution-description section
+    When a PUT request is made to update the solution-description section for solution Sln4
         | Summary                 | Description         | Link       |
         | Fully fledged GP system | Fully fledged GP 12 | UrlSln3New |
     Then a response status of 404 is returned
@@ -57,14 +57,14 @@ Scenario: 3. Solution not found
 @1828
 Scenario: 4. Service failure
     Given the call to the database to set the field will fail
-    When a PUT request is made to update solution Sln4 solution-description section
+    When a PUT request is made to update the solution-description section for solution Sln1
         | Summary                 | Description         | Link       |
         | Fully fledged GP system | Fully fledged GP 12 | UrlSln3New |
     Then a response status of 500 is returned
 
 @1828
 Scenario: 4. Solution id not present in request
-    When a PUT request is made to update solution solution-description section with no solution id
+    When a PUT request is made to update the solution-description section with no solution id
         | Summary                 | Description         | Link       |
         | Fully fledged GP system | Fully fledged GP 12 | UrlSln3New |
     Then a response status of 400 is returned
