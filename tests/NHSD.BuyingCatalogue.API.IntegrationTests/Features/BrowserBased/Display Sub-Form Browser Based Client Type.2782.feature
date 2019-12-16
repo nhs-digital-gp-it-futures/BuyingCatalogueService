@@ -25,6 +25,7 @@ Scenario: 1. Sub-Form Browser Based Client Type all sections are Displayed
     And Solutions browser-based section contains all BrowserBased Sections   
         | Id                             | Status     | Requirement |
         | browsers-supported             | INCOMPLETE | Mandatory   |
+        | browser-mobile-first           | INCOMPLETE | Mandatory   |
         | plug-ins-or-extensions         | INCOMPLETE | Mandatory   |
         | connectivity-and-resolution    | INCOMPLETE | Mandatory   |
         | browser-hardware-requirements  | INCOMPLETE | Optional    |

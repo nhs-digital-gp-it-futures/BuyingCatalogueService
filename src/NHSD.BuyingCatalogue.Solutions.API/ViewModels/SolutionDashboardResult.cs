@@ -84,14 +84,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         {
             HashSet<string> clientApplicationTypes = clientApplication?.ClientApplicationTypes ?? new HashSet<string>();
 
-            SetIfSelected("browser-based", clientApplicationTypes, () => BrowserBasedSection = DashboardSection.Mandatory(IsBrowserBasedComplete(clientApplication)));
+            SetIfSelected("browser-based", clientApplicationTypes,
+                () => BrowserBasedSection = DashboardSection.Mandatory(clientApplication.IsBrowserBasedComplete()));
             SetIfSelected("native-mobile", clientApplicationTypes, () => NativeMobileSection = DashboardSection.Mandatory(false));
             SetIfSelected("native-desktop", clientApplicationTypes, () => NativeDesktopSection = DashboardSection.Mandatory(false));
-        }
-
-        private bool IsBrowserBasedComplete(IClientApplication clientApplication)
-        {
-            return (clientApplication?.BrowsersSupported?.Any()).GetValueOrDefault() && (clientApplication?.MobileResponsive.HasValue).GetValueOrDefault();
         }
 
         private void SetIfSelected(string sectionName, HashSet<string> sections, Action setDashboardAction)

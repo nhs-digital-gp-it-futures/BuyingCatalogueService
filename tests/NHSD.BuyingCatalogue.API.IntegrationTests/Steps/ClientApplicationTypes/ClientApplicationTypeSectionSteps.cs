@@ -39,6 +39,14 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
                 .Should().NotBeNull();
         }
 
+        [Then(@"the solution browser-based status is (INCOMPLETE|COMPLETE)")]
+        public async Task ThenTheSolutionBrowser_BasedStatusIsINCOMPLETE(string status)
+        {
+            var content = await _response.ReadBody().ConfigureAwait(false);
+            content.SelectToken($"sections.client-application-types.sections.browser-based.status").ToString().Should().Be(status);
+        }
+
+
         [Then(@"the solution client-application-types section contains Browsers")]
         public async Task ThenTheSolutionClient_Application_TypesSectionContainsSupportedBrowsersOf(Table table)
         {
@@ -136,12 +144,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
             var content = await _response.ReadBody().ConfigureAwait(false);
             content.SelectToken("sections.client-application-types.sections.browser-based.sections.browser-mobile-first.answers.mobile-first-design")
                 .ToString().Should().Be(value);
-        }
-
-
-        private class ClientApplicationTypesTable
-        {
-            public string ClientApplication { get; set; }
         }
 
         private class SelectedBrowsersTable

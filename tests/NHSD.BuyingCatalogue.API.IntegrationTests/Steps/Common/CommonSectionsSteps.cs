@@ -4,20 +4,17 @@ using FluentAssertions;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using TechTalk.SpecFlow;
 
-namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
+namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
 {
     [Binding]
     internal sealed class CommonSectionsSteps
     {
         private const string RootSectionsUrl = "http://localhost:8080/api/v1/Solutions/{0}/sections/{1}";
 
-        private readonly ScenarioContext _context;
-
         private readonly Response _response;
 
-        public CommonSectionsSteps(ScenarioContext context, Response response)
+        public CommonSectionsSteps(Response response)
         {
-            _context = context;
             _response = response;
         }
 
@@ -52,11 +49,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         public async Task GetSectionRequest(string section, string solutionId)
         {
             _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, RootSectionsUrl, solutionId, section)).ConfigureAwait(false);
-        }
-
-        private class MandatoryTable
-        {
-            public string Mandatory { get; set; }
         }
     }
 }

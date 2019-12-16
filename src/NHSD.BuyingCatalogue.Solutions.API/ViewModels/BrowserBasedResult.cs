@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
@@ -41,37 +39,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         /// </summary>
         public BrowserBasedDashboardSections(IClientApplication clientApplication)
         {
-            BrowsersSupportedSection = new BrowserBasedDashboardSection(IsBrowserSupportedComplete(clientApplication), true);
-            BrowserMobileFirstSection = new BrowserBasedDashboardSection(IsMobileFirstComplete(clientApplication), true);
-            PluginsOrExtensionsSection = new BrowserBasedDashboardSection(IsPluginsComplete(clientApplication?.Plugins), true);
-            ConnectivityAndResolutionSection = new BrowserBasedDashboardSection(!String.IsNullOrWhiteSpace(clientApplication?.MinimumConnectionSpeed), true);
-            HardwareRequirementsSection = new BrowserBasedDashboardSection(IsHardwareRequirementsComplete(clientApplication), false);
-            BrowserAdditionalInformationSection = new BrowserBasedDashboardSection(IsBrowserAdditionalInformationComplete(clientApplication), false);
-        }
-
-        private bool IsBrowserSupportedComplete(IClientApplication clientApplication)
-        {
-            return clientApplication?.BrowsersSupported?.Any() == true && clientApplication?.MobileResponsive.HasValue == true;
-        }
-
-        private bool IsMobileFirstComplete(IClientApplication clientApplication)
-        {
-            return clientApplication?.MobileFirstDesign.HasValue == true;
-        }
-
-        private bool IsPluginsComplete(IPlugins plugins)
-        {
-            return plugins?.Required.HasValue == true;
-        }
-
-        private bool IsHardwareRequirementsComplete(IClientApplication clientApplication)
-        {
-            return !string.IsNullOrWhiteSpace(clientApplication?.HardwareRequirements);
-        }
-
-        private bool IsBrowserAdditionalInformationComplete(IClientApplication clientApplication)
-        {
-            return !string.IsNullOrWhiteSpace(clientApplication?.AdditionalInformation);
+            BrowsersSupportedSection = new BrowserBasedDashboardSection(clientApplication.IsBrowserSupportedComplete(), true);
+            BrowserMobileFirstSection = new BrowserBasedDashboardSection(clientApplication.IsMobileFirstComplete(), true);
+            PluginsOrExtensionsSection = new BrowserBasedDashboardSection(clientApplication.IsPluginsComplete(), true);
+            ConnectivityAndResolutionSection = new BrowserBasedDashboardSection(clientApplication.IsConnectivityAndResolutionComplete(), true);
+            HardwareRequirementsSection = new BrowserBasedDashboardSection(clientApplication.IsHardwareRequirementComplete(), false);
+            BrowserAdditionalInformationSection = new BrowserBasedDashboardSection(clientApplication.IsAdditionalInformationComplete(), false);
         }
     }
 

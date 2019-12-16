@@ -19,14 +19,16 @@ Background:
         | Sln3       | PracticeMgr    | Drs. Inc         | 1                | Sup 2      |
         | Sln4       | PracticeMgr    | Drs. Inc         | 1                | Sup 2      |
         | Sln5       | Integral       | GPs-R-Us         | 1                | Sup 1      |
+        | Sln6       | Medical Stuff  | GPs-R-Us         | 1                | Sup 1      |
 
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                     |
-        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
-        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                       |
-        | Sln4     | Thrills                        | Bellyaches          | { "ClientApplicationTypes" : [] }                                                     |
-        | Sln5     | Fully fledged GP system        | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop", "native-mobile" ] } |
-
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                                                                                                   |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                                                                                                                                                                                                |
+        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                                                                                                                                                                     |
+        | Sln4     | Thrills                        | Bellyaches          | { "ClientApplicationTypes" : [] }                                                                                                                                                                                                                                   |
+        | Sln5     | Fully fledged GP system        | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop", "native-mobile" ] }                                                                                                                                                                               |
+        | Sln6     | More Summaries                 | Online System       | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": true, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum"}, "MobileFirstDesign": true, "MinimumConnectionSpeed": "Connection Speed" } |
+        
 
 @2724
 Scenario: 1. Sections presented where the Solution exists
@@ -60,3 +62,19 @@ Scenario: 4. Sections Mandatory when ClientApplicationTypes is set
     And the solution browser-based section requirement is Mandatory
     And the solution native-desktop section requirement is Mandatory
     And the solution native-mobile section requirement is Mandatory
+
+@3597
+Scenario: 5. Section Browser Based is Incomplete
+    When a GET request is made for solution dashboard Sln1
+    Then a successful response is returned
+    Then the solution browser-based status is INCOMPLETE
+    And the solution browser-based section requirement is Mandatory
+
+@3597
+Scenario: 6. Section Browser Based is Complete
+    When a GET request is made for solution dashboard Sln6
+    Then a successful response is returned
+    Then the solution browser-based status is COMPLETE
+    And the solution browser-based section requirement is Mandatory
+
+
