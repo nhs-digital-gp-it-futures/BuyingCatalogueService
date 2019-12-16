@@ -1,9 +1,10 @@
 using MediatR;
 using NHSD.BuyingCatalogue.Infrastructure;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserHardwareRequirements
 {
-    public sealed class UpdateSolutionBrowserHardwareRequirementsCommand : IRequest<UpdateSolutionBrowserHardwareRequirementsValidationResult>
+    public sealed class UpdateSolutionBrowserHardwareRequirementsCommand : IRequest<MaxLengthResult>
     {
         public string SolutionId { get; }
 

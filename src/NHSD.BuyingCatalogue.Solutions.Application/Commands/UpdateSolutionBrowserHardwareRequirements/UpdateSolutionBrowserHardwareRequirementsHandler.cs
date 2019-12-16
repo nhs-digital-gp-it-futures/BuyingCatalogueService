@@ -1,11 +1,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserHardwareRequirements
 {
-    internal sealed class UpdateSolutionBrowserHardwareRequirementsHandler : IRequestHandler<UpdateSolutionBrowserHardwareRequirementsCommand, UpdateSolutionBrowserHardwareRequirementsValidationResult>
+    internal sealed class UpdateSolutionBrowserHardwareRequirementsHandler : IRequestHandler<UpdateSolutionBrowserHardwareRequirementsCommand, MaxLengthResult>
     {
         private readonly ClientApplicationPartialUpdater _clientApplicationPartialUpdater;
 
@@ -17,7 +18,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrow
             _updateSolutionHardwareRequirementsValidator = updateSolutionHardwareRequirementsValidator;
         }
 
-        public async Task<UpdateSolutionBrowserHardwareRequirementsValidationResult> Handle(UpdateSolutionBrowserHardwareRequirementsCommand request,
+        public async Task<MaxLengthResult> Handle(UpdateSolutionBrowserHardwareRequirementsCommand request,
             CancellationToken cancellationToken)
         {
             var validationResult = _updateSolutionHardwareRequirementsValidator.Validation(request.UpdateSolutionHardwareRequirementsViewModel);

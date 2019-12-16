@@ -2,12 +2,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures
 {
-    internal sealed class UpdateSolutionFeaturesHandler : IRequestHandler<UpdateSolutionFeaturesCommand, UpdateSolutionFeaturesValidationResult>
+    internal sealed class UpdateSolutionFeaturesHandler : IRequestHandler<UpdateSolutionFeaturesCommand, MaxLengthResult>
     {
         private readonly SolutionReader _solutionReader;
         private readonly SolutionFeaturesUpdater _solutionFeaturesUpdater;
@@ -31,7 +32,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeat
         /// <param name="request">The command parameters.</param>
         /// <param name="cancellationToken">Token to cancel the request.</param>
         /// <returns>A task representing an operation to get the result of this command.</returns>
-        public async Task<UpdateSolutionFeaturesValidationResult> Handle(UpdateSolutionFeaturesCommand request, CancellationToken cancellationToken)
+        public async Task<MaxLengthResult> Handle(UpdateSolutionFeaturesCommand request, CancellationToken cancellationToken)
         {
             var validationResult = _updateSolutionFeaturesValidator.Validate(request.UpdateSolutionFeaturesViewModel);
 

@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserHardwareRequirements
+namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
 {
-    public sealed class UpdateSolutionBrowserHardwareRequirementsValidationResult
+    public class MaxLengthResult
     {
-
         public HashSet<string> MaxLength { get; } = new HashSet<string>();
 
         public bool IsValid => !MaxLength.Any();

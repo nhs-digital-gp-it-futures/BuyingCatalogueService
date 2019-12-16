@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserAdditionalInformation;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 {
     public class UpdateSolutionBrowserAdditionalInformationResult
     {
-        internal UpdateSolutionBrowserAdditionalInformationResult(UpdateSolutionBrowserAdditionalInformationValidationResult updateSolutionBrowserAdditionalInformationValidationResult)
+        internal UpdateSolutionBrowserAdditionalInformationResult(MaxLengthResult updateSolutionBrowserAdditionalInformationValidationResult)
         {
             MaxLength = updateSolutionBrowserAdditionalInformationValidationResult.MaxLength;
         }

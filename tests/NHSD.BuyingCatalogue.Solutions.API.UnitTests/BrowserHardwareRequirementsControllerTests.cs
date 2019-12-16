@@ -8,7 +8,7 @@ using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserHardwareRequirements;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
@@ -72,7 +72,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var viewModel = new UpdateSolutionBrowserHardwareRequirementsViewModel();
 
-            var validationResult = new UpdateSolutionBrowserHardwareRequirementsValidationResult();
+            var validationResult = new MaxLengthResult();
 
             _mockMediator
                 .Setup(m => m.Send(
@@ -96,21 +96,21 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var viewModel = new UpdateSolutionBrowserHardwareRequirementsViewModel();
 
-            var validationResult = new UpdateSolutionBrowserHardwareRequirementsValidationResult()
+            var validationResult = new MaxLengthResult()
             {
                 MaxLength = { "hardware-requirements-description" }
             };
 
-                _mockMediator.Setup(m => m.Send(
-                It.Is<UpdateSolutionBrowserHardwareRequirementsCommand>(q =>
-                    q.SolutionId == SolutionId && q.UpdateSolutionHardwareRequirementsViewModel == viewModel),
-                It.IsAny<CancellationToken>())).ReturnsAsync(validationResult);
+            _mockMediator.Setup(m => m.Send(
+            It.Is<UpdateSolutionBrowserHardwareRequirementsCommand>(q =>
+                q.SolutionId == SolutionId && q.UpdateSolutionHardwareRequirementsViewModel == viewModel),
+            It.IsAny<CancellationToken>())).ReturnsAsync(validationResult);
 
             var result = await _hardwareRequirementsController.UpdateHardwareRequirementsAsync(SolutionId, viewModel)
                 .ConfigureAwait(false) as BadRequestObjectResult;
 
             result?.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            (result?.Value as UpdateSolutionBrowserHardwareRequirementResult)?.MaxLength.Should().BeEquivalentTo(new [] { "hardware-requirements-description" });
+            (result?.Value as UpdateSolutionBrowserHardwareRequirementResult)?.MaxLength.Should().BeEquivalentTo(new[] { "hardware-requirements-description" });
 
             _mockMediator.Verify(
                 m => m.Send(

@@ -6,6 +6,7 @@ using Moq;
 using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserAdditionalInformation;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Tools;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
@@ -78,7 +79,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                         .Be("Updated Additional Info");
 
                     json.ReadStringArray("ClientApplicationTypes")
-                        .ShouldContainOnly(new List<string> {"browser-based", "native-mobile"});
+                        .ShouldContainOnly(new List<string> { "browser-based", "native-mobile" });
                     json.ReadStringArray("BrowsersSupported")
                         .ShouldContainOnly(new List<string> { "Mozilla Firefox", "Edge" });
                     json.SelectToken("MobileResponsive").Value<bool>()
@@ -115,7 +116,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
-        private async Task<UpdateSolutionBrowserAdditionalInformationValidationResult> UpdateBrowserAdditionalInformation(
+        private async Task<MaxLengthResult> UpdateBrowserAdditionalInformation(
             string additionalInformation)
         {
             return await Context.UpdateSolutionBrowserAdditionalInformationHandler.Handle(

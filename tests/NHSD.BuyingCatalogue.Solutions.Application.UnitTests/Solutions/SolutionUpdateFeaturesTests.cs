@@ -6,6 +6,7 @@ using Moq;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
 
@@ -45,10 +46,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public async Task ShouldValidateSingleMaxLength()
         {
-            var validationResult = await UpdateSolutionFeaturesAsync(new List<string>() {new string('a', 101), "test"})
+            var validationResult = await UpdateSolutionFeaturesAsync(new List<string>() { new string('a', 101), "test" })
                 .ConfigureAwait(false);
             validationResult.IsValid.Should().BeFalse();
-            validationResult.MaxLength.Should().BeEquivalentTo(new[] {"listing-1"});
+            validationResult.MaxLength.Should().BeEquivalentTo(new[] { "listing-1" });
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Never());
             _context.MockSolutionDetailRepository.Verify(r => r.UpdateFeaturesAsync(It.IsAny<IUpdateSolutionFeaturesRequest>(), It.IsAny<CancellationToken>()), Times.Never);
@@ -60,7 +61,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var validationResult = await UpdateSolutionFeaturesAsync(new List<string>() { new string('a', 101), "test", new string('b', 200), "test", "test", new string('c', 105) })
                 .ConfigureAwait(false);
             validationResult.IsValid.Should().BeFalse();
-            validationResult.MaxLength.Should().BeEquivalentTo(new[] { "listing-1", "listing-3", "listing-6"});
+            validationResult.MaxLength.Should().BeEquivalentTo(new[] { "listing-1", "listing-3", "listing-6" });
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Never());
             _context.MockSolutionDetailRepository.Verify(r => r.UpdateFeaturesAsync(It.IsAny<IUpdateSolutionFeaturesRequest>(), It.IsAny<CancellationToken>()), Times.Never);
@@ -85,7 +86,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 Times.Never());
         }
 
-        private async Task<UpdateSolutionFeaturesValidationResult> UpdateSolutionFeaturesAsync(List<string> listing)
+        private async Task<MaxLengthResult> UpdateSolutionFeaturesAsync(List<string> listing)
         {
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns(SolutionId);
@@ -94,7 +95,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             var validationResult = await _context.UpdateSolutionFeaturesHandler.Handle(
                 new UpdateSolutionFeaturesCommand(SolutionId,
-                    new UpdateSolutionFeaturesViewModel() {Listing = listing}), new CancellationToken())
+                    new UpdateSolutionFeaturesViewModel() { Listing = listing }), new CancellationToken())
                 .ConfigureAwait(false);
             return validationResult;
         }

@@ -10,6 +10,7 @@ using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
@@ -57,7 +58,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 Listing = new List<string>() { new string('a', 200) }
             };
 
-            var validationModel = new UpdateSolutionFeaturesValidationResult()
+            var validationModel = new MaxLengthResult()
             {
                 MaxLength = { "listing-1" }
             };
@@ -67,7 +68,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     BadRequestObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            (result.Value as UpdateSolutionFeaturesResult).MaxLength.Should().BeEquivalentTo("listing-1"); 
+            (result.Value as UpdateSolutionFeaturesResult).MaxLength.Should().BeEquivalentTo("listing-1");
             _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionFeaturesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionFeaturesViewModel == featuresUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
 
@@ -79,7 +80,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 Listing = new List<string>() { "test", "test2" }
             };
 
-            var validationModel = new UpdateSolutionFeaturesValidationResult();
+            var validationModel = new MaxLengthResult();
 
             _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionFeaturesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionFeaturesViewModel == featuresUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
             var result =

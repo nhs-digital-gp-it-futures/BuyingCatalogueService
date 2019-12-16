@@ -3,13 +3,14 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails
 {
-    class UpdateSolutionContactDetailsHandler : IRequestHandler<UpdateSolutionContactDetailsCommand, UpdateSolutionContactDetailsValidationResult>
+    internal class UpdateSolutionContactDetailsHandler : IRequestHandler<UpdateSolutionContactDetailsCommand, MaxLengthResult>
     {
         private readonly SolutionVerifier _verifier;
         private readonly SolutionContactDetailsUpdater _updater;
@@ -22,7 +23,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
             _validator = validator;
         }
 
-        public async Task<UpdateSolutionContactDetailsValidationResult> Handle(UpdateSolutionContactDetailsCommand request, CancellationToken cancellationToken)
+        public async Task<MaxLengthResult> Handle(UpdateSolutionContactDetailsCommand request, CancellationToken cancellationToken)
         {
             await _verifier.ThrowWhenMissing(request.SolutionId, cancellationToken).ConfigureAwait(false);
 
@@ -42,13 +43,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
         private static IContact ToContact(UpdateSolutionContactViewModel contact)
         {
             return contact?.HasData() == true ? new ContactDto
-                {
-                    Department = contact.Department,
-                    FirstName = contact.FirstName,
-                    LastName = contact.LastName,
-                    Email = contact.Email,
-                    PhoneNumber = contact.PhoneNumber
-                }
+            {
+                Department = contact.Department,
+                FirstName = contact.FirstName,
+                LastName = contact.LastName,
+                Email = contact.Email,
+                PhoneNumber = contact.PhoneNumber
+            }
                 : null;
         }
     }

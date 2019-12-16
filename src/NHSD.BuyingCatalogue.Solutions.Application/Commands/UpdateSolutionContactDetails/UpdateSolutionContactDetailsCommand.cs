@@ -1,8 +1,9 @@
 using MediatR;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails
 {
-    public class UpdateSolutionContactDetailsCommand : IRequest<UpdateSolutionContactDetailsValidationResult>
+    public class UpdateSolutionContactDetailsCommand : IRequest<MaxLengthResult>
     {
         /// <summary>
         /// A value to uniquely identify a solution.

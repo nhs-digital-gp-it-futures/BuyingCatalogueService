@@ -8,7 +8,7 @@ using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserAdditionalInformation;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
@@ -71,7 +71,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var viewModel = new UpdateSolutionBrowserAdditionalInformationViewModel();
 
-            var validationResult = new UpdateSolutionBrowserAdditionalInformationValidationResult();
+            var validationResult = new MaxLengthResult();
 
             _mockMediator
                 .Setup(m => m.Send(
@@ -95,7 +95,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var viewModel = new UpdateSolutionBrowserAdditionalInformationViewModel();
 
-            var validationResult = new UpdateSolutionBrowserAdditionalInformationValidationResult()
+            var validationResult = new MaxLengthResult()
             {
                 MaxLength = { "additional-information" }
             };

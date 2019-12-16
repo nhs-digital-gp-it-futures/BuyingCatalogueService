@@ -1,3 +1,5 @@
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
+
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails
 {
     internal class UpdateSolutionContactDetailsValidator
@@ -8,16 +10,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
         public const int PhoneMaxLength = 35;
         public const int DepartmentMaxLength = 35;
 
-        public UpdateSolutionContactDetailsValidationResult Validation(
+        public MaxLengthResult Validation(
             UpdateSolutionContactDetailsViewModel updateSolutionBrowsersSupportedViewModel)
         {
-            var result = new UpdateSolutionContactDetailsValidationResult();
+            var result = new MaxLengthResult();
             ValidateContact(result, updateSolutionBrowsersSupportedViewModel.Contact1, "contact1");
             ValidateContact(result, updateSolutionBrowsersSupportedViewModel.Contact2, "contact2");
             return result;
         }
 
-        private static void ValidateContact(UpdateSolutionContactDetailsValidationResult result, UpdateSolutionContactViewModel contact, string contactTag)
+        private static void ValidateContact(MaxLengthResult result, UpdateSolutionContactViewModel contact, string contactTag)
         {
             if ((contact?.FirstName?.Length ?? 0) > FirstNameMaxLength)
             {

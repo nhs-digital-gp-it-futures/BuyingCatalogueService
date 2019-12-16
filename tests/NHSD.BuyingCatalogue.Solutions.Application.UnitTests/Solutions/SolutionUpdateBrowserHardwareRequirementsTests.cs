@@ -5,6 +5,7 @@ using Moq;
 using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserHardwareRequirements;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
 
@@ -91,7 +92,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             var validationResult = await UpdateBrowserHardwareRequirements(new string('a', 501)).ConfigureAwait(false);
             validationResult.IsValid.Should().BeFalse();
-            validationResult.MaxLength.Should().BeEquivalentTo(new[] {"hardware-requirements-description"});
+            validationResult.MaxLength.Should().BeEquivalentTo(new[] { "hardware-requirements-description" });
         }
 
         [Test]
@@ -104,7 +105,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
-        private async Task<UpdateSolutionBrowserHardwareRequirementsValidationResult> UpdateBrowserHardwareRequirements(
+        private async Task<MaxLengthResult> UpdateBrowserHardwareRequirements(
             string hardwareRequirements)
         {
             return await Context.UpdateSolutionBrowserHardwareRequirementsHandler.Handle(

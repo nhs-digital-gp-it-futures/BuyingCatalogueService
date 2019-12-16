@@ -7,6 +7,7 @@ using FluentAssertions;
 using Moq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NUnit.Framework;
 
@@ -16,7 +17,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
     public class SolutionUpdateContactDetailsTests
     {
         private TestContext _context;
-        
+
         private string _reallyLongString = "IAmAReallyLongStringThatShouldBreakAllValidationExceptEmailSoJustDuplicateMeThreeTimesToBreakThat";
 
         private UpdateSolutionContactViewModel _contact1;
@@ -57,7 +58,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             result.IsValid.Should().BeTrue();
             result.MaxLength.Should().BeEmpty();
 
-            _context.MockMarketingContactRepository.Verify(x => x.ReplaceContactsForSolution(_existingSolutionId, It.Is<IEnumerable<IContact>>(c => VerifyContacts(c)),It.IsAny<CancellationToken>()), Times.Once);
+            _context.MockMarketingContactRepository.Verify(x => x.ReplaceContactsForSolution(_existingSolutionId, It.Is<IEnumerable<IContact>>(c => VerifyContacts(c)), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
@@ -150,9 +151,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             return true;
         }
 
-        private async Task<UpdateSolutionContactDetailsValidationResult> CallHandle(string solutionId)
+        private async Task<MaxLengthResult> CallHandle(string solutionId)
         {
-            var command = new UpdateSolutionContactDetailsCommand(solutionId, new UpdateSolutionContactDetailsViewModel{Contact1 = _contact1, Contact2 = _contact2});
+            var command = new UpdateSolutionContactDetailsCommand(solutionId, new UpdateSolutionContactDetailsViewModel { Contact1 = _contact1, Contact2 = _contact2 });
             return await _context.UpdateSolutionContactDetailsHandler.Handle(command, new CancellationToken())
                 .ConfigureAwait(false);
         }

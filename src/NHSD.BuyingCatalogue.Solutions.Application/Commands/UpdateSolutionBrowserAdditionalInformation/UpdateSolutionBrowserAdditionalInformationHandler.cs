@@ -1,11 +1,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserAdditionalInformation
 {
-    internal sealed class UpdateSolutionBrowserAdditionalInformationHandler : IRequestHandler<UpdateSolutionBrowserAdditionalInformationCommand, UpdateSolutionBrowserAdditionalInformationValidationResult>
+    internal sealed class UpdateSolutionBrowserAdditionalInformationHandler : IRequestHandler<UpdateSolutionBrowserAdditionalInformationCommand, MaxLengthResult>
     {
         private readonly ClientApplicationPartialUpdater _clientApplicationPartialUpdater;
 
@@ -17,7 +18,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrow
             _updateSolutionBrowserAdditionalInformationValidator = updatesolutionBrowserAdditionalInformationValidator;
         }
 
-        public async Task<UpdateSolutionBrowserAdditionalInformationValidationResult> Handle(UpdateSolutionBrowserAdditionalInformationCommand request,
+        public async Task<MaxLengthResult> Handle(UpdateSolutionBrowserAdditionalInformationCommand request,
             CancellationToken cancellationToken)
         {
             var validationResult = _updateSolutionBrowserAdditionalInformationValidator.Validation(request.UpdateSolutionBrowserAdditionalInformationViewModel);

@@ -1,10 +1,12 @@
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
+
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserAdditionalInformation
 {
     internal sealed class UpdateSolutionBrowserAdditionalInformationValidator
     {
-        public UpdateSolutionBrowserAdditionalInformationValidationResult Validation(UpdateSolutionBrowserAdditionalInformationViewModel updateSolutionBrowserAdditionalInformationViewModel)
+        public MaxLengthResult Validation(UpdateSolutionBrowserAdditionalInformationViewModel updateSolutionBrowserAdditionalInformationViewModel)
         {
-            var validationResult = new UpdateSolutionBrowserAdditionalInformationValidationResult();
+            var validationResult = new MaxLengthResult();
 
             if (updateSolutionBrowserAdditionalInformationViewModel.AdditionalInformation?.Length > 500)
             {
