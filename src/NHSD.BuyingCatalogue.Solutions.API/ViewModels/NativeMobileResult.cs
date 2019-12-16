@@ -38,12 +38,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 
         public NativeMobileSections()
         {
-            MobileOperatingSystems = new DashboardSection(false, true);
+            MobileOperatingSystems = new DashboardSection(true, false);
             MobileFirst = new DashboardSection(true, false);
-            MobileMemoryStorage = new DashboardSection(true, true);
-            MobileConnectionDetails = new DashboardSection(false, true);
-            MobileComponentsDeviceCapabilities = new DashboardSection(true, false);
-            MobileHardwareRequirements = new DashboardSection(true, true);
+            MobileMemoryStorage = new DashboardSection(true, false);
+            MobileConnectionDetails = new DashboardSection(false, false);
+            MobileComponentsDeviceCapabilities = new DashboardSection(false, false);
+            MobileHardwareRequirements = new DashboardSection(false, false);
             MobileAdditionalInformation = new DashboardSection(false, false);
         }
     }
