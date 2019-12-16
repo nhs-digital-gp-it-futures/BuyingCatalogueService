@@ -8,6 +8,7 @@ using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
@@ -41,9 +42,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var result = (await _solutionDescriptionController.GetSolutionDescriptionAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            ((SolutionDescriptionResult) result.Value).Summary.Should().Be(solutionMock.Summary);
-            ((SolutionDescriptionResult) result.Value).Description.Should().Be(solutionMock.Description);
-            ((SolutionDescriptionResult) result.Value).Link.Should().Be(solutionMock.AboutUrl);
+            ((SolutionDescriptionResult)result.Value).Summary.Should().Be(solutionMock.Summary);
+            ((SolutionDescriptionResult)result.Value).Description.Should().Be(solutionMock.Description);
+            ((SolutionDescriptionResult)result.Value).Link.Should().Be(solutionMock.AboutUrl);
 
             _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
         }
@@ -52,7 +53,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         public async Task ShouldUpdateValidationValid()
         {
             var solutionSummaryUpdateViewModel = new UpdateSolutionSummaryViewModel { Summary = "Summary" };
-            var validationModel = new UpdateSolutionSummaryValidationResult();
+            var validationModel = new RequiredMaxLengthResult();
 
             _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionSummaryViewModel == solutionSummaryUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
 
@@ -72,7 +73,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 Summary = string.Empty
             };
 
-            var validationModel = new UpdateSolutionSummaryValidationResult()
+            var validationModel = new RequiredMaxLengthResult()
             {
                 Required = { "summary" },
                 MaxLength = { "summary", "description", "link" }

@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary
 {
     internal sealed class UpdateSolutionSummaryValidator
     {
-        public UpdateSolutionSummaryValidationResult Validate(UpdateSolutionSummaryViewModel updateSolutionSummaryViewModel)
+        public RequiredMaxLengthResult Validate(UpdateSolutionSummaryViewModel updateSolutionSummaryViewModel)
         {
-            var validationResult = new UpdateSolutionSummaryValidationResult();
+            var validationResult = new RequiredMaxLengthResult();
 
             if (string.IsNullOrWhiteSpace(updateSolutionSummaryViewModel.Summary))
             {

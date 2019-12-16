@@ -1,8 +1,9 @@
 using MediatR;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary
 {
-    public sealed class UpdateSolutionSummaryCommand : IRequest<UpdateSolutionSummaryValidationResult>
+    public sealed class UpdateSolutionSummaryCommand : IRequest<RequiredMaxLengthResult>
     {
         /// <summary>
         /// A value to uniquely identify a solution.

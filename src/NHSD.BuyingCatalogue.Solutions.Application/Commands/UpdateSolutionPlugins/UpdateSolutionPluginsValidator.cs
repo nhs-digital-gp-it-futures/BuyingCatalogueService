@@ -1,13 +1,13 @@
-using System;
 using NHSD.BuyingCatalogue.Infrastructure;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins
 {
     internal sealed class UpdateSolutionPluginsValidator
     {
-        public UpdateSolutionPluginsValidationResult Validation(UpdateSolutionPluginsViewModel updateSolutionPluginsViewModel)
+        public RequiredMaxLengthResult Validation(UpdateSolutionPluginsViewModel updateSolutionPluginsViewModel)
         {
-            var validationResult = new UpdateSolutionPluginsValidationResult();
+            var validationResult = new RequiredMaxLengthResult();
 
             if (string.IsNullOrWhiteSpace(updateSolutionPluginsViewModel.ThrowIfNull(nameof(updateSolutionPluginsViewModel)).Required))
             {

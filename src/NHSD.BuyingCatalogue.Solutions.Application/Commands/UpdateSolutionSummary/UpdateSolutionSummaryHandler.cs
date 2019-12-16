@@ -2,12 +2,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary
 {
-    internal sealed class UpdateSolutionSummaryHandler : IRequestHandler<UpdateSolutionSummaryCommand, UpdateSolutionSummaryValidationResult>
+    internal sealed class UpdateSolutionSummaryHandler : IRequestHandler<UpdateSolutionSummaryCommand, RequiredMaxLengthResult>
     {
         private readonly SolutionReader _solutionReader;
         private readonly SolutionSummaryUpdater _solutionSummaryUpdater;
@@ -31,7 +32,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSumm
         /// <param name="request">The command parameters.</param>
         /// <param name="cancellationToken">Token to cancel the request.</param>
         /// <returns>A task representing an operation to get the result of this command.</returns>
-        public async Task<UpdateSolutionSummaryValidationResult> Handle(UpdateSolutionSummaryCommand request, CancellationToken cancellationToken)
+        public async Task<RequiredMaxLengthResult> Handle(UpdateSolutionSummaryCommand request, CancellationToken cancellationToken)
         {
             var validationResult = _updateSolutionSummaryValidator.Validate(request.UpdateSolutionSummaryViewModel);
 

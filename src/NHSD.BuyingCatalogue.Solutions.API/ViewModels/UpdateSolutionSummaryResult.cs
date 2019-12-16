@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 {
@@ -12,7 +12,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         /// <summary>
         /// Initialises a new instance of the <see cref="UpdateSolutionSummaryResult"/> class.
         /// </summary>
-        internal UpdateSolutionSummaryResult(UpdateSolutionSummaryValidationResult updateSolutionSummaryValidationResult)
+        internal UpdateSolutionSummaryResult(RequiredMaxLengthResult updateSolutionSummaryValidationResult)
         {
             Required = updateSolutionSummaryValidationResult.Required;
             MaxLength = updateSolutionSummaryValidationResult.MaxLength;

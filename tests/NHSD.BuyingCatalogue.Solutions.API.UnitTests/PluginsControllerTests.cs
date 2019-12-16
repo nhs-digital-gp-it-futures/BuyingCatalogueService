@@ -8,7 +8,7 @@ using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
@@ -112,7 +112,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var pluginsViewModel = new UpdateSolutionPluginsViewModel();
 
-            var validationModel = new UpdateSolutionPluginsValidationResult();
+            var validationModel = new RequiredMaxLengthResult();
 
             _mockMediator
                 .Setup(m => m.Send(
@@ -136,7 +136,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var pluginsViewModel = new UpdateSolutionPluginsViewModel();
 
-            var validationModel = new UpdateSolutionPluginsValidationResult()
+            var validationModel = new RequiredMaxLengthResult()
             {
                 Required = { "plugins-required" },
                 MaxLength = { "plugins-detail" }
@@ -151,7 +151,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var result = (await _plugInsController.UpdatePlugInsAsync(SolutionId, pluginsViewModel).ConfigureAwait(false)) as BadRequestObjectResult;
 
             result?.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            (result?.Value as UpdateSolutionPluginsResult)?.Required.Should().BeEquivalentTo(new[] {"plugins-required"});
+            (result?.Value as UpdateSolutionPluginsResult)?.Required.Should().BeEquivalentTo(new[] { "plugins-required" });
             (result?.Value as UpdateSolutionPluginsResult)?.MaxLength.Should().BeEquivalentTo(new[] { "plugins-detail" });
 
             _mockMediator.Verify(

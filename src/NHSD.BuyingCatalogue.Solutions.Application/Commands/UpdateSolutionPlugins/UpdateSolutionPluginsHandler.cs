@@ -2,12 +2,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using NHSD.BuyingCatalogue.Infrastructure;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins
 {
-    internal sealed class UpdateSolutionPluginsHandler : IRequestHandler<UpdateSolutionPluginsCommand, UpdateSolutionPluginsValidationResult>
+    internal sealed class UpdateSolutionPluginsHandler : IRequestHandler<UpdateSolutionPluginsCommand, RequiredMaxLengthResult>
     {
         private readonly ClientApplicationPartialUpdater _clientApplicationPartialUpdater;
 
@@ -19,7 +20,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlug
             _updateSolutionPluginsValidator = updateSolutionPluginsValidator;
         }
 
-        public async Task<UpdateSolutionPluginsValidationResult> Handle(UpdateSolutionPluginsCommand request,
+        public async Task<RequiredMaxLengthResult> Handle(UpdateSolutionPluginsCommand request,
             CancellationToken cancellationToken)
         {
             var validationResult = _updateSolutionPluginsValidator.Validation(request.UpdateSolutionPluginsViewModel);

@@ -4,6 +4,7 @@ using FluentAssertions;
 using Moq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
 
@@ -45,7 +46,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var validationResult = await UpdateSolutionDescriptionAsync(summary: summary).ConfigureAwait(false);
 
             validationResult.IsValid.Should().BeFalse();
-            validationResult.Required.Should().BeEquivalentTo(new [] {"summary"});
+            validationResult.Required.Should().BeEquivalentTo(new[] { "summary" });
             validationResult.MaxLength.Should().BeEmpty();
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
@@ -122,7 +123,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public void ShouldThrowWhenSolutionNotPresent()
         {
-            var exception = Assert.ThrowsAsync<NotFoundException>(() =>  
+            var exception = Assert.ThrowsAsync<NotFoundException>(() =>
              _context.UpdateSolutionSummaryHandler.Handle(new UpdateSolutionSummaryCommand("Sln1",
                 new UpdateSolutionSummaryViewModel
                 {
@@ -136,7 +137,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
-        private async Task<UpdateSolutionSummaryValidationResult> UpdateSolutionDescriptionAsync(string summary = "Summary", string description = "Description", string link = "Link")
+        private async Task<RequiredMaxLengthResult> UpdateSolutionDescriptionAsync(string summary = "Summary", string description = "Description", string link = "Link")
         {
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
