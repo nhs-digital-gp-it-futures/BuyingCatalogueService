@@ -8,17 +8,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeat
         public MaxLengthResult Validate(UpdateSolutionFeaturesViewModel updateSolutionFeaturesViewModel)
         {
             var listing = updateSolutionFeaturesViewModel.Listing.ToList();
-            var validationResult = new MaxLengthResult();
+            var validator = new MaxLengthValidator();
 
             for (int i = 0; i < listing.Count(); i++)
             {
-                if ((listing[i]?.Length ?? 0) > 100)
-                {
-                    validationResult.MaxLength.Add($"listing-{i + 1}");
-                }
+                validator.Validate(listing[i], 100, $"listing-{i + 1}");
             }
 
-            return validationResult;
+            return validator.Result();
         }
     }
 }

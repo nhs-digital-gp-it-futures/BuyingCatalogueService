@@ -5,15 +5,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrow
     internal sealed class UpdateSolutionBrowserAdditionalInformationValidator
     {
         public MaxLengthResult Validation(UpdateSolutionBrowserAdditionalInformationViewModel updateSolutionBrowserAdditionalInformationViewModel)
-        {
-            var validationResult = new MaxLengthResult();
-
-            if (updateSolutionBrowserAdditionalInformationViewModel.AdditionalInformation?.Length > 500)
-            {
-                validationResult.MaxLength.Add("additional-information");
-            }
-
-            return validationResult;
-        }
+         => new MaxLengthValidator()
+                .Validate(updateSolutionBrowserAdditionalInformationViewModel.AdditionalInformation, 500, "additional-information")
+                .Result();
     }
 }

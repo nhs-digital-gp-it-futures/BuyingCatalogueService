@@ -5,15 +5,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrow
     internal sealed class UpdateSolutionBrowserHardwareRequirementsValidator
     {
         public MaxLengthResult Validation(UpdateSolutionBrowserHardwareRequirementsViewModel updateSolutionHardwareRequirementsViewModel)
-        {
-            var validationResult = new MaxLengthResult();
-
-            if (updateSolutionHardwareRequirementsViewModel.HardwareRequirements?.Length > 500)
-            {
-                validationResult.MaxLength.Add("hardware-requirements-description");
-            }
-
-            return validationResult;
-        }
+            => new MaxLengthValidator()
+                .Validate(updateSolutionHardwareRequirementsViewModel.HardwareRequirements, 500, "hardware-requirements-description")
+                .Result();
     }
 }
