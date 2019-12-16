@@ -16,53 +16,35 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
     public class NativeMobileSections
     {
         [JsonProperty("mobile-operating-systems")]
-        public NativeMobileDashboardSections MobileOperatingSystems { get; }
+        public DashboardSection MobileOperatingSystems { get; }
 
         [JsonProperty("mobile-first")]
-        public NativeMobileDashboardSections MobileFirst { get; }
+        public DashboardSection MobileFirst { get; }
         
         [JsonProperty("mobile-memory-and-storage")]
-        public NativeMobileDashboardSections MobileMemoryStorage { get; }
+        public DashboardSection MobileMemoryStorage { get; }
 
         [JsonProperty("mobile-connection-details")]
-        public NativeMobileDashboardSections MobileConnectionDetails { get; }
+        public DashboardSection MobileConnectionDetails { get; }
 
         [JsonProperty("mobile-components-and-device-capabilities")]
-        public NativeMobileDashboardSections MobileComponentsDeviceCapabilities { get; }
+        public DashboardSection MobileComponentsDeviceCapabilities { get; }
 
         [JsonProperty("mobile-hardware-requirements")]
-        public NativeMobileDashboardSections MobileHardwareRequirements { get; }
+        public DashboardSection MobileHardwareRequirements { get; }
 
         [JsonProperty("mobile-additional-information")]
-        public NativeMobileDashboardSections MobileAdditionalInformation { get; }
+        public DashboardSection MobileAdditionalInformation { get; }
 
         public NativeMobileSections()
         {
-            MobileOperatingSystems = new NativeMobileDashboardSections(false, true);
-            MobileFirst = new NativeMobileDashboardSections(true, false);
-            MobileMemoryStorage = new NativeMobileDashboardSections(true, true);
-            MobileConnectionDetails = new NativeMobileDashboardSections(false, true);
-            MobileComponentsDeviceCapabilities = new NativeMobileDashboardSections(true, false);
-            MobileHardwareRequirements = new NativeMobileDashboardSections(true, true);
-            MobileAdditionalInformation = new NativeMobileDashboardSections(false, false);
-        }
-    }
-
-    public class NativeMobileDashboardSections
-    {
-        private readonly bool _mandatory;
-        private readonly bool _complete;
-
-        [JsonProperty("status")]
-        public string Status => _complete ? "COMPLETE" : "INCOMPLETE";
-
-        [JsonProperty("requirement")]
-        public string Requirement => _mandatory ? "Mandatory" : "Optional";
-
-        public NativeMobileDashboardSections(bool complete, bool mandatory)
-        {
-            _complete = complete;
-            _mandatory = mandatory;
+            MobileOperatingSystems = new DashboardSection(false, true);
+            MobileFirst = new DashboardSection(true, false);
+            MobileMemoryStorage = new DashboardSection(true, true);
+            MobileConnectionDetails = new DashboardSection(false, true);
+            MobileComponentsDeviceCapabilities = new DashboardSection(true, false);
+            MobileHardwareRequirements = new DashboardSection(true, true);
+            MobileAdditionalInformation = new DashboardSection(false, false);
         }
     }
 }
