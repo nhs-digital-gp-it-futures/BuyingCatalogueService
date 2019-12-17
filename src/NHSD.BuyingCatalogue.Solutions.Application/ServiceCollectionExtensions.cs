@@ -39,7 +39,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<UpdateSolutionConnectivityAndResolutionValidator>()
                 .AddTransient<UpdateSolutionBrowserAdditionalInformationValidator>()
                 .AddTransient<UpdateSolutionBrowserMobileFirstValidator>()
-                .AddTransient<UpdateSolutionMobileOperatingSystemsValidator>();
+                .AddTransient<UpdateSolutionMobileOperatingSystemsValidator>()
 
                 .AddTransient<IExecutor<UpdateSolutionSummaryCommand>, UpdateSolutionSummaryExecutor>()
                 .AddTransient<IValidator<UpdateSolutionSummaryCommand, RequiredMaxLengthResult>, UpdateSolutionSummaryValidator>()
