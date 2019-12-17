@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserAdditionalInformation;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserHardwareRequirements;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserMobileFirst;
@@ -10,6 +11,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileOperatingSystems;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application
@@ -28,7 +30,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<SolutionClientApplicationUpdater>()
                 .AddTransient<SolutionContactDetailsUpdater>()
                 .AddTransient<ClientApplicationPartialUpdater>()
-                .AddTransient<UpdateSolutionSummaryValidator>()
                 .AddTransient<UpdateSolutionFeaturesValidator>()
                 .AddTransient<UpdateSolutionClientApplicationTypesValidator>()
                 .AddTransient<UpdateSolutionBrowsersSupportedValidator>()
@@ -39,6 +40,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<UpdateSolutionBrowserAdditionalInformationValidator>()
                 .AddTransient<UpdateSolutionBrowserMobileFirstValidator>()
                 .AddTransient<UpdateSolutionMobileOperatingSystemsValidator>();
+
+                .AddTransient<IExecutor<UpdateSolutionSummaryCommand>, UpdateSolutionSummaryExecutor>()
+                .AddTransient<IValidator<UpdateSolutionSummaryCommand, RequiredMaxLengthResult>, UpdateSolutionSummaryValidator>()
+                ;
         }
     }
 }

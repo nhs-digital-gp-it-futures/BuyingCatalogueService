@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
 {
-    public class RequiredMaxLengthResult
+    public class RequiredMaxLengthResult : IResult
     {
         private readonly RequiredResult _requiredResult;
         private readonly MaxLengthResult _maxLengthResult;
