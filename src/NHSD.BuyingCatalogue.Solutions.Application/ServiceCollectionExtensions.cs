@@ -7,6 +7,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClientAp
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionConnectivityAndResolution;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileOperatingSystems;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
@@ -36,7 +37,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<UpdateSolutionBrowserHardwareRequirementsValidator>()
                 .AddTransient<UpdateSolutionConnectivityAndResolutionValidator>()
                 .AddTransient<UpdateSolutionBrowserAdditionalInformationValidator>()
-                .AddTransient<UpdateSolutionBrowserMobileFirstValidator>();
+                .AddTransient<UpdateSolutionBrowserMobileFirstValidator>()
+                .AddTransient<UpdateSolutionMobileOperatingSystemsValidator>();
         }
     }
 }

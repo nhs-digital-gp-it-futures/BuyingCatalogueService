@@ -22,5 +22,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         public string MinimumDesktopResolution { get; set; }
 
         public bool? MobileFirstDesign { get; set; }
+
+        public IMobileOperatingSystems MobileOperatingSystems { get; set; }
     }
 }

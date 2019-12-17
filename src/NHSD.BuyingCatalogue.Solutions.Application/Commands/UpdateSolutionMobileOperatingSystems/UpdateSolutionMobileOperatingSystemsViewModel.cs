@@ -6,7 +6,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobi
     public class UpdateSolutionMobileOperatingSystemsViewModel
     {
         [JsonProperty("operating-systems")]
-        public IEnumerable<string> OperatingSystems { get; set; } 
+        public HashSet<string> OperatingSystems { get; internal set; } 
 
         [JsonProperty("operating-systems-description")]
         public string OperatingSystemsDescription { get; set; }
