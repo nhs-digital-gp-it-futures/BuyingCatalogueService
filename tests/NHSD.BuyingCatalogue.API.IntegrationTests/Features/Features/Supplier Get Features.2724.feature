@@ -27,24 +27,25 @@ Background:
 Scenario: 1. Features are retrieved for the solution
     When a GET request is made for features for solution Sln1
     Then a successful response is returned
-    And the features element contains
-        | Features     |
-        | Appointments |
-        | Prescribing  |
+    And the listing element contains
+        | Elements                  |
+        | Appointments, Prescribing |
 
 @2724
 Scenario: 2. Features are retrieved for the solution where no solution detail exists
     When a GET request is made for features for solution Sln2
     Then a successful response is returned
-    And the features element contains
-    | listing |
+    And the listing element contains
+    | Elements |
+    |          |
 
 @2724
 Scenario: 3.Features are retrieved for the solution where no features exist
     When a GET request is made for features for solution Sln3
     Then a successful response is returned
-    And the features element contains
-    | listing |
+    And the listing element contains
+    | Elements |
+    |          |
 
 @2726
 Scenario: 4. Solution not found

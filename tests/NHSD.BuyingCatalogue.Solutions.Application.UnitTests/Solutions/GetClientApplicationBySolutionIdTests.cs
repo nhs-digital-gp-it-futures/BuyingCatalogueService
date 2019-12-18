@@ -34,7 +34,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             _clientApplicationResult = Mock.Of<IClientApplicationResult>(r =>
                 r.Id == _solutionId &&
-                r.ClientApplication == "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'HardwareRequirements': 'New Hardware', 'AdditionalInformation': 'Some Additional Info', 'MobileFirstDesign': false }"
+                r.ClientApplication == "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'HardwareRequirements': 'New Hardware', 'AdditionalInformation': 'Some Additional Info', 'MobileFirstDesign': false, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows', 'Linux'], 'OperatingSystemsDescription': 'For windows only version 10' } }"
                 );
 
             var clientApplication = await _context.GetClientApplicationBySolutionIdHandler.Handle(
@@ -48,6 +48,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             clientApplication.HardwareRequirements.Should().Be("New Hardware");
             clientApplication.AdditionalInformation.Should().Be("Some Additional Info");
             clientApplication.MobileFirstDesign.Should().BeFalse();
+            clientApplication.MobileOperatingSystems.OperatingSystems.Should()
+                .BeEquivalentTo(new[] {"Windows", "Linux"});
+            clientApplication.MobileOperatingSystems.OperatingSystemsDescription.Should()
+                .Be("For windows only version 10");
         }
 
         [Test]

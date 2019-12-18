@@ -1,14 +1,12 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileOperatingSystems;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 {
@@ -30,15 +28,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
             [ProducesResponseType((int)HttpStatusCode.BadRequest)]
             [ProducesResponseType((int)HttpStatusCode.NoContent)]
             [ProducesResponseType((int)HttpStatusCode.NotFound)]
-            public ActionResult GetMobileOperatingSystems([FromRoute] [Required] string id)
+            public async Task<ActionResult> GetMobileOperatingSystems([FromRoute] [Required] string id)
             {
-                var result = new GetMobileOperatingSystems()
-                {
-                    OperatingSystems = CannedData.Keys.Contains(id) ? CannedData[id].Item1 : null,
-                    OperatingSystemsDescription = CannedData.Keys.Contains(id) ? CannedData[id].Item2 : null
-                };
+                var clientApplication = await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id))
+                    .ConfigureAwait(false);
 
-                return Ok(result);
+                return clientApplication == null
+                    ? (ActionResult)new NotFoundResult()
+                    : Ok(new GetMobileOperatingSystemsResult(clientApplication.MobileOperatingSystems));
             }
 
             [HttpPut]
@@ -49,9 +46,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
             public async Task<ActionResult> UpdateMobileOperatingSystems([FromRoute] [Required] string id,
                 [FromBody] [Required] UpdateSolutionMobileOperatingSystemsViewModel viewModel)
             {
-                CannedData[id] = (viewModel.ThrowIfNull().OperatingSystems,
-                    viewModel.ThrowIfNull().OperatingSystemsDescription);
-
                 var validationResult = await _mediator
                     .Send(new UpdateSolutionMobileOperatingSystemsCommand(id, viewModel)).ConfigureAwait(false);
 
@@ -59,8 +53,5 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
                     ? (ActionResult)new NoContentResult()
                     : BadRequest(new UpdateSolutionMobileOperatingSystemsResult(validationResult));
             }
-
-            //Canned Data
-            private static readonly Dictionary<string, (IEnumerable<string>, string)> CannedData = new Dictionary<string, (IEnumerable<string>, string)>();
         }
 }

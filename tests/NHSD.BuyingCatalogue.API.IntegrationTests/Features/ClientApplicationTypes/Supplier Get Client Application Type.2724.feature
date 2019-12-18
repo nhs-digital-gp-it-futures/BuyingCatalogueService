@@ -26,23 +26,24 @@ Scenario: 1. Client Application Types are retrieved for the solution
     When a GET request is made for client-application-types for solution Sln1
     Then a successful response is returned
     And the client-application-types element contains
-    | ClientApplicationTypes |
-    | browser-based          |
-    | native-desktop         |
+        | Elements                      |
+        | browser-based, native-desktop |
 
 @2724
 Scenario: 2. Client Application Types are retrieved for the solution where no solution detail exists
     When a GET request is made for client-application-types for solution Sln2
     Then a successful response is returned
     And the client-application-types element contains
-    | ClientApplicationTypes |
+        | Elements |
+        |          |
 
 @2724
 Scenario: 3. Client Application Types are retrieved for the solution where no client application types exist
     When a GET request is made for client-application-types for solution Sln3
     Then a successful response is returned
     And the client-application-types element contains
-    | ClientApplicationTypes |
+        | Elements |
+        |          |
 
 @2726
 Scenario: 4. Solution not found
