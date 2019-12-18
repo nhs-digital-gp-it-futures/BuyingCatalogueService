@@ -28,7 +28,7 @@ Scenario: 1. Connection and Resolution are updated for the solution
         | Sln1       | MedicOnline    |
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                       |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null, "MinimumConnectionSpeed": "1GBps", "MinimumDesktopResolution": "800x600", "HardwareRequirements": null, "AdditionalInformation": null, "MobileFirstDesign": null, "MobileOperatingSystems": null } |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null, "MinimumConnectionSpeed": "1GBps", "MinimumDesktopResolution": "800x600", "HardwareRequirements": null, "AdditionalInformation": null, "MobileFirstDesign": null, "MobileOperatingSystems": null, "MobileConnectionDetails": null } |
     And Last Updated has updated on the SolutionDetail for solution Sln1
     
 @3599
@@ -45,7 +45,7 @@ Scenario: 2. Connection and Resolution are updated for the solution with empty r
         | Sln1       | MedicOnline    |
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                  |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null, "MinimumConnectionSpeed": "1GBps", "MinimumDesktopResolution": null, "HardwareRequirements": null, "AdditionalInformation": null, "MobileFirstDesign": null, "MobileOperatingSystems": null } |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null, "MinimumConnectionSpeed": "1GBps", "MinimumDesktopResolution": null, "HardwareRequirements": null, "AdditionalInformation": null, "MobileFirstDesign": null, "MobileOperatingSystems": null, "MobileConnectionDetails": null } |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @3599

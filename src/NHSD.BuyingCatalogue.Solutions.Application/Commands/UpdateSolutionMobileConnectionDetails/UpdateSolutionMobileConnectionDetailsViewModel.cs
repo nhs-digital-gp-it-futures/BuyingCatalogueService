@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateMobileConnectionDetails
+namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileConnectionDetails
 {
     public class UpdateSolutionMobileConnectionDetailsViewModel
     {
@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateMobileConnec
         public string MinimumConnectionSpeed { get; set; }
 
         [JsonProperty("connection-type")]
-        public IEnumerable<string> ConnectionType { get; set; }
+        public HashSet<string> ConnectionType { get; internal set; }
 
         [JsonProperty("connection-requirements-description")]
         public string ConnectionRequirementsDescription { get; set; }

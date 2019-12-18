@@ -24,7 +24,7 @@ Scenario: 1. Browser Mobile First is updated
     Then a successful response is returned
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                                               |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins": null, "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null, "HardwareRequirements": "New Hardware", "AdditionalInformation": "Some Info", "MobileFirstDesign": true, "MobileOperatingSystems": null } |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins": null, "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null, "HardwareRequirements": "New Hardware", "AdditionalInformation": "Some Info", "MobileFirstDesign": true, "MobileOperatingSystems": null, "MobileConnectionDetails": null } |
 
 @3602
 Scenario: 2. Solution is not found

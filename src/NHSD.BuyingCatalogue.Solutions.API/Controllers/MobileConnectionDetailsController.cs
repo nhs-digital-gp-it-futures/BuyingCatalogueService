@@ -2,12 +2,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateMobileConnectionDetails;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileConnectionDetails;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 {
@@ -46,13 +47,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public ActionResult UpdateMobileOperatingSystems([FromRoute] [Required] string id,
+        public async Task<ActionResult> UpdateMobileConnectionDetails([FromRoute] [Required] string id,
             [FromBody] [Required] UpdateSolutionMobileConnectionDetailsViewModel viewModel)
         {
             CannedData[id] = (viewModel.ThrowIfNull().MinimumConnectionSpeed, viewModel.ThrowIfNull().ConnectionType,
                 viewModel.ThrowIfNull().ConnectionRequirementsDescription);
+            var command = new UpdateSolutionMobileConnectionDetailsCommand(id, viewModel);
+            var validationResult = await _mediator.Send(command).ConfigureAwait(false);
 
-            return NoContent();
+            return validationResult.IsValid ? (ActionResult)new NoContentResult()
+                : BadRequest(validationResult);
         }
 
         //Canned Data

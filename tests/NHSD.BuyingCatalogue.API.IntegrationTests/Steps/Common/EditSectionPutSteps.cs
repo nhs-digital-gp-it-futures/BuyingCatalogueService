@@ -24,7 +24,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             { "plug-ins-or-extensions", typeof(PluginsPayload) },
             { "solution-description", typeof(SolutionDescriptionPayload) }, 
             { "connectivity-and-resolution", typeof(ConnectivityAndResolutionPayload) },
-            { "mobile-operating-systems", typeof(MobileOperatingSystemsPayload) }
+            { "mobile-operating-systems", typeof(MobileOperatingSystemsPayload) },
+            { "mobile-connection-details", typeof(MobileConnectionDetailsPayload) }
         };
 
         public EditSectionPutSteps(Response response)
@@ -32,7 +33,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             _response = response;
         }
 
-        [When(@"a PUT request is made to update the (browsers-supported|browser-additional-information|browser-hardware-requirements|browser-mobile-first|client-application-types|plug-ins-or-extensions|solution-description|connectivity-and-resolution|mobile-operating-systems) section for solution (.*)")]
+        [When(@"a PUT request is made to update the (browsers-supported|browser-additional-information|browser-hardware-requirements|browser-mobile-first|client-application-types|plug-ins-or-extensions|solution-description|connectivity-and-resolution|mobile-operating-systems|mobile-connection-details) section for solution (.*)")]
         public async Task WhenAPUTRequestIsMadeToUpdateSolutionSlnBrowsers_SupportedSection(string section, string solutionId, Table table)
         {
             if (!PayloadTypes.ContainsKey(section))
@@ -46,7 +47,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
                 .ConfigureAwait(false);
         }
 
-        [When(@"a PUT request is made to update the (browsers-supported|browser-additional-information|browser-hardware-requirements|browser-mobile-first|client-application-types|plug-ins-or-extensions|solution-description|connectivity-and-resolution|mobile-operating-systems) section with no solution id")]
+        [When(@"a PUT request is made to update the (browsers-supported|browser-additional-information|browser-hardware-requirements|browser-mobile-first|client-application-types|plug-ins-or-extensions|solution-description|connectivity-and-resolution|mobile-operating-systems|mobile-connection-details) section with no solution id")]
         public async Task WhenAPUTRequestIsMadeToUpdateSolutionBrowsers_SupportedSectionWithNoSolutionId(string section, Table table)
         {
             await WhenAPUTRequestIsMadeToUpdateSolutionSlnBrowsers_SupportedSection(section, " ", table).ConfigureAwait(false);
@@ -111,6 +112,18 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
         {
             [JsonProperty("mobile-first-design")]
             public string MobileFirstDesign { get; set; }
+        }
+
+        private class MobileConnectionDetailsPayload
+        {
+            [JsonProperty("minimum-connection-speed")]
+            public string MinimumConnectionSpeed { get; set; }
+
+            [JsonProperty("connection-requirements-description")]
+            public string ConnectionRequirementsDescription { get; set; }
+
+            [JsonProperty("connection-type")]
+            public List<string> ConnectionType { get; set; }
         }
 
         private class MobileOperatingSystemsPayload

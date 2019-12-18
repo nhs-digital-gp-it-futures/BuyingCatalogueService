@@ -13,6 +13,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClientAp
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionConnectivityAndResolution;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileConnectionDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileOperatingSystems;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
@@ -69,6 +70,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
         public UpdateSolutionMobileOperatingSystemsHandler UpdateSolutionMobileOperatingSystemsHandler =>
             (UpdateSolutionMobileOperatingSystemsHandler)_scope.UpdateSolutionMobileOperatingSystemsHandler;
+
+        public UpdateSolutionMobileConnectionDetailsHandler UpdateSolutionMobileConnectionDetailsHandler =>
+            (UpdateSolutionMobileConnectionDetailsHandler)_scope.UpdateSolutionMobileConnectionDetailsHandler;
 
         private readonly Scope _scope;
 
@@ -132,6 +136,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public IRequestHandler<UpdateSolutionMobileOperatingSystemsCommand, RequiredMaxLengthResult> UpdateSolutionMobileOperatingSystemsHandler {get;}
 
+            public IRequestHandler<UpdateSolutionMobileConnectionDetailsCommand, MaxLengthResult> UpdateSolutionMobileConnectionDetailsHandler {get;}
+
             public Scope(IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
                 IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> getClientApplicationBySolutionIdHandler,
                 IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> submitSolutionForReviewHandler,
@@ -146,7 +152,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdateSolutionConnectivityAndResolutionCommand, RequiredResult> updateSolutionConnectivityAndResolutionHandler,
                 IRequestHandler<UpdateSolutionBrowserAdditionalInformationCommand, MaxLengthResult> updateSolutionBrowserAdditionalInformationHandler,
                 IRequestHandler<UpdateSolutionBrowserMobileFirstCommand, RequiredResult> updateSolutionBrowserMobileFirstHandler,
-                IRequestHandler<UpdateSolutionMobileOperatingSystemsCommand, RequiredMaxLengthResult> updateSolutionMobileOperatingSystemsHandler)
+                IRequestHandler<UpdateSolutionMobileOperatingSystemsCommand, RequiredMaxLengthResult> updateSolutionMobileOperatingSystemsHandler,
+                IRequestHandler<UpdateSolutionMobileConnectionDetailsCommand, MaxLengthResult> updateSolutionMobileConnectionDetailsHandler)
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;
                 GetClientApplicationBySolutionIdHandler = getClientApplicationBySolutionIdHandler;
@@ -163,6 +170,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 UpdateSolutionConnectivityAndResolutionHandler = updateSolutionConnectivityAndResolutionHandler;
                 UpdateSolutionBrowserMobileFirstHandler = updateSolutionBrowserMobileFirstHandler;
                 UpdateSolutionMobileOperatingSystemsHandler = updateSolutionMobileOperatingSystemsHandler;
+                UpdateSolutionMobileConnectionDetailsHandler = updateSolutionMobileConnectionDetailsHandler;
             }
         }
     }

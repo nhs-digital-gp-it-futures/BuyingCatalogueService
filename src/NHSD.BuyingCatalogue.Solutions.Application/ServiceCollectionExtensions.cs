@@ -9,6 +9,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionConnecti
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileOperatingSystems;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileConnectionDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
@@ -38,6 +39,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<UpdateSolutionConnectivityAndResolutionValidator>()
                 .AddTransient<UpdateSolutionBrowserAdditionalInformationValidator>()
                 .AddTransient<UpdateSolutionBrowserMobileFirstValidator>()
+                .AddTransient<UpdateSolutionMobileOperatingSystemsValidator>()
+                .AddTransient<UpdateSolutionMobileConnectionDetailsValidator>()
 
                 .AddTransient<IExecutor<UpdateSolutionSummaryCommand>, UpdateSolutionSummaryExecutor>()
                 .AddTransient<IValidator<UpdateSolutionSummaryCommand, RequiredMaxLengthResult>, UpdateSolutionSummaryValidator>()
