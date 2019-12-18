@@ -34,15 +34,19 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<UpdateSolutionClientApplicationTypesValidator>()
                 .AddTransient<UpdateSolutionBrowsersSupportedValidator>()
                 .AddTransient<UpdateSolutionContactDetailsValidator>()
-                .AddTransient<UpdateSolutionPluginsValidator>()
                 .AddTransient<UpdateSolutionBrowserHardwareRequirementsValidator>()
                 .AddTransient<UpdateSolutionConnectivityAndResolutionValidator>()
                 .AddTransient<UpdateSolutionBrowserAdditionalInformationValidator>()
                 .AddTransient<UpdateSolutionBrowserMobileFirstValidator>()
-                .AddTransient<UpdateSolutionMobileOperatingSystemsValidator>()
 
                 .AddTransient<IExecutor<UpdateSolutionSummaryCommand>, UpdateSolutionSummaryExecutor>()
                 .AddTransient<IValidator<UpdateSolutionSummaryCommand, RequiredMaxLengthResult>, UpdateSolutionSummaryValidator>()
+
+                .AddTransient<IExecutor<UpdateSolutionPluginsCommand>, UpdateSolutionPluginsExecutor>()
+                .AddTransient<IValidator<UpdateSolutionPluginsCommand, RequiredMaxLengthResult>, UpdateSolutionPluginsValidator>()
+
+                .AddTransient<IExecutor<UpdateSolutionMobileOperatingSystemsCommand>, UpdateSolutionMobileOperatingSystemsExecutor>()
+                .AddTransient<IValidator<UpdateSolutionMobileOperatingSystemsCommand, RequiredMaxLengthResult>, UpdateSolutionMobileOperatingSystemsValidator>()
                 ;
         }
     }
