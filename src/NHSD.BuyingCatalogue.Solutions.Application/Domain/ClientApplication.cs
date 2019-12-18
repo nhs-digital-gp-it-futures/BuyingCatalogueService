@@ -22,6 +22,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 
         public bool? MobileFirstDesign { get; set; }
 
+        public bool? NativeMobileFirstDesign { get; set; }
+
         public MobileOperatingSystems MobileOperatingSystems { get; set; }
 
         public MobileConnectionDetails MobileConnectionDetails { get; set; }

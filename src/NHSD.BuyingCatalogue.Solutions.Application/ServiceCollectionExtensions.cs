@@ -14,6 +14,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionNativeMobileFirst;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application
 {
@@ -41,6 +42,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<UpdateSolutionBrowserMobileFirstValidator>()
                 .AddTransient<UpdateSolutionMobileOperatingSystemsValidator>()
                 .AddTransient<UpdateSolutionMobileConnectionDetailsValidator>()
+                .AddTransient<UpdateSolutionNativeMobileFirstValidator>()
 
                 .AddTransient<IExecutor<UpdateSolutionSummaryCommand>, UpdateSolutionSummaryExecutor>()
                 .AddTransient<IValidator<UpdateSolutionSummaryCommand, RequiredMaxLengthResult>, UpdateSolutionSummaryValidator>()

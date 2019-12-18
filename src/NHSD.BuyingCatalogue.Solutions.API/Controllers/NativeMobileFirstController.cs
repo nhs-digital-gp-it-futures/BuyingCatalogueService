@@ -1,10 +1,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionNativeMobileFirst;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 {
@@ -17,8 +20,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         //Canned Data
         private static readonly Dictionary<string, string> CannedData = new Dictionary<string, string>();
 
-        public NativeMobileFirstController()
+        private readonly IMediator _mediator;
+
+        public NativeMobileFirstController(IMediator mediator)
         {
+            _mediator = mediator;
         }
 
         [HttpGet]
@@ -46,11 +52,18 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public ActionResult UpdateMobileFirstAsync([FromRoute] [Required] string id,
-            [FromBody] [Required] UpdateSolutionNativeMobileFirstResult viewModel)
+        public async Task<ActionResult> UpdateMobileFirstAsync([FromRoute] [Required] string id,
+            [FromBody] [Required] UpdateSolutionNativeMobileFirstViewModel viewModel)
         {
             CannedData[id] = viewModel.ThrowIfNull().MobileFirstDesign;
-            return NoContent();
+
+            var validationResult = await _mediator.Send(new UpdateSolutionNativeMobileFirstCommand(id, viewModel))
+                .ConfigureAwait(false);
+
+
+            return validationResult.IsValid
+                ? (ActionResult)new NoContentResult()
+                : BadRequest(new UpdateSolutionNativeMobileFirstResult(validationResult));
         }
     }
 }
