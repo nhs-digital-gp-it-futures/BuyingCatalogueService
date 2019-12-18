@@ -13,6 +13,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         string MinimumDesktopResolution { get; }
         string AdditionalInformation { get; }
         bool? MobileFirstDesign { get; }
+        bool? NativeMobileFirstDesign { get; }
         IMobileOperatingSystems MobileOperatingSystems { get; }
     }
 }
