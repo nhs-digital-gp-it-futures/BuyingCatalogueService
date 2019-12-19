@@ -3,7 +3,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API
 {
-    internal static class IClientApplicationExtension
+    internal static class IClientApplicationBrowserBasedExtensions
     {
         public static bool IsBrowserSupportedComplete(this IClientApplication clientApplication) =>
             clientApplication?.BrowsersSupported?.Any() == true && clientApplication?.MobileResponsive.HasValue == true;

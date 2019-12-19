@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using TechTalk.SpecFlow;
+using TechTalk.SpecFlow.Assist;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
 {
@@ -39,16 +40,44 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             content.SelectToken($"sections.client-application-types.sections.{section}.requirement").ToString().Should().Be(requirement);
         }
 
-        [When(@"a GET request is made for (client-application-types|features|solution-description|browsers-supported|plug-ins-or-extensions|contact-details|browser-hardware-requirements|connectivity-and-resolution|browser-additional-information|browser-mobile-first|browser-based|mobile-operating-systems) with no solution id")]
+        [When(@"a GET request is made for (client-application-types|features|solution-description|browsers-supported|plug-ins-or-extensions|contact-details|browser-hardware-requirements|connectivity-and-resolution|browser-additional-information|browser-mobile-first|browser-based|mobile-operating-systems|native-mobile) with no solution id")]
         public async Task GetRequestSectionNoSolutionId(string section)
         {
             await GetSectionRequest(section, " ").ConfigureAwait(false);
         }
 
-        [When(@"a GET request is made for (client-application-types|features|solution-description|browsers-supported|plug-ins-or-extensions|contact-details|browser-hardware-requirements|connectivity-and-resolution|browser-additional-information|browser-mobile-first|browser-based|mobile-operating-systems) for solution (.*)")]
+        [When(@"a GET request is made for (client-application-types|features|solution-description|browsers-supported|plug-ins-or-extensions|contact-details|browser-hardware-requirements|connectivity-and-resolution|browser-additional-information|browser-mobile-first|browser-based|mobile-operating-systems|native-mobile) for solution (.*)")]
         public async Task GetSectionRequest(string section, string solutionId)
         {
             _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, RootSectionsUrl, solutionId, section)).ConfigureAwait(false);
+        }
+
+        [Then(@"Solutions section contains all items")]
+        public async Task SolutionSectionContainsAllItems(Table table)
+        {
+            var content = await _response.ReadBody().ConfigureAwait(false);
+
+            foreach (var section in table.CreateSet<SectionItems>())
+            {
+                content.SelectToken($"sections.{section.Id}.requirement").ToString().Should().Be(section.Requirement);
+                content.SelectToken($"sections.{section.Id}.status").ToString().Should().Be(section.Status);
+            }
+        }
+
+        [Then(@"the status of the (browsers-supported|plug-ins-or-extensions|browser-hardware-requirements|connectivity-and-resolution|browser-additional-information|browser-mobile-first|mobile-operating-systems) section is (COMPLETE|INCOMPLETE)")]
+        public async Task StatusOfPluginsSectionIs(string section, string status)
+        {
+            var content = await _response.ReadBody().ConfigureAwait(false);
+            content.SelectToken("sections." + section + ".status").ToString().Should().BeEquivalentTo(status);
+        }
+
+        private class SectionItems
+        {
+            public string Id { get; set; }
+
+            public string Status { get; set; }
+
+            public string Requirement { get; set; }
         }
     }
 }

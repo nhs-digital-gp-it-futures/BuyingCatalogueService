@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 {
@@ -7,9 +8,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         [JsonProperty("sections")]
         public NativeMobileSections NativeMobileSections { get; }
 
-        public NativeMobileResult()
+        public NativeMobileResult(IClientApplication clientApplication)
         {
-            NativeMobileSections = new NativeMobileSections();
+            NativeMobileSections = new NativeMobileSections(clientApplication);
         }
     }
 
@@ -36,9 +37,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         [JsonProperty("mobile-additional-information")]
         public DashboardSection MobileAdditionalInformation { get; }
 
-        public NativeMobileSections()
+        public NativeMobileSections(IClientApplication clientApplication)
         {
-            MobileOperatingSystems = new DashboardSection(true, false);
+            MobileOperatingSystems = DashboardSection.Mandatory(clientApplication.IsMobileOperatingSystems());
             MobileFirst = new DashboardSection(true, false);
             MobileMemoryStorage = new DashboardSection(true, false);
             MobileConnectionDetails = new DashboardSection(false, false);

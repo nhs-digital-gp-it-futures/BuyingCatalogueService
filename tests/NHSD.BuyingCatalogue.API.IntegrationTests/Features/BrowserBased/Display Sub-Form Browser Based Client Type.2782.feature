@@ -22,7 +22,7 @@ Background:
 Scenario: 1. Sub-Form Browser Based Client Type all sections are Displayed
     When a GET request is made for browser-based for solution Sln1
     Then a successful response is returned
-    And Solutions browser-based section contains all BrowserBased Sections   
+    And Solutions section contains all items 
         | Id                             | Status     | Requirement |
         | browsers-supported             | INCOMPLETE | Mandatory   |
         | browser-mobile-first           | INCOMPLETE | Mandatory   |
