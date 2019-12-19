@@ -42,7 +42,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
             MobileOperatingSystems = DashboardSection.Mandatory(clientApplication.IsMobileOperatingSystems());
             MobileFirst = new DashboardSection(true, false);
             MobileMemoryStorage = new DashboardSection(true, false);
-            MobileConnectionDetails = new DashboardSection(false, false);
+            MobileConnectionDetails = DashboardSection.Optional(clientApplication.IsMobileConnectionDetailsComplete());
             MobileComponentsDeviceCapabilities = new DashboardSection(false, false);
             MobileHardwareRequirements = new DashboardSection(false, false);
             MobileAdditionalInformation = new DashboardSection(false, false);

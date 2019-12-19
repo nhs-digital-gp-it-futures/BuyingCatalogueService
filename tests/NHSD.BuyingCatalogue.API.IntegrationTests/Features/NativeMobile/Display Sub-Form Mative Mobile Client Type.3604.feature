@@ -66,3 +66,20 @@ Examples:
     | { "MobileOperatingSystems": { "OperatingSystems": ["IOS"], "OperatingSystemsDescription": null } }            | COMPLETE   |
     | { "MobileOperatingSystems": { "OperatingSystems": ["IOS", "Linux"], "OperatingSystemsDescription": null } }   | COMPLETE   |
     | { "MobileOperatingSystems": { "OperatingSystems": ["IOS", "Linux"], "OperatingSystemsDescription": "Test" } } | COMPLETE   |
+    
+@3606
+Scenario Outline: 5. Native Mobile Connection Details Based on data in Client Application
+  Given SolutionDetail exist
+        | Solution | ClientApplication   |
+        | Sln1     | <ClientApplication> |
+    When a GET request is made for native-mobile for solution Sln1
+    Then a successful response is returned
+    And the status of the mobile-connection-details section is <Status>
+Examples:
+    | ClientApplication                                                                                                                | Status     |
+    |                                                                                                                                  | INCOMPLETE |
+    | { "MobileConnectionDetails": { "MinimumConnectionSpeed": "1GBps" } }                                                             | COMPLETE   |
+    | { "MobileConnectionDetails": { "Description": "A description" } }                                                                | COMPLETE   |
+    | { "MobileConnectionDetails": { "ConnectionType": [ "3G" ] } }                                                                    | COMPLETE   |
+    | { "MobileConnectionDetails": { "ConnectionType": [ "3G" ], "Description": "A description" } }                                    | COMPLETE   |
+    | { "MobileConnectionDetails": { "ConnectionType": [ "3G" ], "Description": "A description", "MinimumConnectionSpeed": "1GBps" } } | COMPLETE   |

@@ -86,6 +86,28 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 .Be(isOperatingSystemsEmpty ? "COMPLETE" : "INCOMPLETE");
         }
 
+        [TestCase(false, false, false, false)]
+        [TestCase(false, false, true, true)]
+        [TestCase(false, true, false, true)]
+        [TestCase(true, false, false, true)]
+        [TestCase(true, true, false, true)]
+        [TestCase(true, true, true, true)]
+        [TestCase(false, true, true, true)]
+        [TestCase(true, false, true, true)]
+        public async Task ShouldGetMobileConnectionDetailsIsRequired(bool hasConnectionType, bool hasConnectionSpeed, bool hasDescription, bool expected)
+        {
+            var nativeMobileResult = await GetNativeMobileSectionAsync(Mock.Of<IClientApplication>(c =>
+                c.MobileConnectionDetails ==
+                Mock.Of<IMobileConnectionDetails>(m =>
+                    m.ConnectionType == (hasConnectionType ? new HashSet<string>() { "3G" } : new HashSet<string>()) &&
+                    m.MinimumConnectionSpeed  == (hasConnectionSpeed ? "1GBps" : null) &&
+                    m.Description == (hasDescription ? "A description" : null)
+                    ))).ConfigureAwait(false);
+
+            nativeMobileResult.NativeMobileSections.MobileConnectionDetails.Status.Should()
+                .Be(expected ? "COMPLETE" : "INCOMPLETE");
+        }
+
         private async Task<NativeMobileResult> GetNativeMobileSectionAsync(IClientApplication clientApplication)
         {
             _mockMediator.Setup(m =>
