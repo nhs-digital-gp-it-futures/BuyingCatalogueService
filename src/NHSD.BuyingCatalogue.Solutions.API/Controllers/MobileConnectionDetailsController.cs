@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using MediatR;
@@ -9,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileConnectionDetails;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 {
@@ -30,16 +30,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public ActionResult GetMobileConnectionDetails([FromRoute] [Required] string id)
+        public async Task<ActionResult> GetMobileConnectionDetails([FromRoute] [Required] string id)
         {
-            var result = new GetMobileConnectionDetailsResult()
-            {
-                MinimumConnectionSpeed = CannedData.Keys.Contains(id) ? CannedData[id].Item1 : null,
-                ConnectionType = CannedData.Keys.Contains(id) ? CannedData[id].Item2 : null,
-                ConnectionRequirementsDescription = CannedData.Keys.Contains(id) ? CannedData[id].Item3 : null
-            };
+            var clientApplication = await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id))
+                .ConfigureAwait(false);
 
-            return Ok(result);
+            return clientApplication == null
+                ? (ActionResult)new NotFoundResult()
+                : Ok(new GetMobileConnectionDetailsResult(clientApplication.MobileConnectionDetails));
         }
 
         [HttpPut]
@@ -50,16 +48,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         public async Task<ActionResult> UpdateMobileConnectionDetails([FromRoute] [Required] string id,
             [FromBody] [Required] UpdateSolutionMobileConnectionDetailsViewModel viewModel)
         {
-            CannedData[id] = (viewModel.ThrowIfNull().MinimumConnectionSpeed, viewModel.ThrowIfNull().ConnectionType,
-                viewModel.ThrowIfNull().ConnectionRequirementsDescription);
             var command = new UpdateSolutionMobileConnectionDetailsCommand(id, viewModel);
             var validationResult = await _mediator.Send(command).ConfigureAwait(false);
 
             return validationResult.IsValid ? (ActionResult)new NoContentResult()
                 : BadRequest(validationResult);
         }
-
-        //Canned Data
-        private static readonly Dictionary<string, (string, IEnumerable<string>, string)> CannedData = new Dictionary<string, (string, IEnumerable<string>, string)>();
     }
 }

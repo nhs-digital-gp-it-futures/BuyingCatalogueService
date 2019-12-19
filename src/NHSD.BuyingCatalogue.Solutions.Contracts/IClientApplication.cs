@@ -15,5 +15,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         bool? MobileFirstDesign { get; }
         bool? NativeMobileFirstDesign { get; }
         IMobileOperatingSystems MobileOperatingSystems { get; }
+        IMobileConnectionDetails MobileConnectionDetails { get; }
     }
 }

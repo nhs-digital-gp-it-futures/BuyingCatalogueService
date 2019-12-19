@@ -3,7 +3,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
 {
-    internal class ClientApplicationDto : IClientApplication
+    internal sealed class ClientApplicationDto : IClientApplication
     {
         public HashSet<string> ClientApplicationTypes { get; set; } = new HashSet<string>();
 
@@ -26,5 +26,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         public bool? NativeMobileFirstDesign { get; set; }
 
         public IMobileOperatingSystems MobileOperatingSystems { get; set; }
+
+        public IMobileConnectionDetails MobileConnectionDetails { get; set; }
     }
 }

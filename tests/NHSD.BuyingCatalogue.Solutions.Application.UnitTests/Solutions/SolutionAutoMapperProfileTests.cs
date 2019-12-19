@@ -38,6 +38,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             yield return new KeyValuePair<Type, Type>(typeof(Contact), typeof(IContact));
             yield return new KeyValuePair<Type, Type>(typeof(MobileOperatingSystems), typeof(MobileOperatingSystemsDto));
             yield return new KeyValuePair<Type, Type>(typeof(MobileOperatingSystems), typeof(IMobileOperatingSystems));
+            yield return new KeyValuePair<Type, Type>(typeof(MobileConnectionDetails), typeof(MobileConnectionDetailsDto));
+            yield return new KeyValuePair<Type, Type>(typeof(MobileConnectionDetails), typeof(IMobileConnectionDetails));
         }
 
         [Test]
