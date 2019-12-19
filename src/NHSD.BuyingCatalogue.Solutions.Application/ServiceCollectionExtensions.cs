@@ -8,8 +8,8 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClientAp
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionConnectivityAndResolution;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileOperatingSystems;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileConnectionDetails;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileOperatingSystems;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
@@ -31,16 +31,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<SolutionClientApplicationUpdater>()
                 .AddTransient<SolutionContactDetailsUpdater>()
                 .AddTransient<ClientApplicationPartialUpdater>()
-                .AddTransient<UpdateSolutionFeaturesValidator>()
-                .AddTransient<UpdateSolutionClientApplicationTypesValidator>()
-                .AddTransient<UpdateSolutionBrowsersSupportedValidator>()
-                .AddTransient<UpdateSolutionContactDetailsValidator>()
-                .AddTransient<UpdateSolutionBrowserHardwareRequirementsValidator>()
-                .AddTransient<UpdateSolutionConnectivityAndResolutionValidator>()
-                .AddTransient<UpdateSolutionBrowserAdditionalInformationValidator>()
-                .AddTransient<UpdateSolutionBrowserMobileFirstValidator>()
-                .AddTransient<UpdateSolutionMobileOperatingSystemsValidator>()
-                .AddTransient<UpdateSolutionMobileConnectionDetailsValidator>()
 
                 .AddTransient<IExecutor<UpdateSolutionSummaryCommand>, UpdateSolutionSummaryExecutor>()
                 .AddTransient<IValidator<UpdateSolutionSummaryCommand, RequiredMaxLengthResult>, UpdateSolutionSummaryValidator>()
@@ -50,6 +40,33 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
 
                 .AddTransient<IExecutor<UpdateSolutionMobileOperatingSystemsCommand>, UpdateSolutionMobileOperatingSystemsExecutor>()
                 .AddTransient<IValidator<UpdateSolutionMobileOperatingSystemsCommand, RequiredMaxLengthResult>, UpdateSolutionMobileOperatingSystemsValidator>()
+
+                .AddTransient<IExecutor<UpdateSolutionContactDetailsCommand>, UpdateSolutionContactDetailsExecutor>()
+                .AddTransient<IValidator<UpdateSolutionContactDetailsCommand, MaxLengthResult>, UpdateSolutionContactDetailsValidator>()
+
+                .AddTransient<IExecutor<UpdateSolutionFeaturesCommand>, UpdateSolutionFeaturesExecutor>()
+                .AddTransient<IValidator<UpdateSolutionFeaturesCommand, MaxLengthResult>, UpdateSolutionFeaturesValidator>()
+
+                .AddTransient<IExecutor<UpdateSolutionConnectivityAndResolutionCommand>, UpdateSolutionConnectivityAndResolutionExecutor>()
+                .AddTransient<IValidator<UpdateSolutionConnectivityAndResolutionCommand, RequiredResult>, UpdateSolutionConnectivityAndResolutionValidator>()
+
+                .AddTransient<IExecutor<UpdateSolutionClientApplicationTypesCommand>, UpdateSolutionClientApplicationTypesExecutor>()
+                .AddTransient<IValidator<UpdateSolutionClientApplicationTypesCommand, RequiredResult>, UpdateSolutionClientApplicationTypesValidator>()
+
+                .AddTransient<IExecutor<UpdateSolutionBrowsersSupportedCommand>, UpdateSolutionBrowsersSupportedExecutor>()
+                .AddTransient<IValidator<UpdateSolutionBrowsersSupportedCommand, RequiredResult>, UpdateSolutionBrowsersSupportedValidator>()
+
+                .AddTransient<IExecutor<UpdateSolutionMobileConnectionDetailsCommand>, UpdateSolutionMobileConnectionDetailsExecutor>()
+                .AddTransient<IValidator<UpdateSolutionMobileConnectionDetailsCommand, MaxLengthResult>, UpdateSolutionMobileConnectionDetailsValidator>()
+
+                .AddTransient<IExecutor<UpdateSolutionBrowserMobileFirstCommand>, UpdateSolutionBrowserMobileFirstExecutor>()
+                .AddTransient<IValidator<UpdateSolutionBrowserMobileFirstCommand, RequiredResult>, UpdateSolutionBrowserMobileFirstValidator>()
+
+                .AddTransient<IExecutor<UpdateSolutionBrowserHardwareRequirementsCommand>, UpdateSolutionBrowserHardwareRequirementsExecutor>()
+                .AddTransient<IValidator<UpdateSolutionBrowserHardwareRequirementsCommand, MaxLengthResult>, UpdateSolutionBrowserHardwareRequirementsValidator>()
+
+                .AddTransient<IExecutor<UpdateSolutionBrowserAdditionalInformationCommand>, UpdateSolutionBrowserAdditionalInformationExecutor>()
+                .AddTransient<IValidator<UpdateSolutionBrowserAdditionalInformationCommand, MaxLengthResult>, UpdateSolutionBrowserAdditionalInformationValidator>()
                 ;
         }
     }

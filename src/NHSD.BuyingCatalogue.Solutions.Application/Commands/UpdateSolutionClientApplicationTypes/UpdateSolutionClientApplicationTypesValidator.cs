@@ -2,11 +2,11 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClientApplicationTypes
 {
-    internal sealed class UpdateSolutionClientApplicationTypesValidator
+    internal sealed class UpdateSolutionClientApplicationTypesValidator : IValidator<UpdateSolutionClientApplicationTypesCommand, RequiredResult>
     {
-        public RequiredResult Validate(UpdateSolutionClientApplicationTypesViewModel updateSolutionClientApplicationTypesViewModel)
+        public RequiredResult Validate(UpdateSolutionClientApplicationTypesCommand updateSolutionClientApplicationTypesCommand)
             => new RequiredValidator()
-                .Validate(updateSolutionClientApplicationTypesViewModel.FilteredClientApplicationTypes, "client-application-types")
+                .Validate(updateSolutionClientApplicationTypesCommand.UpdateSolutionClientApplicationTypesViewModel.FilteredClientApplicationTypes, "client-application-types")
                 .Result();
     }
 }

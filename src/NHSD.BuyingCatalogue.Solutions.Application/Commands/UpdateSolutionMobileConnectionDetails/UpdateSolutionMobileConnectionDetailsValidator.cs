@@ -2,13 +2,9 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileConnectionDetails
 {
-    class UpdateSolutionMobileConnectionDetailsValidator
+    internal sealed class UpdateSolutionMobileConnectionDetailsValidator : IValidator<UpdateSolutionMobileConnectionDetailsCommand, MaxLengthResult>
     {
-        public MaxLengthResult Validate(UpdateSolutionMobileConnectionDetailsViewModel updateSolutionFeaturesViewModel)
-        {
-            var validator = new MaxLengthValidator();
-            validator.Validate(updateSolutionFeaturesViewModel.ConnectionRequirementsDescription, 300, "connection-requirements-description");
-            return validator.Result();
-        }
+        public MaxLengthResult Validate(UpdateSolutionMobileConnectionDetailsCommand updateSolutionMobileConnectionDetailsCommand) =>
+            new MaxLengthValidator().Validate(updateSolutionMobileConnectionDetailsCommand.Details.ConnectionRequirementsDescription, 300, "connection-requirements-description").Result();
     }
 }

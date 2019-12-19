@@ -2,11 +2,11 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserHardwareRequirements
 {
-    internal sealed class UpdateSolutionBrowserHardwareRequirementsValidator
+    internal sealed class UpdateSolutionBrowserHardwareRequirementsValidator : IValidator<UpdateSolutionBrowserHardwareRequirementsCommand, MaxLengthResult>
     {
-        public MaxLengthResult Validation(UpdateSolutionBrowserHardwareRequirementsViewModel updateSolutionHardwareRequirementsViewModel)
+        public MaxLengthResult Validate(UpdateSolutionBrowserHardwareRequirementsCommand updateSolutionHardwareRequirementsCommand)
             => new MaxLengthValidator()
-                .Validate(updateSolutionHardwareRequirementsViewModel.HardwareRequirements, 500, "hardware-requirements-description")
+                .Validate(updateSolutionHardwareRequirementsCommand.UpdateSolutionHardwareRequirementsViewModel.HardwareRequirements, 500, "hardware-requirements-description")
                 .Result();
     }
 }

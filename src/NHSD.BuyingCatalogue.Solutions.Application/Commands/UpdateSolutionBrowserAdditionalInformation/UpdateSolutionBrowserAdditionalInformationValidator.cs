@@ -2,11 +2,11 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserAdditionalInformation
 {
-    internal sealed class UpdateSolutionBrowserAdditionalInformationValidator
+    internal sealed class UpdateSolutionBrowserAdditionalInformationValidator : IValidator<UpdateSolutionBrowserAdditionalInformationCommand, MaxLengthResult>
     {
-        public MaxLengthResult Validation(UpdateSolutionBrowserAdditionalInformationViewModel updateSolutionBrowserAdditionalInformationViewModel)
+        public MaxLengthResult Validate(UpdateSolutionBrowserAdditionalInformationCommand updateSolutionBrowserAdditionalInformationCommand)
          => new MaxLengthValidator()
-                .Validate(updateSolutionBrowserAdditionalInformationViewModel.AdditionalInformation, 500, "additional-information")
+                .Validate(updateSolutionBrowserAdditionalInformationCommand.UpdateSolutionBrowserAdditionalInformationViewModel.AdditionalInformation, 500, "additional-information")
                 .Result();
     }
 }

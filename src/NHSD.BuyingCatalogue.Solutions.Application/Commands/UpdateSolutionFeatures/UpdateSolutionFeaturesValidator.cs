@@ -3,11 +3,11 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures
 {
-    internal sealed class UpdateSolutionFeaturesValidator
+    internal sealed class UpdateSolutionFeaturesValidator : IValidator<UpdateSolutionFeaturesCommand, MaxLengthResult>
     {
-        public MaxLengthResult Validate(UpdateSolutionFeaturesViewModel updateSolutionFeaturesViewModel)
+        public MaxLengthResult Validate(UpdateSolutionFeaturesCommand updateSolutionFeaturesCommand)
         {
-            var listing = updateSolutionFeaturesViewModel.Listing.ToList();
+            var listing = updateSolutionFeaturesCommand.UpdateSolutionFeaturesViewModel.Listing.ToList();
             var validator = new MaxLengthValidator();
 
             for (int i = 0; i < listing.Count(); i++)

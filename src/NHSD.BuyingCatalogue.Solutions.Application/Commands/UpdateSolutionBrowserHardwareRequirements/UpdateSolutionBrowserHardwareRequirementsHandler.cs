@@ -1,39 +1,13 @@
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
-using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserHardwareRequirements
 {
-    internal sealed class UpdateSolutionBrowserHardwareRequirementsHandler : IRequestHandler<UpdateSolutionBrowserHardwareRequirementsCommand, MaxLengthResult>
+    internal sealed class UpdateSolutionBrowserHardwareRequirementsHandler : Handler<UpdateSolutionBrowserHardwareRequirementsCommand, MaxLengthResult>
     {
-        private readonly ClientApplicationPartialUpdater _clientApplicationPartialUpdater;
-
-        private readonly UpdateSolutionBrowserHardwareRequirementsValidator _updateSolutionHardwareRequirementsValidator;
-
-        public UpdateSolutionBrowserHardwareRequirementsHandler(ClientApplicationPartialUpdater clientApplicationPartialUpdater, UpdateSolutionBrowserHardwareRequirementsValidator updateSolutionHardwareRequirementsValidator)
+        public UpdateSolutionBrowserHardwareRequirementsHandler(IExecutor<UpdateSolutionBrowserHardwareRequirementsCommand> updateSolutionBrowserHardwareRequirementsExecutor,
+            IValidator<UpdateSolutionBrowserHardwareRequirementsCommand, MaxLengthResult> updateSolutionBrowserHardwareRequirementsValidator) : base(updateSolutionBrowserHardwareRequirementsExecutor, updateSolutionBrowserHardwareRequirementsValidator)
         {
-            _clientApplicationPartialUpdater = clientApplicationPartialUpdater;
-            _updateSolutionHardwareRequirementsValidator = updateSolutionHardwareRequirementsValidator;
-        }
-
-        public async Task<MaxLengthResult> Handle(UpdateSolutionBrowserHardwareRequirementsCommand request,
-            CancellationToken cancellationToken)
-        {
-            var validationResult = _updateSolutionHardwareRequirementsValidator.Validation(request.UpdateSolutionHardwareRequirementsViewModel);
-
-            if (validationResult.IsValid)
-            {
-                await _clientApplicationPartialUpdater.UpdateAsync(request.SolutionId, clientApplication =>
-                    {
-                        clientApplication.HardwareRequirements =
-                            request.UpdateSolutionHardwareRequirementsViewModel.HardwareRequirements;
-                    },
-                    cancellationToken).ConfigureAwait(false);
-            }
-
-            return validationResult;
         }
     }
 }

@@ -2,12 +2,12 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails
 {
-    internal class UpdateSolutionContactDetailsValidator
+    internal class UpdateSolutionContactDetailsValidator : IValidator<UpdateSolutionContactDetailsCommand, MaxLengthResult>
     {
-        public MaxLengthResult Validation(UpdateSolutionContactDetailsViewModel updateSolutionBrowsersSupportedViewModel)
+        public MaxLengthResult Validate(UpdateSolutionContactDetailsCommand updateSolutionContactDetailsCommand)
         => new MaxLengthValidator()
-            .ValidateContact(updateSolutionBrowsersSupportedViewModel.Contact1, "contact1")
-            .ValidateContact(updateSolutionBrowsersSupportedViewModel.Contact2, "contact2")
+            .ValidateContact(updateSolutionContactDetailsCommand.Details.Contact1, "contact1")
+            .ValidateContact(updateSolutionContactDetailsCommand.Details.Contact2, "contact2")
             .Result();
     }
 

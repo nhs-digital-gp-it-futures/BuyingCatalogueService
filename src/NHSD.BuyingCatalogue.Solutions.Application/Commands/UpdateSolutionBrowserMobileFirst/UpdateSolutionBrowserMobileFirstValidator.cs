@@ -2,11 +2,11 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserMobileFirst
 {
-    internal sealed class UpdateSolutionBrowserMobileFirstValidator
+    internal sealed class UpdateSolutionBrowserMobileFirstValidator : IValidator<UpdateSolutionBrowserMobileFirstCommand, RequiredResult>
     {
-        public RequiredResult Validation(UpdateSolutionBrowserMobileFirstViewModel updateSolutionBrowserMobileFirstViewModel)
+        public RequiredResult Validate(UpdateSolutionBrowserMobileFirstCommand updateSolutionBrowserMobileFirstCommand)
             => new RequiredValidator()
-                .Validate(updateSolutionBrowserMobileFirstViewModel.MobileFirstDesign, "mobile-first-design")
+                .Validate(updateSolutionBrowserMobileFirstCommand.UpdateSolutionBrowserMobileFirstViewModel.MobileFirstDesign, "mobile-first-design")
                 .Result();
     }
 }
