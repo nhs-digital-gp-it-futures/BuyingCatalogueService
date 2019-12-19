@@ -362,6 +362,40 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             connectivitySection.Answers.MinimumDesktopResolution.Should().Be(resolution);
         }
 
+        [TestCase(false, null, false)]
+        [TestCase(false, "Desc", false)]
+        [TestCase(true, null, true)]
+        [TestCase(true, "Desc", true)]
+        public async Task MobileOperatingSystemsIsSetCorrectly(bool isOperatingSystem, string description, bool hasData)
+        {
+            var operatingSystem = isOperatingSystem ? new HashSet<string> { "IOS", "Windows" } : new HashSet<string>();
+
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                    s.PublishedStatus == PublishedStatus.Published &&
+                    s.ClientApplication ==
+                    Mock.Of<IClientApplication>(c =>
+                        c.ClientApplicationTypes == new HashSet<string> {"native-mobile"} &&
+                        c.MobileOperatingSystems == Mock.Of<IMobileOperatingSystems>(m =>
+                            m.OperatingSystems == operatingSystem &&
+                            m.OperatingSystemsDescription == description))), SolutionId1)
+                .ConfigureAwait(false);
+
+            var operatingSystemResult = publicResult?.Sections?.ClientApplicationTypes?.Sections?.NativeMobile
+                ?.Sections?.MobileOperatingSystemsSection;
+
+            if (!hasData)
+            {
+                operatingSystemResult.Should().BeNull();
+                return;
+            }
+
+            operatingSystemResult.Should().NotBeNull();
+            operatingSystemResult.Answers.HasData.Should().BeTrue();
+            operatingSystemResult.Answers.OperatingSystemsDescription.Should().Be(description);
+            operatingSystemResult.Answers.OperatingSystems.Should().BeEquivalentTo(operatingSystem);
+        }
+        
+
         [TestCase(null, null)]
         [TestCase(false, "No")]
         [TestCase(true, "Yes")]
