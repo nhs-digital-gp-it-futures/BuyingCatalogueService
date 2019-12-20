@@ -435,6 +435,36 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             mobileConnectionDetailsResult.Answers.ConnectionType.Should().BeEquivalentTo(connectionType);
         }
 
+        [TestCase(null, null, false)]
+        [TestCase("1GB", null, false)]
+        [TestCase(null, "Desc", false)]
+        [TestCase("1GB", "Desc", true)]
+        public async Task MobileMemoryAndStorageIsSetCorrectly(string minMemoryManagement, string description,
+            bool hasData)
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.PublishedStatus == PublishedStatus.Published &&
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "native-mobile" } &&
+                    c.MobileMemoryAndStorage == Mock.Of<IMobileMemoryAndStorage>(
+                        m => m.MinimumMemoryRequirement == minMemoryManagement &&
+                             m.Description == description))), SolutionId1).ConfigureAwait(false);
+
+            var mobileMemoryStorageResult = publicResult?.Sections?.ClientApplicationTypes?.Sections?.NativeMobile
+                ?.Sections?.MobileMemoryAndStorageSection;
+
+            if (!hasData)
+            {
+                mobileMemoryStorageResult.Should().BeNull();
+                return;
+            }
+
+            mobileMemoryStorageResult.Should().NotBeNull();
+            mobileMemoryStorageResult.Answers.HasData.Should().BeTrue();
+            mobileMemoryStorageResult.Answers.MinimumMemoryRequirement.Should().Be(minMemoryManagement);
+            mobileMemoryStorageResult.Answers.Description.Should().Be(description);
+        }
+
         [TestCase(null, null)]
         [TestCase(false, "No")]
         [TestCase(true, "Yes")]
