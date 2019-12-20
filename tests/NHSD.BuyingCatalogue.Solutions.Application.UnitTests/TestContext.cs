@@ -14,6 +14,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionConnecti
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileConnectionDetails;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileMemoryAndStorage;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileOperatingSystems;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionNativeMobileFirst;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins;
@@ -77,6 +78,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
         public UpdateSolutionNativeMobileFirstHandler UpdateSolutionNativeMobileFirstHandler =>
             (UpdateSolutionNativeMobileFirstHandler)_scope.UpdateSolutionNativeMobileFirstHandler;
+
+        public UpdateSolutionMobileMemoryStorageHandler UpdateSolutionMobileMemoryStorageHandler =>
+            (UpdateSolutionMobileMemoryStorageHandler)_scope.UpdateSolutionMobileMemoryStorageHandler;
 
         private readonly Scope _scope;
 
@@ -144,6 +148,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public IRequestHandler<UpdateSolutionNativeMobileFirstCommand, RequiredResult> UpdateSolutionNativeMobileFirstHandler { get; }
 
+            public IRequestHandler<UpdateSolutionMobileMemoryStorageCommand, RequiredMaxLengthResult> UpdateSolutionMobileMemoryStorageHandler { get; }
+           
+
             public Scope(IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
                 IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> getClientApplicationBySolutionIdHandler,
                 IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> submitSolutionForReviewHandler,
@@ -160,7 +167,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdateSolutionBrowserMobileFirstCommand, RequiredResult> updateSolutionBrowserMobileFirstHandler,
                 IRequestHandler<UpdateSolutionMobileOperatingSystemsCommand, RequiredMaxLengthResult> updateSolutionMobileOperatingSystemsHandler,
                 IRequestHandler<UpdateSolutionMobileConnectionDetailsCommand, MaxLengthResult> updateSolutionMobileConnectionDetailsHandler,
-                IRequestHandler<UpdateSolutionNativeMobileFirstCommand, RequiredResult> updateSolutionNativeMobileFirstHandler
+                IRequestHandler<UpdateSolutionNativeMobileFirstCommand, RequiredResult> updateSolutionNativeMobileFirstHandler,
+                IRequestHandler<UpdateSolutionMobileMemoryStorageCommand, RequiredMaxLengthResult> updateSolutionMobileMemoryStorageHandler
                 )
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;
@@ -180,6 +188,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 UpdateSolutionMobileOperatingSystemsHandler = updateSolutionMobileOperatingSystemsHandler;
                 UpdateSolutionMobileConnectionDetailsHandler = updateSolutionMobileConnectionDetailsHandler;
                 UpdateSolutionNativeMobileFirstHandler = updateSolutionNativeMobileFirstHandler;
+                UpdateSolutionMobileMemoryStorageHandler = updateSolutionMobileMemoryStorageHandler;
             }
         }
     }
