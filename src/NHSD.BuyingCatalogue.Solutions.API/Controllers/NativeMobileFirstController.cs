@@ -60,7 +60,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
             var validationResult = await _mediator.Send(new UpdateSolutionNativeMobileFirstCommand(id, viewModel))
                 .ConfigureAwait(false);
 
-
             return validationResult.IsValid
                 ? (ActionResult)new NoContentResult()
                 : BadRequest(new UpdateSolutionNativeMobileFirstResult(validationResult));
