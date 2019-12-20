@@ -16,6 +16,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         bool? NativeMobileFirstDesign { get; }
         IMobileOperatingSystems MobileOperatingSystems { get; }
         IMobileConnectionDetails MobileConnectionDetails { get; }
-        IMobileMemoryAndStorage MemoryAndStorage { get; }
+        IMobileMemoryAndStorage MobileMemoryAndStorage { get; }
     }
 }

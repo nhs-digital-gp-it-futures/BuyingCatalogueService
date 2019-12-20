@@ -17,7 +17,7 @@ Background:
         | Sln3       | PracticeMgr    | GPs-R-Us         | 1                | Sup 1      |
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                              |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "MemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "Description": "A description" } } |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "Description": "A description" } } |
         | Sln3     | Testing System                 | Full System       | {  }                                                                                           |
 
 @3607
