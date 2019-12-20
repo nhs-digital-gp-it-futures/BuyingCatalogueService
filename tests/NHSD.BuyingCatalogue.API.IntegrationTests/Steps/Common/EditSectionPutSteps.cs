@@ -25,8 +25,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             { "solution-description", typeof(SolutionDescriptionPayload) }, 
             { "connectivity-and-resolution", typeof(ConnectivityAndResolutionPayload) },
             { "mobile-operating-systems", typeof(MobileOperatingSystemsPayload) },
-            { "mobile-connection-details", typeof(MobileConnectionDetailsPayload) }
-            { "mobile-first", typeof(NativeMobileFirstPayload) }
+            { "mobile-connection-details", typeof(MobileConnectionDetailsPayload) },
+            { "mobile-first", typeof(NativeMobileFirstPayload) },
 			{ "mobile-memory-and-storage", typeof(MemoryAndStoragePayload) }
         };
 
