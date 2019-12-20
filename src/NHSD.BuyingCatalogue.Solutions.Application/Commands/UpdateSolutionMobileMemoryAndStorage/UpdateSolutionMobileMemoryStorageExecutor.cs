@@ -17,7 +17,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobi
             await _clientApplicationPartialUpdater.UpdateAsync(request.Id,
                     clientApplication =>
                     {
-                        clientApplication.MemoryAndStorage = new MobileMemoryAndStorage()
+                        clientApplication.MobileMemoryAndStorage = new MobileMemoryAndStorage()
                         {
                             MinimumMemoryRequirement = request.MinimumMemoryRequirement,
                             Description = request.Description

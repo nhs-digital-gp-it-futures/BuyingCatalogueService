@@ -83,3 +83,21 @@ Examples:
     | { "MobileConnectionDetails": { "ConnectionType": [ "3G" ] } }                                                                    | COMPLETE   |
     | { "MobileConnectionDetails": { "ConnectionType": [ "3G" ], "Description": "A description" } }                                    | COMPLETE   |
     | { "MobileConnectionDetails": { "ConnectionType": [ "3G" ], "Description": "A description", "MinimumConnectionSpeed": "1GBps" } } | COMPLETE   |
+        
+@3607
+Scenario Outline: 6. Native Mobile Memory And Storage Based on data in Client Application
+  Given SolutionDetail exist
+        | Solution | ClientApplication   |
+        | Sln1     | <ClientApplication> |
+    When a GET request is made for native-mobile for solution Sln1
+    Then a successful response is returned
+    And the status of the mobile-memory-and-storage section is <Status>
+Examples:
+    | ClientApplication                                                                                                                | Status     |
+    |                                                                                                                                  | INCOMPLETE |
+    | { "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "Description": "A description" } }                             | COMPLETE   |
+    | { "MobileMemoryAndStorage" : {  } }                                                                                              | INCOMPLETE |
+    | { "MobileMemoryAndStorage" : { "Description": "A description" } }                                                                | INCOMPLETE |
+    | { "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB" } }                                                             | INCOMPLETE |
+    | { "MobileConnectionDetails": { "ConnectionType": [ "3G" ], "Description": "A description", "MinimumConnectionSpeed": "1GBps" } } | INCOMPLETE |
+

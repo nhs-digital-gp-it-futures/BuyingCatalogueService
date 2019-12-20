@@ -28,6 +28,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 
         public MobileConnectionDetails MobileConnectionDetails { get; set; }
 
-        public MobileMemoryAndStorage MemoryAndStorage { get; set; }
+        public MobileMemoryAndStorage MobileMemoryAndStorage { get; set; }
     }
 }

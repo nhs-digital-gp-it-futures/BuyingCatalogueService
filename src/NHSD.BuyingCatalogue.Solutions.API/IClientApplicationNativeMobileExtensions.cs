@@ -15,5 +15,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API
 
         public static bool IsNativeMobileComplete(this IClientApplication clientApplication) =>
             clientApplication.IsMobileOperatingSystems();
+
+        public static bool IsMobileMemoryAndStorageComplete(this IClientApplication clientApplication) =>
+            !string.IsNullOrWhiteSpace(clientApplication?.MobileMemoryAndStorage?.MinimumMemoryRequirement) &&
+            !string.IsNullOrWhiteSpace(clientApplication?.MobileMemoryAndStorage?.Description);
     }
 }

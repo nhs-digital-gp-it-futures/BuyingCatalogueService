@@ -1,4 +1,3 @@
-@ignore
 Feature:  Display Marketing Page Form Mobile Memory And Storage Section
     As a Supplier
     I want to manage Marketing Page Information for the Solution's Mobile Memory And Storage
@@ -17,9 +16,9 @@ Background:
         | Sln2       | TakeTheRedPill | GPs-R-Us         | 1                | Sup 1      |
         | Sln3       | PracticeMgr    | GPs-R-Us         | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                              |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "MemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "Description": "A description" } } |
-        | Sln3     | Testing System                 | Full System       | {  }                                                                                           |
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                    |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "Description": "A description" } } |
+        | Sln3     | Testing System                 | Full System       | {  }                                                                                                 |
 
 @3607
 Scenario: 1. Mobile Memory And Storage are retrieved for the solution
