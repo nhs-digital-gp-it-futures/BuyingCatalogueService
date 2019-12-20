@@ -35,7 +35,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 
             return clientApplication == null
                 ? (ActionResult)new NotFoundResult()
-                : Ok(new GetSolutionMemoryAndStorageResult(clientApplication.MemoryAndStorage));
+                : Ok(new GetSolutionMemoryAndStorageResult(clientApplication.MobileMemoryAndStorage));
         }
 
         [HttpPut]

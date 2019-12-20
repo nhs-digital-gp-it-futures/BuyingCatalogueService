@@ -24,7 +24,7 @@ Scenario: 1. Client Application is updated for the solution
         | 1GB                      | A description |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                           |
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                 |
         | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileResponsive": null, "Plugins": null, "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null, "HardwareRequirements": null, "AdditionalInformation": null, "MobileFirstDesign": null, "MobileOperatingSystems": null, "MobileConnectionDetails": null, "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "Description": "A description" } } |
 
 @3607

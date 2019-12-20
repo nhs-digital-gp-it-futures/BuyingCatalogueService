@@ -14,8 +14,8 @@ Background:
         | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                            |
-        | Sln1     | An full online medicine system | Online medicine 1   | { "HardwareRequirements": "Hardware Information","ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum" } } | 
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                           |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "HardwareRequirements": "Hardware Information","ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum" } } |
 
 @3600
 Scenario: 1. HardwareRequirements exceeds the maxLength
@@ -32,5 +32,5 @@ Scenario: 2. Hardware requirements is set to null
     | NULL                 |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum" }, "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null, "HardwareRequirements": null, "AdditionalInformation": null, "MobileFirstDesign": null, "MobileOperatingSystems": null, "MobileConnectionDetails": null, "MemoryAndStorage": null } |
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum" }, "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null, "HardwareRequirements": null, "AdditionalInformation": null, "MobileFirstDesign": null, "MobileOperatingSystems": null, "MobileConnectionDetails": null, "MobileMemoryAndStorage": null } |
