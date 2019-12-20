@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 {
@@ -8,6 +9,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         public string MinimumMemoryRequirement { get; set; }
 
         [JsonProperty("storage-requirements-description")]
-        public string StorageRequirementsDescription { get; set; }
+        public string Description { get; set; }
+
+        public GetSolutionMemoryAndStorageResult(IMobileMemoryAndStorage mobileMemoryAndStorage)
+        {
+            MinimumMemoryRequirement = mobileMemoryAndStorage?.MinimumMemoryRequirement;
+            Description = mobileMemoryAndStorage?.Description;
+        }
     }
 }

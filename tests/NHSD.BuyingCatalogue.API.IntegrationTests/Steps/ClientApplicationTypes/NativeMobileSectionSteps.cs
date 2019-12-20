@@ -55,6 +55,15 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
                 .ToString().Should().Be(value);
         }
 
+        [Then(@"the solution client-application-types section contains (minimum-memory-requirement|storage-requirements-description) with value (.*)")]
+        public async Task ThenTheSolutionClient_Application_TypesSectionContainsMobileMemoryWithValue(string section, string value)
+        {
+            var content = await _response.ReadBody().ConfigureAwait(false);
+            content.SelectToken($"{Token}.mobile-memory-and-storage.answers.{section}")
+                .ToString().Should().Be(value);
+        }
+
+
         private class OperatingSystemsTable
         {
             public List<string> OperatingSystems { get; set; }

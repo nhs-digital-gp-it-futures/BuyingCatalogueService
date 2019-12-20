@@ -14,8 +14,8 @@ Background:
         | SolutionID | SolutionName        | OrganisationName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline         | GPs-R-Us         | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                                            |
-        | Sln1     | Online Description | Online medicine 1 | { "ClientApplicationTypes" : [ "native-mobile"], "MobileOperatingSystems": { "OperatingSystems": ["Windows", "Linux"], "OperatingSystemsDescription": "For windows only version 10" }, "MobileConnectionDetails": { "ConnectionType": [ "3G", "4G" ], "MinimumConnectionSpeed": "1GBps", "Description": "A connecton detail description" } } |                                                                                                                                                                           
+        | Solution | SummaryDescription | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+        | Sln1     | Online Description | Online medicine 1 | { "ClientApplicationTypes" : [ "native-mobile"], "MobileOperatingSystems": { "OperatingSystems": ["Windows", "Linux"], "OperatingSystemsDescription": "For windows only version 10" }, "MobileConnectionDetails": { "ConnectionType": [ "3G", "4G" ], "MinimumConnectionSpeed": "1GBps", "Description": "A connecton detail description" }, "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "500MB", "Description": "Storage Description" } } |                                                                                                                                                                           
 
 @3605
 Scenario:1. Get Solution Preview contains client application types native-mobile answers for all data
@@ -31,6 +31,8 @@ Scenario:1. Get Solution Preview contains client application types native-mobile
         | 3G,4G           |
     And the solution native-mobile mobile-connection-details section contains minimum-connection-speed with value 1GBps
     And the solution native-mobile mobile-connection-details section contains connection-requirements-description with value A connecton detail description
+    And the solution client-application-types section contains minimum-memory-requirement with value 500MB
+    And the solution client-application-types section contains storage-requirements-description with value Storage Description
 
 Scenario:2. Get Solution Preview contains client application types native-mobile answers for mobile connection details
     When a GET request is made for solution preview Sln1

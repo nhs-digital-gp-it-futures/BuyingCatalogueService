@@ -11,13 +11,19 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
        [JsonProperty("mobile-connection-details")]
        public MobileConnectionDetailsSection MobileConnectionDetailsSection { get; }
 
+       [JsonProperty("mobile-memory-and-storage")]
+       public MobileMemoryAndStorageSection MobileMemoryAndStorageSection { get; }
+
        [JsonIgnore]
-       public bool HasData => MobileOperatingSystemsSection.Answers.HasData || MobileConnectionDetailsSection.Answers.HasData;
+       public bool HasData => MobileOperatingSystemsSection.Answers.HasData ||
+                              MobileConnectionDetailsSection.Answers.HasData ||
+                              MobileMemoryAndStorageSection.Answers.HasData;
 
        internal NativeMobileSubSections(IClientApplication clientApplication)
        {
            MobileOperatingSystemsSection = new MobileOperatingSystemsSection(clientApplication);
            MobileConnectionDetailsSection = new MobileConnectionDetailsSection(clientApplication);
+           MobileMemoryAndStorageSection = new MobileMemoryAndStorageSection(clientApplication);
        }
     }
 }
