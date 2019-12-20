@@ -17,19 +17,19 @@ Background:
         | Sln2       | TakeTheRedPill | GPs-R-Us         | 1                | Sup 1      |
         | Sln3       | PracticeMgr    | GPs-R-Us         | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                |
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                              |
         | Sln1     | An full online medicine system | Online medicine 1 | { "MemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "Description": "A description" } } |
-        | Sln3     | Testing System                 | Full System       | {  }                                                                                             |
+        | Sln3     | Testing System                 | Full System       | {  }                                                                                           |
 
 @3607
-Scenario: 1. Mobile Connection Details are retrieved for the solution
+Scenario: 1. Mobile Memory And Storage are retrieved for the solution
     When a GET request is made for mobile-memory-and-storage for solution Sln1
     Then a successful response is returned
     And the string value of element minimum-memory-requirement is 1GB
     And the string value of element storage-requirements-description is A description
 
 @3607
-Scenario: 2. Mobile Operating Systems are retrieved for the solution where no solution detail exists
+Scenario: 2. Mobile Memory And Storage are retrieved for the solution where no solution detail exists
     When a GET request is made for mobile-memory-and-storage for solution Sln2
     Then a successful response is returned
     And the minimum-memory-requirement string does not exist
@@ -53,7 +53,7 @@ Scenario: 5. Solution id not present in request
     Then a response status of 400 is returned
     
 @3607
-Scenario: 6. Mobile Connection Details are retrieved as empty if they do not exist yet
+Scenario: 6. Mobile Memory And Storage are retrieved as empty if they do not exist yet
     When a GET request is made for mobile-memory-and-storage for solution Sln3
     Then a successful response is returned
     And the minimum-memory-requirement string does not exist
