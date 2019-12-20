@@ -1,4 +1,3 @@
-@ignore
 Feature:  Display Marketing Page Form Mobile Memory And Storage Section
     As a Supplier
     I want to manage Marketing Page Information for the Solution's Mobile Memory And Storage
