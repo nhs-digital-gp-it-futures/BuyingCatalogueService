@@ -19,6 +19,24 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
             _response = response;
         }
 
+        [Then(@"the solution native-mobile mobile-connection-details section contains connection-type")]
+        public async Task ThenTheSolutionNativeMobileSectionContains(Table table)
+        {
+            var content = table.CreateInstance<ConnectionTypeTable>();
+            var context = await _response.ReadBody().ConfigureAwait(false);
+            context.SelectToken($"{Token}.mobile-connection-details.answers.connection-type")
+                .Select(s => s.ToString())
+                .Should().BeEquivalentTo(content.ConnectionTypes);
+        }
+
+        [Then(@"the solution native-mobile mobile-connection-details section contains (.*) with value (.*)")]
+        public async Task ThenTheSolutionNativeMobileSectionContainsWithValue(string token, string value)
+        {
+            var context = await _response.ReadBody().ConfigureAwait(false);
+            context.SelectToken($"{Token}.mobile-connection-details.answers.{token}")
+                .ToString().Should().Be(value);
+        }
+
         [Then(@"the solution client-application-types section contains operating-systems")]
         public async Task ThenTheSolutionClient_Application_TypesSectionContainsOperatingSystems(Table table)
         {
@@ -41,6 +59,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
         {
             public List<string> OperatingSystems { get; set; }
         }
+        private class ConnectionTypeTable
+        {
+            public List<string> ConnectionTypes { get; set; }
+        }
+
 
     }
 }
