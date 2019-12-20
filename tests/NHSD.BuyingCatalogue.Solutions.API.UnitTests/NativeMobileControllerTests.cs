@@ -108,6 +108,26 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 .Be(expected ? "COMPLETE" : "INCOMPLETE");
         }
 
+        [TestCase(false, false, false)]
+        [TestCase(false, true, false)]
+        [TestCase(true, false, false)]
+        [TestCase(false, false, false)]
+        [TestCase(true, true, true)]
+        [TestCase(false, true, false)]
+        public async Task ShouldGetMobileMemoryAndStorageIsComplete(bool hasMinimumMemoryRequirement, bool hasDescription, bool expected)
+        {
+            var nativeMobileResult = await GetNativeMobileSectionAsync(Mock.Of<IClientApplication>(c =>
+                c.MobileMemoryAndStorage ==
+                Mock.Of<IMobileMemoryAndStorage>(m =>
+                    m.MinimumMemoryRequirement == (hasMinimumMemoryRequirement ? "1GB" : null) &&
+                    m.Description == (hasDescription ? "A description" : null)
+                ))).ConfigureAwait(false);
+
+            nativeMobileResult.NativeMobileSections.MobileMemoryStorage.Status.Should()
+                .Be(expected ? "COMPLETE" : "INCOMPLETE");
+        }
+
+
         private async Task<NativeMobileResult> GetNativeMobileSectionAsync(IClientApplication clientApplication)
         {
             _mockMediator.Setup(m =>
