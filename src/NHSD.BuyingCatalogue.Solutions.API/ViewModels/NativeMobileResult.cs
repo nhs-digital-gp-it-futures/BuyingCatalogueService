@@ -40,7 +40,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         public NativeMobileSections(IClientApplication clientApplication)
         {
             MobileOperatingSystems = DashboardSection.Mandatory(clientApplication.IsMobileOperatingSystems());
-            MobileFirst = DashboardSection.Mandatory(false);
+            MobileFirst = DashboardSection.Mandatory(clientApplication.IsNativeMobileFirstComplete());
             MobileMemoryStorage = DashboardSection.Mandatory(clientApplication.IsMobileMemoryAndStorageComplete());
             MobileConnectionDetails = DashboardSection.Optional(clientApplication.IsMobileConnectionDetailsComplete());
             MobileComponentsDeviceCapabilities = DashboardSection.Optional(false);

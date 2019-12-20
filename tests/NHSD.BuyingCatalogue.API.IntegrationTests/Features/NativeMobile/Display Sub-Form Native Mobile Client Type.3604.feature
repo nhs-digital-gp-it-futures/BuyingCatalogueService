@@ -49,7 +49,6 @@ Scenario: 4. Solution id not present in request
     When a GET request is made for native-mobile with no solution id
     Then a response status of 400 is returned
 
-
 @3605
 Scenario Outline: 5. Native Mobile Operating Systems Based on data in Client Application
   Given SolutionDetail exist
@@ -101,3 +100,17 @@ Examples:
     | { "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB" } }                                                             | INCOMPLETE |
     | { "MobileConnectionDetails": { "ConnectionType": [ "3G" ], "Description": "A description", "MinimumConnectionSpeed": "1GBps" } } | INCOMPLETE |
 
+@3611
+Scenario Outline: 7. Native Mobile First Based on data in Client Application
+  Given SolutionDetail exist
+        | Solution | ClientApplication   |
+        | Sln1     | <ClientApplication> |
+    When a GET request is made for native-mobile for solution Sln1
+    Then a successful response is returned
+    And the status of the mobile-first section is <Status>
+Examples:
+    | ClientApplication                    | Status     |
+    |                                      | INCOMPLETE |
+    | { "NativeMobileFirstDesign": null }  | INCOMPLETE |
+    | { "NativeMobileFirstDesign": false } | COMPLETE   |
+    | { "NativeMobileFirstDesign": true }  | COMPLETE   |

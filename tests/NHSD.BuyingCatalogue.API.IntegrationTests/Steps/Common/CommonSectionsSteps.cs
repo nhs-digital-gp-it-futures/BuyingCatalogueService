@@ -64,8 +64,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             }
         }
 
-        [Then(@"the status of the (browsers-supported|plug-ins-or-extensions|browser-hardware-requirements|connectivity-and-resolution|browser-additional-information|browser-mobile-first|mobile-operating-systems|mobile-connection-details|mobile-memory-and-storage) section is (COMPLETE|INCOMPLETE)")]
-        public async Task StatusOfPluginsSectionIs(string section, string status)
+        [Then(@"the status of the (browsers-supported|plug-ins-or-extensions|browser-hardware-requirements|connectivity-and-resolution|browser-additional-information|browser-mobile-first|mobile-first|mobile-operating-systems|mobile-connection-details|mobile-memory-and-storage) section is (COMPLETE|INCOMPLETE)")]
+        public async Task StatusOfSectionIs(string section, string status)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
             content.SelectToken("sections." + section + ".status").ToString().Should().BeEquivalentTo(status);

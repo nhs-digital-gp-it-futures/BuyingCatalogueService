@@ -13,6 +13,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API
         public static bool IsMobileOperatingSystems(this IClientApplication clientApplication) =>
             clientApplication?.MobileOperatingSystems?.OperatingSystems?.Any() == true;
 
+        public static bool IsNativeMobileFirstComplete(this IClientApplication clientApplication) =>
+            clientApplication?.NativeMobileFirstDesign.HasValue == true;
+
         public static bool IsNativeMobileComplete(this IClientApplication clientApplication) =>
             clientApplication.IsMobileOperatingSystems();
 
