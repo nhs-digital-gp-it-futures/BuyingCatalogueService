@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         [JsonProperty("minimum-connection-speed")]
         public string MinimumConnectionSpeed { get; private set; }
 
-        [JsonProperty("connection-type")]
+        [JsonProperty("connection-types")]
         public IEnumerable<string> ConnectionType { get; private set; }
 
         [JsonProperty("connection-requirements-description")]

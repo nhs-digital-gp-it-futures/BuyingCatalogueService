@@ -8,7 +8,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobi
         [JsonProperty("minimum-connection-speed")]
         public string MinimumConnectionSpeed { get; set; }
 
-        [JsonProperty("connection-type")]
+        [JsonProperty("connection-types")]
         public HashSet<string> ConnectionType { get; internal set; }
 
         [JsonProperty("connection-requirements-description")]

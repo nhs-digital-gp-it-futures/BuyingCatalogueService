@@ -8,7 +8,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 {
     public class MobileConnectionDetailsSectionAnswers
     {
-        [JsonProperty("connection-type")]
+        [JsonProperty("connection-types")]
         public IEnumerable<string> ConnectionType { get; }
 
         [JsonProperty("minimum-connection-speed")]

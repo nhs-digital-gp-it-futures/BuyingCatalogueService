@@ -19,12 +19,12 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
             _response = response;
         }
 
-        [Then(@"the solution native-mobile mobile-connection-details section contains connection-type")]
+        [Then(@"the solution native-mobile mobile-connection-details section contains connection-types")]
         public async Task ThenTheSolutionNativeMobileSectionContains(Table table)
         {
             var content = table.CreateInstance<ConnectionTypeTable>();
             var context = await _response.ReadBody().ConfigureAwait(false);
-            context.SelectToken($"{Token}.mobile-connection-details.answers.connection-type")
+            context.SelectToken($"{Token}.mobile-connection-details.answers.connection-types")
                 .Select(s => s.ToString())
                 .Should().BeEquivalentTo(content.ConnectionTypes);
         }

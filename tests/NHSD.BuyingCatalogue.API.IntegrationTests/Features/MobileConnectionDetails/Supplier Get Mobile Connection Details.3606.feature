@@ -24,7 +24,7 @@ Background:
 Scenario: 1. Mobile Connection Details are retrieved for the solution
     When a GET request is made for mobile-connection-details for solution Sln1
     Then a successful response is returned
-    And the connection-type element contains
+    And the connection-types element contains
         | Elements |
         | 3G,4G,5G |
     And the string value of element minimum-connection-speed is 1GBps
@@ -34,7 +34,7 @@ Scenario: 1. Mobile Connection Details are retrieved for the solution
 Scenario: 2. Mobile Operating Systems are retrieved for the solution where no solution detail exists
     When a GET request is made for mobile-connection-details for solution Sln2
     Then a successful response is returned
-    And the connection-type element contains
+    And the connection-types element contains
         | Elements |
         |          |
     And the minimum-connection-speed string does not exist
@@ -61,7 +61,7 @@ Scenario: 5. Solution id not present in request
 Scenario: 6. Mobile Connection Details are retrieved as empty if they do not exist yet
     When a GET request is made for mobile-connection-details for solution Sln3
     Then a successful response is returned
-    And the connection-type element contains
+    And the connection-types element contains
         | Elements |
         |          |
     And the minimum-connection-speed string does not exist

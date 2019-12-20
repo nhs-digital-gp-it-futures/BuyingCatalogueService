@@ -123,7 +123,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             [JsonProperty("connection-requirements-description")]
             public string ConnectionRequirementsDescription { get; set; }
 
-            [JsonProperty("connection-type")]
+            [JsonProperty("connection-types")]
             public List<string> ConnectionType { get; set; }
         }
 

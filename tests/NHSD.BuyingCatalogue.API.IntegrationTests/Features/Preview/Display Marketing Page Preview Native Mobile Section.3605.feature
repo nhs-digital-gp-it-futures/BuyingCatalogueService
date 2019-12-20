@@ -26,7 +26,7 @@ Scenario:1. Get Solution Preview contains client application types native-mobile
         | OperatingSystems |
         | Windows, Linux   |
    And the solution client-application-types section contains operating-systems-description with value For windows only version 10
-   And the solution native-mobile mobile-connection-details section contains connection-type
+   And the solution native-mobile mobile-connection-details section contains connection-types
         | ConnectionTypes |
         | 3G,4G           |
     And the solution native-mobile mobile-connection-details section contains minimum-connection-speed with value 1GBps
@@ -36,7 +36,7 @@ Scenario:2. Get Solution Preview contains client application types native-mobile
     When a GET request is made for solution preview Sln1
     Then a successful response is returned
     And the solution client-application-types section is returned
-   And the solution native-mobile mobile-connection-details section contains connection-type
+   And the solution native-mobile mobile-connection-details section contains connection-types
         | ConnectionTypes |
         | 3G,4G           |
     And the solution native-mobile mobile-connection-details section contains minimum-connection-speed with value 1GBps
