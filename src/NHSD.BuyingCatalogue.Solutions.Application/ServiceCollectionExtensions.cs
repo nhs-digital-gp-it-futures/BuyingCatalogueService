@@ -15,6 +15,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionNativeMobileFirst;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application
 {
@@ -32,6 +33,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<SolutionClientApplicationUpdater>()
                 .AddTransient<SolutionContactDetailsUpdater>()
                 .AddTransient<ClientApplicationPartialUpdater>()
+                .AddTransient<UpdateSolutionFeaturesValidator>()
+                .AddTransient<UpdateSolutionClientApplicationTypesValidator>()
+                .AddTransient<UpdateSolutionBrowsersSupportedValidator>()
+                .AddTransient<UpdateSolutionContactDetailsValidator>()
+                .AddTransient<UpdateSolutionBrowserHardwareRequirementsValidator>()
+                .AddTransient<UpdateSolutionConnectivityAndResolutionValidator>()
+                .AddTransient<UpdateSolutionBrowserAdditionalInformationValidator>()
+                .AddTransient<UpdateSolutionBrowserMobileFirstValidator>()
+                .AddTransient<UpdateSolutionMobileOperatingSystemsValidator>()
+                .AddTransient<UpdateSolutionMobileConnectionDetailsValidator>()
+				.AddTransient<UpdateSolutionNativeMobileFirstValidator>()
 
                 .AddTransient<IExecutor<UpdateSolutionSummaryCommand>, UpdateSolutionSummaryExecutor>()
                 .AddTransient<IValidator<UpdateSolutionSummaryCommand, RequiredMaxLengthResult>, UpdateSolutionSummaryValidator>()
