@@ -328,6 +328,45 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             operatingSystemResult.Answers.OperatingSystems.Should().BeEquivalentTo(operatingSystem);
         }
 
+        [TestCase(false, false, false, false)]
+        [TestCase(true, true, true, true)]
+        [TestCase(false, true, true, true)]
+        [TestCase(true, false, true, true)]
+        [TestCase(true, true, false, true)]
+        [TestCase(false, false, true, true)]
+        [TestCase(false, true, false, true)]
+        [TestCase(true, false, false, true)]
+        public async Task MobileConnectionDetailsIsSetCorrectly(bool hasConnectionType, bool hasDescription, bool hasMinimumConnectionSpeed, bool hasData)
+        {
+            var connectionType = hasConnectionType ? new HashSet<string> { "3G", "4G" } : null;
+            var description = hasDescription ? "I am a description" : null;
+            var minimumConnectionSpeed = hasMinimumConnectionSpeed ? "1GBps" : null;
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                    s.ClientApplication ==
+                    Mock.Of<IClientApplication>(c =>
+                        c.ClientApplicationTypes == new HashSet<string> { "native-mobile" } &&
+                        c.MobileConnectionDetails == Mock.Of<IMobileConnectionDetails>(m =>
+                            m.ConnectionType == connectionType &&
+                            m.Description == description &&
+                            m.MinimumConnectionSpeed == minimumConnectionSpeed))))
+                .ConfigureAwait(false);
+
+            var mobileConnectionDetailsResult = previewResult?.Sections?.ClientApplicationTypes?.Sections?.NativeMobile
+                ?.Sections?.MobileConnectionDetailsSection;
+
+            if (!hasData)
+            {
+                mobileConnectionDetailsResult.Should().BeNull();
+                return;
+            }
+
+            mobileConnectionDetailsResult.Should().NotBeNull();
+            mobileConnectionDetailsResult.Answers.HasData.Should().BeTrue();
+            mobileConnectionDetailsResult.Answers.Description.Should().Be(description);
+            mobileConnectionDetailsResult.Answers.MinimumConnectionSpeed.Should().Be(minimumConnectionSpeed);
+            mobileConnectionDetailsResult.Answers.ConnectionType.Should().BeEquivalentTo(connectionType);
+        }
+
         [Test]
         public void NullSolutionShouldThrowNullExceptionSolutionDescriptionPreviewAnswers()
         {
