@@ -141,8 +141,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             [JsonProperty("minimum-memory-requirement")]
             public string MinimumMemoryRequirement { get; set; }
 
-            [JsonProperty("storage-requirement-description")]
-            public string StorageRequirementsDescription { get; set; }
+            [JsonProperty("storage-requirements-description")]
+            public string Description { get; set; }
         }
     }
 }

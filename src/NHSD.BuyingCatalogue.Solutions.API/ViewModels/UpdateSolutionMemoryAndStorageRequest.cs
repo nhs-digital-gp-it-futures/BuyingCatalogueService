@@ -8,6 +8,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         public string MinimumMemoryRequirement { get; set; }
 
         [JsonProperty("storage-requirements-description")]
-        public string StorageRequirementsDescription { get; set; }
+        public string Description { get; set; }
     }
 }

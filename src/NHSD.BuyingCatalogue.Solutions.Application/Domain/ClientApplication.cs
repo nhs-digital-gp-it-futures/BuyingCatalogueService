@@ -25,5 +25,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public MobileOperatingSystems MobileOperatingSystems { get; set; }
 
         public MobileConnectionDetails MobileConnectionDetails { get; set; }
+
+        public MobileMemoryAndStorage MemoryAndStorage { get; set; }
     }
 }

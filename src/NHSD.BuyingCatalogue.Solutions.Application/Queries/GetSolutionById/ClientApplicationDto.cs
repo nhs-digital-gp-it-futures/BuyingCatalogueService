@@ -28,5 +28,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         public IMobileOperatingSystems MobileOperatingSystems { get; set; }
 
         public IMobileConnectionDetails MobileConnectionDetails { get; set; }
+
+        public IMobileMemoryAndStorage MobileMemoryAndStorage { get; set; }
     }
 }

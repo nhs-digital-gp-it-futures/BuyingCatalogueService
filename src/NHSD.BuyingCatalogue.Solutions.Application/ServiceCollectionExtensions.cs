@@ -9,6 +9,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionConnecti
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileConnectionDetails;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileMemoryAndStorage;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileOperatingSystems;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
@@ -67,6 +68,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
 
                 .AddTransient<IExecutor<UpdateSolutionBrowserAdditionalInformationCommand>, UpdateSolutionBrowserAdditionalInformationExecutor>()
                 .AddTransient<IValidator<UpdateSolutionBrowserAdditionalInformationCommand, MaxLengthResult>, UpdateSolutionBrowserAdditionalInformationValidator>()
+
+                .AddTransient<IExecutor<UpdateSolutionMobileMemoryStorageCommand>, UpdateSolutionMobileMemoryStorageExecutor>()
+                .AddTransient<IValidator<UpdateSolutionMobileMemoryStorageCommand, RequiredMaxLengthResult>, UpdateSolutionMobileMemoryStorageValidator>()
                 ;
         }
     }
