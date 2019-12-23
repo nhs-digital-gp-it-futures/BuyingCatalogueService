@@ -13,6 +13,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
         private readonly Response _response;
 
         private const string Token = "sections.client-application-types.sections.native-mobile.sections";
+        private const string MobileFirstDesign = "mobile-first.answers.mobile-first-design";
 
         public NativeMobileSectionSteps(Response response)
         {
@@ -55,6 +56,20 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
                 .ToString().Should().Be(value);
         }
 
+        [Then(@"the solution native-mobile mobile-first section contains mobile-first-design with value (Yes|No)")]
+        public async Task ThenTheSolutionNativeMobileSectionContainsMobileFirstDesign(string value)
+        {
+            var content = await _response.ReadBody().ConfigureAwait(false);
+            content.SelectToken($"{Token}.{MobileFirstDesign}").ToString().Should().Be(value);
+        }
+
+        [Then(@"the solution native-mobile mobile-first section does not contain mobile-first-design")]
+        public async Task ThenTheSolutionNativeMobileSectionDoesNotContainMobileFirstDesign()
+        {
+            var content = await _response.ReadBody().ConfigureAwait(false);
+            content.SelectToken($"{Token}.{MobileFirstDesign}").Should().BeNull();
+        }
+
         [Then(@"the solution client-application-types section contains (minimum-memory-requirement|storage-requirements-description) with value (.*)")]
         public async Task ThenTheSolutionClient_Application_TypesSectionContainsMobileMemoryWithValue(string section, string value)
         {
@@ -68,11 +83,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
         {
             public List<string> OperatingSystems { get; set; }
         }
+
         private class ConnectionTypeTable
         {
             public List<string> ConnectionTypes { get; set; }
         }
-
-
     }
 }

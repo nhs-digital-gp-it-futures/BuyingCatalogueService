@@ -14,7 +14,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         [JsonProperty("client-application-types")]
         public ClientApplicationTypesSection ClientApplicationTypes { get; }
 
-
         [JsonProperty("contact-details")]
         public ContactDetailsSection ContactDetails { get; }
 
