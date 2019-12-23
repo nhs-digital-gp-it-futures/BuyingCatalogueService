@@ -11,6 +11,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
     internal sealed class CommonSectionsSteps
     {
         private const string RootSectionsUrl = "http://localhost:8080/api/v1/Solutions/{0}/sections/{1}";
+        private const string RootDashboardUrl = "http://localhost:8080/api/v1/Solutions/{0}/dashboards/{1}";
 
         private readonly Response _response;
 
@@ -40,16 +41,28 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             content.SelectToken($"sections.client-application-types.sections.{section}.requirement").ToString().Should().Be(requirement);
         }
 
-        [When(@"a GET request is made for (client-application-types|features|solution-description|browser-browsers-supported|browser-plug-ins-or-extensions|contact-details|browser-hardware-requirements|browser-connectivity-and-resolution|browser-additional-information|browser-mobile-first|browser-based|native-mobile-operating-systems|native-mobile|native-mobile-connection-details|native-mobile-memory-and-storage|native-mobile-first) with no solution id")]
+        [When(@"a GET request is made for (client-application-types|features|solution-description|browser-browsers-supported|browser-plug-ins-or-extensions|contact-details|browser-hardware-requirements|browser-connectivity-and-resolution|browser-additional-information|browser-mobile-first|native-mobile-operating-systems|native-mobile-connection-details|native-mobile-memory-and-storage|native-mobile-first) with no solution id")]
         public async Task GetRequestSectionNoSolutionId(string section)
         {
             await GetSectionRequest(section, " ").ConfigureAwait(false);
         }
 
-        [When(@"a GET request is made for (client-application-types|features|solution-description|browser-browsers-supported|browser-plug-ins-or-extensions|contact-details|browser-hardware-requirements|browser-connectivity-and-resolution|browser-additional-information|browser-mobile-first|browser-based|native-mobile-operating-systems|native-mobile|native-mobile-connection-details|native-mobile-memory-and-storage|native-mobile-first) for solution (.*)")]
+        [When(@"a GET request is made for (browser-based|native-mobile) dashboard with no solution id")]
+        public async Task GetRequestDashboardNoSolutionId(string section)
+        {
+            await GetDashboardRequest(section, " ").ConfigureAwait(false);
+        }
+
+        [When(@"a GET request is made for (client-application-types|features|solution-description|browsers-supported|plug-ins-or-extensions|contact-details|browser-hardware-requirements|connectivity-and-resolution|browser-additional-information|browser-mobile-first|browser-based|mobile-operating-systems|mobile-connection-details|mobile-memory-and-storage|mobile-first) for solution (.*)")]
         public async Task GetSectionRequest(string section, string solutionId)
         {
             _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, RootSectionsUrl, solutionId, section)).ConfigureAwait(false);
+        }
+
+        [When(@"a GET request is made for (browser-based|native-mobile) dashboard for solution (.*)")]
+        public async Task GetDashboardRequest(string section, string solutionId)
+        {
+            _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, RootDashboardUrl, solutionId, section)).ConfigureAwait(false);
         }
 
         [Then(@"Solutions section contains all items")]

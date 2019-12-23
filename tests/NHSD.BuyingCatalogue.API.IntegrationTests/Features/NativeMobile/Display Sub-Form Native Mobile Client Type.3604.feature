@@ -20,7 +20,7 @@ Background:
 
 @3604
 Scenario: 1. Sub-Form Native Mobile Client Type all sections are Displayed
-    When a GET request is made for native-mobile for solution Sln1
+    When a GET request is made for native-mobile dashboard for solution Sln1
     Then a successful response is returned
     And Solutions section contains all items  
         | Id                                        | Status     | Requirement |
@@ -35,18 +35,18 @@ Scenario: 1. Sub-Form Native Mobile Client Type all sections are Displayed
 @3604
 Scenario: 2. Solution not found
     Given a Solution Sln4 does not exist
-    When a GET request is made for native-mobile for solution Sln4
+    When a GET request is made for native-mobile dashboard for solution Sln4
     Then a response status of 404 is returned
 
 @3604
 Scenario: 3. Service failure
     Given the call to the database to set the field will fail
-    When a GET request is made for native-mobile for solution Sln1
+    When a GET request is made for native-mobile dashboard for solution Sln1
     Then a response status of 500 is returned
 
 @3604
 Scenario: 4. Solution id not present in request
-    When a GET request is made for native-mobile with no solution id
+    When a GET request is made for native-mobile dashboard with no solution id
     Then a response status of 400 is returned
 
 @3605
@@ -54,7 +54,7 @@ Scenario Outline: 5. Native Mobile Operating Systems Based on data in Client App
   Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
-    When a GET request is made for native-mobile for solution Sln1
+    When a GET request is made for native-mobile dashboard for solution Sln1
     Then a successful response is returned
     And the status of the mobile-operating-systems section is <Status>
 Examples:
@@ -71,7 +71,7 @@ Scenario Outline: 5. Native Mobile Connection Details Based on data in Client Ap
   Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
-    When a GET request is made for native-mobile for solution Sln1
+    When a GET request is made for native-mobile dashboard for solution Sln1
     Then a successful response is returned
     And the status of the mobile-connection-details section is <Status>
 Examples:
@@ -88,7 +88,7 @@ Scenario Outline: 6. Native Mobile Memory And Storage Based on data in Client Ap
   Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
-    When a GET request is made for native-mobile for solution Sln1
+    When a GET request is made for native-mobile dashboard for solution Sln1
     Then a successful response is returned
     And the status of the mobile-memory-and-storage section is <Status>
 Examples:
@@ -105,7 +105,7 @@ Scenario Outline: 7. Native Mobile First Based on data in Client Application
   Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
-    When a GET request is made for native-mobile for solution Sln1
+    When a GET request is made for native-mobile dashboard for solution Sln1
     Then a successful response is returned
     And the status of the mobile-first section is <Status>
 Examples:
