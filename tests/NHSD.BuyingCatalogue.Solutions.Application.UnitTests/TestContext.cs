@@ -5,12 +5,21 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserAdditionalInformation;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserHardwareRequirements;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserMobileFirst;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowsersSupported;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClientApplicationTypes;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionConnectivityAndResolution;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileConnectionDetails;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileMemoryAndStorage;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileOperatingSystems;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionNativeMobileFirst;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Mapping;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
@@ -49,6 +58,29 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
         public UpdateSolutionPluginsHandler UpdateSolutionPluginsHandler =>
             (UpdateSolutionPluginsHandler)_scope.UpdateSolutionPluginsHandler;
+
+        public UpdateSolutionBrowserHardwareRequirementsHandler UpdateSolutionBrowserHardwareRequirementsHandler =>
+            (UpdateSolutionBrowserHardwareRequirementsHandler)_scope.UpdateSolutionBrowserHardwareRequirementsHandler;
+
+        public UpdateSolutionConnectivityAndResolutionHandler UpdateSolutionConnectivityAndResolutionHandler =>
+            (UpdateSolutionConnectivityAndResolutionHandler)_scope.UpdateSolutionConnectivityAndResolutionHandler;
+        public UpdateSolutionBrowserAdditionalInformationHandler UpdateSolutionBrowserAdditionalInformationHandler =>
+            (UpdateSolutionBrowserAdditionalInformationHandler)_scope.UpdateSolutionBrowserAdditionalInformationHandler;
+
+        public UpdateSolutionBrowserMobileFirstHandler UpdateSolutionBrowserMobileFirstHandler =>
+            (UpdateSolutionBrowserMobileFirstHandler)_scope.UpdateSolutionBrowserMobileFirstHandler;
+
+        public UpdateSolutionMobileOperatingSystemsHandler UpdateSolutionMobileOperatingSystemsHandler =>
+            (UpdateSolutionMobileOperatingSystemsHandler)_scope.UpdateSolutionMobileOperatingSystemsHandler;
+
+        public UpdateSolutionMobileConnectionDetailsHandler UpdateSolutionMobileConnectionDetailsHandler =>
+            (UpdateSolutionMobileConnectionDetailsHandler)_scope.UpdateSolutionMobileConnectionDetailsHandler;
+
+        public UpdateSolutionNativeMobileFirstHandler UpdateSolutionNativeMobileFirstHandler =>
+            (UpdateSolutionNativeMobileFirstHandler)_scope.UpdateSolutionNativeMobileFirstHandler;
+
+        public UpdateSolutionMobileMemoryStorageHandler UpdateSolutionMobileMemoryStorageHandler =>
+            (UpdateSolutionMobileMemoryStorageHandler)_scope.UpdateSolutionMobileMemoryStorageHandler;
 
         private readonly Scope _scope;
 
@@ -89,30 +121,55 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> SubmitSolutionForReviewHandler { get; }
 
-            public IRequestHandler<UpdateSolutionSummaryCommand, UpdateSolutionSummaryValidationResult> UpdateSolutionSummaryHandler { get; }
+            public IRequestHandler<UpdateSolutionSummaryCommand, RequiredMaxLengthResult> UpdateSolutionSummaryHandler { get; }
 
-            public IRequestHandler<UpdateSolutionFeaturesCommand, UpdateSolutionFeaturesValidationResult> UpdateSolutionFeaturesHandler { get; }
+            public IRequestHandler<UpdateSolutionFeaturesCommand, MaxLengthResult> UpdateSolutionFeaturesHandler { get; }
 
-            public IRequestHandler<UpdateSolutionClientApplicationTypesCommand, UpdateSolutionClientApplicationTypesValidationResult> UpdateSolutionClientApplicationTypesHandler { get; }
+            public IRequestHandler<UpdateSolutionClientApplicationTypesCommand, RequiredResult> UpdateSolutionClientApplicationTypesHandler { get; }
 
-            public IRequestHandler<UpdateSolutionBrowsersSupportedCommand, UpdateSolutionBrowserSupportedValidationResult> UpdateSolutionBrowsersSupportedHandler { get; }
+            public IRequestHandler<UpdateSolutionBrowsersSupportedCommand, RequiredResult> UpdateSolutionBrowsersSupportedHandler { get; }
 
-            public IRequestHandler<UpdateSolutionContactDetailsCommand, UpdateSolutionContactDetailsValidationResult> UpdateSolutionContactDetailsHandler { get; }
+            public IRequestHandler<UpdateSolutionContactDetailsCommand, MaxLengthResult> UpdateSolutionContactDetailsHandler { get; }
 
-            public IRequestHandler<UpdateSolutionPluginsCommand, UpdateSolutionPluginsValidationResult> UpdateSolutionPluginsHandler { get; }
+            public IRequestHandler<UpdateSolutionPluginsCommand, RequiredMaxLengthResult> UpdateSolutionPluginsHandler { get; }
 
             public IRequestHandler<GetContactDetailBySolutionIdQuery, IEnumerable<IContact>> GetContactDetailBySolutionIdHandler { get; }
+
+            public IRequestHandler<UpdateSolutionBrowserHardwareRequirementsCommand, MaxLengthResult> UpdateSolutionBrowserHardwareRequirementsHandler { get; }
+
+            public IRequestHandler<UpdateSolutionConnectivityAndResolutionCommand, RequiredResult> UpdateSolutionConnectivityAndResolutionHandler { get; }
+            public IRequestHandler<UpdateSolutionBrowserAdditionalInformationCommand, MaxLengthResult> UpdateSolutionBrowserAdditionalInformationHandler { get; }
+
+            public IRequestHandler<UpdateSolutionBrowserMobileFirstCommand, RequiredResult> UpdateSolutionBrowserMobileFirstHandler { get; }
+
+            public IRequestHandler<UpdateSolutionMobileOperatingSystemsCommand, RequiredMaxLengthResult> UpdateSolutionMobileOperatingSystemsHandler {get;}
+
+            public IRequestHandler<UpdateSolutionMobileConnectionDetailsCommand, MaxLengthResult> UpdateSolutionMobileConnectionDetailsHandler {get;}
+
+            public IRequestHandler<UpdateSolutionNativeMobileFirstCommand, RequiredResult> UpdateSolutionNativeMobileFirstHandler { get; }
+
+            public IRequestHandler<UpdateSolutionMobileMemoryStorageCommand, RequiredMaxLengthResult> UpdateSolutionMobileMemoryStorageHandler { get; }
+           
 
             public Scope(IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
                 IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> getClientApplicationBySolutionIdHandler,
                 IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> submitSolutionForReviewHandler,
-                IRequestHandler<UpdateSolutionSummaryCommand, UpdateSolutionSummaryValidationResult> updateSolutionSummaryHandler,
-                IRequestHandler<UpdateSolutionFeaturesCommand, UpdateSolutionFeaturesValidationResult> updateSolutionFeaturesHandler,
-                IRequestHandler<UpdateSolutionClientApplicationTypesCommand, UpdateSolutionClientApplicationTypesValidationResult> updateSolutionClientApplicationTypesHandler,
-                IRequestHandler<UpdateSolutionBrowsersSupportedCommand, UpdateSolutionBrowserSupportedValidationResult> updateSolutionBrowsersSupportedHandler,
-                IRequestHandler<UpdateSolutionPluginsCommand, UpdateSolutionPluginsValidationResult> updateSolutionPluginsHandler,
-                IRequestHandler<UpdateSolutionContactDetailsCommand, UpdateSolutionContactDetailsValidationResult> updateSolutionContactDetailsHandler,
-                IRequestHandler<GetContactDetailBySolutionIdQuery, IEnumerable<IContact>> getContactDetailBySolutionIdHandler)
+                IRequestHandler<UpdateSolutionSummaryCommand, RequiredMaxLengthResult> updateSolutionSummaryHandler,
+                IRequestHandler<UpdateSolutionFeaturesCommand, MaxLengthResult> updateSolutionFeaturesHandler,
+                IRequestHandler<UpdateSolutionClientApplicationTypesCommand, RequiredResult> updateSolutionClientApplicationTypesHandler,
+                IRequestHandler<UpdateSolutionBrowsersSupportedCommand, RequiredResult> updateSolutionBrowsersSupportedHandler,
+                IRequestHandler<UpdateSolutionPluginsCommand, RequiredMaxLengthResult> updateSolutionPluginsHandler,
+                IRequestHandler<UpdateSolutionContactDetailsCommand, MaxLengthResult> updateSolutionContactDetailsHandler,
+                IRequestHandler<GetContactDetailBySolutionIdQuery, IEnumerable<IContact>> getContactDetailBySolutionIdHandler,
+                IRequestHandler<UpdateSolutionBrowserHardwareRequirementsCommand, MaxLengthResult> updateSolutionBrowserHardwareRequirementsHandler,
+                IRequestHandler<UpdateSolutionConnectivityAndResolutionCommand, RequiredResult> updateSolutionConnectivityAndResolutionHandler,
+                IRequestHandler<UpdateSolutionBrowserAdditionalInformationCommand, MaxLengthResult> updateSolutionBrowserAdditionalInformationHandler,
+                IRequestHandler<UpdateSolutionBrowserMobileFirstCommand, RequiredResult> updateSolutionBrowserMobileFirstHandler,
+                IRequestHandler<UpdateSolutionMobileOperatingSystemsCommand, RequiredMaxLengthResult> updateSolutionMobileOperatingSystemsHandler,
+                IRequestHandler<UpdateSolutionMobileConnectionDetailsCommand, MaxLengthResult> updateSolutionMobileConnectionDetailsHandler,
+                IRequestHandler<UpdateSolutionNativeMobileFirstCommand, RequiredResult> updateSolutionNativeMobileFirstHandler,
+                IRequestHandler<UpdateSolutionMobileMemoryStorageCommand, RequiredMaxLengthResult> updateSolutionMobileMemoryStorageHandler
+                )
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;
                 GetClientApplicationBySolutionIdHandler = getClientApplicationBySolutionIdHandler;
@@ -124,6 +181,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 UpdateSolutionPluginsHandler = updateSolutionPluginsHandler;
                 UpdateSolutionContactDetailsHandler = updateSolutionContactDetailsHandler;
                 GetContactDetailBySolutionIdHandler = getContactDetailBySolutionIdHandler;
+                UpdateSolutionBrowserHardwareRequirementsHandler = updateSolutionBrowserHardwareRequirementsHandler;
+                UpdateSolutionBrowserAdditionalInformationHandler = updateSolutionBrowserAdditionalInformationHandler;
+                UpdateSolutionConnectivityAndResolutionHandler = updateSolutionConnectivityAndResolutionHandler;
+                UpdateSolutionBrowserMobileFirstHandler = updateSolutionBrowserMobileFirstHandler;
+                UpdateSolutionMobileOperatingSystemsHandler = updateSolutionMobileOperatingSystemsHandler;
+                UpdateSolutionMobileConnectionDetailsHandler = updateSolutionMobileConnectionDetailsHandler;
+                UpdateSolutionNativeMobileFirstHandler = updateSolutionNativeMobileFirstHandler;
+                UpdateSolutionMobileMemoryStorageHandler = updateSolutionMobileMemoryStorageHandler;
             }
         }
     }

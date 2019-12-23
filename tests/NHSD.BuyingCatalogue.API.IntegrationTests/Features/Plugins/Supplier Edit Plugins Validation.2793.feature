@@ -19,25 +19,25 @@ Background:
 
 @2793
 Scenario: 1. Required is empty. AdditionalInformation is valid
-    Given plug-ins is a string of null
-    And additional-information is a string of 30 characters
-    When a PUT request is made to update solution Sln1 plug-ins section
+    When a PUT request is made to update the plug-ins-or-extensions section for solution Sln1
+        | PluginsRequired | PluginsDetail              |
+        | NULL            | A string with length of 30 |
     Then a response status of 400 is returned
-    And the plug-ins required field contains plugins-required
+    And the required field contains plugins-required
 
 @2793
 Scenario: 2. Required has a value. AdditionalInformation length is greater than 500 characters
-    Given plug-ins is a string of Yes
-    And additional-information is a string of 501 characters
-    When a PUT request is made to update solution Sln1 plug-ins section
+    When a PUT request is made to update the plug-ins-or-extensions section for solution Sln1
+        | PluginsRequired | PluginsDetail               |
+        | Yes             | A string with length of 501 |
     Then a response status of 400 is returned
-    And the plug-ins maxLength field contains plugins-detail
+    And the maxLength field contains plugins-detail
     
 @2793
 Scenario: 3. Required is empty and AdditionalInformations length is greater than 500 characters
-    Given plug-ins is a string of null
-    And additional-information is a string of 501 characters
-    When a PUT request is made to update solution Sln1 plug-ins section
+    When a PUT request is made to update the plug-ins-or-extensions section for solution Sln1
+        | PluginsRequired | PluginsDetail               |
+        | NULL            | A string with length of 501 |
     Then a response status of 400 is returned
-    And the plug-ins required field contains plugins-required
-    And the plug-ins maxLength field contains plugins-detail
+    And the required field contains plugins-required
+    And the maxLength field contains plugins-detail

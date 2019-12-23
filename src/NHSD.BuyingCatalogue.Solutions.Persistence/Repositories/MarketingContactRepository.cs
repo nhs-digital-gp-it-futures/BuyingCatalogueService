@@ -51,15 +51,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
             @email,
             @phoneNumber,
             @department,
-            @lastUpdated,
+            GETDATE(),
             @lastUpdatedBy)";
 
         public async Task<IEnumerable<IMarketingContactResult>> BySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
-                => await _dbConnector.QueryAsync<MarketingContactResult>( getSql, cancellationToken, new { solutionId }).ConfigureAwait(false);
+                => await _dbConnector.QueryAsync<MarketingContactResult>(getSql, cancellationToken, new { solutionId }).ConfigureAwait(false);
 
         public async Task ReplaceContactsForSolution(string solutionId, IEnumerable<IContact> newContacts, CancellationToken cancellationToken)
         {
-            var queries = new List<(string, object)> {(deleteSql, new {solutionId})};
+            var queries = new List<(string, object)> { (deleteSql, new { solutionId }) };
 
             queries.AddRange(newContacts.Select(contact =>
                 (insertSql,
@@ -71,7 +71,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                         email = contact.Email,
                         phoneNumber = contact.PhoneNumber,
                         department = contact.Department,
-                        lastUpdated = DateTime.Now,
                         lastUpdatedBy = Guid.Empty
                     })));
 

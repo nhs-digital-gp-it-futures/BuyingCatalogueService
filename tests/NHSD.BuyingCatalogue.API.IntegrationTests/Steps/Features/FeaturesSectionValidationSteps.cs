@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,7 +39,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         public void GivenFeatureAtPositionIsAStringOfCharacters(int position, int length)
         {
             // List is zero based, so need to minus one.
-            _features[position-1] = GenerateStringOfLength(length);
+            _features[position - 1] = GenerateStringOfLength(length);
         }
 
         [When(@"the update features request is made for (.*)")]
@@ -49,14 +50,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
                 listing = _features
             };
 
-            _response.Result = await Client.PutAsJsonAsync(string.Format(FeaturesUrl, featuresId), content);
-        }
-
-        [Then(@"the features response required field contains (.*)")]
-        public async Task ThenTheFeaturesResponseRequiredFieldContainsListing(List<string> listing)
-        {
-            var content = await _response.ReadBody();
-            content.SelectToken("maxLength").Select(x => x.ToString()).Should().BeEquivalentTo(listing);
+            _response.Result = await Client.PutAsJsonAsync(string.Format(CultureInfo.InvariantCulture, FeaturesUrl, featuresId), content).ConfigureAwait(false);
         }
 
         private static string GenerateStringOfLength(int length)

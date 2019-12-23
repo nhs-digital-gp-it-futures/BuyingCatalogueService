@@ -7,6 +7,7 @@ using Moq;
 using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowsersSupported;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Tools;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
@@ -71,7 +72,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var validationResult = await UpdateBrowsersSupported(new HashSet<string>())
                 .ConfigureAwait(false);
             validationResult.IsValid.Should().BeFalse();
-            validationResult.Required.Should().BeEquivalentTo(new[] { "supported-browsers", "mobile-responsive"});
+            validationResult.Required.Should().BeEquivalentTo(new[] { "supported-browsers", "mobile-responsive" });
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
 
@@ -90,13 +91,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
-        private async Task<UpdateSolutionBrowserSupportedValidationResult> UpdateBrowsersSupported(HashSet<string> browsersSupported, string mobileResponsive = null)
+        private async Task<RequiredResult> UpdateBrowsersSupported(HashSet<string> browsersSupported, string mobileResponsive = null)
         {
             return await Context.UpdateSolutionBrowsersSupportedHandler.Handle(new UpdateSolutionBrowsersSupportedCommand("Sln1", new UpdateSolutionBrowsersSupportedViewModel()
-                {
-                    BrowsersSupported = browsersSupported,
-                    MobileResponsive = mobileResponsive
-                }), new CancellationToken())
+            {
+                BrowsersSupported = browsersSupported,
+                MobileResponsive = mobileResponsive
+            }), new CancellationToken())
                 .ConfigureAwait(false);
         }
     }

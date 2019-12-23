@@ -11,9 +11,25 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         [JsonProperty("plug-ins-or-extensions")]
         public PluginOrExtensionsSection PluginOrExtensionsSection { get; }
 
-        [JsonIgnore]
-        public bool HasData => BrowsersSupported.Answers.HasData || PluginOrExtensionsSection.Answers.HasData;
+        [JsonProperty("browser-hardware-requirements")]
+        public BrowserHardwareRequirementsSection BrowserHardwareRequirementsSection { get; }
 
+        [JsonProperty("browser-additional-information")]
+        public BrowserAdditionalInformationSection BrowserAdditionalInformationSection { get; }
+
+        [JsonProperty("connectivity-and-resolution")]
+        public BrowserConnectivityAndResolutionSection BrowserConnectivityAndResolutionSection { get; }
+
+        [JsonProperty("browser-mobile-first")]
+        public BrowserMobileFirstSection BrowserMobileFirstSection { get; }
+
+        [JsonIgnore]
+        public bool HasData => BrowsersSupported.Answers.HasData || PluginOrExtensionsSection.Answers.HasData ||
+                               BrowserHardwareRequirementsSection.Answers.HasData ||
+                               BrowserAdditionalInformationSection.Answers.HasData ||
+                               BrowserConnectivityAndResolutionSection.Answers.HasData ||
+                               BrowserMobileFirstSection.Answers.HasData;
+        
         /// <summary>
         /// Initialises a new instance of the <see cref="BrowserBasedSubSections"/> class.
         /// </summary>
@@ -21,6 +37,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         {
             BrowsersSupported = new BrowsersSupportedSection(clientApplication);
             PluginOrExtensionsSection = new PluginOrExtensionsSection(clientApplication);
+            BrowserHardwareRequirementsSection = new BrowserHardwareRequirementsSection(clientApplication);
+            BrowserAdditionalInformationSection = new BrowserAdditionalInformationSection(clientApplication);
+            BrowserConnectivityAndResolutionSection = new BrowserConnectivityAndResolutionSection(clientApplication);
+            BrowserMobileFirstSection = new BrowserMobileFirstSection(clientApplication);
         }
     }
 }

@@ -15,21 +15,18 @@ Background:
     And Solutions exist
         | SolutionID | SolutionName        | OrganisationName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline         | GPs-R-Us         | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill      | Drs. Inc         | 1                | Sup 2      |
-        | Sln3       | PracticeMgr         | Drs. Inc         | 1                | Sup 2      |
-        | Sln4       | SubStandardPractice | GPs-R-Us         | 1                | Sup 1      |
-        | Sln5       | Banana              | Drs. Inc         | 1                | Sup 2      |
-        | Sln6       | Water Bottle        | Drs. Inc         | 1                | Sup 2      |
+        | Sln2       | SubStandardPractice | GPs-R-Us         | 1                | Sup 1      |
+        | Sln3       | Banana              | Drs. Inc         | 1                | Sup 2      |
+        | Sln4       | Water Bottle        | Drs. Inc         | 1                | Sup 2      |
     And SolutionDetail exist
-        | Solution | SummaryDescription          | FullDescription         | ClientApplication                                                                                                                               |
-        | Sln1     |                             | Online medicine 1       | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ], "BrowsersSupported": ["Google Chrome", "Edge"], "MobileResponsive": false } |
-        | Sln3     | Eye opening experience      | Eye opening6            | { "ClientApplicationTypes" : [ "browser-based" ], "BrowsersSupported": [ ], "MobileResponsive": null }                                          |
-        | Sln4     | Fully fledged GP system     | Fully fledged GP 12     | { "ClientApplicationTypes" : [ "browser-based" ], "BrowsersSupported": [ ], "MobileResponsive": true }                                          |
-        | Sln5     | Not Quite fledged GP system | Not Quite fledged GP 16 | { "ClientApplicationTypes" : [ "browser-based" ], "BrowsersSupported": ["Google Chrome", "Edge", "Safari"] }                                    |
-        | Sln6     | Fruit delivery system       | Banana 1152             | { "ClientApplicationTypes" : [ "browser-based" ], "Plugins": { "Required": true, "AdditionalInformation": "Colourful water extension" } }       |
+        | Solution | SummaryDescription          | FullDescription         | ClientApplication                                                                                                                                                                                                                                                                                                                                          |
+        | Sln1     |                             | Online medicine 1       | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ], "BrowsersSupported": ["Google Chrome", "Edge"], "MobileResponsive": false, "Plugins": null, "MinimumConnectionSpeed": "1GBps", "MinimumDesktopResolution": "1x1", "HardwareRequirements": "New Hardware", "AdditionalInformation": "Some Additional Info", "MobileFirstDesign": true } |
+        | Sln2     | Fully fledged GP system     | Fully fledged GP 12     | { "ClientApplicationTypes" : [ "browser-based" ], "BrowsersSupported": [ ], "MobileResponsive": true }                                                                                                                                                                                                                                                     |
+        | Sln3     | Not Quite fledged GP system | Not Quite fledged GP 16 | { "ClientApplicationTypes" : [ "browser-based" ], "BrowsersSupported": ["Google Chrome", "Edge", "Safari"] }                                                                                                                                                                                                                                               |
+        | Sln4     | Fruit delivery system       | Banana 1152             | { "ClientApplicationTypes" : [ "browser-based" ], "Plugins": { "Required": true, "AdditionalInformation": "Colourful water extension" } }                                                                                                                                                                                                                  |
 
 @3322
-Scenario:1. Get Solution Preview contains client application types browser based answers for all data
+Scenario: 1. Get Solution Preview contains client application types browser based answers for all data
     When a GET request is made for solution preview Sln1
     Then a successful response is returned
     And the solution client-application-types section is returned
@@ -38,18 +35,22 @@ Scenario:1. Get Solution Preview contains client application types browser based
         | Google Chrome |
         | Edge          |
     And the solution client-application-types section contains mobile responsive with value No
+    And the solution client-application-types section contains hardware-requirements with value New Hardware
+    And the solution client-application-types section contains additional-information with value Some Additional Info
+    And the solution client-application-types section contains minimum-connection-speed with value 1GBps
+    And the solution client-application-types section contains minimum-desktop-resolution with value 1x1
+    And the solution client-application-types section contains browser-mobile-first with value Yes
 
 @3322
 Scenario:2. Get Solution Preview contains client application types browser based mobile responsive answer
-    When a GET request is made for solution preview Sln4
+    When a GET request is made for solution preview Sln2
     Then a successful response is returned
     And the solution client-application-types section contains mobile responsive with value Yes
-    And the solution client-application-types section contains Browsers
-        | Browser       |
+    And the solution client-application-types section does not contain Supported Browsers
 
 @3322
 Scenario:3. Get Solution Preview contains client application types browser based browser supported answer
-    When a GET request is made for solution preview Sln5
+    When a GET request is made for solution preview Sln3
     Then a successful response is returned
     And the solution client-application-types section is returned
     And the solution client-application-types section contains Browsers
@@ -61,20 +62,18 @@ Scenario:3. Get Solution Preview contains client application types browser based
 
 @2793
 Scenario:4. Get Solution Preview contains client application types browser based plugin required answer
-    When a GET request is made for solution preview Sln6
+    When a GET request is made for solution preview Sln4
     Then a successful response is returned
     And the solution client-application-types section is returned
     And the solution client-application-types section contains plugin required with value Yes
-    And the solution client-application-types section contains Browsers
-        | Browser       |
+    And the solution client-application-types section does not contain Supported Browsers
     And the solution client-application-types section contains mobile responsive with value null
 
 @2793
 Scenario:5. Get Solution Preview contains client application types browser based plugin detail answer
-    When a GET request is made for solution preview Sln6
+    When a GET request is made for solution preview Sln4
     Then a successful response is returned
     And the solution client-application-types section is returned
     And the solution client-application-types section contains plugin detail with value Colourful water extension
-    And the solution client-application-types section contains Browsers
-        | Browser       |
+    And the solution client-application-types section does not contain Supported Browsers
     And the solution client-application-types section contains mobile responsive with value null

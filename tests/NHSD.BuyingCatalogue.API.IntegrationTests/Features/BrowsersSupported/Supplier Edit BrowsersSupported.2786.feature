@@ -22,19 +22,19 @@ Background:
 @2786
 Scenario: 1. Browser Supported is updated
     Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                    |
-        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins": null } |
-        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                                      |
-        | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                                         |
-    When a PUT request is made to update solution Sln1 browsers-supported section
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                    |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins": null, "HardwareRequirements": "Hardware Information" } |
+        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                                                                                      |
+        | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                                                                                         |
+    When a PUT request is made to update the browsers-supported section for solution Sln1
         | BrowsersSupported | MobileResponsive |
         | Chrome, Edge      | yeS              |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                    |
-        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true, "Plugins": null} |
-        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                                      |
-        | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                                         |
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                            |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true, "Plugins": null, "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null, "HardwareRequirements": "Hardware Information", "AdditionalInformation": null, "MobileFirstDesign": null, "NativeMobileFirstDesign": null, "MobileOperatingSystems": null, "MobileConnectionDetails": null, "MobileMemoryAndStorage": null } |
+        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                                                                                                                                                                                                                                                                                                              |
+        | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                                                                                                                                                                                                                                                                                                                 |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @2786
@@ -44,11 +44,11 @@ Scenario: 2. Browsers Supported is empty, Mobile Responsive has a result
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false } |
         | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                     |
         | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                        |
-    When a PUT request is made to update solution Sln1 browsers-supported section
+    When a PUT request is made to update the browsers-supported section for solution Sln1
         | BrowsersSupported | MobileResponsive |
         |                   | true             |
     Then a response status of 400 is returned
-    And the browser-based required field contains supported-browsers
+    And the required field contains supported-browsers
      And Solutions exist
         | SolutionID | SolutionName   |
         | Sln1       | MedicOnline    |
@@ -68,11 +68,11 @@ Scenario: 3. Mobile Responsive is empty
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false } |
         | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                     |
         | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                        |
-    When a PUT request is made to update solution Sln1 browsers-supported section
+    When a PUT request is made to update the browsers-supported section for solution Sln1
         | BrowsersSupported | MobileResponsive |
         | Chrome, Edge      |                  |
     Then a response status of 400 is returned
-    And the browser-based required field contains mobile-responsive
+    And the required field contains mobile-responsive
     And Solutions exist
         | SolutionID | SolutionName   |
         | Sln1       | MedicOnline    |
@@ -92,12 +92,12 @@ Scenario: 4. Browsers Supported & Mobile Responsive are empty
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false } |
         | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                     |
         | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                        |
-    When a PUT request is made to update solution Sln1 browsers-supported section
+    When a PUT request is made to update the browsers-supported section for solution Sln1
         | BrowsersSupported | MobileResponsive |
         |                   |                  |
     Then a response status of 400 is returned
-    And the browser-based required field contains supported-browsers
-    And the browser-based required field contains mobile-responsive
+    And the required field contains supported-browsers
+    And the required field contains mobile-responsive
     And Solutions exist
         | SolutionID | SolutionName   |
         | Sln1       | MedicOnline    |
@@ -113,7 +113,7 @@ Scenario: 4. Browsers Supported & Mobile Responsive are empty
 @2786
 Scenario: 5. Solution is not found
     Given a Solution Sln4 does not exist
-    When a PUT request is made to update solution Sln4 browsers-supported section
+    When a PUT request is made to update the browsers-supported section for solution Sln4
         | BrowsersSupported | MobileResponsive |
         | Chrome, Safari    | false            |
     Then a response status of 404 is returned 
@@ -121,14 +121,14 @@ Scenario: 5. Solution is not found
 @2786
 Scenario: 6. Service Failure
     Given the call to the database to set the field will fail
-    When a PUT request is made to update solution Sln4 browsers-supported section
+    When a PUT request is made to update the browsers-supported section for solution Sln1
         | BrowsersSupported | MobileResponsive |
         | Chrome, Safari    | false            |
     Then a response status of 500 is returned
 
 @2786
 Scenario: 7. Solution id is not present in the request
-    When a PUT request is made to update solution browsers-supported section with no solution id
+    When a PUT request is made to update the browsers-supported section with no solution id
         | BrowsersSupported | MobileResponsive |
         | Edge, Safari      | true             |
     Then a response status of 400 is returned

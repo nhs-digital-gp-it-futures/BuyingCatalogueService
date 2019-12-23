@@ -27,6 +27,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
             CreateMap<Plugins, IPlugins>().As<PluginsDto>();
             CreateMap<Contact, ContactDto>();
             CreateMap<Contact, IContact>().As<ContactDto>();
+            CreateMap<MobileOperatingSystems, MobileOperatingSystemsDto>();
+            CreateMap<MobileOperatingSystems, IMobileOperatingSystems>().As<MobileOperatingSystemsDto>();
+            CreateMap<MobileConnectionDetails, MobileConnectionDetailsDto>();
+            CreateMap<MobileConnectionDetails, IMobileConnectionDetails>().As<MobileConnectionDetailsDto>();
+            CreateMap<MobileMemoryAndStorage, MobileMemoryAndStorageDto>();
+            CreateMap<MobileMemoryAndStorage, IMobileMemoryAndStorage>().As<MobileMemoryAndStorageDto>();
         }
     }
 }

@@ -1,23 +1,21 @@
 using System.Linq;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures
 {
-    internal sealed class UpdateSolutionFeaturesValidator
+    internal sealed class UpdateSolutionFeaturesValidator : IValidator<UpdateSolutionFeaturesCommand, MaxLengthResult>
     {
-        public UpdateSolutionFeaturesValidationResult Validate(UpdateSolutionFeaturesViewModel updateSolutionFeaturesViewModel)
+        public MaxLengthResult Validate(UpdateSolutionFeaturesCommand updateSolutionFeaturesCommand)
         {
-            var listing = updateSolutionFeaturesViewModel.Listing.ToList();
-            var validationResult = new UpdateSolutionFeaturesValidationResult();
+            var listing = updateSolutionFeaturesCommand.UpdateSolutionFeaturesViewModel.Listing.ToList();
+            var validator = new MaxLengthValidator();
 
             for (int i = 0; i < listing.Count(); i++)
             {
-                if ((listing[i]?.Length ?? 0) > 100)
-                {
-                    validationResult.MaxLength.Add($"listing-{i+1}");
-                }
+                validator.Validate(listing[i], 100, $"listing-{i + 1}");
             }
 
-            return validationResult;
+            return validator.Result();
         }
     }
 }

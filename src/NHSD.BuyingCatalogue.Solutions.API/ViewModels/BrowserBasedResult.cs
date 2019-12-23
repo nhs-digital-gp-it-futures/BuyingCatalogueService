@@ -1,4 +1,3 @@
-using System.Linq;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
@@ -20,38 +19,32 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         [JsonProperty("browsers-supported")]
         public BrowserBasedDashboardSection BrowsersSupportedSection { get; }
 
+        [JsonProperty("browser-mobile-first")]
+        public BrowserBasedDashboardSection BrowserMobileFirstSection { get; }
+
         [JsonProperty("plug-ins-or-extensions")]
         public BrowserBasedDashboardSection PluginsOrExtensionsSection { get; }
 
         [JsonProperty("connectivity-and-resolution")]
         public BrowserBasedDashboardSection ConnectivityAndResolutionSection { get; }
 
-        [JsonProperty("hardware-requirements")]
+        [JsonProperty("browser-hardware-requirements")]
         public BrowserBasedDashboardSection HardwareRequirementsSection { get; }
 
-        [JsonProperty("additional-information")]
-        public BrowserBasedDashboardSection AdditionalInformationSection { get; }
+        [JsonProperty("browser-additional-information")]
+        public BrowserBasedDashboardSection BrowserAdditionalInformationSection { get; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="BrowserBasedDashboardSections"/> class.
         /// </summary>
         public BrowserBasedDashboardSections(IClientApplication clientApplication)
         {
-            BrowsersSupportedSection = new BrowserBasedDashboardSection(IsBrowserSupportedComplete(clientApplication), true);
-            PluginsOrExtensionsSection = new BrowserBasedDashboardSection(IsPluginsComplete(clientApplication?.Plugins), true);
-            ConnectivityAndResolutionSection = new BrowserBasedDashboardSection(false, true);
-            HardwareRequirementsSection = new BrowserBasedDashboardSection(false, false);
-            AdditionalInformationSection = new BrowserBasedDashboardSection(false, false);
-        }
-
-        private bool IsBrowserSupportedComplete(IClientApplication clientApplication)
-        {
-            return clientApplication?.BrowsersSupported?.Any() == true && clientApplication?.MobileResponsive.HasValue == true;
-        }
-
-        private bool IsPluginsComplete(IPlugins plugins)
-        {
-            return plugins?.Required.HasValue == true;
+            BrowsersSupportedSection = new BrowserBasedDashboardSection(clientApplication.IsBrowserSupportedComplete(), true);
+            BrowserMobileFirstSection = new BrowserBasedDashboardSection(clientApplication.IsMobileFirstComplete(), true);
+            PluginsOrExtensionsSection = new BrowserBasedDashboardSection(clientApplication.IsPluginsComplete(), true);
+            ConnectivityAndResolutionSection = new BrowserBasedDashboardSection(clientApplication.IsConnectivityAndResolutionComplete(), true);
+            HardwareRequirementsSection = new BrowserBasedDashboardSection(clientApplication.IsHardwareRequirementComplete(), false);
+            BrowserAdditionalInformationSection = new BrowserBasedDashboardSection(clientApplication.IsAdditionalInformationComplete(), false);
         }
     }
 

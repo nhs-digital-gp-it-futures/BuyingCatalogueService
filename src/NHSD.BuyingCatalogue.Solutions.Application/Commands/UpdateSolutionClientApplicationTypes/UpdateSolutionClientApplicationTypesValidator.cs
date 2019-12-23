@@ -1,19 +1,12 @@
-using System.Linq;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClientApplicationTypes
 {
-    internal sealed class UpdateSolutionClientApplicationTypesValidator
+    internal sealed class UpdateSolutionClientApplicationTypesValidator : IValidator<UpdateSolutionClientApplicationTypesCommand, RequiredResult>
     {
-        public UpdateSolutionClientApplicationTypesValidationResult Validate(UpdateSolutionClientApplicationTypesViewModel updateSolutionClientApplicationTypesViewModel)
-        {
-            var validationResult = new UpdateSolutionClientApplicationTypesValidationResult();
-
-            if (!updateSolutionClientApplicationTypesViewModel.FilteredClientApplicationTypes.Any())
-            {
-                validationResult.Required.Add("client-application-types");
-            }
-
-            return validationResult;
-        }
+        public RequiredResult Validate(UpdateSolutionClientApplicationTypesCommand updateSolutionClientApplicationTypesCommand)
+            => new RequiredValidator()
+                .Validate(updateSolutionClientApplicationTypesCommand.UpdateSolutionClientApplicationTypesViewModel.FilteredClientApplicationTypes, "client-application-types")
+                .Result();
     }
 }

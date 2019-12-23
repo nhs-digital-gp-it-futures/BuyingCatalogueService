@@ -24,7 +24,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         {
             bool? mobileResponsive = clientApplication?.MobileResponsive;
 
-            SupportedBrowsers = clientApplication?.BrowsersSupported;
+            SupportedBrowsers = clientApplication?.BrowsersSupported?.Any() == true ? clientApplication?.BrowsersSupported : null;
             MobileResponsive = mobileResponsive.ToYesNoString();
         }
     }

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using AutoMapper;
 using MediatR;
@@ -27,6 +28,7 @@ namespace NHSD.BuyingCatalogue.API
     /// <summary>
     /// Represents a bootstrapper for the application. Used as a starting point to configure the API.
     /// </summary>
+    [SuppressMessage("Design", "CA1822", Justification = "ASP.Net needs this to not be static")]
     public sealed class Startup
     {
         /// <summary>

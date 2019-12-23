@@ -1,9 +1,12 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
+using NHSD.BuyingCatalogue.API.Properties;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure.HealthChecks;
+using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks
 {
@@ -27,19 +30,20 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks
         /// <param name="context">A context object associated with the current execution.</param>
         /// <param name="cancellationToken">A <see cref="System.Threading.CancellationToken"/> that can be used to cancel the health check.</param>
         /// <returns>A <see cref="Task{HealthCheckResult}"/> that completes when the health check has finished, yielding the status of the component being checked.</returns>
+        [SuppressMessage("Design", "CA1031", Justification = "We want to catch all exceptions as this is the health check purpose")]
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
         {
             HealthCheckResult healthStatus = HealthCheckResult.Healthy();
 
             try
             {
-                await _repositoryHealthCheck.RunAsync(cancellationToken);
+                await _repositoryHealthCheck.RunAsync(cancellationToken).ConfigureAwait(false);
             }
             catch (Exception exception)
             {
-                _logger.LogError(exception, "Persistence layer health check failed.");
+                _logger.LogError(exception, Resources.HealthCheckFailed);
 
-                healthStatus = new HealthCheckResult(context.Registration.FailureStatus, exception: exception);
+                healthStatus = new HealthCheckResult(context.ThrowIfNull().Registration.FailureStatus, exception: exception);
             }
 
             return healthStatus;

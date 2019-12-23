@@ -30,7 +30,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Domain
                 SupplierStatus.AuthorityReview
             };
 
-            var actual = Enumeration.GetAll<SupplierStatus>();
+            var actual = Enumerator.GetAll<SupplierStatus>();
 
             actual.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
         }
@@ -38,13 +38,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Domain
         [Test]
         public void FromValueGivenValueOneShouldBeDraft()
         {
-            Enumeration.FromValue<SupplierStatus>(1).Should().Be(SupplierStatus.Draft);
+            Enumerator.FromValue<SupplierStatus>(1).Should().Be(SupplierStatus.Draft);
         }
 
         [Test]
         public void FromValueGivenValueTwoShouldBeAuthorityReview()
         {
-            Enumeration.FromValue<SupplierStatus>(2).Should().Be(SupplierStatus.AuthorityReview);
+            Enumerator.FromValue<SupplierStatus>(2).Should().Be(SupplierStatus.AuthorityReview);
         }
 
         [Test]
@@ -54,7 +54,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Domain
 
             var exception = Assert.Throws<InvalidOperationException>(() =>
             {
-                var actual = Enumeration.FromValue<SupplierStatus>(expectedValue);
+                var actual = Enumerator.FromValue<SupplierStatus>(expectedValue);
             });
 
             exception.Message.Should().Be($"'{expectedValue}' is not a valid value in {typeof(SupplierStatus)}");
@@ -63,7 +63,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Domain
         [Test]
         public void FromNameGivenNameAuthorityReviewShouldBeEqual()
         {
-            Enumeration.FromName<SupplierStatus>("authorityreview").Should().Be(SupplierStatus.AuthorityReview);
+            Enumerator.FromName<SupplierStatus>("authorityreview").Should().Be(SupplierStatus.AuthorityReview);
         }
 
         [Test]
@@ -73,16 +73,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Domain
 
             var exception = Assert.Throws<InvalidOperationException>(() =>
             {
-                var actual = Enumeration.FromName<SupplierStatus>(expectedName);
+                var actual = Enumerator.FromName<SupplierStatus>(expectedName);
             });
 
             exception.Message.Should().Be($"'{expectedName}' is not a valid name in {typeof(SupplierStatus)}");
-        }
-
-        [Test]
-        public void CompareToGivenSupplierStatusDraftShouldBeEqual()
-        {
-            SupplierStatus.Draft.CompareTo(SupplierStatus.Draft).Should().Be(0);
         }
 
         [Test]

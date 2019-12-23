@@ -11,21 +11,22 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
     {
 
         [Given(@"Organisations exist")]
-        public async Task GivenOrganisationsExist(Table table)
+        public static async Task GivenOrganisationsExist(Table table)
         {
             foreach (var organisation in table.CreateSet<OrganisationTable>())
             {
-                await InsertOrganisationAsync(organisation);
+                await InsertOrganisationAsync(organisation).ConfigureAwait(false);
             }
         }
 
-        private async Task InsertOrganisationAsync(OrganisationTable organisationTable)
+        private static async Task InsertOrganisationAsync(OrganisationTable organisationTable)
         {
             await OrganisationEntityBuilder.Create()
                 .WithName(organisationTable.Name)
                 .WithId(Guid.NewGuid())
                 .Build()
-                .InsertAsync();
+                .InsertAsync()
+                .ConfigureAwait(false);
         }
 
         private class OrganisationTable

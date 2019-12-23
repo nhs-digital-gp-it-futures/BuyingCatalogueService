@@ -1,8 +1,9 @@
 using MediatR;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowsersSupported
 {
-    public sealed class UpdateSolutionBrowsersSupportedCommand : IRequest<UpdateSolutionBrowserSupportedValidationResult>
+    public sealed class UpdateSolutionBrowsersSupportedCommand : IRequest<RequiredResult>
     {
         /// <summary>
         /// A value to uniquely identify a solution.

@@ -29,15 +29,15 @@ Background:
 Scenario: 1. Plugins are retrieved for the solution
     When a GET request is made for plug-ins-or-extensions for solution Sln1
     Then a successful response is returned
-    And the required string is Yes
-    And the addition-information string is orem ipsum
+    And the string value of element plugins-required is Yes
+    And the string value of element plugins-detail is orem ipsum
 
 @2786
 Scenario: 2. Plugins are retrieved for the solution where no solution detail exists
     When a GET request is made for plug-ins-or-extensions for solution Sln2
     Then a successful response is returned
-    And the required string is null
-    And the addition-information string value null
+    And the plugins-required string does not exist
+    And the plugins-detail string does not exist
 
 @2786
 Scenario: 3. Solution not found
@@ -60,5 +60,5 @@ Scenario: 5. Solution id not present in request
 Scenario: 6. Plugins are retrieved for the solution where no plugins-required
     When a GET request is made for plug-ins-or-extensions for solution Sln5
     Then a successful response is returned
-    And the required string is null
-    And the addition-information string value null
+    And the "plugins-required" string does not exist
+    And the plugins-detail string does not exist

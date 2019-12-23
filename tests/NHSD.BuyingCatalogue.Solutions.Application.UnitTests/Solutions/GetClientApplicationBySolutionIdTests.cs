@@ -5,6 +5,7 @@ using Moq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
@@ -33,7 +34,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             _clientApplicationResult = Mock.Of<IClientApplicationResult>(r =>
                 r.Id == _solutionId &&
-                r.ClientApplication == "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' } }"
+                r.ClientApplication == "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'HardwareRequirements': 'New Hardware', 'AdditionalInformation': 'Some Additional Info', 'MobileFirstDesign': false, 'NativeMobileFirstDesign': false, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows', 'Linux'], 'OperatingSystemsDescription': 'For windows only version 10' }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileMemoryAndStorage': { 'Description': 'A description', 'MinimumMemoryRequirement': '1GB' } }"
                 );
 
             var clientApplication = await _context.GetClientApplicationBySolutionIdHandler.Handle(
@@ -44,6 +45,19 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             clientApplication.MobileResponsive.Should().BeTrue();
             clientApplication.Plugins.Required.Should().BeTrue();
             clientApplication.Plugins.AdditionalInformation.Should().Be("orem ipsum");
+            clientApplication.HardwareRequirements.Should().Be("New Hardware");
+            clientApplication.AdditionalInformation.Should().Be("Some Additional Info");
+            clientApplication.MobileFirstDesign.Should().BeFalse();
+            clientApplication.NativeMobileFirstDesign.Should().BeFalse();
+            clientApplication.MobileOperatingSystems.OperatingSystems.Should()
+                .BeEquivalentTo(new[] {"Windows", "Linux"});
+            clientApplication.MobileOperatingSystems.OperatingSystemsDescription.Should()
+                .Be("For windows only version 10");
+            clientApplication.MobileConnectionDetails.ConnectionType.Should().BeEquivalentTo(new[] {"3G", "4G"});
+            clientApplication.MobileConnectionDetails.Description.Should().Be("A description");
+            clientApplication.MobileConnectionDetails.MinimumConnectionSpeed.Should().Be("1GBps");
+            clientApplication.MobileMemoryAndStorage.Description.Should().Be("A description");
+            clientApplication.MobileMemoryAndStorage.MinimumMemoryRequirement.Should().Be("1GB");
         }
 
         [Test]

@@ -8,5 +8,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         HashSet<string> BrowsersSupported { get; }
         bool? MobileResponsive { get; }
         IPlugins Plugins { get; }
+        string HardwareRequirements { get; }
+        string MinimumConnectionSpeed { get; }
+        string MinimumDesktopResolution { get; }
+        string AdditionalInformation { get; }
+        bool? MobileFirstDesign { get; }
+        bool? NativeMobileFirstDesign { get; }
+        IMobileOperatingSystems MobileOperatingSystems { get; }
+        IMobileConnectionDetails MobileConnectionDetails { get; }
+        IMobileMemoryAndStorage MobileMemoryAndStorage { get; }
     }
 }

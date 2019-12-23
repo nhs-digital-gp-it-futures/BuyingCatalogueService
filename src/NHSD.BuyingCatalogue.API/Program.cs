@@ -1,11 +1,12 @@
 using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
 namespace NHSD.BuyingCatalogue.API
 {
-    public class Program
+    public static class Program
 	{
 		public static void Main(string[] args)
 		{
@@ -39,7 +40,7 @@ namespace NHSD.BuyingCatalogue.API
 			return new ConfigurationBuilder()
 				.SetBasePath(Directory.GetCurrentDirectory())
 				.AddJsonFile("appsettings.json")
-				.AddUserSecrets<Program>()
+				.AddUserSecrets(Assembly.GetExecutingAssembly())
 				.AddEnvironmentVariables()
 				.Build();
 		}

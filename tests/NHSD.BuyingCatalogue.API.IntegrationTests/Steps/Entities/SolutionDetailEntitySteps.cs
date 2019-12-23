@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
+using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
-using NHSD.BuyingCatalogue.Testing.Tools;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 
@@ -16,7 +16,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
     {
 
         [Given(@"SolutionDetail exist")]
-        public async Task GivenSolutionDetailExist(Table table)
+        public static async Task GivenSolutionDetailExist(Table table)
         {
             foreach (var solutionDetail in table.CreateSet<SolutionDetailTable>())
             {
@@ -29,19 +29,20 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                     .WithClientApplication(solutionDetail.ClientApplication)
                     .WithLastUpdated(solutionDetail.LastUpdated != DateTime.MinValue ? solutionDetail.LastUpdated : DateTime.UtcNow)
                     .Build()
-                    .InsertAndSetCurrentForSolutionAsync();
+                    .InsertAndSetCurrentForSolutionAsync()
+                    .ConfigureAwait(false);
             }
         }
 
         [Given(@"a SolutionDetail (.*) does not exist")]
-        public async Task GivenASolutionDetailDoesNotExist(string solutionId)
+        public static async Task GivenASolutionDetailDoesNotExist(string solutionId)
         {
-            var solutionDetailList = await SolutionDetailEntity.FetchAllAsync();
+            var solutionDetailList = await SolutionDetailEntity.FetchAllAsync().ConfigureAwait(false);
             solutionDetailList.Select(x => x.SolutionId).Should().NotContain(solutionId);
         }
 
         [Then(@"SolutionDetail exist")]
-        public async Task ThenSolutionDetailExist(Table table)
+        public static async Task ThenSolutionDetailExist(Table table)
         {
             var expectedSolutionDetails = table.CreateSet<SolutionDetailTable>().Select(m => new
             {
@@ -52,7 +53,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 FullDescription = string.IsNullOrWhiteSpace(m.FullDescription) ? null : m.FullDescription,
                 ClientApplication = string.IsNullOrWhiteSpace(m.ClientApplication) ? null : JToken.Parse(m.ClientApplication).ToString()
             });
-            var solutionDetails = await SolutionDetailEntity.FetchAllAsync();
+            var solutionDetails = await SolutionDetailEntity.FetchAllAsync().ConfigureAwait(false);
             solutionDetails.Select(m => new
             {
                 Solution = m.SolutionId,
@@ -65,10 +66,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         }
 
         [Then(@"Last Updated has updated on the SolutionDetail for solution (.*)")]
-        public async Task LastUpdatedHasUpdatedOnSolutionDetail(string solutionId)
+        public static async Task LastUpdatedHasUpdatedOnSolutionDetail(string solutionId)
         {
-            var solutionDetail = await SolutionDetailEntity.GetBySolutionIdAsync(solutionId);
-            solutionDetail.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
+            var solutionDetail = await SolutionDetailEntity.GetBySolutionIdAsync(solutionId).ConfigureAwait(false);
+            (await solutionDetail.LastUpdated.SecondsFromNow().ConfigureAwait(false)).Should().BeLessOrEqualTo(5);
         }
 
         private class SolutionDetailTable

@@ -29,9 +29,8 @@ Scenario: 1. Supported Browsers are retrieved for the solution
     When a GET request is made for browsers-supported for solution Sln1
     Then a successful response is returned
     And the supported-browsers element contains
-        | BrowsersSupported |
-        | Chrome            |
-        | Edge              |
+        | Elements     |
+        | Chrome, Edge |
     And the mobile-responsive element is Yes
 
 @2786
@@ -39,7 +38,8 @@ Scenario: 2. Supported Browsers are retrieved for the solution where no solution
     When a GET request is made for browsers-supported for solution Sln2
     Then a successful response is returned
     And the supported-browsers element contains
-        | BrowsersSupported |
+        | Elements |
+        |          |
     And the mobile-responsive element is null
 
 @2786
@@ -47,7 +47,8 @@ Scenario: 3.Supported Browsers are retrieved for the solution where no browsers-
     When a GET request is made for browsers-supported for solution Sln3
     Then a successful response is returned
     And the supported-browsers element contains
-        | BrowsersSupported |
+        | Elements |
+        |          |
     And the mobile-responsive element is null
 
 @2786
@@ -73,5 +74,6 @@ Scenario: 7.Supported Browsers are retrieved for the solution where no supported
     When a GET request is made for browsers-supported for solution Sln5
     Then a successful response is returned
     And the supported-browsers element contains
-    | BrowsersSupported |
+    | Elements |
+    |          |
     And the mobile-responsive element is No

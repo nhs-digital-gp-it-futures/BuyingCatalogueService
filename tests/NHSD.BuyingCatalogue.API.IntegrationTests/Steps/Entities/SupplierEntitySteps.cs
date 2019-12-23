@@ -11,24 +11,25 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
     public sealed class SupplierEntitySteps
     {
         [Given(@"Suppliers exist")]
-        public async Task GivenSuppliersExist(Table table)
+        public static async Task GivenSuppliersExist(Table table)
         {
             foreach (var supplier in table.CreateSet<SupplierTable>())
             {
-                await InsertSupplierAsync(supplier);
+                await InsertSupplierAsync(supplier).ConfigureAwait(false);
             }
         }
 
-        private async Task InsertSupplierAsync(SupplierTable supplierTable)
+        private static async Task InsertSupplierAsync(SupplierTable supplierTable)
         {
-            var organisations = (await OrganisationEntity.FetchAllAsync()).ToList();
+            var organisations = (await OrganisationEntity.FetchAllAsync().ConfigureAwait(false)).ToList();
 
             await SupplierEntityBuilder.Create()
                 .WithId(supplierTable.Id)
                 .WithOrganisation(organisations.First(o => o.Name == supplierTable.OrganisationName).Id)
                 .WithName(supplierTable.Id)
                 .Build()
-                .InsertAsync();
+                .InsertAsync()
+                .ConfigureAwait(false);
         }
 
         private class SupplierTable

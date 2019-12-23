@@ -168,19 +168,32 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             clientApplicationTypesSubSections.NativeDesktopSection.Status.Should().Be("INCOMPLETE");
         }
 
-        [TestCase(false, null, "INCOMPLETE")]
-        [TestCase(false, false, "INCOMPLETE")]
-        [TestCase(false, true, "INCOMPLETE")]
-        [TestCase(true, false, "COMPLETE")]
-        [TestCase(true, null, "INCOMPLETE")]
-        [TestCase(true, true, "COMPLETE")]
-        public async Task ShouldGetDashboardCalculateClientApplicationTypeBrowserBased(bool someBrowsersSupported, bool? mobileResponsive, string result)
+        [TestCase(false, true, true, true, true, "INCOMPLETE")]
+        [TestCase(true, null, true, true, true, "INCOMPLETE")]
+        [TestCase(true, true, null, true, true, "INCOMPLETE")]
+        [TestCase(true, true, true, false, true, "INCOMPLETE")]
+        [TestCase(true, true, true, true, false, "INCOMPLETE")]
+        [TestCase(true, false, false, true, true, "COMPLETE")]
+        [TestCase(true, false, true, true, true, "COMPLETE")]
+        [TestCase(true, true, false, true, true, "COMPLETE")]
+        [TestCase(true, true, true, true, true, "COMPLETE")]
+
+        public async Task ShouldGetDashboardCalculateClientApplicationTypeBrowserBased(
+            bool someBrowsersSupported,
+            bool? mobileResponsive,
+            bool? isMobileFirst,
+            bool isPlugins,
+            bool isConnectivity,
+            string result)
         {
             var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s =>
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
                     c.ClientApplicationTypes == new HashSet<string> { "browser-based" } &&
                     c.BrowsersSupported == (someBrowsersSupported ? new HashSet<string> { "Edge", "Chrome" } : new HashSet<string>()) &&
-                    c.MobileResponsive == mobileResponsive))).ConfigureAwait(false);
+                    c.MobileResponsive == mobileResponsive &&
+                    c.MobileFirstDesign == isMobileFirst &&
+                    c.Plugins == (isPlugins ? Mock.Of<IPlugins>(p => p.Required == isPlugins) : null) &&
+                    c.MinimumConnectionSpeed == (isConnectivity ? "Some Connectivity" : null)))).ConfigureAwait(false);
 
             dashboardResult.SolutionDashboardSections.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section.Should().BeOfType<ClientApplicationTypesSubSections>();

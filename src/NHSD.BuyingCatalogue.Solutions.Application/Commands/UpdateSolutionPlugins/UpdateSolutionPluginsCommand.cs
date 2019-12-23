@@ -1,8 +1,9 @@
 using MediatR;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins
 {
-    public sealed class UpdateSolutionPluginsCommand : IRequest<UpdateSolutionPluginsValidationResult>
+    public sealed class UpdateSolutionPluginsCommand : IRequest<RequiredMaxLengthResult>
     {
         public string SolutionId { get; }
 

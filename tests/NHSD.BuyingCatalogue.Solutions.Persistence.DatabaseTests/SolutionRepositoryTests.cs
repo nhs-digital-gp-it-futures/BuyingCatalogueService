@@ -9,7 +9,6 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
-using NHSD.BuyingCatalogue.Testing.Tools;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
@@ -188,7 +187,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .ConfigureAwait(false);
             solution.Id.Should().Be(_solution1Id);
 
-            solution.LastUpdated.IsWithinTimespan(TimeSpan.FromSeconds(5));
+            (await solution.LastUpdated.SecondsFromNow().ConfigureAwait(false)).Should().BeLessOrEqualTo(5);
 
             solution.SupplierStatusId.Should().Be(2);
         }

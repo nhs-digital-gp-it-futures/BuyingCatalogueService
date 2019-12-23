@@ -84,14 +84,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         {
             HashSet<string> clientApplicationTypes = clientApplication?.ClientApplicationTypes ?? new HashSet<string>();
 
-            SetIfSelected("browser-based", clientApplicationTypes, () => BrowserBasedSection = DashboardSection.Mandatory(IsBrowserBasedComplete(clientApplication)));
+            SetIfSelected("browser-based", clientApplicationTypes,
+                () => BrowserBasedSection = DashboardSection.Mandatory(clientApplication.IsBrowserBasedComplete()));
             SetIfSelected("native-mobile", clientApplicationTypes, () => NativeMobileSection = DashboardSection.Mandatory(false));
             SetIfSelected("native-desktop", clientApplicationTypes, () => NativeDesktopSection = DashboardSection.Mandatory(false));
-        }
-
-        private bool IsBrowserBasedComplete(IClientApplication clientApplication)
-        {
-            return (clientApplication?.BrowsersSupported?.Any()).GetValueOrDefault() && (clientApplication?.MobileResponsive.HasValue).GetValueOrDefault();
         }
 
         private void SetIfSelected(string sectionName, HashSet<string> sections, Action setDashboardAction)
@@ -101,35 +97,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
                 setDashboardAction();
             }
         }
-    }
-
-    public class DashboardSection
-    {
-        private readonly bool _isRequired;
-        private readonly bool _isComplete;
-
-        public string Requirement => _isRequired ? "Mandatory" : "Optional";
-
-        public string Status => _isComplete ? "COMPLETE" : "INCOMPLETE";
-
-        [JsonProperty("sections")]
-        public object Section { get; }
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="DashboardSection"/> class.
-        /// </summary>
-        public DashboardSection(bool isRequired, bool isComplete, object section = null)
-        {
-            _isRequired = isRequired;
-            _isComplete = isComplete;
-            Section = section;
-        }
-
-        public static DashboardSection Mandatory(bool isComplete) => new DashboardSection(true, isComplete);
-
-        public static DashboardSection Optional(bool isComplete) => new DashboardSection(false, isComplete);
-
-        public static DashboardSection MandatoryWithSubSection(bool isComplete, object subSection) => new DashboardSection(true, isComplete, subSection);
     }
 }
 

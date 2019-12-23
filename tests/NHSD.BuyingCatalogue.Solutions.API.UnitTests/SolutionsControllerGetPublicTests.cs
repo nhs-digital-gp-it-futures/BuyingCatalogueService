@@ -87,7 +87,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             publicResult.LastUpdated.Should().Be(_lastUpdated);
         }
 
-        [TestCase(null,null,null)]
+        [TestCase(null, null, null)]
         [TestCase("summary", null, null)]
         [TestCase(null, "description", null)]
         [TestCase(null, null, "link")]
@@ -122,7 +122,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase(true)]
         public async Task ShouldGetFeaturesForSolution(bool hasFeature)
         {
-            var feature = hasFeature ? new List<string>() {"feature1", "feature2"} : new List<string>();
+            var feature = hasFeature ? new List<string>() { "feature1", "feature2" } : new List<string>();
 
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.Id == SolutionId1 &&
@@ -134,7 +134,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             if (hasFeature)
             {
                 publicResult.Sections.Features.Answers.Listing.Should()
-                    .BeEquivalentTo(new List<string>() {"feature1", "feature2"});
+                    .BeEquivalentTo(new List<string>() { "feature1", "feature2" });
             }
             else
             {
@@ -165,9 +165,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             bool? mobileResponsive, bool expectData)
         {
             var clientApplicationTypes = isClientApplication
-                ? new HashSet<string> {"browser-based", "native-mobile"}
+                ? new HashSet<string> { "browser-based", "native-mobile" }
                 : new HashSet<string>();
-            var browsersSupported = isBrowserSupported ? new HashSet<string> {"Chrome", "Edge"} : new HashSet<string>();
+            var browsersSupported = isBrowserSupported ? new HashSet<string> { "Chrome", "Edge" } : new HashSet<string>();
 
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
@@ -201,7 +201,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 else
                 {
                     publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers
-                        .SupportedBrowsers.Should().BeEmpty();
+                        .SupportedBrowsers.Should().BeNull();
                 }
             }
             else
@@ -244,6 +244,32 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         }
 
         [Test]
+        public async Task IfBrowserBasedThenHardwareRequirementsCanBeSet()
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "browser-based", "native-mobile" }
+                    && c.HardwareRequirements == "New Hardware") &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
+
+            publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections
+                .BrowserHardwareRequirementsSection.Answers.HardwareRequirements.Should().Be("New Hardware");
+        }
+
+        [Test]
+        public async Task IfBrowserBasedThenAdditionalInformationCanBeSet()
+        {
+            var previewResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.PublishedStatus == PublishedStatus.Published &&
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "browser-based", "native-mobile" } &&
+                    c.AdditionalInformation == "Some Additional Info")), SolutionId1).ConfigureAwait(false);
+
+            previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections
+                .BrowserAdditionalInformationSection.Answers.AdditionalInformation.Should().Be("Some Additional Info");
+        }
+
+        [Test]
         public async Task ShouldNotIncludeBrowserBasedDataIfClientApplicationTypesDoNotIncludeBrowserBased()
         {
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
@@ -273,7 +299,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase(true)]
         public async Task ShouldGetCapabilitiesOnlyForSolution(bool hasCapability)
         {
-            var capabilities = hasCapability ? new List<string>() {"cap1", "cap2"} : new List<string>(); 
+            var capabilities = hasCapability ? new List<string>() { "cap1", "cap2" } : new List<string>();
 
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.Id == SolutionId1 &&
@@ -281,7 +307,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
 
             publicResult.Id.Should().Be(SolutionId1);
-            publicResult.Sections.Capabilities.Answers.CapabilitiesMet.Should().ContainInOrder(hasCapability ? new List<string>{ "cap1", "cap2" } : new List<string>());
+            publicResult.Sections.Capabilities.Answers.CapabilitiesMet.Should().ContainInOrder(hasCapability ? new List<string> { "cap1", "cap2" } : new List<string>());
         }
 
         [Test]
@@ -289,22 +315,180 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var publicResult1 = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.Id == SolutionId1 &&
-                s.Capabilities == new List<string>() {"cap1", "cap2" } &&
+                s.Capabilities == new List<string>() { "cap1", "cap2" } &&
                 s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
 
             var publicResult2 = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.Id == SolutionId2 &&
-                s.Capabilities == new List<string>() {"cap3", "cap4", "cap5" } &&
+                s.Capabilities == new List<string>() { "cap3", "cap4", "cap5" } &&
                 s.PublishedStatus == PublishedStatus.Published), SolutionId2).ConfigureAwait(false);
 
             publicResult1.Id.Should().Be(SolutionId1);
             publicResult1.Sections.Capabilities.Answers.CapabilitiesMet.Should()
-                .ContainInOrder(new List<string>() {"cap1", "cap2"});
+                .ContainInOrder(new List<string>() { "cap1", "cap2" });
 
             publicResult2.Id.Should().Be(SolutionId2);
             publicResult2.Sections.Capabilities.Answers.CapabilitiesMet.Should()
-                .ContainInOrder(new List<string>() {"cap3", "cap4", "cap5"});
+                .ContainInOrder(new List<string>() { "cap3", "cap4", "cap5" });
         }
+
+        [TestCase("1GBps", "1x1", true)]
+        [TestCase(null, "1x1", true)]
+        [TestCase("1GBps", null, true)]
+        [TestCase(null, null, false)]
+        [TestCase("    ", "    ", false)]
+        [TestCase("", "", false)]
+        [TestCase("	", "	", false)]
+        public async Task ConnectivityAndResolutionSectionIsSetCorrectly(string connectivity, string resolution, bool hasData)
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.PublishedStatus == PublishedStatus.Published &&
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "browser-based" } &&
+                    c.MinimumConnectionSpeed == connectivity &&
+                    c.MinimumDesktopResolution == resolution)), SolutionId1).ConfigureAwait(false);
+            var connectivitySection = publicResult?.Sections?.ClientApplicationTypes?.Sections?.BrowserBased?.Sections?
+                .BrowserConnectivityAndResolutionSection;
+
+            if (!hasData)
+            {
+                connectivitySection.Should().BeNull();
+                return;
+            }
+
+            connectivitySection.Should().NotBeNull();
+            connectivitySection.Answers.HasData.Should().Be(hasData);
+            connectivitySection.Answers.MinimumConnectionSpeed.Should().Be(connectivity);
+            connectivitySection.Answers.MinimumDesktopResolution.Should().Be(resolution);
+        }
+
+        [TestCase(false, null, false)]
+        [TestCase(false, "Desc", false)]
+        [TestCase(true, null, true)]
+        [TestCase(true, "Desc", true)]
+        public async Task MobileOperatingSystemsIsSetCorrectly(bool isOperatingSystem, string description, bool hasData)
+        {
+            var operatingSystem = isOperatingSystem ? new HashSet<string> { "IOS", "Windows" } : new HashSet<string>();
+
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                    s.PublishedStatus == PublishedStatus.Published &&
+                    s.ClientApplication ==
+                    Mock.Of<IClientApplication>(c =>
+                        c.ClientApplicationTypes == new HashSet<string> {"native-mobile"} &&
+                        c.MobileOperatingSystems == Mock.Of<IMobileOperatingSystems>(m =>
+                            m.OperatingSystems == operatingSystem &&
+                            m.OperatingSystemsDescription == description))), SolutionId1)
+                .ConfigureAwait(false);
+
+            var operatingSystemResult = publicResult?.Sections?.ClientApplicationTypes?.Sections?.NativeMobile
+                ?.Sections?.MobileOperatingSystemsSection;
+
+            if (!hasData)
+            {
+                operatingSystemResult.Should().BeNull();
+                return;
+            }
+
+            operatingSystemResult.Should().NotBeNull();
+            operatingSystemResult.Answers.HasData.Should().BeTrue();
+            operatingSystemResult.Answers.OperatingSystemsDescription.Should().Be(description);
+            operatingSystemResult.Answers.OperatingSystems.Should().BeEquivalentTo(operatingSystem);
+        }
+        [TestCase(false, false, false, false)]
+        [TestCase(true, true, true, true)]
+        [TestCase(false, true, true, true)]
+        [TestCase(true, false, true, true)]
+        [TestCase(true, true, false, true)]
+        [TestCase(false, false, true, true)]
+        [TestCase(false, true, false, true)]
+        [TestCase(true, false, false, true)]
+        public async Task MobileConnectionDetailsIsSetCorrectly(bool hasConnectionType, bool hasDescription, bool hasMinimumConnectionSpeed, bool hasData)
+        {
+            var connectionType = hasConnectionType ? new HashSet<string> { "3G", "4G" } : null;
+            var description = hasDescription ? "I am a description" : null;
+            var minimumConnectionSpeed = hasMinimumConnectionSpeed ? "1GBps" : null;
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                    s.Id == SolutionId1 &&
+                    s.PublishedStatus == PublishedStatus.Published &&
+                    s.ClientApplication ==
+                    Mock.Of<IClientApplication>(c =>
+                        c.ClientApplicationTypes == new HashSet<string> { "native-mobile" } &&
+                        c.MobileConnectionDetails == Mock.Of<IMobileConnectionDetails>(m =>
+                            m.ConnectionType == connectionType &&
+                            m.Description == description &&
+                            m.MinimumConnectionSpeed == minimumConnectionSpeed))), SolutionId1)
+                .ConfigureAwait(false);
+
+            var mobileConnectionDetailsResult = publicResult?.Sections?.ClientApplicationTypes?.Sections?.NativeMobile
+                ?.Sections?.MobileConnectionDetailsSection;
+
+            if (!hasData)
+            {
+                mobileConnectionDetailsResult.Should().BeNull();
+                return;
+            }
+
+            mobileConnectionDetailsResult.Should().NotBeNull();
+            mobileConnectionDetailsResult.Answers.HasData.Should().BeTrue();
+            mobileConnectionDetailsResult.Answers.Description.Should().Be(description);
+            mobileConnectionDetailsResult.Answers.MinimumConnectionSpeed.Should().Be(minimumConnectionSpeed);
+            mobileConnectionDetailsResult.Answers.ConnectionType.Should().BeEquivalentTo(connectionType);
+        }
+
+        [TestCase(null, null, false)]
+        [TestCase("1GB", null, false)]
+        [TestCase(null, "Desc", false)]
+        [TestCase("1GB", "Desc", true)]
+        public async Task MobileMemoryAndStorageIsSetCorrectly(string minMemoryManagement, string description,
+            bool hasData)
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.PublishedStatus == PublishedStatus.Published &&
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "native-mobile" } &&
+                    c.MobileMemoryAndStorage == Mock.Of<IMobileMemoryAndStorage>(
+                        m => m.MinimumMemoryRequirement == minMemoryManagement &&
+                             m.Description == description))), SolutionId1).ConfigureAwait(false);
+
+            var mobileMemoryStorageResult = publicResult?.Sections?.ClientApplicationTypes?.Sections?.NativeMobile
+                ?.Sections?.MobileMemoryAndStorageSection;
+
+            if (!hasData)
+            {
+                mobileMemoryStorageResult.Should().BeNull();
+                return;
+            }
+
+            mobileMemoryStorageResult.Should().NotBeNull();
+            mobileMemoryStorageResult.Answers.HasData.Should().BeTrue();
+            mobileMemoryStorageResult.Answers.MinimumMemoryRequirement.Should().Be(minMemoryManagement);
+            mobileMemoryStorageResult.Answers.Description.Should().Be(description);
+        }
+
+        [TestCase(null, null)]
+        [TestCase(false, "No")]
+        [TestCase(true, "Yes")]
+        public async Task BrowserMobileFirstIsSetCorrectly(bool? mobileFirst, string result)
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.Id == SolutionId1 &&
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "browser-based" } &&
+                    c.MobileFirstDesign == mobileFirst) &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
+
+            var mobileFirstSection = publicResult?.Sections?.ClientApplicationTypes?.Sections?.BrowserBased?.Sections
+                ?.BrowserMobileFirstSection;
+
+            if (result == null)
+            {
+                mobileFirstSection.Should().BeNull();
+                return;
+            }
+
+            mobileFirstSection.Answers.MobileFirstDesign.Should().Be(result);
+        }
+
 
         [Test]
         public async Task ShouldGetContacts()
@@ -314,7 +498,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 Mock.Of<IContact>(m => m.Name == "name1" && m.Department == "dep1" && m.Email == "test@gmail.com" && m.PhoneNumber == "01234567890"),
                 Mock.Of<IContact>(m => m.Name == "name2" && m.Department == "dep2" && m.Email == "test2@gmail.com" && m.PhoneNumber == "12345678901")
             };
-            
+
             var contact = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.Id == SolutionId1 &&
                 s.Contacts == contacts &&
@@ -394,7 +578,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             Assert.Throws<ArgumentNullException>(() => new SolutionDescriptionSectionAnswers(null));
         }
-        
+
         private async Task<SolutionResult> GetSolutionPublicResultAsync(ISolution solution, string solutionId)
         {
             _mockMediator

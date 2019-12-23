@@ -36,6 +36,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             yield return new KeyValuePair<Type, Type>(typeof(Plugins), typeof(IPlugins));
             yield return new KeyValuePair<Type, Type>(typeof(Contact), typeof(ContactDto));
             yield return new KeyValuePair<Type, Type>(typeof(Contact), typeof(IContact));
+            yield return new KeyValuePair<Type, Type>(typeof(MobileOperatingSystems), typeof(MobileOperatingSystemsDto));
+            yield return new KeyValuePair<Type, Type>(typeof(MobileOperatingSystems), typeof(IMobileOperatingSystems));
+            yield return new KeyValuePair<Type, Type>(typeof(MobileConnectionDetails), typeof(MobileConnectionDetailsDto));
+            yield return new KeyValuePair<Type, Type>(typeof(MobileConnectionDetails), typeof(IMobileConnectionDetails));
+            yield return new KeyValuePair<Type, Type>(typeof(MobileMemoryAndStorage), typeof(MobileMemoryAndStorageDto));
+            yield return new KeyValuePair<Type, Type>(typeof(MobileMemoryAndStorage), typeof(IMobileMemoryAndStorage));
         }
 
         [Test]

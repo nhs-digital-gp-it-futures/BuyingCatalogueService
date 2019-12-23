@@ -9,19 +9,19 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
     public sealed class CapabilityEntitySteps
     {
         [Given(@"Capabilities exist")]
-        public async Task GivenCapabilitiesExist(Table table)
+        public static async Task GivenCapabilitiesExist(Table table)
         {
             foreach (var capability in table.CreateSet<CapabilityTable>())
             {
-                await InsertCapabilityAsync(capability);
+                await InsertCapabilityAsync(capability).ConfigureAwait(false);
             }
         }
 
-        private async Task InsertCapabilityAsync(CapabilityTable capabilityTable)
+        private static async Task InsertCapabilityAsync(CapabilityTable capabilityTable)
         {
             var capability = CapabilityEntityBuilder.Create().WithName(capabilityTable.CapabilityName).Build();
-            await capability.InsertAsync();
-            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capability.Id).WithIsFoundation(capabilityTable.IsFoundation).Build().InsertAsync();
+            await capability.InsertAsync().ConfigureAwait(false);
+            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capability.Id).WithIsFoundation(capabilityTable.IsFoundation).Build().InsertAsync().ConfigureAwait(false);
         }
 
         private class CapabilityTable

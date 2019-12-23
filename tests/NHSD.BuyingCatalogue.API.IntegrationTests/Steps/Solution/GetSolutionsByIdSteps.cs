@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
@@ -25,40 +26,19 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
         [When(@"a GET request is made for (dashboard|preview|public) with no solution id")]
         public async Task WhenAGETRequestIsMadeForSolutionSlnNoId(string view)
         {
-            await WhenAGETRequestIsMadeForSolutionSln(view, " ");
+            await WhenAGETRequestIsMadeForSolutionSln(view, " ").ConfigureAwait(false);
         }
 
         [When(@"a GET request is made for solution (dashboard|preview|public) (.*)")]
         public async Task WhenAGETRequestIsMadeForSolutionSln(string view, string solutionId)
         {
-            _response.Result = await Client.GetAsync(string.Format(ByIdSolutionsUrl, solutionId, view));
-        }
-
-        [Then(@"the solution IsFoundation is (true|false)")]
-        public async Task ThenTheSolutionIsFoundationIsBool(bool response)
-        {
-            var content = await _response.ReadBody();
-            content.SelectToken("isFoundation").Value<bool>().Should().Be(response);
-        }
-
-        [Then(@"the solution Name is (.*)")]
-        public async Task ThenTheSolutionNameIs(string name)
-        {
-            var content = await _response.ReadBody();
-            content.SelectToken("name").Value<string>().Should().Be(name);
-        }
-
-        [Then(@"the solution organisationName is (.*)")]
-        public async Task ThenTheSolutionOrganisationNameIs(string name)
-        {
-            var content = await _response.ReadBody();
-            content.SelectToken("organisationName").Value<string>().Should().Be(name);
+            _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, ByIdSolutionsUrl, solutionId, view)).ConfigureAwait(false);
         }
 
         [Then(@"the last updated date in the solution is (.*)")]
         public async Task ThenTheLastUpdatedDateInTheSolutionIs(DateTime lastUpdated)
         {
-            var content = await _response.ReadBody();
+            var content = await _response.ReadBody().ConfigureAwait(false);
             var contentLastUpdated = (DateTime)content.SelectToken("lastUpdated");
 
             contentLastUpdated.Should().Be(lastUpdated);

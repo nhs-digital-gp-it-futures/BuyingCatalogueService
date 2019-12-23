@@ -1,25 +1,13 @@
-using System.Linq;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowsersSupported
 {
-    internal sealed class UpdateSolutionBrowsersSupportedValidator
+    internal sealed class UpdateSolutionBrowsersSupportedValidator : IValidator<UpdateSolutionBrowsersSupportedCommand, RequiredResult>
     {
-        public UpdateSolutionBrowserSupportedValidationResult Validation(
-            UpdateSolutionBrowsersSupportedViewModel updateSolutionBrowsersSupportedViewModel)
-        {
-            var validationResult = new UpdateSolutionBrowserSupportedValidationResult();
-
-            if (!updateSolutionBrowsersSupportedViewModel.BrowsersSupported.Any())
-            {
-                validationResult.Required.Add("supported-browsers");
-            }
-
-            if (string.IsNullOrWhiteSpace(updateSolutionBrowsersSupportedViewModel.MobileResponsive))
-            {
-                validationResult.Required.Add("mobile-responsive");
-            }
-
-            return validationResult;
-        }
+        public RequiredResult Validate(UpdateSolutionBrowsersSupportedCommand updateSolutionBrowsersSupportedCommand)
+        => new RequiredValidator()
+                .Validate(updateSolutionBrowsersSupportedCommand.UpdateSolutionBrowsersSupportedViewModel.BrowsersSupported, "supported-browsers")
+                .Validate(updateSolutionBrowsersSupportedCommand.UpdateSolutionBrowsersSupportedViewModel.MobileResponsive, "mobile-responsive")
+                .Result();
     }
 }

@@ -9,6 +9,7 @@ using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NUnit.Framework;
@@ -22,7 +23,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
         private ContactDetailsController _contactDetailsController;
 
-        private UpdateSolutionContactDetailsValidationResult _validationResult;
+        private MaxLengthResult _validationResult;
 
         private const string SolutionId = "Sln1";
         private List<IContact> _returnedContacts;
@@ -61,7 +62,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 m.Send(It.Is<UpdateSolutionContactDetailsCommand>(q => q.SolutionId == SolutionId),
                     It.IsAny<CancellationToken>())).ReturnsAsync(() => _validationResult);
 
-            _validationResult = new UpdateSolutionContactDetailsValidationResult();
+            _validationResult = new MaxLengthResult();
             _returnedContacts = new List<IContact>();
         }
 
@@ -72,7 +73,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             _returnedContacts.Add(Contact1);
             _returnedContacts.Add(Contact2);
 
-            if(hasThirdContact)
+            if (hasThirdContact)
                 _returnedContacts.Add(Contact3);
 
             var result = (await _contactDetailsController.GetContactDetailsAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
@@ -138,7 +139,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             contact.Contact1.Should().BeNull();
             contact.Contact2.Should().BeNull();
-            
+
             _mockMediator.Verify(m => m.Send(It.Is<GetContactDetailBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
         }
 
@@ -155,14 +156,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task SubmitForReviewResultFailure()
         {
-            _validationResult = new UpdateSolutionContactDetailsValidationResult { MaxLength = { "This update was too cool for school" } };
-            var expectedResponse = new UpdateSolutionContactDetailsResult(_validationResult);
+            _validationResult = new MaxLengthResult { MaxLength = { "This update was too cool for school" } };
+            var expectedResponse = new UpdateFormMaxLengthResult(_validationResult);
 
             var result = await _contactDetailsController.UpdateContactDetailsAsync(SolutionId, new UpdateSolutionContactDetailsViewModel()).ConfigureAwait(false) as BadRequestObjectResult;
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(400);
 
-            var actual = result.Value as UpdateSolutionContactDetailsResult;
+            var actual = result.Value as UpdateFormMaxLengthResult;
             actual.Should().NotBeNull();
             actual.Should().BeEquivalentTo(expectedResponse);
         }
@@ -170,7 +171,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public void UpdateResultSetsValidationCorrectly()
         {
-            var response = new UpdateSolutionContactDetailsResult(_validationResult);
+            var response = new UpdateFormMaxLengthResult(_validationResult);
             response.MaxLength.Should().BeEquivalentTo(_validationResult.MaxLength);
         }
     }

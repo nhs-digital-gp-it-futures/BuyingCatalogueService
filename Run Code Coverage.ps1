@@ -1,43 +1,81 @@
+# Get all directories in "tests" directory
+[System.Collections.ArrayList]$directoriesToTest = $(Get-ChildItem "tests" -Directory)
+# Declare which ones to exlude in code coverage report
+[System.Collections.ArrayList]$exludedDirectories = "NHSD.BuyingCatalogue.Testing.Data","NHSD.BuyingCatalogue.Testing.Tools","NHSD.BuyingCatalogue.API.IntegrationTests"
 
-Write-Host "Check the report generator is installed"
+# convert the objects from DirectoryInfo to String type.
+$directoriesToTest = $directoriesToTest.ForEach({$_.ToString()})
 
-$dotnetToolOutput = dotnet tool list -g | Select-String -pattern "dotnet-reportgenerator-globaltool" -SimpleMatch
-
-if ([string]::IsNullOrEmpty($dotnetToolOutput)) {
-    Write-Warning "Report generator could not be found"
-    dotnet tool install -g dotnet-reportgenerator-globaltool
+# remove excluded directories
+foreach ($dir in $exludedDirectories) {
+    $directoriesToTest.Remove($dir)
 }
-else {
-    Write-Host "Report generator is already installed"
+
+function CheckRequirements() {
+    Write-Host "Check the report generator is installed" -ForegroundColor Yellow
+
+    $dotnetToolOutput = dotnet tool list -g | Select-String -pattern "dotnet-reportgenerator-globaltool" -SimpleMatch
+
+    if ([string]::IsNullOrEmpty($dotnetToolOutput)) {
+        Write-Warning "Report generator could not be found, installing it" -ForegroundColor Yellow
+        dotnet tool install -g dotnet-reportgenerator-globaltool
+    }
+    else {
+        Write-Host "Report generator is already installed" -ForegroundColor Green
+    }
 }
 
-Write-Host ""
-Write-Host "Run code coverage tests"
-Write-Host "----- Code Coverage --------"
+# makes sure the projects are built in debug mode, then runs the tests and collects code coverage reports
+function RunCodeCoverageTests() { 
+
+    Write-Host ""
+    Write-Host "Run code coverage tests" -ForegroundColor Yellow
+    Write-Host "----- Code Coverage --------" -ForegroundColor Yellow
+
+    For($i = 0; $i -lt $directoriesToTest.Count; $i++)
+    {
+        cd "tests\$($directoriesToTest[$i])"
+
+        if( -NOT (Test-Path "bin\Debug")) {    
+            dotnet build -c "Debug"
+        }
+
+        RunTests -dir "$($directoriesToTest[$i])"
+        cd "..\.."
+        Write-Progress -Activity "Running tests" `
+        -Status "$($i+1) out of $($directoriesToTest.Count) finished"`
+
+    }
+}
+
+function RunTests([string]$dir){
+
+    $RunTestCommand= 'dotnet test --no-build --nologo /p:CollectCoverage=true /p:CoverletOutput=../../OpenCover/ /p:Exclude=[*.Testing.*]* /p:MergeWith="../../OpenCover/coverage.json"'
+    $OutputParam='';
+    if ($dir -eq $($directoriesToTest[$directoriesToTest.Count-1])) {
+        $OutputParam='/p:CoverletOutputFormat="opencover"'   
+    }
+    Invoke-Expression "$RunTestCommand $OutputParam"
+}
+
+function GenerateCodeCoverageReport() {
+
+    Write-Host "----- Code Coverage --------" -ForegroundColor Yellow
+    Write-Host ""
+    Write-Host "Generate code coverage reports" -ForegroundColor Yellow
+    Write-Host "----- Report Output--------" -ForegroundColor Yellow
+
+    reportgenerator "-reports:OpenCover\coverage.opencover.xml" "-targetdir:OpenCover\Report\"
+
+    Write-Host "----- Report Output--------" -ForegroundColor Yellow
+}
+
+CheckRequirements
 
 & ".\Launch Environment.ps1" -env i
 
-dotnet test "tests\NHSD.BuyingCatalogue.Infrastructure.Tests\NHSD.BuyingCatalogue.Infrastructure.Tests.csproj" --no-build --nologo /p:CollectCoverage=true /p:CoverletOutput=../../OpenCover/ /p:Exclude=[*.Testing.*]*
-dotnet test "tests\NHSD.BuyingCatalogue.API.UnitTests\NHSD.BuyingCatalogue.API.UnitTests.csproj" --no-build --nologo /p:CollectCoverage=true /p:CoverletOutput=../../OpenCover/ /p:Exclude=[*.Testing.*]* /p:MergeWith="../../OpenCover/coverage.json"
-dotnet test "tests\NHSD.BuyingCatalogue.Capabilities.API.UnitTests\NHSD.BuyingCatalogue.Capabilities.API.UnitTests.csproj" --no-build --nologo /p:CollectCoverage=true /p:CoverletOutput=../../OpenCover/ /p:Exclude=[*.Testing.*]* /p:MergeWith="../../OpenCover/coverage.json"
-dotnet test "tests\NHSD.BuyingCatalogue.Capabilities.Application.UnitTests\NHSD.BuyingCatalogue.Capabilities.Application.UnitTests.csproj" --no-build --nologo /p:CollectCoverage=true /p:CoverletOutput=../../OpenCover/ /p:Exclude=[*.Testing.*]* /p:MergeWith="../../OpenCover/coverage.json"
-dotnet test "tests\NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests\NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests.csproj" --no-build --nologo /p:CollectCoverage=true /p:CoverletOutput=../../OpenCover/ /p:Exclude=[*.Testing.*]* /p:MergeWith="../../OpenCover/coverage.json"
-dotnet test "tests\NHSD.BuyingCatalogue.SolutionLists.API.UnitTests\NHSD.BuyingCatalogue.SolutionLists.API.UnitTests.csproj" --no-build --nologo /p:CollectCoverage=true /p:CoverletOutput=../../OpenCover/ /p:Exclude=[*.Testing.*]* /p:MergeWith="../../OpenCover/coverage.json"
-dotnet test "tests\NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests\NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests.csproj" --no-build --nologo /p:CollectCoverage=true /p:CoverletOutput=../../OpenCover/ /p:Exclude=[*.Testing.*]* /p:MergeWith="../../OpenCover/coverage.json"
-dotnet test "tests\NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests\NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests.csproj" --no-build --nologo /p:CollectCoverage=true /p:CoverletOutput=../../OpenCover/ /p:Exclude=[*.Testing.*]* /p:MergeWith="../../OpenCover/coverage.json"
-dotnet test "tests\NHSD.BuyingCatalogue.Solutions.API.UnitTests\NHSD.BuyingCatalogue.Solutions.API.UnitTests.csproj" --no-build --nologo /p:CollectCoverage=true /p:CoverletOutput=../../OpenCover/ /p:Exclude=[*.Testing.*]* /p:MergeWith="../../OpenCover/coverage.json"
-dotnet test "tests\NHSD.BuyingCatalogue.Solutions.Application.UnitTests\NHSD.BuyingCatalogue.Solutions.Application.UnitTests.csproj" --no-build --nologo /p:CollectCoverage=true /p:CoverletOutput=../../OpenCover/ /p:Exclude=[*.Testing.*]* /p:MergeWith="../../OpenCover/coverage.json"
-dotnet test "tests\NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests\NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests.csproj" --no-build --nologo /p:CollectCoverage=true /p:CoverletOutput=../../OpenCover/ /p:Exclude=[*.Testing.*]* /p:MergeWith="../../OpenCover/coverage.json"
-dotnet test "tests\NHSD.BuyingCatalogue.Data.Tests\NHSD.BuyingCatalogue.Data.Tests.csproj" --no-build --nologo /p:CollectCoverage=true /p:CoverletOutput=../../OpenCover/ /p:Exclude=[*.Testing.*]* /p:MergeWith="../../OpenCover/coverage.json"
-dotnet test "tests\NHSD.BuyingCatalogue.Persistence.DatabaseTests\NHSD.BuyingCatalogue.Persistence.DatabaseTests.csproj" --no-build --nologo /p:CollectCoverage=true /p:CoverletOutput=../../OpenCover/ /p:Exclude=[*.Testing.*]* /p:MergeWith="../../OpenCover/coverage.json" /p:CoverletOutputFormat="opencover"
+RunCodeCoverageTests
 
-Write-Host "----- Code Coverage --------"
-Write-Host ""
-Write-Host "Generate code coverage reports"
-Write-Host "----- Report Output--------"
-
-reportgenerator "-reports:OpenCover\coverage.opencover.xml" "-targetdir:OpenCover\Report\"
-
-Write-Host "----- Report Output--------"
+GenerateCodeCoverageReport
 
 & ".\Tear Down Environment.ps1" -env i

@@ -25,7 +25,7 @@ Scenario: 1. Client Application Types are updated for the solution
         | Sln1     | An full online medicine system | Online medicine 1   |  { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
         | Sln2     | Fully fledged GP system        | Fully fledged GP 12 |  {  }                                                                                  |
         | Sln3     | Thrills                        | Bellyaches          |  { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] } |
-    When a PUT request is made to update solution Sln1 client-application-types section
+    When a PUT request is made to update the client-application-types section for solution Sln1
         | ClientApplicationTypes       |
         | browser-based,native-mobile |
     Then a successful response is returned
@@ -35,16 +35,16 @@ Scenario: 1. Client Application Types are updated for the solution
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     |  ClientApplication                                                                                                                        |
-        | Sln1     | An full online medicine system | Online medicine 1   |  { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null } |
-        | Sln2     | Fully fledged GP system        | Fully fledged GP 12 |  {  }                                                                                                                                     |
-        | Sln3     | Thrills                        | Bellyaches          |  { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] }                                                    |
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                                                                                                                                                                                                                             |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null, "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null, "HardwareRequirements": null, "AdditionalInformation": null, "MobileFirstDesign": null, "NativeMobileFirstDesign": null, "MobileOperatingSystems": null, "MobileConnectionDetails": null, "MobileMemoryAndStorage": null } |
+        | Sln2     | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                                                                                                                                                                                                                                                                                                                          |
+        | Sln3     | Thrills                        | Bellyaches          | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] }                                                                                                                                                                                                                                                                                                         |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @2726
 Scenario: 2. If SolutionDetail is missing for the solution, thats an error case
 	Given a SolutionDetail Sln1 does not exist
-    When a PUT request is made to update solution Sln1 client-application-types section
+    When a PUT request is made to update the client-application-types section for solution Sln1
         | ClientApplicationTypes      |
         | browser-based,native-mobile |
     Then a response status of 500 is returned
@@ -56,7 +56,7 @@ Scenario: 3. Client Application Types that we do not understand are ignored
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
         | Sln2     | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                  |
         | Sln3     | Thrills                        | Bellyaches          | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] } |
-    When a PUT request is made to update solution Sln1 client-application-types section
+    When a PUT request is made to update the client-application-types section for solution Sln1
         | ClientApplicationTypes                      |
         | browser-based,native-mobile,elephant,cheese |
     Then a successful response is returned
@@ -66,10 +66,10 @@ Scenario: 3. Client Application Types that we do not understand are ignored
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                        |
-        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null } |
-        | Sln2     | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                                                                     |
-        | Sln3     | Thrills                        | Bellyaches          | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] }                                                    |
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                    |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null, "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null, "HardwareRequirements": null, "AdditionalInformation": null, "MobileFirstDesign": null, "NativeMobileFirstDesign": null, "MobileOperatingSystems": null, "MobileConnectionDetails": null, "MobileMemoryAndStorage": null } |
+        | Sln2     | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+        | Sln3     | Thrills                        | Bellyaches          | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] }                                                                                                                                                                                                                                                                                                                                                |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @2726
@@ -79,11 +79,11 @@ Scenario: 4. Client Application Types cannot be completely cleared
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
         | Sln2     | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                  |
         | Sln3     | Thrills                        | Bellyaches          | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] } |
-    When a PUT request is made to update solution Sln1 client-application-types section
+    When a PUT request is made to update the client-application-types section for solution Sln1
         | ClientApplicationTypes |
         |                        |
     Then a response status of 400 is returned
-    Then the client-application-types required field contains client-application-types
+    Then the required field contains client-application-types
     And Solutions exist
         | SolutionID | SolutionName   |
         | Sln1       | MedicOnline    |
@@ -98,7 +98,7 @@ Scenario: 4. Client Application Types cannot be completely cleared
 @2726
 Scenario: 6. Solution not found
     Given a Solution Sln4 does not exist
-    When a PUT request is made to update solution Sln4 client-application-types section
+    When a PUT request is made to update the client-application-types section for solution Sln4
         | ClientApplicationTypes       |
         | browser-based,native-desktop |
     Then a response status of 404 is returned
@@ -106,14 +106,14 @@ Scenario: 6. Solution not found
 @2726
 Scenario: 7. Service failure
     Given the call to the database to set the field will fail
-    When a PUT request is made to update solution Sln4 client-application-types section
+    When a PUT request is made to update the client-application-types section for solution Sln1
         | ClientApplicationTypes       |
         | browser-based,native-desktop |
     Then a response status of 500 is returned
 
 @2726
 Scenario: 8. Solution id not present in request
-    When a PUT request is made to update solution client-application-types section with no solution id
+    When a PUT request is made to update the client-application-types section with no solution id
         | ClientApplicationTypes       |
         | browser-based,native-desktop |
     Then a response status of 400 is returned
