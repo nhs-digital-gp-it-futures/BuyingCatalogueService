@@ -53,14 +53,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> UpdatePlugInsAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionPluginsViewModel updateSolutionPlugInsViewModel)
-        {
-            var validationResult =
-                await _mediator.Send(new UpdateSolutionPluginsCommand(id, updateSolutionPlugInsViewModel)).ConfigureAwait(false);
-
-            return validationResult.IsValid
-                ? (ActionResult)new NoContentResult()
-                : BadRequest(new UpdateSolutionPluginsResult(validationResult));
-        }
+        public async Task<ActionResult> UpdatePlugInsAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionPluginsViewModel updateSolutionPlugInsViewModel) =>
+            (await _mediator.Send(new UpdateSolutionPluginsCommand(id, updateSolutionPlugInsViewModel)).ConfigureAwait(false)).ToActionResult();
     }
 }

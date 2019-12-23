@@ -43,15 +43,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> UpdateMemoryAndStorageAsync([FromRoute] [Required] string id, [FromBody] [Required] UpdateSolutionMemoryAndStorageRequest viewModel)
-        {
-            var validationResult = await _mediator
-                .Send(new UpdateSolutionMobileMemoryStorageCommand(id, viewModel?.MinimumMemoryRequirement,
-                    viewModel?.Description)).ConfigureAwait(false);
-
-            return validationResult.IsValid
-                ? (ActionResult)new NoContentResult()
-                : BadRequest(new UpdateMobileMemoryAndStorageResult(validationResult));
-        }
+        public async Task<ActionResult> UpdateMemoryAndStorageAsync([FromRoute] [Required] string id, [FromBody] [Required] UpdateSolutionMemoryAndStorageRequest viewModel) =>
+            (await _mediator.Send(new UpdateSolutionMobileMemoryStorageCommand(id, viewModel?.MinimumMemoryRequirement,
+                    viewModel?.Description)).ConfigureAwait(false)).ToActionResult();
     }
 }

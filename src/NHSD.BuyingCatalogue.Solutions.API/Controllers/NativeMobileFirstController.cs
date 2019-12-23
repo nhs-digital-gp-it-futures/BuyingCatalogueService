@@ -1,11 +1,9 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionNativeMobileFirst;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
@@ -44,14 +42,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> UpdateMobileFirstAsync([FromRoute] [Required] string id,
-            [FromBody] [Required] UpdateSolutionNativeMobileFirstViewModel viewModel)
-        {
-            var validationResult = await _mediator.Send(new UpdateSolutionNativeMobileFirstCommand(id, viewModel))
-                .ConfigureAwait(false);
-
-            return validationResult.IsValid
-                ? (ActionResult)new NoContentResult()
-                : BadRequest(new UpdateSolutionNativeMobileFirstResult(validationResult));
-        }
+            [FromBody] [Required] UpdateSolutionNativeMobileFirstViewModel viewModel) =>
+            (await _mediator.Send(new UpdateSolutionNativeMobileFirstCommand(id, viewModel)).ConfigureAwait(false)).ToActionResult();
     }
 }

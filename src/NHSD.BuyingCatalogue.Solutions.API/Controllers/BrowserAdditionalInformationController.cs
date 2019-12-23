@@ -41,14 +41,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> UpdateAdditionalInformationAsync([FromRoute] [Required] string id,
             [FromBody] [Required]
-            UpdateSolutionBrowserAdditionalInformationViewModel viewModel)
-        {
-            var validationResult = await _mediator.Send(new UpdateSolutionBrowserAdditionalInformationCommand(id, viewModel))
-                .ConfigureAwait(false);
-
-            return validationResult.IsValid
-                ? (ActionResult)new NoContentResult()
-                : BadRequest(new UpdateSolutionBrowserAdditionalInformationResult(validationResult));
-        }
+            UpdateSolutionBrowserAdditionalInformationViewModel viewModel) =>
+            (await _mediator.Send(new UpdateSolutionBrowserAdditionalInformationCommand(id, viewModel))
+                .ConfigureAwait(false)).ToActionResult();
     }
 }

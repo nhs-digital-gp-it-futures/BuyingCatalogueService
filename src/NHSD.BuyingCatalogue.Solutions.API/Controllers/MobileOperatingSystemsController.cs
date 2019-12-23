@@ -44,14 +44,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
             [ProducesResponseType((int)HttpStatusCode.NoContent)]
             [ProducesResponseType((int)HttpStatusCode.NotFound)]
             public async Task<ActionResult> UpdateMobileOperatingSystems([FromRoute] [Required] string id,
-                [FromBody] [Required] UpdateSolutionMobileOperatingSystemsViewModel viewModel)
-            {
-                var validationResult = await _mediator
-                    .Send(new UpdateSolutionMobileOperatingSystemsCommand(id, viewModel)).ConfigureAwait(false);
-
-                return validationResult.IsValid
-                    ? (ActionResult)new NoContentResult()
-                    : BadRequest(new UpdateSolutionMobileOperatingSystemsResult(validationResult));
-            }
+                [FromBody] [Required] UpdateSolutionMobileOperatingSystemsViewModel viewModel) =>
+                (await _mediator.Send(new UpdateSolutionMobileOperatingSystemsCommand(id, viewModel)).ConfigureAwait(false)).ToActionResult();
         }
 }

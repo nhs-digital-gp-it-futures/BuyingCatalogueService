@@ -138,8 +138,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var result = (await _mobileOperatingSystemsController.UpdateMobileOperatingSystems(SolutionId, viewModel).ConfigureAwait(false)) as BadRequestObjectResult;
 
             result?.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            (result?.Value as UpdateSolutionMobileOperatingSystemsResult)?.Required.Should().BeEquivalentTo(new[] { "operating-systems" });
-            (result?.Value as UpdateSolutionMobileOperatingSystemsResult)?.MaxLength.Should().BeEquivalentTo(new[] { "operating-systems-description" });
+            (result?.Value as UpdateFormRequiredMaxLengthResult)?.Required.Should().BeEquivalentTo(new[] { "operating-systems" });
+            (result?.Value as UpdateFormRequiredMaxLengthResult)?.MaxLength.Should().BeEquivalentTo(new[] { "operating-systems-description" });
 
             _mockMediator.Verify(
                 m => m.Send(

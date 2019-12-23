@@ -122,7 +122,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var result = await _nativeMobileFirstController.UpdateMobileFirstAsync(SolutionId, viewModel).ConfigureAwait(false) as BadRequestObjectResult;
 
             result?.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            (result?.Value as UpdateSolutionBrowserMobileFirstResult)?.Required.Should()
+            (result?.Value as UpdateFormRequiredResult)?.Required.Should()
                 .BeEquivalentTo(new[] { "mobile-first-design" });
 
             _mockMediator.Verify(

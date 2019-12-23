@@ -109,7 +109,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 .ConfigureAwait(false) as BadRequestObjectResult;
 
             result?.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            (result?.Value as UpdateSolutionBrowserAdditionalInformationResult)?.MaxLength.Should().BeEquivalentTo(new[] { "additional-information" });
+            (result?.Value as UpdateFormMaxLengthResult).MaxLength.Should().BeEquivalentTo(new[] { "additional-information" });
 
             _mockMediator.Verify(
                 m => m.Send(

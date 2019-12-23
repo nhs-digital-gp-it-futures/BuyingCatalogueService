@@ -85,7 +85,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 (await _solutionDescriptionController.UpdateAsync(SolutionId, solutionSummaryUpdateViewModel).ConfigureAwait(false)) as BadRequestObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            var resultValue = result.Value as UpdateSolutionSummaryResult;
+            var resultValue = result.Value as UpdateFormRequiredMaxLengthResult;
             resultValue.Required.Should().BeEquivalentTo(new[] { "summary" });
             resultValue.MaxLength.Should().BeEquivalentTo(new[] { "summary", "description", "link" });
 

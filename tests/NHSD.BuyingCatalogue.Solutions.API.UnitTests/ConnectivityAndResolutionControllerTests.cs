@@ -59,7 +59,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             result.Should().NotBeNull();
             result?.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
 
-            var validationResult = result?.Value as UpdateSolutionConnectivityAndResolutionResult;
+            var validationResult = result?.Value as UpdateFormRequiredResult;
             validationResult?.Required.Should().BeEquivalentTo(_validationResult.Required);
         }
 

@@ -50,14 +50,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> UpdateContactDetailsAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionContactDetailsViewModel updateSolutionContactDetailsViewModel)
-        {
-            var validationResult =
-                await _mediator.Send(new UpdateSolutionContactDetailsCommand(id, updateSolutionContactDetailsViewModel)).ConfigureAwait(false);
-
-            return validationResult.IsValid
-                ? (ActionResult)new NoContentResult()
-                : BadRequest(new UpdateSolutionContactDetailsResult(validationResult));
-        }
+        public async Task<ActionResult> UpdateContactDetailsAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionContactDetailsViewModel updateSolutionContactDetailsViewModel) =>
+            (await _mediator.Send(new UpdateSolutionContactDetailsCommand(id, updateSolutionContactDetailsViewModel)).ConfigureAwait(false)).ToActionResult();
     }
 }

@@ -1,11 +1,9 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileConnectionDetails;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;

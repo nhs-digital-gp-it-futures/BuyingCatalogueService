@@ -157,13 +157,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         public async Task SubmitForReviewResultFailure()
         {
             _validationResult = new MaxLengthResult { MaxLength = { "This update was too cool for school" } };
-            var expectedResponse = new UpdateSolutionContactDetailsResult(_validationResult);
+            var expectedResponse = new UpdateFormMaxLengthResult(_validationResult);
 
             var result = await _contactDetailsController.UpdateContactDetailsAsync(SolutionId, new UpdateSolutionContactDetailsViewModel()).ConfigureAwait(false) as BadRequestObjectResult;
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(400);
 
-            var actual = result.Value as UpdateSolutionContactDetailsResult;
+            var actual = result.Value as UpdateFormMaxLengthResult;
             actual.Should().NotBeNull();
             actual.Should().BeEquivalentTo(expectedResponse);
         }
@@ -171,7 +171,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public void UpdateResultSetsValidationCorrectly()
         {
-            var response = new UpdateSolutionContactDetailsResult(_validationResult);
+            var response = new UpdateFormMaxLengthResult(_validationResult);
             response.MaxLength.Should().BeEquivalentTo(_validationResult.MaxLength);
         }
     }
