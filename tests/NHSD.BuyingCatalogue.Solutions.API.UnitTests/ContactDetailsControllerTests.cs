@@ -118,14 +118,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         }
 
         [Test]
-        public async Task ContactDetailsNotFoundWhenContactsIsNull()
+        public async Task ContactDetailsReturnEmptyWhenContactsIsNull()
         {
             _returnedContacts = null;
-            var result = (await _contactDetailsController.GetContactDetailsAsync(SolutionId).ConfigureAwait(false)) as NotFoundResult;
+            var result = (await _contactDetailsController.GetContactDetailsAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
-
-            _mockMediator.Verify(m => m.Send(It.Is<GetContactDetailBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            (result.Value as GetContactDetailsResult).Contact1.Should().BeNull();
+            (result.Value as GetContactDetailsResult).Contact2.Should().BeNull();
         }
 
         [Test]

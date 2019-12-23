@@ -31,7 +31,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         public async Task<ActionResult> GetHardwareRequirementsAsync([FromRoute][Required]string id)
         {
             var clientApplication = await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
-            return clientApplication == null ? (ActionResult)new NotFoundResult() : Ok(new GetBrowserHardwareRequirementsResult(clientApplication.HardwareRequirements));
+            return Ok(new GetBrowserHardwareRequirementsResult(clientApplication?.HardwareRequirements));
         }
 
         [HttpPut]

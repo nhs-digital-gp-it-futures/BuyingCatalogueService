@@ -10,15 +10,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         private readonly List<GetContactDetailsResultSection> _contacts;
 
         public GetContactDetailsResult(IEnumerable<IContact> contacts)
-            => _contacts = contacts.Select(c => new GetContactDetailsResultSection(c)).ToList();
+            => _contacts = contacts?.Select(c => new GetContactDetailsResultSection(c)).ToList();
 
         [JsonProperty("contact-1")]
         public GetContactDetailsResultSection Contact1
-            => _contacts.FirstOrDefault();
+            => _contacts?.FirstOrDefault();
 
         [JsonProperty("contact-2")]
         public GetContactDetailsResultSection Contact2
-            => _contacts.Skip(1).FirstOrDefault();
+            => _contacts?.Skip(1).FirstOrDefault();
     }
 
     public sealed class GetContactDetailsResultSection

@@ -39,7 +39,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         public async Task<ActionResult> GetBrowsersSupportedAsync([FromRoute][Required]string id)
         {
             var clientApplication = await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
-            return clientApplication == null ? (ActionResult)new NotFoundResult() : Ok(new GetBrowsersSupportedResult(clientApplication));
+            return Ok(new GetBrowsersSupportedResult(clientApplication));
         }
 
         /// <summary>

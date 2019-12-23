@@ -564,14 +564,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public void NullSolutionShouldThrowNullExceptionPublicResult()
         {
-            Assert.Throws<ArgumentNullException>(() => new SolutionResult(null));
+            var solution = new SolutionResult(null);
+            solution.Id.Should().BeNull();
+            solution.Name.Should().BeNull();
+            solution.OrganisationName.Should().BeNull();
+            solution.LastUpdated.Should().BeNull();
+            solution.IsFoundation.Should().BeNull();
+
+            solution.Sections.Should().BeNull();
         }
 
-        [Test]
-        public void NullSolutionShouldThrowNullExceptionPublicSections()
-        {
-            Assert.Throws<ArgumentNullException>(() => new Sections(null));
-        }
 
         [Test]
         public void NullSolutionShouldThrowNullExceptionSolutionDescriptionPublicAnswers()

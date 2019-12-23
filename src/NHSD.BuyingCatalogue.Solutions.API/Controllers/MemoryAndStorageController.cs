@@ -33,9 +33,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
             var clientApplication =
                 await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
 
-            return clientApplication == null
-                ? (ActionResult)new NotFoundResult()
-                : Ok(new GetSolutionMemoryAndStorageResult(clientApplication.MobileMemoryAndStorage));
+            return Ok(new GetSolutionMemoryAndStorageResult(clientApplication?.MobileMemoryAndStorage));
         }
 
         [HttpPut]

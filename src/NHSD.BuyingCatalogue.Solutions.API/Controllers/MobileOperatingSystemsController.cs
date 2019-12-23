@@ -33,9 +33,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
                 var clientApplication = await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id))
                     .ConfigureAwait(false);
 
-                return clientApplication == null
-                    ? (ActionResult)new NotFoundResult()
-                    : Ok(new GetMobileOperatingSystemsResult(clientApplication.MobileOperatingSystems));
+                return Ok(new GetMobileOperatingSystemsResult(clientApplication?.MobileOperatingSystems));
             }
 
             [HttpPut]

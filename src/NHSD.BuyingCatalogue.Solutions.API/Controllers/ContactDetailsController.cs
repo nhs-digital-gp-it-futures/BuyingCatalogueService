@@ -36,7 +36,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         public async Task<ActionResult> GetContactDetailsAsync([FromRoute][Required]string id)
         {
             var contactDetails = await _mediator.Send(new GetContactDetailBySolutionIdQuery(id)).ConfigureAwait(false);
-            return contactDetails == null ? (ActionResult)new NotFoundResult() : Ok(new GetContactDetailsResult(contactDetails));
+            return Ok(new GetContactDetailsResult(contactDetails));
         }
 
         /// <summary>

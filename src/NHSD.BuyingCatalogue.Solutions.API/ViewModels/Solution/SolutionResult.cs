@@ -11,9 +11,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 
         public string OrganisationName { get; }
 
-        public bool IsFoundation { get; }
+        public bool? IsFoundation { get; }
 
-        public DateTime LastUpdated { get; }
+        public DateTime? LastUpdated { get; }
 
         public Sections Sections { get; }
 
@@ -22,18 +22,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         /// </summary>
         public SolutionResult(ISolution solution)
         {
-            if (solution is null)
+            if (solution != null)
             {
-                throw new ArgumentNullException(nameof(solution));
+                Id = solution.Id;
+                Name = solution.Name;
+                OrganisationName = solution.OrganisationName;
+                LastUpdated = solution.LastUpdated;
+                IsFoundation = solution.IsFoundation;
+
+                Sections = new Sections(solution);
             }
-
-            Id = solution.Id;
-            Name = solution.Name;
-            OrganisationName = solution.OrganisationName;
-            LastUpdated = solution.LastUpdated;
-            IsFoundation = solution.IsFoundation;
-
-            Sections = new Sections(solution);
         }
     }
 }

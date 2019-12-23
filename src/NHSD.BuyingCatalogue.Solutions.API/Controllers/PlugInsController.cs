@@ -39,7 +39,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         public async Task<ActionResult> GetPlugInsAsync([FromRoute][Required]string id)
         {
             var clientApplication = await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
-            return clientApplication == null ? (ActionResult)new NotFoundResult() : Ok(new GetPlugInsResult(clientApplication.Plugins));
+            return Ok(new GetPlugInsResult(clientApplication?.Plugins));
         }
 
         /// <summary>

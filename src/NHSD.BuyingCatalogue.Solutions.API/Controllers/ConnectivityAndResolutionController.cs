@@ -31,10 +31,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         public async Task<ActionResult> GetConnectivityAndResolution([FromRoute][Required]string id)
         {
             var clientApplication = await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
-            return clientApplication == null
-                ? (ActionResult)new NotFoundResult()
-                : Ok(new GetSolutionConnectivityAndResolutionResult(clientApplication.MinimumConnectionSpeed,
-                    clientApplication.MinimumDesktopResolution));
+            return Ok(new GetSolutionConnectivityAndResolutionResult(clientApplication?.MinimumConnectionSpeed, clientApplication?.MinimumDesktopResolution));
         }
 
         [HttpPut]

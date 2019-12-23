@@ -32,9 +32,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
             var clientApplication =
                 await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
 
-            return clientApplication == null
-                ? (ActionResult)new NotFoundResult()
-                : Ok(new NativeMobileResult(clientApplication));
+            return Ok(new NativeMobileResult(clientApplication));
         }
     }
 }

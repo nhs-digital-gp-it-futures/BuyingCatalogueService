@@ -34,12 +34,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task ShouldReturnNotFound()
         {
-            var result = (await _solutionsController.Dashboard(SolutionId).ConfigureAwait(false)).Result as NotFoundResult;
+            var result = (await _solutionsController.Dashboard(SolutionId).ConfigureAwait(false)).Result as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
-
-            _mockMediator.Verify(
-                        m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            (result.Value as SolutionDashboardResult).Id.Should().BeNull();
         }
 
         [Test]
@@ -49,9 +47,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         }
 
         [Test]
-        public void NullSolutionShouldThrowNullExceptionDashboardResult()
+        public void NullSolutionShouldReturnEmptyDashboardResult()
         {
-            Assert.Throws<ArgumentNullException>(() => new SolutionDashboardResult(null));
+            var dashboard = new SolutionDashboardResult(null);
+            dashboard.Id.Should().BeNull();
+            dashboard.Name.Should().BeNull();
+            dashboard.SolutionDashboardSections.Should().BeNull();
         }
 
         [TestCase(null, null)]

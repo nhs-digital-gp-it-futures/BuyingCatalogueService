@@ -32,14 +32,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         }
 
         [Test]
-        public async Task ShouldReturnNotFound()
+        public async Task ShouldReturnEmpty()
         {
-            var result = (await _solutionsController.Preview(SolutionId).ConfigureAwait(false)).Result as NotFoundResult;
+            var result = (await _solutionsController.Preview(SolutionId).ConfigureAwait(false)).Result as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
-            _mockMediator.Verify(
-                m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+            (result.Value as SolutionResult).Id.Should().BeNull();
         }
 
         [TestCase(null, null, null)]
@@ -403,15 +402,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         }
 
         [Test]
-        public void NullSolutionShouldThrowNullExceptionPreviewSections()
+        public void NullSolutionShouldReturnEmptyPreviewSections()
         {
-            Assert.Throws<ArgumentNullException>(() => new SolutionResult(null));
-        }
+            var solution = new SolutionResult(null);
+            solution.Id.Should().BeNull();
+            solution.Name.Should().BeNull();
+            solution.OrganisationName.Should().BeNull();
+            solution.LastUpdated.Should().BeNull();
+            solution.IsFoundation.Should().BeNull();
 
-        [Test]
-        public void NullSolutionShouldThrowNullExceptionPreviewResult()
-        {
-            Assert.Throws<ArgumentNullException>(() => new SolutionResult(null));
+            solution.Sections.Should().BeNull();
         }
 
         private async Task<SolutionResult> GetSolutionPreviewSectionAsync(ISolution solution)

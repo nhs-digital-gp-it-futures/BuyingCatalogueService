@@ -45,7 +45,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         public async Task<ActionResult<SolutionDashboardResult>> Dashboard([FromRoute][Required]string id)
         {
             var result = await _mediator.Send(new GetSolutionByIdQuery(id)).ConfigureAwait(false);
-            return result == null ? (ActionResult)new NotFoundResult() : Ok(new SolutionDashboardResult(result));
+            return Ok(new SolutionDashboardResult(result));
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         public async Task<ActionResult<SolutionResult>> Preview([FromRoute][Required]string id)
         {
             var result = await _mediator.Send(new GetSolutionByIdQuery(id)).ConfigureAwait(false);
-            return result == null ? (ActionResult)new NotFoundResult() : Ok(new SolutionResult(result));
+            return Ok(new SolutionResult(result));
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         public async Task<ActionResult<SolutionResult>> Public([FromRoute][Required]string id)
         {
             var result = await _mediator.Send(new GetSolutionByIdQuery(id)).ConfigureAwait(false);
-            return result == null || result.PublishedStatus != PublishedStatus.Published ? (ActionResult)new NotFoundResult() : Ok(new SolutionResult(result));
+            return result?.PublishedStatus != PublishedStatus.Published ? (ActionResult)new NotFoundResult() : Ok(new SolutionResult(result));
         }
 
         /// <summary>

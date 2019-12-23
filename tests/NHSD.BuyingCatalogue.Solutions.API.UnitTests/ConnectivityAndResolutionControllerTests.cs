@@ -80,15 +80,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         }
 
         [Test]
-        public async Task GetInvalidSolutionThrowsNotFound()
+        public async Task GetInvalidSolutionReturnsEmpty()
         {
-            var result = await _controller.GetConnectivityAndResolution("unknownId").ConfigureAwait(false) as NotFoundResult;
+            var result = await _controller.GetConnectivityAndResolution("unknownId").ConfigureAwait(false) as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
-
-            _mockMediator.Verify(
-                m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == "unknownId"),
-                    It.IsAny<CancellationToken>()), Times.Once);
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            (result.Value as GetSolutionConnectivityAndResolutionResult).MinimumConnectionSpeed.Should().BeNull();
+            (result.Value as GetSolutionConnectivityAndResolutionResult).MinimumDesktopResolution.Should().BeNull();
         }
     }
 }

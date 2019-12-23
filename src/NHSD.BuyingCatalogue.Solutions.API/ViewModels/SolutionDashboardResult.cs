@@ -21,14 +21,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         /// </summary>
         public SolutionDashboardResult(ISolution solution)
         {
-            if (solution is null)
+            if (solution != null)
             {
-                throw new ArgumentNullException(nameof(solution));
+                Id = solution.Id;
+                Name = solution.Name;
+                SolutionDashboardSections = new SolutionDashboardSections(solution);
             }
-
-            Id = solution.Id;
-            Name = solution.Name;
-            SolutionDashboardSections = new SolutionDashboardSections(solution);
         }
     }
 

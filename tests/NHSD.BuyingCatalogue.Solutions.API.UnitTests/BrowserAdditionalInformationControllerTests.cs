@@ -42,28 +42,26 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var result = (await _browserAdditionalInformationController.GetAdditionalInformationAsync(SolutionId)
                 .ConfigureAwait(false)) as ObjectResult;
 
-            result?.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
-            var browserAdditionalInformation = result?.Value as GetBrowserAdditionalInformationResult;
+            var browserAdditionalInformation = result.Value as GetBrowserAdditionalInformationResult;
 
-            browserAdditionalInformation?.AdditionalInformation.Should().Be(information);
+            browserAdditionalInformation.AdditionalInformation.Should().Be(information);
             _mockMediator.Verify(
                 m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()),
                 Times.Once);
         }
 
         [Test]
-        public async Task ShouldReturnNotFound()
+        public async Task ShouldReturnEmpty()
         {
             var result =
                 (await _browserAdditionalInformationController.GetAdditionalInformationAsync(SolutionId)
-                    .ConfigureAwait(false)) as NotFoundResult;
+                    .ConfigureAwait(false)) as ObjectResult;
 
-            result?.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
-
-            _mockMediator.Verify(
-                m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()),
-                Times.Once);
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            var browserAdditionalInformation = result.Value as GetBrowserAdditionalInformationResult;
+            browserAdditionalInformation.AdditionalInformation.Should().BeNull();
         }
 
         [Test]
@@ -82,7 +80,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var result = await _browserAdditionalInformationController.UpdateAdditionalInformationAsync(SolutionId, viewModel)
                 .ConfigureAwait(false) as NoContentResult;
 
-            result?.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionBrowserAdditionalInformationCommand>(q =>

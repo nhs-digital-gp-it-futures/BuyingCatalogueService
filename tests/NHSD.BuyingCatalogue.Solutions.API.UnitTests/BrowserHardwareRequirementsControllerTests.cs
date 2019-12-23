@@ -45,26 +45,24 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 (await _hardwareRequirementsController.GetHardwareRequirementsAsync(SolutionId)
                     .ConfigureAwait(false)) as ObjectResult;
 
-            result?.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
-            var browserHardwareRequirements = result?.Value as GetBrowserHardwareRequirementsResult;
+            var browserHardwareRequirements = result.Value as GetBrowserHardwareRequirementsResult;
 
-            browserHardwareRequirements?.HardwareRequirements.Should().Be(requirement);
+            browserHardwareRequirements.HardwareRequirements.Should().Be(requirement);
             _mockMediator.Verify(
                 m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()),
                 Times.Once);
         }
 
         [Test]
-        public async Task ShouldReturnNotFound()
+        public async Task ShouldReturnEmpty()
         {
-            var result = (await _hardwareRequirementsController.GetHardwareRequirementsAsync(SolutionId).ConfigureAwait(false)) as NotFoundResult;
+            var result = (await _hardwareRequirementsController.GetHardwareRequirementsAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
 
-            result?.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
-
-            _mockMediator.Verify(
-                m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
-                    It.IsAny<CancellationToken>()), Times.Once);
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            var browserHardwareRequirements = result.Value as GetBrowserHardwareRequirementsResult;
+            browserHardwareRequirements.HardwareRequirements.Should().BeNull();
         }
 
         [Test]
@@ -83,7 +81,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var result = await _hardwareRequirementsController.UpdateHardwareRequirementsAsync(SolutionId, viewModel)
                 .ConfigureAwait(false) as NoContentResult;
 
-            result?.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionBrowserHardwareRequirementsCommand>(q =>
