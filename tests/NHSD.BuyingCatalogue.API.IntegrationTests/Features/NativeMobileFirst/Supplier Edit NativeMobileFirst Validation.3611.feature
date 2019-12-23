@@ -18,7 +18,7 @@ Scenario: 1. Native Mobile First is updated to be empty
     Given SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                                                  |
         | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins": null, "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null, "AdditionalInformation": "Some Info", "HardwareRequirements": "New Hardware", "MobileFirstDesign": false, "NativeMobileFirstDesign": false } |
-    When a PUT request is made to update the mobile-first section for solution Sln1
+    When a PUT request is made to update the native-mobile-first section for solution Sln1
         | MobileFirstDesign |
         | NULL              |
     Then a response status of 400 is returned

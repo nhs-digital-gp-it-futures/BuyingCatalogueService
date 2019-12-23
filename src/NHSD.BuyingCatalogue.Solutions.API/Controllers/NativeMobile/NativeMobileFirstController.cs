@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionConnectivityAndResolution;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionNativeMobileFirst;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
@@ -14,32 +14,33 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
     [ApiController]
     [Produces("application/json")]
     [AllowAnonymous]
-    public class ConnectivityAndResolutionController : ControllerBase
+    public class NativeMobileFirstController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public ConnectivityAndResolutionController(IMediator mediator)
+        public NativeMobileFirstController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         [HttpGet]
-        [Route("{id}/sections/connectivity-and-resolution")]
+        [Route("{id}/sections/native-mobile-first")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> GetConnectivityAndResolution([FromRoute][Required]string id)
+        public async Task<ActionResult> GetMobileFirstAsync([FromRoute] [Required] string id)
         {
             var clientApplication = await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
-            return Ok(new GetSolutionConnectivityAndResolutionResult(clientApplication?.MinimumConnectionSpeed, clientApplication?.MinimumDesktopResolution));
+            return Ok(new GetNativeMobileFirstResult(clientApplication));
         }
 
         [HttpPut]
-        [Route("{id}/sections/connectivity-and-resolution")]
+        [Route("{id}/sections/native-mobile-first")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> UpdateConnectivityAndResolutionAsync([FromRoute][Required]string id, [FromBody][Required] UpdateSolutionConnectivityAndResolutionViewModel viewModel) =>
-            (await _mediator.Send(new UpdateSolutionConnectivityAndResolutionCommand(id, viewModel)).ConfigureAwait(false)).ToActionResult();
+        public async Task<ActionResult> UpdateMobileFirstAsync([FromRoute] [Required] string id,
+            [FromBody] [Required] UpdateSolutionNativeMobileFirstViewModel viewModel) =>
+            (await _mediator.Send(new UpdateSolutionNativeMobileFirstCommand(id, viewModel)).ConfigureAwait(false)).ToActionResult();
     }
 }

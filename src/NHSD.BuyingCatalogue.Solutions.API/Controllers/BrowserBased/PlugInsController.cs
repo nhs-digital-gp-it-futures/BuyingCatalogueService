@@ -32,7 +32,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         /// <param name="id">A value to uniquely identify a solution.</param>
         /// <returns>A task representing an operation to retrieve the details of the plug ins section.</returns>
         [HttpGet]
-        [Route("{id}/sections/plug-ins-or-extensions")]
+        [Route("{id}/sections/browser-plug-ins-or-extensions")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -49,7 +49,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         /// <param name="updateSolutionPlugInsViewModel">The details of the plug ins.</param>
         /// <returns>A task representing an operation to update the details of the plug ins section.</returns>
         [HttpPut]
-        [Route("{id}/sections/plug-ins-or-extensions")]
+        [Route("{id}/sections/browser-plug-ins-or-extensions")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]

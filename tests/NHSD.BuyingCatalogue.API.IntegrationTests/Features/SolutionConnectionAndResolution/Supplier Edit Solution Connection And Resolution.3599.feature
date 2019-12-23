@@ -19,7 +19,7 @@ Scenario: 1. Connection and Resolution are updated for the solution
     Given SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                     |
         | Sln1     | An full online medicine system | Online medicine 1 | { "MinimumConnectionSpeed": "2GBps" } |
-    When a PUT request is made to update the connectivity-and-resolution section for solution Sln1
+    When a PUT request is made to update the browser-connectivity-and-resolution section for solution Sln1
         | MinimumConnectionSpeed | MinimumDesktopResolution |
         | 1GBps                  | 800x600                  |
     Then a successful response is returned
@@ -36,7 +36,7 @@ Scenario: 2. Connection and Resolution are updated for the solution with empty r
     Given SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                     |
         | Sln1     | An full online medicine system | Online medicine 1 | { "MinimumConnectionSpeed": "2GBps" } |
-    When a PUT request is made to update the connectivity-and-resolution section for solution Sln1
+    When a PUT request is made to update the browser-connectivity-and-resolution section for solution Sln1
         | MinimumConnectionSpeed | MinimumDesktopResolution |
         | 1GBps                  | NULL                     |
     Then a successful response is returned
@@ -51,7 +51,7 @@ Scenario: 2. Connection and Resolution are updated for the solution with empty r
 @3599
 Scenario: 3. If SolutionDetail is missing for the solution, thats an error case
 	Given a SolutionDetail Sln1 does not exist
-    When a PUT request is made to update the connectivity-and-resolution section for solution Sln1
+    When a PUT request is made to update the browser-connectivity-and-resolution section for solution Sln1
         | MinimumConnectionSpeed | MinimumDesktopResolution |
         | 1GBps                  | 800x600                  |
     Then a response status of 500 is returned
@@ -59,7 +59,7 @@ Scenario: 3. If SolutionDetail is missing for the solution, thats an error case
 @3599
 Scenario: 4. Solution not found
     Given a Solution Sln2 does not exist
-    When a PUT request is made to update the connectivity-and-resolution section for solution Sln2
+    When a PUT request is made to update the browser-connectivity-and-resolution section for solution Sln2
         | MinimumConnectionSpeed | MinimumDesktopResolution |
         | 1GBps                  | 800x600                  |
     Then a response status of 404 is returned
@@ -67,14 +67,14 @@ Scenario: 4. Solution not found
 @3599
 Scenario: 5. Service failure
     Given the call to the database to set the field will fail
-    When a PUT request is made to update the connectivity-and-resolution section for solution Sln1
+    When a PUT request is made to update the browser-connectivity-and-resolution section for solution Sln1
         | MinimumConnectionSpeed | MinimumDesktopResolution |
         | 1GBps                  | 800x600                  |
     Then a response status of 500 is returned
 
 @3599
 Scenario: 6. Solution id not present in request
-    When a PUT request is made to update the connectivity-and-resolution section with no solution id
+    When a PUT request is made to update the browser-connectivity-and-resolution section with no solution id
         | MinimumConnectionSpeed | MinimumDesktopResolution |
         | 1GBps                  | 800x600                  |
     Then a response status of 400 is returned

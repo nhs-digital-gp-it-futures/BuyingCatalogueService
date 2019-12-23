@@ -19,7 +19,7 @@ Background:
 
 @3599
 Scenario: 1. Minimum connection speed is null and Minimum desktop resolution is empty
-    When a PUT request is made to update the connectivity-and-resolution section for solution Sln1
+    When a PUT request is made to update the browser-connectivity-and-resolution section for solution Sln1
         | MinimumConnectionSpeed | MinimumDesktopResolution |
         | NULL                   |                          |
     Then a response status of 400 is returned

@@ -19,7 +19,7 @@ Background:
 
 @3607
 Scenario: 1. Client Application is updated for the solution
-    When a PUT request is made to update the mobile-memory-and-storage section for solution Sln1
+    When a PUT request is made to update the native-mobile-memory-and-storage section for solution Sln1
         | MinimumMemoryRequirement | Description   |
         | 1GB                      | A description |
     Then a successful response is returned
@@ -30,7 +30,7 @@ Scenario: 1. Client Application is updated for the solution
 @3607
 Scenario: 2. Solution is not found
     Given a Solution Sln2 does not exist
-    When a PUT request is made to update the mobile-memory-and-storage section for solution Sln2
+    When a PUT request is made to update the native-mobile-memory-and-storage section for solution Sln2
     | MinimumMemoryRequirement | Description   |
     | 1GB                      | A description |
     Then a response status of 404 is returned 
@@ -38,14 +38,14 @@ Scenario: 2. Solution is not found
 @3607
 Scenario: 3. Service Failure
     Given the call to the database to set the field will fail
-    When a PUT request is made to update the mobile-memory-and-storage section for solution Sln1
+    When a PUT request is made to update the native-mobile-memory-and-storage section for solution Sln1
     | MinimumMemoryRequirement | Description   |
     | 1GB                      | A description |
     Then a response status of 500 is returned
 
 @3607
 Scenario: 4. Solution id is not present in the request
-    When a PUT request is made to update the mobile-memory-and-storage section with no solution id
+    When a PUT request is made to update the native-mobile-memory-and-storage section with no solution id
     | MinimumMemoryRequirement | Description   |
     | 1GB                      | A description |
     Then a response status of 400 is returned

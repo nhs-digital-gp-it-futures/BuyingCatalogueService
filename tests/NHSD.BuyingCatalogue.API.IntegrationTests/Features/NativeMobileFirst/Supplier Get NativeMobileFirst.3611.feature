@@ -23,30 +23,30 @@ Background:
 
 @3611
 Scenario: 1. Native Mobile First is retreived for the solution
-    When a GET request is made for mobile-first for solution Sln1
+    When a GET request is made for native-mobile-first for solution Sln1
     Then a successful response is returned
     And the string value of element mobile-first-design is Yes
 
 @3611
 Scenario: 2. Native Mobile First is retrieved for the solution where no solutiondetail exists
-    When a GET request is made for mobile-first for solution Sln2
+    When a GET request is made for native-mobile-first for solution Sln2
     Then a successful response is returned
     And the mobile-first-design string does not exist
 
 @3611
 Scenario: 3. Solution not found
     Given a Solution Sln3 does not exist
-    When a GET request is made for mobile-first for solution Sln3
+    When a GET request is made for native-mobile-first for solution Sln3
     Then a response status of 404 is returned
 
 @3611
 Scenario: 4. Service failure
     Given the call to the database to set the field will fail
-    When a GET request is made for mobile-first for solution Sln1
+    When a GET request is made for native-mobile-first for solution Sln1
     Then a response status of 500 is returned
 
 @3611
 Scenario: 5. Solution id not present in request
-    When a GET request is made for mobile-first with no solution id
+    When a GET request is made for native-mobile-first with no solution id
     Then a response status of 400 is returned
 

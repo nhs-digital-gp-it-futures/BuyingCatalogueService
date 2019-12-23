@@ -18,7 +18,7 @@ Scenario: 1. Mobile Operating Systems is updated to be null
     Given SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                |
         | Sln1     | An full online medicine system | Online medicine 1 | { "MobileOperatingSystems": { "OperatingSystems": ["Windows"], "OperatingSystemsDescription": "Windows 10 only" }, "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum"}, "HardwareRequirements": "Hardware Information",  "AdditionalInformation": "Some more info", "MobileFirstDesign": true } |
-    When a PUT request is made to update the mobile-operating-systems section for solution Sln1
+    When a PUT request is made to update the native-mobile-operating-systems section for solution Sln1
         | OperatingSystems | OperatingSystemsDescription |
         |                  | Descriptions                |
     Then a response status of 400 is returned
@@ -32,7 +32,7 @@ Scenario: 2. Mobile Operating Systems Description exceeds the maxlength 1000
     Given SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                |
         | Sln1     | An full online medicine system | Online medicine 1 | { "MobileOperatingSystems": { "OperatingSystems": ["Windows"], "OperatingSystemsDescription": "Windows 10 only" }, "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum"}, "HardwareRequirements": "Hardware Information",  "AdditionalInformation": "Some more info", "MobileFirstDesign": true } |
-    When a PUT request is made to update the mobile-operating-systems section for solution Sln1
+    When a PUT request is made to update the native-mobile-operating-systems section for solution Sln1
         | OperatingSystems | OperatingSystemsDescription  |
         | Linux            | A string with length of 1001 |
     Then a response status of 400 is returned
@@ -47,7 +47,7 @@ Scenario: 3. Mobile Operating Systems is updated to null & the description excee
 Given SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                |
         | Sln1     | An full online medicine system | Online medicine 1 | { "MobileOperatingSystems": { "OperatingSystems": ["Windows"], "OperatingSystemsDescription": "Windows 10 only" }, "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum"}, "HardwareRequirements": "Hardware Information",  "AdditionalInformation": "Some more info", "MobileFirstDesign": true } |
-    When a PUT request is made to update the mobile-operating-systems section for solution Sln1
+    When a PUT request is made to update the native-mobile-operating-systems section for solution Sln1
         | OperatingSystems | OperatingSystemsDescription  |
         |                  | A string with length of 1001 |
     Then a response status of 400 is returned

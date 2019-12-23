@@ -24,7 +24,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         }
 
         [HttpGet]
-        [Route("{id}/sections/mobile-memory-and-storage")]
+        [Route("{id}/sections/native-mobile-memory-and-storage")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -37,7 +37,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         }
 
         [HttpPut]
-        [Route("{id}/sections/mobile-memory-and-storage")]
+        [Route("{id}/sections/native-mobile-memory-and-storage")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]

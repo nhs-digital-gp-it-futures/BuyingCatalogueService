@@ -19,7 +19,7 @@ Background:
 
 @2793
 Scenario: 1. Required is empty. AdditionalInformation is valid
-    When a PUT request is made to update the plug-ins-or-extensions section for solution Sln1
+    When a PUT request is made to update the browser-plug-ins-or-extensions section for solution Sln1
         | PluginsRequired | PluginsDetail              |
         | NULL            | A string with length of 30 |
     Then a response status of 400 is returned
@@ -27,7 +27,7 @@ Scenario: 1. Required is empty. AdditionalInformation is valid
 
 @2793
 Scenario: 2. Required has a value. AdditionalInformation length is greater than 500 characters
-    When a PUT request is made to update the plug-ins-or-extensions section for solution Sln1
+    When a PUT request is made to update the browser-plug-ins-or-extensions section for solution Sln1
         | PluginsRequired | PluginsDetail               |
         | Yes             | A string with length of 501 |
     Then a response status of 400 is returned
@@ -35,7 +35,7 @@ Scenario: 2. Required has a value. AdditionalInformation length is greater than 
     
 @2793
 Scenario: 3. Required is empty and AdditionalInformations length is greater than 500 characters
-    When a PUT request is made to update the plug-ins-or-extensions section for solution Sln1
+    When a PUT request is made to update the browser-plug-ins-or-extensions section for solution Sln1
         | PluginsRequired | PluginsDetail               |
         | NULL            | A string with length of 501 |
     Then a response status of 400 is returned

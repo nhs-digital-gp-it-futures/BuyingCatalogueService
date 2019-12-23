@@ -18,7 +18,7 @@ Background:
         | Sln1     | An full online medicine system | Online medicine 1 | {}                |
 @3607
 Scenario: 1. Mobile StorageRequirementsDescription is updated to be too long
-    When a PUT request is made to update the mobile-memory-and-storage section for solution Sln1
+    When a PUT request is made to update the native-mobile-memory-and-storage section for solution Sln1
         | MinimumMemoryRequirement | Description                 |
         | NULL                     | A string with length of 301 |
     Then a response status of 400 is returned
@@ -29,7 +29,7 @@ Scenario: 1. Mobile StorageRequirementsDescription is updated to be too long
         
 @3607
 Scenario: 2. Client Application is updated with no Mobile StorageRequirementsDescription
-    When a PUT request is made to update the mobile-memory-and-storage section for solution Sln1
+    When a PUT request is made to update the native-mobile-memory-and-storage section for solution Sln1
         | MinimumMemoryRequirement | Description |
         | 1GB                      | NULL        |
     Then a response status of 400 is returned
@@ -40,7 +40,7 @@ Scenario: 2. Client Application is updated with no Mobile StorageRequirementsDes
 
 @3607
 Scenario: 3. Client Application is updated with no Mobile MinimumMemoryRequirement
-    When a PUT request is made to update the mobile-memory-and-storage section for solution Sln1
+    When a PUT request is made to update the native-mobile-memory-and-storage section for solution Sln1
         | MinimumMemoryRequirement | Description   |
         | NULL                     | A description |
     Then a response status of 400 is returned

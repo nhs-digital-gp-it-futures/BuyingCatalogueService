@@ -27,14 +27,14 @@ Background:
 
 @2786
 Scenario: 1. Plugins are retrieved for the solution
-    When a GET request is made for plug-ins-or-extensions for solution Sln1
+    When a GET request is made for browser-plug-ins-or-extensions for solution Sln1
     Then a successful response is returned
     And the string value of element plugins-required is Yes
     And the string value of element plugins-detail is orem ipsum
 
 @2786
 Scenario: 2. Plugins are retrieved for the solution where no solution detail exists
-    When a GET request is made for plug-ins-or-extensions for solution Sln2
+    When a GET request is made for browser-plug-ins-or-extensions for solution Sln2
     Then a successful response is returned
     And the plugins-required string does not exist
     And the plugins-detail string does not exist
@@ -42,23 +42,23 @@ Scenario: 2. Plugins are retrieved for the solution where no solution detail exi
 @2786
 Scenario: 3. Solution not found
     Given a Solution Sln4 does not exist
-    When a GET request is made for plug-ins-or-extensions for solution Sln4
+    When a GET request is made for browser-plug-ins-or-extensions for solution Sln4
     Then a response status of 404 is returned
 
 @2786
 Scenario: 4. Service failure
     Given the call to the database to set the field will fail
-    When a GET request is made for plug-ins-or-extensions for solution Sln1
+    When a GET request is made for browser-plug-ins-or-extensions for solution Sln1
     Then a response status of 500 is returned
 
 @2786
 Scenario: 5. Solution id not present in request
-    When a GET request is made for plug-ins-or-extensions with no solution id
+    When a GET request is made for browser-plug-ins-or-extensions with no solution id
     Then a response status of 400 is returned
     
 @2786
 Scenario: 6. Plugins are retrieved for the solution where no plugins-required
-    When a GET request is made for plug-ins-or-extensions for solution Sln5
+    When a GET request is made for browser-plug-ins-or-extensions for solution Sln5
     Then a successful response is returned
     And the "plugins-required" string does not exist
     And the plugins-detail string does not exist

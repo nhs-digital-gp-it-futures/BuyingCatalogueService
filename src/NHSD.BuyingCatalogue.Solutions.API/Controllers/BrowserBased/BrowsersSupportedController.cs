@@ -32,7 +32,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         /// <param name="id">A value to uniquely identify a solution.</param>
         /// <returns>A task representing an operation to retrieve the details of the browsers supported section.</returns>
         [HttpGet]
-        [Route("{id}/sections/browsers-supported")]
+        [Route("{id}/sections/browser-browsers-supported")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -49,7 +49,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         /// <param name="updateSolutionBrowsersSupportedViewModel">The details of the supported browsers.</param>
         /// <returns>A task representing an operation to update the details of the browser supported section.</returns>
         [HttpPut]
-        [Route("{id}/sections/browsers-supported")]
+        [Route("{id}/sections/browser-browsers-supported")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
