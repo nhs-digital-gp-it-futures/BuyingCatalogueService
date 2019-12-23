@@ -138,8 +138,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             var result = (await _controller.UpdateMobileConnectionDetails(SolutionId, viewModel).ConfigureAwait(false)) as BadRequestObjectResult;
 
-            result?.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            (result?.Value as UpdateFormMaxLengthResult)?.MaxLength.Should().BeEquivalentTo(validationModel.MaxLength);
+            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            (result.Value as UpdateFormMaxLengthResult).MaxLength.Should().BeEquivalentTo(validationModel.MaxLength);
 
             _mockMediator.Verify(
                 m => m.Send(

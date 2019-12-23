@@ -109,8 +109,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var result = await _hardwareRequirementsController.UpdateHardwareRequirementsAsync(SolutionId, viewModel)
                 .ConfigureAwait(false) as BadRequestObjectResult;
 
-            result?.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            (result?.Value as UpdateFormMaxLengthResult)?.MaxLength.Should().BeEquivalentTo(new[] { "hardware-requirements-description" });
+            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            (result.Value as UpdateFormMaxLengthResult).MaxLength.Should().BeEquivalentTo(new[] { "hardware-requirements-description" });
 
             _mockMediator.Verify(
                 m => m.Send(

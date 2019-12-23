@@ -138,9 +138,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             var result = (await _memoryAndStorageController.UpdateMemoryAndStorageAsync(SolutionId, viewModel).ConfigureAwait(false)) as BadRequestObjectResult;
 
-            result?.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            (result?.Value as UpdateFormRequiredMaxLengthResult)?.Required.Should().BeEquivalentTo(new[] { "minimum-memory-requirement", "storage-requirements-description" });
-            (result?.Value as UpdateFormRequiredMaxLengthResult)?.MaxLength.Should().BeEquivalentTo(new[] { "storage-requirements-description" });
+            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            (result.Value as UpdateFormRequiredMaxLengthResult).Required.Should().BeEquivalentTo(new[] { "minimum-memory-requirement", "storage-requirements-description" });
+            (result.Value as UpdateFormRequiredMaxLengthResult).MaxLength.Should().BeEquivalentTo(new[] { "storage-requirements-description" });
 
             _mockMediator.Verify(
                 m => m.Send(

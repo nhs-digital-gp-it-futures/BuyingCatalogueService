@@ -150,9 +150,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             var result = (await _plugInsController.UpdatePlugInsAsync(SolutionId, pluginsViewModel).ConfigureAwait(false)) as BadRequestObjectResult;
 
-            result?.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            (result?.Value as UpdateFormRequiredMaxLengthResult)?.Required.Should().BeEquivalentTo(new[] { "plugins-required" });
-            (result?.Value as UpdateFormRequiredMaxLengthResult)?.MaxLength.Should().BeEquivalentTo(new[] { "plugins-detail" });
+            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            (result.Value as UpdateFormRequiredMaxLengthResult).Required.Should().BeEquivalentTo(new[] { "plugins-required" });
+            (result.Value as UpdateFormRequiredMaxLengthResult).MaxLength.Should().BeEquivalentTo(new[] { "plugins-detail" });
 
             _mockMediator.Verify(
                 m => m.Send(

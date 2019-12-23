@@ -108,8 +108,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var result = await _browserAdditionalInformationController.UpdateAdditionalInformationAsync(SolutionId, viewModel)
                 .ConfigureAwait(false) as BadRequestObjectResult;
 
-            result?.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            (result?.Value as UpdateFormMaxLengthResult).MaxLength.Should().BeEquivalentTo(new[] { "additional-information" });
+            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            (result.Value as UpdateFormMaxLengthResult).MaxLength.Should().BeEquivalentTo(new[] { "additional-information" });
 
             _mockMediator.Verify(
                 m => m.Send(

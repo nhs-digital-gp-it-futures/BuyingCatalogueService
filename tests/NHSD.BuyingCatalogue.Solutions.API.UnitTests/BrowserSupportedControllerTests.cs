@@ -176,8 +176,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 (await _browserSupportedController.UpdateBrowsersSupportedAsync(SolutionId,
                     browsersSupportedUpdateViewModel).ConfigureAwait(false)) as BadRequestObjectResult;
 
-            result?.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            (result?.Value as UpdateFormRequiredResult)?.Required.Should().BeEquivalentTo(new[] { "browsers-supported", "mobile-responsive" });
+            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            (result.Value as UpdateFormRequiredResult).Required.Should().BeEquivalentTo(new[] { "browsers-supported", "mobile-responsive" });
 
             _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionBrowsersSupportedCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionBrowsersSupportedViewModel == browsersSupportedUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
