@@ -44,13 +44,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> UpdateMobileConnectionDetails([FromRoute] [Required] string id,
-            [FromBody] [Required] UpdateSolutionMobileConnectionDetailsViewModel viewModel)
-        {
-            var command = new UpdateSolutionMobileConnectionDetailsCommand(id, viewModel);
-            var validationResult = await _mediator.Send(command).ConfigureAwait(false);
-
-            return validationResult.IsValid ? (ActionResult)new NoContentResult()
-                : BadRequest(validationResult);
-        }
+            [FromBody] [Required] UpdateSolutionMobileConnectionDetailsViewModel viewModel) =>
+            (await _mediator.Send(new UpdateSolutionMobileConnectionDetailsCommand(id, viewModel)).ConfigureAwait(false)).ToActionResult();
     }
 }
