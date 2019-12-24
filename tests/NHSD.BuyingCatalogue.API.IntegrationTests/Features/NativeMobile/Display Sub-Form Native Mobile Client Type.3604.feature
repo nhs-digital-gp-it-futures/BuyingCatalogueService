@@ -23,14 +23,14 @@ Scenario: 1. Sub-Form Native Mobile Client Type all sections are Displayed
     When a GET request is made for native-mobile dashboard for solution Sln1
     Then a successful response is returned
     And Solutions section contains all items  
-        | Id                                        | Status     | Requirement |
-        | mobile-operating-systems                  | INCOMPLETE | Mandatory   |
-        | mobile-first                              | INCOMPLETE | Mandatory   |
-        | mobile-memory-and-storage                 | INCOMPLETE | Mandatory   |
-        | mobile-connection-details                 | INCOMPLETE | Optional    |
-        | mobile-components-and-device-capabilities | INCOMPLETE | Optional    |
-        | mobile-hardware-requirements              | INCOMPLETE | Optional    |
-        | mobile-additional-information             | INCOMPLETE | Optional    |
+        | Id                                               | Status     | Requirement |
+        | native-mobile-operating-systems                  | INCOMPLETE | Mandatory   |
+        | native-mobile-first                              | INCOMPLETE | Mandatory   |
+        | native-mobile-memory-and-storage                 | INCOMPLETE | Mandatory   |
+        | native-mobile-connection-details                 | INCOMPLETE | Optional    |
+        | native-mobile-components-and-device-capabilities | INCOMPLETE | Optional    |
+        | native-mobile-hardware-requirements              | INCOMPLETE | Optional    |
+        | native-mobile-additional-information             | INCOMPLETE | Optional    |
 
 @3604
 Scenario: 2. Solution not found
@@ -56,7 +56,7 @@ Scenario Outline: 5. Native Mobile Operating Systems Based on data in Client App
         | Sln1     | <ClientApplication> |
     When a GET request is made for native-mobile dashboard for solution Sln1
     Then a successful response is returned
-    And the status of the mobile-operating-systems section is <Status>
+    And the status of the native-mobile-operating-systems section is <Status>
 Examples:
     | ClientApplication                                                                                             | Status     |
     |                                                                                                               | INCOMPLETE |
@@ -73,7 +73,7 @@ Scenario Outline: 5. Native Mobile Connection Details Based on data in Client Ap
         | Sln1     | <ClientApplication> |
     When a GET request is made for native-mobile dashboard for solution Sln1
     Then a successful response is returned
-    And the status of the mobile-connection-details section is <Status>
+    And the status of the native-mobile-connection-details section is <Status>
 Examples:
     | ClientApplication                                                                                                                | Status     |
     |                                                                                                                                  | INCOMPLETE |
@@ -90,7 +90,7 @@ Scenario Outline: 6. Native Mobile Memory And Storage Based on data in Client Ap
         | Sln1     | <ClientApplication> |
     When a GET request is made for native-mobile dashboard for solution Sln1
     Then a successful response is returned
-    And the status of the mobile-memory-and-storage section is <Status>
+    And the status of the native-mobile-memory-and-storage section is <Status>
 Examples:
     | ClientApplication                                                                                                                | Status     |
     |                                                                                                                                  | INCOMPLETE |
@@ -107,7 +107,7 @@ Scenario Outline: 7. Native Mobile First Based on data in Client Application
         | Sln1     | <ClientApplication> |
     When a GET request is made for native-mobile dashboard for solution Sln1
     Then a successful response is returned
-    And the status of the mobile-first section is <Status>
+    And the status of the native-mobile-first section is <Status>
 Examples:
     | ClientApplication                    | Status     |
     |                                      | INCOMPLETE |

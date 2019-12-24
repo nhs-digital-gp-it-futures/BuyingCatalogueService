@@ -5,16 +5,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.NativeMobile
 {
     public class NativeMobileSubSections
     {
-       [JsonProperty("mobile-operating-systems")]
+       [JsonProperty("native-mobile-operating-systems")]
        public MobileOperatingSystemsSection MobileOperatingSystemsSection { get; }
 
-       [JsonProperty("mobile-first")]
+       [JsonProperty("native-mobile-first")]
        public NativeMobileFirstSection NativeMobileFirstSection { get; }
 
-       [JsonProperty("mobile-connection-details")]
+       [JsonProperty("native-mobile-connection-details")]
        public MobileConnectionDetailsSection MobileConnectionDetailsSection { get; }
 
-       [JsonProperty("mobile-memory-and-storage")]
+       [JsonProperty("native-mobile-memory-and-storage")]
        public MobileMemoryAndStorageSection MobileMemoryAndStorageSection { get; }
 
        [JsonIgnore]

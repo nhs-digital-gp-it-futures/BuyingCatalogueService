@@ -16,25 +16,25 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeMobile
 
     public class NativeMobileSections
     {
-        [JsonProperty("mobile-operating-systems")]
+        [JsonProperty("native-mobile-operating-systems")]
         public DashboardSection MobileOperatingSystems { get; }
 
-        [JsonProperty("mobile-first")]
+        [JsonProperty("native-mobile-first")]
         public DashboardSection MobileFirst { get; }
         
-        [JsonProperty("mobile-memory-and-storage")]
+        [JsonProperty("native-mobile-memory-and-storage")]
         public DashboardSection MobileMemoryStorage { get; }
 
-        [JsonProperty("mobile-connection-details")]
+        [JsonProperty("native-mobile-connection-details")]
         public DashboardSection MobileConnectionDetails { get; }
 
-        [JsonProperty("mobile-components-and-device-capabilities")]
+        [JsonProperty("native-mobile-components-and-device-capabilities")]
         public DashboardSection MobileComponentsDeviceCapabilities { get; }
 
-        [JsonProperty("mobile-hardware-requirements")]
+        [JsonProperty("native-mobile-hardware-requirements")]
         public DashboardSection MobileHardwareRequirements { get; }
 
-        [JsonProperty("mobile-additional-information")]
+        [JsonProperty("native-mobile-additional-information")]
         public DashboardSection MobileAdditionalInformation { get; }
 
         public NativeMobileSections(IClientApplication clientApplication)

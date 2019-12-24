@@ -34,7 +34,7 @@ Scenario: 1. Sub-Form Browser Based Client Type all sections are Displayed
 @2782
 Scenario: 2. Solution not found
     Given a Solution Sln4 does not exist
-    When a GET request is made for browser-based for solution Sln4
+    When a GET request is made for browser-based dashboard for solution Sln4
     Then a response status of 404 is returned
 
 @2782

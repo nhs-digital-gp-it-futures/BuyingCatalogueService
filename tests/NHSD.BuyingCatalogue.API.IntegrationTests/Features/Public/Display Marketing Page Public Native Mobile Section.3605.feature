@@ -28,12 +28,12 @@ Scenario:1. Get Solution Public contains client application types native-mobile 
         | OperatingSystems |
         | Windows, Linux   |
    And the solution client-application-types section contains operating-systems-description with value For windows only version 10
-   And the solution native-mobile mobile-connection-details section contains connection-types
+   And the solution native-mobile native-mobile-connection-details section contains connection-types
         | ConnectionTypes |
         | 3G,4G           |
-    And the solution native-mobile mobile-first section contains mobile-first-design with value Yes
-    And the solution native-mobile mobile-connection-details section contains minimum-connection-speed with value 1GBps
-    And the solution native-mobile mobile-connection-details section contains connection-requirements-description with value A connecton detail description
+    And the solution native-mobile native-mobile-first section contains mobile-first-design with value Yes
+    And the solution native-mobile native-mobile-connection-details section contains minimum-connection-speed with value 1GBps
+    And the solution native-mobile native-mobile-connection-details section contains connection-requirements-description with value A connecton detail description
     And the solution client-application-types section contains minimum-memory-requirement with value 500MB
     And the solution client-application-types section contains storage-requirements-description with value Storage Description
     
@@ -41,9 +41,9 @@ Scenario:2. Get Solution Public contains client application types native-mobile 
     When a GET request is made for solution preview Sln2
     Then a successful response is returned
     And the solution client-application-types section is returned
-   And the solution native-mobile mobile-connection-details section contains connection-types
+   And the solution native-mobile native-mobile-connection-details section contains connection-types
         | ConnectionTypes |
         | 3G,4G           |
-    And the solution native-mobile mobile-connection-details section contains minimum-connection-speed with value 1GBps
-    And the solution native-mobile mobile-connection-details section contains connection-requirements-description with value A connecton detail description
-    And the solution native-mobile mobile-first section does not contain mobile-first-design
+    And the solution native-mobile native-mobile-connection-details section contains minimum-connection-speed with value 1GBps
+    And the solution native-mobile native-mobile-connection-details section contains connection-requirements-description with value A connecton detail description
+    And the solution native-mobile native-mobile-first section does not contain mobile-first-design

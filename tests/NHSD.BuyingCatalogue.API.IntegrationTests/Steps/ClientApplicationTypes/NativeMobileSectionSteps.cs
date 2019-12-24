@@ -13,28 +13,28 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
         private readonly Response _response;
 
         private const string Token = "sections.client-application-types.sections.native-mobile.sections";
-        private const string MobileFirstDesign = "mobile-first.answers.mobile-first-design";
+        private const string MobileFirstDesign = "native-mobile-first.answers.mobile-first-design";
 
         public NativeMobileSectionSteps(Response response)
         {
             _response = response;
         }
 
-        [Then(@"the solution native-mobile mobile-connection-details section contains connection-types")]
+        [Then(@"the solution native-mobile native-mobile-connection-details section contains connection-types")]
         public async Task ThenTheSolutionNativeMobileSectionContains(Table table)
         {
             var content = table.CreateInstance<ConnectionTypeTable>();
             var context = await _response.ReadBody().ConfigureAwait(false);
-            context.SelectToken($"{Token}.mobile-connection-details.answers.connection-types")
+            context.SelectToken($"{Token}.native-mobile-connection-details.answers.connection-types")
                 .Select(s => s.ToString())
                 .Should().BeEquivalentTo(content.ConnectionTypes);
         }
 
-        [Then(@"the solution native-mobile mobile-connection-details section contains (.*) with value (.*)")]
+        [Then(@"the solution native-mobile native-mobile-connection-details section contains (.*) with value (.*)")]
         public async Task ThenTheSolutionNativeMobileSectionContainsWithValue(string token, string value)
         {
             var context = await _response.ReadBody().ConfigureAwait(false);
-            context.SelectToken($"{Token}.mobile-connection-details.answers.{token}")
+            context.SelectToken($"{Token}.native-mobile-connection-details.answers.{token}")
                 .ToString().Should().Be(value);
         }
 
@@ -43,7 +43,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
         {
             var content = table.CreateInstance<OperatingSystemsTable>();
             var context = await _response.ReadBody().ConfigureAwait(false);
-            context.SelectToken($"{Token}.mobile-operating-systems.answers.operating-systems")
+            context.SelectToken($"{Token}.native-mobile-operating-systems.answers.operating-systems")
                 .Select(s => s.ToString())
                 .Should().BeEquivalentTo(content.OperatingSystems);
         }
@@ -52,18 +52,18 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
         public async Task ThenTheSolutionClient_Application_TypesSectionContainsOperating_Systems_DescriptionWithValue(string value)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
-            content.SelectToken($"{Token}.mobile-operating-systems.answers.operating-systems-description")
+            content.SelectToken($"{Token}.native-mobile-operating-systems.answers.operating-systems-description")
                 .ToString().Should().Be(value);
         }
 
-        [Then(@"the solution native-mobile mobile-first section contains mobile-first-design with value (Yes|No)")]
+        [Then(@"the solution native-mobile native-mobile-first section contains mobile-first-design with value (Yes|No)")]
         public async Task ThenTheSolutionNativeMobileSectionContainsMobileFirstDesign(string value)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
             content.SelectToken($"{Token}.{MobileFirstDesign}").ToString().Should().Be(value);
         }
 
-        [Then(@"the solution native-mobile mobile-first section does not contain mobile-first-design")]
+        [Then(@"the solution native-mobile native-mobile-first section does not contain mobile-first-design")]
         public async Task ThenTheSolutionNativeMobileSectionDoesNotContainMobileFirstDesign()
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
@@ -74,7 +74,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
         public async Task ThenTheSolutionClient_Application_TypesSectionContainsMobileMemoryWithValue(string section, string value)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
-            content.SelectToken($"{Token}.mobile-memory-and-storage.answers.{section}")
+            content.SelectToken($"{Token}.native-mobile-memory-and-storage.answers.{section}")
                 .ToString().Should().Be(value);
         }
 
