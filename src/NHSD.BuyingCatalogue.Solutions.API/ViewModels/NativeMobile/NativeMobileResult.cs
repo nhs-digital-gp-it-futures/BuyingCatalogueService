@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
-namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeMobile
 {
     public class NativeMobileResult
     {

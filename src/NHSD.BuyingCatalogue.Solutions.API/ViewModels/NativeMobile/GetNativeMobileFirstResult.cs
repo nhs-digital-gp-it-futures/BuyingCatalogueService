@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
-namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeMobile
 {
     public sealed class GetNativeMobileFirstResult
     {

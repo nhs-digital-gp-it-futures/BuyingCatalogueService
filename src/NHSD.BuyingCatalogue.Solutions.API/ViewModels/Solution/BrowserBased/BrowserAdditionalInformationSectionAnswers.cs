@@ -2,7 +2,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
-namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.BrowserBased
 {
     public class BrowserAdditionalInformationSectionAnswers
     {

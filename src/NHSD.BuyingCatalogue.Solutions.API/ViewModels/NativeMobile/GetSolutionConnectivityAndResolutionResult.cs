@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeMobile
 {
     public sealed class GetSolutionConnectivityAndResolutionResult
     {

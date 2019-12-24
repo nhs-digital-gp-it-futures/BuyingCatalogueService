@@ -7,13 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels.BrowserBased;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserMobileFirst;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
 
-namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
+namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
 {
     [TestFixture]
     public sealed class BrowserMobileFirstControllerTests
