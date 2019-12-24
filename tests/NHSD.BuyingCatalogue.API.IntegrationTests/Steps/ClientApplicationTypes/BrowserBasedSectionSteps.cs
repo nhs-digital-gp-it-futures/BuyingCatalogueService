@@ -23,12 +23,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
             content.SelectToken($"sections.client-application-types.sections.browser-based.status").ToString().Should().Be(status);
         }
 
-
         [Then(@"the solution client-application-types section contains Browsers")]
         public async Task ThenTheSolutionClient_Application_TypesSectionContainsSupportedBrowsersOf(Table table)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
-            content.SelectToken("sections.client-application-types.sections.browser-based.sections.browsers-supported.answers.supported-browsers")
+            content.SelectToken("sections.client-application-types.sections.browser-based.sections.browser-browsers-supported.answers.supported-browsers")
                 .Select(s => s.ToString()).Should().BeEquivalentTo(table.CreateSet<SelectedBrowsersTable>().Select(s => s.Browser));
         }
 
@@ -43,21 +42,21 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
         public async Task ThenTheSolutionClient_Application_TypesSectionContainsMobileResponsive(string value)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
-            content.SelectToken("sections.client-application-types.sections.browser-based.sections.browsers-supported.answers.mobile-responsive").ToString().Should().Be(value);
+            content.SelectToken("sections.client-application-types.sections.browser-based.sections.browser-browsers-supported.answers.mobile-responsive").ToString().Should().Be(value);
         }
 
         [Then(@"the solution client-application-types section contains mobile responsive with value null")]
         public async Task ThenTheSolutionClient_Application_TypesSectionContainsMobileResponsive()
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
-            content.SelectToken("sections.client-application-types.sections.browser-based.sections.browsers-supported.answers.mobile-responsive").Should().BeNull();
+            content.SelectToken("sections.client-application-types.sections.browser-based.sections.browser-browsers-supported.answers.mobile-responsive").Should().BeNull();
         }
 
         [Then(@"the solution client-application-types section contains plugin required with value (Yes|No)")]
         public async Task ThenTheSolutionClientApplicationTypesSectionContainsPluginRequiredWithValue(string value)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
-            content.SelectToken("sections.client-application-types.sections.browser-based.sections.plug-ins-or-extensions.answers.plugins-required")
+            content.SelectToken("sections.client-application-types.sections.browser-based.sections.browser-plug-ins-or-extensions.answers.plugins-required")
                 .ToString().Should().Be(value);
         }
 
@@ -65,7 +64,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
         public async Task ThenTheSolutionClientApplicationTypesSectionContainsPluginAdditionalInformationWithValue(string value)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
-            content.SelectToken("sections.client-application-types.sections.browser-based.sections.plug-ins-or-extensions.answers.plugins-detail")
+            content.SelectToken("sections.client-application-types.sections.browser-based.sections.browser-plug-ins-or-extensions.answers.plugins-detail")
                 .ToString().Should().Be(value);
         }
 
@@ -81,7 +80,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
         public async Task ThenTheSolutionClient_Application_TypesSectionContainsMinimumConnectionSpeedWithValue(string value)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
-            content.SelectToken("sections.client-application-types.sections.browser-based.sections.connectivity-and-resolution.answers.minimum-connection-speed")
+            content.SelectToken("sections.client-application-types.sections.browser-based.sections.browser-connectivity-and-resolution.answers.minimum-connection-speed")
                 .ToString().Should().Be(value);
         }
 
@@ -89,7 +88,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
         public async Task ThenTheSolutionClient_Application_TypesSectionContainsMinimumDesktopResolutionWithValue(string value)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
-            content.SelectToken("sections.client-application-types.sections.browser-based.sections.connectivity-and-resolution.answers.minimum-desktop-resolution")
+            content.SelectToken("sections.client-application-types.sections.browser-based.sections.browser-connectivity-and-resolution.answers.minimum-desktop-resolution")
                 .ToString().Should().Be(value);
         }
 

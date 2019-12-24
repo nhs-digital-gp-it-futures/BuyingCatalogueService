@@ -43,7 +43,7 @@ Scenario: 2. Supported Browsers are retrieved for the solution where no solution
     And the mobile-responsive element is null
 
 @2786
-Scenario: 3.Supported Browsers are retrieved for the solution where no browsers-supported exist
+Scenario: 3.Supported Browsers are retrieved for the solution where no browser-browsers-supported exist
     When a GET request is made for browser-browsers-supported for solution Sln3
     Then a successful response is returned
     And the supported-browsers element contains

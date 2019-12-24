@@ -3,12 +3,12 @@ using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API
 {
-    internal static class IClientApplicationBrowserBasedExtensions
+    internal static class ClientApplicationBrowserBasedExtensions
     {
         public static bool IsBrowserSupportedComplete(this IClientApplication clientApplication) =>
             clientApplication?.BrowsersSupported?.Any() == true && clientApplication?.MobileResponsive.HasValue == true;
 
-        public static bool IsMobileFirstComplete(this IClientApplication clientApplication) =>
+        public static bool IsBrowserMobileFirstComplete(this IClientApplication clientApplication) =>
             clientApplication?.MobileFirstDesign.HasValue == true;
 
         public static bool IsPluginsComplete(this IClientApplication clientApplication) =>
@@ -25,7 +25,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API
 
         public static bool IsBrowserBasedComplete(this IClientApplication clientApplication) =>
             clientApplication.IsBrowserSupportedComplete() &&
-            clientApplication.IsMobileFirstComplete() &&
+            clientApplication.IsBrowserMobileFirstComplete() &&
             clientApplication.IsPluginsComplete() &&
             clientApplication.IsConnectivityAndResolutionComplete();
     }

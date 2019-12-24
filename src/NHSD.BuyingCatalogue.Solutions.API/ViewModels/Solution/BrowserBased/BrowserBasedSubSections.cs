@@ -5,10 +5,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.BrowserBased
 {
     public class BrowserBasedSubSections
     {
-        [JsonProperty("browsers-supported")]
+        [JsonProperty("browser-browsers-supported")]
         public BrowsersSupportedSection BrowsersSupported { get; }
 
-        [JsonProperty("plug-ins-or-extensions")]
+        [JsonProperty("browser-plug-ins-or-extensions")]
         public PluginOrExtensionsSection PluginOrExtensionsSection { get; }
 
         [JsonProperty("browser-hardware-requirements")]
@@ -17,7 +17,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.BrowserBased
         [JsonProperty("browser-additional-information")]
         public BrowserAdditionalInformationSection BrowserAdditionalInformationSection { get; }
 
-        [JsonProperty("connectivity-and-resolution")]
+        [JsonProperty("browser-connectivity-and-resolution")]
         public BrowserConnectivityAndResolutionSection BrowserConnectivityAndResolutionSection { get; }
 
         [JsonProperty("browser-mobile-first")]

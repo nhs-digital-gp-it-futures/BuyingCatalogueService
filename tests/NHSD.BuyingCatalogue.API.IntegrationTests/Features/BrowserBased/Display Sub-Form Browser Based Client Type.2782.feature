@@ -23,13 +23,13 @@ Scenario: 1. Sub-Form Browser Based Client Type all sections are Displayed
     When a GET request is made for browser-based dashboard for solution Sln1
     Then a successful response is returned
     And Solutions section contains all items 
-        | Id                             | Status     | Requirement |
-        | browsers-supported             | INCOMPLETE | Mandatory   |
-        | browser-mobile-first           | INCOMPLETE | Mandatory   |
-        | plug-ins-or-extensions         | INCOMPLETE | Mandatory   |
-        | connectivity-and-resolution    | INCOMPLETE | Mandatory   |
-        | browser-hardware-requirements  | INCOMPLETE | Optional    |
-        | browser-additional-information | INCOMPLETE | Optional    |
+        | Id                                  | Status     | Requirement |
+        | browser-browsers-supported          | INCOMPLETE | Mandatory   |
+        | browser-mobile-first                | INCOMPLETE | Mandatory   |
+        | browser-plug-ins-or-extensions      | INCOMPLETE | Mandatory   |
+        | browser-connectivity-and-resolution | INCOMPLETE | Mandatory   |
+        | browser-hardware-requirements       | INCOMPLETE | Optional    |
+        | browser-additional-information      | INCOMPLETE | Optional    |
 
 @2782
 Scenario: 2. Solution not found
@@ -52,7 +52,7 @@ Scenario: 4. Solution id not present in request
 Scenario: 5. Browser Supported status incomplete when record not present
     When a GET request is made for browser-based dashboard for solution Sln1
     Then a successful response is returned
-    And the status of the browsers-supported section is INCOMPLETE
+    And the status of the browser-browsers-supported section is INCOMPLETE
 
 @2782
 Scenario Outline: 6. Browser Supported status based on data in ClientApplication
@@ -62,7 +62,7 @@ Scenario Outline: 6. Browser Supported status based on data in ClientApplication
         
     When a GET request is made for browser-based dashboard for solution Sln1
     Then a successful response is returned
-    And the status of the browsers-supported section is <Status>
+    And the status of the browser-browsers-supported section is <Status>
 Examples:
     | ClientApplication                                                                                                        | Status     |
     |                                                                                                                          | INCOMPLETE |
@@ -84,7 +84,7 @@ Examples:
 Scenario: 7. Plugins status incomplete when record not present
     When a GET request is made for browser-based dashboard for solution Sln1
     Then a successful response is returned
-    And the status of the plug-ins-or-extensions section is INCOMPLETE
+    And the status of the browser-plug-ins-or-extensions section is INCOMPLETE
 
 @2793
 Scenario Outline: 8. Plugins status based on data in ClientApplication
@@ -94,7 +94,7 @@ Scenario Outline: 8. Plugins status based on data in ClientApplication
         
     When a GET request is made for browser-based dashboard for solution Sln1
     Then a successful response is returned
-    And the status of the plug-ins-or-extensions section is <Status>
+    And the status of the browser-plug-ins-or-extensions section is <Status>
 Examples:
     | ClientApplication                                                                                                  | Status     |
     | { "ClientApplicationTypes" : [ ], "Plugins" : null }                                                               | INCOMPLETE |
@@ -143,7 +143,7 @@ Scenario Outline: 11. Browser Connectivity and Resolution Based on data in Clien
         | Sln1     | <ClientApplication> |
     When a GET request is made for browser-based dashboard for solution Sln1
     Then a successful response is returned
-    And the status of the connectivity-and-resolution section is <Status>
+    And the status of the browser-connectivity-and-resolution section is <Status>
 Examples:
     | ClientApplication                                                        | Status     |
     |                                                                          | INCOMPLETE |
