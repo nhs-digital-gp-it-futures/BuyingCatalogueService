@@ -32,7 +32,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         /// <param name="id">A value to uniquely identify a solution.</param>
         /// <returns>A task representing an operation to update the details of a solution.</returns>
         [HttpGet]
-        [Route("{id}/sections/browser-based")]
+        [Route("{id}/dashboards/browser-based")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]

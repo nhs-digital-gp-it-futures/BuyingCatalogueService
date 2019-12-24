@@ -24,7 +24,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         }
 
         [HttpGet]
-        [Route("{id}/sections/native-mobile")]
+        [Route("{id}/dashboards/native-mobile")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
