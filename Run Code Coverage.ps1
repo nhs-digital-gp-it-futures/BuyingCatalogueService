@@ -25,6 +25,12 @@ function CheckRequirements() {
     }
 }
 
+function ClearOutputFolder() {
+    if(Test-Path "OpenCover") {    
+        Remove-Item 'OpenCover' -Recurse -Force
+    }
+}
+
 # makes sure the projects are built in debug mode, then runs the tests and collects code coverage reports
 function RunCodeCoverageTests() { 
 
@@ -73,6 +79,8 @@ function GenerateCodeCoverageReport() {
 CheckRequirements
 
 & ".\Launch Environment.ps1" -env i
+
+ClearOutputFolder
 
 RunCodeCoverageTests
 
