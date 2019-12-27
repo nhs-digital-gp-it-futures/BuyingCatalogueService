@@ -1,6 +1,7 @@
 ﻿param (
     [string]$env = "development",
-    [switch]$a
+    [switch]$a,
+    [switch]$q
 )
 [string]$out_directory="docker/out"
 
@@ -35,7 +36,9 @@ function spin_containers_up {
     cd docker
     docker-compose build --no-cache
     Invoke-Expression "$DockerComposeUp $Args"
-    docker ps -a
+    if (!$q) {
+        docker ps -a
+    }
     cd ..
 }
 
