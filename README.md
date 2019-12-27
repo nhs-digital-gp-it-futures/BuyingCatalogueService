@@ -53,18 +53,24 @@ To stop the application running in a container and to delete the associated imag
 ```
 & '.\Tear Down Environment.ps1'
 ```
-To stop the application running in a container and to remove all images, resources and networks associated with it, run the command
-
-```
-& '.\Tear Down Environment.ps1' -c
-```
 
 ### Extra flags
-To run the application in a container in development environment, in attached mode run the following script:
-```
-& '.\Launch Environment.ps1' -a
-```
-
+- Attached mode - directs docker-compose output to your CLI
+    ```
+    & '.\Launch Environment.ps1' -a
+    ```
+- Clean mode - removes all images, resources and networks
+    ```
+    & '.\Tear Down Environment.ps1' -c
+    ```
+- Quiet mode - doesn't do a `docker ps -a ` after finishing
+    ```
+    & '.\Launch Environment.ps1' -q
+    ```
+    or 
+    ```
+    & '.\Tear Down Environment.ps1' -q
+    ```
 ## On a Linux/Mac Box
 *All scripts are meant to be run in bash from within this directory*
 
@@ -78,11 +84,23 @@ To stop the application running in a container and to delete the associated imag
 ```
 bash tear_down_environment.sh
 ```
-To stop the application running in a container and to remove all images, resources and networks associated with it:
-
-```
-bash tear_down_environment.sh -c
-```
+### Extra flags
+- Attached mode - directs docker-compose output to your CLI
+    ```
+    bash launch_environment.sh -a
+    ```
+- Clean mode - removes all images, resources and networks
+    ```
+    bash tear_down_environment.sh -c
+    ```
+- Quiet mode - doesn't do a `docker ps -a ` after finishing
+    ```
+    bash launch_environment.sh -q
+    ```
+    or 
+    ```
+    bash tear_down_environment.sh -q
+    ```
 </p>
 
 # Integration Tests
@@ -102,7 +120,6 @@ These tests rely on a docker image 'integration_db', this image must be created 
 & '.\Run Component Tests.ps1'
 ```
 or
-
 Test Explorer in your favourite IDE
 
 ### After running tests
@@ -111,10 +128,18 @@ Test Explorer in your favourite IDE
 ```
 
 ### Extra flags
-To run the application in a container in integration environment, in attached mode run the following script:
-```
-& '.\Launch Environment.ps1' i -a
-```
+- Attached mode - directs docker-compose output to your CLI
+    ```
+    & '.\Launch Environment.ps1' i -a
+    ```
+- Quiet mode - doesn't do a `docker ps -a ` after finishing
+    ```
+    & '.\Launch Environment.ps1' i -q
+    ```
+    or 
+    ```
+    & '.\Tear Down Environment.ps1' i -q
+    ```
 
 ## On a Linux/Mac Box
 
@@ -127,13 +152,25 @@ bash launch_environment.sh i
 bash run_component_tests.sh
 ```
 or
-
 Test Explorer in your favourite IDE
 
 ### After running tests
 ```
 bash tear_down_environment.sh i
 ```
+### Extra flags
+- Attached mode - directs docker-compose output to your CLI
+    ```
+    bash launch_environment.sh i -a
+    ```
+- Quiet mode - doesn't do a `docker ps -a ` after finishing
+    ```
+    bash launch_environment.sh i -q
+    ```
+    or 
+    ```
+    bash tear_down_environment.sh i -q
+    ```
 
 ## <a name="integration_db_setup_id"></a> Integration db setup
 In order to speed up the API Integration test execution, a docker image which contains all the data needed has been build.
