@@ -1,3 +1,7 @@
+param (
+    [switch]$q
+)
+
 # Get all directories in "tests" directory
 [System.Collections.ArrayList]$directoriesToTest = $(Get-ChildItem "tests" -Directory)
 # Declare which ones to exlude in code coverage report
@@ -76,14 +80,23 @@ function GenerateCodeCoverageReport() {
     Write-Host "----- Report Output--------" -ForegroundColor Yellow
 }
 
-CheckRequirements
+function StartCodeCoverage(){
+    if ($q) {
+        $quiet="-q"
+    }
 
-& ".\Launch Environment.ps1" -env i
+    CheckRequirements
 
-ClearOutputFolder
+    Invoke-Expression "& `".\Launch Environment.ps1`" -env i $quiet"
 
-RunCodeCoverageTests
+    ClearOutputFolder
 
-GenerateCodeCoverageReport
+    RunCodeCoverageTests
 
-& ".\Tear Down Environment.ps1" -env i
+    GenerateCodeCoverageReport
+    
+    Invoke-Expression "& `".\Tear Down Environment.ps1`" -env i $quiet"
+}
+
+
+StartCodeCoverage
