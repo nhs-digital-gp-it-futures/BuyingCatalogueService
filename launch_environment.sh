@@ -1,9 +1,9 @@
 #!/bin/bash
 
-
 set -e
 env="development"
 attached="false"
+quiet="false"
 out_directory="docker/out"
 
 while test $# -gt 0; do
@@ -18,6 +18,10 @@ while test $# -gt 0; do
 		  ;;
 		-i|--int|--integration)
 		  	env="integration"
+		  shift
+		  ;;
+		-q|--quiet)
+		  	quiet="true"
 		  shift
 		  ;;
 		*)
@@ -62,7 +66,10 @@ spin_containers_up () {
 	cd docker
     docker-compose build --no-cache
     eval $docker_compose_up $docker_args
-    docker ps -a
+
+	if [ "$quiet" == "false" ]; then
+    	docker ps -a
+	fi
     cd ..
 }
 
@@ -72,4 +79,3 @@ launch_environment () {
 }
 environment=$(determine_environment)
 launch_environment
-
