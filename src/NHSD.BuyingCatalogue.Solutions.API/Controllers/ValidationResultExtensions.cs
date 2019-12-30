@@ -8,16 +8,19 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 {
     internal static class ValidationResultExtensions
     {
+        //This method will eventually be obsolete and replaced by the methods below 
         internal static ActionResult ToActionResult(this RequiredMaxLengthResult validationResult) =>
             validationResult.IsValid
                 ? (ActionResult)new NoContentResult()
                 : new BadRequestObjectResult(new UpdateFormRequiredMaxLengthResult(validationResult));
 
+        //This method will eventually be obsolete and replaced by the methods below 
         internal static ActionResult ToActionResult(this MaxLengthResult validationResult) =>
             validationResult.IsValid
                 ? (ActionResult)new NoContentResult()
                 : new BadRequestObjectResult(new UpdateFormMaxLengthResult(validationResult));
 
+        //This method will eventually be obsolete and replaced by the methods below 
         internal static ActionResult ToActionResult(this RequiredResult validationResult) =>
             validationResult.IsValid
                 ? (ActionResult)new NoContentResult()
