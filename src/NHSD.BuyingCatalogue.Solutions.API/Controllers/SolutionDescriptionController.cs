@@ -57,6 +57,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> UpdateAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionSummaryViewModel updateSolutionSummaryViewModel) =>
-            (await _mediator.Send(new UpdateSolutionSummaryCommand(id, updateSolutionSummaryViewModel)).ConfigureAwait(false)).ToActionResult();
+            (await _mediator.Send(new UpdateSolutionSummaryCommand(id, updateSolutionSummaryViewModel)).ConfigureAwait(false)).ToFieldListValidationActionResult();
     }
 }
