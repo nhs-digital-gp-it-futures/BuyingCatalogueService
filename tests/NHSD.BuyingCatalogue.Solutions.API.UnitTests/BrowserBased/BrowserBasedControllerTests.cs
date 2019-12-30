@@ -31,15 +31,33 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
         }
 
         [Test]
-        public async Task ShouldReturnNotFound()
+        public async Task ShouldReturnEmpty()
         {
-            var result = (await _browserBasedController.GetBrowserBasedAsync(SolutionId).ConfigureAwait(false)) as NotFoundResult;
+            var result = (await _browserBasedController.GetBrowserBasedAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
 
-            result?.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            var browserBasedResult = result.Value as BrowserBasedResult;
 
-            _mockMediator.Verify(
-                m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()),
-                Times.Once);
+            browserBasedResult.Should().NotBeNull();
+            browserBasedResult.BrowserBasedDashboardSections.Should().NotBeNull();
+
+            var browsersSupportedSection = browserBasedResult.BrowserBasedDashboardSections.BrowsersSupportedSection;
+            AssertSectionMandatoryAndComplete(browsersSupportedSection, true, false);
+
+            var mobileFirstSection = browserBasedResult.BrowserBasedDashboardSections.BrowserMobileFirstSection;
+            AssertSectionMandatoryAndComplete(mobileFirstSection, true, false);
+
+            var plugInsSection = browserBasedResult.BrowserBasedDashboardSections.PluginsOrExtensionsSection;
+            AssertSectionMandatoryAndComplete(plugInsSection, true, false);
+
+            var connectivitySection = browserBasedResult.BrowserBasedDashboardSections.ConnectivityAndResolutionSection;
+            AssertSectionMandatoryAndComplete(connectivitySection, true, false);
+
+            var hardwareSection = browserBasedResult.BrowserBasedDashboardSections.HardwareRequirementsSection;
+            AssertSectionMandatoryAndComplete(hardwareSection, false, false);
+
+            var additionalSection = browserBasedResult.BrowserBasedDashboardSections.BrowserAdditionalInformationSection;
+            AssertSectionMandatoryAndComplete(additionalSection, false, false);
         }
 
         [Test]
@@ -186,7 +204,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
                 .ReturnsAsync(clientApplication);
 
             var result = (await _browserBasedController.GetBrowserBasedAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
-            result?.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
             _mockMediator.Verify(
                 m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()),

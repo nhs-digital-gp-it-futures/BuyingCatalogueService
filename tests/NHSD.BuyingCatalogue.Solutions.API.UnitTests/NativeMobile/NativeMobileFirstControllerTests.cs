@@ -44,11 +44,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
 
             var result = (await _nativeMobileFirstController.GetMobileFirstAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
 
-            result?.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
-            var mobileFirst = (result?.Value as GetNativeMobileFirstResult);
+            var mobileFirst = (result.Value as GetNativeMobileFirstResult);
 
-            mobileFirst?.MobileFirstDesign.Should().Be(response);
+            mobileFirst.MobileFirstDesign.Should().Be(response);
 
             _mockMediator.Verify(
                 m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
@@ -65,20 +65,20 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
 
             var result = (await _nativeMobileFirstController.GetMobileFirstAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
 
-            result?.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
-            var mobileFirst = (result?.Value as GetNativeMobileFirstResult);
-            mobileFirst?.MobileFirstDesign.Should().BeNull();
+            var mobileFirst = (result.Value as GetNativeMobileFirstResult);
+            mobileFirst.MobileFirstDesign.Should().BeNull();
         }
 
         [Test]
-        public async Task ShouldReturnNotFound()
+        public async Task ShouldReturnEmpty()
         {
-            var result = (await _nativeMobileFirstController.GetMobileFirstAsync(SolutionId).ConfigureAwait(false)) as NotFoundResult;
-            result?.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
-            _mockMediator.Verify(
-                m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
-                    It.IsAny<CancellationToken>()), Times.Once);
+            var result = (await _nativeMobileFirstController.GetMobileFirstAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+
+            var mobileFirst = (result.Value as GetNativeMobileFirstResult);
+            mobileFirst.MobileFirstDesign.Should().BeNull();
         }
 
         [Test]
@@ -96,7 +96,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
 
             var result = await _nativeMobileFirstController.UpdateMobileFirstAsync(SolutionId, viewModel).ConfigureAwait(false) as NoContentResult;
 
-            result?.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionNativeMobileFirstCommand>(q =>

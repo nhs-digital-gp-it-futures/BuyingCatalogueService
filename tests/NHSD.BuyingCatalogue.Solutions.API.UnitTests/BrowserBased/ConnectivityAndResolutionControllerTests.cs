@@ -60,8 +60,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
             result.Should().NotBeNull();
             result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
 
-            var validationResult = result?.Value as UpdateFormRequiredResult;
-            validationResult?.Required.Should().BeEquivalentTo(_validationResult.Required);
+            var validationResult = result.Value as UpdateFormRequiredResult;
+            validationResult.Required.Should().BeEquivalentTo(_validationResult.Required);
         }
 
         [Test]
@@ -70,9 +70,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
             var result = await _controller.GetConnectivityAndResolution(SolutionId).ConfigureAwait(false) as ObjectResult;
             result.Should().NotBeNull();
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            var getResult = result?.Value as GetSolutionConnectivityAndResolutionResult;
-            getResult?.MinimumConnectionSpeed.Should().Be(_clientApplication.MinimumConnectionSpeed);
-            getResult?.MinimumDesktopResolution.Should().Be(_clientApplication.MinimumDesktopResolution);
+            var getResult = result.Value as GetSolutionConnectivityAndResolutionResult;
+            getResult.MinimumConnectionSpeed.Should().Be(_clientApplication.MinimumConnectionSpeed);
+            getResult.MinimumDesktopResolution.Should().Be(_clientApplication.MinimumDesktopResolution);
 
             _mockMediator.Verify(
                 m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),

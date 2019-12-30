@@ -48,11 +48,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
                 (await _mobileOperatingSystemsController.GetMobileOperatingSystems(SolutionId)
                     .ConfigureAwait(false)) as ObjectResult;
 
-            result?.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
-            var operatingSystem = result?.Value as GetMobileOperatingSystemsResult;
-            operatingSystem?.OperatingSystems.Should().BeEquivalentTo(new[] {"Windows", "IOS"});
-            operatingSystem?.OperatingSystemsDescription.Should().Be("desc");
+            var operatingSystem = result.Value as GetMobileOperatingSystemsResult;
+            operatingSystem.OperatingSystems.Should().BeEquivalentTo(new[] {"Windows", "IOS"});
+            operatingSystem.OperatingSystemsDescription.Should().Be("desc");
 
             _mockMediator.Verify(
                 m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
@@ -75,23 +75,23 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
 
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
-            var operatingSystem = (result?.Value as GetMobileOperatingSystemsResult);
-            operatingSystem?.OperatingSystems.Count().Should().Be(0);
-            operatingSystem?.OperatingSystemsDescription.Should().BeNull();
+            var operatingSystem = (result.Value as GetMobileOperatingSystemsResult);
+            operatingSystem.OperatingSystems.Count().Should().Be(0);
+            operatingSystem.OperatingSystemsDescription.Should().BeNull();
         }
 
         [Test]
-        public async Task ShouldReturnNotFound()
+        public async Task ShouldReturnEmpty()
         {
             var result =
                 (await _mobileOperatingSystemsController.GetMobileOperatingSystems(SolutionId)
-                    .ConfigureAwait(false)) as NotFoundResult;
+                    .ConfigureAwait(false)) as ObjectResult;
             
-            result?.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
-            _mockMediator.Verify(
-                m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
-                    It.IsAny<CancellationToken>()), Times.Once);
+            var operatingSystem = (result.Value as GetMobileOperatingSystemsResult);
+            operatingSystem.OperatingSystems.Count().Should().Be(0);
+            operatingSystem.OperatingSystemsDescription.Should().BeNull();
         }
 
         [Test]
@@ -111,7 +111,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
                 (await _mobileOperatingSystemsController.UpdateMobileOperatingSystems(SolutionId, viewModel)
                     .ConfigureAwait(false)) as NoContentResult;
 
-            result?.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
 
             _mockMediator.Verify(
                 m => m.Send(

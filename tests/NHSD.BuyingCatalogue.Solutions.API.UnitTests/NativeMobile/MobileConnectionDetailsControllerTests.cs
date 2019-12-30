@@ -48,12 +48,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
                 (await _controller.GetMobileConnectionDetails(SolutionId)
                     .ConfigureAwait(false)) as ObjectResult;
 
-            result?.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
-            var connectionDetails = result?.Value as GetMobileConnectionDetailsResult;
-            connectionDetails?.ConnectionType.Should().BeEquivalentTo(new[] { "4G", "3G" });
-            connectionDetails?.ConnectionRequirementsDescription.Should().Be("desc");
-            connectionDetails?.MinimumConnectionSpeed.Should().Be("1GBps");
+            var connectionDetails = result.Value as GetMobileConnectionDetailsResult;
+            connectionDetails.ConnectionType.Should().BeEquivalentTo(new[] { "4G", "3G" });
+            connectionDetails.ConnectionRequirementsDescription.Should().Be("desc");
+            connectionDetails.MinimumConnectionSpeed.Should().Be("1GBps");
 
             _mockMediator.Verify(
                 m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
@@ -76,24 +76,24 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
 
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
-            var connectionDetails = (result?.Value as GetMobileConnectionDetailsResult);
-            connectionDetails?.ConnectionType.Count().Should().Be(0);
-            connectionDetails?.ConnectionRequirementsDescription.Should().BeNull();
-            connectionDetails?.MinimumConnectionSpeed.Should().BeNull();
+            var connectionDetails = (result.Value as GetMobileConnectionDetailsResult);
+            connectionDetails.ConnectionType.Count().Should().Be(0);
+            connectionDetails.ConnectionRequirementsDescription.Should().BeNull();
+            connectionDetails.MinimumConnectionSpeed.Should().BeNull();
         }
 
         [Test]
-        public async Task ShouldReturnNotFound()
+        public async Task ShouldReturnEmpty()
         {
             var result =
                 (await _controller.GetMobileConnectionDetails(SolutionId)
-                    .ConfigureAwait(false)) as NotFoundResult;
+                    .ConfigureAwait(false)) as ObjectResult;
 
-            result?.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
-
-            _mockMediator.Verify(
-                m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
-                    It.IsAny<CancellationToken>()), Times.Once);
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            var connectionDetails = (result.Value as GetMobileConnectionDetailsResult);
+            connectionDetails.ConnectionType.Count().Should().Be(0);
+            connectionDetails.ConnectionRequirementsDescription.Should().BeNull();
+            connectionDetails.MinimumConnectionSpeed.Should().BeNull();
         }
 
         [Test]
@@ -113,7 +113,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
                 (await _controller.UpdateMobileConnectionDetails(SolutionId, viewModel)
                     .ConfigureAwait(false)) as NoContentResult;
 
-            result?.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
 
             _mockMediator.Verify(
                 m => m.Send(
