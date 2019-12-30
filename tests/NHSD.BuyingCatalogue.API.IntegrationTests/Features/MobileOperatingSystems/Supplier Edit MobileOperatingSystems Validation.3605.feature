@@ -22,7 +22,7 @@ Scenario: 1. Mobile Operating Systems is updated to be null
         | OperatingSystems | OperatingSystemsDescription |
         |                  | Descriptions                |
     Then a response status of 400 is returned
-    And the operating-systems field contains required
+    And the operating-systems field value is the validation failure required
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                   |
         | Sln1     | An full online medicine system | Online medicine 1 | { "MobileOperatingSystems": { "OperatingSystems": ["Windows"], "OperatingSystemsDescription": "Windows 10 only" }, "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum"}, "HardwareRequirements": "Hardware Information",  "AdditionalInformation": "Some more info", "MobileFirstDesign": true } |
@@ -36,7 +36,7 @@ Scenario: 2. Mobile Operating Systems Description exceeds the maxlength 1000
         | OperatingSystems | OperatingSystemsDescription  |
         | Linux            | A string with length of 1001 |
     Then a response status of 400 is returned
-    And the operating-systems-description field contains maxLength
+    And the operating-systems-description field value is the validation failure maxLength
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                   |
         | Sln1     | An full online medicine system | Online medicine 1 | { "MobileOperatingSystems": { "OperatingSystems": ["Windows"], "OperatingSystemsDescription": "Windows 10 only" }, "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum"}, "HardwareRequirements": "Hardware Information",  "AdditionalInformation": "Some more info", "MobileFirstDesign": true } |
@@ -51,8 +51,8 @@ Given SolutionDetail exist
         | OperatingSystems | OperatingSystemsDescription  |
         |                  | A string with length of 1001 |
     Then a response status of 400 is returned
-    And the operating-systems field contains required
-    And the operating-systems-description field contains maxLength
+    And the operating-systems field value is the validation failure required
+    And the operating-systems-description field value is the validation failure maxLength
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                   |
         | Sln1     | An full online medicine system | Online medicine 1 | { "MobileOperatingSystems": { "OperatingSystems": ["Windows"], "OperatingSystemsDescription": "Windows 10 only" }, "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum"}, "HardwareRequirements": "Hardware Information",  "AdditionalInformation": "Some more info", "MobileFirstDesign": true } |

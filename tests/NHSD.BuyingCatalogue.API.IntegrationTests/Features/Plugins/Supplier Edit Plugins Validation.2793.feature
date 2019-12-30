@@ -23,7 +23,7 @@ Scenario: 1. Required is empty. AdditionalInformation is valid
         | PluginsRequired | PluginsDetail              |
         | NULL            | A string with length of 30 |
     Then a response status of 400 is returned
-    And the plugins-required field contains required
+    And the plugins-required field value is the validation failure required
 
 @2793
 Scenario: 2. Required has a value. AdditionalInformation length is greater than 500 characters
@@ -31,7 +31,7 @@ Scenario: 2. Required has a value. AdditionalInformation length is greater than 
         | PluginsRequired | PluginsDetail               |
         | Yes             | A string with length of 501 |
     Then a response status of 400 is returned
-    And the plugins-detail field contains maxLength
+    And the plugins-detail field value is the validation failure maxLength
     
 @2793
 Scenario: 3. Required is empty and AdditionalInformations length is greater than 500 characters
@@ -39,5 +39,5 @@ Scenario: 3. Required is empty and AdditionalInformations length is greater than
         | PluginsRequired | PluginsDetail               |
         | NULL            | A string with length of 501 |
     Then a response status of 400 is returned
-    And the plugins-required field contains required
-    And the plugins-detail field contains maxLength
+    And the plugins-required field value is the validation failure required
+    And the plugins-detail field value is the validation failure maxLength

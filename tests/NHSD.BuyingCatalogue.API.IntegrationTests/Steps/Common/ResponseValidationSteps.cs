@@ -40,7 +40,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             content.SelectToken(token).Select(x => x.ToString()).Should().NotContain(field);
         }
 
-        [Then(@"the (.*) field contains (required|maxLength)")]
+        [Then(@"the (.*) field value is the validation failure (required|maxLength)")]
         public async Task ThenTheFieldContainsValidationResult(string token, string validationError)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);

@@ -23,7 +23,7 @@ Scenario: 1. Summary is not filled out
          | Summary                   | Description | Link |
          | A string with length of 0 | NULL        | NULL |
     Then a response status of 400 is returned
-    And the summary field contains required
+    And the summary field value is the validation failure required
     And Solutions exist
         | SolutionID | SolutionName |
         | Sln1       | MedicOnline  |
@@ -37,7 +37,7 @@ Scenario: 2. Summary exceeds the character limit
         | Summary                     | Description | Link |
         | A string with length of 301 | NULL        | NULL |
     Then a response status of 400 is returned
-    And the summary field contains maxLength
+    And the summary field value is the validation failure maxLength
     And Solutions exist
         | SolutionID | SolutionName | 
         | Sln1       | MedicOnline  | 
@@ -51,7 +51,7 @@ Scenario: 3. Description exceeds the character limit
         | Summary   | Description                  | Link |
         | A Summary | A string with length of 1001 | NULL |
     Then a response status of 400 is returned
-    And the description field contains maxLength
+    And the description field value is the validation failure maxLength
     And Solutions exist
         | SolutionID | SolutionName |
         | Sln1       | MedicOnline  |
@@ -65,7 +65,7 @@ Scenario: 4. Link exceeds the character limit
         | Summary   | Description                  | Link                         |
         | A Summary | It's the link's fault really | A string with length of 1001 |
     Then a response status of 400 is returned
-    And the link field contains maxLength
+    And the link field value is the validation failure maxLength
        And Solutions exist
         | SolutionID | SolutionName |
         | Sln1       | MedicOnline  |
@@ -79,8 +79,8 @@ Scenario: 5. Summary is not filled out & Description exceeds the character limit
         | Summary                   | Description                  | Link |
         | A string with length of 0 | A string with length of 1001 | NULL |
     Then a response status of 400 is returned
-    And the summary field contains required
-    And the description field contains maxLength
+    And the summary field value is the validation failure required
+    And the description field value is the validation failure maxLength
     And Solutions exist
         | SolutionID | SolutionName |
         | Sln1       | MedicOnline  |
@@ -94,8 +94,8 @@ Scenario: 6. Summary is not filled out & Link exceeds the character limit
         | Summary                   | Description | Link                         |
         | A string with length of 0 | NULL        | A string with length of 1001 |
     Then a response status of 400 is returned
-    And the summary field contains required
-    And the link field contains maxLength
+    And the summary field value is the validation failure required
+    And the link field value is the validation failure maxLength
     And Solutions exist
         | SolutionID | SolutionName |
         | Sln1       | MedicOnline  |
@@ -109,8 +109,8 @@ Scenario: 7. Summary & Description exceeds the character limit
         | Summary                     | Description                  | Link |
         | A string with length of 301 | A string with length of 1001 | Null |
     Then a response status of 400 is returned
-    And the description field contains maxLength
-    And the summary field contains maxLength
+    And the description field value is the validation failure maxLength
+    And the summary field value is the validation failure maxLength
     And Solutions exist
         | SolutionID | SolutionName | 
         | Sln1       | MedicOnline  | 
@@ -124,8 +124,8 @@ Scenario: 8. Summary & Link exceeds the character limit
         | Summary                     | Description | Link                         |
         | A string with length of 301 | NULL        | A string with length of 1001 |
     Then a response status of 400 is returned
-    And the summary field contains maxLength
-    And the link field contains maxLength
+    And the summary field value is the validation failure maxLength
+    And the link field value is the validation failure maxLength
     And Solutions exist
         | SolutionID | SolutionName | 
         | Sln1       | MedicOnline  | 
@@ -139,8 +139,8 @@ Scenario: 9. Description & Link exceeds the character limit
         | Summary   | Description                  | Link                         |
         | A Summary | A string with length of 1001 | A string with length of 1001 |
     Then a response status of 400 is returned
-    And the link field contains maxLength
-    And the description field contains maxLength
+    And the link field value is the validation failure maxLength
+    And the description field value is the validation failure maxLength
     And Solutions exist
         | SolutionID | SolutionName |
         | Sln1       | MedicOnline  |
@@ -154,9 +154,9 @@ Scenario: 10. Summary is not filled out, Description & Link exceeds the characte
         | Summary                   | Description                  | Link                         |
         | A string with length of 0 | A string with length of 1001 | A string with length of 1001 |
     Then a response status of 400 is returned
-    And the summary field contains required
-    And the description field contains maxLength
-    And the link field contains maxLength
+    And the summary field value is the validation failure required
+    And the description field value is the validation failure maxLength
+    And the link field value is the validation failure maxLength
        And Solutions exist
         | SolutionID | SolutionName | 
         | Sln1       | MedicOnline  | 
@@ -170,9 +170,9 @@ Scenario: 11. Summary, Description & Link exceeds the character limit
         | Summary                     | Description                  | Link                         |
         | A string with length of 301 | A string with length of 1001 | A string with length of 1001 |
     Then a response status of 400 is returned
-    And the summary field contains maxLength
-    And the description field contains maxLength
-    And the link field contains maxLength
+    And the summary field value is the validation failure maxLength
+    And the description field value is the validation failure maxLength
+    And the link field value is the validation failure maxLength
     And Solutions exist
         | SolutionID | SolutionName | 
         | Sln1       | MedicOnline  | 
