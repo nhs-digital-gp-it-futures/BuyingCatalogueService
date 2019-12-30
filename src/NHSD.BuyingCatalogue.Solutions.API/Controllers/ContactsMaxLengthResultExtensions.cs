@@ -14,8 +14,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 
         private static Dictionary<string, Dictionary<string, string>> ToContactsValidationResult(this ContactsMaxLengthResult contactsMaxLengthResult) =>
             new Dictionary<string, Dictionary<string, string>>()
-                .AddIfInvalid(contactsMaxLengthResult.Contact1Result, "contact1")
-                .AddIfInvalid(contactsMaxLengthResult.Contact2Result, "contact2");
+                .AddIfInvalid(contactsMaxLengthResult.Contact1Result, "contact-1")
+                .AddIfInvalid(contactsMaxLengthResult.Contact2Result, "contact-2");
 
         private static Dictionary<string, Dictionary<string, string>> AddIfInvalid(this Dictionary<string, Dictionary<string, string>> result, MaxLengthResult maxLengthResult, string name)
         {

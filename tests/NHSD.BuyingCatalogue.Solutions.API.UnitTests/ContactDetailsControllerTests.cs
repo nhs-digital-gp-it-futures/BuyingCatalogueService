@@ -167,14 +167,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var actual = result.Value as Dictionary<string, Dictionary<string, string>>;
             actual.Should().NotBeNull();
             actual.Count.Should().Be(2);
-            actual["contact1"].Count.Should().Be(2);
-            actual["contact1"]["first-name"].Should().Be("maxLength");
-            actual["contact1"]["last-name"].Should().Be("maxLength");
+            actual["contact-1"].Count.Should().Be(2);
+            actual["contact-1"]["first-name"].Should().Be("maxLength");
+            actual["contact-1"]["last-name"].Should().Be("maxLength");
 
-            actual["contact2"].Count.Should().Be(3);
-            actual["contact2"]["email-address"].Should().Be("maxLength");
-            actual["contact2"]["last-name"].Should().Be("maxLength");
-            actual["contact2"]["phone-number"].Should().Be("maxLength");
+            actual["contact-2"].Count.Should().Be(3);
+            actual["contact-2"]["email-address"].Should().Be("maxLength");
+            actual["contact-2"]["last-name"].Should().Be("maxLength");
+            actual["contact-2"]["phone-number"].Should().Be("maxLength");
         }
 
         [Test]
@@ -192,10 +192,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             actual.Should().NotBeNull();
             actual.Count.Should().Be(1);
 
-            actual["contact2"].Count.Should().Be(3);
-            actual["contact2"]["email-address"].Should().Be("maxLength");
-            actual["contact2"]["last-name"].Should().Be("maxLength");
-            actual["contact2"]["phone-number"].Should().Be("maxLength");
+            actual["contact-2"].Count.Should().Be(3);
+            actual["contact-2"]["email-address"].Should().Be("maxLength");
+            actual["contact-2"]["last-name"].Should().Be("maxLength");
+            actual["contact-2"]["phone-number"].Should().Be("maxLength");
         }
 
         [Test]
@@ -212,9 +212,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var actual = result.Value as Dictionary<string, Dictionary<string, string>>;
             actual.Should().NotBeNull();
             actual.Count.Should().Be(1);
-            actual["contact1"].Count.Should().Be(2);
-            actual["contact1"]["first-name"].Should().Be("maxLength");
-            actual["contact1"]["last-name"].Should().Be("maxLength");
+            actual["contact-1"].Count.Should().Be(2);
+            actual["contact-1"]["first-name"].Should().Be("maxLength");
+            actual["contact-1"]["last-name"].Should().Be("maxLength");
         }
     }
 }
