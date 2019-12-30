@@ -11,17 +11,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         private const string Required = "required";
         private const string MaxLength = "maxLength";
 
-        //This method will eventually be obsolete and replaced by the methods below 
         internal static ActionResult ToActionResult(this MaxLengthResult validationResult) =>
             validationResult.IsValid
                 ? (ActionResult)new NoContentResult()
-                : new BadRequestObjectResult(new UpdateFormMaxLengthResult(validationResult));
+                : new BadRequestObjectResult(validationResult.ToFieldListValidation());
 
-        //This method will eventually be obsolete and replaced by the methods below 
         internal static ActionResult ToActionResult(this RequiredResult validationResult) =>
             validationResult.IsValid
                 ? (ActionResult)new NoContentResult()
-                : new BadRequestObjectResult(new UpdateFormRequiredResult(validationResult));
+                : new BadRequestObjectResult(validationResult.ToFieldListValidation());
 
         internal static ActionResult ToFieldListValidationActionResult(this RequiredMaxLengthResult validationResult) =>
             validationResult.IsValid

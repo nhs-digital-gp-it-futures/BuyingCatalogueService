@@ -48,7 +48,7 @@ Scenario: 2. Browsers Supported is empty, Mobile Responsive has a result
         | BrowsersSupported | MobileResponsive |
         |                   | true             |
     Then a response status of 400 is returned
-    And the required field contains supported-browsers
+    And the supported-browsers field value is the validation failure required
      And Solutions exist
         | SolutionID | SolutionName   |
         | Sln1       | MedicOnline    |
@@ -72,7 +72,7 @@ Scenario: 3. Mobile Responsive is empty
         | BrowsersSupported | MobileResponsive |
         | Chrome, Edge      |                  |
     Then a response status of 400 is returned
-    And the required field contains mobile-responsive
+    And the mobile-responsive field value is the validation failure required
     And Solutions exist
         | SolutionID | SolutionName   |
         | Sln1       | MedicOnline    |
@@ -96,8 +96,8 @@ Scenario: 4. Browsers Supported & Mobile Responsive are empty
         | BrowsersSupported | MobileResponsive |
         |                   |                  |
     Then a response status of 400 is returned
-    And the required field contains supported-browsers
-    And the required field contains mobile-responsive
+    And the supported-browsers field value is the validation failure required
+    And the mobile-responsive field value is the validation failure required
     And Solutions exist
         | SolutionID | SolutionName   |
         | Sln1       | MedicOnline    |

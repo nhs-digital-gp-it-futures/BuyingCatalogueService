@@ -23,7 +23,7 @@ Scenario: 1. HardwareRequirements exceeds the maxLength
     | HardwareRequirements        |
     | A string with length of 501 |
     Then a response status of 400 is returned
-    And the maxLength field contains hardware-requirements-description
+    And the hardware-requirements-description field value is the validation failure maxLength
 
 @3600
 Scenario: 2. Hardware requirements is set to null

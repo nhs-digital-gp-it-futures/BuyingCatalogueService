@@ -22,7 +22,7 @@ Scenario: 1. Browser Mobile First is updated to be empty
         | MobileFirstDesign |
         | NULL              |
     Then a response status of 400 is returned
-    And the required field contains mobile-first-design
+    And the mobile-first-design field value is the validation failure required
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                 |
         | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins": null, "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null, "AdditionalInformation": "Some Info", "HardwareRequirements": "New Hardware",  "MobileFirstDesign": false } |
