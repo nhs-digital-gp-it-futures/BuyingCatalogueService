@@ -21,7 +21,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         {
             if (!maxLengthResult.IsValid)
             {
-                result.Add(name, maxLengthResult.ToFieldListValidation());
+                result.Add(name, maxLengthResult.ToDictionary());
             }
 
             return result;
