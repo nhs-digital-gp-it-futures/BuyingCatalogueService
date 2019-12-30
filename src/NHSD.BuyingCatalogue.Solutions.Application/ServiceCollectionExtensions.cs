@@ -55,7 +55,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<IValidator<UpdateSolutionMobileOperatingSystemsCommand, RequiredMaxLengthResult>, UpdateSolutionMobileOperatingSystemsValidator>()
 
                 .AddTransient<IExecutor<UpdateSolutionContactDetailsCommand>, UpdateSolutionContactDetailsExecutor>()
-                .AddTransient<IValidator<UpdateSolutionContactDetailsCommand, MaxLengthResult>, UpdateSolutionContactDetailsValidator>()
+                .AddTransient<IValidator<UpdateSolutionContactDetailsCommand, ContactsMaxLengthResult>, UpdateSolutionContactDetailsValidator>()
 
                 .AddTransient<IExecutor<UpdateSolutionFeaturesCommand>, UpdateSolutionFeaturesExecutor>()
                 .AddTransient<IValidator<UpdateSolutionFeaturesCommand, MaxLengthResult>, UpdateSolutionFeaturesValidator>()

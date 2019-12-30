@@ -23,7 +23,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
         private ContactDetailsController _contactDetailsController;
 
-        private MaxLengthResult _validationResult;
+        private ContactsMaxLengthResult _validationResult;
 
         private const string SolutionId = "Sln1";
         private List<IContact> _returnedContacts;
@@ -62,7 +62,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 m.Send(It.Is<UpdateSolutionContactDetailsCommand>(q => q.SolutionId == SolutionId),
                     It.IsAny<CancellationToken>())).ReturnsAsync(() => _validationResult);
 
-            _validationResult = new MaxLengthResult();
+            _validationResult = new ContactsMaxLengthResult(new MaxLengthResult(), new MaxLengthResult());
             _returnedContacts = new List<IContact>();
         }
 
@@ -156,23 +156,65 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task SubmitForReviewResultFailure()
         {
-            _validationResult = new MaxLengthResult { MaxLength = { "This update was too cool for school" } };
-            var expectedResponse = new UpdateFormMaxLengthResult(_validationResult);
+            _validationResult = new ContactsMaxLengthResult(
+                new MaxLengthResult { MaxLength = { "first-name", "last-name" } },
+                new MaxLengthResult { MaxLength = { "email-address", "last-name", "phone-number" } });
 
             var result = await _contactDetailsController.UpdateContactDetailsAsync(SolutionId, new UpdateSolutionContactDetailsViewModel()).ConfigureAwait(false) as BadRequestObjectResult;
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(400);
 
-            var actual = result.Value as UpdateFormMaxLengthResult;
+            var actual = result.Value as Dictionary<string, Dictionary<string, string>>;
             actual.Should().NotBeNull();
-            actual.Should().BeEquivalentTo(expectedResponse);
+            actual.Count.Should().Be(2);
+            actual["contact1"].Count.Should().Be(2);
+            actual["contact1"]["first-name"].Should().Be("maxLength");
+            actual["contact1"]["last-name"].Should().Be("maxLength");
+
+            actual["contact2"].Count.Should().Be(3);
+            actual["contact2"]["email-address"].Should().Be("maxLength");
+            actual["contact2"]["last-name"].Should().Be("maxLength");
+            actual["contact2"]["phone-number"].Should().Be("maxLength");
         }
 
         [Test]
-        public void UpdateResultSetsValidationCorrectly()
+        public async Task ShouldNotReportAsInvalidValidContact1()
         {
-            var response = new UpdateFormMaxLengthResult(_validationResult);
-            response.MaxLength.Should().BeEquivalentTo(_validationResult.MaxLength);
+            _validationResult = new ContactsMaxLengthResult(
+                new MaxLengthResult(),
+                new MaxLengthResult { MaxLength = { "email-address", "last-name", "phone-number" } });
+
+            var result = await _contactDetailsController.UpdateContactDetailsAsync(SolutionId, new UpdateSolutionContactDetailsViewModel()).ConfigureAwait(false) as BadRequestObjectResult;
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(400);
+
+            var actual = result.Value as Dictionary<string, Dictionary<string, string>>;
+            actual.Should().NotBeNull();
+            actual.Count.Should().Be(1);
+
+            actual["contact2"].Count.Should().Be(3);
+            actual["contact2"]["email-address"].Should().Be("maxLength");
+            actual["contact2"]["last-name"].Should().Be("maxLength");
+            actual["contact2"]["phone-number"].Should().Be("maxLength");
+        }
+
+        [Test]
+        public async Task ShouldNotReportAsInvalidValidContact2()
+        {
+            _validationResult = new ContactsMaxLengthResult(
+                new MaxLengthResult { MaxLength = { "first-name", "last-name" } },
+                new MaxLengthResult());
+
+            var result = await _contactDetailsController.UpdateContactDetailsAsync(SolutionId, new UpdateSolutionContactDetailsViewModel()).ConfigureAwait(false) as BadRequestObjectResult;
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(400);
+
+            var actual = result.Value as Dictionary<string, Dictionary<string, string>>;
+            actual.Should().NotBeNull();
+            actual.Count.Should().Be(1);
+            actual["contact1"].Count.Should().Be(2);
+            actual["contact1"]["first-name"].Should().Be("maxLength");
+            actual["contact1"]["last-name"].Should().Be("maxLength");
         }
     }
 }

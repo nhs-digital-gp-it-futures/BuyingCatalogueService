@@ -129,7 +129,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public IRequestHandler<UpdateSolutionBrowsersSupportedCommand, RequiredResult> UpdateSolutionBrowsersSupportedHandler { get; }
 
-            public IRequestHandler<UpdateSolutionContactDetailsCommand, MaxLengthResult> UpdateSolutionContactDetailsHandler { get; }
+            public IRequestHandler<UpdateSolutionContactDetailsCommand, ContactsMaxLengthResult> UpdateSolutionContactDetailsHandler { get; }
 
             public IRequestHandler<UpdateSolutionPluginsCommand, RequiredMaxLengthResult> UpdateSolutionPluginsHandler { get; }
 
@@ -159,7 +159,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdateSolutionClientApplicationTypesCommand, RequiredResult> updateSolutionClientApplicationTypesHandler,
                 IRequestHandler<UpdateSolutionBrowsersSupportedCommand, RequiredResult> updateSolutionBrowsersSupportedHandler,
                 IRequestHandler<UpdateSolutionPluginsCommand, RequiredMaxLengthResult> updateSolutionPluginsHandler,
-                IRequestHandler<UpdateSolutionContactDetailsCommand, MaxLengthResult> updateSolutionContactDetailsHandler,
+                IRequestHandler<UpdateSolutionContactDetailsCommand, ContactsMaxLengthResult> updateSolutionContactDetailsHandler,
                 IRequestHandler<GetContactDetailBySolutionIdQuery, IEnumerable<IContact>> getContactDetailBySolutionIdHandler,
                 IRequestHandler<UpdateSolutionBrowserHardwareRequirementsCommand, MaxLengthResult> updateSolutionBrowserHardwareRequirementsHandler,
                 IRequestHandler<UpdateSolutionConnectivityAndResolutionCommand, RequiredResult> updateSolutionConnectivityAndResolutionHandler,
