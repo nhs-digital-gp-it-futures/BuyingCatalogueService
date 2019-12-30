@@ -8,11 +8,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 {
     internal static class ValidationResultExtensions
     {
-        //This method will eventually be obsolete and replaced by the methods below 
-        internal static ActionResult ToActionResult(this RequiredMaxLengthResult validationResult) =>
-            validationResult.IsValid
-                ? (ActionResult)new NoContentResult()
-                : new BadRequestObjectResult(new UpdateFormRequiredMaxLengthResult(validationResult));
+        private const string Required = "required";
+        private const string MaxLength = "maxLength";
 
         //This method will eventually be obsolete and replaced by the methods below 
         internal static ActionResult ToActionResult(this MaxLengthResult validationResult) =>
@@ -32,16 +29,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
                 : new BadRequestObjectResult(validationResult.ToFieldListValidation());
 
         internal static Dictionary<string, string> ToFieldListValidation(this MaxLengthResult validationResult) =>
-            validationResult.MaxLength.ToDictionary(k => k, v => "maxLength");
+            validationResult.MaxLength.ToDictionary(k => k, v => MaxLength);
 
         internal static Dictionary<string, string> ToFieldListValidation(this RequiredResult validationResult) =>
-            validationResult.Required.ToDictionary(k => k, v => "required");
+            validationResult.Required.ToDictionary(k => k, v => Required);
 
         internal static Dictionary<string, string> ToFieldListValidation(this RequiredMaxLengthResult validationResult) =>
             new List<Dictionary<string, string>>
                 {
-                    validationResult.Required.ToDictionary(k => k, v => "required"),
-                    validationResult.MaxLength.ToDictionary(k => k, v => "maxLength")
+                    validationResult.Required.ToDictionary(k => k, v => Required),
+                    validationResult.MaxLength.ToDictionary(k => k, v => MaxLength)
                 }
                 .SelectMany(dict => dict)
                 .ToDictionary(pair => pair.Key, pair => pair.Value);
