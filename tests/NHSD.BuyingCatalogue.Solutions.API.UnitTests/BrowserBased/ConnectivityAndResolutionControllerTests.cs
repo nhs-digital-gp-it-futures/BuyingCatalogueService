@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -60,8 +61,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
             result.Should().NotBeNull();
             result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
 
-            var validationResult = result.Value as UpdateFormRequiredResult;
-            validationResult.Required.Should().BeEquivalentTo(_validationResult.Required);
+            var resultValue = result.Value as Dictionary<string, string>;
+            resultValue.Count.Should().Be(1);
+            resultValue["Hello"].Should().Be("required");
         }
 
         [Test]

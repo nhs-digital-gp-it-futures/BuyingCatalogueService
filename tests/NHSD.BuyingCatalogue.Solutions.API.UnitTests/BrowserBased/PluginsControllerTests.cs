@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -151,8 +152,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
             var result = (await _plugInsController.UpdatePlugInsAsync(SolutionId, pluginsViewModel).ConfigureAwait(false)) as BadRequestObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            (result.Value as UpdateFormRequiredMaxLengthResult).Required.Should().BeEquivalentTo(new[] { "plugins-required" });
-            (result.Value as UpdateFormRequiredMaxLengthResult).MaxLength.Should().BeEquivalentTo(new[] { "plugins-detail" });
+            var validationResult = result.Value as Dictionary<string, string>;
+            validationResult.Count.Should().Be(2);
+            validationResult["plugins-required"].Should().Be("required");
+            validationResult["plugins-detail"].Should().Be("maxLength");
 
             _mockMediator.Verify(
                 m => m.Send(

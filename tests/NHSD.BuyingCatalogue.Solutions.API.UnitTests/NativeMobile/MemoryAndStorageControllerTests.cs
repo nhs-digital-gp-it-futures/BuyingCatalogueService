@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -125,7 +126,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
 
             var validationModel = new RequiredMaxLengthResult()
             {
-                Required = { "minimum-memory-requirement", "storage-requirements-description" },
+                Required = { "minimum-memory-requirement" },
                 MaxLength = { "storage-requirements-description" }
             };
 
@@ -139,8 +140,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
             var result = (await _memoryAndStorageController.UpdateMemoryAndStorageAsync(SolutionId, viewModel).ConfigureAwait(false)) as BadRequestObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            (result.Value as UpdateFormRequiredMaxLengthResult).Required.Should().BeEquivalentTo(new[] { "minimum-memory-requirement", "storage-requirements-description" });
-            (result.Value as UpdateFormRequiredMaxLengthResult).MaxLength.Should().BeEquivalentTo(new[] { "storage-requirements-description" });
+            var validationResult = result.Value as Dictionary<string, string>;
+            validationResult.Count.Should().Be(2);
+            validationResult["minimum-memory-requirement"].Should().Be("required");
+            validationResult["storage-requirements-description"].Should().Be("maxLength");
 
             _mockMediator.Verify(
                 m => m.Send(

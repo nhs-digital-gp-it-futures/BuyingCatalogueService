@@ -23,7 +23,7 @@ Scenario: 1. AdditionalInformation exceeds the maxLength
     | AdditionalInformation       |
     | A string with length of 501 |
     Then a response status of 400 is returned
-    And the maxLength field contains additional-information
+    And the additional-information field value is the validation failure maxLength
 
 @3601
 Scenario: 2. AdditionalInformation is set to null

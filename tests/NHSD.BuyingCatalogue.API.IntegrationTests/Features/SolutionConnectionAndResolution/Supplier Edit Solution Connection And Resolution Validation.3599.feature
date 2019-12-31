@@ -23,8 +23,8 @@ Scenario: 1. Minimum connection speed is null and Minimum desktop resolution is 
         | MinimumConnectionSpeed | MinimumDesktopResolution |
         | NULL                   |                          |
     Then a response status of 400 is returned
-    And the required field contains minimum-connection-speed
-    And the required field does not contain minimum-desktop-resolution
+    And the minimum-connection-speed field value is the validation failure required
+    And the minimum-desktop-resolution string does not exist
 
 @3599
 Scenario: 2. Minimum connection speed is empty and Minimum desktop resolution is valid
@@ -32,5 +32,5 @@ Scenario: 2. Minimum connection speed is empty and Minimum desktop resolution is
         | MinimumConnectionSpeed | MinimumDesktopResolution |
         |                        | 1x1                      |
     Then a response status of 400 is returned
-    And the required field contains minimum-connection-speed
-    And the required field does not contain minimum-desktop-resolution
+    And the minimum-connection-speed field value is the validation failure required
+    And the minimum-desktop-resolution string does not exist

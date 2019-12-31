@@ -68,7 +68,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     BadRequestObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            (result.Value as UpdateFormMaxLengthResult).MaxLength.Should().BeEquivalentTo("listing-1");
+            var resultValue = result.Value as Dictionary<string, string>;
+            resultValue.Count.Should().Be(1);
+            resultValue["listing-1"].Should().Be("maxLength");
+
             _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionFeaturesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionFeaturesViewModel == featuresUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
 

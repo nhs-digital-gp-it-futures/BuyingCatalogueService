@@ -22,7 +22,7 @@ Scenario: 1. Mobile StorageRequirementsDescription is updated to be too long
         | MinimumMemoryRequirement | Description                 |
         | NULL                     | A string with length of 301 |
     Then a response status of 400 is returned
-    And the maxLength field contains storage-requirements-description
+    And the storage-requirements-description field value is the validation failure maxLength
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication |
         | Sln1     | An full online medicine system | Online medicine 1 | {}                |
@@ -33,7 +33,7 @@ Scenario: 2. Client Application is updated with no Mobile StorageRequirementsDes
         | MinimumMemoryRequirement | Description |
         | 1GB                      | NULL        |
     Then a response status of 400 is returned
-    And the required field contains storage-requirements-description
+    And the storage-requirements-description field value is the validation failure required
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication |
         | Sln1     | An full online medicine system | Online medicine 1 | {}                |
@@ -44,7 +44,7 @@ Scenario: 3. Client Application is updated with no Mobile MinimumMemoryRequireme
         | MinimumMemoryRequirement | Description   |
         | NULL                     | A description |
     Then a response status of 400 is returned
-    And the required field contains minimum-memory-requirement
+    And the minimum-memory-requirement field value is the validation failure required
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication |
         | Sln1     | An full online medicine system | Online medicine 1 | {}                |

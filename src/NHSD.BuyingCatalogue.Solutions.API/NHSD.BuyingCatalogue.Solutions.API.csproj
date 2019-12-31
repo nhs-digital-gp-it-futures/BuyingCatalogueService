@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NHSD.BuyingCatalogue.Infrastructure\NHSD.BuyingCatalogue.Infrastructure.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Solutions.Application\NHSD.BuyingCatalogue.Solutions.Application.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Solutions.Contracts\NHSD.BuyingCatalogue.Solutions.Contracts.csproj" />
   </ItemGroup>

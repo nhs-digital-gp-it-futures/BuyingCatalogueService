@@ -83,7 +83,7 @@ Scenario: 4. Client Application Types cannot be completely cleared
         | ClientApplicationTypes |
         |                        |
     Then a response status of 400 is returned
-    Then the required field contains client-application-types
+    Then the client-application-types field value is the validation failure required
     And Solutions exist
         | SolutionID | SolutionName   |
         | Sln1       | MedicOnline    |
