@@ -101,13 +101,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
         {
             var viewModel = new UpdateSolutionMobileConnectionDetailsViewModel();
 
-            var validationModel = new MaxLengthResult();
+            var validationModel = new Mock<ISimpleResult>();
+            validationModel.Setup(s => s.IsValid).Returns(true);
 
             _mockMediator
                 .Setup(m => m.Send(
                     It.Is<UpdateSolutionMobileConnectionDetailsCommand>(q =>
                         q.SolutionId == SolutionId && q.Details == viewModel), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(validationModel);
+                .ReturnsAsync(validationModel.Object);
 
             var result =
                 (await _controller.UpdateMobileConnectionDetails(SolutionId, viewModel)
@@ -126,16 +127,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
         {
             var viewModel = new UpdateSolutionMobileConnectionDetailsViewModel();
 
-            var validationModel = new MaxLengthResult
-            {
-                MaxLength = { "connection-requirements-description" }
-            };
+            var validationModel = new Mock<ISimpleResult>();
+            validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "connection-requirements-description", "maxLength" } });
+            validationModel.Setup(s => s.IsValid).Returns(false);
 
             _mockMediator.Setup(m =>
                 m.Send(
                     It.Is<UpdateSolutionMobileConnectionDetailsCommand>(q =>
                         q.SolutionId == SolutionId && q.Details == viewModel),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
+                    It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result = (await _controller.UpdateMobileConnectionDetails(SolutionId, viewModel).ConfigureAwait(false)) as BadRequestObjectResult;
 

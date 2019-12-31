@@ -3,10 +3,10 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserAdditionalInformation
 {
-    internal sealed class UpdateSolutionBrowserAdditionalInformationHandler : Handler<UpdateSolutionBrowserAdditionalInformationCommand, MaxLengthResult>
+    internal sealed class UpdateSolutionBrowserAdditionalInformationHandler : Handler<UpdateSolutionBrowserAdditionalInformationCommand, ISimpleResult>
     {
         public UpdateSolutionBrowserAdditionalInformationHandler(IExecutor<UpdateSolutionBrowserAdditionalInformationCommand> updateSolutionBrowserAdditionalInformationExecutor,
-            IValidator<UpdateSolutionBrowserAdditionalInformationCommand, MaxLengthResult> updateSolutionBrowserAdditionalInformationValidator) : base(updateSolutionBrowserAdditionalInformationExecutor, updateSolutionBrowserAdditionalInformationValidator)
+            IValidator<UpdateSolutionBrowserAdditionalInformationCommand, ISimpleResult> updateSolutionBrowserAdditionalInformationValidator) : base(updateSolutionBrowserAdditionalInformationExecutor, updateSolutionBrowserAdditionalInformationValidator)
         {
         }
     }

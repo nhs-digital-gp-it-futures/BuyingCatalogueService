@@ -80,9 +80,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var clientApplicationUpdateViewModel = new UpdateSolutionClientApplicationTypesViewModel();
 
-            var validationModel = new RequiredResult();
+            var validationModel = new Mock<ISimpleResult>();
+            validationModel.Setup(s => s.IsValid).Returns(true);
 
-            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionClientApplicationTypesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionClientApplicationTypesViewModel == clientApplicationUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
+            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionClientApplicationTypesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionClientApplicationTypesViewModel == clientApplicationUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result =
                 (await _clientApplicationTypeController.UpdateClientApplicationTypesAsync(SolutionId,
@@ -98,10 +99,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var clientApplicationUpdateViewModel = new UpdateSolutionClientApplicationTypesViewModel();
 
-            var validationModel = new RequiredResult();
-            validationModel.Required.Add("client-application-types");
+            var validationModel = new Mock<ISimpleResult>();
+            validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "client-application-types", "required" } });
+            validationModel.Setup(s => s.IsValid).Returns(false);
 
-            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionClientApplicationTypesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionClientApplicationTypesViewModel == clientApplicationUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
+            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionClientApplicationTypesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionClientApplicationTypesViewModel == clientApplicationUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result =
                 (await _clientApplicationTypeController.UpdateClientApplicationTypesAsync(SolutionId,

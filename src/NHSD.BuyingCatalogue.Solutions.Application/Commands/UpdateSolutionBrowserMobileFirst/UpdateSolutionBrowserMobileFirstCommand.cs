@@ -4,7 +4,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserMobileFirst
 {
-    public sealed class UpdateSolutionBrowserMobileFirstCommand : IRequest<RequiredResult>
+    public sealed class UpdateSolutionBrowserMobileFirstCommand : IRequest<ISimpleResult>
     {
         public string SolutionId { get; }
 

@@ -3,7 +3,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileConnectionDetails
 {
-    public sealed class UpdateSolutionMobileConnectionDetailsCommand : IRequest<MaxLengthResult>
+    public sealed class UpdateSolutionMobileConnectionDetailsCommand : IRequest<ISimpleResult>
     {
         public string SolutionId { get; }
 

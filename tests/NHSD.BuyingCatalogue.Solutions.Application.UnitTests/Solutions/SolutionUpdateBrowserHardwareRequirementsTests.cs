@@ -92,7 +92,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             var validationResult = await UpdateBrowserHardwareRequirements(new string('a', 501)).ConfigureAwait(false);
             validationResult.IsValid.Should().BeFalse();
-            validationResult.MaxLength.Should().BeEquivalentTo(new[] { "hardware-requirements-description" });
+            validationResult.ToDictionary()["hardware-requirements-description"].Should().Be("maxLength");
         }
 
         [Test]
@@ -105,7 +105,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
-        private async Task<MaxLengthResult> UpdateBrowserHardwareRequirements(
+        private async Task<ISimpleResult> UpdateBrowserHardwareRequirements(
             string hardwareRequirements)
         {
             return await Context.UpdateSolutionBrowserHardwareRequirementsHandler.Handle(

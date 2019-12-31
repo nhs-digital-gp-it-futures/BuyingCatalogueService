@@ -99,13 +99,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
         {
             var viewModel = new UpdateSolutionMobileOperatingSystemsViewModel();
 
-            var validationModel = new RequiredMaxLengthResult();
+            var validationModel = new Mock<ISimpleResult>();
+            validationModel.Setup(s => s.IsValid).Returns(true);
 
             _mockMediator
                 .Setup(m => m.Send(
                     It.Is<UpdateSolutionMobileOperatingSystemsCommand>(q =>
                         q.Id == SolutionId && q.ViewModel == viewModel), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(validationModel);
+                .ReturnsAsync(validationModel.Object);
 
             var result =
                 (await _mobileOperatingSystemsController.UpdateMobileOperatingSystems(SolutionId, viewModel)
@@ -124,17 +125,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
         {
             var viewModel = new UpdateSolutionMobileOperatingSystemsViewModel();
 
-            var validationModel = new RequiredMaxLengthResult()
-            {
-                Required = { "operating-systems" },
-                MaxLength = { "operating-systems-description" }
-            };
+            var validationModel = new Mock<ISimpleResult>();
+            validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "operating-systems-description", "maxLength" }, { "operating-systems", "required" } });
+            validationModel.Setup(s => s.IsValid).Returns(false);
 
             _mockMediator.Setup(m =>
                 m.Send(
                     It.Is<UpdateSolutionMobileOperatingSystemsCommand>(q =>
                         q.Id == SolutionId && q.ViewModel == viewModel),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
+                    It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result = (await _mobileOperatingSystemsController.UpdateMobileOperatingSystems(SolutionId, viewModel).ConfigureAwait(false)) as BadRequestObjectResult;
 

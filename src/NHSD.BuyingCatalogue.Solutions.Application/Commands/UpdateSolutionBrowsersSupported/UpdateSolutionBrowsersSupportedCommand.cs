@@ -3,7 +3,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowsersSupported
 {
-    public sealed class UpdateSolutionBrowsersSupportedCommand : IRequest<RequiredResult>
+    public sealed class UpdateSolutionBrowsersSupportedCommand : IRequest<ISimpleResult>
     {
         /// <summary>
         /// A value to uniquely identify a solution.

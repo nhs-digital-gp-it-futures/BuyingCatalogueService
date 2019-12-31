@@ -3,7 +3,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionConnectivityAndResolution
 {
-    public class UpdateSolutionConnectivityAndResolutionCommand : IRequest<RequiredResult>
+    public class UpdateSolutionConnectivityAndResolutionCommand : IRequest<ISimpleResult>
     {
         public string Id { get; }
         public UpdateSolutionConnectivityAndResolutionViewModel ViewModel { get; }

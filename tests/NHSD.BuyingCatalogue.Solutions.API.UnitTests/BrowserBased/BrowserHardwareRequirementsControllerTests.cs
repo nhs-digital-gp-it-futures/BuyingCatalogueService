@@ -72,13 +72,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
         {
             var viewModel = new UpdateSolutionBrowserHardwareRequirementsViewModel();
 
-            var validationResult = new MaxLengthResult();
+            var validationResult = new Mock<ISimpleResult>();
+            validationResult.Setup(s => s.IsValid).Returns(true);
 
             _mockMediator
                 .Setup(m => m.Send(
                     It.Is<UpdateSolutionBrowserHardwareRequirementsCommand>(q =>
                         q.SolutionId == SolutionId && q.UpdateSolutionHardwareRequirementsViewModel == viewModel),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(validationResult);
+                    It.IsAny<CancellationToken>())).ReturnsAsync(validationResult.Object);
 
             var result = await _hardwareRequirementsController.UpdateHardwareRequirementsAsync(SolutionId, viewModel)
                 .ConfigureAwait(false) as NoContentResult;
@@ -96,15 +97,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
         {
             var viewModel = new UpdateSolutionBrowserHardwareRequirementsViewModel();
 
-            var validationResult = new MaxLengthResult()
-            {
-                MaxLength = { "hardware-requirements-description" }
-            };
+            var validationResult = new Mock<ISimpleResult>();
+            validationResult.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "hardware-requirements-description", "maxLength" } });
+            validationResult.Setup(s => s.IsValid).Returns(false);
 
             _mockMediator.Setup(m => m.Send(
             It.Is<UpdateSolutionBrowserHardwareRequirementsCommand>(q =>
                 q.SolutionId == SolutionId && q.UpdateSolutionHardwareRequirementsViewModel == viewModel),
-            It.IsAny<CancellationToken>())).ReturnsAsync(validationResult);
+            It.IsAny<CancellationToken>())).ReturnsAsync(validationResult.Object);
 
             var result = await _hardwareRequirementsController.UpdateHardwareRequirementsAsync(SolutionId, viewModel)
                 .ConfigureAwait(false) as BadRequestObjectResult;

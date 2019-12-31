@@ -3,7 +3,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins
 {
-    public sealed class UpdateSolutionPluginsCommand : IRequest<RequiredMaxLengthResult>
+    public sealed class UpdateSolutionPluginsCommand : IRequest<ISimpleResult>
     {
         public string SolutionId { get; }
 

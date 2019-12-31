@@ -72,7 +72,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             _viewModel.MinimumDesktopResolution = null;
             var validationResult = await Context.UpdateSolutionConnectivityAndResolutionHandler.Handle(_command, _cancellationToken).ConfigureAwait(false);
             validationResult.IsValid.Should().Be(false);
-            validationResult.Required.ShouldContain("minimum-connection-speed");
+            validationResult.ToDictionary()["minimum-connection-speed"].Should().Be("required");
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never);
 
@@ -86,7 +86,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             _viewModel.MinimumConnectionSpeed = null;
             var validationResult = await Context.UpdateSolutionConnectivityAndResolutionHandler.Handle(_command, _cancellationToken).ConfigureAwait(false);
             validationResult.IsValid.Should().Be(false);
-            validationResult.Required.ShouldContain("minimum-connection-speed");
+            validationResult.ToDictionary()["minimum-connection-speed"].Should().Be("required");
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never);
 

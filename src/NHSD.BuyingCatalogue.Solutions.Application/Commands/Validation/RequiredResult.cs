@@ -4,7 +4,7 @@ using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
 {
-    public class RequiredResult : ISimpleResult
+    internal class RequiredResult : ISimpleResult
     {
         public bool IsValid => !Required.Any();
 

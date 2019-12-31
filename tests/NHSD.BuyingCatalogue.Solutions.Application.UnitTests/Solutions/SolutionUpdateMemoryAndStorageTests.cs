@@ -51,8 +51,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             else
             {
                 validationResult.IsValid.Should().Be(false);
-                validationResult.MaxLength.Should().BeEquivalentTo(new[] { "storage-requirements-description" });
-                validationResult.Required.Should().BeEmpty();
+                var results = validationResult.ToDictionary();
+                results.Count.Should().Be(1);
+                results["storage-requirements-description"].Should().Be("maxLength");
                 Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never);
             }
         }
@@ -67,8 +68,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var validationResult = await UpdateMemoryAndStorage("1GB", description).ConfigureAwait(false);
 
             validationResult.IsValid.Should().Be(false);
-            validationResult.MaxLength.Should().BeEmpty();
-            validationResult.Required.Should().BeEquivalentTo(new[] { "storage-requirements-description" });
+            var results = validationResult.ToDictionary();
+            results.Count.Should().Be(1);
+            results["storage-requirements-description"].Should().Be("required");
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never);
         }
 
@@ -82,8 +84,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var validationResult = await UpdateMemoryAndStorage(minimumMemoryRequirement, "description").ConfigureAwait(false);
 
             validationResult.IsValid.Should().Be(false);
-            validationResult.MaxLength.Should().BeEmpty();
-            validationResult.Required.Should().BeEquivalentTo(new[] { "minimum-memory-requirement" });
+            var results = validationResult.ToDictionary();
+            results.Count.Should().Be(1);
+            results["minimum-memory-requirement"].Should().Be("required");
+
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never);
         }
 
@@ -95,8 +99,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var validationResult = await UpdateMemoryAndStorage(null, null).ConfigureAwait(false);
 
             validationResult.IsValid.Should().Be(false);
-            validationResult.MaxLength.Should().BeEmpty();
-            validationResult.Required.Should().BeEquivalentTo(new[] { "minimum-memory-requirement", "storage-requirements-description" });
+            var results = validationResult.ToDictionary();
+            results.Count.Should().Be(2);
+            results["minimum-memory-requirement"].Should().Be("required");
+            results["storage-requirements-description"].Should().Be("required");
+
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never);
         }
 
@@ -113,7 +120,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                     It.IsAny<CancellationToken>()), Times.Never());
         }
 
-        private async Task<RequiredMaxLengthResult> UpdateMemoryAndStorage(string minimumMemoryRequirement, string description)
+        private async Task<ISimpleResult> UpdateMemoryAndStorage(string minimumMemoryRequirement, string description)
         {
             return await Context.UpdateSolutionMobileMemoryStorageHandler.Handle(
                 new UpdateSolutionMobileMemoryStorageCommand(SolutionId, minimumMemoryRequirement, description), CancellationToken.None).ConfigureAwait(false);

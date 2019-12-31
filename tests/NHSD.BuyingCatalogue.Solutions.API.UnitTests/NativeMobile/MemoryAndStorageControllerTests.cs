@@ -97,14 +97,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
         {
             var viewModel = new UpdateSolutionMemoryAndStorageRequest();
 
-            var validationModel = new RequiredMaxLengthResult();
+            var validationModel = new Mock<ISimpleResult>();
+            validationModel.Setup(s => s.IsValid).Returns(true);
 
             _mockMediator
                 .Setup(m => m.Send(
                     It.Is<UpdateSolutionMobileMemoryStorageCommand>(q =>
                         q.Id == SolutionId && q.MinimumMemoryRequirement == viewModel.MinimumMemoryRequirement &&
                         q.Description == viewModel.Description), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(validationModel);
+                .ReturnsAsync(validationModel.Object);
 
             var result =
                 (await _memoryAndStorageController.UpdateMemoryAndStorageAsync(SolutionId, viewModel)
@@ -124,18 +125,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
         {
             var viewModel = new UpdateSolutionMemoryAndStorageRequest();
 
-            var validationModel = new RequiredMaxLengthResult()
-            {
-                Required = { "minimum-memory-requirement" },
-                MaxLength = { "storage-requirements-description" }
-            };
+            var validationModel = new Mock<ISimpleResult>();
+            validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "minimum-memory-requirement", "required" }, { "storage-requirements-description", "maxLength" } });
+            validationModel.Setup(s => s.IsValid).Returns(false);
 
             _mockMediator.Setup(m =>
                 m.Send(
                     It.Is<UpdateSolutionMobileMemoryStorageCommand>(q =>
                         q.Id == SolutionId && q.MinimumMemoryRequirement == viewModel.MinimumMemoryRequirement &&
                         q.Description == viewModel.Description),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
+                    It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result = (await _memoryAndStorageController.UpdateMemoryAndStorageAsync(SolutionId, viewModel).ConfigureAwait(false)) as BadRequestObjectResult;
 
