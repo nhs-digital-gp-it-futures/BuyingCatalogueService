@@ -91,8 +91,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             var validationResult = await UpdatePlugins(null, new string('a', 501)).ConfigureAwait(false);
             validationResult.IsValid.Should().Be(false);
-            validationResult.Required.Should().BeEquivalentTo(new[] { "plugins-required" });
-            validationResult.MaxLength.Should().BeEquivalentTo(new[] { "plugins-detail" });
+            var results = validationResult.ToDictionary();
+            results.Count.Should().Be(2);
+            results["plugins-required"].Should().Be("required");
+            results["plugins-detail"].Should().Be("maxLength");
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Never);
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never);
@@ -108,7 +110,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
-        private async Task<RequiredMaxLengthResult> UpdatePlugins(string required = null, string additionalInformation = null)
+        private async Task<ISimpleResult> UpdatePlugins(string required = null, string additionalInformation = null)
         {
             return await Context.UpdateSolutionPluginsHandler.Handle(new UpdateSolutionPluginsCommand(SolutionId, new UpdateSolutionPluginsViewModel()
             {

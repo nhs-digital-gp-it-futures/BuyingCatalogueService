@@ -3,10 +3,10 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClientApplicationTypes
 {
-    internal sealed class UpdateSolutionClientApplicationTypesHandler : Handler<UpdateSolutionClientApplicationTypesCommand, RequiredResult>
+    internal sealed class UpdateSolutionClientApplicationTypesHandler : Handler<UpdateSolutionClientApplicationTypesCommand, ISimpleResult>
     {
         public UpdateSolutionClientApplicationTypesHandler(IExecutor<UpdateSolutionClientApplicationTypesCommand> updateSolutionClientApplicationTypesExecutor,
-            IValidator<UpdateSolutionClientApplicationTypesCommand, RequiredResult> updateSolutionClientApplicationTypesValidator) : base(updateSolutionClientApplicationTypesExecutor, updateSolutionClientApplicationTypesValidator)
+            IValidator<UpdateSolutionClientApplicationTypesCommand, ISimpleResult> updateSolutionClientApplicationTypesValidator) : base(updateSolutionClientApplicationTypesExecutor, updateSolutionClientApplicationTypesValidator)
         {
         }
     }

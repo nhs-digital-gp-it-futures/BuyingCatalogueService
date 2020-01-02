@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -62,7 +64,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 m.Send(It.Is<UpdateSolutionContactDetailsCommand>(q => q.SolutionId == SolutionId),
                     It.IsAny<CancellationToken>())).ReturnsAsync(() => _validationResult);
 
-            _validationResult = new ContactsMaxLengthResult(new MaxLengthResult(), new MaxLengthResult());
+            _validationResult = GetContactsMaxLengthResult(Array.Empty<string>(), Array.Empty<string>());
             _returnedContacts = new List<IContact>();
         }
 
@@ -156,9 +158,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task SubmitForReviewResultFailure()
         {
-            _validationResult = new ContactsMaxLengthResult(
-                new MaxLengthResult { MaxLength = { "first-name", "last-name" } },
-                new MaxLengthResult { MaxLength = { "email-address", "last-name", "phone-number" } });
+            _validationResult = GetContactsMaxLengthResult(new[] { "first-name", "last-name" }, new[] { "email-address", "last-name", "phone-number" });
 
             var result = await _contactDetailsController.UpdateContactDetailsAsync(SolutionId, new UpdateSolutionContactDetailsViewModel()).ConfigureAwait(false) as BadRequestObjectResult;
             result.Should().NotBeNull();
@@ -180,10 +180,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task ShouldNotReportAsInvalidValidContact1()
         {
-            _validationResult = new ContactsMaxLengthResult(
-                new MaxLengthResult(),
-                new MaxLengthResult { MaxLength = { "email-address", "last-name", "phone-number" } });
-
+            _validationResult = GetContactsMaxLengthResult(Array.Empty<string>(), new[] { "email-address", "last-name", "phone-number" } );
+ 
             var result = await _contactDetailsController.UpdateContactDetailsAsync(SolutionId, new UpdateSolutionContactDetailsViewModel()).ConfigureAwait(false) as BadRequestObjectResult;
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(400);
@@ -201,9 +199,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task ShouldNotReportAsInvalidValidContact2()
         {
-            _validationResult = new ContactsMaxLengthResult(
-                new MaxLengthResult { MaxLength = { "first-name", "last-name" } },
-                new MaxLengthResult());
+            _validationResult = GetContactsMaxLengthResult(new []{ "first-name", "last-name" }, Array.Empty<string>());
 
             var result = await _contactDetailsController.UpdateContactDetailsAsync(SolutionId, new UpdateSolutionContactDetailsViewModel()).ConfigureAwait(false) as BadRequestObjectResult;
             result.Should().NotBeNull();
@@ -215,6 +211,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             actual["contact-1"].Count.Should().Be(2);
             actual["contact-1"]["first-name"].Should().Be("maxLength");
             actual["contact-1"]["last-name"].Should().Be("maxLength");
+        }
+
+        private ContactsMaxLengthResult GetContactsMaxLengthResult(string[] contact1Errors, string[] contact2Errors)
+        {
+            var contact1Dict = contact1Errors.ToDictionary(k => k, v => "maxLength");
+            var contact2Dict = contact2Errors.ToDictionary(k => k, v => "maxLength");
+            return new ContactsMaxLengthResult(Mock.Of<ISimpleResult>(s => s.ToDictionary() == contact1Dict && s.IsValid == (contact1Dict.Count == 0)), Mock.Of<ISimpleResult>(s => s.ToDictionary() == contact2Dict && s.IsValid == (contact2Dict.Count == 0)));
         }
     }
 }

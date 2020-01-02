@@ -70,13 +70,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
         {
             var viewModel = new UpdateSolutionBrowserAdditionalInformationViewModel();
 
-            var validationResult = new MaxLengthResult();
+            var validationResult = new Mock<ISimpleResult>();
+            validationResult.Setup(s => s.IsValid).Returns(true);
 
             _mockMediator
                 .Setup(m => m.Send(
                     It.Is<UpdateSolutionBrowserAdditionalInformationCommand>(q =>
                         q.SolutionId == SolutionId && q.UpdateSolutionBrowserAdditionalInformationViewModel == viewModel),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(validationResult);
+                    It.IsAny<CancellationToken>())).ReturnsAsync(validationResult.Object);
 
             var result = await _browserAdditionalInformationController.UpdateAdditionalInformationAsync(SolutionId, viewModel)
                 .ConfigureAwait(false) as NoContentResult;
@@ -94,15 +95,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
         {
             var viewModel = new UpdateSolutionBrowserAdditionalInformationViewModel();
 
-            var validationResult = new MaxLengthResult()
-            {
-                MaxLength = { "additional-information" }
-            };
+            var validationResult = new Mock<ISimpleResult>();
+            validationResult.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "additional-information", "maxLength" } });
+            validationResult.Setup(s => s.IsValid).Returns(false);
 
             _mockMediator.Setup(m => m.Send(
                 It.Is<UpdateSolutionBrowserAdditionalInformationCommand>(q =>
                     q.SolutionId == SolutionId && q.UpdateSolutionBrowserAdditionalInformationViewModel == viewModel),
-                It.IsAny<CancellationToken>())).ReturnsAsync(validationResult);
+                It.IsAny<CancellationToken>())).ReturnsAsync(validationResult.Object);
 
             var result = await _browserAdditionalInformationController.UpdateAdditionalInformationAsync(SolutionId, viewModel)
                 .ConfigureAwait(false) as BadRequestObjectResult;

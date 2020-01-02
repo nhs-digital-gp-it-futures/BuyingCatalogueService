@@ -7,7 +7,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionNativeMobileFirst
 {
-    internal sealed class UpdateSolutionNativeMobileFirstHandler : IRequestHandler<UpdateSolutionNativeMobileFirstCommand, RequiredResult>
+    internal sealed class UpdateSolutionNativeMobileFirstHandler : IRequestHandler<UpdateSolutionNativeMobileFirstCommand, ISimpleResult>
     {
         private readonly ClientApplicationPartialUpdater _clientApplicationPartialUpdater;
 
@@ -19,7 +19,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionNati
             _updateSolutionNativeMobileFirstValidator = updateSolutionNativeMobileFirstValidator;
         }
 
-        public async Task<RequiredResult> Handle(UpdateSolutionNativeMobileFirstCommand request,
+        public async Task<ISimpleResult> Handle(UpdateSolutionNativeMobileFirstCommand request,
             CancellationToken cancellationToken)
         {
             var validationResult = _updateSolutionNativeMobileFirstValidator.Validation(request.UpdateSolutionNativeMobileFirstViewModel);

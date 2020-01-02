@@ -3,10 +3,10 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins
 {
-    internal sealed class UpdateSolutionPluginsHandler : Handler<UpdateSolutionPluginsCommand, RequiredMaxLengthResult>
+    internal sealed class UpdateSolutionPluginsHandler : Handler<UpdateSolutionPluginsCommand, ISimpleResult>
     {
         public UpdateSolutionPluginsHandler(IExecutor<UpdateSolutionPluginsCommand> updateSolutionPluginsExecutor,
-            IValidator<UpdateSolutionPluginsCommand, RequiredMaxLengthResult> updateSolutionPluginsValidator) : base(updateSolutionPluginsExecutor, updateSolutionPluginsValidator)
+            IValidator<UpdateSolutionPluginsCommand, ISimpleResult> updateSolutionPluginsValidator) : base(updateSolutionPluginsExecutor, updateSolutionPluginsValidator)
         {
         }
     }

@@ -3,7 +3,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileMemoryAndStorage
 {
-    public class UpdateSolutionMobileMemoryStorageCommand : IRequest<RequiredMaxLengthResult>
+    public class UpdateSolutionMobileMemoryStorageCommand : IRequest<ISimpleResult>
     {
         public string Id { get; }
         public string MinimumMemoryRequirement { get; set; }

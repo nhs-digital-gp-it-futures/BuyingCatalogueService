@@ -40,7 +40,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             var validationResult = await UpdateBrowserMobileFirst().ConfigureAwait(false);
             validationResult.IsValid.Should().BeFalse();
-            validationResult.Required.Should().BeEquivalentTo(new[] { "mobile-first-design" });
+            validationResult.ToDictionary()["mobile-first-design"].Should().Be("required");
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
 
@@ -100,7 +100,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
-        private async Task<RequiredResult> UpdateBrowserMobileFirst(
+        private async Task<ISimpleResult> UpdateBrowserMobileFirst(
             string mobileFirstDesign = null)
         {
             return await Context.UpdateSolutionBrowserMobileFirstHandler

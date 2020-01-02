@@ -75,7 +75,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var validationResult = await UpdateClientApplicationTypes(new HashSet<string>())
                 .ConfigureAwait(false);
             validationResult.IsValid.Should().Be(false);
-            validationResult.Required.Should().BeEquivalentTo(new[] { "client-application-types" });
+            var results = validationResult.ToDictionary();
+            results.Count.Should().Be(1);
+            results["client-application-types"].Should().Be("required");
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never);
 
@@ -169,7 +171,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
-        private async Task<RequiredResult> UpdateClientApplicationTypes(HashSet<string> clientApplicationTypes)
+        private async Task<ISimpleResult> UpdateClientApplicationTypes(HashSet<string> clientApplicationTypes)
         {
             return await Context.UpdateSolutionClientApplicationTypesHandler.Handle(new UpdateSolutionClientApplicationTypesCommand("Sln1",
                 new UpdateSolutionClientApplicationTypesViewModel

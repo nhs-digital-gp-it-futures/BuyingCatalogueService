@@ -86,13 +86,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
         {
             var viewModel = new UpdateSolutionBrowserMobileFirstViewModel();
 
-            var validationResult = new RequiredResult();
+            var validationResult = new Mock<ISimpleResult>();
+            validationResult.Setup(s => s.IsValid).Returns(true);
 
             _mockMediator
                 .Setup(m => m.Send(
                     It.Is<UpdateSolutionBrowserMobileFirstCommand>(q =>
                         q.SolutionId == SolutionId && q.UpdateSolutionBrowserMobileFirstViewModel == viewModel),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(validationResult);
+                    It.IsAny<CancellationToken>())).ReturnsAsync(validationResult.Object);
 
             var result = await _browserMobileFirstController.UpdateMobileFirstAsync(SolutionId, viewModel).ConfigureAwait(false) as NoContentResult;
 
@@ -109,16 +110,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
         {
             var viewModel = new UpdateSolutionBrowserMobileFirstViewModel();
 
-            var validationResult = new RequiredResult()
-            {
-                Required = { "mobile-first-design" }
-            };
+            var validationResult = new Mock<ISimpleResult>();
+            validationResult.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "mobile-first-design", "required" } });
+            validationResult.Setup(s => s.IsValid).Returns(false);
 
             _mockMediator
                 .Setup(m => m.Send(
                     It.Is<UpdateSolutionBrowserMobileFirstCommand>(q =>
                         q.SolutionId == SolutionId && q.UpdateSolutionBrowserMobileFirstViewModel == viewModel),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(validationResult);
+                    It.IsAny<CancellationToken>())).ReturnsAsync(validationResult.Object);
 
             var result = await _browserMobileFirstController.UpdateMobileFirstAsync(SolutionId, viewModel).ConfigureAwait(false) as BadRequestObjectResult;
 

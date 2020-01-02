@@ -121,54 +121,54 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> SubmitSolutionForReviewHandler { get; }
 
-            public IRequestHandler<UpdateSolutionSummaryCommand, RequiredMaxLengthResult> UpdateSolutionSummaryHandler { get; }
+            public IRequestHandler<UpdateSolutionSummaryCommand, ISimpleResult> UpdateSolutionSummaryHandler { get; }
 
-            public IRequestHandler<UpdateSolutionFeaturesCommand, MaxLengthResult> UpdateSolutionFeaturesHandler { get; }
+            public IRequestHandler<UpdateSolutionFeaturesCommand, ISimpleResult> UpdateSolutionFeaturesHandler { get; }
 
-            public IRequestHandler<UpdateSolutionClientApplicationTypesCommand, RequiredResult> UpdateSolutionClientApplicationTypesHandler { get; }
+            public IRequestHandler<UpdateSolutionClientApplicationTypesCommand, ISimpleResult> UpdateSolutionClientApplicationTypesHandler { get; }
 
-            public IRequestHandler<UpdateSolutionBrowsersSupportedCommand, RequiredResult> UpdateSolutionBrowsersSupportedHandler { get; }
+            public IRequestHandler<UpdateSolutionBrowsersSupportedCommand, ISimpleResult> UpdateSolutionBrowsersSupportedHandler { get; }
 
             public IRequestHandler<UpdateSolutionContactDetailsCommand, ContactsMaxLengthResult> UpdateSolutionContactDetailsHandler { get; }
 
-            public IRequestHandler<UpdateSolutionPluginsCommand, RequiredMaxLengthResult> UpdateSolutionPluginsHandler { get; }
+            public IRequestHandler<UpdateSolutionPluginsCommand, ISimpleResult> UpdateSolutionPluginsHandler { get; }
 
             public IRequestHandler<GetContactDetailBySolutionIdQuery, IEnumerable<IContact>> GetContactDetailBySolutionIdHandler { get; }
 
-            public IRequestHandler<UpdateSolutionBrowserHardwareRequirementsCommand, MaxLengthResult> UpdateSolutionBrowserHardwareRequirementsHandler { get; }
+            public IRequestHandler<UpdateSolutionBrowserHardwareRequirementsCommand, ISimpleResult> UpdateSolutionBrowserHardwareRequirementsHandler { get; }
 
-            public IRequestHandler<UpdateSolutionConnectivityAndResolutionCommand, RequiredResult> UpdateSolutionConnectivityAndResolutionHandler { get; }
-            public IRequestHandler<UpdateSolutionBrowserAdditionalInformationCommand, MaxLengthResult> UpdateSolutionBrowserAdditionalInformationHandler { get; }
+            public IRequestHandler<UpdateSolutionConnectivityAndResolutionCommand, ISimpleResult> UpdateSolutionConnectivityAndResolutionHandler { get; }
+            public IRequestHandler<UpdateSolutionBrowserAdditionalInformationCommand, ISimpleResult> UpdateSolutionBrowserAdditionalInformationHandler { get; }
 
-            public IRequestHandler<UpdateSolutionBrowserMobileFirstCommand, RequiredResult> UpdateSolutionBrowserMobileFirstHandler { get; }
+            public IRequestHandler<UpdateSolutionBrowserMobileFirstCommand, ISimpleResult> UpdateSolutionBrowserMobileFirstHandler { get; }
 
-            public IRequestHandler<UpdateSolutionMobileOperatingSystemsCommand, RequiredMaxLengthResult> UpdateSolutionMobileOperatingSystemsHandler {get;}
+            public IRequestHandler<UpdateSolutionMobileOperatingSystemsCommand, ISimpleResult> UpdateSolutionMobileOperatingSystemsHandler {get;}
 
-            public IRequestHandler<UpdateSolutionMobileConnectionDetailsCommand, MaxLengthResult> UpdateSolutionMobileConnectionDetailsHandler {get;}
+            public IRequestHandler<UpdateSolutionMobileConnectionDetailsCommand, ISimpleResult> UpdateSolutionMobileConnectionDetailsHandler {get;}
 
-            public IRequestHandler<UpdateSolutionNativeMobileFirstCommand, RequiredResult> UpdateSolutionNativeMobileFirstHandler { get; }
+            public IRequestHandler<UpdateSolutionNativeMobileFirstCommand, ISimpleResult> UpdateSolutionNativeMobileFirstHandler { get; }
 
-            public IRequestHandler<UpdateSolutionMobileMemoryStorageCommand, RequiredMaxLengthResult> UpdateSolutionMobileMemoryStorageHandler { get; }
+            public IRequestHandler<UpdateSolutionMobileMemoryStorageCommand, ISimpleResult> UpdateSolutionMobileMemoryStorageHandler { get; }
            
 
             public Scope(IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
                 IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> getClientApplicationBySolutionIdHandler,
                 IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> submitSolutionForReviewHandler,
-                IRequestHandler<UpdateSolutionSummaryCommand, RequiredMaxLengthResult> updateSolutionSummaryHandler,
-                IRequestHandler<UpdateSolutionFeaturesCommand, MaxLengthResult> updateSolutionFeaturesHandler,
-                IRequestHandler<UpdateSolutionClientApplicationTypesCommand, RequiredResult> updateSolutionClientApplicationTypesHandler,
-                IRequestHandler<UpdateSolutionBrowsersSupportedCommand, RequiredResult> updateSolutionBrowsersSupportedHandler,
-                IRequestHandler<UpdateSolutionPluginsCommand, RequiredMaxLengthResult> updateSolutionPluginsHandler,
+                IRequestHandler<UpdateSolutionSummaryCommand, ISimpleResult> updateSolutionSummaryHandler,
+                IRequestHandler<UpdateSolutionFeaturesCommand, ISimpleResult> updateSolutionFeaturesHandler,
+                IRequestHandler<UpdateSolutionClientApplicationTypesCommand, ISimpleResult> updateSolutionClientApplicationTypesHandler,
+                IRequestHandler<UpdateSolutionBrowsersSupportedCommand, ISimpleResult> updateSolutionBrowsersSupportedHandler,
+                IRequestHandler<UpdateSolutionPluginsCommand, ISimpleResult> updateSolutionPluginsHandler,
                 IRequestHandler<UpdateSolutionContactDetailsCommand, ContactsMaxLengthResult> updateSolutionContactDetailsHandler,
                 IRequestHandler<GetContactDetailBySolutionIdQuery, IEnumerable<IContact>> getContactDetailBySolutionIdHandler,
-                IRequestHandler<UpdateSolutionBrowserHardwareRequirementsCommand, MaxLengthResult> updateSolutionBrowserHardwareRequirementsHandler,
-                IRequestHandler<UpdateSolutionConnectivityAndResolutionCommand, RequiredResult> updateSolutionConnectivityAndResolutionHandler,
-                IRequestHandler<UpdateSolutionBrowserAdditionalInformationCommand, MaxLengthResult> updateSolutionBrowserAdditionalInformationHandler,
-                IRequestHandler<UpdateSolutionBrowserMobileFirstCommand, RequiredResult> updateSolutionBrowserMobileFirstHandler,
-                IRequestHandler<UpdateSolutionMobileOperatingSystemsCommand, RequiredMaxLengthResult> updateSolutionMobileOperatingSystemsHandler,
-                IRequestHandler<UpdateSolutionMobileConnectionDetailsCommand, MaxLengthResult> updateSolutionMobileConnectionDetailsHandler,
-                IRequestHandler<UpdateSolutionNativeMobileFirstCommand, RequiredResult> updateSolutionNativeMobileFirstHandler,
-                IRequestHandler<UpdateSolutionMobileMemoryStorageCommand, RequiredMaxLengthResult> updateSolutionMobileMemoryStorageHandler
+                IRequestHandler<UpdateSolutionBrowserHardwareRequirementsCommand, ISimpleResult> updateSolutionBrowserHardwareRequirementsHandler,
+                IRequestHandler<UpdateSolutionConnectivityAndResolutionCommand, ISimpleResult> updateSolutionConnectivityAndResolutionHandler,
+                IRequestHandler<UpdateSolutionBrowserAdditionalInformationCommand, ISimpleResult> updateSolutionBrowserAdditionalInformationHandler,
+                IRequestHandler<UpdateSolutionBrowserMobileFirstCommand, ISimpleResult> updateSolutionBrowserMobileFirstHandler,
+                IRequestHandler<UpdateSolutionMobileOperatingSystemsCommand, ISimpleResult> updateSolutionMobileOperatingSystemsHandler,
+                IRequestHandler<UpdateSolutionMobileConnectionDetailsCommand, ISimpleResult> updateSolutionMobileConnectionDetailsHandler,
+                IRequestHandler<UpdateSolutionNativeMobileFirstCommand, ISimpleResult> updateSolutionNativeMobileFirstHandler,
+                IRequestHandler<UpdateSolutionMobileMemoryStorageCommand, ISimpleResult> updateSolutionMobileMemoryStorageHandler
                 )
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;

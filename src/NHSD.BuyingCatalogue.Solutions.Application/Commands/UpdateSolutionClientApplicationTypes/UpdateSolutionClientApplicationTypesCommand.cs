@@ -3,7 +3,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClientApplicationTypes
 {
-    public sealed class UpdateSolutionClientApplicationTypesCommand : IRequest<RequiredResult>
+    public sealed class UpdateSolutionClientApplicationTypesCommand : IRequest<ISimpleResult>
     {
         /// <summary>
         /// A value to uniquely identify a solution.

@@ -3,10 +3,10 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionConnectivityAndResolution
 {
-    internal sealed class UpdateSolutionConnectivityAndResolutionHandler : Handler<UpdateSolutionConnectivityAndResolutionCommand, RequiredResult>
+    internal sealed class UpdateSolutionConnectivityAndResolutionHandler : Handler<UpdateSolutionConnectivityAndResolutionCommand, ISimpleResult>
     {
         public UpdateSolutionConnectivityAndResolutionHandler(IExecutor<UpdateSolutionConnectivityAndResolutionCommand> updateSolutionConnectivityAndResolutionExecutor,
-            IValidator<UpdateSolutionConnectivityAndResolutionCommand, RequiredResult> updateSolutionConnectivityAndResolutionValidator) : base(updateSolutionConnectivityAndResolutionExecutor, updateSolutionConnectivityAndResolutionValidator)
+            IValidator<UpdateSolutionConnectivityAndResolutionCommand, ISimpleResult> updateSolutionConnectivityAndResolutionValidator) : base(updateSolutionConnectivityAndResolutionExecutor, updateSolutionConnectivityAndResolutionValidator)
         {
         }
     }

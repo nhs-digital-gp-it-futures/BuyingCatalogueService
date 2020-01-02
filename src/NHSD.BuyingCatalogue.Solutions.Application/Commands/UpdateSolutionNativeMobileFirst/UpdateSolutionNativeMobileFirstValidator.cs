@@ -4,7 +4,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionNati
 {
     internal sealed class UpdateSolutionNativeMobileFirstValidator
     {
-        public RequiredResult Validation(UpdateSolutionNativeMobileFirstViewModel updateSolutionNativeMobileFirstViewModel)
+        public ISimpleResult Validation(UpdateSolutionNativeMobileFirstViewModel updateSolutionNativeMobileFirstViewModel)
             => new RequiredValidator()
                 .Validate(updateSolutionNativeMobileFirstViewModel.MobileFirstDesign, "mobile-first-design")
                 .Result();

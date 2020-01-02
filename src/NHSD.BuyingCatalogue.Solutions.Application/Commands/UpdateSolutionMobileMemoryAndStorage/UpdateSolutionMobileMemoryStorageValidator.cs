@@ -2,9 +2,9 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileMemoryAndStorage
 {
-    internal class UpdateSolutionMobileMemoryStorageValidator : IValidator<UpdateSolutionMobileMemoryStorageCommand, RequiredMaxLengthResult>
+    internal class UpdateSolutionMobileMemoryStorageValidator : IValidator<UpdateSolutionMobileMemoryStorageCommand, ISimpleResult>
     {
-        public RequiredMaxLengthResult Validate(UpdateSolutionMobileMemoryStorageCommand command)
+        public ISimpleResult Validate(UpdateSolutionMobileMemoryStorageCommand command)
             => new RequiredMaxLengthResult(
                 new RequiredValidator()
                     .Validate(command.MinimumMemoryRequirement, "minimum-memory-requirement")

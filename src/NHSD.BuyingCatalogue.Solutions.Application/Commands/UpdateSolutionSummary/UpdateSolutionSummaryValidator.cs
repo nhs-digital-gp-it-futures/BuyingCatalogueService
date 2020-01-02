@@ -2,9 +2,9 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary
 {
-    internal sealed class UpdateSolutionSummaryValidator : IValidator<UpdateSolutionSummaryCommand, RequiredMaxLengthResult>
+    internal sealed class UpdateSolutionSummaryValidator : IValidator<UpdateSolutionSummaryCommand, ISimpleResult>
     {
-        public RequiredMaxLengthResult Validate(UpdateSolutionSummaryCommand updateSolutionSummaryCommand)
+        public ISimpleResult Validate(UpdateSolutionSummaryCommand updateSolutionSummaryCommand)
             => new RequiredMaxLengthResult(
                 new RequiredValidator().Validate(updateSolutionSummaryCommand.UpdateSolutionSummaryViewModel.Summary, "summary").Result(),
                 new MaxLengthValidator()

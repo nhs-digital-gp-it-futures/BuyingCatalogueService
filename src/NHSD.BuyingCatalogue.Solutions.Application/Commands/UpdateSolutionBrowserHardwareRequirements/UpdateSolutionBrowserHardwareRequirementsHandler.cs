@@ -3,10 +3,10 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserHardwareRequirements
 {
-    internal sealed class UpdateSolutionBrowserHardwareRequirementsHandler : Handler<UpdateSolutionBrowserHardwareRequirementsCommand, MaxLengthResult>
+    internal sealed class UpdateSolutionBrowserHardwareRequirementsHandler : Handler<UpdateSolutionBrowserHardwareRequirementsCommand, ISimpleResult>
     {
         public UpdateSolutionBrowserHardwareRequirementsHandler(IExecutor<UpdateSolutionBrowserHardwareRequirementsCommand> updateSolutionBrowserHardwareRequirementsExecutor,
-            IValidator<UpdateSolutionBrowserHardwareRequirementsCommand, MaxLengthResult> updateSolutionBrowserHardwareRequirementsValidator) : base(updateSolutionBrowserHardwareRequirementsExecutor, updateSolutionBrowserHardwareRequirementsValidator)
+            IValidator<UpdateSolutionBrowserHardwareRequirementsCommand, ISimpleResult> updateSolutionBrowserHardwareRequirementsValidator) : base(updateSolutionBrowserHardwareRequirementsExecutor, updateSolutionBrowserHardwareRequirementsValidator)
         {
         }
     }

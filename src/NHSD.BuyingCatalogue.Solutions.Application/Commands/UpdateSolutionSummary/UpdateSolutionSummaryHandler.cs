@@ -3,10 +3,10 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary
 {
-    internal sealed class UpdateSolutionSummaryHandler : Handler<UpdateSolutionSummaryCommand, RequiredMaxLengthResult>
+    internal sealed class UpdateSolutionSummaryHandler : Handler<UpdateSolutionSummaryCommand, ISimpleResult>
     {
         public UpdateSolutionSummaryHandler(IExecutor<UpdateSolutionSummaryCommand> updateSolutionSummaryExecutor,
-            IValidator<UpdateSolutionSummaryCommand, RequiredMaxLengthResult> updateSolutionSummaryValidator) : base(updateSolutionSummaryExecutor, updateSolutionSummaryValidator)
+            IValidator<UpdateSolutionSummaryCommand, ISimpleResult> updateSolutionSummaryValidator) : base(updateSolutionSummaryExecutor, updateSolutionSummaryValidator)
         {
         }
     }

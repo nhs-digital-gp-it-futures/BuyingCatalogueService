@@ -4,7 +4,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionNativeMobileFirst
 {
-    public sealed class UpdateSolutionNativeMobileFirstCommand : IRequest<RequiredResult>
+    public sealed class UpdateSolutionNativeMobileFirstCommand : IRequest<ISimpleResult>
     {
         public string SolutionId { get; }
 

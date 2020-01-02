@@ -3,10 +3,10 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileConnectionDetails
 {
-    internal sealed class UpdateSolutionMobileConnectionDetailsHandler : Handler<UpdateSolutionMobileConnectionDetailsCommand, MaxLengthResult>
+    internal sealed class UpdateSolutionMobileConnectionDetailsHandler : Handler<UpdateSolutionMobileConnectionDetailsCommand, ISimpleResult>
     {
         public UpdateSolutionMobileConnectionDetailsHandler(IExecutor<UpdateSolutionMobileConnectionDetailsCommand> updateSolutionMobileConnectionDetailsExecutor,
-            IValidator<UpdateSolutionMobileConnectionDetailsCommand, MaxLengthResult> updateSolutionMobileConnectionDetailsValidator) : base(updateSolutionMobileConnectionDetailsExecutor, updateSolutionMobileConnectionDetailsValidator)
+            IValidator<UpdateSolutionMobileConnectionDetailsCommand, ISimpleResult> updateSolutionMobileConnectionDetailsValidator) : base(updateSolutionMobileConnectionDetailsExecutor, updateSolutionMobileConnectionDetailsValidator)
         {
         }
     }

@@ -4,7 +4,7 @@ using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
 {
-    public class MaxLengthResult : ISimpleResult
+    internal class MaxLengthResult : ISimpleResult
     {
         public HashSet<string> MaxLength { get; } = new HashSet<string>();
 
