@@ -34,5 +34,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         public IMobileMemoryAndStorage MobileMemoryAndStorage { get; set; }
 
         public IMobileThirdParty MobileThirdParty { get; set; }
+        public string NativeMobileAdditionalInformation { get; set; }
     }
 }

@@ -18,6 +18,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionNativeMobileFirst;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionNativeMobileHardwareRequirements;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionNativeMobileAdditionalInformation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application
 {
@@ -82,6 +83,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
 
                 .AddTransient<IExecutor<UpdateSolutionBrowserAdditionalInformationCommand>, UpdateSolutionBrowserAdditionalInformationExecutor>()
                 .AddTransient<IValidator<UpdateSolutionBrowserAdditionalInformationCommand, ISimpleResult>, UpdateSolutionBrowserAdditionalInformationValidator>()
+
+                .AddTransient<IExecutor<UpdateSolutionNativeMobileAdditionalInformationCommand>, UpdateSolutionNativeMobileAdditionalInformationExecutor>()
+                .AddTransient<IValidator<UpdateSolutionNativeMobileAdditionalInformationCommand, MaxLengthResult>, UpdateSolutionNativeMobileAdditionalInformationValidator>()
 
                 .AddTransient<IExecutor<UpdateSolutionMobileMemoryStorageCommand>, UpdateSolutionMobileMemoryStorageExecutor>()
                 .AddTransient<IValidator<UpdateSolutionMobileMemoryStorageCommand, ISimpleResult>, UpdateSolutionMobileMemoryStorageValidator>()
