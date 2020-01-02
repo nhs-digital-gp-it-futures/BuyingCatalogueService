@@ -2,6 +2,7 @@
 
 clearAll="false"
 env="development"
+quiet="false"
 
 while test $# -gt 0; do
 	case "$1" in
@@ -15,6 +16,10 @@ while test $# -gt 0; do
 		  ;;
 		-i|--int|--integration)
 		  env="integration"
+		  shift
+		  ;;
+		-q|--quiet)
+		  quiet="true"
 		  shift
 		  ;;
 		*)
@@ -39,7 +44,7 @@ determine_environment () {
 remove_integration () {
 	docker rm integration_api -f
 	docker rm integration_db -f
-	docker image rm nhsd/buying-catalogue-api:test 
+	docker image rm nhsd/buying-catalogue-api:test
     docker image rm nhsd/buying-catalogue/api:latest
 }
 
@@ -57,4 +62,7 @@ if [ $env = "development" ]; then
 else
 	remove_integration
 fi
-docker ps
+
+if [ "$quiet" == "false" ]; then
+	docker ps -a
+fi

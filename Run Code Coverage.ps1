@@ -1,3 +1,7 @@
+param (
+    [switch]$q
+)
+
 # Get all directories in "tests" directory
 [System.Collections.ArrayList]$directoriesToTest = $(Get-ChildItem "tests" -Directory)
 # Declare which ones to exlude in code coverage report
@@ -22,6 +26,12 @@ function CheckRequirements() {
     }
     else {
         Write-Host "Report generator is already installed" -ForegroundColor Green
+    }
+}
+
+function ClearOutputFolder() {
+    if(Test-Path "OpenCover") {    
+        Remove-Item 'OpenCover' -Recurse -Force
     }
 }
 
@@ -70,12 +80,23 @@ function GenerateCodeCoverageReport() {
     Write-Host "----- Report Output--------" -ForegroundColor Yellow
 }
 
-CheckRequirements
+function StartCodeCoverage(){
+    if ($q) {
+        $quiet="-q"
+    }
 
-& ".\Launch Environment.ps1" -env i
+    CheckRequirements
 
-RunCodeCoverageTests
+    Invoke-Expression "& `".\Launch Environment.ps1`" -env i $quiet"
 
-GenerateCodeCoverageReport
+    ClearOutputFolder
 
-& ".\Tear Down Environment.ps1" -env i
+    RunCodeCoverageTests
+
+    GenerateCodeCoverageReport
+    
+    Invoke-Expression "& `".\Tear Down Environment.ps1`" -env i $quiet"
+}
+
+
+StartCodeCoverage

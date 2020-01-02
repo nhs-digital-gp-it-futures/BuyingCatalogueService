@@ -1,6 +1,7 @@
 ﻿param (
     [string]$env = "development",
-    [switch]$c
+    [switch]$c,
+    [switch]$q
 )
 
 function determine_environment() {
@@ -38,4 +39,7 @@ if ($env -eq "development") {
 } else {
     remove_integration
 }
-docker ps -a
+
+if (!$q) {
+    docker ps -a
+}
