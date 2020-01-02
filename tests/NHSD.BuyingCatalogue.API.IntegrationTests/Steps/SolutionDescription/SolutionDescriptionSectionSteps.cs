@@ -1,11 +1,9 @@
-using System.Globalization;
 using System.Threading.Tasks;
 using FluentAssertions;
-using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
+using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using TechTalk.SpecFlow;
-using TechTalk.SpecFlow.Assist;
 
-namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
+namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.SolutionDescription
 {
     [Binding]
     internal sealed class SolutionDescriptionSectionSteps

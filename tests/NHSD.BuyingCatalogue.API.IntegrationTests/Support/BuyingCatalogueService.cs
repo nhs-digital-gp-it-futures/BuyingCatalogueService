@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Testing.Tools;
 
-namespace NHSD.BuyingCatalogue.API.IntegrationTests.Drivers
+namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
 {
     internal static class BuyingCatalogueService
     {

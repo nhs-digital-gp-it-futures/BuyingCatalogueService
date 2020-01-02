@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using FluentAssertions;
+using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using TechTalk.SpecFlow;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes

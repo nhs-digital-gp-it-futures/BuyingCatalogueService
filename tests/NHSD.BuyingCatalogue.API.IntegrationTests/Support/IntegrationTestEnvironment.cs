@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using NHSD.BuyingCatalogue.API.IntegrationTests.Drivers;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
 {

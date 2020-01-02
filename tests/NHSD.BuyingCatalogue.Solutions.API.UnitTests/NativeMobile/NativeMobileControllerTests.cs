@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
+using NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeMobile;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeMobile;
 using NHSD.BuyingCatalogue.Solutions.Contracts;

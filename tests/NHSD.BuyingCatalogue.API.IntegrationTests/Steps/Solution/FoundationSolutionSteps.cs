@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Threading.Tasks;
+using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using TechTalk.SpecFlow;
 

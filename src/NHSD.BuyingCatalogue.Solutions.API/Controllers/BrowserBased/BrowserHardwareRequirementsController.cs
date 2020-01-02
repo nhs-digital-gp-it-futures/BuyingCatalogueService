@@ -4,12 +4,11 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.BrowserBased;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionBrowserHardwareRequirements;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
-namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
+namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.BrowserBased
 {
     [Route("api/v1/solutions")]
     [ApiController]

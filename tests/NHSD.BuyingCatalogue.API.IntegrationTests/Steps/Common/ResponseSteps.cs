@@ -1,9 +1,8 @@
-using System;
 using System.Net;
 using FluentAssertions;
 using TechTalk.SpecFlow;
 
-namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
+namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
 {
     [Binding]
     internal sealed class ResponseSteps
