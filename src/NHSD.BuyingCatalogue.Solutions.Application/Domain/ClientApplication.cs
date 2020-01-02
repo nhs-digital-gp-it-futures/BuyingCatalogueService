@@ -33,6 +33,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public MobileMemoryAndStorage MobileMemoryAndStorage { get; set; }
 
         public MobileThirdParty MobileThirdParty { get; set; }
+
         public string NativeMobileAdditionalInformation { get; set; }
     }
 }

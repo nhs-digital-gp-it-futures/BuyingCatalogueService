@@ -10,7 +10,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionNati
         public string SolutionId { get; }
 
         public UpdateSolutionNativeMobileAdditionalInformationViewModel UpdateSolutionNativeMobileAdditionalInformationViewModel { get; }
-        public UpdateSolutionBrowserAdditionalInformationViewModel UpdateSolutionBrowserAdditionalInformationViewModel { get; set; }
 
         public UpdateSolutionNativeMobileAdditionalInformationCommand(string solutionId, UpdateSolutionNativeMobileAdditionalInformationViewModel updateSolutionNativeMobileAdditionalInformationViewModel)
         {
