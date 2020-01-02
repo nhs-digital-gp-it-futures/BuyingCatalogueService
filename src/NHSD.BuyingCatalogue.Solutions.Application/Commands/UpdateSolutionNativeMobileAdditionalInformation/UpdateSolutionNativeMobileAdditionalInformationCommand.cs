@@ -5,7 +5,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionNativeMobileAdditionalInformation
 {
-    public sealed class UpdateSolutionNativeMobileAdditionalInformationCommand : IRequest<MaxLengthResult>
+    public sealed class UpdateSolutionNativeMobileAdditionalInformationCommand : IRequest<ISimpleResult>
     {
         public string SolutionId { get; }
 

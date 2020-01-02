@@ -85,7 +85,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<IValidator<UpdateSolutionBrowserAdditionalInformationCommand, ISimpleResult>, UpdateSolutionBrowserAdditionalInformationValidator>()
 
                 .AddTransient<IExecutor<UpdateSolutionNativeMobileAdditionalInformationCommand>, UpdateSolutionNativeMobileAdditionalInformationExecutor>()
-                .AddTransient<IValidator<UpdateSolutionNativeMobileAdditionalInformationCommand, MaxLengthResult>, UpdateSolutionNativeMobileAdditionalInformationValidator>()
+                .AddTransient<IValidator<UpdateSolutionNativeMobileAdditionalInformationCommand, ISimpleResult>, UpdateSolutionNativeMobileAdditionalInformationValidator>()
 
                 .AddTransient<IExecutor<UpdateSolutionMobileMemoryStorageCommand>, UpdateSolutionMobileMemoryStorageExecutor>()
                 .AddTransient<IValidator<UpdateSolutionMobileMemoryStorageCommand, ISimpleResult>, UpdateSolutionMobileMemoryStorageValidator>()

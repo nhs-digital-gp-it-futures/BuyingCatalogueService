@@ -3,10 +3,10 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionNativeMobileAdditionalInformation
 {
-    internal sealed class UpdateSolutionNativeMobileAdditionalInformationHandler : Handler<UpdateSolutionNativeMobileAdditionalInformationCommand, MaxLengthResult>
+    internal sealed class UpdateSolutionNativeMobileAdditionalInformationHandler : Handler<UpdateSolutionNativeMobileAdditionalInformationCommand, ISimpleResult>
     {
         public UpdateSolutionNativeMobileAdditionalInformationHandler(IExecutor<UpdateSolutionNativeMobileAdditionalInformationCommand> updateSolutionNativeMobileAdditionalInformationExecutor,
-            IValidator<UpdateSolutionNativeMobileAdditionalInformationCommand, MaxLengthResult> updateSolutionNativeMobileAdditionalInformationValidator) : base(updateSolutionNativeMobileAdditionalInformationExecutor, updateSolutionNativeMobileAdditionalInformationValidator)
+            IValidator<UpdateSolutionNativeMobileAdditionalInformationCommand, ISimpleResult> updateSolutionNativeMobileAdditionalInformationValidator) : base(updateSolutionNativeMobileAdditionalInformationExecutor, updateSolutionNativeMobileAdditionalInformationValidator)
         {
         }
     }

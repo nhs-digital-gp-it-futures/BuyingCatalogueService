@@ -188,6 +188,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdateSolutionNativeMobileHardwareRequirementsCommand, ISimpleResult> updateSolutionNativeMobileHardwareRequirementsHandler,
                 IRequestHandler<UpdateSolutionMobileThirdPartyCommand, ISimpleResult> updateSolutionMobileThirdHandler,
                 IRequestHandler<UpdateSolutionNativeMobileAdditionalInformationCommand, MaxLengthResult> updateSolutionNativeMobileAdditionalInformationHandler
+                IRequestHandler<UpdateSolutionNativeMobileAdditionalInformationCommand, ISimpleResult> updateSolutionNativeMobileAdditionalInformationHandler
                 )
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;
