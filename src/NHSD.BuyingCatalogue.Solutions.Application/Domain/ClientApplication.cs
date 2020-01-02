@@ -18,6 +18,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 
         public string HardwareRequirements { get; set; }
 
+        public string NativeMobileHardwareRequirements { get; set; }
+
         public string AdditionalInformation { get; set; }
 
         public bool? MobileFirstDesign { get; set; }

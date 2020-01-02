@@ -9,6 +9,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         bool? MobileResponsive { get; }
         IPlugins Plugins { get; }
         string HardwareRequirements { get; }
+        string NativeMobileHardwareRequirements { get; }
         string MinimumConnectionSpeed { get; }
         string MinimumDesktopResolution { get; }
         string AdditionalInformation { get; }
