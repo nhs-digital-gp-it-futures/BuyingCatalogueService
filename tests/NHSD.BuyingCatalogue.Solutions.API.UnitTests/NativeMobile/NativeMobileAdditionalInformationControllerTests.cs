@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -108,7 +109,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
                 .ConfigureAwait(false) as BadRequestObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            (result.Value as UpdateFormMaxLengthResult).MaxLength.Should().BeEquivalentTo(new[] { "additional-information" });
+            var resultValue = result.Value as Dictionary<string, string>;
+            resultValue.Count.Should().Be(1);
+            resultValue["additional-information"].Should().Be("maxLength");
 
             _mockMediator.Verify(
                 m => m.Send(
