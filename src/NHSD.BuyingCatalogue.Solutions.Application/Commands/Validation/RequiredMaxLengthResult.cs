@@ -3,7 +3,7 @@ using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
 {
-    public class RequiredMaxLengthResult : ISimpleResult
+    internal class RequiredMaxLengthResult : ISimpleResult
     {
         private readonly RequiredResult _requiredResult;
         private readonly MaxLengthResult _maxLengthResult;

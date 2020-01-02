@@ -3,10 +3,10 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileOperatingSystems
 {
-    internal sealed class UpdateSolutionMobileOperatingSystemsHandler : Handler<UpdateSolutionMobileOperatingSystemsCommand, RequiredMaxLengthResult>
+    internal sealed class UpdateSolutionMobileOperatingSystemsHandler : Handler<UpdateSolutionMobileOperatingSystemsCommand, ISimpleResult>
     {
         public UpdateSolutionMobileOperatingSystemsHandler(IExecutor<UpdateSolutionMobileOperatingSystemsCommand> updateSolutionMobileOperatingSystemsyExecutor,
-            IValidator<UpdateSolutionMobileOperatingSystemsCommand, RequiredMaxLengthResult> updateSolutionMobileOperatingSystemsValidator) : base(updateSolutionMobileOperatingSystemsyExecutor, updateSolutionMobileOperatingSystemsValidator)
+            IValidator<UpdateSolutionMobileOperatingSystemsCommand, ISimpleResult> updateSolutionMobileOperatingSystemsValidator) : base(updateSolutionMobileOperatingSystemsyExecutor, updateSolutionMobileOperatingSystemsValidator)
         {
         }
     }

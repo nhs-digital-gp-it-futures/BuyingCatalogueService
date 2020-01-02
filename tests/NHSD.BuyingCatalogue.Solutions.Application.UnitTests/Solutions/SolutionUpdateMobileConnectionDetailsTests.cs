@@ -52,7 +52,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             if (!isDescriptionValid)
             {
-                validationResult.MaxLength.Should().BeEquivalentTo(new[] { "connection-requirements-description" });
+                validationResult.ToDictionary()["connection-requirements-description"].Should().Be("maxLength");
             }
 
             if (isValid)
@@ -82,7 +82,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
         }
 
-        private async Task<MaxLengthResult> UpdateConnectionDetails(HashSet<string> connectionType, string description, string connectionSpeed)
+        private async Task<ISimpleResult> UpdateConnectionDetails(HashSet<string> connectionType, string description, string connectionSpeed)
         {
             return await Context.UpdateSolutionMobileConnectionDetailsHandler.Handle(
                 new UpdateSolutionMobileConnectionDetailsCommand(SolutionId,

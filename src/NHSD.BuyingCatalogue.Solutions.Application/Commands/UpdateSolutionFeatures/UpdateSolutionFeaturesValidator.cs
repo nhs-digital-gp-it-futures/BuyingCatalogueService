@@ -3,9 +3,9 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures
 {
-    internal sealed class UpdateSolutionFeaturesValidator : IValidator<UpdateSolutionFeaturesCommand, MaxLengthResult>
+    internal sealed class UpdateSolutionFeaturesValidator : IValidator<UpdateSolutionFeaturesCommand, ISimpleResult>
     {
-        public MaxLengthResult Validate(UpdateSolutionFeaturesCommand updateSolutionFeaturesCommand)
+        public ISimpleResult Validate(UpdateSolutionFeaturesCommand updateSolutionFeaturesCommand)
         {
             var listing = updateSolutionFeaturesCommand.UpdateSolutionFeaturesViewModel.Listing.ToList();
             var validator = new MaxLengthValidator();

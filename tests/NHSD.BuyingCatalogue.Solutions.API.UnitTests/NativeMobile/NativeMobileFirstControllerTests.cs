@@ -88,13 +88,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
         {
             var viewModel = new UpdateSolutionNativeMobileFirstViewModel();
 
-            var validationResult = new RequiredResult();
+            var validationModel = new Mock<ISimpleResult>();
+            validationModel.Setup(s => s.IsValid).Returns(true);
 
             _mockMediator
                 .Setup(m => m.Send(
                     It.Is<UpdateSolutionNativeMobileFirstCommand>(q =>
                         q.SolutionId == SolutionId && q.UpdateSolutionNativeMobileFirstViewModel == viewModel),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(validationResult);
+                    It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result = await _nativeMobileFirstController.UpdateMobileFirstAsync(SolutionId, viewModel).ConfigureAwait(false) as NoContentResult;
 
@@ -111,16 +112,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
         {
             var viewModel = new UpdateSolutionNativeMobileFirstViewModel();
 
-            var validationResult = new RequiredResult()
-            {
-                Required = { "mobile-first-design" }
-            };
+            var validationModel = new Mock<ISimpleResult>();
+            validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "mobile-first-design", "required" } });
+            validationModel.Setup(s => s.IsValid).Returns(false);
 
             _mockMediator
                 .Setup(m => m.Send(
                     It.Is<UpdateSolutionNativeMobileFirstCommand>(q =>
                         q.SolutionId == SolutionId && q.UpdateSolutionNativeMobileFirstViewModel == viewModel),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(validationResult);
+                    It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result = await _nativeMobileFirstController.UpdateMobileFirstAsync(SolutionId, viewModel).ConfigureAwait(false) as BadRequestObjectResult;
 

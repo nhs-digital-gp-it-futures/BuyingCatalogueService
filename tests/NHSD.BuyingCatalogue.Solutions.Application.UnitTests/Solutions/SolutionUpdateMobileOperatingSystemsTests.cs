@@ -53,12 +53,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             if (!isOperatingSystemsValid)
             {
-                validationResult.Required.Should().BeEquivalentTo(new[] {"operating-systems"});
+                var results = validationResult.ToDictionary();
+                results["operating-systems"].Should().Be("required");
             }
 
             if (!isDescriptionValid)
             {
-                validationResult.MaxLength.Should().BeEquivalentTo(new[] {"operating-systems-description"});
+                var results = validationResult.ToDictionary();
+                results["operating-systems-description"].Should().Be("maxLength");
             }
 
             if (isValid)
@@ -88,7 +90,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
         }
 
-        private async Task<RequiredMaxLengthResult> UpdateOperatingSystems(HashSet<string> operatingSystems, string operatingSystemsDescription = null)
+        private async Task<ISimpleResult> UpdateOperatingSystems(HashSet<string> operatingSystems, string operatingSystemsDescription = null)
         {
             return await Context.UpdateSolutionMobileOperatingSystemsHandler.Handle(
                 new UpdateSolutionMobileOperatingSystemsCommand(SolutionId,

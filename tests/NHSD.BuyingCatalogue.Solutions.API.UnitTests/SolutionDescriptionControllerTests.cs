@@ -54,9 +54,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         public async Task ShouldUpdateValidationValid()
         {
             var solutionSummaryUpdateViewModel = new UpdateSolutionSummaryViewModel { Summary = "Summary" };
-            var validationModel = new RequiredMaxLengthResult();
+            var validationModel = new Mock<ISimpleResult>();
+            validationModel.Setup(s => s.IsValid).Returns(true);
 
-            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionSummaryViewModel == solutionSummaryUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
+            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionSummaryViewModel == solutionSummaryUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result =
                 (await _solutionDescriptionController.UpdateAsync(SolutionId, solutionSummaryUpdateViewModel).ConfigureAwait(false)) as
@@ -74,13 +75,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 Summary = string.Empty
             };
 
-            var validationModel = new RequiredMaxLengthResult()
-            {
-                Required = { "summary" },
-                MaxLength = { "description", "link" }
-            };
+            var validationModel = new Mock<ISimpleResult>();
+            validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "description", "maxLength" }, { "link", "maxLength" }, { "summary", "required" } });
+            validationModel.Setup(s => s.IsValid).Returns(false);
 
-            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionSummaryViewModel == solutionSummaryUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
+            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionSummaryViewModel == solutionSummaryUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result =
                 (await _solutionDescriptionController.UpdateAsync(SolutionId, solutionSummaryUpdateViewModel).ConfigureAwait(false)) as BadRequestObjectResult;

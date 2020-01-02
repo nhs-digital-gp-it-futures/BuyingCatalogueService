@@ -114,13 +114,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
         {
             var pluginsViewModel = new UpdateSolutionPluginsViewModel();
 
-            var validationModel = new RequiredMaxLengthResult();
+            var validationModel = new Mock<ISimpleResult>();
+            validationModel.Setup(s => s.IsValid).Returns(true);
 
             _mockMediator
                 .Setup(m => m.Send(
                     It.Is<UpdateSolutionPluginsCommand>(q =>
                         q.SolutionId == SolutionId && q.UpdateSolutionPluginsViewModel == pluginsViewModel),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
+                    It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result = (await _plugInsController.UpdatePlugInsAsync(SolutionId, pluginsViewModel).ConfigureAwait(false)) as NoContentResult;
 
@@ -138,17 +139,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
         {
             var pluginsViewModel = new UpdateSolutionPluginsViewModel();
 
-            var validationModel = new RequiredMaxLengthResult()
-            {
-                Required = { "plugins-required" },
-                MaxLength = { "plugins-detail" }
-            };
+            var validationModel = new Mock<ISimpleResult>();
+            validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "plugins-required", "required" }, { "plugins-detail", "maxLength" } });
+            validationModel.Setup(s => s.IsValid).Returns(false);
 
             _mockMediator.Setup(m =>
                 m.Send(
                     It.Is<UpdateSolutionPluginsCommand>(q =>
                         q.SolutionId == SolutionId && q.UpdateSolutionPluginsViewModel == pluginsViewModel),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
+                    It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result = (await _plugInsController.UpdatePlugInsAsync(SolutionId, pluginsViewModel).ConfigureAwait(false)) as BadRequestObjectResult;
 

@@ -3,7 +3,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary
 {
-    public sealed class UpdateSolutionSummaryCommand : IRequest<RequiredMaxLengthResult>
+    public sealed class UpdateSolutionSummaryCommand : IRequest<ISimpleResult>
     {
         /// <summary>
         /// A value to uniquely identify a solution.

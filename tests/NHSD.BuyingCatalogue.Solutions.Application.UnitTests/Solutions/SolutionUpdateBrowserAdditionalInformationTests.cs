@@ -103,7 +103,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             var validationResult = await UpdateBrowserAdditionalInformation(new string('a', 501)).ConfigureAwait(false);
             validationResult.IsValid.Should().BeFalse();
-            validationResult.MaxLength.Should().BeEquivalentTo(new[] { "additional-information" });
+            var results = validationResult.ToDictionary();
+            results.Count.Should().Be(1);
+            results["additional-information"].Should().Be("maxLength");
         }
 
         [Test]
@@ -116,7 +118,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
-        private async Task<MaxLengthResult> UpdateBrowserAdditionalInformation(
+        private async Task<ISimpleResult> UpdateBrowserAdditionalInformation(
             string additionalInformation)
         {
             return await Context.UpdateSolutionBrowserAdditionalInformationHandler.Handle(
