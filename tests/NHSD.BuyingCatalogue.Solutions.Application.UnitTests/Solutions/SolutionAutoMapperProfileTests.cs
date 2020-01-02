@@ -42,6 +42,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             yield return new KeyValuePair<Type, Type>(typeof(MobileConnectionDetails), typeof(IMobileConnectionDetails));
             yield return new KeyValuePair<Type, Type>(typeof(MobileMemoryAndStorage), typeof(MobileMemoryAndStorageDto));
             yield return new KeyValuePair<Type, Type>(typeof(MobileMemoryAndStorage), typeof(IMobileMemoryAndStorage));
+            yield return new KeyValuePair<Type, Type>(typeof(MobileThirdParty), typeof(MobileThirdPartyDto));
+            yield return new KeyValuePair<Type, Type>(typeof(MobileThirdParty), typeof(IMobileThirdParty));
         }
 
         [Test]

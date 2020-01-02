@@ -33,6 +33,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
             CreateMap<MobileConnectionDetails, IMobileConnectionDetails>().As<MobileConnectionDetailsDto>();
             CreateMap<MobileMemoryAndStorage, MobileMemoryAndStorageDto>();
             CreateMap<MobileMemoryAndStorage, IMobileMemoryAndStorage>().As<MobileMemoryAndStorageDto>();
+            CreateMap<MobileThirdParty, MobileThirdPartyDto>();
+            CreateMap<MobileThirdParty, IMobileThirdParty>().As<MobileThirdPartyDto>();
         }
     }
 }

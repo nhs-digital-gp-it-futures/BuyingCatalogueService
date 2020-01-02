@@ -17,5 +17,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         IMobileOperatingSystems MobileOperatingSystems { get; }
         IMobileConnectionDetails MobileConnectionDetails { get; }
         IMobileMemoryAndStorage MobileMemoryAndStorage { get; }
+        IMobileThirdParty MobileThirdParty { get; }
     }
 }
