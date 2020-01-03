@@ -20,12 +20,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.NativeMobile
        [JsonProperty("native-mobile-hardware-requirements")]
        public MobileHardwareRequirementsSection HardwareRequirementsSection { get; }
 
+       [JsonProperty("native-mobile-third-party")]
+       public MobileThirdPartySection MobileThirdPartySection { get; }
+
        [JsonIgnore]
        public bool HasData => MobileOperatingSystemsSection.Answers.HasData
                               || NativeMobileFirstSection.Answers.HasData
                               || MobileConnectionDetailsSection.Answers.HasData
                               || MobileMemoryAndStorageSection.Answers.HasData
-                              || HardwareRequirementsSection.Answers.HasData;
+                              || HardwareRequirementsSection.Answers.HasData
+                              || MobileThirdPartySection.Answers.HasData;
 
        internal NativeMobileSubSections(IClientApplication clientApplication)
        {
@@ -34,6 +38,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.NativeMobile
            MobileConnectionDetailsSection = new MobileConnectionDetailsSection(clientApplication);
            MobileMemoryAndStorageSection = new MobileMemoryAndStorageSection(clientApplication);
            HardwareRequirementsSection = new MobileHardwareRequirementsSection(clientApplication);
+           MobileThirdPartySection = new MobileThirdPartySection(clientApplication);
        }
     }
 }

@@ -425,6 +425,37 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
+        [TestCase(null, null, false)]
+        [TestCase(" ", "     ", false)]
+        [TestCase("Component", null, true)]
+        [TestCase(null, "Capability", true)]
+        [TestCase("Component", "Capability", true)]
+
+        public async Task IfNativeMobileEmptyThenMobileThirdPartyHasNoData(string component, string capability, bool hasData)
+        {
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                    s.ClientApplication ==
+                    Mock.Of<IClientApplication>(c =>
+                        c.ClientApplicationTypes == new HashSet<string> { "native-mobile" } &&
+                        c.MobileThirdParty == Mock.Of<IMobileThirdParty>(m =>
+                            m.ThirdPartyComponents == component && m.DeviceCapabilities == capability))))
+                .ConfigureAwait(false);
+
+            if (hasData)
+            {
+                previewResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections.MobileThirdPartySection
+                    .Answers.ThirdPartyComponents.Should().Be(component);
+                previewResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections.MobileThirdPartySection
+                    .Answers.DeviceCapabilities.Should().Be(capability);
+                previewResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections.MobileThirdPartySection
+                    .Answers.HasData.Should().BeTrue();
+            }
+            else
+            {
+                previewResult.Sections.ClientApplicationTypes.Should().BeNull();
+            }
+        }
+
         [Test]
         public void NullSolutionShouldReturnEmptyPreviewSections()
         {

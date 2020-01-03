@@ -47,6 +47,14 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
                 .ToString().Should().Be(value);
         }
 
+        [Then(@"the solution native-mobile native-mobile-third-party section contains (.*) with value (.*)")]
+        public async Task ThenTheSolutionNativeMobileThirdPartySectionContainsWithValue(string token, string value)
+        {
+            var context = await _response.ReadBody().ConfigureAwait(false);
+            context.SelectToken($"{Token}.native-mobile-third-party.answers.{token}")
+                .ToString().Should().Be(value);
+        }
+
         [Then(@"the solution client-application-types section contains operating-systems")]
         public async Task ThenTheSolutionClient_Application_TypesSectionContainsOperatingSystems(Table table)
         {
