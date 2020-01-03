@@ -30,6 +30,7 @@ Scenario: 1. Sub-Form Native Mobile Client Type all sections are Displayed
         | native-mobile-connection-details                 | INCOMPLETE | Optional    |
         | native-mobile-components-and-device-capabilities | INCOMPLETE | Optional    |
         | native-mobile-hardware-requirements              | INCOMPLETE | Optional    |
+        | native-mobile-third-party                        | INCOMPLETE | Optional    |
         | native-mobile-additional-information             | INCOMPLETE | Optional    |
 
 @3604
@@ -129,3 +130,26 @@ Examples:
     | { "NativeMobileHardwareRequirements": null }               | INCOMPLETE |
     | { "NativeMobileHardwareRequirements": "      " }           | INCOMPLETE |
     | { "NativeMobileHardwareRequirements": "Hardware Details" } | COMPLETE   |
+
+@3608
+Scenario Outline: 8. Mobile Third Party based on data in Client Application
+    Given SolutionDetail exist
+        | Solution | ClientApplication   |
+        | Sln1     | <ClientApplication> |
+    When a GET request is made for native-mobile dashboard for solution Sln1
+    Then a successful response is returned
+    And the status of the native-mobile-third-party section is <Status>
+    Examples:
+    | ClientApplication                                                                                   | Status     |
+    |                                                                                                     | INCOMPLETE |
+    | { "MobileThirdParty": null }                                                                        | INCOMPLETE |
+    | { "MobileThirdParty": { "ThirdPartyComponents": "      ", "DeviceCapabilities": "Cap" } }           | COMPLETE   |
+    | { "MobileThirdParty": { "ThirdPartyComponents": "Components", "DeviceCapabilities": "     " } }     | COMPLETE   |
+    | { "MobileThirdParty": { "ThirdPartyComponents": "      ", "DeviceCapabilities": "      " } }        | INCOMPLETE |
+    | { "MobileThirdParty": { "ThirdPartyComponents": null, "DeviceCapabilities": null } }                | INCOMPLETE |
+    | { "MobileThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": null } }         | COMPLETE   |
+    | { "MobileThirdParty": { "ThirdPartyComponents": null, "DeviceCapabilities": "Capability" } }        | COMPLETE   |
+    | { "MobileThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": "Capability" } } | COMPLETE   |
+
+
+

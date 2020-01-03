@@ -6,7 +6,6 @@ using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeMobile;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeMobile;
@@ -62,6 +61,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
             var mobileHardwareRequirements = nativeMobileResult.NativeMobileSections.MobileHardwareRequirements;
             AssertSectionMandatoryAndComplete(mobileHardwareRequirements, false, false);
 
+            var mobileThirdParty = nativeMobileResult.NativeMobileSections.MobileThirdPartySection;
+            AssertSectionMandatoryAndComplete(mobileThirdParty, false, false);
+
             var mobileAdditionalInformation = nativeMobileResult.NativeMobileSections.MobileAdditionalInformation;
             AssertSectionMandatoryAndComplete(mobileAdditionalInformation, false, false);
         }
@@ -93,6 +95,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
 
             var mobileHardwareRequirements = nativeMobileResult.NativeMobileSections.MobileHardwareRequirements;
             AssertSectionMandatoryAndComplete(mobileHardwareRequirements, false, false);
+
+            var mobileThirdParty = nativeMobileResult.NativeMobileSections.MobileThirdPartySection;
+            AssertSectionMandatoryAndComplete(mobileThirdParty, false, false);
 
             var mobileAdditionalInformation = nativeMobileResult.NativeMobileSections.MobileAdditionalInformation;
             AssertSectionMandatoryAndComplete(mobileAdditionalInformation, false, false);
@@ -155,10 +160,28 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
         [TestCase("Some Hardware", true)]
         public async Task ShouldGetNativeMobileHardwareRequirementIsComplete(string hardware, bool isComplete)
         {
-            var browserBasedResult = await GetNativeMobileSectionAsync(Mock.Of<IClientApplication>(c => c.NativeMobileHardwareRequirements == hardware))
+            var nativeMobileResult = await GetNativeMobileSectionAsync(Mock.Of<IClientApplication>(c => c.NativeMobileHardwareRequirements == hardware))
                 .ConfigureAwait(false);
 
-            browserBasedResult.NativeMobileSections.MobileHardwareRequirements.Status.Should().Be(isComplete ? "COMPLETE" : "INCOMPLETE");
+            nativeMobileResult.NativeMobileSections.MobileHardwareRequirements.Status.Should().Be(isComplete ? "COMPLETE" : "INCOMPLETE");
+        }
+
+        [TestCase("     ", "    ", false)]
+        [TestCase(null, null, false)]
+        [TestCase("Components", null, true)]
+        [TestCase(null, "Capabilities", true)]
+        [TestCase("Components", "Capabilities", true)]
+        public async Task ShouldGetNativeMobileMobileThirdPartyIsComplete(string component, string capability,
+            bool isComplete)
+        {
+            var nativeMobileResult = await GetNativeMobileSectionAsync(
+                    Mock.Of<IClientApplication>(c =>
+                        c.MobileThirdParty == Mock.Of<IMobileThirdParty>(m =>
+                            m.ThirdPartyComponents == component && m.DeviceCapabilities == capability)))
+                .ConfigureAwait(false);
+
+            nativeMobileResult.NativeMobileSections.MobileThirdPartySection.Status.Should()
+                .Be(isComplete ? "COMPLETE" : "INCOMPLETE");
         }
 
 

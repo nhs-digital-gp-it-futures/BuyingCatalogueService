@@ -35,6 +35,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeMobile
         [JsonProperty("native-mobile-hardware-requirements")]
         public DashboardSection MobileHardwareRequirements { get; }
 
+        [JsonProperty("native-mobile-third-party")]
+        public DashboardSection MobileThirdPartySection { get; }
+
         [JsonProperty("native-mobile-additional-information")]
         public DashboardSection MobileAdditionalInformation { get; }
 
@@ -46,6 +49,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeMobile
             MobileConnectionDetails = DashboardSection.Optional(clientApplication.IsMobileConnectionDetailsComplete());
             MobileComponentsDeviceCapabilities = DashboardSection.Optional(false);
             MobileHardwareRequirements = DashboardSection.Optional(!String.IsNullOrWhiteSpace(clientApplication?.NativeMobileHardwareRequirements));
+            MobileThirdPartySection = DashboardSection.Optional(clientApplication.IsMobileThirdPartyComplete());
             MobileAdditionalInformation = DashboardSection.Optional(false);
         }
     }

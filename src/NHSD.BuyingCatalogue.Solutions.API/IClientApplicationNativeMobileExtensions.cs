@@ -22,5 +22,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API
         public static bool IsMobileMemoryAndStorageComplete(this IClientApplication clientApplication) =>
             !string.IsNullOrWhiteSpace(clientApplication?.MobileMemoryAndStorage?.MinimumMemoryRequirement) &&
             !string.IsNullOrWhiteSpace(clientApplication?.MobileMemoryAndStorage?.Description);
+
+        public static bool IsMobileThirdPartyComplete(this IClientApplication clientApplication) =>
+            !string.IsNullOrWhiteSpace(clientApplication?.MobileThirdParty?.ThirdPartyComponents) ||
+            !string.IsNullOrWhiteSpace(clientApplication?.MobileThirdParty?.DeviceCapabilities);
     }
 }
