@@ -151,6 +151,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
                 .Be(expected ? "COMPLETE" : "INCOMPLETE");
         }
 
+        [TestCase(null, false)]
+        [TestCase("Some Hardware", true)]
+        public async Task ShouldGetNativeMobileHardwareRequirementIsComplete(string hardware, bool isComplete)
+        {
+            var browserBasedResult = await GetNativeMobileSectionAsync(Mock.Of<IClientApplication>(c => c.NativeMobileHardwareRequirements == hardware))
+                .ConfigureAwait(false);
+
+            browserBasedResult.NativeMobileSections.MobileHardwareRequirements.Status.Should().Be(isComplete ? "COMPLETE" : "INCOMPLETE");
+        }
+
 
         private async Task<NativeMobileResult> GetNativeMobileSectionAsync(IClientApplication clientApplication)
         {

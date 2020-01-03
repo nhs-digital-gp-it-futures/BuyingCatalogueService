@@ -114,3 +114,18 @@ Examples:
     | { "NativeMobileFirstDesign": null }  | INCOMPLETE |
     | { "NativeMobileFirstDesign": false } | COMPLETE   |
     | { "NativeMobileFirstDesign": true }  | COMPLETE   |
+
+@3609
+Scenario Outline: 7. Native Mobile Hardware Requirements based on data in Client Application
+  Given SolutionDetail exist
+        | Solution | ClientApplication   |
+        | Sln1     | <ClientApplication> |
+    When a GET request is made for native-mobile dashboard for solution Sln1
+    Then a successful response is returned
+    And the status of the native-mobile-hardware-requirements section is <Status>
+Examples:
+    | ClientApplication                                          | Status     |
+    |                                                            | INCOMPLETE |
+    | { "NativeMobileHardwareRequirements": null }               | INCOMPLETE |
+    | { "NativeMobileHardwareRequirements": "      " }           | INCOMPLETE |
+    | { "NativeMobileHardwareRequirements": "Hardware Details" } | COMPLETE   |

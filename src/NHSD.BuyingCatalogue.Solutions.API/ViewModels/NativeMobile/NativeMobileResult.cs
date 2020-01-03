@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
@@ -44,7 +45,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeMobile
             MobileMemoryStorage = DashboardSection.Mandatory(clientApplication.IsMobileMemoryAndStorageComplete());
             MobileConnectionDetails = DashboardSection.Optional(clientApplication.IsMobileConnectionDetailsComplete());
             MobileComponentsDeviceCapabilities = DashboardSection.Optional(false);
-            MobileHardwareRequirements = DashboardSection.Optional(false);
+            MobileHardwareRequirements = DashboardSection.Optional(!String.IsNullOrWhiteSpace(clientApplication?.NativeMobileHardwareRequirements));
             MobileAdditionalInformation = DashboardSection.Optional(false);
         }
     }
