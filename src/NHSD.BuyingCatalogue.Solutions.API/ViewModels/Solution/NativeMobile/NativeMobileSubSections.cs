@@ -17,11 +17,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.NativeMobile
        [JsonProperty("native-mobile-memory-and-storage")]
        public MobileMemoryAndStorageSection MobileMemoryAndStorageSection { get; }
 
-       [JsonIgnore]
-       public bool HasData => MobileOperatingSystemsSection.Answers.HasData
-                              || NativeMobileFirstSection.Answers.HasData
-                              || MobileConnectionDetailsSection.Answers.HasData
-                              || MobileMemoryAndStorageSection.Answers.HasData;
+       [JsonProperty("native-mobile-additional-information")]
+       public MobileAdditionalInformationSection MobileAdditionalInformationSection { get; }
+
+        [JsonIgnore]
+        public bool HasData => MobileOperatingSystemsSection.Answers.HasData
+                               || NativeMobileFirstSection.Answers.HasData
+                               || MobileConnectionDetailsSection.Answers.HasData
+                               || MobileMemoryAndStorageSection.Answers.HasData
+                               || MobileAdditionalInformationSection.Answers.HasData;
 
        internal NativeMobileSubSections(IClientApplication clientApplication)
        {
@@ -29,6 +33,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.NativeMobile
            NativeMobileFirstSection = new NativeMobileFirstSection(clientApplication);
            MobileConnectionDetailsSection = new MobileConnectionDetailsSection(clientApplication);
            MobileMemoryAndStorageSection = new MobileMemoryAndStorageSection(clientApplication);
+           MobileAdditionalInformationSection = new MobileAdditionalInformationSection(clientApplication);
        }
     }
 }
