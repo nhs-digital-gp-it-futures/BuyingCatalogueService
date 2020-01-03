@@ -11,6 +11,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileConnectionDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileMemoryAndStorage;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileOperatingSystems;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileThirdParty;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionPlugins;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
@@ -87,6 +88,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
 
                 .AddTransient<IExecutor<UpdateSolutionNativeMobileHardwareRequirementsCommand>, UpdateSolutionNativeMobileHardwareRequirementsExecutor>()
                 .AddTransient<IValidator<UpdateSolutionNativeMobileHardwareRequirementsCommand, ISimpleResult>, UpdateSolutionNativeMobileHardwareRequirementsValidator>()
+
+                .AddTransient<IExecutor<UpdateSolutionMobileThirdPartyCommand>, UpdateSolutionMobileThirdPartyExecutor>()
+                .AddTransient<IValidator<UpdateSolutionMobileThirdPartyCommand, ISimpleResult>, UpdateSolutionMobileThirdPartyValidator>()
                 ;
         }
     }
