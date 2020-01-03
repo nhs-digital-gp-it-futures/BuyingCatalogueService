@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using FluentAssertions;
+using Newtonsoft.Json.Linq;
 using TechTalk.SpecFlow;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
@@ -15,7 +16,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
         public async Task ThenTheFieldContainsValidationResult(string token, string validationError)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
-            content.SelectToken(token).ToString().Should().Be(validationError);
+            JToken selectedToken = content.SelectToken(token);
+
+            selectedToken.Should().NotBeNull();
+            selectedToken.ToString().Should().Be(validationError);
         }
     }
 }

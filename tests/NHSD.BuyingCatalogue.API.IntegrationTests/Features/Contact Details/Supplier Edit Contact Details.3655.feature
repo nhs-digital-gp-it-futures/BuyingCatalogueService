@@ -1,4 +1,4 @@
-Feature: Suppliers Update Contact Details
+Feature: Supplier Edit Contact Details
     As a Supplier
     I want to update the Solution Contact information
     So that I can modify who the Solution Contacts are
@@ -45,6 +45,7 @@ Given MarketingContacts exist
         | FirstName | LastName   | Email          | PhoneNumber | Department |
         | Bill      | Billington | bill@bill.bill | 1           | Billing    |
     And Last Updated has updated on the MarketingContact for solution Sln1
+
 @3655
 Scenario: 3. Contacts are removed when contacts previously existed
 Given MarketingContacts exist

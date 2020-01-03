@@ -7,7 +7,6 @@ using FluentAssertions;
 using Moq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NUnit.Framework;
 
@@ -18,7 +17,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
     {
         private TestContext _context;
 
-        private string _reallyLongString = "IAmAReallyLongStringThatShouldBreakAllValidationExceptEmailSoJustDuplicateMeThreeTimesToBreakThat";
+        private static readonly string _36CharacterString = new string('a', 36);
+        private static readonly string _256CharacterString = new string('a', 256);
+        private static readonly string _51CharacterString = new string('a', 51);
 
         private UpdateSolutionContactViewModel _contact1;
         private UpdateSolutionContactViewModel _contact2;
@@ -65,17 +66,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public async Task InvalidDataShouldReturnError()
         {
-            _contact1.FirstName = _reallyLongString;
-            _contact1.LastName = _reallyLongString;
-            _contact1.Department = _reallyLongString;
-            _contact1.PhoneNumber = _reallyLongString;
-            _contact1.Email = _reallyLongString + _reallyLongString + _reallyLongString;
+            _contact1.FirstName = _36CharacterString;
+            _contact1.LastName = _36CharacterString;
+            _contact1.Department = _51CharacterString;
+            _contact1.PhoneNumber = _36CharacterString;
+            _contact1.Email = _256CharacterString;
 
-            _contact2.FirstName = _reallyLongString;
-            _contact2.LastName = _reallyLongString;
-            _contact2.Department = _reallyLongString;
-            _contact2.PhoneNumber = _reallyLongString;
-            _contact2.Email = _reallyLongString + _reallyLongString + _reallyLongString;
+            _contact2.FirstName = _36CharacterString;
+            _contact2.LastName = _36CharacterString;
+            _contact2.Department = _51CharacterString;
+            _contact2.PhoneNumber = _36CharacterString;
+            _contact2.Email = _256CharacterString;
 
             var result = await CallHandle(_existingSolutionId).ConfigureAwait(false);
             result.IsValid.Should().BeFalse();

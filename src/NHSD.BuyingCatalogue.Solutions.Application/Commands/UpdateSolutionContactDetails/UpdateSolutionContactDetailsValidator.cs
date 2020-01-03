@@ -16,7 +16,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
         private const int LastNameMaxLength = 35;
         private const int EmailMaxLength = 255;
         private const int PhoneMaxLength = 35;
-        private const int DepartmentMaxLength = 35;
+        private const int DepartmentMaxLength = 50;
 
         internal static MaxLengthValidator ValidateContact(this MaxLengthValidator validator, UpdateSolutionContactViewModel contact)
             => validator
