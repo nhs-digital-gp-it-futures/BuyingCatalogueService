@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeMobile;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileThirdParty;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeMobile
@@ -34,5 +35,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeMobile
             
             return Ok(new GetMobileThirdPartyResult(clientApplication?.MobileThirdParty));
         }
+
+        [HttpPut]
+        [Route("{id}/sections/native-mobile-third-party")]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult> UpdateNativeMobileThirdParty([FromRoute] [Required] string id,
+            [FromBody] [Required] UpdateSolutionMobileThirdPartyViewModel viewModel) =>
+            (await _mediator.Send(new UpdateSolutionMobileThirdPartyCommand(id, viewModel)).ConfigureAwait(false))
+                .ToActionResult();
     }
 }

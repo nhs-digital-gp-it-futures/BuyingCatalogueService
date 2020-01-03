@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeMobile;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeMobile;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionMobileThirdParty;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
@@ -86,6 +89,59 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
             var mobileThirdParty = (result.Value as GetMobileThirdPartyResult);
             mobileThirdParty.ThirdPartyComponents.Should().BeNull();
             mobileThirdParty.DeviceCapabilities.Should().BeNull();
+        }
+
+        [Test]
+        public async Task ShouldUpdateValidationValid()
+        {
+            var viewModel = new UpdateSolutionMobileThirdPartyViewModel();
+
+            var validationModel = new Mock<ISimpleResult>();
+            validationModel.Setup(s => s.IsValid).Returns(true);
+
+            _mockMediator
+                .Setup(m => m.Send(
+                    It.Is<UpdateSolutionMobileThirdPartyCommand>(q => q.Id == SolutionId && q.ViewModel == viewModel),
+                    It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
+
+            var result = await _mobileThirdPartyController.UpdateNativeMobileThirdParty(SolutionId, viewModel)
+                .ConfigureAwait(false) as NoContentResult;
+
+            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+            _mockMediator.Verify(
+                m => m.Send(
+                    It.Is<UpdateSolutionMobileThirdPartyCommand>(q => q.Id == SolutionId && q.ViewModel == viewModel),
+                    It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Test]
+        public async Task ShouldUpdateValidationInvalid()
+        {
+            var viewModel = new UpdateSolutionMobileThirdPartyViewModel();
+
+            var validationModel = new Mock<ISimpleResult>();
+            validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "third-party-components", "maxLength" }, { "device-capabilities", "maxLength" } });
+            validationModel.Setup(s => s.IsValid).Returns(false);
+
+
+            _mockMediator
+                .Setup(m => m.Send(
+                    It.Is<UpdateSolutionMobileThirdPartyCommand>(q => q.Id == SolutionId && q.ViewModel == viewModel),
+                    It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
+
+            var result = await _mobileThirdPartyController.UpdateNativeMobileThirdParty(SolutionId, viewModel)
+                .ConfigureAwait(false) as BadRequestObjectResult;
+
+            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            var resultValue = result.Value as Dictionary<string, string>;
+            resultValue.Count.Should().Be(2);
+            resultValue["third-party-components"].Should().Be("maxLength");
+            resultValue["device-capabilities"].Should().Be("maxLength");
+
+            _mockMediator.Verify(
+                m => m.Send(
+                    It.Is<UpdateSolutionMobileThirdPartyCommand>(q => q.Id == SolutionId && q.ViewModel == viewModel),
+                    It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }
