@@ -401,6 +401,30 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             Assert.Throws<ArgumentNullException>(() => new SolutionDescriptionSectionAnswers(null));
         }
 
+        [TestCase("New hardware", true)]
+        [TestCase(null, false)]
+        [TestCase("", false)]
+        [TestCase("      ", false)]
+        public async Task IfNativeMobileThenHardwareRequirementsIsSetCorrectly(string requirements, bool hasData)
+        {
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "native-mobile" }
+                    && c.NativeMobileHardwareRequirements == requirements))).ConfigureAwait(false);
+
+            if (hasData)
+            {
+                previewResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections
+                    .HardwareRequirementsSection.Answers.HardwareRequirements.Should().Be(requirements);
+                previewResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections
+                    .HardwareRequirementsSection.Answers.HasData.Should().BeTrue();
+            }
+            else
+            {
+                previewResult.Sections.ClientApplicationTypes.Should().BeNull();
+            }
+        }
+
         [Test]
         public void NullSolutionShouldReturnEmptyPreviewSections()
         {

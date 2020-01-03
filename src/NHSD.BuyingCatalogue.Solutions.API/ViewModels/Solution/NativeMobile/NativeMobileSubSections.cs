@@ -17,11 +17,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.NativeMobile
        [JsonProperty("native-mobile-memory-and-storage")]
        public MobileMemoryAndStorageSection MobileMemoryAndStorageSection { get; }
 
+       [JsonProperty("native-mobile-hardware-requirements")]
+       public MobileHardwareRequirementsSection HardwareRequirementsSection { get; }
+
        [JsonIgnore]
        public bool HasData => MobileOperatingSystemsSection.Answers.HasData
                               || NativeMobileFirstSection.Answers.HasData
                               || MobileConnectionDetailsSection.Answers.HasData
-                              || MobileMemoryAndStorageSection.Answers.HasData;
+                              || MobileMemoryAndStorageSection.Answers.HasData
+                              || HardwareRequirementsSection.Answers.HasData;
 
        internal NativeMobileSubSections(IClientApplication clientApplication)
        {
@@ -29,6 +33,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.NativeMobile
            NativeMobileFirstSection = new NativeMobileFirstSection(clientApplication);
            MobileConnectionDetailsSection = new MobileConnectionDetailsSection(clientApplication);
            MobileMemoryAndStorageSection = new MobileMemoryAndStorageSection(clientApplication);
+           HardwareRequirementsSection = new MobileHardwareRequirementsSection(clientApplication);
        }
     }
 }

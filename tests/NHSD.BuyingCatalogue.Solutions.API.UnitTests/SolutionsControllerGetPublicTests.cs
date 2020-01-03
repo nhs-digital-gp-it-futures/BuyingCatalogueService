@@ -561,6 +561,31 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             contact.Sections.ContactDetails.Answers.Contact1.EmailAddress.Should().BeNull();
         }
 
+        [TestCase("New hardware", true)]
+        [TestCase(null, false)]
+        [TestCase("", false)]
+        [TestCase("      ", false)]
+        public async Task IfNativeMobileThenEmptyHardwareRequirementsHasNoData(string requirements, bool hasData)
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.PublishedStatus == PublishedStatus.Published &&
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "native-mobile" }
+                    && c.NativeMobileHardwareRequirements == requirements)), SolutionId1).ConfigureAwait(false);
+
+            if (hasData)
+            {
+                publicResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections
+                    .HardwareRequirementsSection.Answers.HardwareRequirements.Should().Be(requirements);
+                publicResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections
+                    .HardwareRequirementsSection.Answers.HasData.Should().BeTrue();
+            }
+            else
+            {
+                publicResult.Sections.ClientApplicationTypes.Should().BeNull();
+            }
+        }
+
         [Test]
         public void NullSolutionShouldThrowNullExceptionPublicResult()
         {
