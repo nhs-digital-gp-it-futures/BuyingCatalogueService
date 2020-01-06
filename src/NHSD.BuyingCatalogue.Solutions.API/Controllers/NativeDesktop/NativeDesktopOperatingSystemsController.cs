@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateSolutionNativeDesktopOperatingSystems;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeDesktop
 {
@@ -40,10 +42,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeDesktop
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public ActionResult UpdatedSupportedOperatingSystems([FromRoute][Required] string id, [FromBody] [Required] UpdateNativeDesktopOperatingSystemsViewModel viewModel)
+        public async Task<ActionResult> UpdatedSupportedOperatingSystems([FromRoute][Required] string id, [FromBody] [Required] UpdateNativeDesktopOperatingSystemsViewModel viewModel)
         {
-            CannedData[id] = viewModel.ThrowIfNull().OperatingSystemsDescription;
-            return NoContent();
+            CannedData[id] = viewModel.ThrowIfNull().NativeDesktopOperatingSystemsDescription;
+
+            return (await _mediator
+                .Send(new UpdateSolutionNativeDesktopOperatingSystemsCommand(id,
+                    viewModel.ThrowIfNull().NativeDesktopOperatingSystemsDescription)).ConfigureAwait(false)).ToActionResult();
         }
 
         private static readonly Dictionary<string, string> CannedData = new Dictionary<string, string>();

@@ -35,5 +35,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public MobileThirdParty MobileThirdParty { get; set; }
 
         public string NativeMobileAdditionalInformation { get; set; }
+
+        public string NativeDesktopOperatingSystemsDescription { get; set; }
     }
 }

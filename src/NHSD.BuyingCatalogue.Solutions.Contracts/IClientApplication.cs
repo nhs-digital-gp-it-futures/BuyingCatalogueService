@@ -20,5 +20,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         IMobileMemoryAndStorage MobileMemoryAndStorage { get; }
         IMobileThirdParty MobileThirdParty { get; }
         string NativeMobileAdditionalInformation { get; }
+
+        string NativeDesktopOperatingSystemsDescription { get; }
     }
 }

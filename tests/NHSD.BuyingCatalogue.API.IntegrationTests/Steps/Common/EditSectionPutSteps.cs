@@ -29,7 +29,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             { "native-mobile-connection-details", typeof(MobileConnectionDetailsPayload) },
             { "native-mobile-first", typeof(NativeMobileFirstPayload) },
 			{ "native-mobile-memory-and-storage", typeof(MemoryAndStoragePayload) },
-			{ "native-mobile-third-party", typeof(MobileThirdPartyPayload) }
+			{ "native-mobile-third-party", typeof(MobileThirdPartyPayload) },
+            { "native-desktop-operating-systems", typeof(NativeDesktopOperatingSystemsPayload) }
 
     };
 
@@ -38,7 +39,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             _response = response;
         }
 
-        [When(@"a PUT request is made to update the (browser-browsers-supported|browser-additional-information|browser-hardware-requirements|browser-mobile-first|client-application-types|browser-plug-ins-or-extensions|solution-description|browser-connectivity-and-resolution|native-mobile-operating-systems|native-mobile-connection-details|native-mobile-first|native-mobile-memory-and-storage|native-mobile-hardware-requirements|native-mobile-third-party) section for solution (.*)")]
+        [When(@"a PUT request is made to update the (browser-browsers-supported|browser-additional-information|browser-hardware-requirements|browser-mobile-first|client-application-types|browser-plug-ins-or-extensions|solution-description|browser-connectivity-and-resolution|native-mobile-operating-systems|native-mobile-connection-details|native-mobile-first|native-mobile-memory-and-storage|native-mobile-hardware-requirements|native-mobile-third-party|native-desktop-operating-systems) section for solution (.*)")]
         public async Task WhenAPUTRequestIsMadeToUpdateSolutionSlnBrowsers_SupportedSection(string section, string solutionId, Table table)
         {
             if (!PayloadTypes.ContainsKey(section))
@@ -52,7 +53,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
                 .ConfigureAwait(false);
         }
 
-        [When(@"a PUT request is made to update the (browser-browsers-supported|browser-additional-information|browser-hardware-requirements|browser-mobile-first|client-application-types|browser-plug-ins-or-extensions|solution-description|browser-connectivity-and-resolution|native-mobile-operating-systems|native-mobile-connection-details|native-mobile-first|native-mobile-memory-and-storage|native-mobile-hardware-requirements|native-mobile-third-party) section with no solution id")]
+        [When(@"a PUT request is made to update the (browser-browsers-supported|browser-additional-information|browser-hardware-requirements|browser-mobile-first|client-application-types|browser-plug-ins-or-extensions|solution-description|browser-connectivity-and-resolution|native-mobile-operating-systems|native-mobile-connection-details|native-mobile-first|native-mobile-memory-and-storage|native-mobile-hardware-requirements|native-mobile-third-party|native-desktop-operating-systems) section with no solution id")]
         public async Task WhenAPUTRequestIsMadeToUpdateSolutionBrowsers_SupportedSectionWithNoSolutionId(string section, Table table)
         {
             await WhenAPUTRequestIsMadeToUpdateSolutionSlnBrowsers_SupportedSection(section, " ", table).ConfigureAwait(false);
@@ -168,7 +169,12 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
 
             [JsonProperty("device-capabilities")]
             public string DeviceCapabilities { get; set; }
+        }
 
+        private class NativeDesktopOperatingSystemsPayload
+        {
+            [JsonProperty("operating-systems-description")]
+            public string NativeDesktopOperatingSystemsDescription { get; set; }
         }
     }
 }
