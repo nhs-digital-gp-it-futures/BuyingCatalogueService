@@ -456,6 +456,30 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
+        [TestCase("New info", true)]
+        [TestCase(null, false)]
+        [TestCase("", false)]
+        [TestCase("      ", false)]
+        public async Task IfNativeMobileThenAdditionalInformationIsSetCorrectly(string additionalInformation, bool hasData)
+        {
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "native-mobile" }
+                    && c.NativeMobileAdditionalInformation == additionalInformation))).ConfigureAwait(false);
+
+            if (hasData)
+            {
+                previewResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections
+                    .MobileAdditionalInformationSection.Answers.NativeMobileAdditionalInformation.Should().Be(additionalInformation);
+                previewResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections
+                    .MobileAdditionalInformationSection.Answers.HasData.Should().BeTrue();
+            }
+            else
+            {
+                previewResult.Sections.ClientApplicationTypes.Should().BeNull();
+            }
+        }
+
         [Test]
         public void NullSolutionShouldReturnEmptyPreviewSections()
         {
