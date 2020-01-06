@@ -1,6 +1,6 @@
-Feature:  Display Marketing Page Form Browser Hardware Requirements
+Feature:  Display Marketing Page Form Native Mobile Additional Information
     As a Supplier
-    I want to manage Marketing Page Information for the Solution's Browsers Hardware Requirements
+    I want to manage Marketing Page Information for the Solution's Native Mobile Additional Information
     So that I can ensure the information is correct
 
 Background:
@@ -18,42 +18,42 @@ Background:
         | Sln2       | TakeTheRedPill | Drs. Inc         | 1                | Sup 2      |
         | Sln3       | PracticeMgr    | Drs. Inc         | 1                | Sup 2      |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                      |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "AdditionalInformation": "Some more info", "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum"}, "HardwareRequirements": "Hardware Information" } |
-        | Sln3     | Testing System                 | Full System       | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum" } }                                                                                           |
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                            |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["native-mobile"], "MobileOperatingSystems": null, "NativeMobileFirstDesign": null, "MobileConnectionDetails": null, "MobileMemoryAndStorage": null, "NativeMobileHardwareRequirements": null, "MobileThirdParty": null, "NativeMobileAdditionalInformation": "Some more info" } |
+        | Sln3     | Testing System                 | Full System       | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : null, "MobileResponsive": null, "Plugins" : null }                                                                                                                                                                                      |
 
-@3601
-Scenario: 1. Browser Additional Information are retreived for the solution
-    When a GET request is made for browser-additional-information for solution Sln1
+@3610
+Scenario: 1. Native Mobile Additional Information are retreived for the solution
+    When a GET request is made for native-mobile-additional-information for solution Sln1
     Then a successful response is returned
     And the string value of element additional-information is Some more info
 
-@3601
-Scenario: 2. Browser Additional Information are retrieved for the solution where no solutiondetail exists
-    When a GET request is made for browser-additional-information for solution Sln2
+@3610
+Scenario: 2. Native Mobile Additional Information are retrieved for the solution where no solutiondetail exists
+    When a GET request is made for native-mobile-additional-information for solution Sln2
     Then a successful response is returned
     And the additional-information string does not exist
 
-@3601
-Scenario: 3. Browser Additional Information are retrieved for the solution where there is no additional information
-    When a GET request is made for browser-additional-information for solution Sln3
+@3610
+Scenario: 3. Native Mobile Additional Information are retrieved for the solution where there is no additional information
+    When a GET request is made for native-mobile-additional-information for solution Sln3
     Then a successful response is returned
     And the additional-information string does not exist
 
-@3601
+@3610
 Scenario: 4. Solution not found
     Given a Solution Sln4 does not exist
-    When a GET request is made for browser-additional-information for solution Sln4
+    When a GET request is made for native-mobile-additional-information for solution Sln4
     Then a response status of 404 is returned
 
-@3601
+@3610
 Scenario: 5. Service failure
     Given the call to the database to set the field will fail
-    When a GET request is made for browser-additional-information for solution Sln1
+    When a GET request is made for native-mobile-additional-information for solution Sln1
     Then a response status of 500 is returned
 
-@3601
+@3610
 Scenario: 6. Solution id not present in request
-    When a GET request is made for browser-additional-information with no solution id
+    When a GET request is made for native-mobile-additional-information with no solution id
     Then a response status of 400 is returned
 

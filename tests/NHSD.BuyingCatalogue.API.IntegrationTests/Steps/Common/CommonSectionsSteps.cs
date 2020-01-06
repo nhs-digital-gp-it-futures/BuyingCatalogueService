@@ -41,7 +41,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             content.SelectToken($"sections.client-application-types.sections.{section}.requirement").ToString().Should().Be(requirement);
         }
 
-        [When(@"a GET request is made for (client-application-types|features|solution-description|browser-browsers-supported|browser-plug-ins-or-extensions|contact-details|browser-hardware-requirements|browser-connectivity-and-resolution|browser-additional-information|browser-mobile-first|native-mobile-operating-systems|native-mobile-connection-details|native-mobile-memory-and-storage|native-mobile-first|native-mobile-third-party|native-mobile-hardware-requirements) with no solution id")]
+        [When(@"a GET request is made for (client-application-types|features|solution-description|browser-browsers-supported|browser-plug-ins-or-extensions|contact-details|browser-hardware-requirements|browser-connectivity-and-resolution|browser-additional-information|browser-mobile-first|native-mobile-operating-systems|native-mobile-connection-details|native-mobile-memory-and-storage|native-mobile-first|native-mobile-third-party|native-mobile-hardware-requirements|native-mobile-additional-information) with no solution id")]
         public async Task GetRequestSectionNoSolutionId(string section)
         {
             await GetSectionRequest(section, " ").ConfigureAwait(false);
@@ -53,7 +53,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             await GetDashboardRequest(section, " ").ConfigureAwait(false);
         }
 
-        [When(@"a GET request is made for (client-application-types|features|solution-description|browser-browsers-supported|browser-plug-ins-or-extensions|contact-details|browser-hardware-requirements|browser-connectivity-and-resolution|browser-additional-information|browser-mobile-first|native-mobile-operating-systems|native-mobile-connection-details|native-mobile-memory-and-storage|native-mobile-first|native-mobile-third-party|native-mobile-hardware-requirements) for solution (.*)")]
+        [When(@"a GET request is made for (client-application-types|features|solution-description|browser-browsers-supported|browser-plug-ins-or-extensions|contact-details|browser-hardware-requirements|browser-connectivity-and-resolution|browser-additional-information|browser-mobile-first|native-mobile-operating-systems|native-mobile-connection-details|native-mobile-memory-and-storage|native-mobile-first|native-mobile-third-party|native-mobile-hardware-requirements|native-mobile-additional-information) for solution (.*)")]
         public async Task GetSectionRequest(string section, string solutionId)
         {
             _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, RootSectionsUrl, solutionId, section)).ConfigureAwait(false);
@@ -77,7 +77,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             }
         }
 
-        [Then(@"the status of the (browser-browsers-supported|browser-plug-ins-or-extensions|browser-hardware-requirements|browser-connectivity-and-resolution|browser-additional-information|browser-mobile-first|native-mobile-first|native-mobile-operating-systems|native-mobile-connection-details|native-mobile-memory-and-storage|native-mobile-hardware-requirements|native-mobile-third-party) section is (COMPLETE|INCOMPLETE)")]
+        [Then(@"the status of the (browser-browsers-supported|browser-plug-ins-or-extensions|browser-hardware-requirements|browser-connectivity-and-resolution|browser-additional-information|browser-mobile-first|native-mobile-first|native-mobile-operating-systems|native-mobile-connection-details|native-mobile-memory-and-storage|native-mobile-hardware-requirements|native-mobile-third-party|native-mobile-additional-information) section is (COMPLETE|INCOMPLETE)")]
         public async Task StatusOfSectionIs(string section, string status)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
