@@ -227,7 +227,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 .Should().Be("Yes");
         }
 
-
         [Test]
         public async Task ShouldIncludeBrowserBasedDataIfClientApplicationTypesIncludePluginInformation()
         {
