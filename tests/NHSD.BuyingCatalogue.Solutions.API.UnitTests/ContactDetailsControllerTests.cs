@@ -152,7 +152,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var result = await _contactDetailsController.UpdateContactDetailsAsync(SolutionId, sentModel).ConfigureAwait(false) as NoContentResult;
             result.Should().NotBeNull();
             result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
-            _mockMediator.Verify(x => x.Send(It.Is<UpdateSolutionContactDetailsCommand>(x => x.SolutionId == SolutionId && x.Details == sentModel), It.IsAny<CancellationToken>()));
+            _mockMediator.Verify(x => x.Send(It.Is<UpdateSolutionContactDetailsCommand>(x => x.SolutionId == SolutionId && x.Data == sentModel), It.IsAny<CancellationToken>()));
         }
 
         [Test]

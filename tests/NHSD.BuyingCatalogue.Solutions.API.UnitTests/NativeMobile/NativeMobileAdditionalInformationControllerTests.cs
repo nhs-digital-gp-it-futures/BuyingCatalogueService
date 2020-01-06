@@ -77,7 +77,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
             _mockMediator
                 .Setup(m => m.Send(
                     It.Is<UpdateSolutionNativeMobileAdditionalInformationCommand>(q =>
-                        q.SolutionId == SolutionId && q.UpdateSolutionNativeMobileAdditionalInformationViewModel == viewModel),
+                        q.SolutionId == SolutionId && q.Data == viewModel),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationResult.Object);
 
             var result = await _nativeMobileAdditionalInformationController.UpdateAdditionalInformationAsync(SolutionId, viewModel)
@@ -87,7 +87,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionNativeMobileAdditionalInformationCommand>(q =>
-                        q.SolutionId == SolutionId && q.UpdateSolutionNativeMobileAdditionalInformationViewModel ==
+                        q.SolutionId == SolutionId && q.Data ==
                         viewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
 
@@ -103,7 +103,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
             _mockMediator
                 .Setup(m => m.Send(
                     It.Is<UpdateSolutionNativeMobileAdditionalInformationCommand>(q =>
-                        q.SolutionId == SolutionId && q.UpdateSolutionNativeMobileAdditionalInformationViewModel == viewModel),
+                        q.SolutionId == SolutionId && q.Data == viewModel),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationResult.Object);
 
             var result = await _nativeMobileAdditionalInformationController.UpdateAdditionalInformationAsync(SolutionId, viewModel)
@@ -117,7 +117,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionNativeMobileAdditionalInformationCommand>(q =>
-                        q.SolutionId == SolutionId && q.UpdateSolutionNativeMobileAdditionalInformationViewModel ==
+                        q.SolutionId == SolutionId && q.Data ==
                         viewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
     }

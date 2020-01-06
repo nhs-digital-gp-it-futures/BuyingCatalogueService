@@ -105,6 +105,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
+        [Test]
+        public void CommandShouldTrimStrings()
+        {
+            var originalViewModel = new UpdateSolutionBrowserHardwareRequirementsViewModel();
+            originalViewModel.HardwareRequirements = "     hardware    ";
+            var command = new UpdateSolutionBrowserHardwareRequirementsCommand("Sln1", originalViewModel);
+            command.Data.HardwareRequirements.Should().Be("hardware");
+        }
+
         private async Task<ISimpleResult> UpdateBrowserHardwareRequirements(
             string hardwareRequirements)
         {

@@ -7,7 +7,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeat
     {
         public ISimpleResult Validate(UpdateSolutionFeaturesCommand updateSolutionFeaturesCommand)
         {
-            var listing = updateSolutionFeaturesCommand.UpdateSolutionFeaturesViewModel.Listing.ToList();
+            var listing = updateSolutionFeaturesCommand.Data.Listing.ToList();
             var validator = new MaxLengthValidator();
 
             for (int i = 0; i < listing.Count(); i++)

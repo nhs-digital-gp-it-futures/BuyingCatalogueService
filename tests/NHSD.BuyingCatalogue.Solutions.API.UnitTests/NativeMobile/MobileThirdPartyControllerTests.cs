@@ -101,7 +101,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
 
             _mockMediator
                 .Setup(m => m.Send(
-                    It.Is<UpdateSolutionMobileThirdPartyCommand>(q => q.Id == SolutionId && q.ViewModel == viewModel),
+                    It.Is<UpdateSolutionMobileThirdPartyCommand>(q => q.Id == SolutionId && q.Data == viewModel),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result = await _mobileThirdPartyController.UpdateNativeMobileThirdParty(SolutionId, viewModel)
@@ -110,7 +110,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
             result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
             _mockMediator.Verify(
                 m => m.Send(
-                    It.Is<UpdateSolutionMobileThirdPartyCommand>(q => q.Id == SolutionId && q.ViewModel == viewModel),
+                    It.Is<UpdateSolutionMobileThirdPartyCommand>(q => q.Id == SolutionId && q.Data == viewModel),
                     It.IsAny<CancellationToken>()), Times.Once);
         }
 
@@ -126,7 +126,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
 
             _mockMediator
                 .Setup(m => m.Send(
-                    It.Is<UpdateSolutionMobileThirdPartyCommand>(q => q.Id == SolutionId && q.ViewModel == viewModel),
+                    It.Is<UpdateSolutionMobileThirdPartyCommand>(q => q.Id == SolutionId && q.Data == viewModel),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result = await _mobileThirdPartyController.UpdateNativeMobileThirdParty(SolutionId, viewModel)
@@ -140,7 +140,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
 
             _mockMediator.Verify(
                 m => m.Send(
-                    It.Is<UpdateSolutionMobileThirdPartyCommand>(q => q.Id == SolutionId && q.ViewModel == viewModel),
+                    It.Is<UpdateSolutionMobileThirdPartyCommand>(q => q.Id == SolutionId && q.Data == viewModel),
                     It.IsAny<CancellationToken>()), Times.Once);
         }
     }

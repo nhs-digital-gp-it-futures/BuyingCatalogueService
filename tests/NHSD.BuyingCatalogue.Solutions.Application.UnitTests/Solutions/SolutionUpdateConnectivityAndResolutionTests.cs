@@ -103,5 +103,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
+
+        [Test]
+        public void CommandShouldTrimStrings()
+        {
+            var originalViewModel = new UpdateSolutionConnectivityAndResolutionViewModel();
+            originalViewModel.MinimumConnectionSpeed = "     3GBps";
+            originalViewModel.MinimumDesktopResolution = "     1x1       ";
+            var command = new UpdateSolutionConnectivityAndResolutionCommand("Sln1", originalViewModel);
+            command.Data.MinimumConnectionSpeed.Should().Be("3GBps");
+            command.Data.MinimumDesktopResolution.Should().Be("1x1");
+        }
     }
 }

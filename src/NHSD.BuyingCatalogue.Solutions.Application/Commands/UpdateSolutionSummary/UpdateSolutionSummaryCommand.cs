@@ -1,4 +1,5 @@
 using MediatR;
+using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary
@@ -13,15 +14,18 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSumm
         /// <summary>
         /// Updated details of a solution.
         /// </summary>
-        public UpdateSolutionSummaryViewModel UpdateSolutionSummaryViewModel { get; }
+        public UpdateSolutionSummaryViewModel Data { get; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="UpdateSolutionSummaryCommand"/> class.
         /// </summary>
-        public UpdateSolutionSummaryCommand(string solutionId, UpdateSolutionSummaryViewModel updateSolutionSummaryViewModel)
+        public UpdateSolutionSummaryCommand(string solutionId, UpdateSolutionSummaryViewModel data)
         {
-            SolutionId = solutionId ?? throw new System.ArgumentNullException(nameof(solutionId));
-            UpdateSolutionSummaryViewModel = updateSolutionSummaryViewModel ?? throw new System.ArgumentNullException(nameof(updateSolutionSummaryViewModel));
+            SolutionId = solutionId.ThrowIfNull();
+            Data = data.ThrowIfNull();
+            Data.Description = Data.Description?.Trim();
+            Data.Link = Data.Link?.Trim();
+            Data.Summary = Data.Summary?.Trim();
         }
     }
 }

@@ -110,6 +110,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 
+        [Test]
+        public void CommandShouldTrimStrings()
+        {
+            var originalViewModel = new UpdateSolutionMobileThirdPartyViewModel();
+            originalViewModel.ThirdPartyComponents = "   components  ";
+            originalViewModel.DeviceCapabilities = "   capabilities    ";
+            var command = new UpdateSolutionMobileThirdPartyCommand("Sln1", originalViewModel);
+            command.Data.ThirdPartyComponents.Should().Be("components");
+            command.Data.DeviceCapabilities.Should().Be("capabilities");
+        }
 
         private async Task<ISimpleResult> UpdateMobileThirdParty(string thirdPartyComponents = null, string deviceCapabilities = null)
         {

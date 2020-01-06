@@ -19,8 +19,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeMobile.Updat
                 {
                     clientApplication.MobileOperatingSystems = new MobileOperatingSystems()
                     {
-                        OperatingSystems = request.ViewModel.OperatingSystems,
-                        OperatingSystemsDescription = request.ViewModel.OperatingSystemsDescription
+                        OperatingSystems = request.Data.OperatingSystems,
+                        OperatingSystemsDescription = request.Data.OperatingSystemsDescription
                     };
                 }, cancellationToken).ConfigureAwait(false);
     }

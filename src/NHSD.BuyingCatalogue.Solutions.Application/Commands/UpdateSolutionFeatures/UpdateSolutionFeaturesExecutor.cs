@@ -31,7 +31,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeat
         /// <returns>A task representing an operation to get the result of this command.</returns>
         public async Task UpdateAsync(UpdateSolutionFeaturesCommand request, CancellationToken cancellationToken) =>
             await _solutionFeaturesUpdater.UpdateAsync(
-                    _mapper.Map(request.UpdateSolutionFeaturesViewModel,
+                    _mapper.Map(request.Data,
                         await GetSolution(request, cancellationToken).ConfigureAwait(false)), cancellationToken)
                 .ConfigureAwait(false);
 

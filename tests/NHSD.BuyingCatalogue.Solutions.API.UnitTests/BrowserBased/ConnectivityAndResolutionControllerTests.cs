@@ -53,7 +53,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
 
             result.Should().NotBeNull();
             result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
-            _mockMediator.Verify(x => x.Send(It.Is<UpdateSolutionConnectivityAndResolutionCommand>(command => command.Id == SolutionId && command.ViewModel == _viewModel), It.IsAny<CancellationToken>()), Times.Once);
+            _mockMediator.Verify(x => x.Send(It.Is<UpdateSolutionConnectivityAndResolutionCommand>(command => command.Id == SolutionId && command.Data == _viewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]

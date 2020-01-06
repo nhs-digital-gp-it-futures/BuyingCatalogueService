@@ -77,7 +77,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
             _mockMediator
                 .Setup(m => m.Send(
                     It.Is<UpdateSolutionBrowserHardwareRequirementsCommand>(q =>
-                        q.SolutionId == SolutionId && q.UpdateSolutionHardwareRequirementsViewModel == viewModel),
+                        q.SolutionId == SolutionId && q.Data == viewModel),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationResult.Object);
 
             var result = await _hardwareRequirementsController.UpdateHardwareRequirementsAsync(SolutionId, viewModel)
@@ -87,7 +87,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionBrowserHardwareRequirementsCommand>(q =>
-                        q.SolutionId == SolutionId && q.UpdateSolutionHardwareRequirementsViewModel ==
+                        q.SolutionId == SolutionId && q.Data ==
                         viewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
 
@@ -102,7 +102,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
 
             _mockMediator.Setup(m => m.Send(
             It.Is<UpdateSolutionBrowserHardwareRequirementsCommand>(q =>
-                q.SolutionId == SolutionId && q.UpdateSolutionHardwareRequirementsViewModel == viewModel),
+                q.SolutionId == SolutionId && q.Data == viewModel),
             It.IsAny<CancellationToken>())).ReturnsAsync(validationResult.Object);
 
             var result = await _hardwareRequirementsController.UpdateHardwareRequirementsAsync(SolutionId, viewModel)
@@ -116,7 +116,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionBrowserHardwareRequirementsCommand>(q =>
-                        q.SolutionId == SolutionId && q.UpdateSolutionHardwareRequirementsViewModel ==
+                        q.SolutionId == SolutionId && q.Data ==
                         viewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
     }

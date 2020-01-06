@@ -6,8 +6,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.Updat
     {
         public ISimpleResult Validate(UpdateSolutionPluginsCommand updateSolutionPluginsCommand)
             => new RequiredMaxLengthResult(
-                new RequiredValidator().Validate(updateSolutionPluginsCommand.UpdateSolutionPluginsViewModel.Required, "plugins-required").Result(),
-                new MaxLengthValidator().Validate(updateSolutionPluginsCommand.UpdateSolutionPluginsViewModel.AdditionalInformation, 500, "plugins-detail").Result()
+                new RequiredValidator().Validate(updateSolutionPluginsCommand.Data.Required, "plugins-required").Result(),
+                new MaxLengthValidator().Validate(updateSolutionPluginsCommand.Data.AdditionalInformation, 500, "plugins-detail").Result()
             );
     }
 }

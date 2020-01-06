@@ -106,7 +106,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
             _mockMediator
                 .Setup(m => m.Send(
                     It.Is<UpdateSolutionMobileOperatingSystemsCommand>(q =>
-                        q.Id == SolutionId && q.ViewModel == viewModel), It.IsAny<CancellationToken>()))
+                        q.Id == SolutionId && q.Data == viewModel), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(validationModel.Object);
 
             var result =
@@ -118,7 +118,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionMobileOperatingSystemsCommand>(q =>
-                        q.Id == SolutionId && q.ViewModel == viewModel), It.IsAny<CancellationToken>()), Times.Once);
+                        q.Id == SolutionId && q.Data == viewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
@@ -133,7 +133,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
             _mockMediator.Setup(m =>
                 m.Send(
                     It.Is<UpdateSolutionMobileOperatingSystemsCommand>(q =>
-                        q.Id == SolutionId && q.ViewModel == viewModel),
+                        q.Id == SolutionId && q.Data == viewModel),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result = (await _mobileOperatingSystemsController.UpdateMobileOperatingSystems(SolutionId, viewModel).ConfigureAwait(false)) as BadRequestObjectResult;
@@ -147,7 +147,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionMobileOperatingSystemsCommand>(q =>
-                        q.Id == SolutionId && q.ViewModel ==
+                        q.Id == SolutionId && q.Data ==
                         viewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
     }

@@ -137,7 +137,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
             _mockMediator.Setup(m =>
                     m.Send(
                         It.Is<UpdateSolutionBrowsersSupportedCommand>(q =>
-                            q.SolutionId == SolutionId && q.UpdateSolutionBrowsersSupportedViewModel ==
+                            q.SolutionId == SolutionId && q.Data ==
                             browsersSupportedUpdateViewModel), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(validationModel.Object);
 
@@ -149,7 +149,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionBrowsersSupportedCommand>(q =>
-                        q.SolutionId == SolutionId && q.UpdateSolutionBrowsersSupportedViewModel ==
+                        q.SolutionId == SolutionId && q.Data ==
                         browsersSupportedUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
 
@@ -165,7 +165,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
             _mockMediator.Setup(m =>
                     m.Send(
                         It.Is<UpdateSolutionBrowsersSupportedCommand>(q =>
-                            q.SolutionId == SolutionId && q.UpdateSolutionBrowsersSupportedViewModel ==
+                            q.SolutionId == SolutionId && q.Data ==
                             browsersSupportedUpdateViewModel), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(validationModel.Object);
 
@@ -179,7 +179,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
             resultValue["supported-browsers"].Should().Be("required");
             resultValue["mobile-responsive"].Should().Be("required");
 
-            _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionBrowsersSupportedCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionBrowsersSupportedViewModel == browsersSupportedUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
+            _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionBrowsersSupportedCommand>(q => q.SolutionId == SolutionId && q.Data == browsersSupportedUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }

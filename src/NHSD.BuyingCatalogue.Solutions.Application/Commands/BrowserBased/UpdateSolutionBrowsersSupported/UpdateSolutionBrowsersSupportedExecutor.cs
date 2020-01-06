@@ -26,8 +26,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.Updat
             await _clientApplicationPartialUpdater.UpdateAsync(request.SolutionId,
                     clientApplication =>
                     {
-                        clientApplication.BrowsersSupported = new HashSet<string>(request.UpdateSolutionBrowsersSupportedViewModel.BrowsersSupported);
-                        clientApplication.MobileResponsive = request.UpdateSolutionBrowsersSupportedViewModel.MobileResponsive.ToBoolean();
+                        clientApplication.BrowsersSupported = new HashSet<string>(request.Data.BrowsersSupported);
+                        clientApplication.MobileResponsive = request.Data.MobileResponsive.ToBoolean();
                     },
                     cancellationToken)
                 .ConfigureAwait(false);

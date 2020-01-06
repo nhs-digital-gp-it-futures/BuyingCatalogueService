@@ -8,12 +8,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.Updat
     {
         public string SolutionId { get; }
 
-        public UpdateSolutionBrowserAdditionalInformationViewModel UpdateSolutionBrowserAdditionalInformationViewModel { get; }
+        public UpdateSolutionBrowserAdditionalInformationViewModel Data { get; }
 
-        public UpdateSolutionBrowserAdditionalInformationCommand(string solutionId, UpdateSolutionBrowserAdditionalInformationViewModel updateSolutionBrowserAdditionalInformationViewModel)
+        public UpdateSolutionBrowserAdditionalInformationCommand(string solutionId, UpdateSolutionBrowserAdditionalInformationViewModel data)
         {
             SolutionId = solutionId.ThrowIfNull();
-            UpdateSolutionBrowserAdditionalInformationViewModel = updateSolutionBrowserAdditionalInformationViewModel.ThrowIfNull();
+            Data = data.ThrowIfNull();
+            Data.AdditionalInformation = Data.AdditionalInformation?.Trim();
         }
     }
 }

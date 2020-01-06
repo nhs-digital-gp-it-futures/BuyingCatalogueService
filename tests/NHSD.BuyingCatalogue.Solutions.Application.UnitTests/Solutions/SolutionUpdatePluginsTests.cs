@@ -110,6 +110,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
+        [Test]
+        public void CommandShouldTrimStrings()
+        {
+            var originalViewModel = new UpdateSolutionPluginsViewModel();
+            originalViewModel.AdditionalInformation = "   additional information    ";
+            originalViewModel.Required = "      yes     ";
+            var command = new UpdateSolutionPluginsCommand("Sln1", originalViewModel);
+            command.Data.AdditionalInformation.Should().Be("additional information");
+            command.Data.Required.Should().Be("yes");
+        }
+
         private async Task<ISimpleResult> UpdatePlugins(string required = null, string additionalInformation = null)
         {
             return await Context.UpdateSolutionPluginsHandler.Handle(new UpdateSolutionPluginsCommand(SolutionId, new UpdateSolutionPluginsViewModel()

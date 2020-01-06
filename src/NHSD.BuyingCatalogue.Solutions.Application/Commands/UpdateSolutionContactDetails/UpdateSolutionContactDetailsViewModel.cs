@@ -37,5 +37,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
                      String.IsNullOrWhiteSpace(Email) &&
                      String.IsNullOrWhiteSpace(Department));
         }
+
+        public void Trim()
+        {
+            Department = Department?.Trim();
+            FirstName = FirstName?.Trim();
+            LastName = LastName?.Trim();
+            PhoneNumber = PhoneNumber?.Trim();
+            Email = Email?.Trim();
+        }
     }
 }

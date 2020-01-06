@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using System.Linq;
 using MediatR;
+using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClientApplicationTypes
@@ -13,15 +16,18 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClie
         /// <summary>
         /// Updated details of a solution.
         /// </summary>
-        public UpdateSolutionClientApplicationTypesViewModel UpdateSolutionClientApplicationTypesViewModel { get; }
+        public UpdateSolutionClientApplicationTypesViewModel Data { get; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="UpdateSolutionClientApplicationTypesCommand"/> class.
         /// </summary>
-        public UpdateSolutionClientApplicationTypesCommand(string solutionId, UpdateSolutionClientApplicationTypesViewModel updateSolutionClientApplicationTypesViewModel)
+        public UpdateSolutionClientApplicationTypesCommand(string solutionId, UpdateSolutionClientApplicationTypesViewModel data)
         {
-            SolutionId = solutionId ?? throw new System.ArgumentNullException(nameof(solutionId));
-            UpdateSolutionClientApplicationTypesViewModel = updateSolutionClientApplicationTypesViewModel ?? throw new System.ArgumentNullException(nameof(updateSolutionClientApplicationTypesViewModel));
+            SolutionId = solutionId.ThrowIfNull();
+            Data = data.ThrowIfNull();
+            Data.ClientApplicationTypes = Data.ClientApplicationTypes == null ?
+                new HashSet<string>() : 
+                new HashSet<string>(Data.ClientApplicationTypes.Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim()));
         }
     }
 }

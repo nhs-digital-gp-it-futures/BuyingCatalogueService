@@ -20,8 +20,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeMobile.Updat
                 {
                     clientApplication.MobileThirdParty = new MobileThirdParty()
                     {
-                        ThirdPartyComponents = request.ViewModel.ThirdPartyComponents,
-                        DeviceCapabilities = request.ViewModel.DeviceCapabilities
+                        ThirdPartyComponents = request.Data.ThirdPartyComponents,
+                        DeviceCapabilities = request.Data.DeviceCapabilities
                     };
                 }, cancellationToken).ConfigureAwait(false);
     }

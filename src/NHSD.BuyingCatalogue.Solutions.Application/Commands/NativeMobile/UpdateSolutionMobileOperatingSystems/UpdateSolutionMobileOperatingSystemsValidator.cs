@@ -6,7 +6,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeMobile.Updat
     {
         public ISimpleResult Validate(UpdateSolutionMobileOperatingSystemsCommand command) =>
             new RequiredMaxLengthResult(
-                new RequiredValidator().Validate(command.ViewModel.OperatingSystems, "operating-systems").Result(),
-                new MaxLengthValidator().Validate(command.ViewModel.OperatingSystemsDescription, 1000, "operating-systems-description").Result());
+                new RequiredValidator().Validate(command.Data.OperatingSystems, "operating-systems").Result(),
+                new MaxLengthValidator().Validate(command.Data.OperatingSystemsDescription, 1000, "operating-systems-description").Result());
     }
 }

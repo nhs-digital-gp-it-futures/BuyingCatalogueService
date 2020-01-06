@@ -24,7 +24,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
         {
             await _verifier.ThrowWhenMissing(request.SolutionId, cancellationToken).ConfigureAwait(false);
 
-            await _updater.UpdateAsync(request.SolutionId, MapContacts(request.Details), cancellationToken).ConfigureAwait(false);
+            await _updater.UpdateAsync(request.SolutionId, MapContacts(request.Data), cancellationToken).ConfigureAwait(false);
         }
 
         private static IEnumerable<IContact> MapContacts(UpdateSolutionContactDetailsViewModel details)

@@ -6,8 +6,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.Updat
     {
         public ISimpleResult Validate(UpdateSolutionBrowsersSupportedCommand updateSolutionBrowsersSupportedCommand)
         => new RequiredValidator()
-                .Validate(updateSolutionBrowsersSupportedCommand.UpdateSolutionBrowsersSupportedViewModel.BrowsersSupported, "supported-browsers")
-                .Validate(updateSolutionBrowsersSupportedCommand.UpdateSolutionBrowsersSupportedViewModel.MobileResponsive, "mobile-responsive")
+                .Validate(updateSolutionBrowsersSupportedCommand.Data.BrowsersSupported, "supported-browsers")
+                .Validate(updateSolutionBrowsersSupportedCommand.Data.MobileResponsive, "mobile-responsive")
                 .Result();
     }
 }

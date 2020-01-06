@@ -16,8 +16,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.Updat
             await _clientApplicationPartialUpdater.UpdateAsync(request.Id,
                     clientApplication =>
                     {
-                        clientApplication.MinimumConnectionSpeed = request.ViewModel.MinimumConnectionSpeed;
-                        clientApplication.MinimumDesktopResolution = request.ViewModel.MinimumDesktopResolution;
+                        clientApplication.MinimumConnectionSpeed = request.Data.MinimumConnectionSpeed;
+                        clientApplication.MinimumDesktopResolution = request.Data.MinimumDesktopResolution;
                     },
                     cancellationToken)
                 .ConfigureAwait(false);

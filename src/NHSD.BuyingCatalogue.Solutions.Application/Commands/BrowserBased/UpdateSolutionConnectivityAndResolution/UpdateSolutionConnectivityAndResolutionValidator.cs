@@ -6,7 +6,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.Updat
     {
         public ISimpleResult Validate(UpdateSolutionConnectivityAndResolutionCommand command)
             => new RequiredValidator()
-                .Validate(command.ViewModel.MinimumConnectionSpeed, "minimum-connection-speed")
+                .Validate(command.Data.MinimumConnectionSpeed, "minimum-connection-speed")
                 .Result();
     }
 }

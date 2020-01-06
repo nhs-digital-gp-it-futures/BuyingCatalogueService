@@ -6,7 +6,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClie
     {
         public ISimpleResult Validate(UpdateSolutionClientApplicationTypesCommand updateSolutionClientApplicationTypesCommand)
             => new RequiredValidator()
-                .Validate(updateSolutionClientApplicationTypesCommand.UpdateSolutionClientApplicationTypesViewModel.FilteredClientApplicationTypes, "client-application-types")
+                .Validate(updateSolutionClientApplicationTypesCommand.Data.FilteredClientApplicationTypes, "client-application-types")
                 .Result();
     }
 }

@@ -6,7 +6,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.Updat
     {
         public ISimpleResult Validate(UpdateSolutionBrowserAdditionalInformationCommand updateSolutionBrowserAdditionalInformationCommand)
          => new MaxLengthValidator()
-                .Validate(updateSolutionBrowserAdditionalInformationCommand.UpdateSolutionBrowserAdditionalInformationViewModel.AdditionalInformation, 500, "additional-information")
+                .Validate(updateSolutionBrowserAdditionalInformationCommand.Data.AdditionalInformation, 500, "additional-information")
                 .Result();
     }
 }

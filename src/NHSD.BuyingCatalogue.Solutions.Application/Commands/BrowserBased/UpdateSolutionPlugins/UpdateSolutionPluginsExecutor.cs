@@ -19,8 +19,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.Updat
                 {
                     clientApplication.Plugins = new Plugins()
                     {
-                        Required = request.UpdateSolutionPluginsViewModel.Required.ToBoolean(),
-                        AdditionalInformation = request.UpdateSolutionPluginsViewModel.AdditionalInformation
+                        Required = request.Data.Required.ToBoolean(),
+                        AdditionalInformation = request.Data.AdditionalInformation
                     };
                 },
                 cancellationToken).ConfigureAwait(false);

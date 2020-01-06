@@ -24,7 +24,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClie
         /// <returns>A task representing an operation to get the result of this command.</returns>
         public async Task UpdateAsync(UpdateSolutionClientApplicationTypesCommand request, CancellationToken cancellationToken) =>
             await _clientApplicationPartialUpdater.UpdateAsync(request.SolutionId,
-                    clientApplication => clientApplication.ClientApplicationTypes = new HashSet<string>(request.UpdateSolutionClientApplicationTypesViewModel.FilteredClientApplicationTypes),
+                    clientApplication => clientApplication.ClientApplicationTypes = new HashSet<string>(request.Data.FilteredClientApplicationTypes),
                     cancellationToken)
                 .ConfigureAwait(false);
     }

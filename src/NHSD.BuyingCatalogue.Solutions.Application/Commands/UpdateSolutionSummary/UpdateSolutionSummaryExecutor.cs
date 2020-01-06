@@ -26,8 +26,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSumm
         }
 
         public async Task UpdateAsync(UpdateSolutionSummaryCommand request, CancellationToken cancellationToken) =>
-            await _solutionSummaryUpdater.UpdateSummaryAsync(_mapper.Map(request.UpdateSolutionSummaryViewModel,
-                await GetSolution(request, cancellationToken).ConfigureAwait(false)), cancellationToken).ConfigureAwait(false);
+            await _solutionSummaryUpdater.UpdateSummaryAsync(
+                _mapper.Map(request.Data, await GetSolution(request, cancellationToken).ConfigureAwait(false)),
+                cancellationToken).ConfigureAwait(false);
 
         private async Task<Solution> GetSolution(UpdateSolutionSummaryCommand request, CancellationToken cancellationToken) =>
             await _solutionReader.ByIdAsync(request.SolutionId, cancellationToken).ConfigureAwait(false);

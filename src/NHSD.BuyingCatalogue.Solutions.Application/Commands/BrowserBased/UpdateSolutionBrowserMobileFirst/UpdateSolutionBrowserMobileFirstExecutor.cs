@@ -16,8 +16,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.Updat
         public async Task UpdateAsync(UpdateSolutionBrowserMobileFirstCommand request, CancellationToken cancellationToken) =>
             await _clientApplicationPartialUpdater.UpdateAsync(request.SolutionId, clientApplication =>
                 {
-                    clientApplication.MobileFirstDesign =
-                        request.UpdateSolutionBrowserMobileFirstViewModel.MobileFirstDesign.ToBoolean();
+                    clientApplication.MobileFirstDesign = request.Data.MobileFirstDesign.ToBoolean();
                 },
                 cancellationToken).ConfigureAwait(false);
     }

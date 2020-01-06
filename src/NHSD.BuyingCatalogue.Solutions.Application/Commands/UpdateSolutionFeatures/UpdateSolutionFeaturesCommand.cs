@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using System.Linq;
 using MediatR;
+using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures
@@ -13,15 +16,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeat
         /// <summary>
         /// Updated details of a solution.
         /// </summary>
-        public UpdateSolutionFeaturesViewModel UpdateSolutionFeaturesViewModel { get; }
+        public UpdateSolutionFeaturesViewModel Data { get; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="UpdateSolutionFeaturesCommand"/> class.
         /// </summary>
-        public UpdateSolutionFeaturesCommand(string solutionId, UpdateSolutionFeaturesViewModel updateSolutionFeaturesViewModel)
+        public UpdateSolutionFeaturesCommand(string solutionId, UpdateSolutionFeaturesViewModel data)
         {
-            SolutionId = solutionId ?? throw new System.ArgumentNullException(nameof(solutionId));
-            UpdateSolutionFeaturesViewModel = updateSolutionFeaturesViewModel ?? throw new System.ArgumentNullException(nameof(updateSolutionFeaturesViewModel));
+            SolutionId = solutionId.ThrowIfNull();
+            Data = data.ThrowIfNull();
+            Data.Listing = new List<string>(Data.Listing.Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim()));
         }
     }
 }

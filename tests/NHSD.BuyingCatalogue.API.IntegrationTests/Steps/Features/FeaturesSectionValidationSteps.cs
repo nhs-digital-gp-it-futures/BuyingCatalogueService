@@ -30,7 +30,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Features
         {
             for (int i = 0; i < 10; i++)
             {
-                _features.Add("");
+                _features.Add($"{i}");
             }
         }
 

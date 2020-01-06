@@ -94,7 +94,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
             _mockMediator
                 .Setup(m => m.Send(
                     It.Is<UpdateSolutionNativeMobileFirstCommand>(q =>
-                        q.SolutionId == SolutionId && q.UpdateSolutionNativeMobileFirstViewModel == viewModel),
+                        q.SolutionId == SolutionId && q.Data == viewModel),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result = await _nativeMobileFirstController.UpdateMobileFirstAsync(SolutionId, viewModel).ConfigureAwait(false) as NoContentResult;
@@ -103,7 +103,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionNativeMobileFirstCommand>(q =>
-                        q.SolutionId == SolutionId && q.UpdateSolutionNativeMobileFirstViewModel == viewModel),
+                        q.SolutionId == SolutionId && q.Data == viewModel),
                     It.IsAny<CancellationToken>()), Times.Once);
         }
 
@@ -119,7 +119,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
             _mockMediator
                 .Setup(m => m.Send(
                     It.Is<UpdateSolutionNativeMobileFirstCommand>(q =>
-                        q.SolutionId == SolutionId && q.UpdateSolutionNativeMobileFirstViewModel == viewModel),
+                        q.SolutionId == SolutionId && q.Data == viewModel),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result = await _nativeMobileFirstController.UpdateMobileFirstAsync(SolutionId, viewModel).ConfigureAwait(false) as BadRequestObjectResult;
@@ -132,7 +132,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionNativeMobileFirstCommand>(q =>
-                        q.SolutionId == SolutionId && q.UpdateSolutionNativeMobileFirstViewModel == viewModel),
+                        q.SolutionId == SolutionId && q.Data == viewModel),
                     It.IsAny<CancellationToken>()), Times.Once);
         }
     }

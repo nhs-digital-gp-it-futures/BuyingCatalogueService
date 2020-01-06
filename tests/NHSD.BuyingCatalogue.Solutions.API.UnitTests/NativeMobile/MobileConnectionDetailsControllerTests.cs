@@ -108,7 +108,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
             _mockMediator
                 .Setup(m => m.Send(
                     It.Is<UpdateSolutionMobileConnectionDetailsCommand>(q =>
-                        q.SolutionId == SolutionId && q.Details == viewModel), It.IsAny<CancellationToken>()))
+                        q.SolutionId == SolutionId && q.Data == viewModel), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(validationModel.Object);
 
             var result =
@@ -120,7 +120,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionMobileConnectionDetailsCommand>(q =>
-                        q.SolutionId == SolutionId && q.Details == viewModel), It.IsAny<CancellationToken>()), Times.Once);
+                        q.SolutionId == SolutionId && q.Data == viewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
@@ -135,7 +135,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
             _mockMediator.Setup(m =>
                 m.Send(
                     It.Is<UpdateSolutionMobileConnectionDetailsCommand>(q =>
-                        q.SolutionId == SolutionId && q.Details == viewModel),
+                        q.SolutionId == SolutionId && q.Data == viewModel),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result = (await _controller.UpdateMobileConnectionDetails(SolutionId, viewModel).ConfigureAwait(false)) as BadRequestObjectResult;
@@ -148,7 +148,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionMobileConnectionDetailsCommand>(q =>
-                        q.SolutionId == SolutionId && q.Details ==
+                        q.SolutionId == SolutionId && q.Data ==
                         viewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
     }

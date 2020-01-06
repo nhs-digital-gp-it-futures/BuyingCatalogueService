@@ -1,4 +1,5 @@
 using MediatR;
+using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeMobile.UpdateSolutionMobileThirdParty
@@ -7,12 +8,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeMobile.Updat
     {
         public string Id { get; }
 
-        public UpdateSolutionMobileThirdPartyViewModel ViewModel { get; }
+        public UpdateSolutionMobileThirdPartyViewModel Data { get; }
 
-        public UpdateSolutionMobileThirdPartyCommand(string id, UpdateSolutionMobileThirdPartyViewModel viewModel)
+        public UpdateSolutionMobileThirdPartyCommand(string id, UpdateSolutionMobileThirdPartyViewModel data)
         {
-            Id = id;
-            ViewModel = viewModel;
+            Id = id.ThrowIfNull();
+            Data = data.ThrowIfNull();
+            Data.DeviceCapabilities = Data.DeviceCapabilities?.Trim();
+            Data.ThirdPartyComponents = Data.ThirdPartyComponents?.Trim();
         }
     }
 }

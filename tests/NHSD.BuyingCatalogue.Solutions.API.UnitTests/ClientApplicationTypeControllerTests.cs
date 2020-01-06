@@ -83,14 +83,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var validationModel = new Mock<ISimpleResult>();
             validationModel.Setup(s => s.IsValid).Returns(true);
 
-            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionClientApplicationTypesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionClientApplicationTypesViewModel == clientApplicationUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
+            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionClientApplicationTypesCommand>(q => q.SolutionId == SolutionId && q.Data == clientApplicationUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result =
                 (await _clientApplicationTypeController.UpdateClientApplicationTypesAsync(SolutionId,
                     clientApplicationUpdateViewModel).ConfigureAwait(false)) as NoContentResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
-            _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionClientApplicationTypesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionClientApplicationTypesViewModel == clientApplicationUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
+            _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionClientApplicationTypesCommand>(q => q.SolutionId == SolutionId && q.Data == clientApplicationUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
 
 
@@ -103,7 +103,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "client-application-types", "required" } });
             validationModel.Setup(s => s.IsValid).Returns(false);
 
-            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionClientApplicationTypesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionClientApplicationTypesViewModel == clientApplicationUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
+            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionClientApplicationTypesCommand>(q => q.SolutionId == SolutionId && q.Data == clientApplicationUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result =
                 (await _clientApplicationTypeController.UpdateClientApplicationTypesAsync(SolutionId,
@@ -114,7 +114,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             resultValue.Count.Should().Be(1);
             resultValue["client-application-types"].Should().Be("required");
 
-            _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionClientApplicationTypesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionClientApplicationTypesViewModel == clientApplicationUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
+            _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionClientApplicationTypesCommand>(q => q.SolutionId == SolutionId && q.Data == clientApplicationUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }

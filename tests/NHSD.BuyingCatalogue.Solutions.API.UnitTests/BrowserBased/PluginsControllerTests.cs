@@ -120,7 +120,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
             _mockMediator
                 .Setup(m => m.Send(
                     It.Is<UpdateSolutionPluginsCommand>(q =>
-                        q.SolutionId == SolutionId && q.UpdateSolutionPluginsViewModel == pluginsViewModel),
+                        q.SolutionId == SolutionId && q.Data == pluginsViewModel),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result = (await _plugInsController.UpdatePlugInsAsync(SolutionId, pluginsViewModel).ConfigureAwait(false)) as NoContentResult;
@@ -130,7 +130,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionPluginsCommand>(q =>
-                        q.SolutionId == SolutionId && q.UpdateSolutionPluginsViewModel ==
+                        q.SolutionId == SolutionId && q.Data ==
                         pluginsViewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
 
@@ -146,7 +146,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
             _mockMediator.Setup(m =>
                 m.Send(
                     It.Is<UpdateSolutionPluginsCommand>(q =>
-                        q.SolutionId == SolutionId && q.UpdateSolutionPluginsViewModel == pluginsViewModel),
+                        q.SolutionId == SolutionId && q.Data == pluginsViewModel),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result = (await _plugInsController.UpdatePlugInsAsync(SolutionId, pluginsViewModel).ConfigureAwait(false)) as BadRequestObjectResult;
@@ -160,7 +160,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionPluginsCommand>(q =>
-                        q.SolutionId == SolutionId && q.UpdateSolutionPluginsViewModel ==
+                        q.SolutionId == SolutionId && q.Data ==
                         pluginsViewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
     }

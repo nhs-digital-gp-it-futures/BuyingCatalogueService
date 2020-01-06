@@ -1,4 +1,5 @@
 using MediatR;
+using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails
@@ -13,15 +14,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
         /// <summary>
         /// Updated contact details for a solution
         /// </summary>
-        public UpdateSolutionContactDetailsViewModel Details { get; }
+        public UpdateSolutionContactDetailsViewModel Data { get; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="UpdateSolutionContactDetailsCommand"/> class.
         /// </summary>
-        public UpdateSolutionContactDetailsCommand(string solutionId, UpdateSolutionContactDetailsViewModel commandDetails)
+        public UpdateSolutionContactDetailsCommand(string solutionId, UpdateSolutionContactDetailsViewModel data)
         {
-            SolutionId = solutionId ?? throw new System.ArgumentNullException(nameof(solutionId));
-            Details = commandDetails ?? throw new System.ArgumentNullException(nameof(commandDetails));
+            SolutionId = solutionId.ThrowIfNull();
+            Data = data.ThrowIfNull();
+            Data.Contact1?.Trim();
+            Data.Contact2?.Trim();
         }
     }
 }

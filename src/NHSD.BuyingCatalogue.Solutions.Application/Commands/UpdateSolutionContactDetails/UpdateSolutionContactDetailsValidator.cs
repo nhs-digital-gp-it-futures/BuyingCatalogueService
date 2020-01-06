@@ -6,8 +6,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
     {
         public ContactsMaxLengthResult Validate(UpdateSolutionContactDetailsCommand updateSolutionContactDetailsCommand)
         => new ContactsMaxLengthResult(
-            new MaxLengthValidator().ValidateContact(updateSolutionContactDetailsCommand.Details.Contact1).Result(),
-            new MaxLengthValidator().ValidateContact(updateSolutionContactDetailsCommand.Details.Contact2).Result());
+            new MaxLengthValidator().ValidateContact(updateSolutionContactDetailsCommand.Data.Contact1).Result(),
+            new MaxLengthValidator().ValidateContact(updateSolutionContactDetailsCommand.Data.Contact2).Result());
     }
 
     internal static class MaxLengthValidatorContactExtensions

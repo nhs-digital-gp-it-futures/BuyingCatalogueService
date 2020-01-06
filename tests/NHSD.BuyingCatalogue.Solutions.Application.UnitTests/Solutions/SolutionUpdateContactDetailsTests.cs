@@ -153,6 +153,36 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             Assert.Throws<ArgumentNullException>(() => new UpdateSolutionContactDetailsCommand(null, new UpdateSolutionContactDetailsViewModel()));
             Assert.Throws<ArgumentNullException>(() => new UpdateSolutionContactDetailsCommand("Hello", null));
         }
+        [Test]
+        public void CommandShouldTrimStrings()
+        {
+            var whitespaceContact1 = new UpdateSolutionContactViewModel
+            {
+                Department = $"    {_contact1.Department}",
+                Email = $"    {_contact1.Email}",
+                FirstName = $"    {_contact1.FirstName}",
+                LastName = $"    {_contact1.LastName}",
+                PhoneNumber = $"    {_contact1.PhoneNumber}"
+            };
+
+            var whitespaceContact2 = new UpdateSolutionContactViewModel
+                {
+                    Department = $"    {_contact2.Department}      ",
+                    Email = $"    {_contact2.Email}      ",
+                    FirstName = $"    {_contact2.FirstName}    ",
+                    LastName = $"    {_contact2.LastName}    ",
+                    PhoneNumber = $"    {_contact2.PhoneNumber}    "
+                };
+
+            var viewModel = new UpdateSolutionContactDetailsViewModel
+                {
+                    Contact1 = whitespaceContact1, Contact2 = whitespaceContact2
+                };
+
+            var command = new UpdateSolutionContactDetailsCommand("Sln1", viewModel);
+            command.Data.Contact1.Should().BeEquivalentTo(_contact1);
+            command.Data.Contact2.Should().BeEquivalentTo(_contact2);
+        }
 
         private bool VerifyContacts(IEnumerable<IContact> contacts)
         {

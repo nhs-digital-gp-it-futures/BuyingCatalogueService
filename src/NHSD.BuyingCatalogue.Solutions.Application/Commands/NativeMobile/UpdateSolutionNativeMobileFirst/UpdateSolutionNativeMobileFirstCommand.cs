@@ -8,12 +8,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeMobile.Updat
     {
         public string SolutionId { get; }
 
-        public UpdateSolutionNativeMobileFirstViewModel UpdateSolutionNativeMobileFirstViewModel { get; }
+        public UpdateSolutionNativeMobileFirstViewModel Data { get; }
 
-        public UpdateSolutionNativeMobileFirstCommand(string solutionId, UpdateSolutionNativeMobileFirstViewModel updateSolutionNativeMobileFirstViewModel)
+        public UpdateSolutionNativeMobileFirstCommand(string solutionId, UpdateSolutionNativeMobileFirstViewModel data)
         {
             SolutionId = solutionId.ThrowIfNull();
-            UpdateSolutionNativeMobileFirstViewModel = updateSolutionNativeMobileFirstViewModel.ThrowIfNull();
+            Data = data.ThrowIfNull();
+            Data.MobileFirstDesign = Data.MobileFirstDesign?.Trim();
         }
     }
 }

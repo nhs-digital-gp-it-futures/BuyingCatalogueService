@@ -22,14 +22,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeMobile.Updat
         public async Task<ISimpleResult> Handle(UpdateSolutionNativeMobileFirstCommand request,
             CancellationToken cancellationToken)
         {
-            var validationResult = _updateSolutionNativeMobileFirstValidator.Validation(request.UpdateSolutionNativeMobileFirstViewModel);
+            var validationResult = _updateSolutionNativeMobileFirstValidator.Validation(request.Data);
 
             if (validationResult.IsValid)
             {
                 await _clientApplicationPartialUpdater.UpdateAsync(request.SolutionId, clientApplication =>
                     {
-                        clientApplication.NativeMobileFirstDesign =
-                            request.UpdateSolutionNativeMobileFirstViewModel.MobileFirstDesign.ToBoolean();
+                        clientApplication.NativeMobileFirstDesign = request.Data.MobileFirstDesign.ToBoolean();
                     },
                     cancellationToken).ConfigureAwait(false);
             }

@@ -13,7 +13,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeMobile.Updat
         public UpdateSolutionNativeMobileHardwareRequirementsCommand(string solutionId, string hardwareRequirements)
         {
             SolutionId = solutionId.ThrowIfNull();
-            HardwareRequirements = hardwareRequirements;
+            HardwareRequirements = hardwareRequirements?.Trim();
         }
     }
 }

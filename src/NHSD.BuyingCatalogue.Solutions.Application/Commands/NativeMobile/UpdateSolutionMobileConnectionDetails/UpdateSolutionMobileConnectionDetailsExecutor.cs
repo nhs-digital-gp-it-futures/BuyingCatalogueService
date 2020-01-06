@@ -17,9 +17,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeMobile.Updat
                     {
                         application.MobileConnectionDetails = new MobileConnectionDetails
                         {
-                            MinimumConnectionSpeed = request.Details.MinimumConnectionSpeed,
-                            Description = request.Details.ConnectionRequirementsDescription,
-                            ConnectionType = request.Details.ConnectionType
+                            MinimumConnectionSpeed = request.Data.MinimumConnectionSpeed,
+                            Description = request.Data.ConnectionRequirementsDescription,
+                            ConnectionType = request.Data.ConnectionType
                         };
                     },
                     cancellationToken)

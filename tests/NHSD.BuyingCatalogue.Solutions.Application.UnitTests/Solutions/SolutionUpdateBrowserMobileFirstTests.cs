@@ -100,6 +100,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
+        [Test]
+        public void CommandShouldTrimStrings()
+        {
+            var originalViewModel = new UpdateSolutionBrowserMobileFirstViewModel();
+            originalViewModel.MobileFirstDesign = "     yes     ";
+            var command = new UpdateSolutionBrowserMobileFirstCommand("Sln1", originalViewModel);
+            command.Data.MobileFirstDesign.Should().Be("yes");
+        }
+
         private async Task<ISimpleResult> UpdateBrowserMobileFirst(
             string mobileFirstDesign = null)
         {

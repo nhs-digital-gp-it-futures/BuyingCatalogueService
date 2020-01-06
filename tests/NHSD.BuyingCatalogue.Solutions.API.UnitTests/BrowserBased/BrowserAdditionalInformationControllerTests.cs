@@ -76,7 +76,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
             _mockMediator
                 .Setup(m => m.Send(
                     It.Is<UpdateSolutionBrowserAdditionalInformationCommand>(q =>
-                        q.SolutionId == SolutionId && q.UpdateSolutionBrowserAdditionalInformationViewModel == viewModel),
+                        q.SolutionId == SolutionId && q.Data == viewModel),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationResult.Object);
 
             var result = await _browserAdditionalInformationController.UpdateAdditionalInformationAsync(SolutionId, viewModel)
@@ -86,7 +86,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionBrowserAdditionalInformationCommand>(q =>
-                        q.SolutionId == SolutionId && q.UpdateSolutionBrowserAdditionalInformationViewModel ==
+                        q.SolutionId == SolutionId && q.Data ==
                         viewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
 
@@ -101,7 +101,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
 
             _mockMediator.Setup(m => m.Send(
                 It.Is<UpdateSolutionBrowserAdditionalInformationCommand>(q =>
-                    q.SolutionId == SolutionId && q.UpdateSolutionBrowserAdditionalInformationViewModel == viewModel),
+                    q.SolutionId == SolutionId && q.Data == viewModel),
                 It.IsAny<CancellationToken>())).ReturnsAsync(validationResult.Object);
 
             var result = await _browserAdditionalInformationController.UpdateAdditionalInformationAsync(SolutionId, viewModel)
@@ -115,7 +115,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionBrowserAdditionalInformationCommand>(q =>
-                        q.SolutionId == SolutionId && q.UpdateSolutionBrowserAdditionalInformationViewModel ==
+                        q.SolutionId == SolutionId && q.Data ==
                         viewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
     }

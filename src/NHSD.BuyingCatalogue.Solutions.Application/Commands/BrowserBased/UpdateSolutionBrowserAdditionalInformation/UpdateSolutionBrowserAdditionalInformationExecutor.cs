@@ -15,8 +15,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.Updat
         public async Task UpdateAsync(UpdateSolutionBrowserAdditionalInformationCommand request, CancellationToken cancellationToken) =>
             await _clientApplicationPartialUpdater.UpdateAsync(request.SolutionId, clientApplication =>
                 {
-                    clientApplication.AdditionalInformation =
-                        request.UpdateSolutionBrowserAdditionalInformationViewModel.AdditionalInformation;
+                    clientApplication.AdditionalInformation = request.Data.AdditionalInformation;
                 },
                 cancellationToken).ConfigureAwait(false);
     }

@@ -90,6 +90,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
         }
 
+        [Test]
+        public void CommandShouldTrimStrings()
+        {
+            var originalViewModel = new UpdateSolutionMobileOperatingSystemsViewModel();
+            originalViewModel.OperatingSystemsDescription = "   description  ";
+            originalViewModel.OperatingSystems = new HashSet<string> { "    Windows 95        ", "BibleOS    ", "   " };
+            var command = new UpdateSolutionMobileOperatingSystemsCommand("Sln1", originalViewModel);
+            command.Data.OperatingSystemsDescription.Should().Be("description");
+            command.Data.OperatingSystems.Should().BeEquivalentTo("Windows 95", "BibleOS");
+        }
+
         private async Task<ISimpleResult> UpdateOperatingSystems(HashSet<string> operatingSystems, string operatingSystemsDescription = null)
         {
             return await Context.UpdateSolutionMobileOperatingSystemsHandler.Handle(

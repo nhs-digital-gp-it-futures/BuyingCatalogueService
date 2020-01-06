@@ -10,8 +10,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeMobile.Updat
 
         public ISimpleResult Validate(UpdateSolutionMobileThirdPartyCommand command)
             => new MaxLengthValidator()
-                .Validate(command.ViewModel.ThirdPartyComponents, ComponentLength, "third-party-components")
-                .Validate(command.ViewModel.DeviceCapabilities, CapabilityLength, "device-capabilities")
+                .Validate(command.Data.ThirdPartyComponents, ComponentLength, "third-party-components")
+                .Validate(command.Data.DeviceCapabilities, CapabilityLength, "device-capabilities")
                 .Result();
     }
 }
