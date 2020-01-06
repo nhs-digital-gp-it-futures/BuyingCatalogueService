@@ -47,7 +47,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             await GetSectionRequest(section, " ").ConfigureAwait(false);
         }
 
-        [When(@"a GET request is made for (browser-based|native-mobile) dashboard with no solution id")]
+        [When(@"a GET request is made for (browser-based|native-mobile|native-desktop) dashboard with no solution id")]
         public async Task GetRequestDashboardNoSolutionId(string section)
         {
             await GetDashboardRequest(section, " ").ConfigureAwait(false);
@@ -59,7 +59,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, RootSectionsUrl, solutionId, section)).ConfigureAwait(false);
         }
 
-        [When(@"a GET request is made for (browser-based|native-mobile) dashboard for solution (.*)")]
+        [When(@"a GET request is made for (browser-based|native-mobile|native-desktop) dashboard for solution (.*)")]
         public async Task GetDashboardRequest(string section, string solutionId)
         {
             _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, RootDashboardUrl, solutionId, section)).ConfigureAwait(false);
