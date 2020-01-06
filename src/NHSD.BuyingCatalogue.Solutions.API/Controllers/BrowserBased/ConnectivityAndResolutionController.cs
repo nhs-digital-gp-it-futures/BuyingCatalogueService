@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeMobile;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels.BrowserBased;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionConnectivityAndResolution;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
@@ -31,7 +31,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.BrowserBased
         public async Task<ActionResult> GetConnectivityAndResolution([FromRoute][Required]string id)
         {
             var clientApplication = await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
-            return Ok(new GetSolutionConnectivityAndResolutionResult(clientApplication?.MinimumConnectionSpeed, clientApplication?.MinimumDesktopResolution));
+            return Ok(new GetConnectivityAndResolutionResult(clientApplication?.MinimumConnectionSpeed, clientApplication?.MinimumDesktopResolution));
         }
 
         [HttpPut]

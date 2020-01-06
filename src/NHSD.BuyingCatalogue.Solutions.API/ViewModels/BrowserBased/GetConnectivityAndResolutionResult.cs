@@ -9,5 +9,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.BrowserBased
 
         [JsonProperty("minimum-desktop-resolution")]
         public string MinimumDesktopResolution { get; set; }
+
+        public GetConnectivityAndResolutionResult(string minimumConnectionSpeed, string minimumDesktopResolution)
+        {
+            MinimumConnectionSpeed = minimumConnectionSpeed;
+            MinimumDesktopResolution = minimumDesktopResolution;
+        }
     }
 }

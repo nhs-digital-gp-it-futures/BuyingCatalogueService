@@ -6,10 +6,8 @@ using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers.BrowserBased;
-using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
-using NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeMobile;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels.BrowserBased;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionConnectivityAndResolution;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
@@ -77,7 +75,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
             var result = await _controller.GetConnectivityAndResolution(SolutionId).ConfigureAwait(false) as ObjectResult;
             result.Should().NotBeNull();
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            var getResult = result.Value as GetSolutionConnectivityAndResolutionResult;
+            var getResult = result.Value as GetConnectivityAndResolutionResult;
             getResult.MinimumConnectionSpeed.Should().Be(_clientApplication.MinimumConnectionSpeed);
             getResult.MinimumDesktopResolution.Should().Be(_clientApplication.MinimumDesktopResolution);
 
@@ -93,8 +91,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
             var result = await _controller.GetConnectivityAndResolution("unknownId").ConfigureAwait(false) as ObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            (result.Value as GetSolutionConnectivityAndResolutionResult).MinimumConnectionSpeed.Should().BeNull();
-            (result.Value as GetSolutionConnectivityAndResolutionResult).MinimumDesktopResolution.Should().BeNull();
+            (result.Value as GetConnectivityAndResolutionResult).MinimumConnectionSpeed.Should().BeNull();
+            (result.Value as GetConnectivityAndResolutionResult).MinimumDesktopResolution.Should().BeNull();
         }
     }
 }
