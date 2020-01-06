@@ -48,7 +48,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase("Sln2", null, "organization")]
         [TestCase(null, "name", "organization")]
         [TestCase("Sln2", "name", "organization")]
-        public async Task ShouldReturGetValues(string id, string name, string organization)
+        public async Task ShouldReturnGetValues(string id, string name, string organization)
         {
             var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
                 s.Id == id &&

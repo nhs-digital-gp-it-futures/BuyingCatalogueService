@@ -64,7 +64,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             calledBack.Should().BeTrue();
         }
 
-
+        [Test]
         public async Task ShouldNotUpdateThirdPartyOverCharacterLimit()
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
@@ -109,7 +109,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Never);
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never);
         }
-
 
         private async Task<ISimpleResult> UpdateMobileThirdParty(string thirdPartyComponents = null, string deviceCapabilities = null)
         {
