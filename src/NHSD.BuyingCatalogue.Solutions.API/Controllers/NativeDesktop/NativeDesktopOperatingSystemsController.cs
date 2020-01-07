@@ -42,14 +42,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeDesktop
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> UpdatedSupportedOperatingSystems([FromRoute][Required] string id, [FromBody] [Required] UpdateNativeDesktopOperatingSystemsViewModel viewModel)
-        {
-            CannedData[id] = viewModel.ThrowIfNull().NativeDesktopOperatingSystemsDescription;
-
-            return (await _mediator
-                .Send(new UpdateSolutionNativeDesktopOperatingSystemsCommand(id,
-                    viewModel.ThrowIfNull().NativeDesktopOperatingSystemsDescription)).ConfigureAwait(false)).ToActionResult();
-        }
+        public async Task<ActionResult> UpdatedSupportedOperatingSystems([FromRoute][Required] string id, [FromBody] [Required] UpdateNativeDesktopOperatingSystemsViewModel viewModel) =>
+            (await _mediator
+                .Send(new UpdateSolutionNativeDesktopOperatingSystemsCommand(id, viewModel.ThrowIfNull().NativeDesktopOperatingSystemsDescription))
+                .ConfigureAwait(false)).ToActionResult();
 
         private static readonly Dictionary<string, string> CannedData = new Dictionary<string, string>();
     }

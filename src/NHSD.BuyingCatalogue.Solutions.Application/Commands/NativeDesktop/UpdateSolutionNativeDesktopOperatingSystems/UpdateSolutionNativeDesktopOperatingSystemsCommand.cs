@@ -13,7 +13,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.Upda
         public UpdateSolutionNativeDesktopOperatingSystemsCommand(string solutionId, string nativeDesktopOperatingSystemsDescription)
         {
             SolutionId = solutionId.ThrowIfNull();
-            NativeDesktopOperatingSystemsDescription = nativeDesktopOperatingSystemsDescription;
+            NativeDesktopOperatingSystemsDescription = nativeDesktopOperatingSystemsDescription?.Trim(); ;
         }
     }
 }
