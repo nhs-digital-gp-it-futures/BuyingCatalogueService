@@ -24,13 +24,3 @@ Scenario: 1. AdditionalInformation exceeds the maxLength
     | A string with length of 501 |
     Then a response status of 400 is returned
     And the additional-information field value is the validation failure maxLength
-
-@3610
-Scenario: 2. AdditionalInformation is set to null
-    When a PUT request is made to update the native-mobile-additional-information section for solution Sln1
-    | AdditionalInformation |
-    | NULL                  |
-    Then a successful response is returned
-    And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["native-mobile"], "BrowsersSupported": [], "MobileResponsive": null, "Plugins": null, "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null, "HardwareRequirements": null, "NativeMobileHardwareRequirements": null, "AdditionalInformation": null, "MobileFirstDesign": null, "NativeMobileFirstDesign": null, "MobileOperatingSystems": null, "MobileConnectionDetails": null, "MobileMemoryAndStorage": null, "MobileThirdParty": null, "NativeMobileAdditionalInformation": null } |
