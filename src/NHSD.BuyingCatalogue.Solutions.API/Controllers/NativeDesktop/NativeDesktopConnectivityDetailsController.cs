@@ -22,7 +22,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeDesktop
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public ActionResult GetConnectivity([FromRoute] [Required] string id)
         {
-            var result = new GetNativeDesktopConnectivityDetails()
+            var result = new GetNativeDesktopConnectivityDetailsResult()
             {
                 NativeDesktopMinimumConnectionSpeed = CannedData.ContainsKey(id) ? CannedData[id] : null
             };
