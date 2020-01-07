@@ -15,6 +15,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
 
         private const string Token = "sections.client-application-types.sections.native-mobile.sections";
         private const string MobileFirstDesign = "native-mobile-first.answers.mobile-first-design";
+        private const string AdditionalInformationToken = "native-mobile-additional-information.answers.additional-information";
 
         public NativeMobileSectionSteps(Response response)
         {
@@ -95,6 +96,20 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
                 .ToString().Should().Be(value);
         }
 
+        [Then(@"the solution client-application-types section contains native-mobile-additional-information with value (.*)")]
+        public async Task ThenTheSolutionClient_Application_TypesSectionContainsAdditional_InformationWithValueAdditionalInfo(string value)
+        {
+            var content = await _response.ReadBody().ConfigureAwait(false);
+            content.SelectToken($"{Token}.{AdditionalInformationToken}")
+                .ToString().Should().Be(value);
+        }
+
+        [Then(@"the solution native-mobile native-mobile-additional-information section does not contain additional-information")]
+        public async Task ThenTheSolutionNativeMobileSectionDoesNotContainAdditionalInformation()
+        {
+            var content = await _response.ReadBody().ConfigureAwait(false);
+            content.SelectToken($"{Token}.{AdditionalInformationToken}").Should().BeNull();
+        }
 
         private class OperatingSystemsTable
         {

@@ -152,7 +152,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             publicResult.Sections.ClientApplicationTypes.Should().BeNull();
         }
 
-
         [TestCase(false, false, null, false)]
         [TestCase(true, false, null, false)]
         [TestCase(true, true, null, true)]
@@ -210,7 +209,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
-
         [Test]
         public async Task ShouldIncludeBrowserBasedDataIfClientApplicationTypesIncludeBrowserBased()
         {
@@ -226,7 +224,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers.MobileResponsive
                 .Should().Be("Yes");
         }
-
 
         [Test]
         public async Task ShouldIncludeBrowserBasedDataIfClientApplicationTypesIncludePluginInformation()
@@ -293,7 +290,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             publicResult.Id.Should().Be(SolutionId1);
             publicResult.Sections.Capabilities.Answers.CapabilitiesMet.Should().BeEquivalentTo(new List<string>());
         }
-
 
         [TestCase(false)]
         [TestCase(true)]
@@ -394,6 +390,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             operatingSystemResult.Answers.OperatingSystemsDescription.Should().Be(description);
             operatingSystemResult.Answers.OperatingSystems.Should().BeEquivalentTo(operatingSystem);
         }
+
         [TestCase(false, false, false, false)]
         [TestCase(true, true, true, true)]
         [TestCase(false, true, true, true)]
@@ -488,7 +485,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             mobileFirstSection.Answers.MobileFirstDesign.Should().Be(result);
         }
-
 
         [Test]
         public async Task ShouldGetContacts()
@@ -592,7 +588,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase(null, "Capability", true)]
         [TestCase("Component", "Capability", true)]
 
-        public async Task IfNativeMobileEmptyThenMobileThirdPartyHasNoData(string component, string capability, bool hasData)
+        public async Task IfNativeMobileThenEmptyMobileThirdPartyHasNoData(string component, string capability, bool hasData)
         {
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                     s.PublishedStatus == PublishedStatus.Published &&
@@ -618,6 +614,32 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
+        [TestCase("New info", true)]
+        [TestCase(null, false)]
+        [TestCase("", false)]
+        [TestCase("      ", false)]
+        public async Task IfNativeMobileThenEmptyAdditionalInformationHasNoData(string additionalInformation, bool hasData)
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.PublishedStatus == PublishedStatus.Published &&
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "native-mobile" }
+                    && c.NativeMobileAdditionalInformation == additionalInformation)), SolutionId1)
+                .ConfigureAwait(false);
+
+            if (hasData)
+            {
+                publicResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections
+                    .MobileAdditionalInformationSection.Answers.NativeMobileAdditionalInformation.Should().Be(additionalInformation);
+                publicResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections
+                    .MobileAdditionalInformationSection.Answers.HasData.Should().BeTrue();
+            }
+            else
+            {
+                publicResult.Sections.ClientApplicationTypes.Should().BeNull();
+            }
+        }
+
         [Test]
         public void NullSolutionShouldThrowNullExceptionPublicResult()
         {
@@ -630,7 +652,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             solution.Sections.Should().BeNull();
         }
-
 
         [Test]
         public void NullSolutionShouldThrowNullExceptionSolutionDescriptionPublicAnswers()

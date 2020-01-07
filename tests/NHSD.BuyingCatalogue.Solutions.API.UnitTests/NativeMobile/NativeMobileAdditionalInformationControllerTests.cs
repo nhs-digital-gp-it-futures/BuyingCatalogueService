@@ -7,7 +7,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
-using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeMobile;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeMobile.UpdateSolutionNativeMobileAdditionalInformation;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
@@ -35,20 +34,20 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
 
         [TestCase(null)]
         [TestCase("Some additional Information")]
-        public async Task ShouldGetBrowserAdditionalInformation(string information)
+        public async Task ShouldGetNativeMobileAdditionalInformation(string information)
         {
             _mockMediator
                 .Setup(m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Mock.Of<IClientApplication>(c => c.NativeMobileAdditionalInformation == information));
 
-            var result = (await _nativeMobileAdditionalInformationController.GetAdditionalInformationAsync(SolutionId)
+            var response = (await _nativeMobileAdditionalInformationController.GetAdditionalInformationAsync(SolutionId)
                 .ConfigureAwait(false)) as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            response.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
-            var browserAdditionalInformation = result.Value as GetNativeMobileAdditionalInformationResult;
+            var result = response.Value as GetNativeMobileAdditionalInformationResult;
 
-            browserAdditionalInformation.NativeMobileAdditionalInformation.Should().Be(information);
+            result.NativeMobileAdditionalInformation.Should().Be(information);
             _mockMediator.Verify(
                 m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()),
                 Times.Once);
@@ -57,13 +56,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
         [Test]
         public async Task ShouldReturnEmpty()
         {
-            var result =
+            var response =
                 (await _nativeMobileAdditionalInformationController.GetAdditionalInformationAsync(SolutionId)
                     .ConfigureAwait(false)) as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            var browserAdditionalInformation = result.Value as GetNativeMobileAdditionalInformationResult;
-            browserAdditionalInformation.NativeMobileAdditionalInformation.Should().BeNull();
+            response.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            var result = response.Value as GetNativeMobileAdditionalInformationResult;
+            result.NativeMobileAdditionalInformation.Should().BeNull();
         }
 
         [Test]
@@ -80,10 +79,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
                         q.SolutionId == SolutionId && q.Data == viewModel),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationResult.Object);
 
-            var result = await _nativeMobileAdditionalInformationController.UpdateAdditionalInformationAsync(SolutionId, viewModel)
+            var response = await _nativeMobileAdditionalInformationController.UpdateAdditionalInformationAsync(SolutionId, viewModel)
                 .ConfigureAwait(false) as NoContentResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+            response.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionNativeMobileAdditionalInformationCommand>(q =>
@@ -106,13 +105,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
                         q.SolutionId == SolutionId && q.Data == viewModel),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationResult.Object);
 
-            var result = await _nativeMobileAdditionalInformationController.UpdateAdditionalInformationAsync(SolutionId, viewModel)
+            var response = await _nativeMobileAdditionalInformationController.UpdateAdditionalInformationAsync(SolutionId, viewModel)
                 .ConfigureAwait(false) as BadRequestObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            var resultValue = result.Value as Dictionary<string, string>;
-            resultValue.Count.Should().Be(1);
-            resultValue["additional-information"].Should().Be("maxLength");
+            response.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            var result = response.Value as Dictionary<string, string>;
+            result.Count.Should().Be(1);
+            result["additional-information"].Should().Be("maxLength");
 
             _mockMediator.Verify(
                 m => m.Send(
