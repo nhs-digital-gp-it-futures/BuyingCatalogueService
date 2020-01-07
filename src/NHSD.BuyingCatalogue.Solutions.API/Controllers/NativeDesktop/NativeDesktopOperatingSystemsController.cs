@@ -29,7 +29,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeDesktop
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public ActionResult GetSupportedOperatingSystems([FromRoute] [Required] string id)
         {
-            var result = new GetNativeDesktopOperatingSystems()
+            var result = new GetNativeDesktopOperatingSystemsResult()
             {
                 OperatingSystemsDescription = CannedData.ContainsKey(id) ? CannedData[id] : null
             };

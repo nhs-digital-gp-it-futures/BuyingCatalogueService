@@ -29,11 +29,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
             _mockMediator = new Mock<IMediator>();
             _desktopOperatingSystemsController = new NativeDesktopOperatingSystemsController(_mockMediator.Object);
         }
-        [TestCase("d")]
-        [TestCase("all sorts of characters, up to 1000, but no more.")]
-        public async Task ShouldUpdateValidationValid(string description)
+
+        [Test]
+        public async Task ShouldUpdateValidationValid()
         {
-            var viewModel = new UpdateNativeDesktopOperatingSystemsViewModel { NativeDesktopOperatingSystemsDescription = description };
+            var viewModel = new UpdateNativeDesktopOperatingSystemsViewModel { NativeDesktopOperatingSystemsDescription = "new description" };
             var validationModel = new Mock<ISimpleResult>();
             validationModel.Setup(s => s.IsValid).Returns(true);
 
@@ -56,11 +56,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
                     It.IsAny<CancellationToken>()), Times.Once);
         }
 
-        [TestCase("")]
-        [TestCase(null)]
-        public async Task ShouldUpdateValidationInvalid(string description)
+        [Test]
+        public async Task ShouldUpdateValidationInvalid()
         {
-            var viewModel = new UpdateNativeDesktopOperatingSystemsViewModel { NativeDesktopOperatingSystemsDescription = description };
+            var viewModel = new UpdateNativeDesktopOperatingSystemsViewModel { NativeDesktopOperatingSystemsDescription = "new description" };
             var validationModel = new Mock<ISimpleResult>();
             validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "operating-systems-description", "required" } });
             validationModel.Setup(s => s.IsValid).Returns(false);
