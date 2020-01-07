@@ -17,7 +17,7 @@ Background:
         | Solution | SummaryDescription             | FullDescription   | ClientApplication |
         | Sln1     | An full online medicine system | Online medicine 1 |                   |
 
-@4158
+@3622
 Scenario: 1. HardwareRequirements exceeds the maxLength
     When a PUT request is made to update the native-desktop-hardware-requirements section for solution Sln1
     | HardwareRequirements        |
@@ -25,7 +25,7 @@ Scenario: 1. HardwareRequirements exceeds the maxLength
     Then a response status of 400 is returned
     And the hardware-requirements field value is the validation failure maxLength
 
-@4158
+@3622
 Scenario: 2. Hardware requirements is set to null
     When a PUT request is made to update the native-desktop-hardware-requirements section for solution Sln1
     | HardwareRequirements |
