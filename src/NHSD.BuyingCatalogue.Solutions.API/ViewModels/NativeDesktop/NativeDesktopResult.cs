@@ -1,4 +1,6 @@
+using System;
 using Newtonsoft.Json;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop
 {
@@ -7,9 +9,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop
         [JsonProperty("sections")]
         public NativeDesktopSections NativeDesktopSections { get; }
 
-        public NativeDesktopResult()
+        public NativeDesktopResult(IClientApplication clientApplication)
         {
-            NativeDesktopSections = new NativeDesktopSections();
+            NativeDesktopSections = new NativeDesktopSections(clientApplication);
         }
     }
 
@@ -33,14 +35,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop
         [JsonProperty("native-desktop-additional-information")]
         public DashboardSection AdditionalInformation { get; }
 
-
-        public NativeDesktopSections()
+        public NativeDesktopSections(IClientApplication clientApplication)
         {
             OperatingSystems = DashboardSection.Mandatory(false);
             ConnectionDetails = DashboardSection.Mandatory(false);
             MemoryAndStorage = DashboardSection.Mandatory(false);
             ThirdParty = DashboardSection.Optional(false);
-            HardwareRequirements = DashboardSection.Optional(false);
+            HardwareRequirements = DashboardSection.Optional(!String.IsNullOrWhiteSpace(clientApplication?.NativeDesktopHardwareRequirements));
             AdditionalInformation = DashboardSection.Optional(false);
         }
     }

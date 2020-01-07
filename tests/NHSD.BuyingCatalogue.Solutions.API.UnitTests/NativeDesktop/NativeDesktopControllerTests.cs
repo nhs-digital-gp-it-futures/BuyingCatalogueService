@@ -1,4 +1,6 @@
 using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +8,8 @@ using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
@@ -17,6 +21,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
 
         private NativeDesktopController _nativeDesktopController;
 
+        private const string SolutionId = "Sln1";
+
         [SetUp]
         public void Setup()
         {
@@ -25,9 +31,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
         }
 
         [Test]
-        public void ShouldReturnResult()
+        public async Task ShouldReturnResult()
         {
-            var result = _nativeDesktopController.GetNativeDesktopAsync() as ObjectResult;
+            var result = await _nativeDesktopController.GetNativeDesktopAsync(SolutionId).ConfigureAwait(false) as ObjectResult;
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
             var nativeDesktopResult = result.Value as NativeDesktopResult;
@@ -53,80 +59,90 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
             AssertSectionMandatoryAndComplete(additionalInformation, false, false);
         }
 
-        //[Test]
-        //public async Task ShouldReturnEmpty()
-        //{
-        //    var result = (await _nativeDesktopController.GetNativeDesktopAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
+        [Test]
+        public async Task ShouldReturnEmpty()
+        {
+            var result = (await _nativeDesktopController.GetNativeDesktopAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
 
-        //    result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
-        //    var nativeDesktopResult = result.Value as NativeDesktopResult;
-        //    nativeDesktopResult.Should().NotBeNull();
-        //    nativeDesktopResult.NativeDesktopSections.Should().NotBeNull();
+            var nativeDesktopResult = result.Value as NativeDesktopResult;
+            nativeDesktopResult.Should().NotBeNull();
+            nativeDesktopResult.NativeDesktopSections.Should().NotBeNull();
 
-        //    var operatingSystems = nativeDesktopResult.NativeDesktopSections.OperatingSystems;
-        //    AssertSectionMandatoryAndComplete(operatingSystems, true, false);
+            var operatingSystems = nativeDesktopResult.NativeDesktopSections.OperatingSystems;
+            AssertSectionMandatoryAndComplete(operatingSystems, true, false);
 
-        //    var connectionDetails = nativeDesktopResult.NativeDesktopSections.ConnectionDetails;
-        //    AssertSectionMandatoryAndComplete(connectionDetails, true, false);
+            var connectionDetails = nativeDesktopResult.NativeDesktopSections.ConnectionDetails;
+            AssertSectionMandatoryAndComplete(connectionDetails, true, false);
 
-        //    var memoryAndStorage = nativeDesktopResult.NativeDesktopSections.MemoryAndStorage;
-        //    AssertSectionMandatoryAndComplete(memoryAndStorage, true, false);
+            var memoryAndStorage = nativeDesktopResult.NativeDesktopSections.MemoryAndStorage;
+            AssertSectionMandatoryAndComplete(memoryAndStorage, true, false);
 
-        //    var thirdParty = nativeDesktopResult.NativeDesktopSections.ThirdParty;
-        //    AssertSectionMandatoryAndComplete(thirdParty, false, false);
+            var thirdParty = nativeDesktopResult.NativeDesktopSections.ThirdParty;
+            AssertSectionMandatoryAndComplete(thirdParty, false, false);
 
-        //    var hardwareRequirements = nativeDesktopResult.NativeDesktopSections.HardwareRequirements;
-        //    AssertSectionMandatoryAndComplete(hardwareRequirements, false, false);
+            var hardwareRequirements = nativeDesktopResult.NativeDesktopSections.HardwareRequirements;
+            AssertSectionMandatoryAndComplete(hardwareRequirements, false, false);
 
-        //    var additionalInformation = nativeDesktopResult.NativeDesktopSections.AdditionalInformation;
-        //    AssertSectionMandatoryAndComplete(additionalInformation, false, false);
-        //}
+            var additionalInformation = nativeDesktopResult.NativeDesktopSections.AdditionalInformation;
+            AssertSectionMandatoryAndComplete(additionalInformation, false, false);
+        }
 
-        //[Test]
-        //public async Task ShouldGetNativeDesktopStaticData()
-        //{
-        //    var nativeDesktopResult = await GetNativeDesktopSectionAsync(Mock.Of<IClientApplication>()).ConfigureAwait(false);
+        [Test]
+        public async Task ShouldGetNativeDesktopStaticData()
+        {
+            var nativeDesktopResult = await GetNativeDesktopSectionAsync(Mock.Of<IClientApplication>()).ConfigureAwait(false);
 
-        //    nativeDesktopResult.Should().NotBeNull();
-        //    nativeDesktopResult.NativeDesktopSections.Should().NotBeNull();
+            nativeDesktopResult.Should().NotBeNull();
+            nativeDesktopResult.NativeDesktopSections.Should().NotBeNull();
 
-        //    var operatingSystems = nativeDesktopResult.NativeDesktopSections.OperatingSystems;
-        //    AssertSectionMandatoryAndComplete(operatingSystems, true, false);
+            var operatingSystems = nativeDesktopResult.NativeDesktopSections.OperatingSystems;
+            AssertSectionMandatoryAndComplete(operatingSystems, true, false);
 
-        //    var connectionDetails = nativeDesktopResult.NativeDesktopSections.ConnectionDetails;
-        //    AssertSectionMandatoryAndComplete(connectionDetails, true, false);
+            var connectionDetails = nativeDesktopResult.NativeDesktopSections.ConnectionDetails;
+            AssertSectionMandatoryAndComplete(connectionDetails, true, false);
 
-        //    var memoryAndStorage = nativeDesktopResult.NativeDesktopSections.MemoryAndStorage;
-        //    AssertSectionMandatoryAndComplete(memoryAndStorage, true, false);
+            var memoryAndStorage = nativeDesktopResult.NativeDesktopSections.MemoryAndStorage;
+            AssertSectionMandatoryAndComplete(memoryAndStorage, true, false);
 
-        //    var thirdParty = nativeDesktopResult.NativeDesktopSections.ThirdParty;
-        //    AssertSectionMandatoryAndComplete(thirdParty, false, false);
+            var thirdParty = nativeDesktopResult.NativeDesktopSections.ThirdParty;
+            AssertSectionMandatoryAndComplete(thirdParty, false, false);
 
-        //    var hardwareRequirements = nativeDesktopResult.NativeDesktopSections.HardwareRequirements;
-        //    AssertSectionMandatoryAndComplete(hardwareRequirements, false, false);
+            var hardwareRequirements = nativeDesktopResult.NativeDesktopSections.HardwareRequirements;
+            AssertSectionMandatoryAndComplete(hardwareRequirements, false, false);
 
-        //    var additionalInformation = nativeDesktopResult.NativeDesktopSections.AdditionalInformation;
-        //    AssertSectionMandatoryAndComplete(additionalInformation, false, false);
-        //}
+            var additionalInformation = nativeDesktopResult.NativeDesktopSections.AdditionalInformation;
+            AssertSectionMandatoryAndComplete(additionalInformation, false, false);
+        }
 
-        //private async Task<NativeDesktopResult> GetNativeDesktopSectionAsync(IClientApplication clientApplication)
-        //{
-        //    _mockMediator
-        //        .Setup(m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
-        //            It.IsAny<CancellationToken>())).ReturnsAsync(clientApplication);
+        [TestCase(null, false)]
+        [TestCase("Some Hardware", true)]
+        public async Task ShouldGetNativeMobileHardwareRequirementIsComplete(string hardware, bool isComplete)
+        {
+            var nativeMobileResult = await GetNativeDesktopSectionAsync(Mock.Of<IClientApplication>(c => c.NativeDesktopHardwareRequirements == hardware))
+                .ConfigureAwait(false);
 
-        //    var result =
-        //        (await _nativeDesktopController.GetNativeDesktopAsync(SolutionId)
-        //            .ConfigureAwait(false)) as ObjectResult;
-        //    result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            nativeMobileResult.NativeDesktopSections.HardwareRequirements.Status.Should().Be(isComplete ? "COMPLETE" : "INCOMPLETE");
+        }
 
-        //    _mockMediator.Verify(
-        //        m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
-        //            It.IsAny<CancellationToken>()));
+        private async Task<NativeDesktopResult> GetNativeDesktopSectionAsync(IClientApplication clientApplication)
+        {
+            _mockMediator
+                .Setup(m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                    It.IsAny<CancellationToken>())).ReturnsAsync(clientApplication);
 
-        //    return result.Value as NativeDesktopResult;
-        //}
+            var result =
+                (await _nativeDesktopController.GetNativeDesktopAsync(SolutionId)
+                    .ConfigureAwait(false)) as ObjectResult;
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+
+            _mockMediator.Verify(
+                m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                    It.IsAny<CancellationToken>()));
+
+            return result.Value as NativeDesktopResult;
+        }
 
         private static void AssertSectionMandatoryAndComplete(DashboardSection section, bool shouldBeMandatory, bool shouldBeComplete)
         {
