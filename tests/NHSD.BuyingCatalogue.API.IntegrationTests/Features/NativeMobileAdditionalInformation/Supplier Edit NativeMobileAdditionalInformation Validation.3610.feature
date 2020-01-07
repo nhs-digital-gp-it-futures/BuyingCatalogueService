@@ -20,7 +20,7 @@ Background:
 @3610
 Scenario: 1. AdditionalInformation exceeds the maxLength
     When a PUT request is made to update the native-mobile-additional-information section for solution Sln1
-    | AdditionalInformation       |
-    | A string with length of 501 |
+        | AdditionalInformation       |
+        | A string with length of 501 |
     Then a response status of 400 is returned
     And the additional-information field value is the validation failure maxLength
