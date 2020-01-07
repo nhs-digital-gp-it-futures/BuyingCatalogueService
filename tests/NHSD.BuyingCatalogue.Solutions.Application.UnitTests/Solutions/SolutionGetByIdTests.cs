@@ -40,7 +40,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Summary).Returns("Summary");
             existingSolution.Setup(s => s.AboutUrl).Returns("AboutUrl");
             existingSolution.Setup(s => s.Features).Returns("[ 'Marmite', 'Jam', 'Marmelade' ]");
-            existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'MobileFirstDesign': true, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows', 'Linux'], 'OperatingSystemsDescription': 'For windows only version 10' }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileThirdParty': { 'ThirdPartyComponents': 'Component', 'DeviceCapabilities': 'Capabilities'}, 'NativeMobileHardwareRequirements': 'Native Mobile Hardware', 'NativeMobileAdditionalInformation': 'native mobile additional information' }");
+            existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'MobileFirstDesign': true, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows', 'Linux'], 'OperatingSystemsDescription': 'For windows only version 10' }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileThirdParty': { 'ThirdPartyComponents': 'Component', 'DeviceCapabilities': 'Capabilities'}, 'NativeMobileHardwareRequirements': 'Native Mobile Hardware', 'NativeMobileAdditionalInformation': 'native mobile additional information', 'NativeDesktopOperatingSystemsDescription':'native desktop operating systems description' }");
             existingSolution.Setup(s => s.OrganisationName).Returns("OrganisationName");
             existingSolution.Setup(s => s.IsFoundation).Returns(true);
 
@@ -89,6 +89,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.ClientApplication.MobileThirdParty.ThirdPartyComponents.Should().Be("Component");
             solution.ClientApplication.MobileThirdParty.DeviceCapabilities.Should().Be("Capabilities");
             solution.ClientApplication.NativeMobileHardwareRequirements.Should().Be("Native Mobile Hardware");
+            solution.ClientApplication.NativeDesktopOperatingSystemsDescription.Should()
+                .Be("native desktop operating systems description");
 
             solution.IsFoundation.Should().BeTrue();
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1", "cap2"});
@@ -138,6 +140,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.ClientApplication.MobileConnectionDetails.Should().BeNull();
             solution.ClientApplication.MobileThirdParty.Should().BeNull();
             solution.ClientApplication.NativeMobileHardwareRequirements.Should().BeNull();
+            solution.ClientApplication.NativeDesktopOperatingSystemsDescription.Should().BeNull();
 
             solution.OrganisationName.Should().BeNull();
             solution.Capabilities.Should().BeEmpty();
@@ -187,6 +190,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.ClientApplication.MobileConnectionDetails.Should().BeNull();
             solution.ClientApplication.MobileThirdParty.Should().BeNull();
             solution.ClientApplication.NativeMobileHardwareRequirements.Should().BeNull();
+            solution.ClientApplication.NativeDesktopOperatingSystemsDescription.Should().BeNull();
 
             solution.OrganisationName.Should().Be("OrganisationName");
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1"});
@@ -329,6 +333,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.ClientApplication.MobileThirdParty.DeviceCapabilities.Should().BeNull();
 
             solution.ClientApplication.NativeMobileHardwareRequirements.Should().BeNull();
+            solution.ClientApplication.NativeDesktopOperatingSystemsDescription.Should().BeNull();
 
             solution.OrganisationName.Should().Be("OrganisationName");
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1"});
