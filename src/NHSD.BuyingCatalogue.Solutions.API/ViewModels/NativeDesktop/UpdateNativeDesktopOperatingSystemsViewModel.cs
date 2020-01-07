@@ -5,6 +5,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop
     public sealed class UpdateNativeDesktopOperatingSystemsViewModel
     {
         [JsonProperty("operating-systems-description")]
-        public string OperatingSystemsDescription { get; set; }
+        public string NativeDesktopOperatingSystemsDescription { get; set; }
     }
 }
