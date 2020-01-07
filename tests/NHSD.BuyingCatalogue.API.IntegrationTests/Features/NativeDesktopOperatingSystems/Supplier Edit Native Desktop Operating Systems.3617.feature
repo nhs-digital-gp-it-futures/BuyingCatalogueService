@@ -1,4 +1,4 @@
-Feature:  Supplier Edit Native Desktop Operating Systems
+Feature:  Native Desktop Operating Systems
     As a Supplier
     I want to Edit the Native Desktop Operating Systems Section
     So that I can ensure the information is correct
