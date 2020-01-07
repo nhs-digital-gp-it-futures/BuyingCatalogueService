@@ -48,7 +48,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase("Sln2", null, "organization")]
         [TestCase(null, "name", "organization")]
         [TestCase("Sln2", "name", "organization")]
-        public async Task ShouldReturGetValues(string id, string name, string organization)
+        public async Task ShouldReturnGetValues(string id, string name, string organization)
         {
             var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
                 s.Id == id &&
@@ -449,6 +449,30 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     .Answers.DeviceCapabilities.Should().Be(capability);
                 previewResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections.MobileThirdPartySection
                     .Answers.HasData.Should().BeTrue();
+            }
+            else
+            {
+                previewResult.Sections.ClientApplicationTypes.Should().BeNull();
+            }
+        }
+
+        [TestCase("New info", true)]
+        [TestCase(null, false)]
+        [TestCase("", false)]
+        [TestCase("      ", false)]
+        public async Task IfNativeMobileThenAdditionalInformationIsSetCorrectly(string additionalInformation, bool hasData)
+        {
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "native-mobile" }
+                    && c.NativeMobileAdditionalInformation == additionalInformation))).ConfigureAwait(false);
+
+            if (hasData)
+            {
+                previewResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections
+                    .MobileAdditionalInformationSection.Answers.NativeMobileAdditionalInformation.Should().Be(additionalInformation);
+                previewResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections
+                    .MobileAdditionalInformationSection.Answers.HasData.Should().BeTrue();
             }
             else
             {
