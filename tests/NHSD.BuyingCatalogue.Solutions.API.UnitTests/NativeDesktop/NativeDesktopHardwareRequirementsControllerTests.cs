@@ -11,6 +11,8 @@ using NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateNativeDesktopHardwareRequirements;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
@@ -37,6 +39,38 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
                     x.Send(It.IsAny<UpdateNativeDesktopHardwareRequirementsCommand>(),
                     It.IsAny<CancellationToken>()))
                 .ReturnsAsync(() => _simpleResultMock.Object);
+        }
+
+        [TestCase("New Hardware")]
+        [TestCase("       ")]
+        [TestCase("")]
+        [TestCase(null)]
+        public async Task PopulatedHardwareDetailsShouldReturnHardwareDetails(string hardwareRequirements)
+        {
+            _mediatorMock.Setup(x => x.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == _solutionId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Mock.Of<IClientApplication>(c =>
+                    c.NativeDesktopHardwareRequirements == hardwareRequirements));
+
+            var result = await _controller.GetHardwareRequirements(_solutionId).ConfigureAwait(false) as ObjectResult;
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result.Value.Should().BeOfType<GetNativeDesktopHardwareRequirementsResult>();
+            var hardwareResult = result.Value as GetNativeDesktopHardwareRequirementsResult;
+            hardwareResult.HardwareRequirements.Should().Be(hardwareRequirements);
+        }
+
+        [Test]
+        public async Task NullClientApplicationShouldReturnNull()
+        {
+            _mediatorMock.Setup(x => x.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == _solutionId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(null as IClientApplication);
+
+            var result = (await _controller.GetHardwareRequirements(_solutionId).ConfigureAwait(false)) as ObjectResult;
+
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result.Value.Should().BeOfType<GetNativeDesktopHardwareRequirementsResult>();
+            var hardwareResult = result.Value as GetNativeDesktopHardwareRequirementsResult;
+            hardwareResult.HardwareRequirements.Should().BeNull();
         }
 
         [Test]

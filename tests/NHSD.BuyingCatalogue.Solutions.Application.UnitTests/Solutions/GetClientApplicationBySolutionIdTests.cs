@@ -34,7 +34,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             _clientApplicationResult = Mock.Of<IClientApplicationResult>(r =>
                 r.Id == _solutionId &&
-                r.ClientApplication == "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'HardwareRequirements': 'New Hardware', 'NativeMobileHardwareRequirements': 'New Native Mobile Hardware', 'AdditionalInformation': 'Some Additional Info', 'MobileFirstDesign': false, 'NativeMobileFirstDesign': false, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows', 'Linux'], 'OperatingSystemsDescription': 'For windows only version 10' }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileMemoryAndStorage': { 'Description': 'A description', 'MinimumMemoryRequirement': '1GB' }, 'NativeMobileAdditionalInformation': 'native mobile additional info' }"
+                r.ClientApplication == "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'HardwareRequirements': 'New Hardware', 'NativeMobileHardwareRequirements': 'New Native Mobile Hardware', 'NativeDesktopHardwareRequirements': 'New Native Desktop Hardware', 'AdditionalInformation': 'Some Additional Info', 'MobileFirstDesign': false, 'NativeMobileFirstDesign': false, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows', 'Linux'], 'OperatingSystemsDescription': 'For windows only version 10' }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileMemoryAndStorage': { 'Description': 'A description', 'MinimumMemoryRequirement': '1GB' }, 'NativeMobileAdditionalInformation': 'native mobile additional info' }"
                 );
 
             var clientApplication = await _context.GetClientApplicationBySolutionIdHandler.Handle(
@@ -48,6 +48,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             clientApplication.NativeMobileAdditionalInformation.Should().Be("native mobile additional info");
             clientApplication.HardwareRequirements.Should().Be("New Hardware");
             clientApplication.NativeMobileHardwareRequirements.Should().Be("New Native Mobile Hardware");
+            clientApplication.NativeDesktopHardwareRequirements.Should().Be("New Native Desktop Hardware");
             clientApplication.AdditionalInformation.Should().Be("Some Additional Info");
             clientApplication.MobileFirstDesign.Should().BeFalse();
             clientApplication.NativeMobileFirstDesign.Should().BeFalse();

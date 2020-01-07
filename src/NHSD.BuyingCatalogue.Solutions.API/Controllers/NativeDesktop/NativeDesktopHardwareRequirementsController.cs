@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateNativeDesktopHardwareRequirements;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeDesktop
 {
@@ -30,12 +31,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeDesktop
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public ActionResult GetHardwareRequirements([FromRoute][Required] string id)
+        public async Task<ActionResult> GetHardwareRequirements([FromRoute][Required] string id)
         {
-            var result = new GetNativeDesktopHardwareRequirementsResult(
-                CannedData.ContainsKey(id) ? CannedData[id] : null
-                );
-            return Ok(result);
+            var clientApplication = await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
+            return Ok(new GetNativeDesktopHardwareRequirementsResult(clientApplication?.NativeDesktopHardwareRequirements));
         }
 
         [HttpPut]
@@ -46,13 +45,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeDesktop
         public async Task<ActionResult> UpdateHardwareRequirements([FromRoute] [Required] string id,
             [FromBody] [Required] UpdateNativeDesktopHardwareRequirementsViewModel viewModel)
         {
-            CannedData[id] = viewModel?.HardwareRequirements;
-
             return (await _mediator.Send(
                     new UpdateNativeDesktopHardwareRequirementsCommand(id, viewModel?.HardwareRequirements))
                 .ConfigureAwait(false)).ToActionResult();
         }
-
-        private static readonly Dictionary<string, string> CannedData = new Dictionary<string, string>();
     }
 }
