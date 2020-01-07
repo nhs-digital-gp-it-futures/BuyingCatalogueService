@@ -1,8 +1,11 @@
+using System.ComponentModel.DataAnnotations;
 using System.Net;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeDesktop
 {
@@ -24,12 +27,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeDesktop
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public ActionResult GetNativeDesktopAsync()
+        public async Task<ActionResult> GetNativeDesktopAsync([FromRoute] [Required] string id)
         {
-            //var clientApplication =
-            //    await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
+            var clientApplication =
+                await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
 
-            return Ok(new NativeDesktopResult());
+            return Ok(new NativeDesktopResult(clientApplication));
         }
     }
 }
