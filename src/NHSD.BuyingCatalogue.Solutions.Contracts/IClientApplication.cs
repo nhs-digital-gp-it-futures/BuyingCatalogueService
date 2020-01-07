@@ -10,6 +10,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         IPlugins Plugins { get; }
         string HardwareRequirements { get; }
         string NativeMobileHardwareRequirements { get; }
+        string NativeDesktopHardwareRequirements { get; }
         string MinimumConnectionSpeed { get; }
         string MinimumDesktopResolution { get; }
         string AdditionalInformation { get; }
