@@ -64,7 +64,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             calledBack.Should().BeTrue();
         }
 
-
+        [Test]
         public async Task ShouldNotUpdateThirdPartyOverCharacterLimit()
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");

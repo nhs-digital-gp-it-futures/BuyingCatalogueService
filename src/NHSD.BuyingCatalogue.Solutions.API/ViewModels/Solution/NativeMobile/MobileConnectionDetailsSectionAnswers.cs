@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
@@ -19,8 +18,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.NativeMobile
 
         [JsonIgnore]
         public bool HasData => ConnectionType?.Any() == true ||
-                               !String.IsNullOrWhiteSpace(MinimumConnectionSpeed) ||
-                               !String.IsNullOrWhiteSpace(Description);
+                               !string.IsNullOrWhiteSpace(MinimumConnectionSpeed) ||
+                               !string.IsNullOrWhiteSpace(Description);
 
         public MobileConnectionDetailsSectionAnswers(IMobileConnectionDetails connectionDetails)
         {
