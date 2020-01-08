@@ -22,6 +22,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
             _response = response;
         }
 
+        [Then(@"the solution native-mobile status is (INCOMPLETE|COMPLETE)")]
+        public async Task ThenTheSolutionNativeMobileStatusIsIncomplete(string status)
+        {
+            var content = await _response.ReadBody().ConfigureAwait(false);
+            content.SelectToken($"sections.client-application-types.sections.native-mobile.status").ToString().Should().Be(status);
+        }
+
         [Then(@"the solution native-mobile native-mobile-connection-details section contains connection-types")]
         public async Task ThenTheSolutionNativeMobileSectionContains(Table table)
         {

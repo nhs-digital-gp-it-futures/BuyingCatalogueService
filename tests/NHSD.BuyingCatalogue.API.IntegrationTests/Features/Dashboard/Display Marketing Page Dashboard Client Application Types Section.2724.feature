@@ -7,19 +7,18 @@ Background:
     Given Organisations exist
         | Name     |
         | GPs-R-Us |
-        | Drs. Inc |
     And Suppliers exist
         | Id    | OrganisationName |
         | Sup 1 | GPs-R-Us         |
-        | Sup 2 | Drs. Inc         |
     And Solutions exist
-        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                | Sup 2      |
-        | Sln3       | PracticeMgr    | Drs. Inc         | 1                | Sup 2      |
-        | Sln4       | PracticeMgr    | Drs. Inc         | 1                | Sup 2      |
-        | Sln5       | Integral       | GPs-R-Us         | 1                | Sup 1      |
-        | Sln6       | Medical Stuff  | GPs-R-Us         | 1                | Sup 1      |
+        | SolutionID | SolutionName     | OrganisationName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline      | GPs-R-Us         | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill   | GPs-R-Us         | 1                | Sup 1      |
+        | Sln3       | PracticeMgr      | GPs-R-Us         | 1                | Sup 1      |
+        | Sln4       | PracticeMgr      | GPs-R-Us         | 1                | Sup 1      |
+        | Sln5       | Integral         | GPs-R-Us         | 1                | Sup 1      |
+        | Sln6       | Medical Stuff    | GPs-R-Us         | 1                | Sup 1      |
+        | Sln7       | TooCoolForSchool | GPs-R-Us         | 1                | Sup 1      |
 
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                                                                                                   |
@@ -28,6 +27,7 @@ Background:
         | Sln4     | Thrills                        | Bellyaches          | { "ClientApplicationTypes" : [] }                                                                                                                                                                                                                                   |
         | Sln5     | Fully fledged GP system        | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop", "native-mobile" ] }                                                                                                                                                                               |
         | Sln6     | More Summaries                 | Online System       | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": true, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum"}, "MobileFirstDesign": true, "MinimumConnectionSpeed": "Connection Speed" } |
+        | Sln7     | More Summaries                 | Online System       | { "ClientApplicationTypes": ["native-mobile"], "MobileOperatingSystems": { "OperatingSystems": ["Windows"] }, "NativeMobileFirstDesign": false, "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "Description": "A description" }}                   |
         
 
 @2724
@@ -76,5 +76,19 @@ Scenario: 6. Section Browser Based is Complete
     Then a successful response is returned
     Then the solution browser-based status is COMPLETE
     And the solution browser-based section requirement is Mandatory
+
+@3612
+Scenario: 7. Section Native Mobile is Incomplete
+    When a GET request is made for solution dashboard Sln5
+    Then a successful response is returned
+    Then the solution native-mobile status is INCOMPLETE
+    And the solution native-mobile section requirement is Mandatory
+
+@3612
+Scenario: 8. Section Native Mobile is Complete
+    When a GET request is made for solution dashboard Sln7
+    Then a successful response is returned
+    Then the solution native-mobile status is COMPLETE
+    And the solution native-mobile section requirement is Mandatory
 
 

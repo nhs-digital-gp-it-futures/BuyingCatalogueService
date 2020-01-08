@@ -84,8 +84,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 
             SetIfSelected("browser-based", clientApplicationTypes,
                 () => BrowserBasedSection = DashboardSection.Mandatory(clientApplication.IsBrowserBasedComplete()));
-            SetIfSelected("native-mobile", clientApplicationTypes, () => NativeMobileSection = DashboardSection.Mandatory(false));
-            SetIfSelected("native-desktop", clientApplicationTypes, () => NativeDesktopSection = DashboardSection.Mandatory(false));
+            SetIfSelected("native-mobile", clientApplicationTypes,
+                () => NativeMobileSection = DashboardSection.Mandatory(clientApplication.IsNativeMobileComplete()));
+            SetIfSelected("native-desktop", clientApplicationTypes,
+                () => NativeDesktopSection = DashboardSection.Mandatory(false));
         }
 
         private void SetIfSelected(string sectionName, HashSet<string> sections, Action setDashboardAction)
