@@ -22,5 +22,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         IMobileThirdParty MobileThirdParty { get; }
         string NativeMobileAdditionalInformation { get; }
         string NativeDesktopOperatingSystemsDescription { get; }
+        string NativeDesktopMinimumConnectionSpeed { get; }
     }
 }

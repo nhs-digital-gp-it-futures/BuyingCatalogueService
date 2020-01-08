@@ -6,6 +6,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSol
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionConnectivityAndResolution;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionPlugins;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateSolutionConnectivityDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateNativeDesktopHardwareRequirements;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateSolutionNativeDesktopOperatingSystems;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeMobile.UpdateSolutionMobileConnectionDetails;
@@ -101,6 +102,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<IExecutor<UpdateSolutionMobileThirdPartyCommand>, UpdateSolutionMobileThirdPartyExecutor>()
                 .AddTransient<IValidator<UpdateSolutionMobileThirdPartyCommand, ISimpleResult>, UpdateSolutionMobileThirdPartyValidator>()
 
+                .AddTransient<IExecutor<UpdateSolutionNativeDesktopConnectivityDetailsCommand>, UpdateSolutionNativeDesktopConnectivityDetailsExecutor>()
+                .AddTransient<IValidator<UpdateSolutionNativeDesktopConnectivityDetailsCommand, ISimpleResult>, UpdateSolutionNativeDesktopConnectivityDetailsValidator>()
+                
                 .AddTransient<IExecutor<UpdateSolutionNativeDesktopOperatingSystemsCommand>, UpdateSolutionNativeDesktopOperatingSystemsExecutor>()
                 .AddTransient<IValidator<UpdateSolutionNativeDesktopOperatingSystemsCommand, ISimpleResult>, UpdateSolutionNativeDesktopOperatingSystemsValidator>();
         }

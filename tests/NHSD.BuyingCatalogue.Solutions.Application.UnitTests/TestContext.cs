@@ -11,6 +11,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSol
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionConnectivityAndResolution;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionPlugins;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateNativeDesktopHardwareRequirements;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateSolutionConnectivityDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateSolutionNativeDesktopOperatingSystems;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeMobile.UpdateSolutionMobileConnectionDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeMobile.UpdateSolutionMobileMemoryAndStorage;
@@ -100,6 +101,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
         public UpdateSolutionNativeDesktopOperatingSystemsHandler UpdateSolutionNativeDesktopOperatingSystemsHandler =>
             (UpdateSolutionNativeDesktopOperatingSystemsHandler)_scope.UpdateSolutionNativeDesktopOperatingSystemsHandler;
 
+        public UpdateSolutionNativeDesktopConnectivityDetailsHandler
+            UpdateSolutionNativeDesktopConnectivityDetailsHandler =>
+            (UpdateSolutionNativeDesktopConnectivityDetailsHandler)_scope
+                .UpdateSolutionNativeDesktopConnectivityDetailsHandler;
+
         private readonly Scope _scope;
 
         public TestContext()
@@ -175,6 +181,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             public IRequestHandler<UpdateSolutionNativeMobileHardwareRequirementsCommand, ISimpleResult> UpdateSolutionNativeMobileHardwareRequirementsHandler { get; }
 
             public IRequestHandler<UpdateNativeDesktopHardwareRequirementsCommand, ISimpleResult> UpdateNativeDesktopHardwareRequirementsHandler { get; }
+
+            public IRequestHandler<UpdateSolutionNativeDesktopConnectivityDetailsCommand, ISimpleResult> UpdateSolutionNativeDesktopConnectivityDetailsHandler { get; }
             
             public IRequestHandler<UpdateSolutionNativeDesktopOperatingSystemsCommand, ISimpleResult> UpdateSolutionNativeDesktopOperatingSystemsHandler { get; }
 
@@ -201,6 +209,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdateNativeDesktopHardwareRequirementsCommand, ISimpleResult> updateNativeDesktopHardwareRequirementsHandler,
                 IRequestHandler<UpdateSolutionMobileThirdPartyCommand, ISimpleResult> updateSolutionMobileThirdHandler,
                 IRequestHandler<UpdateSolutionNativeMobileAdditionalInformationCommand, ISimpleResult> updateSolutionNativeMobileAdditionalInformationHandler,
+                IRequestHandler<UpdateSolutionNativeDesktopConnectivityDetailsCommand, ISimpleResult> updateSolutionNativeDesktopConnectivityDetailsHandler,
                 IRequestHandler<UpdateSolutionNativeDesktopOperatingSystemsCommand, ISimpleResult> updateSolutionNativeDesktopOperatingSystemsHandler
                 )
             {
@@ -227,6 +236,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 UpdateSolutionMobileThirdHandler = updateSolutionMobileThirdHandler;
                 UpdateSolutionNativeMobileAdditionalInformationHandler = updateSolutionNativeMobileAdditionalInformationHandler;
                 UpdateSolutionNativeDesktopOperatingSystemsHandler = updateSolutionNativeDesktopOperatingSystemsHandler;
+                UpdateSolutionNativeDesktopConnectivityDetailsHandler = updateSolutionNativeDesktopConnectivityDetailsHandler;
             }
         }
     }
