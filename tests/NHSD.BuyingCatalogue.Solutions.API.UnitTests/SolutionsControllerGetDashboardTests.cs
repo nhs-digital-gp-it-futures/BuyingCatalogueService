@@ -243,6 +243,43 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             dashboardResult.SolutionDashboardSections.ContactDetailsSection.Status.Should().Be("INCOMPLETE");
         }
 
+        [TestCase(true, true, true, true, true, true, true, "COMPLETE")]
+        [TestCase(true, true, true, true, true, false, true, "COMPLETE")]
+        [TestCase(true, true, true, true, true, true, false, "COMPLETE")]
+        [TestCase(true, true, true, true, true, false, false, "COMPLETE")]
+        [TestCase(true, false, true, true, true, true, true, "COMPLETE")]
+        [TestCase(false, true, true, true, true, true, true, "INCOMPLETE")]
+        [TestCase(true, null, true, true, true, true, true, "INCOMPLETE")]
+        [TestCase(true, true, false, true, true, true, true, "INCOMPLETE")]
+        [TestCase(false, false, true, true, true, true, true, "INCOMPLETE")]
+        [TestCase(false, false, false, false, false, false, false, "INCOMPLETE")]
+        public async Task ShouldGetDashboardCalculateClientApplicationTypeNativeMobile(
+            bool hasMobileOperatingSystems,
+            bool? nativeMobileFirstDesign,
+            bool hasMobileMemoryAndStorage,
+            bool hasMobileConnectionDetails,
+            bool hasHardwareRequirement,
+            bool hasThirdParty,
+            bool hasNativeMobileAdditionalInformation,
+            string result)
+        {
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                   c.ClientApplicationTypes == new HashSet<string> { "native-mobile" }
+                && c.MobileOperatingSystems == (hasMobileOperatingSystems ? Mock.Of<IMobileOperatingSystems>(m => m.OperatingSystems == new HashSet<string> { "Windows 10", "OSX" } && m.OperatingSystemsDescription == "Some OS") : null)
+                && c.NativeMobileFirstDesign == nativeMobileFirstDesign
+                && c.MobileMemoryAndStorage == (hasMobileMemoryAndStorage ? Mock.Of<IMobileMemoryAndStorage>(s => s.MinimumMemoryRequirement == "Min requirement" && s.Description == "Some memory description") : null)
+                && c.MobileConnectionDetails == (hasMobileConnectionDetails ? Mock.Of<IMobileConnectionDetails>(c => c.ConnectionType == new HashSet<string> { "1GB" } && c.Description == "Some connection description" && c.MinimumConnectionSpeed == "1Mbps") : null)
+                && c.NativeMobileHardwareRequirements == (hasHardwareRequirement ? "Some Hardware" : null)
+                && c.MobileThirdParty == (hasThirdParty ? Mock.Of<IMobileThirdParty>(t => t.DeviceCapabilities == "Some device cap" && t.ThirdPartyComponents == "Some third party components") : null)
+                && c.NativeMobileAdditionalInformation == (hasNativeMobileAdditionalInformation ? "NativeMobileAdditionalInformation" : null)))).ConfigureAwait(false);
+            dashboardResult.SolutionDashboardSections.Should().NotBeNull();
+            dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section.Should().BeOfType<ClientApplicationTypesSubSections>();
+            var clientApplicationTypesSubSections = (ClientApplicationTypesSubSections)dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section;
+            clientApplicationTypesSubSections.NativeMobileSection.Should().NotBeNull();
+            clientApplicationTypesSubSections.NativeMobileSection.Status.Should().Be(result);
+        }
+
         private async Task<SolutionDashboardResult> GetSolutionDashboardSectionAsync(ISolution solution)
         {
             _mockMediator.Setup(m =>
