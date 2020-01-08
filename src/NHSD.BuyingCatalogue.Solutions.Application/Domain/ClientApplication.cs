@@ -39,5 +39,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public string NativeMobileAdditionalInformation { get; set; }
 
         public string NativeDesktopOperatingSystemsDescription { get; set; }
+
+        public string NativeDesktopMinimumConnectionSpeed { get; set; }
     }
 }
