@@ -25,17 +25,4 @@
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Testing.Tools\NHSD.BuyingCatalogue.Testing.Tools.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Features\NativeDesktop\NativeDesktopConnectivityDetails\Supplier Get Native Desktop Connectivity Details.3619.feature.cs">
-      <DependentUpon>Supplier Get Native Desktop Connectivity Details.3619.feature</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <SpecFlowFeatureFiles Update="Features\NativeDesktop\NativeDesktopConnectivityDetails\Supplier Get Native Desktop Connectivity Details.3619.feature">
-      <Visible>$(UsingMicrosoftNETSdk)</Visible>
-      <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-    </SpecFlowFeatureFiles>
-  </ItemGroup>
-
 </Project>
