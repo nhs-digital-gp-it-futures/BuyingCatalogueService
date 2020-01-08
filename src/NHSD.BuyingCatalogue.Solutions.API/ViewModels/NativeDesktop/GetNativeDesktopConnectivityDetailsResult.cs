@@ -5,6 +5,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop
     public sealed class GetNativeDesktopConnectivityDetailsResult
     {
         [JsonProperty("minimum-connection-speed")]
-        public string NativeDesktopMinimumConnectionSpeed { get; set; }
+        public string NativeDesktopMinimumConnectionSpeed { get; private set; }
+
+        public GetNativeDesktopConnectivityDetailsResult(string nativeDesktopMinimumConnectionSpeed)
+        {
+            NativeDesktopMinimumConnectionSpeed = nativeDesktopMinimumConnectionSpeed;
+        }
     }
 }
