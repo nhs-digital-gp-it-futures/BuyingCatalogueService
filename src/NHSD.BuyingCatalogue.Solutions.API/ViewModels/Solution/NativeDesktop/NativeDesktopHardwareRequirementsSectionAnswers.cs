@@ -4,7 +4,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.NativeDesktop
 {
-    public class NativeDesktopHardwareRequirementsSectionAnswers
+    public sealed class NativeDesktopHardwareRequirementsSectionAnswers
     {
         [JsonProperty("hardware-requirements")]
         public string HardwareRequirements { get; }

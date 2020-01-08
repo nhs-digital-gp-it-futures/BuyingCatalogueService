@@ -2,7 +2,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.NativeDesktop
 {
-    public class NativeDesktopHardwareRequirementsSection
+    public sealed class NativeDesktopHardwareRequirementsSection
     {
         public NativeDesktopHardwareRequirementsSectionAnswers Answers { get; }
 

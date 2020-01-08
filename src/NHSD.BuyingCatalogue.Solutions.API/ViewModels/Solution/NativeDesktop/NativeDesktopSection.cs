@@ -3,7 +3,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.NativeDesktop
 {
-    public class NativeDesktopSection
+    public sealed class NativeDesktopSection
     {
         [JsonProperty("sections")]
         public NativeDesktopSubSections Sections { get; }

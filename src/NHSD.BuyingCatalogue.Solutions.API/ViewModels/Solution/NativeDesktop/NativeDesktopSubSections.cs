@@ -1,10 +1,9 @@
 using Newtonsoft.Json;
-using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.NativeMobile;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.NativeDesktop
 {
-    public class NativeDesktopSubSections
+    public sealed class NativeDesktopSubSections
     {
        [JsonProperty("native-desktop-hardware-requirements")]
        public NativeDesktopHardwareRequirementsSection HardwareRequirementsSection { get; }
