@@ -6,5 +6,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop
     {
         [JsonProperty("operating-systems-description")]
         public string OperatingSystemsDescription { get; set; }
+
+        public GetNativeDesktopOperatingSystemsResult(string operatingSystemsDescription)
+        {
+            OperatingSystemsDescription = operatingSystemsDescription;
+        }
     }
 }
