@@ -518,6 +518,31 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
+        [TestCase("New Description", true)]
+        [TestCase(null, false)]
+        [TestCase("", false)]
+        [TestCase("      ", false)]
+        public async Task IfNativeDesktopThenNativeOperatingSystemsDescriptionIsSetCorrectly(string description, bool hasData)
+        {
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "native-desktop" } &&
+                    c.NativeDesktopOperatingSystemsDescription == description
+                ))).ConfigureAwait(false);
+
+            if (hasData)
+            {
+                previewResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
+                    .OperatingSystemsSection.Answers.OperatingSystemsDescription.Should().Be(description);
+                previewResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
+                    .OperatingSystemsSection.Answers.HasData.Should().BeTrue();
+            }
+            else
+            {
+                previewResult.Sections.ClientApplicationTypes.Should().BeNull();
+            }
+        }
+
         [Test]
         public async Task ShouldIncludeNativeDesktopDataIfClientApplicationTypesIncludeNativeDesktop()
         {

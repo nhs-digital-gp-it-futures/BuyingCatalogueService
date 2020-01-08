@@ -640,6 +640,31 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
+        [TestCase("New description", true)]
+        [TestCase(null, false)]
+        [TestCase("", false)]
+        [TestCase("      ", false)]
+        public async Task IfNativeDesktopEmptyThenOperatingSystemsDescriptionHasNoData(string description, bool hasData)
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.PublishedStatus == PublishedStatus.Published &&
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "native-desktop" }
+                    && c.NativeDesktopOperatingSystemsDescription == description)), SolutionId1).ConfigureAwait(false);
+
+            if (hasData)
+            {
+                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
+                    .OperatingSystemsSection.Answers.OperatingSystemsDescription.Should().Be(description);
+                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
+                    .OperatingSystemsSection.Answers.HasData.Should().BeTrue();
+            }
+            else
+            {
+                publicResult.Sections.ClientApplicationTypes.Should().BeNull();
+            }
+        }
+
         [Test]
         public void NullSolutionShouldThrowNullExceptionPublicResult()
         {

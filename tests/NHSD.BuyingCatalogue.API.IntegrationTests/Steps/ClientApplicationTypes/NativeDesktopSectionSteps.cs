@@ -24,5 +24,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
             context.SelectToken($"{Token}.native-desktop-hardware-requirements.answers.{token}")
                 .ToString().Should().Be(value);
         }
+
+        [Then(@"the solution native-desktop native-desktop-operating-systems-description section contains (.*) with value (.*)")]
+        public async Task ThenTheSolutionNativeDesktopOperatingSystemsDescriptionSectionContainsWithValue(string token, string value)
+        {
+            var context = await _response.ReadBody().ConfigureAwait(false);
+            context.SelectToken($"{Token}.native-desktop-operating-systems-description.answers.{token}")
+                .ToString().Should().Be(value);
+        }
     }
 }
