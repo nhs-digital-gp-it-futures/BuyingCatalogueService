@@ -138,6 +138,19 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
             nativeDesktopResult.NativeDesktopSections.OperatingSystems.Status.Should().Be(isComplete ? "COMPLETE" : "INCOMPLETE");
         }
 
+
+        [TestCase(null, false)]
+        [TestCase("", false)]
+        [TestCase(" ", false)]
+        [TestCase("3 Mbps", true)]
+        public async Task ShouldGetNativeDesktopConnectivityDetailsIsComplete(string minimumConnectionSpeed, bool isComplete)
+        {
+            var nativeMobileResult = await GetNativeDesktopSectionAsync(Mock.Of<IClientApplication>(c => c.NativeDesktopMinimumConnectionSpeed == minimumConnectionSpeed))
+                .ConfigureAwait(false);
+
+            nativeMobileResult.NativeDesktopSections.ConnectionDetails.Status.Should().Be(isComplete ? "COMPLETE" : "INCOMPLETE");
+        }
+
         private async Task<NativeDesktopResult> GetNativeDesktopSectionAsync(IClientApplication clientApplication)
         {
             _mockMediator

@@ -77,3 +77,18 @@ Examples:
     | { "NativeDesktopOperatingSystemsDescription" : null }                            | INCOMPLETE |
     | { "NativeDesktopOperatingSystemsDescription" : "      " }                        | INCOMPLETE |
     | { "NativeDesktopOperatingSystemsDescription" : "Operating systems description" } | COMPLETE   |
+
+@3619
+Scenario Outline: 6. Native Desktop Connectivity Details based on data in Client Application
+  Given SolutionDetail exist
+        | Solution | ClientApplication   |
+        | Sln1     | <ClientApplication> |
+    When a GET request is made for native-desktop dashboard for solution Sln1
+    Then a successful response is returned
+    And the status of the native-desktop-connection-details section is <Status>
+Examples:
+    | ClientApplication                                   | Status     |
+    |                                                     | INCOMPLETE |
+    | { "NativeDesktopMinimumConnectionSpeed": null }     | INCOMPLETE |
+    | { "NativeDesktopMinimumConnectionSpeed": "      " } | INCOMPLETE |
+    | { "NativeDesktopMinimumConnectionSpeed": "6 Mbps" } | COMPLETE   |

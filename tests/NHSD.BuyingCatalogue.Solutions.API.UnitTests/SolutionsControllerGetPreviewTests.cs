@@ -493,6 +493,56 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             solution.Sections.Should().BeNull();
         }
 
+        [TestCase("New hardware", true)]
+        [TestCase(null, false)]
+        [TestCase("", false)]
+        [TestCase("      ", false)]
+        public async Task IfNativeDesktopThenNativeHardwareRequirementsIsSetCorrectly(string requirements, bool hasData)
+        {
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "native-desktop" } &&
+                    c.NativeDesktopHardwareRequirements == requirements
+                    ))).ConfigureAwait(false);
+
+            if (hasData)
+            {
+                previewResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
+                    .HardwareRequirementsSection.Answers.HardwareRequirements.Should().Be(requirements);
+                previewResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
+                    .HardwareRequirementsSection.Answers.HasData.Should().BeTrue();
+            }
+            else
+            {
+                previewResult.Sections.ClientApplicationTypes.Should().BeNull();
+            }
+        }
+
+        [Test]
+        public async Task ShouldIncludeNativeDesktopDataIfClientApplicationTypesIncludeNativeDesktop()
+        {
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "native-desktop" } &&
+                    c.NativeDesktopHardwareRequirements == "Hardware requirements"
+                    ))).ConfigureAwait(false);
+
+            previewResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.HardwareRequirementsSection
+                .Answers.HardwareRequirements.Should().Be("Hardware requirements");
+        }
+
+        [Test]
+        public async Task ShouldNotIncludeNativeDesktopDataIfClientApplicationTypesDoNotIncludeNativeDesktop()
+        {
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "browser-based", "native-mobile" } &&
+                    c.NativeDesktopHardwareRequirements == "Hardware requirements")
+                )).ConfigureAwait(false);
+
+            previewResult.Sections.ClientApplicationTypes.Should().BeNull();
+        }
+
         private async Task<SolutionResult> GetSolutionPreviewSectionAsync(ISolution solution)
         {
             _mockMediator.Setup(m =>
