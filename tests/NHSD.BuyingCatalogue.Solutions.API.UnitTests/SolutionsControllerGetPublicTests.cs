@@ -684,6 +684,32 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
+        [TestCase("3 Mbps", true)]
+        [TestCase(null, false)]
+        [TestCase("", false)]
+        [TestCase("      ", false)]
+        public async Task IfNativeDesktopThenNativeConnectivityDetailsIsSetCorrectly(string minimumConnectionSpeed, bool hasData)
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.PublishedStatus == PublishedStatus.Published &&
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> { "native-desktop" } &&
+                    c.NativeDesktopMinimumConnectionSpeed == minimumConnectionSpeed
+                )), SolutionId1).ConfigureAwait(false);
+
+            if (hasData)
+            {
+                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
+                    .NativeDesktopConnectivityDetailsSection.Answers.NativeDesktopMinimumConnectionSpeed.Should().Be(minimumConnectionSpeed);
+                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
+                    .NativeDesktopConnectivityDetailsSection.Answers.HasData.Should().BeTrue();
+            }
+            else
+            {
+                publicResult.Sections.ClientApplicationTypes.Should().BeNull();
+            }
+        }
+
         [Test]
         public async Task ShouldIncludeNativeDesktopDataIfClientApplicationTypesIncludeNativeDesktop()
         {
