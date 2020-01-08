@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop;
@@ -11,6 +12,10 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateSo
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeDesktop
 {
+    [Route("api/v1/solutions")]
+    [ApiController]
+    [Produces("application/json")]
+    [AllowAnonymous]
     public sealed class NativeDesktopConnectivityDetailsController : ControllerBase
     {
         private readonly IMediator _mediator;
