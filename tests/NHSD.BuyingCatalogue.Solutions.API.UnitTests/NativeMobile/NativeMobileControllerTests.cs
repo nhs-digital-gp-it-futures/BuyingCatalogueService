@@ -184,6 +184,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeMobile
                 .Be(isComplete ? "COMPLETE" : "INCOMPLETE");
         }
 
+        [TestCase(null, false)]
+        [TestCase("Some additional information", true)]
+        public async Task ShouldGetNativeMobileAdditionalInformationIsComplete(string additionalInformation, bool isComplete)
+        {
+            var nativeMobileResult = await GetNativeMobileSectionAsync(Mock.Of<IClientApplication>(c => c.NativeMobileAdditionalInformation == additionalInformation))
+                .ConfigureAwait(false);
+
+            nativeMobileResult.NativeMobileSections.MobileAdditionalInformation.Status.Should().Be(isComplete ? "COMPLETE" : "INCOMPLETE");
+        }
 
         private async Task<NativeMobileResult> GetNativeMobileSectionAsync(IClientApplication clientApplication)
         {
