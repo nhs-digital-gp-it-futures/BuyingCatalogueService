@@ -50,7 +50,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeMobile
             MobileComponentsDeviceCapabilities = DashboardSection.Optional(false);
             MobileHardwareRequirements = DashboardSection.Optional(!String.IsNullOrWhiteSpace(clientApplication?.NativeMobileHardwareRequirements));
             MobileThirdPartySection = DashboardSection.Optional(clientApplication.IsMobileThirdPartyComplete());
-            MobileAdditionalInformation = DashboardSection.Optional(false);
+            MobileAdditionalInformation = DashboardSection.Optional(clientApplication.IsNativeMobileAdditionalInformationComplete());
         }
     }
 }
