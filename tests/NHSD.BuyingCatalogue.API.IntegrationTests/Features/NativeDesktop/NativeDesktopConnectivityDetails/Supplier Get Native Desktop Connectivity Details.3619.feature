@@ -16,9 +16,9 @@ Background:
         | Sln2       | TakeTheRedPill   | GPs-R-Us         | 1                | Sup 1      |
         | Sln3       | TakeTheGreenPill | GPs-R-Us         | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription            | FullDescription   | ClientApplication                                                                               |
-        | Sln1     | A full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["native-mobile"], "NativeDesktopMinimumConnectionSpeed": "6Mbps" } |
-        | Sln2     | An online medicine system     | Online medicine 2 | { "ClientApplicationTypes": ["native-mobile"] }                                                 |
+        | Solution | SummaryDescription            | FullDescription   | ClientApplication                                                                                |
+        | Sln1     | A full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["native-desktop"], "NativeDesktopMinimumConnectionSpeed": "6Mbps" } |
+        | Sln2     | An online medicine system     | Online medicine 2 | { "ClientApplicationTypes": ["native-desktop"] }                                                 |
 
 @3619
 Scenario: 1.Native Mobile Desktop Connectivity Details are retreived for the solution

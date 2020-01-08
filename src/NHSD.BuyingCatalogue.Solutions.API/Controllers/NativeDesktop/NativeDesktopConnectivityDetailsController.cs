@@ -1,11 +1,9 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateSolutionConnectivityDetails;
@@ -44,14 +42,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeDesktop
         public async Task<ActionResult> UpdatedConnectivity([FromRoute] [Required] string id,
             [FromBody] [Required] UpdateNativeDesktopConnectivityDetailsViewModel viewModel)
         {
-            CannedData[id] = viewModel.ThrowIfNull().NativeDesktopMinimumConnectionSpeed;
-
             return (await _mediator
                 .Send(new UpdateSolutionNativeDesktopConnectivityDetailsCommand(id,
                     viewModel?.NativeDesktopMinimumConnectionSpeed)).ConfigureAwait(false)).ToActionResult();
-
         }
-
-        private static readonly Dictionary<string, string> CannedData = new Dictionary<string, string>();
     }
 }
