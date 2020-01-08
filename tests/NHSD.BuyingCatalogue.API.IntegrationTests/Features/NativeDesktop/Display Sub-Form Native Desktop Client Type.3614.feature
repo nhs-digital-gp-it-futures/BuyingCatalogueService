@@ -79,7 +79,7 @@ Examples:
     | { "NativeDesktopOperatingSystemsDescription" : "Operating systems description" } | COMPLETE   |
 
 @3619
-Scenario Outline: 6. Native Desktop Connectivity Details based on data in Client Application
+Scenario Outline: 7. Native Desktop Connectivity Details based on data in Client Application
   Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
