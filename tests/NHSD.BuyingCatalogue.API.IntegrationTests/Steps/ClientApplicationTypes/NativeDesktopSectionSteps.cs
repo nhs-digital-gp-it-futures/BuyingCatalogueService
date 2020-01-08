@@ -25,11 +25,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
                 .ToString().Should().Be(value);
         }
 
-        [Then(@"the solution native-desktop native-desktop-connection-details section contains (.*) with value (.*)")]
-        public async Task ThenTheSolutionNativeDesktopConnectionDetailsSectionContainsWithValue(string token, string value)
+        [Then(@"the solution native-desktop native-desktop-connection-details section contains minimum-connection-speed with value (.*)")]
+        public async Task ThenTheSolutionNativeDesktopConnectionDetailsSectionContainsWithValue(string value)
         {
             var context = await _response.ReadBody().ConfigureAwait(false);
-            context.SelectToken($"{Token}.native-desktop-connection-details.answers.{token}")
+            context.SelectToken($"{Token}.native-desktop-connection-details.answers.minimum-connection-speed")
                 .ToString().Should().Be(value);
         }
     }
