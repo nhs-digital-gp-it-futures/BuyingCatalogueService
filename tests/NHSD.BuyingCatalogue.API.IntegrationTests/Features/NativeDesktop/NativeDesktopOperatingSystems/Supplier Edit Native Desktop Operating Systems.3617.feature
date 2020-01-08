@@ -1,4 +1,4 @@
-Feature:  Supplier Edit Native Desktop Operating Systems
+Feature:  Native Desktop Operating Systems
     As a Supplier
     I want to Edit the Native Desktop Operating Systems Section
     So that I can ensure the information is correct
@@ -23,7 +23,7 @@ Scenario: 1. Native Desktop Operating Systems is updated
         | New Desc                                 |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
         | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["native-desktop"], "BrowsersSupported" : [], "MobileResponsive": null, "Plugins": null, "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null, "HardwareRequirements": null, "NativeMobileHardwareRequirements": null, "NativeDesktopHardwareRequirements": null, "AdditionalInformation": null, "MobileFirstDesign": null, "NativeMobileFirstDesign": null, "MobileOperatingSystems": null, "MobileConnectionDetails": null, "MobileMemoryAndStorage": null, "MobileThirdParty": null, "NativeMobileAdditionalInformation": null, "NativeDesktopOperatingSystemsDescription": "New Desc" } |
 
 @3617
