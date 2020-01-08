@@ -151,5 +151,17 @@ Scenario Outline: 8. Mobile Third Party based on data in Client Application
     | { "MobileThirdParty": { "ThirdPartyComponents": null, "DeviceCapabilities": "Capability" } }        | COMPLETE   |
     | { "MobileThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": "Capability" } } | COMPLETE   |
 
-
-
+@3609
+Scenario Outline: 9. Native Mobile Hardware Requirements based on data in Client Application
+    Given SolutionDetail exist
+        | Solution | ClientApplication   |
+        | Sln1     | <ClientApplication> |
+    When a GET request is made for native-mobile dashboard for solution Sln1
+    Then a successful response is returned
+    And the status of the native-mobile-additional-information section is <Status>
+Examples:
+    | ClientApplication                                                 | Status     |
+    |                                                                   | INCOMPLETE |
+    | { "NativeMobileAdditionalInformation": null }                     | INCOMPLETE |
+    | { "NativeMobileAdditionalInformation": "      " }                 | INCOMPLETE |
+    | { "NativeMobileAdditionalInformation": "Additional Information" } | COMPLETE   |

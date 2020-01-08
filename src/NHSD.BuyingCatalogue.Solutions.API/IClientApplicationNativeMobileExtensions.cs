@@ -26,5 +26,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API
         public static bool IsMobileThirdPartyComplete(this IClientApplication clientApplication) =>
             !string.IsNullOrWhiteSpace(clientApplication?.MobileThirdParty?.ThirdPartyComponents) ||
             !string.IsNullOrWhiteSpace(clientApplication?.MobileThirdParty?.DeviceCapabilities);
+
+        public static bool IsNativeMobileAdditionalInformationComplete(this IClientApplication clientApplication) =>
+            !string.IsNullOrWhiteSpace(clientApplication?.NativeMobileAdditionalInformation);
     }
 }
