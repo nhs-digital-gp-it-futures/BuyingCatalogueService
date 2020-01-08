@@ -14,8 +14,8 @@ Background:
         | SolutionID | SolutionName | OrganisationName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline  | GPs-R-Us         | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription | FullDescription   | ClientApplication                                                                                                                                                                                              |
-        | Sln1     | Online Description | Online medicine 1 | { "ClientApplicationTypes" : [ "native-desktop"], "NativeDesktopHardwareRequirements": "A native desktop hardware requirement","NativeDesktopOperatingSystemsDescription": "A native desktop OS description" } |
+        | Solution | SummaryDescription | FullDescription   | ClientApplication                                                                                                                                                                                                                                              |
+        | Sln1     | Online Description | Online medicine 1 | { "ClientApplicationTypes" : [ "native-desktop"], "NativeDesktopHardwareRequirements": "A native desktop hardware requirement","NativeDesktopOperatingSystemsDescription": "A native desktop OS description", "NativeDesktopMinimumConnectionSpeed": "2Mbps" } |
 
 @3605
 Scenario:1. Get Solution Public contains client application types native-desktop answers for all data
@@ -24,3 +24,4 @@ Scenario:1. Get Solution Public contains client application types native-desktop
     And the solution client-application-types section is returned
     And the solution native-desktop native-desktop-hardware-requirements section contains hardware-requirements with value A native desktop hardware requirement
     And the solution native-desktop native-desktop-operating-systems-description section contains operating-systems-description with value A native desktop OS description
+    And the solution native-desktop native-desktop-connection-details section contains minimum-connection-speed with value 2Mbps
