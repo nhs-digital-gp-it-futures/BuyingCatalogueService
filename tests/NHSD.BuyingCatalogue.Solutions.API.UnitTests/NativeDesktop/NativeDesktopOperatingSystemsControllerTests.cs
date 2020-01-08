@@ -10,6 +10,8 @@ using NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateSolutionNativeDesktopOperatingSystems;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
@@ -28,6 +30,39 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
         {
             _mockMediator = new Mock<IMediator>();
             _desktopOperatingSystemsController = new NativeDesktopOperatingSystemsController(_mockMediator.Object);
+        }
+
+        [Test]
+        public async Task ShouldGetNativeDesktopOperatingSystemsDescription()
+        {
+            var description = "A description full of detail.";
+            _mockMediator
+                .Setup(m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Mock.Of<IClientApplication>(c => c.NativeDesktopOperatingSystemsDescription == description));
+
+            var response = (await _desktopOperatingSystemsController.GetSupportedOperatingSystems(SolutionId)
+                .ConfigureAwait(false)) as ObjectResult;
+
+            response.StatusCode.Should().Be((int)HttpStatusCode.OK);
+
+            var result = response.Value as GetNativeDesktopOperatingSystemsResult;
+
+            result.OperatingSystemsDescription.Should().Be(description);
+            _mockMediator.Verify(
+                m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()),
+                Times.Once);
+        }
+
+        [Test]
+        public async Task ShouldReturnEmpty()
+        {
+            var response =
+                (await _desktopOperatingSystemsController.GetSupportedOperatingSystems(SolutionId)
+                    .ConfigureAwait(false)) as ObjectResult;
+
+            response.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            var result = response.Value as GetNativeDesktopOperatingSystemsResult;
+            result.OperatingSystemsDescription.Should().BeNull();
         }
 
         [Test]
@@ -82,6 +117,5 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
                         q.NativeDesktopOperatingSystemsDescription == viewModel.NativeDesktopOperatingSystemsDescription),
                     It.IsAny<CancellationToken>()), Times.Once);
         }
-
     }
 }
