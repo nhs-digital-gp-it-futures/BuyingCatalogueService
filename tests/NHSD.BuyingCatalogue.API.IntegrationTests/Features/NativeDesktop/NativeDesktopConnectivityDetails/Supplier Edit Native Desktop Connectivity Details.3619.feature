@@ -1,3 +1,4 @@
+@ignore
 Feature:  Supplier Edit Native Desktop Connectivity Details
     As a Supplier
     I want to Edit the Native Desktop Connectivity Details Section

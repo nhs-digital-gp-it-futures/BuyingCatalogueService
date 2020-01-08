@@ -1,3 +1,4 @@
+@ignore
 Feature:  Display Marketing Page Form Native Desktop Connectivity Details Validation on Edit
     As a Supplier
     I want to manage Marketing Page Information for the Solution's Native Desktop Connectivity Details

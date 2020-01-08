@@ -11,6 +11,8 @@ using NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateSolutionConnectivityDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
@@ -37,6 +39,20 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
                     x.Send(It.IsAny<UpdateSolutionNativeDesktopConnectivityDetailsCommand>(),
                         It.IsAny<CancellationToken>()))
                 .ReturnsAsync(() => _simpleResultMock.Object);
+        }
+
+        [Test]
+        public async Task NullClientApplicationShouldReturnNull()
+        {
+            _mediatorMock.Setup(x => x.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == _solutionId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(null as IClientApplication);
+
+            var result = (await _nativeDesktopConnectivityDetailsController.GetConnectivity(_solutionId).ConfigureAwait(false)) as ObjectResult;
+
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result.Value.Should().BeOfType<GetNativeDesktopConnectivityDetailsResult>();
+            var connectivityResult = result.Value as GetNativeDesktopConnectivityDetailsResult;
+            connectivityResult.NativeDesktopMinimumConnectionSpeed.Should().BeNull();
         }
 
         [Test]

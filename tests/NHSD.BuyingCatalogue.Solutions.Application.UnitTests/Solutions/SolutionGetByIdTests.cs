@@ -40,7 +40,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Summary).Returns("Summary");
             existingSolution.Setup(s => s.AboutUrl).Returns("AboutUrl");
             existingSolution.Setup(s => s.Features).Returns("[ 'Marmite', 'Jam', 'Marmelade' ]");
-            existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'MobileFirstDesign': true, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows', 'Linux'], 'OperatingSystemsDescription': 'For windows only version 10' }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileThirdParty': { 'ThirdPartyComponents': 'Component', 'DeviceCapabilities': 'Capabilities'}, 'NativeMobileHardwareRequirements': 'Native Mobile Hardware', 'NativeDesktopHardwareRequirements': 'Native Desktop Hardware', 'NativeMobileAdditionalInformation': 'native mobile additional information' }");
+            existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'MobileFirstDesign': true, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows', 'Linux'], 'OperatingSystemsDescription': 'For windows only version 10' }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileThirdParty': { 'ThirdPartyComponents': 'Component', 'DeviceCapabilities': 'Capabilities'}, 'NativeMobileHardwareRequirements': 'Native Mobile Hardware', 'NativeDesktopHardwareRequirements': 'Native Desktop Hardware', 'NativeMobileAdditionalInformation': 'native mobile additional information', 'NativeDesktopMinimumConnectionSpeed': '6Mbps' }");
             existingSolution.Setup(s => s.OrganisationName).Returns("OrganisationName");
             existingSolution.Setup(s => s.IsFoundation).Returns(true);
 
@@ -90,6 +90,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.ClientApplication.MobileThirdParty.DeviceCapabilities.Should().Be("Capabilities");
             solution.ClientApplication.NativeMobileHardwareRequirements.Should().Be("Native Mobile Hardware");
             solution.ClientApplication.NativeDesktopHardwareRequirements.Should().Be("Native Desktop Hardware");
+            solution.ClientApplication.NativeDesktopMinimumConnectionSpeed.Should().Be("6Mbps");
 
             solution.IsFoundation.Should().BeTrue();
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1", "cap2"});
@@ -140,6 +141,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.ClientApplication.MobileThirdParty.Should().BeNull();
             solution.ClientApplication.NativeMobileHardwareRequirements.Should().BeNull();
             solution.ClientApplication.NativeDesktopHardwareRequirements.Should().BeNull();
+            solution.ClientApplication.NativeDesktopMinimumConnectionSpeed.Should().BeNull();
 
             solution.OrganisationName.Should().BeNull();
             solution.Capabilities.Should().BeEmpty();
@@ -190,6 +192,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.ClientApplication.MobileThirdParty.Should().BeNull();
             solution.ClientApplication.NativeMobileHardwareRequirements.Should().BeNull();
             solution.ClientApplication.NativeDesktopHardwareRequirements.Should().BeNull();
+            solution.ClientApplication.NativeDesktopMinimumConnectionSpeed.Should().BeNull();
 
             solution.OrganisationName.Should().Be("OrganisationName");
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1"});
@@ -290,7 +293,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Summary).Returns((string)null);
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
             existingSolution.Setup(s => s.Features).Returns((string)null);
-            existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : false, 'AdditionalInformation': null }, 'MobileFirstDesign': false, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows'], 'OperatingSystemsDescription': null }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileThirdParty': { 'ThirdPartyComponents': 'Component' }  }");
+            existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : false, 'AdditionalInformation': null }, 'MobileFirstDesign': false, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows'], 'OperatingSystemsDescription': null }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileThirdParty': { 'ThirdPartyComponents': 'Component' }, 'NativeDesktopMinimumConnectionSpeed': '3 Mbps'  }");
             existingSolution.Setup(s => s.OrganisationName).Returns("OrganisationName");
             existingSolution.Setup(s => s.IsFoundation).Returns(false);
             var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
@@ -333,6 +336,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             solution.ClientApplication.NativeMobileHardwareRequirements.Should().BeNull();
             solution.ClientApplication.NativeDesktopHardwareRequirements.Should().BeNull();
+
+            solution.ClientApplication.NativeDesktopMinimumConnectionSpeed.Should().Be("3 Mbps");
 
             solution.OrganisationName.Should().Be("OrganisationName");
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1"});
