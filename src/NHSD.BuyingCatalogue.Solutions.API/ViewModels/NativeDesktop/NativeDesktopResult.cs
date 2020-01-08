@@ -37,11 +37,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop
 
         public NativeDesktopSections(IClientApplication clientApplication)
         {
-            OperatingSystems = DashboardSection.Mandatory(false);
+            OperatingSystems = DashboardSection.Mandatory(!string.IsNullOrWhiteSpace(clientApplication?.NativeDesktopOperatingSystemsDescription));
             ConnectionDetails = DashboardSection.Mandatory(false);
             MemoryAndStorage = DashboardSection.Mandatory(false);
             ThirdParty = DashboardSection.Optional(false);
-            HardwareRequirements = DashboardSection.Optional(!String.IsNullOrWhiteSpace(clientApplication?.NativeDesktopHardwareRequirements));
+            HardwareRequirements = DashboardSection.Optional(!string.IsNullOrWhiteSpace(clientApplication?.NativeDesktopHardwareRequirements));
             AdditionalInformation = DashboardSection.Optional(false);
         }
     }

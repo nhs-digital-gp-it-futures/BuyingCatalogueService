@@ -118,12 +118,24 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
 
         [TestCase(null, false)]
         [TestCase("Some Hardware", true)]
-        public async Task ShouldGetNativeMobileHardwareRequirementIsComplete(string hardware, bool isComplete)
+        public async Task ShouldGetNativeDesktopHardwareRequirementIsComplete(string hardware, bool isComplete)
         {
-            var nativeMobileResult = await GetNativeDesktopSectionAsync(Mock.Of<IClientApplication>(c => c.NativeDesktopHardwareRequirements == hardware))
+            var nativeDesktopResult = await GetNativeDesktopSectionAsync(Mock.Of<IClientApplication>(c => c.NativeDesktopHardwareRequirements == hardware))
                 .ConfigureAwait(false);
 
-            nativeMobileResult.NativeDesktopSections.HardwareRequirements.Status.Should().Be(isComplete ? "COMPLETE" : "INCOMPLETE");
+            nativeDesktopResult.NativeDesktopSections.HardwareRequirements.Status.Should().Be(isComplete ? "COMPLETE" : "INCOMPLETE");
+        }
+
+        [TestCase(null, false)]
+        [TestCase("", false)]
+        [TestCase("                  ", false)]
+        [TestCase("Some OS Description", true)]
+        public async Task ShouldGetNativeDesktopOperatingSystemsIsComplete(string description, bool isComplete)
+        {
+            var nativeDesktopResult = await GetNativeDesktopSectionAsync(Mock.Of<IClientApplication>(c => c.NativeDesktopOperatingSystemsDescription == description))
+                .ConfigureAwait(false);
+
+            nativeDesktopResult.NativeDesktopSections.OperatingSystems.Status.Should().Be(isComplete ? "COMPLETE" : "INCOMPLETE");
         }
 
         private async Task<NativeDesktopResult> GetNativeDesktopSectionAsync(IClientApplication clientApplication)
