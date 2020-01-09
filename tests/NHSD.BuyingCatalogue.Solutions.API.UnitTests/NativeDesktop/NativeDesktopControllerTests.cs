@@ -9,6 +9,7 @@ using NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
 
@@ -149,6 +150,22 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
                 .ConfigureAwait(false);
 
             nativeMobileResult.NativeDesktopSections.ConnectionDetails.Status.Should().Be(isComplete ? "COMPLETE" : "INCOMPLETE");
+        }
+
+        [TestCase(null, null, false)]
+        [TestCase("", "  ", false)]
+        [TestCase(" ", "", false)]
+        [TestCase("Connectivity", null, true)]
+        [TestCase(null, "Capability", true)]
+        [TestCase("Connectivity", "Capability", true)]
+        public async Task ShouldGetNativeDesktopThirdPartyIsComplete(string component, string capability, bool isComplete)
+        {
+            var nativeMobileResult = await GetNativeDesktopSectionAsync(Mock.Of<IClientApplication>(c =>
+                    c.NativeDesktopThirdParty == Mock.Of<INativeDesktopThirdParty>(t =>
+                        t.ThirdPartyComponents == component && t.DeviceCapabilities == capability)))
+                .ConfigureAwait(false);
+
+            nativeMobileResult.NativeDesktopSections.ThirdParty.Status.Should().Be(isComplete ? "COMPLETE" : "INCOMPLETE");
         }
 
         private async Task<NativeDesktopResult> GetNativeDesktopSectionAsync(IClientApplication clientApplication)
