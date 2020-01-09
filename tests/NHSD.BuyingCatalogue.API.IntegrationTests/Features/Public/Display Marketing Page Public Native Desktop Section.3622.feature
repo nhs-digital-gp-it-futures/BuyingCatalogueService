@@ -23,5 +23,5 @@ Scenario:1. Get Solution Public contains client application types native-desktop
     Then a successful response is returned
     And the solution client-application-types section is returned
     And the solution native-desktop native-desktop-hardware-requirements section contains hardware-requirements with value A native desktop hardware requirement
-    And the solution native-desktop native-desktop-operating-systems-description section contains operating-systems-description with value A native desktop OS description
+    And the solution native-desktop native-desktop-operating-systems section contains operating-systems-description with value A native desktop OS description
     And the solution native-desktop native-desktop-connection-details section contains minimum-connection-speed with value 2Mbps

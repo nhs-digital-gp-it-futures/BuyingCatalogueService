@@ -25,11 +25,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
                 .ToString().Should().Be(value);
         }
 
-        [Then(@"the solution native-desktop native-desktop-operating-systems-description section contains operating-systems-description with value (.*)")]
+        [Then(@"the solution native-desktop native-desktop-operating-systems section contains operating-systems-description with value (.*)")]
         public async Task ThenTheSolutionNativeDesktopOperatingSystemsDescriptionSectionContainsWithValue(string value)
         {
             var context = await _response.ReadBody().ConfigureAwait(false);
-            context.SelectToken($"{Token}.native-desktop-operating-systems-description.answers.operating-systems-description")
+            context.SelectToken($"{Token}.native-desktop-operating-systems.answers.operating-systems-description")
                 .ToString().Should().Be(value);
         }
 
