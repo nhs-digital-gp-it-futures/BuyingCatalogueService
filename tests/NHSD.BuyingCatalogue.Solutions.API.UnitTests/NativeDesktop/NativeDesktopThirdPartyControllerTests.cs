@@ -4,7 +4,6 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
-using FluentAssertions.Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -12,6 +11,9 @@ using NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateSolutionNativeDesktopThirdParty;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
@@ -38,6 +40,44 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
                     x.Send(It.IsAny<UpdateSolutionNativeDesktopThirdPartyCommand>(),
                         It.IsAny<CancellationToken>()))
                 .ReturnsAsync(() => _simpleResultMock.Object);
+        }
+
+        [TestCase("Component", "Cabability")]
+        [TestCase("Component", "")]
+        [TestCase("", "Cabability")]
+        [TestCase("       ", "")]
+        [TestCase("", "         ")]
+        [TestCase(null, null)]
+        public async Task PopulatedThirdPartyShouldReturnCorrectThirdParty(string components, string capabilities)
+        {
+            _mediatorMock.Setup(x => x.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == _solutionId),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Mock.Of<IClientApplication>(c =>
+                    c.NativeDesktopThirdParty == Mock.Of<INativeDesktopThirdParty>(t =>
+                        t.ThirdPartyComponents == components && t.DeviceCapabilities == capabilities)));
+
+            var result = await _nativeDesktopThirdPartyController.GetThirdParty(_solutionId).ConfigureAwait(false) as ObjectResult;
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result.Value.Should().BeOfType<GetNativeDesktopThirdPartyResult>();
+            var thirdPartyResult = result.Value as GetNativeDesktopThirdPartyResult;
+            thirdPartyResult.ThirdPartyComponents.Should().Be(components);
+            thirdPartyResult.DeviceCapabilities.Should().Be(capabilities);
+        }
+
+        [Test]
+        public async Task NullClientApplicationShouldReturnNull()
+        {
+            _mediatorMock.Setup(x => x.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == _solutionId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(null as IClientApplication);
+
+            var result = (await _nativeDesktopThirdPartyController.GetThirdParty(_solutionId).ConfigureAwait(false)) as ObjectResult;
+
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result.Value.Should().BeOfType<GetNativeDesktopThirdPartyResult>();
+            var thirdPartyResult = result.Value as GetNativeDesktopThirdPartyResult;
+            thirdPartyResult.ThirdPartyComponents.Should().BeNull();
+            thirdPartyResult.DeviceCapabilities.Should().BeNull();
         }
 
         [Test]
