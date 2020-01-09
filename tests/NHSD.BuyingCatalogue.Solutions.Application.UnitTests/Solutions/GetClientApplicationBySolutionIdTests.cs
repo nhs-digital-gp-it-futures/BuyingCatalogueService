@@ -34,7 +34,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             _clientApplicationResult = Mock.Of<IClientApplicationResult>(r =>
                 r.Id == _solutionId &&
-                r.ClientApplication == "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'HardwareRequirements': 'New Hardware', 'NativeMobileHardwareRequirements': 'New Native Mobile Hardware', 'NativeDesktopHardwareRequirements': 'New Native Desktop Hardware', 'AdditionalInformation': 'Some Additional Info', 'MobileFirstDesign': false, 'NativeMobileFirstDesign': false, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows', 'Linux'], 'OperatingSystemsDescription': 'For windows only version 10' }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileMemoryAndStorage': { 'Description': 'A description', 'MinimumMemoryRequirement': '1GB' }, 'NativeMobileAdditionalInformation': 'native mobile additional info', 'NativeDesktopMinimumConnectionSpeed': '2Mbps', 'NativeDesktopOperatingSystemsDescription': 'native desktop operating systems description' }"
+                r.ClientApplication == "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'HardwareRequirements': 'New Hardware', 'NativeMobileHardwareRequirements': 'New Native Mobile Hardware', 'NativeDesktopHardwareRequirements': 'New Native Desktop Hardware', 'AdditionalInformation': 'Some Additional Info', 'MobileFirstDesign': false, 'NativeMobileFirstDesign': false, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows', 'Linux'], 'OperatingSystemsDescription': 'For windows only version 10' }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileMemoryAndStorage': { 'Description': 'A description', 'MinimumMemoryRequirement': '1GB' }, 'NativeMobileAdditionalInformation': 'native mobile additional info', 'NativeDesktopMinimumConnectionSpeed': '2Mbps', 'NativeDesktopOperatingSystemsDescription': 'native desktop operating systems description', 'NativeDesktopThirdParty': { 'ThirdPartyComponents': 'Components', 'DeviceCapabilities': 'Capabilities' } }"
                 );
 
             var clientApplication = await _context.GetClientApplicationBySolutionIdHandler.Handle(
@@ -64,6 +64,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             clientApplication.NativeDesktopMinimumConnectionSpeed.Should().Be("2Mbps");
             clientApplication.NativeDesktopOperatingSystemsDescription.Should()
                 .Be("native desktop operating systems description");
+            clientApplication.NativeDesktopThirdParty.ThirdPartyComponents.Should().Be("Components");
+            clientApplication.NativeDesktopThirdParty.DeviceCapabilities.Should().Be("Capabilities");
         }
 
         [Test]
