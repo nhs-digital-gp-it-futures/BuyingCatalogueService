@@ -8,7 +8,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.NativeDesktop
        [JsonProperty("native-desktop-hardware-requirements")]
        public NativeDesktopHardwareRequirementsSection HardwareRequirementsSection { get; }
 
-       [JsonProperty("native-desktop-operating-systems-description")]
+       [JsonProperty("native-desktop-operating-systems")]
        public NativeDesktopOperatingSystemsSection OperatingSystemsSection { get; }
 
        [JsonProperty("native-desktop-connection-details")]
