@@ -11,6 +11,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSol
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionConnectivityAndResolution;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionPlugins;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateNativeDesktopHardwareRequirements;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateNativeDesktopMemoryAndStorage;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateSolutionConnectivityDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateSolutionNativeDesktopOperatingSystems;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateSolutionNativeDesktopThirdParty;
@@ -110,6 +111,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             (UpdateSolutionNativeDesktopConnectivityDetailsHandler)_scope
                 .UpdateSolutionNativeDesktopConnectivityDetailsHandler;
 
+        public UpdateNativeDesktopMemoryAndStorageHandler UpdateNativeDesktopMemoryAndStorageHandler =>
+            (UpdateNativeDesktopMemoryAndStorageHandler)_scope.UpdateNativeDesktopMemoryAndStorageHandler;
+
         private readonly Scope _scope;
 
         public TestContext()
@@ -192,6 +196,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public IRequestHandler<UpdateSolutionNativeDesktopThirdPartyCommand, ISimpleResult> UpdateSolutionNativeDesktopThirdPartyHandler { get; }
 
+            public IRequestHandler<UpdateNativeDesktopMemoryAndStorageCommand, ISimpleResult> UpdateNativeDesktopMemoryAndStorageHandler { get; }
 
             public Scope(IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
                 IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> getClientApplicationBySolutionIdHandler,
@@ -217,7 +222,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdateSolutionNativeMobileAdditionalInformationCommand, ISimpleResult> updateSolutionNativeMobileAdditionalInformationHandler,
                 IRequestHandler<UpdateSolutionNativeDesktopConnectivityDetailsCommand, ISimpleResult> updateSolutionNativeDesktopConnectivityDetailsHandler,
                 IRequestHandler<UpdateSolutionNativeDesktopOperatingSystemsCommand, ISimpleResult> updateSolutionNativeDesktopOperatingSystemsHandler,
-                IRequestHandler<UpdateSolutionNativeDesktopThirdPartyCommand, ISimpleResult> updateSolutionNativeDesktopThirdPartyHandler
+                IRequestHandler<UpdateSolutionNativeDesktopThirdPartyCommand, ISimpleResult> updateSolutionNativeDesktopThirdPartyHandler,
+                IRequestHandler<UpdateNativeDesktopMemoryAndStorageCommand, ISimpleResult> updateNativeDestkopMemoryAndStorageHandler
                 )
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;
@@ -245,6 +251,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 UpdateSolutionNativeDesktopOperatingSystemsHandler = updateSolutionNativeDesktopOperatingSystemsHandler;
                 UpdateSolutionNativeDesktopConnectivityDetailsHandler = updateSolutionNativeDesktopConnectivityDetailsHandler;
                 UpdateSolutionNativeDesktopThirdPartyHandler = updateSolutionNativeDesktopThirdPartyHandler;
+                UpdateNativeDesktopMemoryAndStorageHandler = updateNativeDestkopMemoryAndStorageHandler;
             }
         }
     }

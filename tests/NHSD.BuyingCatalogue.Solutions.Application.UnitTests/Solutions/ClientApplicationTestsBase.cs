@@ -15,7 +15,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             Context = new TestContext();
         }
 
-        protected void SetUpMockSolutionRepositoryGetByIdAsync(string clientApplicationJson)
+        protected void SetUpMockSolutionRepositoryGetByIdAsync(string clientApplicationJson = "")
         {
             var existingSolution = new Mock<ISolutionResult>();
 
