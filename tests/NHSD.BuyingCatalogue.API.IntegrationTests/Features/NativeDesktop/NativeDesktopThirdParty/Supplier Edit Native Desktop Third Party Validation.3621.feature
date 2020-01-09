@@ -43,7 +43,7 @@ Scenario: 2.Native Desktop Third Party Capability exceeds its maxLength
         | Sln1     | An full online medicine system | Online medicine 1 | { "NativeDesktopThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": "Capability" } } |
 
 @3621
-Scenario: 3.Native Desktop Third Party Component & Capability exceeds there maxLength
+Scenario: 3.Native Desktop Third Party Component & Capability exceeds their maxLength
     Given SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                          |
         | Sln1     | An full online medicine system | Online medicine 1 | { "NativeDesktopThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": "Capability" } } |
