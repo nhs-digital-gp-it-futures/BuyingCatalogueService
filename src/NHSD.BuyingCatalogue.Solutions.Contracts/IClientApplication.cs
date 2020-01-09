@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
 
 namespace NHSD.BuyingCatalogue.Solutions.Contracts
 {
@@ -23,5 +24,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         string NativeMobileAdditionalInformation { get; }
         string NativeDesktopOperatingSystemsDescription { get; }
         string NativeDesktopMinimumConnectionSpeed { get; }
+        INativeDesktopThirdParty NativeDesktopThirdParty { get; }
     }
 }

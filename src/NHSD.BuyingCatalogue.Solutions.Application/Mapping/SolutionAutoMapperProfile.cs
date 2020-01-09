@@ -2,8 +2,10 @@ using AutoMapper;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
+using NHSD.BuyingCatalogue.Solutions.Application.Domain.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
 {
@@ -35,6 +37,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
             CreateMap<MobileMemoryAndStorage, IMobileMemoryAndStorage>().As<MobileMemoryAndStorageDto>();
             CreateMap<MobileThirdParty, MobileThirdPartyDto>();
             CreateMap<MobileThirdParty, IMobileThirdParty>().As<MobileThirdPartyDto>();
+            CreateMap<NativeDesktopThirdParty, NativeDesktopThirdPartyDto>();
+            CreateMap<NativeDesktopThirdParty, INativeDesktopThirdParty>().As<NativeDesktopThirdPartyDto>();
         }
     }
 }

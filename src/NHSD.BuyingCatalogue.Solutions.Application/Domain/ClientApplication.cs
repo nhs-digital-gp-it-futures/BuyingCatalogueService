@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NHSD.BuyingCatalogue.Solutions.Application.Domain.NativeDesktop;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 {
@@ -41,5 +42,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public string NativeDesktopOperatingSystemsDescription { get; set; }
 
         public string NativeDesktopMinimumConnectionSpeed { get; set; }
+
+        public NativeDesktopThirdParty NativeDesktopThirdParty { get; set; }
     }
 }

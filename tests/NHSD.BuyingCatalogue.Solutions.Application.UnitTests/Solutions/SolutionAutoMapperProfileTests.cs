@@ -6,9 +6,11 @@ using FluentAssertions;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
+using NHSD.BuyingCatalogue.Solutions.Application.Domain.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Application.Mapping;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
@@ -44,6 +46,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             yield return new KeyValuePair<Type, Type>(typeof(MobileMemoryAndStorage), typeof(IMobileMemoryAndStorage));
             yield return new KeyValuePair<Type, Type>(typeof(MobileThirdParty), typeof(MobileThirdPartyDto));
             yield return new KeyValuePair<Type, Type>(typeof(MobileThirdParty), typeof(IMobileThirdParty));
+            yield return new KeyValuePair<Type, Type>(typeof(NativeDesktopThirdParty), typeof(NativeDesktopThirdPartyDto));
+            yield return new KeyValuePair<Type, Type>(typeof(NativeDesktopThirdParty), typeof(INativeDesktopThirdParty));
         }
 
         [Test]
