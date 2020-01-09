@@ -10,6 +10,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop.ViewModels
         [TestCase("         Component           ", "Component")]
         [TestCase("Component           ", "Component")]
         [TestCase("         Component", "Component")]
+        [TestCase("                    ", "")]
+        [TestCase(null, null)]
         public void TrimComponentReturnsTrimmedCopy(string value, string trimmedValue)
         {
             var viewModel = new UpdateNativeDesktopThirdPartyViewModel();
@@ -21,6 +23,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop.ViewModels
         [TestCase("         Capability           ", "Capability")]
         [TestCase("Capability           ", "Capability")]
         [TestCase("         Capability", "Capability")]
+        [TestCase("                    ", "")]
+        [TestCase(null, null)]
         public void TrimCapabilityReturnsTrimmedCopy(string value, string trimmedValue)
         {
             var viewModel = new UpdateNativeDesktopThirdPartyViewModel();

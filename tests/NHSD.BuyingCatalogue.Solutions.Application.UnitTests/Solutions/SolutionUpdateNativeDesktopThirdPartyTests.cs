@@ -6,7 +6,6 @@ using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
-using NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateSolutionNativeDesktopThirdParty;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
@@ -100,10 +99,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var validationResult = await UpdateNativeDesktopThirdParty(new string('a', 501), new string('a', 501))
                 .ConfigureAwait(false);
             validationResult.IsValid.Should().Be(false);
-            var results = validationResult.ToDictionary();
-            results.Count.Should().Be(2);
-            results["third-party-components"].Should().Be("maxLength");
-            results["device-capabilities"].Should().Be("maxLength");
+
+            var maxLengthResult = validationResult as MaxLengthResult;
+            maxLengthResult.MaxLength.Should().BeEquivalentTo("third-party-components", "device-capabilities");
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Never);
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never);
@@ -133,12 +131,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
         private async Task<ISimpleResult> UpdateNativeDesktopThirdParty(string components = null, string capabilities = null)
         {
+            var trimmedData = Mock.Of<IUpdateNativeDesktopThirdPartyData>(t =>
+                t.ThirdPartyComponents == components && t.DeviceCapabilities == capabilities);
+
+            var data = new Mock<IUpdateNativeDesktopThirdPartyData>();
+            data.Setup(s => s.Trim()).Returns(trimmedData);
+
             return await Context.UpdateSolutionNativeDesktopThirdPartyHandler.Handle(
-                new UpdateSolutionNativeDesktopThirdPartyCommand(SolutionId, new UpdateNativeDesktopThirdPartyViewModel()
-                {
-                    ThirdPartyComponents = components,
-                    DeviceCapabilities = capabilities
-                }),
+                new UpdateSolutionNativeDesktopThirdPartyCommand(SolutionId, data.Object),
                 new CancellationToken()).ConfigureAwait(false);
         }
     }
