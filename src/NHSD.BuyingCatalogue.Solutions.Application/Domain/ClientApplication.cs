@@ -44,5 +44,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public string NativeDesktopMinimumConnectionSpeed { get; set; }
 
         public NativeDesktopThirdParty NativeDesktopThirdParty { get; set; }
+
+        public NativeDesktopMemoryAndStorage NativeDesktopMemoryAndStorage { get; set; }
     }
 }

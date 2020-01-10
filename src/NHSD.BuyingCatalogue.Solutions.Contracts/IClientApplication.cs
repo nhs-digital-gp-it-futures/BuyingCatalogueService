@@ -25,5 +25,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         string NativeDesktopOperatingSystemsDescription { get; }
         string NativeDesktopMinimumConnectionSpeed { get; }
         INativeDesktopThirdParty NativeDesktopThirdParty { get; }
+        INativeDesktopMemoryAndStorage NativeDesktopMemoryAndStorage { get; }
     }
 }
