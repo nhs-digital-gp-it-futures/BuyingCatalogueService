@@ -17,11 +17,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.NativeDesktop
        [JsonProperty("native-desktop-third-party")]
        public NativeDesktopThirdPartySection NativeDesktopThirdPartySection { get; }
 
-       [JsonIgnore]
+       [JsonProperty("native-desktop-memory-and-storage")]
+       public NativeDesktopMemoryAndStorageSection NativeDesktopMemoryAndStorageSection { get; }
+
+        [JsonIgnore]
        public bool HasData => HardwareRequirementsSection.Answers.HasData ||
                               OperatingSystemsSection.Answers.HasData ||
                               NativeDesktopConnectivityDetailsSection.Answers.HasData ||
-                              NativeDesktopThirdPartySection.Answers.HasData;
+                              NativeDesktopThirdPartySection.Answers.HasData ||
+                              NativeDesktopMemoryAndStorageSection.Answers.HasData;
 
        internal NativeDesktopSubSections(IClientApplication clientApplication)
        {
@@ -29,6 +33,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.NativeDesktop
            OperatingSystemsSection = new NativeDesktopOperatingSystemsSection(clientApplication);
            NativeDesktopConnectivityDetailsSection = new NativeDesktopConnectivityDetailsSection(clientApplication);
            NativeDesktopThirdPartySection = new NativeDesktopThirdPartySection(clientApplication);
+           NativeDesktopMemoryAndStorageSection = new NativeDesktopMemoryAndStorageSection(clientApplication);
        }
     }
 }

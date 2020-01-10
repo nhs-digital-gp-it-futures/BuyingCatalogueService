@@ -55,5 +55,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
             context.SelectToken($"{Token}.native-desktop-third-party.answers.{section}")
                 .ToString().Should().Be(value);
         }
+
+        [Then(@"the solution native-desktop native-desktop-memory-and-storage section contains (minimum-memory-requirement|storage-requirements-description|minimum-cpu|recommended-resolution) with value (.*)")]
+        public async Task ThenTheSolutionNativeDesktopMemoryAndStorageSectionContainsWithValue(string section, string value)
+        {
+            var context = await _response.ReadBody().ConfigureAwait(false);
+            context.SelectToken($"{Token}.native-desktop-memory-and-storage.answers.{section}")
+                .ToString().Should().Be(value);
+        }
     }
 }

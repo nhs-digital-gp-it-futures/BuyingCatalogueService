@@ -602,6 +602,53 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
+        [TestCase("512TB", "1024TB", "1Hz", "1x1 px", true)]
+        [TestCase(null, "1024TB", "1Hz", "1x1 px", true)]
+        [TestCase("512TB", null, "1Hz", "1x1 px", true)]
+        [TestCase("512TB", "1024TB", null, "1x1 px", true)]
+        [TestCase("512TB", "1024TB", "1Hz", null, true)]
+        [TestCase(null, "1024TB", "1Hz", null, true)]
+        [TestCase("512TB", null, null, "1x1 px", true)]
+        [TestCase("512TB", null, null, "1x1 px", true)]
+        [TestCase(null, "1024TB", "1Hz", null, true)]
+        [TestCase(null, "1024TB", null, null, true)]
+        [TestCase(null, null, null, "1x1 px", true)]
+        [TestCase("512TB", null, null, null, true)]
+        [TestCase(null, null, "1Hz", null, true)]
+        [TestCase(null, null, null, null, false)]
+
+        public async Task NativeDesktopMemoryAndStorageSectionIsPopulatedCorrectly(string memory, string storage, string cpu, string resolution, bool hasData)
+        {
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                    s.ClientApplication ==
+                    Mock.Of<IClientApplication>(c =>
+                        c.ClientApplicationTypes == new HashSet<string> { "native-desktop" } &&
+                        c.NativeDesktopMemoryAndStorage == Mock.Of<INativeDesktopMemoryAndStorage>(m =>
+                            m.MinimumMemoryRequirement == memory &&
+                            m.StorageRequirementsDescription == storage &&
+                            m.MinimumCpu == cpu &&
+                            m.RecommendedResolution == resolution))))
+                .ConfigureAwait(false);
+
+            if (hasData)
+            {
+                previewResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopMemoryAndStorageSection
+                    .Answers.MinimumMemoryRequirement.Should().Be(memory);
+                previewResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopMemoryAndStorageSection
+                    .Answers.StorageRequirementsDescription.Should().Be(storage);
+                previewResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopMemoryAndStorageSection
+                    .Answers.MinimumCpu.Should().Be(cpu);
+                previewResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopMemoryAndStorageSection
+                    .Answers.RecommendedResolution.Should().Be(resolution);
+                previewResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopMemoryAndStorageSection
+                    .Answers.HasData.Should().BeTrue();
+            }
+            else
+            {
+                previewResult.Sections.ClientApplicationTypes.Should().BeNull();
+            }
+        }
+
         [Test]
         public async Task ShouldIncludeNativeDesktopDataIfClientApplicationTypesIncludeNativeDesktop()
         {
