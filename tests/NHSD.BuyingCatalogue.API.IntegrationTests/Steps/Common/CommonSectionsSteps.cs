@@ -77,7 +77,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             }
         }
 
-        [Then(@"the status of the (browser-browsers-supported|browser-plug-ins-or-extensions|browser-hardware-requirements|browser-connectivity-and-resolution|browser-additional-information|browser-mobile-first|native-mobile-first|native-mobile-operating-systems|native-mobile-connection-details|native-mobile-memory-and-storage|native-mobile-hardware-requirements|native-mobile-third-party|native-mobile-additional-information|native-desktop-operating-systems|native-desktop-hardware-requirements|native-desktop-connection-details|native-desktop-third-party) section is (COMPLETE|INCOMPLETE)")]
+        [Then(@"the status of the (browser-browsers-supported|browser-plug-ins-or-extensions|browser-hardware-requirements|browser-connectivity-and-resolution|browser-additional-information|browser-mobile-first|native-mobile-first|native-mobile-operating-systems|native-mobile-connection-details|native-mobile-memory-and-storage|native-mobile-hardware-requirements|native-mobile-third-party|native-mobile-additional-information|native-desktop-operating-systems|native-desktop-hardware-requirements|native-desktop-connection-details|native-desktop-third-party|native-desktop-memory-and-storage) section is (COMPLETE|INCOMPLETE)")]
         public async Task StatusOfSectionIs(string section, string status)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);

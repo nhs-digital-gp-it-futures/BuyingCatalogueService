@@ -38,7 +38,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop
         {
             OperatingSystems = DashboardSection.Mandatory(clientApplication.IsNativeDesktopOperatingSystemsComplete());
             ConnectionDetails = DashboardSection.Mandatory(clientApplication.IsNativeDesktopConnectionDetailsComplete());
-            MemoryAndStorage = DashboardSection.Mandatory(false);
+            MemoryAndStorage = DashboardSection.Mandatory(clientApplication.IsNativeDesktopMemoryAndStorageComplete());
             ThirdParty = DashboardSection.Optional(clientApplication.IsNativeDesktopThirdPartyComplete());
             HardwareRequirements = DashboardSection.Optional(!string.IsNullOrWhiteSpace(clientApplication?.NativeDesktopHardwareRequirements));
             AdditionalInformation = DashboardSection.Optional(false);

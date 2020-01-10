@@ -146,10 +146,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
         [TestCase("3 Mbps", true)]
         public async Task ShouldGetNativeDesktopConnectivityDetailsIsComplete(string minimumConnectionSpeed, bool isComplete)
         {
-            var nativeMobileResult = await GetNativeDesktopSectionAsync(Mock.Of<IClientApplication>(c => c.NativeDesktopMinimumConnectionSpeed == minimumConnectionSpeed))
+            var nativeDesktopResult = await GetNativeDesktopSectionAsync(Mock.Of<IClientApplication>(c => c.NativeDesktopMinimumConnectionSpeed == minimumConnectionSpeed))
                 .ConfigureAwait(false);
 
-            nativeMobileResult.NativeDesktopSections.ConnectionDetails.Status.Should().Be(isComplete ? "COMPLETE" : "INCOMPLETE");
+            nativeDesktopResult.NativeDesktopSections.ConnectionDetails.Status.Should().Be(isComplete ? "COMPLETE" : "INCOMPLETE");
         }
 
         [TestCase(null, null, false)]
@@ -166,6 +166,28 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
                 .ConfigureAwait(false);
 
             nativeDesktopResult.NativeDesktopSections.ThirdParty.Status.Should().Be(isComplete ? "COMPLETE" : "INCOMPLETE");
+        }
+
+        [TestCase("a", "b", "c", "d", true)]
+        [TestCase("a", "b", "c", null, true)]
+        [TestCase("a", "b", null, "d", false)]
+        [TestCase("a", null, "c", "d", false)]
+        [TestCase(null, "b", "c", "d", false)]
+        [TestCase("a", null, null, "d", false)]
+        [TestCase(null, null, "c", "d", false)]
+        [TestCase(null, "b", null, "d", false)]
+        [TestCase(null, null, null, "d", false)]
+        public async Task ShouldGetNativeDesktopMemoryAndStorageIsComplete(string memory, string storage, string cpu, string resolution, bool isComplete)
+        {
+            var nativeDesktopResult = await GetNativeDesktopSectionAsync(Mock.Of<IClientApplication>(c =>
+                    c.NativeDesktopMemoryAndStorage == Mock.Of<INativeDesktopMemoryAndStorage>(t =>
+                        t.MinimumMemoryRequirement == memory &&
+                        t.StorageRequirementsDescription == storage &&
+                        t.MinimumCpu == cpu &&
+                        t.RecommendedResolution == resolution)))
+                .ConfigureAwait(false);
+
+            nativeDesktopResult.NativeDesktopSections.MemoryAndStorage.Status.Should().Be(isComplete ? "COMPLETE" : "INCOMPLETE");
         }
 
         private async Task<NativeDesktopResult> GetNativeDesktopSectionAsync(IClientApplication clientApplication)

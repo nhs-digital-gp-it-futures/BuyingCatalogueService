@@ -111,3 +111,30 @@ Examples:
     | { "NativeDesktopThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": null } }         | COMPLETE   |
     | { "NativeDesktopThirdParty": { "ThirdPartyComponents": null, "DeviceCapabilities": "Capability" } }        | COMPLETE   |
     | { "NativeDesktopThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": "Capability" } } | COMPLETE   |
+            
+@3620
+Scenario Outline: 9. Native Desktop Memory And Storage Based on data in Client Application
+  Given SolutionDetail exist
+        | Solution | ClientApplication   |
+        | Sln1     | <ClientApplication> |
+    When a GET request is made for native-desktop dashboard for solution Sln1
+    Then a successful response is returned
+    And the status of the native-desktop-memory-and-storage section is <Status>
+Examples:
+    | ClientApplication                                                                                                                                     | Status     |
+    |                                                                                                                                                       | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : {  } }                                                                                                            | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB" } }                                                                           | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": null } }                                                                            | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "" } }                                                                              | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "    " } }                                                                          | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "StorageRequirementsDescription": null } }                                   | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "StorageRequirementsDescription": "" } }                                     | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "StorageRequirementsDescription": "    " } }                                 | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "StorageRequirementsDescription": "A description" } }                        | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "StorageRequirementsDescription": "A description", "MinimumCpu": null} }     | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "StorageRequirementsDescription": "A description", "MinimumCpu": ""} }       | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "StorageRequirementsDescription": "A description", "MinimumCpu": "    "} }   | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": null, "StorageRequirementsDescription": "A description", "MinimumCpu": "3.5Ghz"} }  | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "StorageRequirementsDescription": "", "MinimumCpu": "3.5Ghz"} }              | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "StorageRequirementsDescription": "A description", "MinimumCpu": "3.5Ghz"} } | COMPLETE   |
