@@ -10,6 +10,7 @@ using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
 
@@ -728,6 +729,40 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     .NativeDesktopConnectivityDetailsSection.Answers.NativeDesktopMinimumConnectionSpeed.Should().Be(minimumConnectionSpeed);
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
                     .NativeDesktopConnectivityDetailsSection.Answers.HasData.Should().BeTrue();
+            }
+            else
+            {
+                publicResult.Sections.ClientApplicationTypes.Should().BeNull();
+            }
+        }
+
+        [TestCase(null, null, false)]
+        [TestCase("", "     ", false)]
+        [TestCase("     ", "", false)]
+        [TestCase("     ", "        ", false)]
+        [TestCase("Component", null, true)]
+        [TestCase(null, "Capability", true)]
+        [TestCase("Component", "Capability", true)]
+
+        public async Task NativeDesktopThirdPartySectionIsPopulatedCorrectly(string component, string capability, bool hasData)
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                    s.PublishedStatus == PublishedStatus.Published &&
+                    s.ClientApplication ==
+                    Mock.Of<IClientApplication>(c =>
+                        c.ClientApplicationTypes == new HashSet<string> { "native-desktop" } &&
+                        c.NativeDesktopThirdParty == Mock.Of<INativeDesktopThirdParty>(m =>
+                            m.ThirdPartyComponents == component && m.DeviceCapabilities == capability))), SolutionId1)
+                .ConfigureAwait(false);
+
+            if (hasData)
+            {
+                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopThirdPartySection
+                    .Answers.ThirdPartyComponents.Should().Be(component);
+                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopThirdPartySection
+                    .Answers.DeviceCapabilities.Should().Be(capability);
+                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopThirdPartySection
+                    .Answers.HasData.Should().BeTrue();
             }
             else
             {
