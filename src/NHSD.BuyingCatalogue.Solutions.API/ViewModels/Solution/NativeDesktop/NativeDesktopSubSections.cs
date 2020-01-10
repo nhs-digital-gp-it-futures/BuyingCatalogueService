@@ -14,16 +14,21 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.NativeDesktop
        [JsonProperty("native-desktop-connection-details")]
        public NativeDesktopConnectivityDetailsSection NativeDesktopConnectivityDetailsSection { get; }
 
-        [JsonIgnore]
-       public bool HasData => HardwareRequirementsSection.Answers.HasData || 
+       [JsonProperty("native-desktop-third-party")]
+       public NativeDesktopThirdPartySection NativeDesktopThirdPartySection { get; }
+
+       [JsonIgnore]
+       public bool HasData => HardwareRequirementsSection.Answers.HasData ||
                               OperatingSystemsSection.Answers.HasData ||
-                              NativeDesktopConnectivityDetailsSection.Answers.HasData;
+                              NativeDesktopConnectivityDetailsSection.Answers.HasData ||
+                              NativeDesktopThirdPartySection.Answers.HasData;
 
        internal NativeDesktopSubSections(IClientApplication clientApplication)
        {
            HardwareRequirementsSection = new NativeDesktopHardwareRequirementsSection(clientApplication);
            OperatingSystemsSection = new NativeDesktopOperatingSystemsSection(clientApplication);
            NativeDesktopConnectivityDetailsSection = new NativeDesktopConnectivityDetailsSection(clientApplication);
+           NativeDesktopThirdPartySection = new NativeDesktopThirdPartySection(clientApplication);
        }
     }
 }

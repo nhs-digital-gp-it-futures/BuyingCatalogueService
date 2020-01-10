@@ -40,5 +40,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
             context.SelectToken($"{Token}.native-desktop-connection-details.answers.minimum-connection-speed")
                 .ToString().Should().Be(value);
         }
+
+        [Then(@"the solution native-desktop native-desktop-third-party section contains (third-party-components|device-capabilities) with value (.*)")]
+        public async Task ThenTheSolutionNativeDesktopThirdPartySectionContainsWithValue(string section, string value)
+        {
+            var context = await _response.ReadBody().ConfigureAwait(false);
+            context.SelectToken($"{Token}.native-desktop-third-party.answers.{section}")
+                .ToString().Should().Be(value);
+        }
     }
 }

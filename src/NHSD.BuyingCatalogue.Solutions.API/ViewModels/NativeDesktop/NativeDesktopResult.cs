@@ -1,4 +1,3 @@
-using System;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
@@ -40,7 +39,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop
             OperatingSystems = DashboardSection.Mandatory(!string.IsNullOrWhiteSpace(clientApplication?.NativeDesktopOperatingSystemsDescription));
             ConnectionDetails = DashboardSection.Mandatory(!string.IsNullOrWhiteSpace(clientApplication?.NativeDesktopMinimumConnectionSpeed));
             MemoryAndStorage = DashboardSection.Mandatory(false);
-            ThirdParty = DashboardSection.Optional(false);
+            ThirdParty = DashboardSection.Optional(clientApplication.IsNativeDesktopThirdPartyComplete());
             HardwareRequirements = DashboardSection.Optional(!string.IsNullOrWhiteSpace(clientApplication?.NativeDesktopHardwareRequirements));
             AdditionalInformation = DashboardSection.Optional(false);
         }

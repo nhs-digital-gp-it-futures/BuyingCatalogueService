@@ -92,3 +92,22 @@ Examples:
     | { "NativeDesktopMinimumConnectionSpeed": null }     | INCOMPLETE |
     | { "NativeDesktopMinimumConnectionSpeed": "      " } | INCOMPLETE |
     | { "NativeDesktopMinimumConnectionSpeed": "6 Mbps" } | COMPLETE   |
+
+@3621
+Scenario Outline: 8. Native Desktop Third Party based on data in Client Application
+  Given SolutionDetail exist
+        | Solution | ClientApplication   |
+        | Sln1     | <ClientApplication> |
+    When a GET request is made for native-desktop dashboard for solution Sln1
+    Then a successful response is returned
+    And the status of the native-desktop-third-party section is <Status>
+Examples:
+    | ClientApplication                                                                                          | Status     |
+    |                                                                                                            | INCOMPLETE |
+    | { "NativeDesktopThirdParty": null }                                                                        | INCOMPLETE |
+    | { "NativeDesktopThirdParty": { "ThirdPartyComponents": "      ", "DeviceCapabilities": "  " } }            | INCOMPLETE |
+    | { "NativeDesktopThirdParty": { "ThirdPartyComponents": "      ", "DeviceCapabilities": null } }            | INCOMPLETE |
+    | { "NativeDesktopThirdParty": { "ThirdPartyComponents": null, "DeviceCapabilities": "     " } }             | INCOMPLETE |
+    | { "NativeDesktopThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": null } }         | COMPLETE   |
+    | { "NativeDesktopThirdParty": { "ThirdPartyComponents": null, "DeviceCapabilities": "Capability" } }        | COMPLETE   |
+    | { "NativeDesktopThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": "Capability" } } | COMPLETE   |
