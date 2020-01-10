@@ -48,6 +48,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             yield return new KeyValuePair<Type, Type>(typeof(MobileThirdParty), typeof(IMobileThirdParty));
             yield return new KeyValuePair<Type, Type>(typeof(NativeDesktopThirdParty), typeof(NativeDesktopThirdPartyDto));
             yield return new KeyValuePair<Type, Type>(typeof(NativeDesktopThirdParty), typeof(INativeDesktopThirdParty));
+            yield return new KeyValuePair<Type, Type>(typeof(NativeDesktopMemoryAndStorage), typeof(NativeDesktopMemoryAndStorageDto));
+            yield return new KeyValuePair<Type, Type>(typeof(NativeDesktopMemoryAndStorage), typeof(INativeDesktopMemoryAndStorage));
         }
 
         [Test]

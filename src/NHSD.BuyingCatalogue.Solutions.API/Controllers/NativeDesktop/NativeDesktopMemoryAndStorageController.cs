@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -10,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateNativeDesktopMemoryAndStorage;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeDesktop
 {
@@ -25,6 +23,19 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeDesktop
         {
             mediator.ThrowIfNull();
             _mediator = mediator;
+        }
+
+        [HttpGet]
+        [Route("{id}/sections/native-desktop-memory-and-storage")]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult> Get([FromRoute] [Required] string id)
+        {
+            var clientApplication =
+                await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
+
+            return Ok(new GetNativeDesktopMemoryAndStorageResult(clientApplication?.NativeDesktopMemoryAndStorage));
         }
 
         [HttpPut]

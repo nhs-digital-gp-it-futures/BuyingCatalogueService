@@ -40,7 +40,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Summary).Returns("Summary");
             existingSolution.Setup(s => s.AboutUrl).Returns("AboutUrl");
             existingSolution.Setup(s => s.Features).Returns("[ 'Marmite', 'Jam', 'Marmelade' ]");
-            existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'MobileFirstDesign': true, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows', 'Linux'], 'OperatingSystemsDescription': 'For windows only version 10' }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileThirdParty': { 'ThirdPartyComponents': 'Component', 'DeviceCapabilities': 'Capabilities'}, 'NativeMobileHardwareRequirements': 'Native Mobile Hardware', 'NativeDesktopHardwareRequirements': 'Native Desktop Hardware', 'NativeMobileAdditionalInformation': 'native mobile additional information', 'NativeDesktopMinimumConnectionSpeed': '6Mbps', 'NativeDesktopOperatingSystemsDescription':'native desktop operating systems description', 'NativeDesktopThirdParty': { 'ThirdPartyComponents': 'Components', 'DeviceCapabilities': 'Capabilities' } }");
+            existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'MobileFirstDesign': true, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows', 'Linux'], 'OperatingSystemsDescription': 'For windows only version 10' }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileThirdParty': { 'ThirdPartyComponents': 'Component', 'DeviceCapabilities': 'Capabilities'}, 'NativeMobileHardwareRequirements': 'Native Mobile Hardware', 'NativeDesktopHardwareRequirements': 'Native Desktop Hardware', 'NativeMobileAdditionalInformation': 'native mobile additional information', 'NativeDesktopMinimumConnectionSpeed': '6Mbps', 'NativeDesktopOperatingSystemsDescription':'native desktop operating systems description', 'NativeDesktopThirdParty': { 'ThirdPartyComponents': 'Components', 'DeviceCapabilities': 'Capabilities' }, 'NativeDesktopMemoryAndStorage': { 'MinimumMemoryRequirement': '512MB', 'StorageRequirementsDescription': '1024GB', 'MinimumCpu': '3.4GHz', 'RecommendedResolution': '800x600' } }");
             existingSolution.Setup(s => s.OrganisationName).Returns("OrganisationName");
             existingSolution.Setup(s => s.IsFoundation).Returns(true);
 
@@ -95,7 +95,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 .Be("native desktop operating systems description");
             solution.ClientApplication.NativeDesktopThirdParty.ThirdPartyComponents.Should().Be("Components");
             solution.ClientApplication.NativeDesktopThirdParty.DeviceCapabilities.Should().Be("Capabilities");
-
+            solution.ClientApplication.NativeDesktopMemoryAndStorage.MinimumMemoryRequirement.Should().Be("512MB");
+            solution.ClientApplication.NativeDesktopMemoryAndStorage.StorageRequirementsDescription.Should()
+                .Be("1024GB");
+            solution.ClientApplication.NativeDesktopMemoryAndStorage.MinimumCpu.Should().Be("3.4GHz");
+            solution.ClientApplication.NativeDesktopMemoryAndStorage.RecommendedResolution.Should().Be("800x600");
+            
             solution.IsFoundation.Should().BeTrue();
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1", "cap2"});
             solution.Contacts.Count().Should().Be(1);
@@ -148,6 +153,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.ClientApplication.NativeDesktopMinimumConnectionSpeed.Should().BeNull();
             solution.ClientApplication.NativeDesktopOperatingSystemsDescription.Should().BeNull();
             solution.ClientApplication.NativeDesktopThirdParty.Should().BeNull();
+            solution.ClientApplication.NativeDesktopMemoryAndStorage.Should().BeNull();
 
             solution.OrganisationName.Should().BeNull();
             solution.Capabilities.Should().BeEmpty();
@@ -201,6 +207,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.ClientApplication.NativeDesktopHardwareRequirements.Should().BeNull();
             solution.ClientApplication.NativeDesktopMinimumConnectionSpeed.Should().BeNull();
             solution.ClientApplication.NativeDesktopThirdParty.Should().BeNull();
+            solution.ClientApplication.NativeDesktopMemoryAndStorage.Should().BeNull();  
 
             solution.OrganisationName.Should().Be("OrganisationName");
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1"});
@@ -301,7 +308,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Summary).Returns((string)null);
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
             existingSolution.Setup(s => s.Features).Returns((string)null);
-            existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : false, 'AdditionalInformation': null }, 'MobileFirstDesign': false, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows'], 'OperatingSystemsDescription': null }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileThirdParty': { 'ThirdPartyComponents': 'Component' }, 'NativeDesktopMinimumConnectionSpeed': '3 Mbps', 'NativeDesktopThirdParty': { 'ThirdPartyComponents': 'New Components' } }");
+            existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : false, 'AdditionalInformation': null }, 'MobileFirstDesign': false, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows'], 'OperatingSystemsDescription': null }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileThirdParty': { 'ThirdPartyComponents': 'Component' }, 'NativeDesktopMinimumConnectionSpeed': '3 Mbps', 'NativeDesktopThirdParty': { 'ThirdPartyComponents': 'New Components' }, 'NativeDesktopMemoryAndStorage': { 'MinimumMemoryRequirement': '512MB', 'StorageRequirementsDescription': '1024GB', 'MinimumCpu': '3.4GHz' } }");
             existingSolution.Setup(s => s.OrganisationName).Returns("OrganisationName");
             existingSolution.Setup(s => s.IsFoundation).Returns(false);
             var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
@@ -350,6 +357,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             solution.ClientApplication.NativeDesktopThirdParty.ThirdPartyComponents.Should().Be("New Components");
             solution.ClientApplication.NativeDesktopThirdParty.DeviceCapabilities.Should().BeNull();
+
+            solution.ClientApplication.NativeDesktopMemoryAndStorage.MinimumMemoryRequirement.Should().Be("512MB");
+            solution.ClientApplication.NativeDesktopMemoryAndStorage.StorageRequirementsDescription.Should()
+                .Be("1024GB");
+            solution.ClientApplication.NativeDesktopMemoryAndStorage.MinimumCpu.Should().Be("3.4GHz");
+            solution.ClientApplication.NativeDesktopMemoryAndStorage.RecommendedResolution.Should().BeNull();
 
             solution.OrganisationName.Should().Be("OrganisationName");
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1"});
