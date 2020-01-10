@@ -8,7 +8,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
 
-namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
+namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.NativeMobile
 {
     [TestFixture]
     internal sealed class SolutionUpdateMobileThirdPartyTests : ClientApplicationTestsBase

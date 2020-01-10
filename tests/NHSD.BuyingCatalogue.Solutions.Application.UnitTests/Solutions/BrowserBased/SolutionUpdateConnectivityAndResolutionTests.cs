@@ -5,11 +5,10 @@ using Moq;
 using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionConnectivityAndResolution;
-using NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Tools;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
 
-namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
+namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.BrowserBased
 {
     [TestFixture]
     internal class SolutionUpdateConnectivityAndResolutionTests : ClientApplicationTestsBase
