@@ -14,7 +14,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Commands;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
 
-namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
+namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.NativeDesktop
 {
     internal sealed class SolutionUpdateNativeDesktopThirdPartyTests : ClientApplicationTestsBase
     {

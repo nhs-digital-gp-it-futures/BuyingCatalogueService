@@ -5,31 +5,31 @@ using FluentAssertions;
 using Moq;
 using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionBrowserMobileFirst;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeMobile.UpdateSolutionNativeMobileFirst;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Tools;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
 
-namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
+namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.NativeMobile
 {
     [TestFixture]
-    internal sealed class SolutionUpdateBrowserMobileFirstTests : ClientApplicationTestsBase
+    internal sealed class SolutionUpdateNativeMobileFirstTests : ClientApplicationTestsBase
     {
         private const string SolutionId = "Sln1";
 
         [Test]
-        public async Task ShouldUpdateBrowserMobileFirst()
+        public async Task ShouldUpdateNativeMobileFirst()
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateBrowserMobileFirst("yes").ConfigureAwait(false);
+            var validationResult = await UpdateNativeMobileFirst("yes").ConfigureAwait(false);
             validationResult.IsValid.Should().BeTrue();
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
                 r.SolutionId == SolutionId
-                && JToken.Parse(r.ClientApplication).SelectToken("MobileFirstDesign").Value<bool>() == true
+                && JToken.Parse(r.ClientApplication).SelectToken("NativeMobileFirstDesign").Value<bool>() == true
             ), It.IsAny<CancellationToken>()), Times.Once());
         }
 
@@ -38,10 +38,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateBrowserMobileFirst().ConfigureAwait(false);
+            var validationResult = await UpdateNativeMobileFirst().ConfigureAwait(false);
             validationResult.IsValid.Should().BeFalse();
-            validationResult.ToDictionary()["mobile-first-design"].Should().Be("required");
-
+            var results = validationResult.ToDictionary();
+            results.Count.Should().Be(1);
+            results["mobile-first-design"].Should().Be("required");
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
 
             Context.MockSolutionDetailRepository.Verify(
@@ -50,10 +51,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         }
 
         [Test]
-        public async Task ShouldUpdateSolutionBrowserMobileFirstAndNothingElse()
+        public async Task ShouldUpdateSolutionNativeMobileFirstAndNothingElse()
         {
             SetUpMockSolutionRepositoryGetByIdAsync(
-                "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], 'MobileResponsive': false, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'HardwareRequirements': 'New Hardware', 'AdditionalInformation': 'New Additional Info', 'MobileFirstDesign': true }");
+                "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], 'MobileResponsive': false, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'HardwareRequirements': 'New Hardware', 'AdditionalInformation': 'New Additional Info', 'MobileFirstDesign': true, 'NativeMobileFirstDesign': true }");
 
             var calledBack = false;
 
@@ -66,23 +67,18 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                     calledBack = true;
                     var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
 
-                    json.SelectToken("MobileFirstDesign").Value<bool>().Should().BeFalse();
-
-                    json.ReadStringArray("ClientApplicationTypes")
-                        .ShouldContainOnly(new List<string> { "browser-based", "native-mobile" });
-                    json.ReadStringArray("BrowsersSupported")
-                        .ShouldContainOnly(new List<string> { "Mozilla Firefox", "Edge" });
-                    json.SelectToken("MobileResponsive").Value<bool>()
-                        .Should().BeFalse();
+                    json.ReadStringArray("ClientApplicationTypes").ShouldContainOnly(new List<string> { "browser-based", "native-mobile" });
+                    json.ReadStringArray("BrowsersSupported").ShouldContainOnly(new List<string> { "Mozilla Firefox", "Edge" });
+                    json.SelectToken("MobileResponsive").Value<bool>().Should().BeFalse();
                     json.SelectToken("Plugins.Required").Value<bool>().Should().BeTrue();
                     json.SelectToken("Plugins.AdditionalInformation").Value<string>().Should().Be("orem ipsum");
-                    json.SelectToken("HardwareRequirements").Value<string>().Should()
-                        .Be("New Hardware");
-                    json.SelectToken("AdditionalInformation").Value<string>().Should()
-                        .Be("New Additional Info");
+                    json.SelectToken("HardwareRequirements").Value<string>().Should().Be("New Hardware");
+                    json.SelectToken("AdditionalInformation").Value<string>().Should().Be("New Additional Info");
+                    json.SelectToken("MobileFirstDesign").Value<bool>().Should().BeTrue();
+                    json.SelectToken("NativeMobileFirstDesign").Value<bool>().Should().BeFalse();
                 });
 
-            var validationResult = await UpdateBrowserMobileFirst("no").ConfigureAwait(false);
+            var validationResult = await UpdateNativeMobileFirst("no").ConfigureAwait(false);
             validationResult.IsValid.Should().BeTrue();
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
@@ -93,7 +89,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public void ShouldThrowWhenSolutionNotPresent()
         {
-            Assert.ThrowsAsync<NotFoundException>(() => UpdateBrowserMobileFirst("yes"));
+            Assert.ThrowsAsync<NotFoundException>(() => UpdateNativeMobileFirst("yes"));
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
 
@@ -103,19 +99,19 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public void CommandShouldTrimStrings()
         {
-            var originalViewModel = new UpdateSolutionBrowserMobileFirstViewModel();
-            originalViewModel.MobileFirstDesign = "     yes     ";
-            var command = new UpdateSolutionBrowserMobileFirstCommand("Sln1", originalViewModel);
+            var originalViewModel = new UpdateSolutionNativeMobileFirstViewModel();
+            originalViewModel.MobileFirstDesign = "   yes ";
+            var command = new UpdateSolutionNativeMobileFirstCommand("Sln1", originalViewModel);
             command.Data.MobileFirstDesign.Should().Be("yes");
         }
 
-        private async Task<ISimpleResult> UpdateBrowserMobileFirst(
+        private async Task<ISimpleResult> UpdateNativeMobileFirst(
             string mobileFirstDesign = null)
         {
-            return await Context.UpdateSolutionBrowserMobileFirstHandler
+            return await Context.UpdateSolutionNativeMobileFirstHandler
                 .Handle(
-                    new UpdateSolutionBrowserMobileFirstCommand(SolutionId,
-                        new UpdateSolutionBrowserMobileFirstViewModel() { MobileFirstDesign = mobileFirstDesign }),
+                    new UpdateSolutionNativeMobileFirstCommand(SolutionId,
+                        new UpdateSolutionNativeMobileFirstViewModel { MobileFirstDesign = mobileFirstDesign }),
                     new CancellationToken()).ConfigureAwait(false);
         }
     }

@@ -1,41 +1,39 @@
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionBrowserAdditionalInformation;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeMobile.UpdateSolutionNativeMobileHardwareRequirements;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
-using NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Tools;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
 
-namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
+namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.NativeMobile
 {
     [TestFixture]
-    internal sealed class SolutionUpdateBrowserAdditionalInformationTests : ClientApplicationTestsBase
+    internal sealed class SolutionUpdateNativeMobileHardwareRequirementsTests : ClientApplicationTestsBase
     {
         private const string SolutionId = "Sln1";
 
         [Test]
-        public async Task ShouldUpdateBrowserAdditionInformation()
+        public async Task ShouldUpdateSolutionNativeMobileHardwareRequirements()
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateBrowserAdditionalInformation("Some info").ConfigureAwait(false);
+            var validationResult = await UpdateNativeMobileHardwareRequirements("New hardware").ConfigureAwait(false);
             validationResult.IsValid.Should().BeTrue();
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
 
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
                 r.SolutionId == SolutionId
-                && JToken.Parse(r.ClientApplication).SelectToken("AdditionalInformation").Value<string>() == "Some info"
+                && JToken.Parse(r.ClientApplication).SelectToken("NativeMobileHardwareRequirements").Value<string>() == "New hardware"
             ), It.IsAny<CancellationToken>()), Times.Once());
         }
 
         [Test]
-        public async Task ShouldUpdateBrowserAdditionalInformationToNull()
+        public async Task ShouldUpdateSolutionNativeMobileHardwareRequirementsToNull()
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{ }");
 
@@ -48,10 +46,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                     calledBack = true;
                     var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
 
-                    json.SelectToken("AdditionalInformation").Should().BeNullOrEmpty();
+                    json.SelectToken("NativeMobileHardwareRequirements").Should().BeNullOrEmpty();
                 });
 
-            var validationResult = await UpdateBrowserAdditionalInformation(null).ConfigureAwait(false);
+            var validationResult = await UpdateNativeMobileHardwareRequirements(null).ConfigureAwait(false);
             validationResult.IsValid.Should().BeTrue();
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
@@ -60,7 +58,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         }
 
         [Test]
-        public async Task ShouldUpdateSolutionBrowserAdditionalInformationAndNothingElse()
+        public async Task ShouldUpdateSolutionNativeMobileHardwareRequirementAndNothingElse()
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], 'MobileResponsive': false, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' } }");
 
@@ -75,20 +73,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                     calledBack = true;
                     var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
 
-                    json.SelectToken("AdditionalInformation").Value<string>().Should()
-                        .Be("Updated Additional Info");
-
-                    json.ReadStringArray("ClientApplicationTypes")
-                        .ShouldContainOnly(new List<string> { "browser-based", "native-mobile" });
-                    json.ReadStringArray("BrowsersSupported")
-                        .ShouldContainOnly(new List<string> { "Mozilla Firefox", "Edge" });
-                    json.SelectToken("MobileResponsive").Value<bool>()
-                        .Should().BeFalse();
-                    json.SelectToken("Plugins.Required").Value<bool>().Should().BeTrue();
-                    json.SelectToken("Plugins.AdditionalInformation").Value<string>().Should().Be("orem ipsum");
+                    json.SelectToken("NativeMobileHardwareRequirements").Value<string>().Should()
+                        .Be("Updated hardware");
                 });
 
-            var validationResult = await UpdateBrowserAdditionalInformation("Updated Additional Info").ConfigureAwait(false);
+            var validationResult = await UpdateNativeMobileHardwareRequirements("Updated hardware").ConfigureAwait(false);
             validationResult.IsValid.Should().BeTrue();
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
@@ -97,21 +86,19 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         }
 
         [Test]
-        public async Task ShouldNotUpdateInvalidBrowserAdditionalInformation()
+        public async Task ShouldNotUpdateInvalidNativeMobileHardwareRequirements()
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateBrowserAdditionalInformation(new string('a', 501)).ConfigureAwait(false);
+            var validationResult = await UpdateNativeMobileHardwareRequirements(new string('a', 501)).ConfigureAwait(false);
             validationResult.IsValid.Should().BeFalse();
-            var results = validationResult.ToDictionary();
-            results.Count.Should().Be(1);
-            results["additional-information"].Should().Be("maxLength");
+            validationResult.ToDictionary()["hardware-requirements"].Should().Be("maxLength");
         }
 
         [Test]
         public void ShouldThrowWhenSolutionNotPresent()
         {
-            Assert.ThrowsAsync<NotFoundException>(() => UpdateBrowserAdditionalInformation("New Additional Info"));
+            Assert.ThrowsAsync<NotFoundException>(() => UpdateNativeMobileHardwareRequirements("New hardware"));
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
 
@@ -121,21 +108,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public void CommandShouldTrimStrings()
         {
-            var originalViewModel = new UpdateSolutionBrowserAdditionalInformationViewModel();
-            originalViewModel.AdditionalInformation = "       hello   ";
-            var command = new UpdateSolutionBrowserAdditionalInformationCommand("Sln1", originalViewModel);
-            command.Data.AdditionalInformation.Should().Be("hello");
+            var command = new UpdateSolutionNativeMobileHardwareRequirementsCommand("Sln1", "    hardware    ");
+            command.HardwareRequirements.Should().Be("hardware");
         }
 
-        private async Task<ISimpleResult> UpdateBrowserAdditionalInformation(
-            string additionalInformation)
+        private async Task<ISimpleResult> UpdateNativeMobileHardwareRequirements(string hardwareRequirements)
         {
-            return await Context.UpdateSolutionBrowserAdditionalInformationHandler.Handle(
-                new UpdateSolutionBrowserAdditionalInformationCommand(SolutionId,
-                    new UpdateSolutionBrowserAdditionalInformationViewModel()
-                    {
-                        AdditionalInformation = additionalInformation
-                    }), new CancellationToken()).ConfigureAwait(false);
+            return await Context.UpdateSolutionNativeMobileHardwareRequirementsHandler.Handle(
+                new UpdateSolutionNativeMobileHardwareRequirementsCommand(SolutionId, hardwareRequirements),
+                new CancellationToken()).ConfigureAwait(false);
         }
     }
 }
