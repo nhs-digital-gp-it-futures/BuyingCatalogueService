@@ -87,7 +87,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
             SetIfSelected("native-mobile", clientApplicationTypes,
                 () => NativeMobileSection = DashboardSection.Mandatory(clientApplication.IsNativeMobileComplete()));
             SetIfSelected("native-desktop", clientApplicationTypes,
-                () => NativeDesktopSection = DashboardSection.Mandatory(false));
+                () => NativeDesktopSection = DashboardSection.Mandatory(clientApplication.IsNativeDesktopComplete()));
         }
 
         private void SetIfSelected(string sectionName, HashSet<string> sections, Action setDashboardAction)

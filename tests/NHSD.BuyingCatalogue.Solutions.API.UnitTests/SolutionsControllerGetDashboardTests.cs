@@ -10,6 +10,7 @@ using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
 
@@ -279,6 +280,52 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             clientApplicationTypesSubSections.NativeMobileSection.Should().NotBeNull();
             clientApplicationTypesSubSections.NativeMobileSection.Status.Should().Be(result);
         }
+
+        [TestCase(true, true, true, true, true, true, "COMPLETE")]
+        [TestCase(true, true, true, true, false, false, "COMPLETE")]
+        [TestCase(true, true, true, false, false, false, "COMPLETE")]
+        [TestCase(true, true, false, false, false, false, "INCOMPLETE")]
+        [TestCase(true, false, true, false, false, false, "INCOMPLETE")]
+        [TestCase(false, true, true, false, false, false, "INCOMPLETE")]
+        [TestCase(true, true, false, false, false, false, "INCOMPLETE")]
+        [TestCase(false, false, false, false, false, false, "INCOMPLETE")]
+        public async Task ShouldGetDashboardToCalculateClientApplicationTypesNativeDesktop(
+            bool hasOperatingSystem,
+            bool hasConnectionDetails,
+            bool hasMemoryAndStorage,
+            bool hasThirdParty,
+            bool hasHardwareRequirements,
+            bool hasAdditionalInformation,
+            string result)
+        {
+            // To be added once implementation is in
+            hasAdditionalInformation = false;
+
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> {"native-desktop"} &&
+                    c.NativeDesktopOperatingSystemsDescription ==
+                    (hasOperatingSystem ? "Operating System" : null) &&
+                    c.NativeDesktopMinimumConnectionSpeed == (hasConnectionDetails ? "6Mbps" : null) &&
+                    c.NativeDesktopMemoryAndStorage == (hasMemoryAndStorage
+                        ? Mock.Of<INativeDesktopMemoryAndStorage>(m =>
+                            m.MinimumMemoryRequirement == "500Mb" && m.StorageRequirementsDescription == "Desc" &&
+                            m.MinimumCpu == "Min" && m.RecommendedResolution == "Res")
+                        : null) &&
+                    c.NativeDesktopThirdParty == (hasThirdParty
+                        ? Mock.Of<INativeDesktopThirdParty>(t =>
+                            t.ThirdPartyComponents == "Components" && t.DeviceCapabilities == "Capabilities")
+                        : null) &&
+                    c.NativeDesktopHardwareRequirements == (hasHardwareRequirements ? "A hardware requirement" : null)
+                ))).ConfigureAwait(false);
+
+            dashboardResult.SolutionDashboardSections.Should().NotBeNull();
+            dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section.Should().BeOfType<ClientApplicationTypesSubSections>();
+            var clientApplicationTypesSubSections = (ClientApplicationTypesSubSections)dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section;
+            clientApplicationTypesSubSections.NativeDesktopSection.Should().NotBeNull();
+            clientApplicationTypesSubSections.NativeDesktopSection.Status.Should().Be(result);
+        }
+
 
         private async Task<SolutionDashboardResult> GetSolutionDashboardSectionAsync(ISolution solution)
         {
