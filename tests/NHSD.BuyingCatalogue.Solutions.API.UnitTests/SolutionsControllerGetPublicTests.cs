@@ -801,15 +801,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             if (hasData)
             {
-                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopMemoryAndStorage
+                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopMemoryAndStorageSection
                     .Answers.MinimumMemoryRequirement.Should().Be(memory);
-                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopMemoryAndStorage
+                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopMemoryAndStorageSection
                     .Answers.StorageRequirementsDescription.Should().Be(storage);
-                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopMemoryAndStorage
+                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopMemoryAndStorageSection
                     .Answers.MinimumCpu.Should().Be(cpu);
-                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopMemoryAndStorage
+                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopMemoryAndStorageSection
                     .Answers.RecommendedResolution.Should().Be(resolution);
-                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopMemoryAndStorage
+                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopMemoryAndStorageSection
                     .Answers.HasData.Should().BeTrue();
             }
             else
