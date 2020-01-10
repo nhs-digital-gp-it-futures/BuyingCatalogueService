@@ -744,7 +744,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase(null, "Capability", true)]
         [TestCase("Component", "Capability", true)]
 
-        public async Task IfNativeDesktopEmptyThenThirdPartyHasNoData(string component, string capability, bool hasData)
+        public async Task NativeDesktopThirdPartySectionIsPopulatedCorrectly(string component, string capability, bool hasData)
         {
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                     s.PublishedStatus == PublishedStatus.Published &&

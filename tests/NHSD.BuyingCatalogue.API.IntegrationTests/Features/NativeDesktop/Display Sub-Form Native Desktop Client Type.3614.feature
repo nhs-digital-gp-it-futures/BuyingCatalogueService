@@ -107,7 +107,7 @@ Examples:
     | { "NativeDesktopThirdParty": null }                                                                        | INCOMPLETE |
     | { "NativeDesktopThirdParty": { "ThirdPartyComponents": "      ", "DeviceCapabilities": "  " } }            | INCOMPLETE |
     | { "NativeDesktopThirdParty": { "ThirdPartyComponents": "      ", "DeviceCapabilities": null } }            | INCOMPLETE |
-    | { "NativeDesktopThirdParty": { "ThirdPartyComponents": null, "DeviceCapabilities": "     " } }            | INCOMPLETE |
+    | { "NativeDesktopThirdParty": { "ThirdPartyComponents": null, "DeviceCapabilities": "     " } }             | INCOMPLETE |
     | { "NativeDesktopThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": null } }         | COMPLETE   |
     | { "NativeDesktopThirdParty": { "ThirdPartyComponents": null, "DeviceCapabilities": "Capability" } }        | COMPLETE   |
     | { "NativeDesktopThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": "Capability" } } | COMPLETE   |

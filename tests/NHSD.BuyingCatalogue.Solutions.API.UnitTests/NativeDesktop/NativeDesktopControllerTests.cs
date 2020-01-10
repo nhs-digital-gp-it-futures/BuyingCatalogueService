@@ -160,12 +160,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
         [TestCase("Connectivity", "Capability", true)]
         public async Task ShouldGetNativeDesktopThirdPartyIsComplete(string component, string capability, bool isComplete)
         {
-            var nativeMobileResult = await GetNativeDesktopSectionAsync(Mock.Of<IClientApplication>(c =>
+            var nativeDesktopResult = await GetNativeDesktopSectionAsync(Mock.Of<IClientApplication>(c =>
                     c.NativeDesktopThirdParty == Mock.Of<INativeDesktopThirdParty>(t =>
                         t.ThirdPartyComponents == component && t.DeviceCapabilities == capability)))
                 .ConfigureAwait(false);
 
-            nativeMobileResult.NativeDesktopSections.ThirdParty.Status.Should().Be(isComplete ? "COMPLETE" : "INCOMPLETE");
+            nativeDesktopResult.NativeDesktopSections.ThirdParty.Status.Should().Be(isComplete ? "COMPLETE" : "INCOMPLETE");
         }
 
         private async Task<NativeDesktopResult> GetNativeDesktopSectionAsync(IClientApplication clientApplication)
