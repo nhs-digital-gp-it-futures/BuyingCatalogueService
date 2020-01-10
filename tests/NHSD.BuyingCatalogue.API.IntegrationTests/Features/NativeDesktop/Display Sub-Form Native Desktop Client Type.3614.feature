@@ -125,5 +125,16 @@ Examples:
     |                                                                                                                                                       | INCOMPLETE |
     | { "NativeDesktopMemoryAndStorage" : {  } }                                                                                                            | INCOMPLETE |
     | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB" } }                                                                           | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": null } }                                                                            | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "" } }                                                                              | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "    " } }                                                                          | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "StorageRequirementsDescription": null } }                                   | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "StorageRequirementsDescription": "" } }                                     | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "StorageRequirementsDescription": "    " } }                                 | INCOMPLETE |
     | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "StorageRequirementsDescription": "A description" } }                        | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "StorageRequirementsDescription": "A description", "MinimumCpu": null} }     | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "StorageRequirementsDescription": "A description", "MinimumCpu": ""} }       | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "StorageRequirementsDescription": "A description", "MinimumCpu": "    "} }   | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": null, "StorageRequirementsDescription": "A description", "MinimumCpu": "3.5Ghz"} }  | INCOMPLETE |
+    | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "StorageRequirementsDescription": "", "MinimumCpu": "3.5Ghz"} }              | INCOMPLETE |
     | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "StorageRequirementsDescription": "A description", "MinimumCpu": "3.5Ghz"} } | COMPLETE   |

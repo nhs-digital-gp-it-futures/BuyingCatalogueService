@@ -177,8 +177,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
         [TestCase(null, null, "c", "d", false)]
         [TestCase(null, "b", null, "d", false)]
         [TestCase(null, null, null, "d", false)]
-        [TestCase(null, null, null, "d", false)]
-        [TestCase(null, null, null, "d", false)]
         public async Task ShouldGetNativeDesktopMemoryAndStorageIsComplete(string memory, string storage, string cpu, string resolution, bool isComplete)
         {
             var nativeDesktopResult = await GetNativeDesktopSectionAsync(Mock.Of<IClientApplication>(c =>
