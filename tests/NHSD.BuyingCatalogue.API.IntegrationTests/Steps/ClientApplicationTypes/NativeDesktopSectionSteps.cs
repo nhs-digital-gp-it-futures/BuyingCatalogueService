@@ -17,6 +17,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplicationTypes
             _response = response;
         }
 
+        [Then(@"the solution native-desktop status is (INCOMPLETE|COMPLETE)")]
+        public async Task ThenTheSolutionNativeMobileStatusIsIncomplete(string status)
+        {
+            var content = await _response.ReadBody().ConfigureAwait(false);
+            content.SelectToken($"sections.client-application-types.sections.native-desktop.status").ToString().Should().Be(status);
+        }
+
         [Then(@"the solution native-desktop native-desktop-hardware-requirements section contains hardware-requirements with value (.*)")]
         public async Task ThenTheSolutionNativeDesktopHardwareRequirementsSectionContainsWithValue(string value)
         {
