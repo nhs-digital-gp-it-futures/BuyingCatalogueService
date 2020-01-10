@@ -39,6 +39,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
             CreateMap<MobileThirdParty, IMobileThirdParty>().As<MobileThirdPartyDto>();
             CreateMap<NativeDesktopThirdParty, NativeDesktopThirdPartyDto>();
             CreateMap<NativeDesktopThirdParty, INativeDesktopThirdParty>().As<NativeDesktopThirdPartyDto>();
+            CreateMap<NativeDesktopMemoryAndStorage, NativeDesktopMemoryAndStorageDto>();
+            CreateMap<NativeDesktopMemoryAndStorage, INativeDesktopMemoryAndStorage>().As<NativeDesktopMemoryAndStorageDto>();
         }
     }
 }

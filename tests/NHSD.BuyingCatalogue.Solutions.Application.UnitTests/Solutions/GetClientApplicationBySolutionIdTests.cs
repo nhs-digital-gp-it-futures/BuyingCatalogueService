@@ -34,7 +34,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             _clientApplicationResult = Mock.Of<IClientApplicationResult>(r =>
                 r.Id == _solutionId &&
-                r.ClientApplication == "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'HardwareRequirements': 'New Hardware', 'NativeMobileHardwareRequirements': 'New Native Mobile Hardware', 'NativeDesktopHardwareRequirements': 'New Native Desktop Hardware', 'AdditionalInformation': 'Some Additional Info', 'MobileFirstDesign': false, 'NativeMobileFirstDesign': false, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows', 'Linux'], 'OperatingSystemsDescription': 'For windows only version 10' }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileMemoryAndStorage': { 'Description': 'A description', 'MinimumMemoryRequirement': '1GB' }, 'NativeMobileAdditionalInformation': 'native mobile additional info', 'NativeDesktopMinimumConnectionSpeed': '2Mbps', 'NativeDesktopOperatingSystemsDescription': 'native desktop operating systems description', 'NativeDesktopThirdParty': { 'ThirdPartyComponents': 'Components', 'DeviceCapabilities': 'Capabilities' } }"
+                r.ClientApplication == "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'HardwareRequirements': 'New Hardware', 'NativeMobileHardwareRequirements': 'New Native Mobile Hardware', 'NativeDesktopHardwareRequirements': 'New Native Desktop Hardware', 'AdditionalInformation': 'Some Additional Info', 'MobileFirstDesign': false, 'NativeMobileFirstDesign': false, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows', 'Linux'], 'OperatingSystemsDescription': 'For windows only version 10' }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileMemoryAndStorage': { 'Description': 'A description', 'MinimumMemoryRequirement': '1GB' }, 'NativeMobileAdditionalInformation': 'native mobile additional info', 'NativeDesktopMinimumConnectionSpeed': '2Mbps', 'NativeDesktopOperatingSystemsDescription': 'native desktop operating systems description', 'NativeDesktopThirdParty': { 'ThirdPartyComponents': 'Components', 'DeviceCapabilities': 'Capabilities' }, 'NativeDesktopMemoryAndStorage': { 'MinimumMemoryRequirement': '512MB', 'StorageRequirementsDescription': '1024GB', 'MinimumCpu': '3.4GHz', 'RecommendedResolution': '800x600' } }"
                 );
 
             var clientApplication = await _context.GetClientApplicationBySolutionIdHandler.Handle(
@@ -66,6 +66,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 .Be("native desktop operating systems description");
             clientApplication.NativeDesktopThirdParty.ThirdPartyComponents.Should().Be("Components");
             clientApplication.NativeDesktopThirdParty.DeviceCapabilities.Should().Be("Capabilities");
+            clientApplication.NativeDesktopMemoryAndStorage.MinimumMemoryRequirement.Should().Be("512MB");
+            clientApplication.NativeDesktopMemoryAndStorage.StorageRequirementsDescription.Should().Be("1024GB");
+            clientApplication.NativeDesktopMemoryAndStorage.MinimumCpu.Should().Be("3.4GHz");
+            clientApplication.NativeDesktopMemoryAndStorage.RecommendedResolution.Should().Be("800x600");
         }
 
         [Test]

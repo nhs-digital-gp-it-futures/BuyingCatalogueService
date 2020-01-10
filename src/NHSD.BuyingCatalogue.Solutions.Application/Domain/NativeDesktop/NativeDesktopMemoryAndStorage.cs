@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace NHSD.BuyingCatalogue.Solutions.Application.Domain.NativeDesktop
 {
     class NativeDesktopMemoryAndStorage
