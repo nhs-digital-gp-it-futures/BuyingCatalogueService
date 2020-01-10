@@ -62,12 +62,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             validationResult.IsValid.Should().BeTrue();
         }
 
-        [Test]
-        public async Task MissingDataShouldReturnRequiredValidationResult()
+        [TestCase("", "", "")]
+        [TestCase(" ", " ", " ")]
+        [TestCase(null, null, null)]
+        [TestCase("", " ", null)]
+        public async Task MissingDataShouldReturnRequiredValidationResult(string memory, string storage, string cpu)
         {
-            _minimumMemoryRequirement = string.Empty;
-            _storageRequirements = null;
-            _minimumCpu = "      ";
+            _minimumMemoryRequirement = memory;
+            _storageRequirements = storage;
+            _minimumCpu = cpu;
             SetUpMockSolutionRepositoryGetByIdAsync();
             var validationResult = await UpdateNativeDesktopMemoryAndStorage().ConfigureAwait(false);
             
@@ -83,7 +86,65 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         }
 
         [Test]
-        public async Task TooLongDataShouldReturnMaxLengthValidationResult()
+        public async Task SomeMissingDataShouldReturnRequiredValidationResult()
+        {
+            _minimumMemoryRequirement = "";
+            _storageRequirements = "a requirement";
+            _minimumCpu = null;
+            SetUpMockSolutionRepositoryGetByIdAsync();
+            var validationResult = await UpdateNativeDesktopMemoryAndStorage().ConfigureAwait(false);
+
+            Context.MockSolutionRepository.Verify(x => x.ByIdAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
+                Times.Never);
+            Context.MockSolutionDetailRepository.Verify(
+                x => x.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                    It.IsAny<CancellationToken>()), Times.Never);
+            validationResult.IsValid.Should().BeFalse();
+            validationResult.Should().BeOfType<RequiredMaxLengthResult>();
+            var reqMaxLengthResult = validationResult as RequiredMaxLengthResult;
+            reqMaxLengthResult.Required.Should().BeEquivalentTo("minimum-memory-requirement", "minimum-cpu");
+        }
+
+        [Test]
+        public async Task TooLongDataForStorageRequirementsShouldReturnMaxLengthValidationResult()
+        {
+            _storageRequirements = new string('a', 301);
+            SetUpMockSolutionRepositoryGetByIdAsync();
+            var validationResult = await UpdateNativeDesktopMemoryAndStorage().ConfigureAwait(false);
+
+            Context.MockSolutionRepository.Verify(x => x.ByIdAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
+                Times.Never);
+            Context.MockSolutionDetailRepository.Verify(
+                x => x.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                    It.IsAny<CancellationToken>()), Times.Never);
+
+            validationResult.IsValid.Should().BeFalse();
+            validationResult.Should().BeOfType<RequiredMaxLengthResult>();
+            var reqMaxLengthResult = validationResult as RequiredMaxLengthResult;
+            reqMaxLengthResult.MaxLength.Should().BeEquivalentTo("storage-requirements-description");
+        }
+
+        [Test]
+        public async Task TooLongDataForMinimumCpuShouldReturnMaxLengthValidationResult()
+        {
+            _minimumCpu = new string('b', 301);
+            SetUpMockSolutionRepositoryGetByIdAsync();
+            var validationResult = await UpdateNativeDesktopMemoryAndStorage().ConfigureAwait(false);
+
+            Context.MockSolutionRepository.Verify(x => x.ByIdAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
+                Times.Never);
+            Context.MockSolutionDetailRepository.Verify(
+                x => x.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                    It.IsAny<CancellationToken>()), Times.Never);
+
+            validationResult.IsValid.Should().BeFalse();
+            validationResult.Should().BeOfType<RequiredMaxLengthResult>();
+            var reqMaxLengthResult = validationResult as RequiredMaxLengthResult;
+            reqMaxLengthResult.MaxLength.Should().BeEquivalentTo("minimum-cpu");
+        }
+
+        [Test]
+        public async Task TooLongDataForMultipleFieldsShouldReturnMaxLengthValidationResult()
         {
             _storageRequirements = new string('a', 301);
             _minimumCpu = new string('b', 301);
