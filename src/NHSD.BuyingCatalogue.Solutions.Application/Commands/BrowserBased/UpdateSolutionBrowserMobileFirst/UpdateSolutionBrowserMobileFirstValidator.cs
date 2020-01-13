@@ -6,7 +6,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.Updat
     {
         public ISimpleResult Validate(UpdateSolutionBrowserMobileFirstCommand updateSolutionBrowserMobileFirstCommand)
             => new RequiredValidator()
-                .Validate(updateSolutionBrowserMobileFirstCommand.Data.MobileFirstDesign, "mobile-first-design")
+                .Validate(updateSolutionBrowserMobileFirstCommand.MobileFirstDesign, "mobile-first-design")
                 .Result();
     }
 }
