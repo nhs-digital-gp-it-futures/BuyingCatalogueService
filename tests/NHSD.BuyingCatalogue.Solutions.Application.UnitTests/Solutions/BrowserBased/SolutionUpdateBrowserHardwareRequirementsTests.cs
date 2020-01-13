@@ -108,21 +108,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Browser
         [Test]
         public void CommandShouldTrimStrings()
         {
-            var originalViewModel = new UpdateSolutionBrowserHardwareRequirementsViewModel();
-            originalViewModel.HardwareRequirements = "     hardware    ";
-            var command = new UpdateSolutionBrowserHardwareRequirementsCommand("Sln1", originalViewModel);
-            command.Data.HardwareRequirements.Should().Be("hardware");
+            var command = new UpdateSolutionBrowserHardwareRequirementsCommand("Sln1", "     hardware    ");
+            command.HardwareRequirements.Should().Be("hardware");
         }
 
         private async Task<ISimpleResult> UpdateBrowserHardwareRequirements(
             string hardwareRequirements)
         {
             return await Context.UpdateSolutionBrowserHardwareRequirementsHandler.Handle(
-                new UpdateSolutionBrowserHardwareRequirementsCommand(SolutionId,
-                    new UpdateSolutionBrowserHardwareRequirementsViewModel()
-                    {
-                        HardwareRequirements = hardwareRequirements
-                    }), new CancellationToken()).ConfigureAwait(false);
+                new UpdateSolutionBrowserHardwareRequirementsCommand(SolutionId, hardwareRequirements),
+                new CancellationToken()).ConfigureAwait(false);
         }
     }
 }

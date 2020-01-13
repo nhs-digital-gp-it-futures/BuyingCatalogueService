@@ -6,7 +6,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.Updat
     {
         public ISimpleResult Validate(UpdateSolutionBrowserHardwareRequirementsCommand updateSolutionHardwareRequirementsCommand)
             => new MaxLengthValidator()
-                .Validate(updateSolutionHardwareRequirementsCommand.Data.HardwareRequirements, 500, "hardware-requirements-description")
+                .Validate(updateSolutionHardwareRequirementsCommand.HardwareRequirements, 500, "hardware-requirements-description")
                 .Result();
     }
 }
