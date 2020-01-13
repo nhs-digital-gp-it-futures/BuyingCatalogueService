@@ -5,7 +5,7 @@ using FluentAssertions;
 using Moq;
 using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionBrowserAdditionalInformation;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateBrowserBasedAdditionalInformation;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Tools;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
@@ -121,21 +121,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Browser
         [Test]
         public void CommandShouldTrimStrings()
         {
-            var originalViewModel = new UpdateSolutionBrowserAdditionalInformationViewModel();
-            originalViewModel.AdditionalInformation = "       hello   ";
-            var command = new UpdateSolutionBrowserAdditionalInformationCommand("Sln1", originalViewModel);
-            command.Data.AdditionalInformation.Should().Be("hello");
+            var command = new UpdateBrowserBasedAdditionalInformationCommand("Sln1", "       hello   ");
+            command.AdditionalInformation.Should().Be("hello");
         }
 
         private async Task<ISimpleResult> UpdateBrowserAdditionalInformation(
-            string additionalInformation)
+            string additionalInformation = null)
         {
             return await Context.UpdateSolutionBrowserAdditionalInformationHandler.Handle(
-                new UpdateSolutionBrowserAdditionalInformationCommand(SolutionId,
-                    new UpdateSolutionBrowserAdditionalInformationViewModel()
-                    {
-                        AdditionalInformation = additionalInformation
-                    }), new CancellationToken()).ConfigureAwait(false);
+                new UpdateBrowserBasedAdditionalInformationCommand(SolutionId, additionalInformation),
+                new CancellationToken()).ConfigureAwait(false);
         }
     }
 }

@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.BrowserBased;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionBrowserAdditionalInformation;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateBrowserBasedAdditionalInformation;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.BrowserBased
@@ -40,9 +40,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.BrowserBased
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> UpdateAdditionalInformationAsync([FromRoute] [Required] string id,
-            [FromBody] [Required]
-            UpdateSolutionBrowserAdditionalInformationViewModel viewModel) =>
-            (await _mediator.Send(new UpdateSolutionBrowserAdditionalInformationCommand(id, viewModel))
+            [FromBody] [Required] UpdateBrowserBasedAdditionalInformationViewModel viewModel) =>
+            (await _mediator
+                .Send(new UpdateBrowserBasedAdditionalInformationCommand(id, viewModel?.AdditionalInformation))
                 .ConfigureAwait(false)).ToActionResult();
     }
 }
