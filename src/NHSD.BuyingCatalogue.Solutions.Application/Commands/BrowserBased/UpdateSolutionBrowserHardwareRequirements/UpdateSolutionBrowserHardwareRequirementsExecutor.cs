@@ -15,7 +15,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.Updat
         public async Task UpdateAsync(UpdateSolutionBrowserHardwareRequirementsCommand request, CancellationToken cancellationToken) =>
             await _clientApplicationPartialUpdater.UpdateAsync(request.SolutionId, clientApplication =>
                 {
-                    clientApplication.HardwareRequirements = request.Data.HardwareRequirements;
+                    clientApplication.HardwareRequirements = request.HardwareRequirements;
                 },
                 cancellationToken).ConfigureAwait(false);
     }

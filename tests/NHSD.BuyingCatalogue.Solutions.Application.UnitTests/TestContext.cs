@@ -4,7 +4,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionBrowserAdditionalInformation;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateBrowserBasedAdditionalInformation;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionBrowserHardwareRequirements;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionBrowserMobileFirst;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionBrowsersSupported;
@@ -72,8 +72,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
         public UpdateSolutionConnectivityAndResolutionHandler UpdateSolutionConnectivityAndResolutionHandler =>
             (UpdateSolutionConnectivityAndResolutionHandler)_scope.UpdateSolutionConnectivityAndResolutionHandler;
-        public UpdateSolutionBrowserAdditionalInformationHandler UpdateSolutionBrowserAdditionalInformationHandler =>
-            (UpdateSolutionBrowserAdditionalInformationHandler)_scope.UpdateSolutionBrowserAdditionalInformationHandler;
+        public UpdateBrowserBasedAdditionalInformationHandler UpdateSolutionBrowserAdditionalInformationHandler =>
+            (UpdateBrowserBasedAdditionalInformationHandler)_scope.UpdateSolutionBrowserAdditionalInformationHandler;
 
         public UpdateSolutionBrowserMobileFirstHandler UpdateSolutionBrowserMobileFirstHandler =>
             (UpdateSolutionBrowserMobileFirstHandler)_scope.UpdateSolutionBrowserMobileFirstHandler;
@@ -170,7 +170,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             public IRequestHandler<UpdateSolutionBrowserHardwareRequirementsCommand, ISimpleResult> UpdateSolutionBrowserHardwareRequirementsHandler { get; }
 
             public IRequestHandler<UpdateSolutionConnectivityAndResolutionCommand, ISimpleResult> UpdateSolutionConnectivityAndResolutionHandler { get; }
-            public IRequestHandler<UpdateSolutionBrowserAdditionalInformationCommand, ISimpleResult> UpdateSolutionBrowserAdditionalInformationHandler { get; }
+            public IRequestHandler<UpdateBrowserBasedAdditionalInformationCommand, ISimpleResult> UpdateSolutionBrowserAdditionalInformationHandler { get; }
 
             public IRequestHandler<UpdateSolutionBrowserMobileFirstCommand, ISimpleResult> UpdateSolutionBrowserMobileFirstHandler { get; }
 
@@ -210,7 +210,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<GetContactDetailBySolutionIdQuery, IEnumerable<IContact>> getContactDetailBySolutionIdHandler,
                 IRequestHandler<UpdateSolutionBrowserHardwareRequirementsCommand, ISimpleResult> updateSolutionBrowserHardwareRequirementsHandler,
                 IRequestHandler<UpdateSolutionConnectivityAndResolutionCommand, ISimpleResult> updateSolutionConnectivityAndResolutionHandler,
-                IRequestHandler<UpdateSolutionBrowserAdditionalInformationCommand, ISimpleResult> updateSolutionBrowserAdditionalInformationHandler,
+                IRequestHandler<UpdateBrowserBasedAdditionalInformationCommand, ISimpleResult> updateSolutionBrowserAdditionalInformationHandler,
                 IRequestHandler<UpdateSolutionBrowserMobileFirstCommand, ISimpleResult> updateSolutionBrowserMobileFirstHandler,
                 IRequestHandler<UpdateSolutionMobileOperatingSystemsCommand, ISimpleResult> updateSolutionMobileOperatingSystemsHandler,
                 IRequestHandler<UpdateSolutionMobileConnectionDetailsCommand, ISimpleResult> updateSolutionMobileConnectionDetailsHandler,

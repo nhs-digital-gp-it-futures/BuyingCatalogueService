@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionBrowserAdditionalInformation;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateBrowserBasedAdditionalInformation;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionBrowserHardwareRequirements;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionBrowserMobileFirst;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionBrowsersSupported;
@@ -47,7 +47,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<UpdateSolutionContactDetailsValidator>()
                 .AddTransient<UpdateSolutionBrowserHardwareRequirementsValidator>()
                 .AddTransient<UpdateSolutionConnectivityAndResolutionValidator>()
-                .AddTransient<UpdateSolutionBrowserAdditionalInformationValidator>()
+                .AddTransient<UpdateBrowserBasedAdditionalInformationValidator>()
                 .AddTransient<UpdateSolutionBrowserMobileFirstValidator>()
                 .AddTransient<UpdateSolutionMobileOperatingSystemsValidator>()
                 .AddTransient<UpdateSolutionMobileConnectionDetailsValidator>()
@@ -86,8 +86,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<IExecutor<UpdateSolutionBrowserHardwareRequirementsCommand>, UpdateSolutionBrowserHardwareRequirementsExecutor>()
                 .AddTransient<IValidator<UpdateSolutionBrowserHardwareRequirementsCommand, ISimpleResult>, UpdateSolutionBrowserHardwareRequirementsValidator>()
 
-                .AddTransient<IExecutor<UpdateSolutionBrowserAdditionalInformationCommand>, UpdateSolutionBrowserAdditionalInformationExecutor>()
-                .AddTransient<IValidator<UpdateSolutionBrowserAdditionalInformationCommand, ISimpleResult>, UpdateSolutionBrowserAdditionalInformationValidator>()
+                .AddTransient<IExecutor<UpdateBrowserBasedAdditionalInformationCommand>, UpdateBrowserBasedAdditionalInformationExecutor>()
+                .AddTransient<IValidator<UpdateBrowserBasedAdditionalInformationCommand, ISimpleResult>, UpdateBrowserBasedAdditionalInformationValidator>()
 
                 .AddTransient<IExecutor<UpdateSolutionNativeMobileAdditionalInformationCommand>, UpdateSolutionNativeMobileAdditionalInformationExecutor>()
                 .AddTransient<IValidator<UpdateSolutionNativeMobileAdditionalInformationCommand, ISimpleResult>, UpdateSolutionNativeMobileAdditionalInformationValidator>()

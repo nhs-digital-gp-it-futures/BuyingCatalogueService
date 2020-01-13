@@ -40,7 +40,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.BrowserBased
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> UpdateMobileFirstAsync([FromRoute] [Required] string id,
-            [FromBody] [Required] UpdateSolutionBrowserMobileFirstViewModel viewModel) =>
-            (await _mediator.Send(new UpdateSolutionBrowserMobileFirstCommand(id, viewModel)).ConfigureAwait(false)).ToActionResult();
+            [FromBody] [Required] UpdateBrowserBasedMobileFirstViewModel viewModel) =>
+            (await _mediator.Send(new UpdateSolutionBrowserMobileFirstCommand(id, viewModel?.MobileFirstDesign)).ConfigureAwait(false)).ToActionResult();
     }
 }

@@ -8,13 +8,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.Updat
     {
         public string SolutionId { get; }
 
-        public UpdateSolutionBrowserMobileFirstViewModel Data { get; }
+        public string MobileFirstDesign { get; }
 
-        public UpdateSolutionBrowserMobileFirstCommand(string solutionId, UpdateSolutionBrowserMobileFirstViewModel data)
+        public UpdateSolutionBrowserMobileFirstCommand(string solutionId, string mobileFirstDesign)
         {
             SolutionId = solutionId.ThrowIfNull();
-            Data = data.ThrowIfNull();
-            Data.MobileFirstDesign = Data.MobileFirstDesign?.Trim();
+            MobileFirstDesign = mobileFirstDesign?.Trim();
         }
     }
 }

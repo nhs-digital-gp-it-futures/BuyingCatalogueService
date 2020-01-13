@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,16 +21,24 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
     public sealed class BrowserMobileFirstControllerTests
     {
         private Mock<IMediator> _mockMediator;
-
         private BrowserMobileFirstController _browserMobileFirstController;
-
         private const string SolutionId = "Sln1";
+        private Mock<ISimpleResult> _simpleResultMock;
+        private Dictionary<string, string> _resultDictionary;
 
         [SetUp]
         public void Setup()
         {
             _mockMediator = new Mock<IMediator>();
             _browserMobileFirstController = new BrowserMobileFirstController(_mockMediator.Object);
+            _simpleResultMock = new Mock<ISimpleResult>();
+            _simpleResultMock.Setup(x => x.IsValid).Returns(() => !_resultDictionary.Any());
+            _simpleResultMock.Setup(x => x.ToDictionary()).Returns(() => _resultDictionary);
+            _resultDictionary = new Dictionary<string, string>();
+            _mockMediator.Setup(x =>
+                    x.Send(It.IsAny<UpdateSolutionBrowserMobileFirstCommand>(),
+                        It.IsAny<CancellationToken>()))
+                .ReturnsAsync(() => _simpleResultMock.Object);
         }
 
         [TestCase(null, null)]
@@ -84,54 +93,36 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
         [Test]
         public async Task ShouldUpdateValidationValid()
         {
-            var viewModel = new UpdateSolutionBrowserMobileFirstViewModel();
-
-            var validationResult = new Mock<ISimpleResult>();
-            validationResult.Setup(s => s.IsValid).Returns(true);
-
-            _mockMediator
-                .Setup(m => m.Send(
-                    It.Is<UpdateSolutionBrowserMobileFirstCommand>(q =>
-                        q.SolutionId == SolutionId && q.Data == viewModel),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(validationResult.Object);
-
-            var result = await _browserMobileFirstController.UpdateMobileFirstAsync(SolutionId, viewModel).ConfigureAwait(false) as NoContentResult;
-
+            var request = new UpdateBrowserBasedMobileFirstViewModel { MobileFirstDesign = "Yes" };
+            var result = (await _browserMobileFirstController.UpdateMobileFirstAsync(SolutionId, request).ConfigureAwait(false))
+                as NoContentResult;
             result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
-            _mockMediator.Verify(
-                m => m.Send(
-                    It.Is<UpdateSolutionBrowserMobileFirstCommand>(q =>
-                        q.SolutionId == SolutionId && q.Data == viewModel),
-                    It.IsAny<CancellationToken>()), Times.Once);
+            _mockMediator.Verify(x => x.Send(
+                    It.Is<UpdateSolutionBrowserMobileFirstCommand>(c =>
+                        c.MobileFirstDesign == "Yes" &&
+                        c.SolutionId == SolutionId), It.IsAny<CancellationToken>()),
+                Times.Once);
         }
 
         [Test]
         public async Task ShouldNotUpdateAsValidationInValid()
         {
-            var viewModel = new UpdateSolutionBrowserMobileFirstViewModel();
-
-            var validationResult = new Mock<ISimpleResult>();
-            validationResult.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "mobile-first-design", "required" } });
-            validationResult.Setup(s => s.IsValid).Returns(false);
-
-            _mockMediator
-                .Setup(m => m.Send(
-                    It.Is<UpdateSolutionBrowserMobileFirstCommand>(q =>
-                        q.SolutionId == SolutionId && q.Data == viewModel),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(validationResult.Object);
-
-            var result = await _browserMobileFirstController.UpdateMobileFirstAsync(SolutionId, viewModel).ConfigureAwait(false) as BadRequestObjectResult;
+            _resultDictionary.Add("mobile-first-design", "required");
+            var request = new UpdateBrowserBasedMobileFirstViewModel { MobileFirstDesign = null };
+            var result =
+                (await _browserMobileFirstController.UpdateMobileFirstAsync(SolutionId, request)
+                    .ConfigureAwait(false)) as BadRequestObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            var resultValue = result.Value as Dictionary<string, string>;
-            resultValue.Count.Should().Be(1);
-            resultValue["mobile-first-design"].Should().Be("required");
+            var validationResult = result.Value as Dictionary<string, string>;
+            validationResult.Count.Should().Be(1);
+            validationResult["mobile-first-design"].Should().Be("required");
 
-            _mockMediator.Verify(
-                m => m.Send(
-                    It.Is<UpdateSolutionBrowserMobileFirstCommand>(q =>
-                        q.SolutionId == SolutionId && q.Data == viewModel),
-                    It.IsAny<CancellationToken>()), Times.Once);
+            _mockMediator.Verify(x => x.Send(
+                    It.Is<UpdateSolutionBrowserMobileFirstCommand>(c =>
+                        c.MobileFirstDesign == null &&
+                        c.SolutionId == SolutionId), It.IsAny<CancellationToken>()),
+                Times.Once);
         }
     }
 }

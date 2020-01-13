@@ -103,10 +103,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Browser
         [Test]
         public void CommandShouldTrimStrings()
         {
-            var originalViewModel = new UpdateSolutionBrowserMobileFirstViewModel();
-            originalViewModel.MobileFirstDesign = "     yes     ";
-            var command = new UpdateSolutionBrowserMobileFirstCommand("Sln1", originalViewModel);
-            command.Data.MobileFirstDesign.Should().Be("yes");
+            var command = new UpdateSolutionBrowserMobileFirstCommand("Sln1", "     yes     ");
+            command.MobileFirstDesign.Should().Be("yes");
         }
 
         private async Task<ISimpleResult> UpdateBrowserMobileFirst(
@@ -114,8 +112,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Browser
         {
             return await Context.UpdateSolutionBrowserMobileFirstHandler
                 .Handle(
-                    new UpdateSolutionBrowserMobileFirstCommand(SolutionId,
-                        new UpdateSolutionBrowserMobileFirstViewModel() { MobileFirstDesign = mobileFirstDesign }),
+                    new UpdateSolutionBrowserMobileFirstCommand(SolutionId, mobileFirstDesign),
                     new CancellationToken()).ConfigureAwait(false);
         }
     }
