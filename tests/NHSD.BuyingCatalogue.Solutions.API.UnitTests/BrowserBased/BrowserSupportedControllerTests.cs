@@ -150,7 +150,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
             _mockMediator.Verify(
                 x => x.Send(
                     It.Is<UpdateSolutionBrowsersSupportedCommand>(c =>
-                        c.SolutionId == SolutionId && c.Data.BrowsersSupported == new HashSet<string>(){"Edge"} &&
+                        c.SolutionId == SolutionId &&
+                        !c.Data.BrowsersSupported.Any(x => x != "Edge") &&
                         c.Data.MobileResponsive == "yes"),
                     It.IsAny<CancellationToken>()), Times.Once);
         }
@@ -174,7 +175,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
 
             _mockMediator.Verify(x => x.Send(
                     It.Is<UpdateSolutionBrowsersSupportedCommand>(c =>
-                        c.Data.BrowsersSupported == new HashSet<string>() &&
+                        !c.Data.BrowsersSupported.Any() &&
                         c.Data.MobileResponsive == null &&
                         c.SolutionId == SolutionId), It.IsAny<CancellationToken>()),
                 Times.Once);

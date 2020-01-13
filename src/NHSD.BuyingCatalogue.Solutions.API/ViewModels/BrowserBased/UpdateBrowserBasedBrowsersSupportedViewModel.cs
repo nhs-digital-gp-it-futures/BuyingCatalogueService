@@ -22,7 +22,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.BrowserBased
                         ? new HashSet<string>()
                         : new HashSet<string>(BrowsersSupported.Where(x => !string.IsNullOrWhiteSpace(x))
                             .Select(x => x.Trim())),
-                MobileResponsive = MobileResponsive.Trim()
+                MobileResponsive = MobileResponsive?.Trim()
             };
         }
     }
