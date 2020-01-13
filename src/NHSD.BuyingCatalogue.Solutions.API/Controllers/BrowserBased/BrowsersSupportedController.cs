@@ -53,7 +53,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.BrowserBased
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> UpdateBrowsersSupportedAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionBrowsersSupportedViewModel updateSolutionBrowsersSupportedViewModel) =>
-            (await _mediator.Send(new UpdateSolutionBrowsersSupportedCommand(id, updateSolutionBrowsersSupportedViewModel)).ConfigureAwait(false)).ToActionResult();
+        public async Task<ActionResult> UpdateBrowsersSupportedAsync([FromRoute] [Required] string id,
+            [FromBody] [Required] UpdateBrowserBasedBrowsersSupportedViewModel viewModel) =>
+            (await _mediator.Send(new UpdateSolutionBrowsersSupportedCommand(id, viewModel)).ConfigureAwait(false))
+            .ToActionResult();
     }
 }

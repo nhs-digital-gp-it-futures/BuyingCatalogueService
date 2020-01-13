@@ -3,12 +3,16 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using FluentAssertions.Common;
 using Moq;
 using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionBrowsersSupported;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateSolutionNativeDesktopThirdParty;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Tools;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Commands;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Commands.BrowserBased;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
 
@@ -97,22 +101,26 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Browser
         [Test]
         public void CommandShouldTrimStrings()
         {
-            var originalViewModel = new UpdateSolutionBrowsersSupportedViewModel();
-            originalViewModel.MobileResponsive = "     yes    ";
-            originalViewModel.BrowsersSupported = new HashSet<string>{"     Chrome", "Edge      ", "      "};
-            var command = new UpdateSolutionBrowsersSupportedCommand("Sln1", originalViewModel);
-            command.Data.MobileResponsive.Should().Be("yes");
-            command.Data.BrowsersSupported.Should().BeEquivalentTo("Chrome", "Edge");
+            var viewModel = new Mock<IUpdateBrowserBasedBrowsersSupportedData>();
+            var trimmedViewModel = Mock.Of<IUpdateBrowserBasedBrowsersSupportedData>();
+            viewModel.Setup(x => x.Trim()).Returns(trimmedViewModel);
+
+            var command = new UpdateSolutionBrowsersSupportedCommand("Sln1", viewModel.Object);
+            viewModel.Verify(x => x.Trim(), Times.Once);
+            command.Data.IsSameOrEqualTo(trimmedViewModel);
         }
 
         private async Task<ISimpleResult> UpdateBrowsersSupported(HashSet<string> browsersSupported, string mobileResponsive = null)
         {
-            return await Context.UpdateSolutionBrowsersSupportedHandler.Handle(new UpdateSolutionBrowsersSupportedCommand("Sln1", new UpdateSolutionBrowsersSupportedViewModel()
-            {
-                BrowsersSupported = browsersSupported,
-                MobileResponsive = mobileResponsive
-            }), new CancellationToken())
-                .ConfigureAwait(false);
+            var trimmedData = Mock.Of<IUpdateBrowserBasedBrowsersSupportedData>(t =>
+                t.BrowsersSupported == browsersSupported && t.MobileResponsive == mobileResponsive);
+
+            var data = new Mock<IUpdateBrowserBasedBrowsersSupportedData>();
+            data.Setup(s => s.Trim()).Returns(trimmedData);
+            
+            return await Context.UpdateSolutionBrowsersSupportedHandler.Handle(
+                new UpdateSolutionBrowsersSupportedCommand("Sln1", data.Object),
+                new CancellationToken()).ConfigureAwait(false);
         }
     }
 }
