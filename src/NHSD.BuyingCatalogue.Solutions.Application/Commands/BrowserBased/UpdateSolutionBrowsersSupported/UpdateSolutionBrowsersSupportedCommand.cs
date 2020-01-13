@@ -1,8 +1,7 @@
-using System.Collections.Generic;
-using System.Linq;
 using MediatR;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Commands.BrowserBased;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionBrowsersSupported
 {
@@ -16,19 +15,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.Updat
         /// <summary>
         /// Updated details of a solution.
         /// </summary>
-        public UpdateSolutionBrowsersSupportedViewModel Data { get; }
+        public IUpdateBrowserBasedBrowsersSupportedData Data { get; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="UpdateSolutionBrowsersSupportedCommand"/> class.
         /// </summary>
-        public UpdateSolutionBrowsersSupportedCommand(string solutionId, UpdateSolutionBrowsersSupportedViewModel data)
+        public UpdateSolutionBrowsersSupportedCommand(string solutionId, IUpdateBrowserBasedBrowsersSupportedData data)
         {
             SolutionId = solutionId.ThrowIfNull();
             Data = data.ThrowIfNull();
-            Data.MobileResponsive = Data.MobileResponsive?.Trim();
-            Data.BrowsersSupported = Data.BrowsersSupported == null ?
-                new HashSet<string>() : 
-                new HashSet<string>(Data.BrowsersSupported.Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim()));
+            Data = data?.Trim();
         }
     }
 }
