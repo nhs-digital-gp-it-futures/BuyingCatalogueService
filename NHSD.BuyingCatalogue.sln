@@ -13,11 +13,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solutions Items", "Solution
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.env = .env
-		docker-compose.development.yml = docker-compose.development.yml
-		docker-compose.integration.yml = docker-compose.integration.yml
-		docker-compose.production.yml = docker-compose.production.yml
-		docker-compose.yml = docker-compose.yml
-		Dockerfile = Dockerfile
+		docker\docker-compose.development.yml = docker\docker-compose.development.yml
+		docker\docker-compose.integration.yml = docker\docker-compose.integration.yml
+		docker\docker-compose.pipeline.yaml = docker\docker-compose.pipeline.yaml
+		docker\docker-compose.production.yml = docker\docker-compose.production.yml
+		docker\docker-compose.yml = docker\docker-compose.yml
+		docker\Dockerfile = docker\Dockerfile
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.API.UnitTests", "tests\NHSD.BuyingCatalogue.API.UnitTests\NHSD.BuyingCatalogue.API.UnitTests.csproj", "{F6E3EE51-7F18-440B-A882-3F6148068384}"
@@ -98,7 +99,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Soluti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.API.IntegrationTests", "tests\NHSD.BuyingCatalogue.API.IntegrationTests\NHSD.BuyingCatalogue.API.IntegrationTests.csproj", "{53C18484-E8B3-4F63-9FAB-638F90893B2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests", "tests\NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests\NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests.csproj", "{F95382FC-C42E-4942-AD2F-A8E09C7041CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests", "tests\NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests\NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests.csproj", "{F95382FC-C42E-4942-AD2F-A8E09C7041CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
