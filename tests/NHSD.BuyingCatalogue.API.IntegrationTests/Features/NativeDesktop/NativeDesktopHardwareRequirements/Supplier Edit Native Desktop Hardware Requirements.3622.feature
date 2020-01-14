@@ -16,15 +16,15 @@ Background:
 @3622
 Scenario: 1. Native Desktop Hardware Requirements is updated
     Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                        |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ] } |
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication |
+        | Sln1     | An full online medicine system | Online medicine 1 | { }               |
     When a PUT request is made to update the native-desktop-hardware-requirements section for solution Sln1
         | HardwareRequirements |
         | New Hardware         |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": null, "Plugins": null, "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null, "HardwareRequirements": null, "NativeMobileHardwareRequirements": null, "NativeDesktopHardwareRequirements": "New Hardware", "AdditionalInformation": null, "MobileFirstDesign": null, "NativeMobileFirstDesign": null, "MobileOperatingSystems": null, "MobileConnectionDetails": null, "MobileMemoryAndStorage": null, "MobileThirdParty": null, "NativeMobileAdditionalInformation": null, "NativeDesktopOperatingSystemsDescription": null, "NativeDesktopMinimumConnectionSpeed": null, "NativeDesktopThirdParty": null, "NativeDesktopMemoryAndStorage": null } |
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                               |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "NativeDesktopHardwareRequirements": "New Hardware" } |
 
 @3622
 Scenario: 2. Solution is not found

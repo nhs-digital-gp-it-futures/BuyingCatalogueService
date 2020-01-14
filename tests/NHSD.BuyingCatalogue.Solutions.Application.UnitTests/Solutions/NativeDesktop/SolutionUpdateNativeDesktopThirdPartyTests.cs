@@ -49,8 +49,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.NativeD
 
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
                 r.SolutionId == SolutionId
-                && JToken.Parse(r.ClientApplication).SelectToken("NativeDesktopThirdParty.ThirdPartyComponents").Value<string>() == null
-                && JToken.Parse(r.ClientApplication).SelectToken("NativeDesktopThirdParty.DeviceCapabilities").Value<string>() == null
+                && JToken.Parse(r.ClientApplication).SelectToken("NativeDesktopThirdParty.ThirdPartyComponents") == null
+                && JToken.Parse(r.ClientApplication).SelectToken("NativeDesktopThirdParty.DeviceCapabilities") == null
             ), It.IsAny<CancellationToken>()), Times.Once());
         }
 

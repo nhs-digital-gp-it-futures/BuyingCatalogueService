@@ -9,7 +9,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
         public UpdateSolutionClientApplicationRequest(string id, ClientApplication clientApplication)
         {
             SolutionId = id;
-            ClientApplication = JsonConvert.SerializeObject(clientApplication);
+            ClientApplication = JsonConvert.SerializeObject(clientApplication, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
         }
 
         public string SolutionId { get; }

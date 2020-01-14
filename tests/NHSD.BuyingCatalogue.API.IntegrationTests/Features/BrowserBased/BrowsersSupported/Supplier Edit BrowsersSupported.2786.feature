@@ -22,28 +22,28 @@ Background:
 @2786
 Scenario: 1. Browser Supported is updated
     Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                    |
-        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins": null, "HardwareRequirements": "Hardware Information" } |
-        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                                                                                      |
-        | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                                                                                         |
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                         |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "IE8", "Opera" ] } |
+        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                           |
+        | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                              |
     When a PUT request is made to update the browser-browsers-supported section for solution Sln1
         | BrowsersSupported | MobileResponsive |
         | Chrome, Edge      | yeS              |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true, "Plugins": null, "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null, "HardwareRequirements": "Hardware Information", "NativeMobileHardwareRequirements": null, "NativeDesktopHardwareRequirements": null, "AdditionalInformation": null, "MobileFirstDesign": null, "NativeMobileFirstDesign": null, "MobileOperatingSystems": null, "MobileConnectionDetails": null, "MobileMemoryAndStorage": null, "MobileThirdParty": null, "NativeMobileAdditionalInformation": null, "NativeDesktopOperatingSystemsDescription": null, "NativeDesktopMinimumConnectionSpeed": null, "NativeDesktopThirdParty": null, "NativeDesktopMemoryAndStorage": null } |
-        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-        | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                     |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true } |
+        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                       |
+        | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                          |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @2786
 Scenario: 2. Browsers Supported is empty, Mobile Responsive has a result
      Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                   |
-        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false } |
-        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                     |
-        | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                        |
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                         |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "IE8", "Opera" ] } |
+        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                           |
+        | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                              |
     When a PUT request is made to update the browser-browsers-supported section for solution Sln1
         | BrowsersSupported | MobileResponsive |
         |                   | true             |
@@ -56,18 +56,18 @@ Scenario: 2. Browsers Supported is empty, Mobile Responsive has a result
         | Sln3       | PracticeMgr    |
         | Sln5       | Pills          |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                   |
-        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false } |
-        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                     |
-        | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                        |
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                         |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "IE8", "Opera" ] } |
+        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                           |
+        | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                              |
 
 @2786
 Scenario: 3. Mobile Responsive is empty
     Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                   |
-        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false } |
-        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                     |
-        | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                        |
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                         |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "IE8", "Opera" ] } |
+        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                           |
+        | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                              |
     When a PUT request is made to update the browser-browsers-supported section for solution Sln1
         | BrowsersSupported | MobileResponsive |
         | Chrome, Edge      |                  |
@@ -80,18 +80,18 @@ Scenario: 3. Mobile Responsive is empty
         | Sln3       | PracticeMgr    |
         | Sln5       | Pills          |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                   |
-        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false } |
-        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                     |
-        | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                        |
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                         |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "IE8", "Opera" ] } |
+        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                           |
+        | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                              |
 
 @2786
 Scenario: 4. Browsers Supported & Mobile Responsive are empty
     Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                   |
-        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false } |
-        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                     |
-        | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                        |
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                         |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "IE8", "Opera" ] } |
+        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                           |
+        | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                              |
     When a PUT request is made to update the browser-browsers-supported section for solution Sln1
         | BrowsersSupported | MobileResponsive |
         |                   |                  |
@@ -105,10 +105,10 @@ Scenario: 4. Browsers Supported & Mobile Responsive are empty
         | Sln3       | PracticeMgr    |
         | Sln5       | Pills          |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                   |
-        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false } |
-        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                     |
-        | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                        |
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                         |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "IE8", "Opera" ] } |
+        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                           |
+        | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                              |
 
 @2786
 Scenario: 5. Solution is not found

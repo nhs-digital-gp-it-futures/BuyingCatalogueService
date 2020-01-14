@@ -16,15 +16,15 @@ Background:
 @3620
 Scenario: 1. Native Desktop Memory, Storage, Processing and Resolution is updated
     Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["native-desktop"] } |
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication |
+        | Sln1     | An full online medicine system | Online medicine 1 | { }               |
     When a PUT request is made to update the native-desktop-memory-and-storage section for solution Sln1
         | MinimumMemoryRequirement | StorageRequirementsDescription | MinimumCpu | RecommendedResolution |
         | 512                      | SSD > HDD                      | 1337 Ghz   | 1x1 px                |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["native-desktop"], "BrowsersSupported": [], "MobileResponsive": null, "Plugins": null, "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null, "HardwareRequirements": null, "NativeMobileHardwareRequirements": null, "NativeDesktopHardwareRequirements": null, "AdditionalInformation": null, "MobileFirstDesign": null, "NativeMobileFirstDesign": null, "MobileOperatingSystems": null, "MobileConnectionDetails": null, "MobileMemoryAndStorage": null, "MobileThirdParty": null, "NativeMobileAdditionalInformation": null, "NativeDesktopOperatingSystemsDescription": null, "NativeDesktopMinimumConnectionSpeed": null,  "NativeDesktopThirdParty": null, "NativeDesktopMemoryAndStorage": { "MinimumMemoryRequirement": "512", "StorageRequirementsDescription": "SSD > HDD", "MinimumCpu": "1337 Ghz", "RecommendedResolution" : "1x1 px" } } |
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                              |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "NativeDesktopMemoryAndStorage": { "MinimumMemoryRequirement": "512", "StorageRequirementsDescription": "SSD > HDD", "MinimumCpu": "1337 Ghz", "RecommendedResolution" : "1x1 px" } } |
 
 @3620
 Scenario: 2. Solution is not found
