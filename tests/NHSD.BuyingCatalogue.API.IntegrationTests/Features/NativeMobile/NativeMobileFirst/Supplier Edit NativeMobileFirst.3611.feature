@@ -16,15 +16,15 @@ Background:
 @3602
 Scenario: 1. Native Mobile First is updated
     Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                                                 |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins": null, "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null, "HardwareRequirements": "New Hardware", "AdditionalInformation": "Some Info", "MobileFirstDesign": false, "NativeMobileFirstDesign": false} |
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication |
+        | Sln1     | An full online medicine system | Online medicine 1 | { }               |
     When a PUT request is made to update the native-mobile-first section for solution Sln1
         | MobileFirstDesign |
         | YEs               |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins": null, "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null, "HardwareRequirements": "New Hardware", "NativeMobileHardwareRequirements": null, "NativeDesktopHardwareRequirements": null, "AdditionalInformation": "Some Info", "MobileFirstDesign": false, "NativeMobileFirstDesign": true, "MobileOperatingSystems": null, "MobileConnectionDetails": null, "MobileMemoryAndStorage": null, "MobileThirdParty": null, "NativeMobileAdditionalInformation": null, "NativeDesktopOperatingSystemsDescription": null, "NativeDesktopMinimumConnectionSpeed": null, "NativeDesktopThirdParty": null, "NativeDesktopMemoryAndStorage": null } |
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                           |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "NativeMobileFirstDesign": true } |
 
 @3602
 Scenario: 2. Solution is not found

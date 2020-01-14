@@ -16,15 +16,15 @@ Background:
 @3600
 Scenario: 1. Browser Hardware Requirements is updated
     Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                        |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "HardwareRequirements": "New Hardware","ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins": null } |
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                  |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "HardwareRequirements": "New Hardware", "ClientApplicationTypes": [], "BrowsersSupported" : [] } |
     When a PUT request is made to update the browser-hardware-requirements section for solution Sln1
         | HardwareRequirements |
         | New Hardware         |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins": null, "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null, "HardwareRequirements": "New Hardware", "NativeMobileHardwareRequirements": null, "NativeDesktopHardwareRequirements": null, "AdditionalInformation": null, "MobileFirstDesign": null, "NativeMobileFirstDesign": null, "MobileOperatingSystems": null, "MobileConnectionDetails": null, "MobileMemoryAndStorage": null, "MobileThirdParty": null, "NativeMobileAdditionalInformation": null, "NativeDesktopOperatingSystemsDescription": null, "NativeDesktopMinimumConnectionSpeed": null, "NativeDesktopThirdParty": null, "NativeDesktopMemoryAndStorage": null } |
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                 |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [],"BrowsersSupported" : [], "HardwareRequirements": "New Hardware" } |
 
 @3600
 Scenario: 2. Solution is not found

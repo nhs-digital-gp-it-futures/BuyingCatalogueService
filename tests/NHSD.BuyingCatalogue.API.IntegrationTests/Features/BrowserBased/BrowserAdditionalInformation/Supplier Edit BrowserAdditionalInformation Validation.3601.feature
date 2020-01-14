@@ -14,8 +14,8 @@ Background:
         | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                 |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "AdditionalInformation": "Some Info", "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum" }, "HardwareRequirements": "Hardware Information"} |
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                               |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "AdditionalInformation": "Some Info", "ClientApplicationTypes": [], "BrowsersSupported": [] } |
 
 @3601
 Scenario: 1. AdditionalInformation exceeds the maxLength
@@ -32,6 +32,6 @@ Scenario: 2. AdditionalInformation is set to null
     | NULL                  |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum" }, "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null, "HardwareRequirements": "Hardware Information", "NativeMobileHardwareRequirements": null, "NativeDesktopHardwareRequirements": null, "AdditionalInformation": null, "MobileFirstDesign": null, "NativeMobileFirstDesign": null, "MobileOperatingSystems": null, "MobileConnectionDetails": null, "MobileMemoryAndStorage": null, "MobileThirdParty": null, "NativeMobileAdditionalInformation": null, "NativeDesktopOperatingSystemsDescription": null, "NativeDesktopMinimumConnectionSpeed": null, "NativeDesktopThirdParty": null, "NativeDesktopMemoryAndStorage": null } |
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                         |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [] } |
 
