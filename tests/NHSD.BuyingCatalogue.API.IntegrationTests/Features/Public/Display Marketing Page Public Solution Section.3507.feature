@@ -9,9 +9,9 @@ Background:
         | GPs-R-Us |
         | Drs. Inc |
     And Suppliers exist
-        | Id    | OrganisationName |
-        | Sup 1 | GPs-R-Us         |
-        | Sup 2 | Drs. Inc         |
+        | Id    | SupplierName | OrganisationName |
+        | Sup 1 | Supplier 1   | GPs-R-Us         |
+        | Sup 2 | Supplier 2   | Drs. Inc         |
     And Solutions exist
         | SolutionID | SolutionName   | OrganisationName | LastUpdated | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | GPs-R-Us         | 19/11/2019  | 1                | Sup 1      |
@@ -26,7 +26,7 @@ Background:
 Scenario: 1. Solution section is presented where the solution isFoundation is true
     When a GET request is made for solution public Sln1
     Then a successful response is returned
-    And the string value of element organisationName is GPs-R-Us
+    And the string value of element supplierName is Supplier 1
     And the string value of element isFoundation is True
     And the last updated date in the solution is 19/11/2019
 
@@ -34,7 +34,7 @@ Scenario: 1. Solution section is presented where the solution isFoundation is tr
 Scenario: 2. Solution section is presented where the solution isFoundation is false
     When a GET request is made for solution public Sln2
     Then a successful response is returned
-    And the string value of element organisationName is Drs. Inc
+    And the string value of element supplierName is Supplier 2
     And the string value of element isFoundation is False
     And the last updated date in the solution is 15/11/2019
 
@@ -42,6 +42,6 @@ Scenario: 2. Solution section is presented where the solution isFoundation is fa
 Scenario: 3. Solution is not linked to Framwork Solution
     When a GET request is made for solution public Sln3
     Then a successful response is returned
-    And the string value of element organisationName is Drs. Inc
+    And the string value of element supplierName is Supplier 2
     And the string value of element isFoundation is False
     And the last updated date in the solution is 20/11/2019

@@ -23,6 +23,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         private readonly string _orgName = "Org1";
 
         private readonly string _supplierId = "Sup 1";
+        private readonly string _supplierName = "Supplier1";
+
         private readonly DateTime _lastUpdated = DateTime.Today;
 
         private readonly string _solution1Id = "Sln1";
@@ -43,6 +45,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await SupplierEntityBuilder.Create()
                 .WithId(_supplierId)
+                .WithName(_supplierName)
                 .WithOrganisation(_org1Id)
                 .Build()
                 .InsertAsync()
@@ -92,7 +95,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             solution.AboutUrl.Should().Be("AboutUrl");
             solution.Features.Should().Be("Features");
             solution.ClientApplication.Should().Be("Browser-based");
-            solution.OrganisationName.Should().Be(_orgName);
+            solution.SupplierName.Should().Be(_supplierName);
             solution.IsFoundation.Should().BeFalse();
             solution.PublishedStatus.Should().Be(PublishedStatus.Published);
         }
@@ -155,7 +158,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             solution.LastUpdated.Should().Be(_lastUpdated);
             solution.Summary.Should().BeNull();
             solution.Description.Should().BeNull();
-            solution.OrganisationName.Should().Be(_orgName);
+            solution.SupplierName.Should().Be(_supplierName);
             solution.AboutUrl.Should().BeNull();
             solution.Features.Should().BeNull();
             solution.ClientApplication.Should().BeNull();

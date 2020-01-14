@@ -31,9 +31,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         string Summary { get; }
 
         /// <summary>
-        /// Name of the organisation, as displayed to a user.
+        /// Name of the supplier, as displayed to a user.
         /// </summary>
-        string OrganisationName { get; }
+        string SupplierName { get; }
 
         /// <summary>
         /// Gets or sets a list of features.

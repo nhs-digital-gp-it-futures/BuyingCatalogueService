@@ -8,8 +8,8 @@ Background:
         | Name     |
         | GPs-R-Us |
     And Suppliers exist
-        | Id    | OrganisationName |
-        | Sup 1 | GPs-R-Us         |
+        | Id    | SupplierName | OrganisationName |
+        | Sup 1 | Supplier 1   | GPs-R-Us         |
     And Solutions exist
         | SolutionID | SolutionName | OrganisationName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline  | GPs-R-Us         | 1                | Sup 1      |

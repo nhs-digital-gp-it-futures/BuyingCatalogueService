@@ -26,7 +26,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             await SupplierEntityBuilder.Create()
                 .WithId(supplierTable.Id)
                 .WithOrganisation(organisations.First(o => o.Name == supplierTable.OrganisationName).Id)
-                .WithName(supplierTable.Id)
+                .WithName(supplierTable.SupplierName)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
@@ -35,6 +35,9 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         private class SupplierTable
         {
             public string Id { get; set; }
+
+            public string SupplierName { get; set; }
+
             public string OrganisationName { get; set; }
         }
     }
