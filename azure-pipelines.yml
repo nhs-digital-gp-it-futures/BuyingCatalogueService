@@ -13,6 +13,13 @@ steps:
     ScriptPath: 'setup-integration-db.ps1'
     azurePowerShellVersion: LatestVersion
 
+- task: UseDotNet@2
+  displayName: 'Install .net core 3.0 (preview)'
+  inputs:
+    packageType: sdk
+    version: '3.0.100-preview6-012264'
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
