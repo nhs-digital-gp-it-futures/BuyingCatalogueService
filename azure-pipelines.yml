@@ -1,5 +1,5 @@
 pool:
-  vmImage: 'windows-2019'
+  vmImage: 'ubuntu-16.04'
 
 steps:
 
@@ -12,6 +12,13 @@ steps:
     azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
     ScriptPath: 'setup-integration-db.ps1'
     azurePowerShellVersion: LatestVersion
+- task: AzurePowerShell@4
+  displayName: 'Setup Test Database'
+  inputs:
+    azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
+    ScriptPath: 'setup-integration-db.ps1'
+    azurePowerShellVersion: LatestVersion
+
 
 - task: UseDotNet@2
   displayName: 'UseDotNet@2'
