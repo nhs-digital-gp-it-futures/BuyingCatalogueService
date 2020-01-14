@@ -5,6 +5,7 @@
     <UserSecretsId>fb4eef1e-2115-40a2-83bf-2476796bdd9c</UserSecretsId>
     <StartupObject>NHSD.BuyingCatalogue.API.Program</StartupObject>
     <NeutralLanguage>en-GB</NeutralLanguage>
+    <AssemblyName>NHSD.BuyingCatalogue.API</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
