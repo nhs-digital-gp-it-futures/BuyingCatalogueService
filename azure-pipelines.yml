@@ -1,17 +1,13 @@
 pool:
-  vmImage: 'ubuntu-16.04'
+  vmImage: 'ubuntu-18.04'
 
 steps:
 
 - task: DockerInstaller@0
   displayName: 'Docker: Install - Version 17.09.0'
 
-- task: AzurePowerShell@4
-  displayName: 'Setup Test Database'
-  inputs:
-    azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
-    ScriptPath: 'setup-integration-db.ps1'
-    azurePowerShellVersion: LatestVersion
+
+
 - task: AzurePowerShell@4
   displayName: 'Setup Test Database'
   inputs:
