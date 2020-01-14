@@ -22,7 +22,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
         private Mock<IMediator> _mockMediator;
         private ConnectivityAndResolutionController _controller;
         private const string SolutionId = "Sln1";
-        private UpdateSolutionConnectivityAndResolutionViewModel _viewModel;
+        private UpdateBrowserBasedConnectivityAndResolutionViewModel _viewModel;
         private Mock<ISimpleResult> _validationResult;
         private IClientApplication _clientApplication;
 
@@ -41,7 +41,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
             _validationResult = new Mock<ISimpleResult>();
             _validationResult.Setup(s => s.IsValid).Returns(true);
 
-            _viewModel = new UpdateSolutionConnectivityAndResolutionViewModel { MinimumConnectionSpeed = "1 PPH (Pigeon Per Hour)", MinimumDesktopResolution = "1x1" };
+            _viewModel = new UpdateBrowserBasedConnectivityAndResolutionViewModel { MinimumConnectionSpeed = "1 PPH (Pigeon Per Hour)", MinimumDesktopResolution = "1x1" };
         }
 
         [Test]
@@ -51,7 +51,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.BrowserBased
 
             result.Should().NotBeNull();
             result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
-            _mockMediator.Verify(x => x.Send(It.Is<UpdateSolutionConnectivityAndResolutionCommand>(command => command.Id == SolutionId && command.Data == _viewModel), It.IsAny<CancellationToken>()), Times.Once);
+            _mockMediator.Verify(x => x.Send(It.Is<UpdateSolutionConnectivityAndResolutionCommand>(command =>
+                command.Id == SolutionId &&
+                command.Data.MinimumConnectionSpeed == _viewModel.MinimumConnectionSpeed &&
+                command.Data.MinimumDesktopResolution == _viewModel.MinimumDesktopResolution
+                ), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]

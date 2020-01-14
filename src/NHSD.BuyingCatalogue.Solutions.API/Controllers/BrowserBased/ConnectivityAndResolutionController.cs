@@ -39,7 +39,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.BrowserBased
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> UpdateConnectivityAndResolutionAsync([FromRoute][Required]string id, [FromBody][Required] UpdateSolutionConnectivityAndResolutionViewModel viewModel) =>
-            (await _mediator.Send(new UpdateSolutionConnectivityAndResolutionCommand(id, viewModel)).ConfigureAwait(false)).ToActionResult();
+        public async Task<ActionResult> UpdateConnectivityAndResolutionAsync([FromRoute] [Required] string id,
+            [FromBody] [Required] UpdateBrowserBasedConnectivityAndResolutionViewModel viewModel) =>
+            (await _mediator.Send(new UpdateSolutionConnectivityAndResolutionCommand(id, viewModel))
+                .ConfigureAwait(false)).ToActionResult();
     }
 }

@@ -5,6 +5,7 @@ using FluentAssertions;
 using Moq;
 using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels.BrowserBased;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionBrowserMobileFirst;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Tools;
@@ -103,7 +104,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Browser
         [Test]
         public void CommandShouldTrimStrings()
         {
-            var command = new UpdateSolutionBrowserMobileFirstCommand("Sln1", "     yes     ");
+            var originalViewModel = new UpdateBrowserBasedMobileFirstViewModel { MobileFirstDesign = "     yes     "};
+            var command = new UpdateSolutionBrowserMobileFirstCommand("Sln1", originalViewModel.MobileFirstDesign);
             command.MobileFirstDesign.Should().Be("yes");
         }
 

@@ -1,10 +1,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using FluentAssertions.Common;
 using Moq;
 using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionConnectivityAndResolution;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Commands.BrowserBased;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
 
@@ -14,20 +16,26 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Browser
     internal class SolutionUpdateConnectivityAndResolutionTests : ClientApplicationTestsBase
     {
         private string _solutionId = "Sln1";
-        private UpdateSolutionConnectivityAndResolutionViewModel _viewModel;
+        private Mock<IUpdateBrowserBasedConnectivityAndResolutionData> _trimmedViewModel;
+        private Mock<IUpdateBrowserBasedConnectivityAndResolutionData> _viewModel;
+        private string _connectionSpeed;
+        private string _minimumResolution;
+
         private UpdateSolutionConnectivityAndResolutionCommand _command;
         private CancellationToken _cancellationToken;
 
         [SetUp]
         public void Setup()
         {
-            _viewModel = new UpdateSolutionConnectivityAndResolutionViewModel
-            {
-                MinimumConnectionSpeed = "1GBps", MinimumDesktopResolution = "1x1"
-            };
-
-            _command = new UpdateSolutionConnectivityAndResolutionCommand(_solutionId, _viewModel);
+            _trimmedViewModel = new Mock<IUpdateBrowserBasedConnectivityAndResolutionData>();
+            _trimmedViewModel.Setup(x => x.MinimumConnectionSpeed).Returns(() => _connectionSpeed);
+            _trimmedViewModel.Setup(x => x.MinimumDesktopResolution).Returns(() => _minimumResolution);
+            _viewModel = new Mock<IUpdateBrowserBasedConnectivityAndResolutionData>();
+            _viewModel.Setup(x => x.Trim()).Returns(() => _trimmedViewModel.Object);
+            _command = new UpdateSolutionConnectivityAndResolutionCommand(_solutionId, _viewModel.Object);
             _cancellationToken = new CancellationToken();
+            _connectionSpeed = "1";
+            _minimumResolution = "800x600";
         }
 
         [Test]
@@ -41,8 +49,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Browser
 
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
                 r.SolutionId == "Sln1"
-                && JToken.Parse(r.ClientApplication).Value<string>("MinimumConnectionSpeed") == _viewModel.MinimumConnectionSpeed
-                && JToken.Parse(r.ClientApplication).Value<string>("MinimumDesktopResolution") == _viewModel.MinimumDesktopResolution
+                && JToken.Parse(r.ClientApplication).Value<string>("MinimumConnectionSpeed") == _connectionSpeed
+                && JToken.Parse(r.ClientApplication).Value<string>("MinimumDesktopResolution") == _minimumResolution
             ), It.IsAny<CancellationToken>()), Times.Once());
         }
 
@@ -50,7 +58,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Browser
         public async Task ValidOnlyConnectionSpeedAreValidAndSentToDatabase()
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
-            _viewModel.MinimumDesktopResolution = null;
+            _minimumResolution = null;
             var validationResult = await Context.UpdateSolutionConnectivityAndResolutionHandler.Handle(_command, _cancellationToken).ConfigureAwait(false);
             validationResult.IsValid.Should().Be(true);
 
@@ -58,8 +66,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Browser
 
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
                 r.SolutionId == "Sln1"
-                && JToken.Parse(r.ClientApplication).Value<string>("MinimumConnectionSpeed") == _viewModel.MinimumConnectionSpeed
-                && JToken.Parse(r.ClientApplication).Value<string>("MinimumDesktopResolution") == _viewModel.MinimumDesktopResolution
+                && JToken.Parse(r.ClientApplication).Value<string>("MinimumConnectionSpeed") == _connectionSpeed
+                && JToken.Parse(r.ClientApplication).Value<string>("MinimumDesktopResolution") == _minimumResolution
             ), It.IsAny<CancellationToken>()), Times.Once());
         }
 
@@ -67,8 +75,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Browser
         public async Task EmptyValuesIsInvalidAndNotSentToDatabase()
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
-            _viewModel.MinimumConnectionSpeed = null;
-            _viewModel.MinimumDesktopResolution = null;
+            _connectionSpeed= null;
+            _minimumResolution = null;
             var validationResult = await Context.UpdateSolutionConnectivityAndResolutionHandler.Handle(_command, _cancellationToken).ConfigureAwait(false);
             validationResult.IsValid.Should().Be(false);
             validationResult.ToDictionary()["minimum-connection-speed"].Should().Be("required");
@@ -82,7 +90,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Browser
         public async Task EmptyConnectionSpeedIsInvalidAndNotSentToDatabase()
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
-            _viewModel.MinimumConnectionSpeed = null;
+            _connectionSpeed = null;
             var validationResult = await Context.UpdateSolutionConnectivityAndResolutionHandler.Handle(_command, _cancellationToken).ConfigureAwait(false);
             validationResult.IsValid.Should().Be(false);
             validationResult.ToDictionary()["minimum-connection-speed"].Should().Be("required");
@@ -95,7 +103,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Browser
         [Test]
         public void ShouldThrowWhenSolutionNotPresent()
         {
-            _command = new UpdateSolutionConnectivityAndResolutionCommand("IDon'tExist", _viewModel);
+            _command = new UpdateSolutionConnectivityAndResolutionCommand("IDon'tExist", _viewModel.Object);
             Assert.ThrowsAsync<NotFoundException>(() => Context.UpdateSolutionConnectivityAndResolutionHandler.Handle(_command, _cancellationToken));
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("IDon'tExist", It.IsAny<CancellationToken>()), Times.Once());
@@ -106,12 +114,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Browser
         [Test]
         public void CommandShouldTrimStrings()
         {
-            var originalViewModel = new UpdateSolutionConnectivityAndResolutionViewModel();
-            originalViewModel.MinimumConnectionSpeed = "     3GBps";
-            originalViewModel.MinimumDesktopResolution = "     1x1       ";
-            var command = new UpdateSolutionConnectivityAndResolutionCommand("Sln1", originalViewModel);
-            command.Data.MinimumConnectionSpeed.Should().Be("3GBps");
-            command.Data.MinimumDesktopResolution.Should().Be("1x1");
+            var viewModel = new Mock<IUpdateBrowserBasedConnectivityAndResolutionData>();
+            var trimmedViewModel = Mock.Of<IUpdateBrowserBasedConnectivityAndResolutionData>();
+            viewModel.Setup(x => x.Trim()).Returns(trimmedViewModel);
+
+            var command = new UpdateSolutionConnectivityAndResolutionCommand("Sln1", viewModel.Object);
+            viewModel.Verify(x => x.Trim(), Times.Once);
+
+            command.Data.IsSameOrEqualTo(trimmedViewModel);
         }
     }
 }

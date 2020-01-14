@@ -1,20 +1,20 @@
 using MediatR;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Commands.BrowserBased;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionConnectivityAndResolution
 {
     public class UpdateSolutionConnectivityAndResolutionCommand : IRequest<ISimpleResult>
     {
         public string Id { get; }
-        public UpdateSolutionConnectivityAndResolutionViewModel Data { get; }
+        public IUpdateBrowserBasedConnectivityAndResolutionData Data { get; }
 
-        public UpdateSolutionConnectivityAndResolutionCommand(string id, UpdateSolutionConnectivityAndResolutionViewModel data)
+        public UpdateSolutionConnectivityAndResolutionCommand(string id, IUpdateBrowserBasedConnectivityAndResolutionData data)
         {
             Id = id.ThrowIfNull();
             Data = data.ThrowIfNull();
-            Data.MinimumConnectionSpeed = Data.MinimumConnectionSpeed?.Trim();
-            Data.MinimumDesktopResolution = Data.MinimumDesktopResolution?.Trim();
+            Data = data?.Trim();
         }
     }
 }
