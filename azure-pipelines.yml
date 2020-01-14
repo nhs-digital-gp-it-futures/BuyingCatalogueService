@@ -20,8 +20,7 @@ steps:
   inputs:
     packageType: 'sdk'
     version: '3.1.x'
-    includePreviewVersions: true
-    installationPath: '$(Agent.ToolsDirectory)'
+    includePreviewVersions: false
 
 - task: DotNetCoreCLI@2
   displayName: Build
