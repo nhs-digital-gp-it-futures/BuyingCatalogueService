@@ -2,26 +2,115 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: CopyFiles@2
-  displayName: 'Copy Files to: API'
-  inputs:
-    SourceFolder: api
-    TargetFolder: '$(build.artifactstagingdirectory)\service\api'
 
-- task: CopyFiles@2
-  displayName: 'Copy Files to: Data Model'
-  inputs:
-    SourceFolder: datamodel
-    TargetFolder: '$(build.artifactstagingdirectory)\service\datamodel'
+- task: DockerInstaller@0
+  displayName: 'Docker: Install - Version 17.09.0'
 
-- task: PublishBuildArtifacts@1
+- task: AzurePowerShell@4
+  displayName: 'Setup Test Database'
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)\service\api'
-    ArtifactName: 'api'
-    publishLocation: 'Container'
+    azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
+    ScriptPath: 'setup-integration-db.ps1'
+    azurePowerShellVersion: LatestVersion
 
-- task: PublishBuildArtifacts@1
+- task: DotNetCoreCLI@2
+  displayName: Build
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)\service\datamodel'
-    ArtifactName: 'datamodel'
-    publishLocation: 'Container'
+    projects: NHSD.BuyingCatalogue.sln
+
+- task: DotNetCoreCLI@2
+  displayName: Publish
+  inputs:
+    command: publish
+    publishWebProjects: false
+    projects: '**/*NHSD.BuyingCatalogue.API.csproj'
+    arguments: ' --configuration Release --output "docker/out"'
+    zipAfterPublish: false
+    modifyOutputPath: false
+
+- script: |
+   docker-compose build --no-cache
+   docker-compose -f "docker/docker-compose.yml" -f "docker/docker-compose.integration.yml" up -d
+   docker ps -a
+   
+  displayName: 'Docker up'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Run unit tests'
+  inputs:
+    command: test
+    projects: |
+     **/*Tests.csproj
+     !**/*IntegrationTests.csproj
+    arguments: '-v n --collect "Code coverage"'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Run Integration tests'
+  inputs:
+    command: test
+    projects: '**/*IntegrationTests.csproj'
+    arguments: '  -v n'
+
+- task: DockerCompose@0
+  displayName: 'Docker Build: Dev'
+  inputs:
+    azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
+    azureContainerRegistry: '{"loginServer":"gpitfuturesdevacr.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-dev-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturesdevacr"}'
+    dockerComposeFile: 'docker/docker-compose.pipeline.yaml'
+    action: 'Build services'
+
+- task: DockerCompose@0
+  displayName: 'Docker Build: Test'
+  inputs:
+    azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
+    azureContainerRegistry: '{"loginServer":"gpitfuturestestacr.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-test-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturestestacr"}'
+    dockerComposeFile: 'docker/docker-compose.pipeline.yaml'
+    action: 'Build services'
+
+- task: DockerCompose@0
+  displayName: 'Docker Build: Pre-Prod'
+  inputs:
+    azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
+    azureContainerRegistry: '{"loginServer":"gpitfuturespprodacr.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-pprod-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturespprodacr"}'
+    dockerComposeFile: 'docker/docker-compose.pipeline.yaml'
+    action: 'Build services'
+
+- task: DockerCompose@0
+  displayName: 'Docker Build: Prod'
+  inputs:
+    azureSubscription: 'NHSAPP-BuyingCatalogue (Prod)'
+    azureContainerRegistry: '{"loginServer":"gpitfuturesprodacr.azurecr.io", "id" : "/subscriptions/d1be8dbc-1a9f-4b7b-ba51-037116110e00/resourceGroups/gpitfutures-prod-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturesprodacr"}'
+    dockerComposeFile: 'docker/docker-compose.pipeline.yaml'
+    action: 'Build services'
+
+- task: DockerCompose@0
+  displayName: 'Docker Push: Dev'
+  inputs:
+    azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
+    azureContainerRegistry: '{"loginServer":"gpitfuturesdevacr.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-dev-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturesdevacr"}'
+    dockerComposeFile: 'docker/docker-compose.pipeline.yaml'
+    action: 'Push services'
+
+- task: DockerCompose@0
+  displayName: 'Docker Push: Test'
+  inputs:
+    azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
+    azureContainerRegistry: '{"loginServer":"gpitfuturestestacr.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-test-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturestestacr"}'
+    dockerComposeFile: 'docker/docker-compose.pipeline.yaml'
+    action: 'Push services'
+
+- task: DockerCompose@0
+  displayName: 'Docker Push: Pre-Prod'
+  inputs:
+    azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
+    azureContainerRegistry: '{"loginServer":"gpitfuturespprodacr.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-pprod-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturespprodacr"}'
+    dockerComposeFile: 'docker/docker-compose.pipeline.yaml'
+    action: 'Push services'
+
+- task: DockerCompose@0
+  displayName: 'Docker Push: Prod'
+  inputs:
+    azureSubscription: 'NHSAPP-BuyingCatalogue (Prod)'
+    azureContainerRegistry: '{"loginServer":"gpitfuturesprodacr.azurecr.io", "id" : "/subscriptions/d1be8dbc-1a9f-4b7b-ba51-037116110e00/resourceGroups/gpitfutures-prod-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturesprodacr"}'
+    dockerComposeFile: 'docker/docker-compose.pipeline.yaml'
+    action: 'Push services'
