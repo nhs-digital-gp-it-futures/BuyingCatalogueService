@@ -22,6 +22,7 @@ steps:
     packageType: 'sdk'
     version: '3.0.x'
     includePreviewVersions: true
+    installationPath: '$(Agent.ToolsDirectory)'
 
 - task: DotNetCoreCLI@2
   displayName: Build
