@@ -12,18 +12,5 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.BrowserBased
 
         [JsonProperty("mobile-responsive")]
         public string MobileResponsive { get; internal set; }
-
-        public IUpdateBrowserBasedBrowsersSupportedData Trim()
-        {
-            return new UpdateBrowserBasedBrowsersSupportedViewModel()
-            {
-                BrowsersSupported =
-                    BrowsersSupported == null
-                        ? new HashSet<string>()
-                        : new HashSet<string>(BrowsersSupported.Where(x => !string.IsNullOrWhiteSpace(x))
-                            .Select(x => x.Trim())),
-                MobileResponsive = MobileResponsive?.Trim()
-            };
-        }
     }
 }

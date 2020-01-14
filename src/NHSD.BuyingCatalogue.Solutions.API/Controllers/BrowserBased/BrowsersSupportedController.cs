@@ -46,7 +46,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.BrowserBased
         /// Updates the browsers supported of a solution matching the supplied ID.
         /// </summary>
         /// <param name="id">A value to uniquely identify a solution.</param>
-        /// <param name="updateSolutionBrowsersSupportedViewModel">The details of the supported browsers.</param>
+        /// <param name="viewModel">The details of the supported browsers.</param>
         /// <returns>A task representing an operation to update the details of the browser supported section.</returns>
         [HttpPut]
         [Route("{id}/sections/browser-browsers-supported")]
@@ -55,7 +55,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.BrowserBased
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> UpdateBrowsersSupportedAsync([FromRoute] [Required] string id,
             [FromBody] [Required] UpdateBrowserBasedBrowsersSupportedViewModel viewModel) =>
-            (await _mediator.Send(new UpdateSolutionBrowsersSupportedCommand(id, viewModel)).ConfigureAwait(false))
+            (await _mediator.Send(new UpdateSolutionBrowsersSupportedCommand(id, viewModel?.Trim())).ConfigureAwait(false))
             .ToActionResult();
     }
 }

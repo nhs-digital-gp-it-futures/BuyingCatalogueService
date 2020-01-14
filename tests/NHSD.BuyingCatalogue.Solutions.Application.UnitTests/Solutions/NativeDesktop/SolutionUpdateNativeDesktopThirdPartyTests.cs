@@ -83,6 +83,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.NativeD
                     newClientApplication.NativeDesktopThirdParty.ThirdPartyComponents.Should().Be("New Component");
                     newClientApplication.NativeDesktopThirdParty.DeviceCapabilities.Should().Be("New Capability");
                 });
+
             var validationResult = await UpdateNativeDesktopThirdParty("New Component", "New Capability").ConfigureAwait(false);
             validationResult.IsValid.Should().BeTrue();
 
