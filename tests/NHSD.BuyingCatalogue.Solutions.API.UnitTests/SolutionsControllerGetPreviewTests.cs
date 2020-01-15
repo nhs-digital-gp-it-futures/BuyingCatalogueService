@@ -45,20 +45,20 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase(null, null, null)]
         [TestCase("Sln2", null, null)]
         [TestCase(null, "name", null)]
-        [TestCase(null, null, "organization")]
-        [TestCase("Sln2", null, "organization")]
-        [TestCase(null, "name", "organization")]
-        [TestCase("Sln2", "name", "organization")]
-        public async Task ShouldReturnGetValues(string id, string name, string organization)
+        [TestCase(null, null, "supplier")]
+        [TestCase("Sln2", null, "supplier")]
+        [TestCase(null, "name", "supplier")]
+        [TestCase("Sln2", "name", "supplier")]
+        public async Task ShouldReturnGetValues(string id, string name, string supplier)
         {
             var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
                 s.Id == id &&
                 s.Name == name &&
-                s.OrganisationName == organization)).ConfigureAwait(false);
+                s.SupplierName == supplier)).ConfigureAwait(false);
 
             previewResult.Id.Should().Be(id);
             previewResult.Name.Should().Be(name);
-            previewResult.OrganisationName.Should().Be(organization);
+            previewResult.SupplierName.Should().Be(supplier);
         }
 
 
@@ -487,7 +487,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var solution = new SolutionResult(null);
             solution.Id.Should().BeNull();
             solution.Name.Should().BeNull();
-            solution.OrganisationName.Should().BeNull();
+            solution.SupplierName.Should().BeNull();
             solution.LastUpdated.Should().BeNull();
             solution.IsFoundation.Should().BeNull();
 
@@ -642,6 +642,31 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     .Answers.RecommendedResolution.Should().Be(resolution);
                 previewResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopMemoryAndStorageSection
                     .Answers.HasData.Should().BeTrue();
+            }
+            else
+            {
+                previewResult.Sections.ClientApplicationTypes.Should().BeNull();
+            }
+        }
+
+        [TestCase("New info", true)]
+        [TestCase(null, false)]
+        [TestCase("", false)]
+        [TestCase("      ", false)]
+        public async Task IfNativeDesktopEmptyThenAdditionalInformationHasNoData(string additionalInformation, bool hasData)
+        {
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                    s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                        c.ClientApplicationTypes == new HashSet<string> { "native-desktop" }
+                        && c.NativeDesktopAdditionalInformation == additionalInformation)))
+                .ConfigureAwait(false);
+
+            if (hasData)
+            {
+                previewResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
+                    .NativeDesktopAdditionalInformationSection.Answers.NativeDesktopAdditionalInformation.Should().Be(additionalInformation);
+                previewResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
+                    .NativeDesktopAdditionalInformationSection.Answers.HasData.Should().BeTrue();
             }
             else
             {

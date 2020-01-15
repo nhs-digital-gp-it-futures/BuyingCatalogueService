@@ -88,7 +88,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.NativeD
         private async Task<ISimpleResult> UpdateNativeDesktopConnectivityDetails(string connectivityDetails = null)
         {
             return await Context.UpdateSolutionNativeDesktopConnectivityDetailsHandler.Handle(
-                new UpdateSolutionNativeDesktopConnectivityDetailsCommand(SolutionId, connectivityDetails),
+                new UpdateSolutionNativeDesktopConnectivityDetailsCommand(SolutionId, connectivityDetails), 
                 new CancellationToken()).ConfigureAwait(false);
         }
 

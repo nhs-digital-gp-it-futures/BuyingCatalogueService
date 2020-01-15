@@ -47,5 +47,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         public INativeDesktopThirdParty NativeDesktopThirdParty { get; set; }
 
         public INativeDesktopMemoryAndStorage NativeDesktopMemoryAndStorage { get; set; }
+
+        public string NativeDesktopAdditionalInformation { get; set; }
     }
 }

@@ -16,9 +16,9 @@ Background:
         | GPs-R-Us |
         | Drs. Inc |
     And Suppliers exist
-        | Id    | OrganisationName |
-        | Sup 1 | GPs-R-Us         |
-        | Sup 2 | Drs. Inc         |
+        | Id    | SupplierName | OrganisationName |
+        | Sup 1 | Supplier 1   | GPs-R-Us         |
+        | Sup 2 | Supplier 2   | Drs. Inc         |
     And Solutions exist
         | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
