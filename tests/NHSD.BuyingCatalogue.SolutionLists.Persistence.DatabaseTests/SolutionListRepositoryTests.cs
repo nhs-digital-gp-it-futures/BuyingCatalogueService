@@ -25,6 +25,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
         private readonly string _orgName = "Org1";
 
         private readonly string _supplierId = "Sup 1";
+        private readonly string _supplierName = "Supplier 1";
 
         private ISolutionListRepository _solutionListRepository;
 
@@ -41,6 +42,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
 
             await SupplierEntityBuilder.Create()
                 .WithId(_supplierId)
+                .WithName(_supplierName)
                 .WithOrganisation(_org1Id)
                 .Build()
                 .InsertAsync().ConfigureAwait(false);
@@ -99,8 +101,8 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
             solution.SolutionId.Should().Be(Solution1Id);
             solution.SolutionName.Should().Be("Solution1");
             solution.SolutionSummary.Should().Be("Sln1Summary");
-            solution.OrganisationId.Should().Be(_org1Id);
-            solution.OrganisationName.Should().Be(_orgName);
+            solution.SupplierId.Should().Be(_supplierId);
+            solution.SupplierName.Should().Be(_supplierName);
             solution.CapabilityId.Should().Be(_cap1Id);
             solution.CapabilityName.Should().Be("Cap1");
             solution.CapabilityDescription.Should().Be("Cap1Desc");
@@ -182,8 +184,8 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
             solution.SolutionId.Should().Be(Solution1Id);
             solution.SolutionName.Should().Be("Solution1");
             solution.SolutionSummary.Should().Be("Sln1Summary");
-            solution.OrganisationId.Should().Be(_org1Id);
-            solution.OrganisationName.Should().Be(_orgName);
+            solution.SupplierId.Should().Be(_supplierId);
+            solution.SupplierName.Should().Be(_supplierName);
             solution.CapabilityId.Should().Be(_cap1Id);
             solution.CapabilityName.Should().Be("Cap1");
             solution.CapabilityDescription.Should().Be("Cap1Desc");
@@ -192,8 +194,8 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
             solution.SolutionId.Should().Be(Solution1Id);
             solution.SolutionName.Should().Be("Solution1");
             solution.SolutionSummary.Should().Be("Sln1Summary");
-            solution.OrganisationId.Should().Be(_org1Id);
-            solution.OrganisationName.Should().Be(_orgName);
+            solution.SupplierId.Should().Be(_supplierId);
+            solution.SupplierName.Should().Be(_supplierName);
             solution.CapabilityId.Should().Be(_cap2Id);
             solution.CapabilityName.Should().Be("Cap2");
             solution.CapabilityDescription.Should().Be("Cap2Desc");
@@ -274,8 +276,8 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
             solution.SolutionId.Should().Be(Solution1Id);
             solution.SolutionName.Should().Be("Solution1");
             solution.SolutionSummary.Should().Be("Sln1Summary");
-            solution.OrganisationId.Should().Be(_org1Id);
-            solution.OrganisationName.Should().Be(_orgName);
+            solution.SupplierId.Should().Be(_supplierId);
+            solution.SupplierName.Should().Be(_supplierName);
             solution.CapabilityId.Should().Be(_cap1Id);
             solution.CapabilityName.Should().Be("Cap1");
             solution.CapabilityDescription.Should().Be("Cap1Desc");
@@ -284,8 +286,8 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
             solution.SolutionId.Should().Be(Solution1Id);
             solution.SolutionName.Should().Be("Solution1");
             solution.SolutionSummary.Should().Be("Sln1Summary");
-            solution.OrganisationId.Should().Be(_org1Id);
-            solution.OrganisationName.Should().Be(_orgName);
+            solution.SupplierId.Should().Be(_supplierId);
+            solution.SupplierName.Should().Be(_supplierName);
             solution.CapabilityId.Should().Be(_cap2Id);
             solution.CapabilityName.Should().Be("Cap2");
             solution.CapabilityDescription.Should().Be("Cap2Desc");
@@ -294,8 +296,8 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
             solution.SolutionId.Should().Be(Solution2Id);
             solution.SolutionName.Should().Be("Solution2");
             solution.SolutionSummary.Should().Be("Sln2Summary");
-            solution.OrganisationId.Should().Be(_org1Id);
-            solution.OrganisationName.Should().Be(_orgName);
+            solution.SupplierId.Should().Be(_supplierId);
+            solution.SupplierName.Should().Be(_supplierName);
             solution.CapabilityId.Should().Be(_cap2Id);
             solution.CapabilityName.Should().Be("Cap2");
             solution.CapabilityDescription.Should().Be("Cap2Desc");

@@ -21,8 +21,8 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Mapping
             CreateMap<SolutionListItem, ISolutionSummary>().As<SolutionSummaryDto>();
             CreateMap<SolutionListItemCapability, SolutionCapabilityDto>();
             CreateMap<SolutionListItemCapability, ISolutionCapability>().As<SolutionCapabilityDto>();
-            CreateMap<SolutionListItemOrganisation, SolutionOrganisationDto>();
-            CreateMap<SolutionListItemOrganisation, ISolutionOrganisation>().As<SolutionOrganisationDto>();
+            CreateMap<SolutionListItemSupplier, SolutionSupplierDto>();
+            CreateMap<SolutionListItemSupplier, ISolutionSupplier>().As<SolutionSupplierDto>();
         }
     }
 }
