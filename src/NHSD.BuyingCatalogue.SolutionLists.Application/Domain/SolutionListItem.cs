@@ -26,7 +26,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
         public bool IsFoundation { get; }
 
         /// <summary>
-        /// Associated organisation.
+        /// Associated supplier.
         /// </summary>
         public SolutionListItemSupplier Supplier { get; }
 

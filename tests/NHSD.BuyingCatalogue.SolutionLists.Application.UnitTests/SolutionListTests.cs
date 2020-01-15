@@ -54,7 +54,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
         }
 
         [Test]
-        public void ShouldListSolutionsWithNoCapabilityFilterReturnDistinctByOrganisation()
+        public void ShouldListSolutionsWithNoCapabilityFilterReturnDistinctBySupplier()
         {
             var repositorySolutions = new List<ISolutionListResult>();
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, 1, 2));
@@ -69,7 +69,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
         }
 
         [Test]
-        public void ShouldListSolutionsWithNoCapabilityFilterReturnDistinctByOrganisationAndCapability()
+        public void ShouldListSolutionsWithNoCapabilityFilterReturnDistinctBySupplierAndCapability()
         {
             var repositorySolutions = new List<ISolutionListResult>();
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, 1, 2));
@@ -98,7 +98,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
         }
 
         [Test]
-        public void ShouldListSolutionsWithNoCapabilityFilterReturnDistinctByOrganisationAndCapabilityTwoOrganisations()
+        public void ShouldListSolutionsWithNoCapabilityFilterReturnDistinctBySupplierAndCapabilityTwoSuppliers()
         {
             var repositorySolutions = new List<ISolutionListResult>();
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, 1, 2));
@@ -145,7 +145,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
         }
 
         [Test]
-        public void ShouldListSolutionsWithCapabilityFilterReturnDistinctByOrganisation()
+        public void ShouldListSolutionsWithCapabilityFilterReturnDistinctBySupplier()
         {
             var repositorySolutions = new List<ISolutionListResult>();
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, 1, 2));
@@ -162,7 +162,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
         }
 
         [Test]
-        public void ShouldListSolutionsWithCapabilityFilterReturnDistinctByOrganisationAndCapability()
+        public void ShouldListSolutionsWithCapabilityFilterReturnDistinctBySupplierAndCapability()
         {
             var repositorySolutions = new List<ISolutionListResult>();
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, 1, 2));
@@ -193,7 +193,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
         }
 
         [Test]
-        public void ShouldListSolutionsWithCapabilityFilterReturnDistinctByOrganisationAndCapabilityTwoOrganisations()
+        public void ShouldListSolutionsWithCapabilityFilterReturnDistinctBySupplierAndCapabilityTwoSuppliers()
         {
             var repositorySolutions = new List<ISolutionListResult>();
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, 1, 2));
