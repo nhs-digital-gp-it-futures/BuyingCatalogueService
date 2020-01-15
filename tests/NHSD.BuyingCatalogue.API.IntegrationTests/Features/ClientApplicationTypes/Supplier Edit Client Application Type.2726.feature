@@ -35,7 +35,6 @@ Scenario: 1. Client Application Types are updated for the solution
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |
     And SolutionDetail exist
-
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                            |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [] } |
         | Sln2     | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                         |
@@ -59,7 +58,6 @@ Scenario: 2. Client Application Types are updated for the solution with trimmed 
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |
     And SolutionDetail exist
-
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                            |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [] } |
         | Sln2     | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                         |

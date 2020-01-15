@@ -38,7 +38,7 @@ Scenario: 2. Client Application is updated for the solution with trimmed whitesp
         | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileConnectionDetails": { "MinimumConnectionSpeed": "1GBps", "ConnectionType": [ "Horse", "Moose", "Giraffe" ], "Description": "A description" } } |
         
 @3606
-Scenario: 2. Client Application is updated with no Minimum Connection Speed
+Scenario: 3. Client Application is updated with no Minimum Connection Speed
     When a PUT request is made to update the native-mobile-connection-details section for solution Sln1
         | MinimumConnectionSpeed | ConnectionRequirementsDescription | ConnectionType        |
         | NULL                   | A description                     | Horse, Moose, Giraffe |
@@ -48,7 +48,7 @@ Scenario: 2. Client Application is updated with no Minimum Connection Speed
         | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileConnectionDetails": { "ConnectionType": [ "Horse", "Moose", "Giraffe" ], "Description": "A description" } } |
         
 @3606
-Scenario: 3. Client Application is updated with no Connection Requirements Description
+Scenario: 4. Client Application is updated with no Connection Requirements Description
     When a PUT request is made to update the native-mobile-connection-details section for solution Sln1
         | MinimumConnectionSpeed | ConnectionRequirementsDescription | ConnectionType        |
         | 1GBps                  | NULL                              | Horse, Moose, Giraffe |
@@ -58,7 +58,7 @@ Scenario: 3. Client Application is updated with no Connection Requirements Descr
         | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileConnectionDetails": { "MinimumConnectionSpeed": "1GBps", "ConnectionType": [ "Horse", "Moose", "Giraffe" ] } } |
 
 @3606
-Scenario: 4. Client Application is updated with no Connection Type
+Scenario: 5. Client Application is updated with no Connection Type
     When a PUT request is made to update the native-mobile-connection-details section for solution Sln1
         | MinimumConnectionSpeed | ConnectionRequirementsDescription | ConnectionType |
         | 1GBps                  | A description                     |                |
@@ -67,7 +67,7 @@ Scenario: 4. Client Application is updated with no Connection Type
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                 |
         | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileConnectionDetails": { "MinimumConnectionSpeed": "1GBps", "ConnectionType": [], "Description": "A description" } } |
 @3606
-Scenario: 5. Solution is not found
+Scenario: 6. Solution is not found
     Given a Solution Sln2 does not exist
     When a PUT request is made to update the native-mobile-connection-details section for solution Sln2
     | MinimumConnectionSpeed | ConnectionRequirementsDescription | ConnectionType        |
@@ -75,7 +75,7 @@ Scenario: 5. Solution is not found
     Then a response status of 404 is returned 
 
 @3606
-Scenario: 6. Service Failure
+Scenario: 7. Service Failure
     Given the call to the database to set the field will fail
     When a PUT request is made to update the native-mobile-connection-details section for solution Sln1
     | MinimumConnectionSpeed | ConnectionRequirementsDescription | ConnectionType        |
@@ -83,7 +83,7 @@ Scenario: 6. Service Failure
     Then a response status of 500 is returned
 
 @3606
-Scenario: 7. Solution id is not present in the request
+Scenario: 8. Solution id is not present in the request
     When a PUT request is made to update the native-mobile-connection-details section with no solution id
     | MinimumConnectionSpeed | ConnectionRequirementsDescription | ConnectionType        |
     | NULL                   | A description                     | Horse, Moose, Giraffe |

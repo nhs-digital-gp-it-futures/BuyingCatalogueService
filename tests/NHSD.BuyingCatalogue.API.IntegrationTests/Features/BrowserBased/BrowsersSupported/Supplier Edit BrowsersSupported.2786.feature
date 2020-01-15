@@ -37,9 +37,8 @@ Scenario: 1. Browser Supported is updated
         | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                          |
     And Last Updated has updated on the SolutionDetail for solution Sln1
     
-
 @2786
-Scenario: 2. Browser Supported is updated
+Scenario: 2. Browser Supported is updated with trimmed whitespace
     Given SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                         |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "IE8", "Opera" ] } |

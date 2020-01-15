@@ -38,7 +38,7 @@ Scenario: 2. Client Application is updated for the solution with trimmed whitesp
         | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "Description": "A description" } } |
 
 @3607
-Scenario: 2. Solution is not found
+Scenario: 3. Solution is not found
     Given a Solution Sln2 does not exist
     When a PUT request is made to update the native-mobile-memory-and-storage section for solution Sln2
     | MinimumMemoryRequirement | Description   |
@@ -46,7 +46,7 @@ Scenario: 2. Solution is not found
     Then a response status of 404 is returned 
 
 @3607
-Scenario: 3. Service Failure
+Scenario: 4. Service Failure
     Given the call to the database to set the field will fail
     When a PUT request is made to update the native-mobile-memory-and-storage section for solution Sln1
     | MinimumMemoryRequirement | Description   |
@@ -54,7 +54,7 @@ Scenario: 3. Service Failure
     Then a response status of 500 is returned
 
 @3607
-Scenario: 4. Solution id is not present in the request
+Scenario: 5. Solution id is not present in the request
     When a PUT request is made to update the native-mobile-memory-and-storage section with no solution id
     | MinimumMemoryRequirement | Description   |
     | 1GB                      | A description |

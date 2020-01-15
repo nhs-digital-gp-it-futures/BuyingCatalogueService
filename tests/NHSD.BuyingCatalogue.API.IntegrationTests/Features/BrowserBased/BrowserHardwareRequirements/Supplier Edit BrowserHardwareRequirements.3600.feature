@@ -32,8 +32,8 @@ Scenario: 2. Browser Hardware Requirements is updated with trimmed whitespace
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                  |
         | Sln1     | An full online medicine system | Online medicine 1 | { "HardwareRequirements": "New Hardware", "ClientApplicationTypes": [], "BrowsersSupported" : [] } |
     When a PUT request is made to update the browser-hardware-requirements section for solution Sln1
-        | HardwareRequirements |
-        | New Hardware         |
+        | HardwareRequirements  |
+        | "     New Hardware  " |
     Then a successful response is returned
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                 |

@@ -32,7 +32,7 @@ Scenario: 1. Contacts are added when none existed before
     And Last Updated has updated on the MarketingContact for solution Sln1
 
 @3655
-Scenario: 1. Contacts are added with trimmed whitespace when none existed before
+Scenario: 2. Contacts are added with trimmed whitespace when none existed before
     Given No contacts exist for solution Sln1
     When a PUT request is made for solution Sln1 contact details
         | FirstName      | LastName         | Email                   | PhoneNumber           | Department      |
@@ -46,7 +46,7 @@ Scenario: 1. Contacts are added with trimmed whitespace when none existed before
     And Last Updated has updated on the MarketingContact for solution Sln1
 
 @3655
-Scenario: 2. Contacts are added when contacts previously existed
+Scenario: 3. Contacts are added when contacts previously existed
 Given MarketingContacts exist
         | SolutionId | FirstName | LastName   | Email         | PhoneNumber  | Department |
         | Sln1       | Bob       | Bobbington | bob@bob.bob   | 66666 666666 | Sales      |
@@ -61,7 +61,7 @@ Given MarketingContacts exist
     And Last Updated has updated on the MarketingContact for solution Sln1
 
 @3655
-Scenario: 3. Contacts are removed when contacts previously existed
+Scenario: 4. Contacts are removed when contacts previously existed
 Given MarketingContacts exist
         | SolutionId | FirstName | LastName   | Email         | PhoneNumber  | Department |
         | Sln1       | Bob       | Bobbington | bob@bob.bob   | 66666 666666 | Sales      |
@@ -71,7 +71,7 @@ Given MarketingContacts exist
     And No contacts exist for solution Sln1
 
 @3655
-Scenario: 4. Contacts are not added when they have only null values
+Scenario: 5. Contacts are not added when they have only null values
 Given MarketingContacts exist
         | SolutionId | FirstName | LastName   | Email         | PhoneNumber  | Department |
         | Sln1       | Bob       | Bobbington | bob@bob.bob   | 66666 666666 | Sales      |
@@ -84,7 +84,7 @@ Given MarketingContacts exist
     And No contacts exist for solution Sln1
 
 @3655
-Scenario: 5. Solution not found
+Scenario: 6. Solution not found
     Given a Solution Sln2 does not exist
     When a PUT request is made for solution Sln2 contact details
         | FirstName | LastName   | Email          | PhoneNumber | Department |
@@ -92,7 +92,7 @@ Scenario: 5. Solution not found
     Then a response status of 404 is returned
 
 @3655
-Scenario: 6. Service failure
+Scenario: 7. Service failure
     Given the call to the database to set the field will fail
     When a PUT request is made for solution Sln1 contact details
         | FirstName | LastName   | Email          | PhoneNumber | Department |
@@ -100,7 +100,7 @@ Scenario: 6. Service failure
     Then a response status of 500 is returned
 
 @3655
-Scenario: 7. Solution id not present in request
+Scenario: 8. Solution id not present in request
     When a PUT request is made to update solution contact details with no solution id
         | FirstName | LastName   | Email          | PhoneNumber | Department |
         | Bill      | Billington | bill@bill.bill | 1           | Billing    |
