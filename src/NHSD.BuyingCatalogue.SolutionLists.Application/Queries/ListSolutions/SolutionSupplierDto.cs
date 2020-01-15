@@ -1,20 +1,19 @@
-using System;
 using NHSD.BuyingCatalogue.SolutionLists.Contracts;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions
 {
     /// <summary>
-    /// Represents the details of an organisation specific for the view.
+    /// Represents the details of a supplier specific for the view.
     /// </summary>
-    internal sealed class SolutionOrganisationDto : ISolutionOrganisation
+    internal sealed class SolutionSupplierDto : ISolutionSupplier
     {
         /// <summary>
-        /// Identifier of organisation.
+        /// Identifier of supplier.
         /// </summary>
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
-        /// Name of organisation.
+        /// Name of supplier.
         /// </summary>
         public string Name { get; set; }
     }

@@ -11,9 +11,9 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.Models
 
         public string SolutionSummary { get; set; }
 
-        public Guid OrganisationId { get; set; }
+        public string SupplierId { get; set; }
 
-        public string OrganisationName { get; set; }
+        public string SupplierName { get; set; }
 
         public Guid CapabilityId { get; set; }
 
