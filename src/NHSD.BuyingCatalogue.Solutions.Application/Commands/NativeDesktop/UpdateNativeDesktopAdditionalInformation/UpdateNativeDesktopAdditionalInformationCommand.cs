@@ -13,7 +13,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.Upda
         public UpdateNativeDesktopAdditionalInformationCommand(string solutionId, string additionalInformation)
         {
             SolutionId = solutionId.ThrowIfNull();
-            AdditionalInformation = additionalInformation?.Trim();
+            AdditionalInformation = additionalInformation;
         }
     }
 }

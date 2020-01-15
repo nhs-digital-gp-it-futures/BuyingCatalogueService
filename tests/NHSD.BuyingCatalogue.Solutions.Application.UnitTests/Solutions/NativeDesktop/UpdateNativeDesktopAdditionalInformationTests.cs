@@ -114,13 +114,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.NativeD
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
-        [Test]
-        public void CommandShouldTrimStrings()
-        {
-            var command = new UpdateNativeDesktopAdditionalInformationCommand("Sln1", "       hello   ");
-            command.AdditionalInformation.Should().Be("hello");
-        }
-
         private async Task<ISimpleResult> UpdateNativeDesktopAdditionalInformation(
             string additionalInformation = null)
         {
