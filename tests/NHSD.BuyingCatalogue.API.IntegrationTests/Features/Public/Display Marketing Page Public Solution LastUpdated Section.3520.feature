@@ -8,8 +8,8 @@ Background:
         | Name     |
         | GPs-R-Us |
     And Suppliers exist
-        | Id    | OrganisationName |
-        | Sup 1 | GPs-R-Us         |
+        | Id    | SupplierName | OrganisationName |
+        | Sup 1 | Supplier 1   | GPs-R-Us         |
 @3520
 Scenario Outline: 1. Last Updated is the latest of last updated in the solution tables
     Given Solutions exist

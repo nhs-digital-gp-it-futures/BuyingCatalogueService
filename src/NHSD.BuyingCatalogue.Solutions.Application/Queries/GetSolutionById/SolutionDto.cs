@@ -32,9 +32,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         public string Summary { get; set; }
 
  		/// <summary>
-        /// Name of the organisation, as displayed to a user.
+        /// Name of the supplier, as displayed to a user.
         /// </summary>
-        public string OrganisationName { get; set; }
+        public string SupplierName { get; set; }
 
         /// <summary>
         /// Gets or sets a list of features.

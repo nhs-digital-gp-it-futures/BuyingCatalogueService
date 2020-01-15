@@ -12,37 +12,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
     /// </summary>
     internal class Solution
     {
-        internal Solution(ISolutionResult solutionResult,
-            IEnumerable<ISolutionCapabilityListResult> solutionCapabilityListResult,
-            IEnumerable<IMarketingContactResult> contactResult)
-        {
-            Id = solutionResult.Id;
-            Name = solutionResult.Name; 
-            LastUpdated = GetLatestLastUpdated(solutionResult, contactResult);
-            Summary = solutionResult.Summary;
-            OrganisationName = solutionResult.OrganisationName;
-            Description = solutionResult.Description;
-            Features = string.IsNullOrWhiteSpace(solutionResult.Features)
-                ? new List<string>()
-                : JsonConvert.DeserializeObject<IEnumerable<string>>(solutionResult.Features);
-            AboutUrl = solutionResult.AboutUrl;
-            ClientApplication = string.IsNullOrWhiteSpace(solutionResult.ClientApplication)
-                ? new ClientApplication()
-                : JsonConvert.DeserializeObject<ClientApplication>(solutionResult.ClientApplication);
-            IsFoundation = solutionResult.IsFoundation;
-            Capabilities = new HashSet<string>(solutionCapabilityListResult.Select(c => c.CapabilityName));
-            Contacts = contactResult.Select(c => new Contact(c));
-            PublishedStatus = solutionResult.PublishedStatus;
-        }
-
-        private DateTime GetLatestLastUpdated(ISolutionResult solutionResult, IEnumerable<IMarketingContactResult> contactResult) =>
-            new List<DateTime>
-            {
-                solutionResult.LastUpdated,
-                solutionResult.SolutionDetailLastUpdated,
-                contactResult?.Any() == false ? DateTime.MinValue : contactResult.Max(x => x.LastUpdated)
-            }.Max();
-
         /// <summary>
         /// Id of the solution.
         /// </summary>
@@ -69,9 +38,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public string Summary { get; set; }
 
  		/// <summary>
-        /// Name of the organisation, as displayed to a user.
+        /// Name of the supplier, as displayed to a user.
         /// </summary>
-        public string OrganisationName { get; set; }
+        public string SupplierName { get; set; }
 
         /// <summary>
         /// Gets or sets a list of features.
@@ -116,10 +85,44 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         /// <summary>
         /// Initialises a new instance of the <see cref="Solution"/> class.
         /// </summary>
+        internal Solution(ISolutionResult solutionResult,
+            IEnumerable<ISolutionCapabilityListResult> solutionCapabilityListResult,
+            IEnumerable<IMarketingContactResult> contactResult)
+        {
+            Id = solutionResult.Id;
+            Name = solutionResult.Name; 
+            LastUpdated = GetLatestLastUpdated(solutionResult, contactResult);
+            Summary = solutionResult.Summary;
+            SupplierName = solutionResult.SupplierName;
+            Description = solutionResult.Description;
+            Features = string.IsNullOrWhiteSpace(solutionResult.Features)
+                ? new List<string>()
+                : JsonConvert.DeserializeObject<IEnumerable<string>>(solutionResult.Features);
+            AboutUrl = solutionResult.AboutUrl;
+            ClientApplication = string.IsNullOrWhiteSpace(solutionResult.ClientApplication)
+                ? new ClientApplication()
+                : JsonConvert.DeserializeObject<ClientApplication>(solutionResult.ClientApplication);
+            IsFoundation = solutionResult.IsFoundation;
+            Capabilities = new HashSet<string>(solutionCapabilityListResult.Select(c => c.CapabilityName));
+            Contacts = contactResult.Select(c => new Contact(c));
+            PublishedStatus = solutionResult.PublishedStatus;
+        }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="Solution"/> class.
+        /// </summary>
         public Solution()
         {
             SupplierStatus = SupplierStatus.Draft;
             PublishedStatus = PublishedStatus.Draft;
         }
+
+        private DateTime GetLatestLastUpdated(ISolutionResult solutionResult, IEnumerable<IMarketingContactResult> contactResult) =>
+            new List<DateTime>
+            {
+                solutionResult.LastUpdated,
+                solutionResult.SolutionDetailLastUpdated,
+                contactResult?.Any() == false ? DateTime.MinValue : contactResult.Max(x => x.LastUpdated)
+            }.Max();
     }
 }

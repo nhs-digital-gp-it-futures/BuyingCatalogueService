@@ -22,7 +22,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
 
         public string ClientApplication { get; set; }
 
-        public string OrganisationName { get; set; }
+        public string SupplierName { get; set; }
 
         public bool IsFoundation { get; set; }
 

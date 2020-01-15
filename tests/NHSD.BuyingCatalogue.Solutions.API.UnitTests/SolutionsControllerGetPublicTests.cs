@@ -67,23 +67,23 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
         [TestCase(null, null, null, false)]
         [TestCase("Sln2", null, null, false)]
-        [TestCase(null, "Bob", "Org1", false)]
-        [TestCase("Sln1", "Bob", "Org1", false)]
-        [TestCase("Sln1", null, "Org1", false)]
-        [TestCase("Sln1", "Bob", "Org1", false)]
-        [TestCase("Sln1", "Bob", "Org1", true)]
-        public async Task ShouldReturnGetValues(string id, string name, string organisationName, bool isFoundation)
+        [TestCase(null, "Bob", "Supplier1", false)]
+        [TestCase("Sln1", "Bob", "Supplier1", false)]
+        [TestCase("Sln1", null, "Supplier1", false)]
+        [TestCase("Sln1", "Bob", "Supplier1", false)]
+        [TestCase("Sln1", "Bob", "Supplier1", true)]
+        public async Task ShouldReturnGetValues(string id, string name, string supplierName, bool isFoundation)
         {
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(
                 s => s.Id == id &&
                      s.Name == name &&
-                     s.OrganisationName == organisationName &&
+                     s.SupplierName == supplierName &&
                      s.IsFoundation == isFoundation &&
                      s.LastUpdated == _lastUpdated &&
                      s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
             publicResult.Id.Should().Be(id);
             publicResult.Name.Should().Be(name);
-            publicResult.OrganisationName.Should().Be(organisationName);
+            publicResult.SupplierName.Should().Be(supplierName);
             publicResult.IsFoundation.Should().Be(isFoundation);
             publicResult.LastUpdated.Should().Be(_lastUpdated);
         }
@@ -672,7 +672,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var solution = new SolutionResult(null);
             solution.Id.Should().BeNull();
             solution.Name.Should().BeNull();
-            solution.OrganisationName.Should().BeNull();
+            solution.SupplierName.Should().BeNull();
             solution.LastUpdated.Should().BeNull();
             solution.IsFoundation.Should().BeNull();
 

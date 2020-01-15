@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 
         public string Name { get; }
 
-        public string OrganisationName { get; }
+        public string SupplierName { get; }
 
         public bool? IsFoundation { get; }
 
@@ -26,7 +26,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
             {
                 Id = solution.Id;
                 Name = solution.Name;
-                OrganisationName = solution.OrganisationName;
+                SupplierName = solution.SupplierName;
                 LastUpdated = solution.LastUpdated;
                 IsFoundation = solution.IsFoundation;
 
