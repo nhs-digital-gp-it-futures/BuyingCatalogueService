@@ -190,6 +190,19 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
             nativeDesktopResult.NativeDesktopSections.MemoryAndStorage.Status.Should().Be(isComplete ? "COMPLETE" : "INCOMPLETE");
         }
 
+        [TestCase(null, false)]
+        [TestCase("", false)]
+        [TestCase(" ", false)]
+        [TestCase("some info", true)]
+        public async Task ShouldGetNativeDesktopAdditionalInformationIsComplete(string information, bool isComplete)
+        {
+            var nativeDesktopResult = await GetNativeDesktopSectionAsync(Mock.Of<IClientApplication>(c =>
+                    c.NativeDesktopAdditionalInformation == information))
+                .ConfigureAwait(false);
+
+            nativeDesktopResult.NativeDesktopSections.AdditionalInformation.Status.Should().Be(isComplete ? "COMPLETE" : "INCOMPLETE");
+        }
+
         private async Task<NativeDesktopResult> GetNativeDesktopSectionAsync(IClientApplication clientApplication)
         {
             _mockMediator
