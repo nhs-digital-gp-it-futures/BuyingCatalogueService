@@ -25,6 +25,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
             CreateMap<Solution, ISolution>().As<SolutionDto>();
             CreateMap<ClientApplication, ClientApplicationDto>();
             CreateMap<ClientApplication, IClientApplication>().As<ClientApplicationDto>();
+            CreateMap<Hosting, HostingDto>();
+            CreateMap<Hosting, IHosting>().As<HostingDto>();
             CreateMap<Plugins, PluginsDto>();
             CreateMap<Plugins, IPlugins>().As<PluginsDto>();
             CreateMap<Contact, ContactDto>();

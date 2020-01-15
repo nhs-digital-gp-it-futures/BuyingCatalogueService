@@ -34,6 +34,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             yield return new KeyValuePair<Type, Type>(typeof(Solution), typeof(ISolution));
             yield return new KeyValuePair<Type, Type>(typeof(ClientApplication), typeof(ClientApplicationDto));
             yield return new KeyValuePair<Type, Type>(typeof(ClientApplication), typeof(IClientApplication));
+            yield return new KeyValuePair<Type, Type>(typeof(Hosting), typeof(HostingDto));
+            yield return new KeyValuePair<Type, Type>(typeof(Hosting), typeof(IHosting));
             yield return new KeyValuePair<Type, Type>(typeof(Plugins), typeof(PluginsDto));
             yield return new KeyValuePair<Type, Type>(typeof(Plugins), typeof(IPlugins));
             yield return new KeyValuePair<Type, Type>(typeof(Contact), typeof(ContactDto));

@@ -39,5 +39,21 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
         /// <returns>A task containing the client application data</returns>
         Task<IClientApplicationResult> GetClientApplicationBySolutionIdAsync(string solutionId, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Retrieve the hosting details for a solution
+        /// </summary>
+        /// <param name="updateSolutionHostingRequest">The ID of the solution</param>
+        /// <param name="token">A token to notify if the task is cancelled</param>
+        /// <returns>A task containing the hosting data</returns>
+        Task UpdateHostingAsync(IUpdateSolutionHostingRequest updateSolutionHostingRequest, CancellationToken token);
+
+        /// <summary>
+        /// Retrieve the hosting details for a solution
+        /// </summary>
+        /// <param name="solutionId">The ID of the solution</param>
+        /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
+        /// <returns>A task containing the hosting data</returns>
+        Task<IHostingResult> GetHostingBySolutionIdAsync(string solutionId, CancellationToken cancellationToken);
     }
 }

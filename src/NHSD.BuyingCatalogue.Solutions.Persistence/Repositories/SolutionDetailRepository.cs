@@ -36,6 +36,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                                         LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
                                  WHERE  Solution.Id = @solutionId";
 
+        const string getHostingBySolutionIdSql = @"SELECT
+                                    Solution.Id
+                                    ,SolutionDetail.Hosting as Hosting
+                                 FROM   Solution
+                                        LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
+                                 WHERE  Solution.Id = @solutionId";
+
         /// <summary>
         /// Updates the summary details of the solution.
         /// </summary>
@@ -74,5 +81,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         public async Task<IClientApplicationResult> GetClientApplicationBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
             => (await _dbConnector.QueryAsync<ClientApplicationResult>(getClientApplicationBySolutionIdSql, cancellationToken,new {solutionId}).ConfigureAwait(false)).SingleOrDefault();
+
+        /// <summary>
+        /// Adds or updates the hosting details of a solution.
+        /// </summary>
+        /// <param name="updateSolutionHostingRequest">The updated hosting details of a solution to commit to the data store.</param>
+        /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
+        /// <returns>A task representing an operation to save the specified <paramref name="updateSolutionHostingRequest"/> details to the data store.</returns>
+        public async Task UpdateHostingAsync(IUpdateSolutionHostingRequest updateSolutionHostingRequest, CancellationToken cancellationToken)
+            => await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
+                    @"SolutionDetail.Hosting = @hosting", StringComparison.InvariantCulture),
+                cancellationToken,
+                updateSolutionHostingRequest.ThrowIfNull(nameof(updateSolutionHostingRequest))).ConfigureAwait(false);
+
+        public async Task<IHostingResult> GetHostingBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
+            => (await _dbConnector.QueryAsync<HostingResult>(getHostingBySolutionIdSql, cancellationToken, new { solutionId }).ConfigureAwait(false)).SingleOrDefault();
     }
 }

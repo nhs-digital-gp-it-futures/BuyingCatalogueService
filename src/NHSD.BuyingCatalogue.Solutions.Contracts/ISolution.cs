@@ -56,6 +56,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         IClientApplication ClientApplication { get; }
 
         /// <summary>
+        /// Marketing information related to the hosting
+        /// </summary>
+        IHosting Hosting { get; }
+
+        /// <summary>
         /// Is this a foundation solution?
         /// </summary>
         bool IsFoundation { get; }
