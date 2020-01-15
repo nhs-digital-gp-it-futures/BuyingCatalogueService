@@ -41,7 +41,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.ClientApplications.Nativ
             MemoryAndStorage = DashboardSection.Mandatory(clientApplication.IsNativeDesktopMemoryAndStorageComplete());
             ThirdParty = DashboardSection.Optional(clientApplication.IsNativeDesktopThirdPartyComplete());
             HardwareRequirements = DashboardSection.Optional(!string.IsNullOrWhiteSpace(clientApplication?.NativeDesktopHardwareRequirements));
-            AdditionalInformation = DashboardSection.Optional(false);
+            AdditionalInformation = DashboardSection.Optional(!string.IsNullOrWhiteSpace(clientApplication?.NativeDesktopAdditionalInformation));
         }
     }
 }

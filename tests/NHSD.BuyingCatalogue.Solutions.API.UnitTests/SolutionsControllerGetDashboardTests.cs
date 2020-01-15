@@ -298,8 +298,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             bool hasAdditionalInformation,
             string result)
         {
-            // To be added once implementation is in
-            hasAdditionalInformation = false;
 
             var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s =>
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
@@ -316,7 +314,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                         ? Mock.Of<INativeDesktopThirdParty>(t =>
                             t.ThirdPartyComponents == "Components" && t.DeviceCapabilities == "Capabilities")
                         : null) &&
-                    c.NativeDesktopHardwareRequirements == (hasHardwareRequirements ? "A hardware requirement" : null)
+                    c.NativeDesktopHardwareRequirements == (hasHardwareRequirements ? "A hardware requirement" : null) &&
+                    c.NativeDesktopAdditionalInformation == (hasAdditionalInformation ? "Some additional info" : null)
                 ))).ConfigureAwait(false);
 
             dashboardResult.SolutionDashboardSections.Should().NotBeNull();

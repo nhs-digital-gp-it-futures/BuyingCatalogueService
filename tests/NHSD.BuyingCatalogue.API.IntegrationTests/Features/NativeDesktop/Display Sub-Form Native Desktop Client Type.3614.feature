@@ -138,3 +138,18 @@ Examples:
     | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": null, "StorageRequirementsDescription": "A description", "MinimumCpu": "3.5Ghz"} }  | INCOMPLETE |
     | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "StorageRequirementsDescription": "", "MinimumCpu": "3.5Ghz"} }              | INCOMPLETE |
     | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "StorageRequirementsDescription": "A description", "MinimumCpu": "3.5Ghz"} } | COMPLETE   |
+
+@3623
+Scenario Outline: 10. Native Desktop Additional Information Details based on data in Client Application
+  Given SolutionDetail exist
+        | Solution | ClientApplication   |
+        | Sln1     | <ClientApplication> |
+    When a GET request is made for native-desktop dashboard for solution Sln1
+    Then a successful response is returned
+    And the status of the native-desktop-additional-information section is <Status>
+Examples:
+    | ClientApplication                                                       | Status     |
+    |                                                                         | INCOMPLETE |
+    | { "NativeDesktopAdditionalInformation": null }                          | INCOMPLETE |
+    | { "NativeDesktopAdditionalInformation": "      " }                      | INCOMPLETE |
+    | { "NativeDesktopAdditionalInformation": "Some additional information" } | COMPLETE   |
