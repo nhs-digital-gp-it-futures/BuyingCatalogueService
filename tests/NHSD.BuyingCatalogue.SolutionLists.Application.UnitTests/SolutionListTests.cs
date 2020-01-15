@@ -284,7 +284,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             solution.Summary.Should().Be("S1Summary");
             solution.IsFoundation.Should().BeFalse();
             solution.Supplier.Id.Should().Be(Suppliers["Sup1"].id);
-            solution.Supplier.Name.Should().Be("Sup1Name");
+            solution.Supplier.Name.Should().Be(Suppliers["Sup1"].name);
             solution.Capabilities.Should().HaveCount(2);
             solution.Capabilities.Single(c => c.Id.Equals(Capabilities[1].Id));
 
@@ -298,7 +298,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             solution.Summary.Should().Be("S2Summary");
             solution.IsFoundation.Should().BeTrue();
             solution.Supplier.Id.Should().Be(Suppliers["Sup2"].id);
-            solution.Supplier.Name.Should().Be("Sup2Name");
+            solution.Supplier.Name.Should().Be(Suppliers["Sup2"].name);
             solution.Capabilities.Should().HaveCount(1);
             solution.Capabilities.Single(c => c.Id.Equals(Capabilities[2].Id));
 

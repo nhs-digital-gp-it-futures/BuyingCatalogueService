@@ -91,7 +91,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
                 var solution = solutions.First(t => t.SelectToken("id").ToString() == expectedSolution.SolutionID);
                 solution.SelectToken("name").ToString().Should().Be(expectedSolution.SolutionName);
                 solution.SelectToken("summary")?.ToString().Should().Be(expectedSolution.SummaryDescription);
-                solution.SelectToken("organisation.name").ToString().Should().Be(expectedSolution.OrganisationName);
+                solution.SelectToken("supplier.name").ToString().Should().Be(expectedSolution.SupplierName);
                 solution.SelectToken("capabilities").Select(t => t.SelectToken("name").ToString()).Should().BeEquivalentTo(expectedSolution.Capabilities.Split(",").Select(t => t.Trim()));
                 solution.SelectToken("isFoundation").ToString().Should().Be(expectedSolution.IsFoundation.ToString(CultureInfo.InvariantCulture));
             }
@@ -110,7 +110,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
 
             public string SummaryDescription { get; set; }
 
-            public string OrganisationName { get; set; }
+            public string SupplierName { get; set; }
 
             public string Capabilities { get; set; }
 
