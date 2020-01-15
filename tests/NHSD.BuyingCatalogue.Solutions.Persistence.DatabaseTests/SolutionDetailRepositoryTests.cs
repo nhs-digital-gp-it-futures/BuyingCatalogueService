@@ -130,7 +130,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             await SolutionDetailEntityBuilder.Create()
                 .WithSolutionId(_solution1Id)
                 .WithAboutUrl("AboutUrl")
-                .WithClientApplication("Browser-based")
+                .WithClientApplication("Native-Desktop")
                 .Build()
                 .InsertAndSetCurrentForSolutionAsync()
                 .ConfigureAwait(false);
@@ -337,6 +337,83 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public void ShouldThrowOnUpdateSummaryNullRequest()
         {
             Assert.ThrowsAsync<ArgumentNullException>(() => _solutionDetailRepository.UpdateSummaryAsync(null, new CancellationToken()));
+        }
+
+        [Test]
+        public async Task ShouldUpdateHosting()
+        {
+            string expectedResult = "{ 'SomethingElse': [] }";
+
+            await SolutionEntityBuilder.Create()
+                .WithName("Solution1")
+                .WithId(_solution1Id)
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
+                .Build()
+                .InsertAsync()
+                .ConfigureAwait(false);
+
+            await SolutionDetailEntityBuilder.Create()
+                .WithSolutionId(_solution1Id)
+                .WithHosting("{ 'Something': [] }")
+                .Build()
+                .InsertAndSetCurrentForSolutionAsync()
+                .ConfigureAwait(false);
+
+            var mockUpdateHostingRequest = new Mock<IUpdateSolutionHostingRequest>();
+            mockUpdateHostingRequest.Setup(m => m.SolutionId).Returns(_solution1Id);
+            mockUpdateHostingRequest.Setup(m => m.Hosting).Returns(expectedResult);
+
+            await _solutionDetailRepository.UpdateHostingAsync(mockUpdateHostingRequest.Object, new CancellationToken())
+                .ConfigureAwait(false);
+
+            var solution = await SolutionEntity.GetByIdAsync(_solution1Id)
+                .ConfigureAwait(false);
+            solution.Id.Should().Be(_solution1Id);
+
+            var marketingData = await SolutionDetailEntity.GetBySolutionIdAsync(_solution1Id)
+                .ConfigureAwait(false);
+            marketingData.Hosting.Should().Be(expectedResult);
+
+            (await marketingData.LastUpdated.SecondsFromNow().ConfigureAwait(false)).Should().BeLessOrEqualTo(5);
+        }
+
+        [Test]
+        public async Task ShouldRetrieveHostingDetailsWhenPresent()
+        {
+            var expectedHostingString = "I am the hosting string";
+            await SolutionEntityBuilder.Create()
+                .WithId(_solution1Id)
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
+                .Build()
+                .InsertAsync()
+                .ConfigureAwait(false);
+            await SolutionDetailEntityBuilder.Create()
+                .WithHosting(expectedHostingString)
+                .Build()
+                .InsertAndSetCurrentForSolutionAsync()
+                .ConfigureAwait(false);
+
+            var result = await _solutionDetailRepository.GetHostingBySolutionIdAsync(_solution1Id, new CancellationToken())
+                .ConfigureAwait(false);
+            result.Hosting.Should().Be(expectedHostingString);
+        }
+
+        [Test]
+        public async Task ShouldRetrieveNullHostingWhenSolutionDetailDoesNotExist()
+        {
+            await SolutionEntityBuilder.Create()
+                .WithId(_solution1Id)
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
+                .Build()
+                .InsertAsync()
+                .ConfigureAwait(false);
+
+            var result = await _solutionDetailRepository.GetHostingBySolutionIdAsync(_solution1Id, new CancellationToken())
+                .ConfigureAwait(false);
+            result.Hosting.Should().BeNull();
         }
     }
 }

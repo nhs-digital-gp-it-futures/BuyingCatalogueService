@@ -20,6 +20,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
 
         string ClientApplication { get; }
 
+        string Hosting { get; set; }
+
         string SupplierName { get; }
 
         bool IsFoundation { get; }

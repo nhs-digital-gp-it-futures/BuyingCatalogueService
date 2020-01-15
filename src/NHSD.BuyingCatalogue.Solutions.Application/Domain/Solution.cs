@@ -82,6 +82,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         /// </summary>
         public PublishedStatus PublishedStatus { get; set; }
 
+        public Hosting Hosting { get; set; }
+
         /// <summary>
         /// Initialises a new instance of the <see cref="Solution"/> class.
         /// </summary>
@@ -106,6 +108,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
             Capabilities = new HashSet<string>(solutionCapabilityListResult.Select(c => c.CapabilityName));
             Contacts = contactResult.Select(c => new Contact(c));
             PublishedStatus = solutionResult.PublishedStatus;
+
+            Hosting = string.IsNullOrWhiteSpace(solutionResult.Hosting)
+                ? new Hosting()
+                : JsonConvert.DeserializeObject<Hosting>(solutionResult.Hosting);
         }
 
         /// <summary>

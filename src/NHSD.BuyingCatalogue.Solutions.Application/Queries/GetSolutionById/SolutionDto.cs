@@ -57,6 +57,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         public IClientApplication ClientApplication { get; set; }
 
         /// <summary>
+        /// Marketing information related to the hosting.
+        /// </summary>
+        public IHosting Hosting { get; set; }
+
+        /// <summary>
         /// Is this a foundation solution?
         /// </summary>
         public bool IsFoundation { get; set; }
