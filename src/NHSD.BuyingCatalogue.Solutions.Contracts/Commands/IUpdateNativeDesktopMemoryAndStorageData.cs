@@ -6,7 +6,5 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Commands
         string StorageRequirementsDescription { get; }
         string MinimumCpu { get; }
         string RecommendedResolution { get; }
-
-        IUpdateNativeDesktopMemoryAndStorageData Trim();
     }
 }

@@ -13,7 +13,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.Updat
         public UpdateSolutionBrowserHardwareRequirementsCommand(string solutionId, string hardwareRequirements)
         {
             SolutionId = solutionId.ThrowIfNull();
-            HardwareRequirements = hardwareRequirements?.Trim();
+            HardwareRequirements = hardwareRequirements;
         }
     }
 }

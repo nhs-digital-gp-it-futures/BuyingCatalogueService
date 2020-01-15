@@ -14,8 +14,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeMobile.Updat
         {
             Id = id.ThrowIfNull();
             Data = data.ThrowIfNull();
-            Data.DeviceCapabilities = Data.DeviceCapabilities?.Trim();
-            Data.ThirdPartyComponents = Data.ThirdPartyComponents?.Trim();
         }
     }
 }

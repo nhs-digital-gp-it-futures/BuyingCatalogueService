@@ -21,7 +21,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.NativeD
         private const string MinimumCpuToken = "NativeDesktopMemoryAndStorage.MinimumCpu";
         private const string RecommendedResolutionToken = "NativeDesktopMemoryAndStorage.RecommendedResolution";
 
-        private Mock<IUpdateNativeDesktopMemoryAndStorageData> _trimmedDataMock;
         private Mock<IUpdateNativeDesktopMemoryAndStorageData> _dataMock;
         private string _minimumMemoryRequirement;
         private string _storageRequirements;
@@ -35,13 +34,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.NativeD
             _storageRequirements = "A requirement";
             _minimumCpu = "1Hz";
             _recommendedResolution = "1x1";
-            _trimmedDataMock = new Mock<IUpdateNativeDesktopMemoryAndStorageData>();
-            _trimmedDataMock.Setup(x => x.MinimumMemoryRequirement).Returns(() => _minimumMemoryRequirement);
-            _trimmedDataMock.Setup(x => x.StorageRequirementsDescription).Returns(() => _storageRequirements);
-            _trimmedDataMock.Setup(x => x.MinimumCpu).Returns(() => _minimumCpu);
-            _trimmedDataMock.Setup(x => x.RecommendedResolution).Returns(() => _recommendedResolution);
             _dataMock = new Mock<IUpdateNativeDesktopMemoryAndStorageData>();
-            _dataMock.Setup(x => x.Trim()).Returns(() => _trimmedDataMock.Object);
+            _dataMock.Setup(x => x.MinimumMemoryRequirement).Returns(() => _minimumMemoryRequirement);
+            _dataMock.Setup(x => x.StorageRequirementsDescription).Returns(() => _storageRequirements);
+            _dataMock.Setup(x => x.MinimumCpu).Returns(() => _minimumCpu);
+            _dataMock.Setup(x => x.RecommendedResolution).Returns(() => _recommendedResolution);
         }
 
         [Test]
@@ -172,14 +169,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.NativeD
             Context.MockSolutionDetailRepository.Verify(
                 x => x.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                     It.IsAny<CancellationToken>()), Times.Never);
-        }
-
-        [Test]
-        public void CommandTrimsData()
-        {
-            var command = new UpdateNativeDesktopMemoryAndStorageCommand(SolutionId, _dataMock.Object);
-            _dataMock.Verify(x => x.Trim(), Times.Once);
-            command.Data.Should().Be(_trimmedDataMock.Object);
         }
 
         private async Task<ISimpleResult> UpdateNativeDesktopMemoryAndStorage()

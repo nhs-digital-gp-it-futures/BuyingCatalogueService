@@ -82,20 +82,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.NativeM
 
         }
 
-        [Test]
-        public void CommandShouldTrimStrings()
-        {
-            var originalViewModel = new UpdateSolutionMobileConnectionDetailsViewModel();
-            originalViewModel.ConnectionRequirementsDescription = "   description  ";
-            originalViewModel.MinimumConnectionSpeed = @"
-                                                    1GBps     ";
-            originalViewModel.ConnectionType = new HashSet<string>{"    3G", "      4G    ", "   "};
-            var command = new UpdateSolutionMobileConnectionDetailsCommand("Sln1", originalViewModel);
-            command.Data.ConnectionRequirementsDescription.Should().Be("description");
-            command.Data.MinimumConnectionSpeed.Should().Be("1GBps");
-            command.Data.ConnectionType.Should().BeEquivalentTo("3G", "4G");
-        }
-
         private async Task<ISimpleResult> UpdateConnectionDetails(HashSet<string> connectionType, string description, string connectionSpeed)
         {
             return await Context.UpdateSolutionMobileConnectionDetailsHandler.Handle(

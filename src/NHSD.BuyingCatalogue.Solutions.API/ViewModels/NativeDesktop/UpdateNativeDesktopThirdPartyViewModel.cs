@@ -10,14 +10,5 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop
 
         [JsonProperty("device-capabilities")]
         public string DeviceCapabilities { get; set; }
-
-        public IUpdateNativeDesktopThirdPartyData Trim()
-        {
-            return new UpdateNativeDesktopThirdPartyViewModel()
-            {
-                ThirdPartyComponents = ThirdPartyComponents?.Trim(),
-                DeviceCapabilities = DeviceCapabilities?.Trim()
-            };
-        }
     }
 }

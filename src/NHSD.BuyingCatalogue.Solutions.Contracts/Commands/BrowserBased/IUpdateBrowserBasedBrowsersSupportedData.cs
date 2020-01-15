@@ -7,7 +7,5 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Commands.BrowserBased
         HashSet<string> BrowsersSupported { get; }
 
         string MobileResponsive { get; }
-
-        IUpdateBrowserBasedBrowsersSupportedData Trim();
     }
 }

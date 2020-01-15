@@ -143,19 +143,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
-        [Test]
-        public void CommandShouldTrimStrings()
-        {
-            var originalViewModel = new UpdateSolutionSummaryViewModel();
-            originalViewModel.Description = "    description    ";
-            originalViewModel.Link = "    link          ";
-            originalViewModel.Summary = "     summary     ";
-            var command = new UpdateSolutionSummaryCommand("Sln1", originalViewModel);
-            command.Data.Description.Should().Be("description");
-            command.Data.Link.Should().Be("link");
-            command.Data.Summary.Should().Be("summary");
-        }
-
         private async Task<ISimpleResult> UpdateSolutionDescriptionAsync(string summary = "Summary", string description = "Description", string link = "Link")
         {
             var existingSolution = new Mock<ISolutionResult>();

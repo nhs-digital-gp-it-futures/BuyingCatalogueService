@@ -5,7 +5,5 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Commands
         string ThirdPartyComponents { get; }
 
         string DeviceCapabilities { get; }
-
-        IUpdateNativeDesktopThirdPartyData Trim();
     }
 }

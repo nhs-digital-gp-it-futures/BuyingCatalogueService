@@ -23,8 +23,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
         {
             SolutionId = solutionId.ThrowIfNull();
             Data = data.ThrowIfNull();
-            Data.Contact1?.Trim();
-            Data.Contact2?.Trim();
         }
     }
 }

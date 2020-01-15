@@ -13,7 +13,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.Upda
         public UpdateSolutionNativeDesktopConnectivityDetailsCommand(string solutionId, string nativeDesktopMinimumConnectionSpeed)
         {
             SolutionId = solutionId.ThrowIfNull();
-            NativeDesktopMinimumConnectionSpeed = nativeDesktopMinimumConnectionSpeed?.Trim();
+            NativeDesktopMinimumConnectionSpeed = nativeDesktopMinimumConnectionSpeed;
         }
     }
 }

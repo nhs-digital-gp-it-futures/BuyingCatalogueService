@@ -15,7 +15,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.Upda
         {
             SolutionId = solutionId.ThrowIfNull();
             Data = data.ThrowIfNull();
-            Data = data?.Trim();
         }
     }
 }

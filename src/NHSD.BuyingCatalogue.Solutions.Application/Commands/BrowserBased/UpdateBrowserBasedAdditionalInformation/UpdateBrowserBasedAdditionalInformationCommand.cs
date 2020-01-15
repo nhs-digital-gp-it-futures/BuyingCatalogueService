@@ -13,7 +13,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.Updat
         public UpdateBrowserBasedAdditionalInformationCommand(string solutionId, string additionalInformation)
         {
             SolutionId = solutionId.ThrowIfNull();
-            AdditionalInformation = additionalInformation?.Trim();
+            AdditionalInformation = additionalInformation;
         }
     }
 }

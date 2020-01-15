@@ -13,8 +13,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeMobile.Updat
         public UpdateSolutionMobileMemoryStorageCommand(string id, string minimumMemoryRequirement, string description)
         {
             Id = id.ThrowIfNull();
-            MinimumMemoryRequirement = minimumMemoryRequirement?.Trim();
-            Description = description?.Trim();
+            MinimumMemoryRequirement = minimumMemoryRequirement;
+            Description = description;
         }
     }
 }

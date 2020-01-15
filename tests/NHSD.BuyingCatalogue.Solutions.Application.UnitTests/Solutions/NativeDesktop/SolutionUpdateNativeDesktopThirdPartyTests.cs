@@ -117,28 +117,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.NativeD
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
-        [Test]
-        public void CommandShouldTrimStrings()
-        {
-            var viewModel = new Mock<IUpdateNativeDesktopThirdPartyData>();
-            var trimmedViewModel = Mock.Of<IUpdateNativeDesktopThirdPartyData>();
-            viewModel.Setup(x => x.Trim()).Returns(trimmedViewModel);
-
-            var command = new UpdateSolutionNativeDesktopThirdPartyCommand("Sln1", viewModel.Object);
-            viewModel.Verify(x => x.Trim(), Times.Once);
-            command.Data.IsSameOrEqualTo(trimmedViewModel);
-        }
-
         private async Task<ISimpleResult> UpdateNativeDesktopThirdParty(string components = null, string capabilities = null)
         {
-            var trimmedData = Mock.Of<IUpdateNativeDesktopThirdPartyData>(t =>
+            var data = Mock.Of<IUpdateNativeDesktopThirdPartyData>(t =>
                 t.ThirdPartyComponents == components && t.DeviceCapabilities == capabilities);
 
-            var data = new Mock<IUpdateNativeDesktopThirdPartyData>();
-            data.Setup(s => s.Trim()).Returns(trimmedData);
-
             return await Context.UpdateSolutionNativeDesktopThirdPartyHandler.Handle(
-                new UpdateSolutionNativeDesktopThirdPartyCommand(SolutionId, data.Object),
+                new UpdateSolutionNativeDesktopThirdPartyCommand(SolutionId, data),
                 new CancellationToken()).ConfigureAwait(false);
         }
     }

@@ -16,16 +16,5 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop
 
         [JsonProperty("recommended-resolution")]
         public string RecommendedResolution { get; set; }
-
-        public IUpdateNativeDesktopMemoryAndStorageData Trim()
-        {
-            return new UpdateNativeDesktopMemoryAndStorageViewModel
-            {
-                MinimumMemoryRequirement = MinimumMemoryRequirement?.Trim(),
-                StorageRequirementsDescription = StorageRequirementsDescription?.Trim(),
-                MinimumCpu = MinimumCpu?.Trim(),
-                RecommendedResolution = RecommendedResolution?.Trim()
-            };
-        }
     }
 }

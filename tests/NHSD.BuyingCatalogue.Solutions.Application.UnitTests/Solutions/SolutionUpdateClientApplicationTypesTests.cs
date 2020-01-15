@@ -171,15 +171,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
-        [Test]
-        public void CommandShouldTrimStrings()
-        {
-            var originalViewModel = new UpdateSolutionClientApplicationTypesViewModel();
-            originalViewModel.ClientApplicationTypes = new HashSet<string> { "     native-mobile", "    native-desktop      ", "      " };
-            var command = new UpdateSolutionClientApplicationTypesCommand("Sln1", originalViewModel);
-            command.Data.ClientApplicationTypes.Should().BeEquivalentTo("native-mobile", "native-desktop");
-        }
-
         private async Task<ISimpleResult> UpdateClientApplicationTypes(HashSet<string> clientApplicationTypes)
         {
             return await Context.UpdateSolutionClientApplicationTypesHandler.Handle(new UpdateSolutionClientApplicationTypesCommand("Sln1",

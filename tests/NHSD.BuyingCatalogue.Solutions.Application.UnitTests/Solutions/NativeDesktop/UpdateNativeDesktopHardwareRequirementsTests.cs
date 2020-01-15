@@ -111,13 +111,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.NativeD
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
-        [Test]
-        public void CommandShouldTrimStrings()
-        {
-            var command = new UpdateNativeDesktopHardwareRequirementsCommand("Sln1", "    hardware    ");
-            command.HardwareRequirements.Should().Be("hardware");
-        }
-
         private async Task<ISimpleResult> UpdateNativeDesktopHardwareRequirements(string hardwareRequirements)
         {
             return await Context.UpdateNativeDesktopHardwareRequirementsHandler.Handle(

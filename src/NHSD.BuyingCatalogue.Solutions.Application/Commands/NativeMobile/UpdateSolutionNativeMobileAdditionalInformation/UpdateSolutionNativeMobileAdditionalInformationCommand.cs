@@ -14,7 +14,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeMobile.Updat
         {
             SolutionId = solutionId.ThrowIfNull();
             Data = data.ThrowIfNull();
-            Data.NativeMobileAdditionalInformation = Data.NativeMobileAdditionalInformation?.Trim();
         }
     }
 }
