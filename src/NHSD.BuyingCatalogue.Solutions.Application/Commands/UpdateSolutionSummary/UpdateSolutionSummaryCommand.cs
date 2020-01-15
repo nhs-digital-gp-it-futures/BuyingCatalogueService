@@ -23,9 +23,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSumm
         {
             SolutionId = solutionId.ThrowIfNull();
             Data = data.ThrowIfNull();
-            Data.Description = Data.Description?.Trim();
-            Data.Link = Data.Link?.Trim();
-            Data.Summary = Data.Summary?.Trim();
         }
     }
 }

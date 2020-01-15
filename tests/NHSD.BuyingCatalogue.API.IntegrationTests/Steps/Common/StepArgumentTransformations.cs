@@ -11,7 +11,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
     {
         [StepArgumentTransformation]
         internal static List<string> TransformToListOfString(string commaSeparatedList) =>
-            commaSeparatedList.Split(",").Select(t => t.Trim()).ToList();
+            commaSeparatedList.Split(",").Select(t => t.Trim().Trim('"')).ToList();
 
         [StepArgumentTransformation]
         internal static DateTime ParseDateTimeString(string dateString) =>

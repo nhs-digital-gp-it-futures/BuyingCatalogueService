@@ -98,28 +98,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Browser
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
-        [Test]
-        public void CommandShouldTrimStrings()
-        {
-            var viewModel = new Mock<IUpdateBrowserBasedBrowsersSupportedData>();
-            var trimmedViewModel = Mock.Of<IUpdateBrowserBasedBrowsersSupportedData>();
-            viewModel.Setup(x => x.Trim()).Returns(trimmedViewModel);
-
-            var command = new UpdateSolutionBrowsersSupportedCommand("Sln1", viewModel.Object);
-            viewModel.Verify(x => x.Trim(), Times.Once);
-            command.Data.IsSameOrEqualTo(trimmedViewModel);
-        }
-
         private async Task<ISimpleResult> UpdateBrowsersSupported(HashSet<string> browsersSupported, string mobileResponsive = null)
         {
-            var trimmedData = Mock.Of<IUpdateBrowserBasedBrowsersSupportedData>(t =>
+            var data = Mock.Of<IUpdateBrowserBasedBrowsersSupportedData>(t =>
                 t.BrowsersSupported == browsersSupported && t.MobileResponsive == mobileResponsive);
-
-            var data = new Mock<IUpdateBrowserBasedBrowsersSupportedData>();
-            data.Setup(s => s.Trim()).Returns(trimmedData);
             
             return await Context.UpdateSolutionBrowsersSupportedHandler.Handle(
-                new UpdateSolutionBrowsersSupportedCommand("Sln1", data.Object),
+                new UpdateSolutionBrowsersSupportedCommand("Sln1", data),
                 new CancellationToken()).ConfigureAwait(false);
         }
     }

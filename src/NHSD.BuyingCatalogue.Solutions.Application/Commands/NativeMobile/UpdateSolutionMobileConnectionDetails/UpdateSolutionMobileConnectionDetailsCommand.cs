@@ -16,11 +16,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeMobile.Updat
         {
             SolutionId = solutionId.ThrowIfNull();
             Data = data.ThrowIfNull();
-            Data.MinimumConnectionSpeed = Data.MinimumConnectionSpeed?.Trim();
-            Data.ConnectionRequirementsDescription = Data.ConnectionRequirementsDescription?.Trim();
-            Data.ConnectionType = Data.ConnectionType == null ?
-                new HashSet<string>() :
-                new HashSet<string>(Data.ConnectionType.Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim()));
         }
     }
 }

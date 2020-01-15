@@ -93,15 +93,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 Times.Never());
         }
 
-        [Test]
-        public void CommandShouldTrimStrings()
-        {
-            var originalViewModel = new UpdateSolutionFeaturesViewModel();
-            originalViewModel.Listing = new HashSet<string> { "     sheep", "    cow      ", "      " };
-            var command = new UpdateSolutionFeaturesCommand("Sln1", originalViewModel);
-            command.Data.Listing.Should().BeEquivalentTo("sheep", "cow");
-        }
-
         private async Task<ISimpleResult> UpdateSolutionFeaturesAsync(List<string> listing)
         {
             var existingSolution = new Mock<ISolutionResult>();

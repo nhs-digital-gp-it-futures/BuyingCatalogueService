@@ -14,7 +14,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.Upda
         public UpdateNativeDesktopMemoryAndStorageCommand(string solutionId, IUpdateNativeDesktopMemoryAndStorageData data)
         {
             SolutionId = solutionId.ThrowIfNull();
-            Data = data.ThrowIfNull().Trim();
+            Data = data.ThrowIfNull();
         }
     }
 }

@@ -48,7 +48,11 @@ namespace NHSD.BuyingCatalogue.API.Extensions
             Action<MvcOptions> op = options => options.Filters.Add(typeof(CustomExceptionFilter));
 
             Action<IMvcBuilder> controllerAction = builder => builder
-                .AddNewtonsoftJson(jsonOptions => jsonOptions.SerializerSettings.NullValueHandling = NullValueHandling.Ignore)
+                .AddNewtonsoftJson(jsonOptions =>
+                {
+                    jsonOptions.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                    jsonOptions.SerializerSettings.Converters.Add(new TrimmingConverter());
+                })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services

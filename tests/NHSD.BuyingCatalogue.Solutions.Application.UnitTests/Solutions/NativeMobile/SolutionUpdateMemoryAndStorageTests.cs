@@ -120,14 +120,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.NativeM
                     It.IsAny<CancellationToken>()), Times.Never());
         }
 
-        [Test]
-        public void CommandShouldTrimStrings()
-        {
-            var command = new UpdateSolutionMobileMemoryStorageCommand("Sln1", "     1GB", "    description    ");
-            command.MinimumMemoryRequirement.Should().Be("1GB");
-            command.Description.Should().Be("description");
-        }
-
         private async Task<ISimpleResult> UpdateMemoryAndStorage(string minimumMemoryRequirement, string description)
         {
             return await Context.UpdateSolutionMobileMemoryStorageHandler.Handle(

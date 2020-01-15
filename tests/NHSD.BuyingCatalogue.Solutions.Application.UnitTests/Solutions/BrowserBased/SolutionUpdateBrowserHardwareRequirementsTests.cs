@@ -105,13 +105,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Browser
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
-        [Test]
-        public void CommandShouldTrimStrings()
-        {
-            var command = new UpdateSolutionBrowserHardwareRequirementsCommand("Sln1", "     hardware    ");
-            command.HardwareRequirements.Should().Be("hardware");
-        }
-
         private async Task<ISimpleResult> UpdateBrowserHardwareRequirements(
             string hardwareRequirements)
         {

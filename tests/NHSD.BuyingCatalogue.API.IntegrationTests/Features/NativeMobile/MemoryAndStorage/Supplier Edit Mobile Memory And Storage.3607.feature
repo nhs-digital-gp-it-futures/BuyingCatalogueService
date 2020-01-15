@@ -26,6 +26,16 @@ Scenario: 1. Client Application is updated for the solution
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                           |
         | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "Description": "A description" } } |
+        
+@3607
+Scenario: 2. Client Application is updated for the solution with trimmed whitespace
+    When a PUT request is made to update the native-mobile-memory-and-storage section for solution Sln1
+        | MinimumMemoryRequirement   | Description                 |
+        | "        1GB             " | "       A description     " |
+    Then a successful response is returned
+    And SolutionDetail exist
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                           |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "Description": "A description" } } |
 
 @3607
 Scenario: 2. Solution is not found

@@ -14,8 +14,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.Updat
         {
             SolutionId = solutionId.ThrowIfNull();
             Data = data.ThrowIfNull();
-            Data.AdditionalInformation = Data.AdditionalInformation?.Trim();
-            Data.Required = Data.Required?.Trim();
         }
     }
 }

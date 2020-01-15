@@ -32,6 +32,20 @@ Scenario: 1. Contacts are added when none existed before
     And Last Updated has updated on the MarketingContact for solution Sln1
 
 @3655
+Scenario: 1. Contacts are added with trimmed whitespace when none existed before
+    Given No contacts exist for solution Sln1
+    When a PUT request is made for solution Sln1 contact details
+        | FirstName      | LastName         | Email                   | PhoneNumber           | Department      |
+        | "      Bob   " | "       "        | "     bob@bob.bob     " | "    66666 666666   " | "    Sales    " |
+        | "        "     | "    Bobbington" | "    betty@bob.bob   "  | "   99999 999999  "   | "         "     |
+    Then a successful response is returned
+    And MarketingContacts exist for solution Sln1
+        | FirstName | LastName   | Email         | PhoneNumber  | Department |
+        | Bob       |            | bob@bob.bob   | 66666 666666 | Sales      |
+        |           | Bobbington | betty@bob.bob | 99999 999999 |            |
+    And Last Updated has updated on the MarketingContact for solution Sln1
+
+@3655
 Scenario: 2. Contacts are added when contacts previously existed
 Given MarketingContacts exist
         | SolutionId | FirstName | LastName   | Email         | PhoneNumber  | Department |

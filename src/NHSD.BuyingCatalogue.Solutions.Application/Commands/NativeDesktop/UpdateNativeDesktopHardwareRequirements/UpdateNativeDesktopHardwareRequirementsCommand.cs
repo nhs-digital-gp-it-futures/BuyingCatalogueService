@@ -13,7 +13,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.Upda
         public UpdateNativeDesktopHardwareRequirementsCommand(string solutionId, string hardwareRequirements)
         {
             SolutionId = solutionId.ThrowIfNull();
-            HardwareRequirements = hardwareRequirements?.Trim();
+            HardwareRequirements = hardwareRequirements;
         }
     }
 }

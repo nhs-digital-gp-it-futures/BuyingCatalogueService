@@ -28,6 +28,16 @@ Scenario: 1. Client Application is updated for the solution
         | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileConnectionDetails": { "MinimumConnectionSpeed": "1GBps", "ConnectionType": [ "Horse", "Moose", "Giraffe" ], "Description": "A description" } } |
         
 @3606
+Scenario: 2. Client Application is updated for the solution with trimmed whitespace
+    When a PUT request is made to update the native-mobile-connection-details section for solution Sln1
+        | MinimumConnectionSpeed          | ConnectionRequirementsDescription | ConnectionType                               |
+        | "          1GBps              " | "       A description        "    | "     Horse", "   Moose    ", "Giraffe     " |
+    Then a successful response is returned
+    And SolutionDetail exist
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                              |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileConnectionDetails": { "MinimumConnectionSpeed": "1GBps", "ConnectionType": [ "Horse", "Moose", "Giraffe" ], "Description": "A description" } } |
+        
+@3606
 Scenario: 2. Client Application is updated with no Minimum Connection Speed
     When a PUT request is made to update the native-mobile-connection-details section for solution Sln1
         | MinimumConnectionSpeed | ConnectionRequirementsDescription | ConnectionType        |

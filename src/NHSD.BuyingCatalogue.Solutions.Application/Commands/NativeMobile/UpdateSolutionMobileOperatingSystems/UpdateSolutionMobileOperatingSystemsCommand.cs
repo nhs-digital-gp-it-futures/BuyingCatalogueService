@@ -15,10 +15,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeMobile.Updat
         {
             Id = id.ThrowIfNull();
             Data = data.ThrowIfNull();
-            Data.OperatingSystemsDescription = Data.OperatingSystemsDescription?.Trim();
-            Data.OperatingSystems = Data.OperatingSystems == null ?
-                new HashSet<string>() : 
-                new HashSet<string>(Data.OperatingSystems.Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim()));
         }
     }
 }

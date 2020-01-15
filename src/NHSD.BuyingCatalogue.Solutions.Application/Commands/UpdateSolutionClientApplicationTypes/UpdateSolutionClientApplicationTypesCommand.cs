@@ -25,9 +25,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClie
         {
             SolutionId = solutionId.ThrowIfNull();
             Data = data.ThrowIfNull();
-            Data.ClientApplicationTypes = Data.ClientApplicationTypes == null ?
-                new HashSet<string>() : 
-                new HashSet<string>(Data.ClientApplicationTypes.Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim()));
         }
     }
 }

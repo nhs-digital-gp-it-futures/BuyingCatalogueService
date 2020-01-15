@@ -25,7 +25,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeat
         {
             SolutionId = solutionId.ThrowIfNull();
             Data = data.ThrowIfNull();
-            Data.Listing = new List<string>(Data.Listing.Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim()));
         }
     }
 }

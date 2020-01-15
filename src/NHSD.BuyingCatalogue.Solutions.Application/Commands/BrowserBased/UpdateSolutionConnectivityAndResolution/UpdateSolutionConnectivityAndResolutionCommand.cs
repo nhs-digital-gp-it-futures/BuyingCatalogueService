@@ -13,8 +13,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.Updat
         {
             Id = id.ThrowIfNull();
             Data = data.ThrowIfNull();
-            Data.MinimumConnectionSpeed = Data.MinimumConnectionSpeed?.Trim();
-            Data.MinimumDesktopResolution = Data.MinimumDesktopResolution?.Trim();
         }
     }
 }

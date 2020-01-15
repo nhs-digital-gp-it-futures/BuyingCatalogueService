@@ -118,13 +118,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Browser
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
-        [Test]
-        public void CommandShouldTrimStrings()
-        {
-            var command = new UpdateBrowserBasedAdditionalInformationCommand("Sln1", "       hello   ");
-            command.AdditionalInformation.Should().Be("hello");
-        }
-
         private async Task<ISimpleResult> UpdateBrowserAdditionalInformation(
             string additionalInformation = null)
         {

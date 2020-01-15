@@ -85,13 +85,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.NativeD
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
-        [Test]
-        public void CommandShouldTrimStrings()
-        {
-            var command = new UpdateSolutionNativeDesktopConnectivityDetailsCommand("Sln1", "    6Mbps    ");
-            command.NativeDesktopMinimumConnectionSpeed.Should().Be("6Mbps");
-        }
-
         private async Task<ISimpleResult> UpdateNativeDesktopConnectivityDetails(string connectivityDetails = null)
         {
             return await Context.UpdateSolutionNativeDesktopConnectivityDetailsHandler.Handle(
