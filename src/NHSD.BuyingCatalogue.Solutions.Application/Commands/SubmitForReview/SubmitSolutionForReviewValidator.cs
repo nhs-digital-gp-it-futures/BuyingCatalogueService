@@ -83,7 +83,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview
             return result;
         }
 
-        private static ValidationResult ValidateMobileResponsive(ClientApplication clientApplication)
+        private static ValidationResult ValidateMobileResponsive(Domain.ClientApplication clientApplication)
         {
             ValidationResult result = new ValidationResult();
 

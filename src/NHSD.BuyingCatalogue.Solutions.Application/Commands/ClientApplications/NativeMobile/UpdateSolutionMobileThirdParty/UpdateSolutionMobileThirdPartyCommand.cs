@@ -1,0 +1,19 @@
+using MediatR;
+using NHSD.BuyingCatalogue.Infrastructure;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
+
+namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionMobileThirdParty
+{
+    public class UpdateSolutionMobileThirdPartyCommand : IRequest<ISimpleResult>
+    {
+        public string Id { get; }
+
+        public UpdateSolutionMobileThirdPartyViewModel Data { get; }
+
+        public UpdateSolutionMobileThirdPartyCommand(string id, UpdateSolutionMobileThirdPartyViewModel data)
+        {
+            Id = id.ThrowIfNull();
+            Data = data.ThrowIfNull();
+        }
+    }
+}

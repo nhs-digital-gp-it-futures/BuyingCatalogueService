@@ -25,4 +25,10 @@
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Testing.Tools\NHSD.BuyingCatalogue.Testing.Tools.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Steps\BrowserHardwareRequirements\" />
+    <Folder Include="Steps\BrowsersSupported\" />
+    <Folder Include="Steps\ClientApplicationTypes\" />
+  </ItemGroup>
+
 </Project>
