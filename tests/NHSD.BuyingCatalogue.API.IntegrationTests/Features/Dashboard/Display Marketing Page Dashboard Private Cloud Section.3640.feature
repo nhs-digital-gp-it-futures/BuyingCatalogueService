@@ -1,6 +1,6 @@
 Feature: Display Marketing Page Dashboard Private Cloud Section
     As an Authority User
-    I want to manage Marketing Page Information for the Public Cloud Hosting Type
+    I want to manage Marketing Page Information for the Private Cloud Hosting Type
     So that I can ensure the information is correct
 
     Background:
