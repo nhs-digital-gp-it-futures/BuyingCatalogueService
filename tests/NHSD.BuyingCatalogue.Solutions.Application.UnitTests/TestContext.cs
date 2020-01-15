@@ -34,7 +34,6 @@ using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
-using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 {
