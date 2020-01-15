@@ -6,6 +6,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSol
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionConnectivityAndResolution;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.UpdateSolutionPlugins;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateNativeDesktopAdditionalInformation;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateSolutionConnectivityDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateNativeDesktopHardwareRequirements;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateNativeDesktopMemoryAndStorage;
@@ -114,7 +115,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<IValidator<UpdateNativeDesktopMemoryAndStorageCommand, ISimpleResult>, UpdateNativeDesktopMemoryAndStorageValidator>()
 
                 .AddTransient<IExecutor<UpdateSolutionNativeDesktopThirdPartyCommand>, UpdateSolutionNativeDesktopThirdPartyExecutor>()
-                .AddTransient<IValidator<UpdateSolutionNativeDesktopThirdPartyCommand, ISimpleResult>, UpdateSolutionNativeDesktopThirdPartyValidator>();
+                .AddTransient<IValidator<UpdateSolutionNativeDesktopThirdPartyCommand, ISimpleResult>, UpdateSolutionNativeDesktopThirdPartyValidator>()
+
+                .AddTransient<IExecutor<UpdateNativeDesktopAdditionalInformationCommand>, UpdateNativeDesktopAdditionalInformationExecutor>()
+                .AddTransient<IValidator<UpdateNativeDesktopAdditionalInformationCommand, ISimpleResult>, UpdateNativeDesktopAdditionalInformationValidator>();
         }
     }
 }
