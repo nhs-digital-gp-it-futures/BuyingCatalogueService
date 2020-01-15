@@ -47,6 +47,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         [JsonProperty("public-cloud")]
         public DashboardSection PublicCloudSection { get; }
 
+        [JsonProperty("private-cloud")]
+        public DashboardSection PrivateCloudSection { get; }
+
+
         /// <summary>
         /// Initialises a new instance of the <see cref="SolutionDashboardSections"/> class.
         /// </summary>
@@ -64,6 +68,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
                 new ClientApplicationTypesSubSections(solution.ClientApplication));
             ContactDetailsSection = DashboardSection.Optional(new ContactAnswerSection(solution.Contacts).HasData());
             PublicCloudSection = DashboardSection.Optional(false);
+            PrivateCloudSection = DashboardSection.Optional(false);
         }
     }
 
