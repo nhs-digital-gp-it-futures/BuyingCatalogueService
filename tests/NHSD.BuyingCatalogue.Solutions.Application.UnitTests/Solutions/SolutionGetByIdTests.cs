@@ -40,7 +40,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Summary).Returns("Summary");
             existingSolution.Setup(s => s.AboutUrl).Returns("AboutUrl");
             existingSolution.Setup(s => s.Features).Returns("[ 'Marmite', 'Jam', 'Marmelade' ]");
-            existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'MobileFirstDesign': true, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows', 'Linux'], 'OperatingSystemsDescription': 'For windows only version 10' }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileThirdParty': { 'ThirdPartyComponents': 'Component', 'DeviceCapabilities': 'Capabilities'}, 'NativeMobileHardwareRequirements': 'Native Mobile Hardware', 'NativeDesktopHardwareRequirements': 'Native Desktop Hardware', 'NativeMobileAdditionalInformation': 'native mobile additional information', 'NativeDesktopMinimumConnectionSpeed': '6Mbps', 'NativeDesktopOperatingSystemsDescription':'native desktop operating systems description', 'NativeDesktopThirdParty': { 'ThirdPartyComponents': 'Components', 'DeviceCapabilities': 'Capabilities' }, 'NativeDesktopMemoryAndStorage': { 'MinimumMemoryRequirement': '512MB', 'StorageRequirementsDescription': '1024GB', 'MinimumCpu': '3.4GHz', 'RecommendedResolution': '800x600' } }");
+            existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'MobileFirstDesign': true, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows', 'Linux'], 'OperatingSystemsDescription': 'For windows only version 10' }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileThirdParty': { 'ThirdPartyComponents': 'Component', 'DeviceCapabilities': 'Capabilities'}, 'NativeMobileHardwareRequirements': 'Native Mobile Hardware', 'NativeDesktopHardwareRequirements': 'Native Desktop Hardware', 'NativeMobileAdditionalInformation': 'native mobile additional information', 'NativeDesktopMinimumConnectionSpeed': '6Mbps', 'NativeDesktopOperatingSystemsDescription':'native desktop operating systems description', 'NativeDesktopThirdParty': { 'ThirdPartyComponents': 'Components', 'DeviceCapabilities': 'Capabilities' }, 'NativeDesktopMemoryAndStorage': { 'MinimumMemoryRequirement': '512MB', 'StorageRequirementsDescription': '1024GB', 'MinimumCpu': '3.4GHz', 'RecommendedResolution': '800x600' }, 'NativeDesktopAdditionalInformation': 'some additional information' }");
             existingSolution.Setup(s => s.OrganisationName).Returns("OrganisationName");
             existingSolution.Setup(s => s.IsFoundation).Returns(true);
 
@@ -100,7 +100,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 .Be("1024GB");
             solution.ClientApplication.NativeDesktopMemoryAndStorage.MinimumCpu.Should().Be("3.4GHz");
             solution.ClientApplication.NativeDesktopMemoryAndStorage.RecommendedResolution.Should().Be("800x600");
-            
+            solution.ClientApplication.NativeDesktopAdditionalInformation.Should().Be("some additional information");
+
             solution.IsFoundation.Should().BeTrue();
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1", "cap2"});
             solution.Contacts.Count().Should().Be(1);
@@ -154,6 +155,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.ClientApplication.NativeDesktopOperatingSystemsDescription.Should().BeNull();
             solution.ClientApplication.NativeDesktopThirdParty.Should().BeNull();
             solution.ClientApplication.NativeDesktopMemoryAndStorage.Should().BeNull();
+            solution.ClientApplication.NativeDesktopAdditionalInformation.Should().BeNull();
 
             solution.OrganisationName.Should().BeNull();
             solution.Capabilities.Should().BeEmpty();
@@ -207,7 +209,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.ClientApplication.NativeDesktopHardwareRequirements.Should().BeNull();
             solution.ClientApplication.NativeDesktopMinimumConnectionSpeed.Should().BeNull();
             solution.ClientApplication.NativeDesktopThirdParty.Should().BeNull();
-            solution.ClientApplication.NativeDesktopMemoryAndStorage.Should().BeNull();  
+            solution.ClientApplication.NativeDesktopMemoryAndStorage.Should().BeNull();
+            solution.ClientApplication.NativeDesktopAdditionalInformation.Should().BeNull();
+
 
             solution.OrganisationName.Should().Be("OrganisationName");
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1"});
@@ -363,6 +367,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 .Be("1024GB");
             solution.ClientApplication.NativeDesktopMemoryAndStorage.MinimumCpu.Should().Be("3.4GHz");
             solution.ClientApplication.NativeDesktopMemoryAndStorage.RecommendedResolution.Should().BeNull();
+            solution.ClientApplication.NativeDesktopAdditionalInformation.Should().BeNull();
 
             solution.OrganisationName.Should().Be("OrganisationName");
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1"});
