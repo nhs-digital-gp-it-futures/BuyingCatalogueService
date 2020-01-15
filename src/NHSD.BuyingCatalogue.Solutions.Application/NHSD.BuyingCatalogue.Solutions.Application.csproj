@@ -31,4 +31,8 @@
         </AssemblyAttribute>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Commands\UpdateSolutionClientApplicationTypes\" />
+    </ItemGroup>
+
 </Project>
