@@ -22,7 +22,7 @@ Feature: Display Marketing Page Dashboard Private Cloud Section
             | Sln1     | UrlSln1 |                         | Online medicine 1    | [ "Appointments", "Prescribing" ] |
             | Sln3     | UrlSln3 | Eye opening experience  | Eye opening6         | [ "Referrals", "Workflow" ]       |
 
-    @3624
+    @3640
     Scenario: 1. Private cloud section is optional and is reported incomplete
         When a GET request is made for solution dashboard Sln1
         Then a successful response is returned
