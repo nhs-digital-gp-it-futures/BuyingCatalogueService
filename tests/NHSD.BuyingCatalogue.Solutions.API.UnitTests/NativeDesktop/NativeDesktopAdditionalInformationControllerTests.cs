@@ -31,6 +31,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
 
         [TestCase(null)]
         [TestCase("Some additional Information")]
+        [TestCase("")]
+        [TestCase(" Some additional tabbed Information  ")]
         public async Task ShouldGetNativeDesktopAdditionalInformation(string information)
         {
             _mockMediator
@@ -51,7 +53,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
         }
 
         [Test]
-        public async Task ShouldReturnEmpty()
+        public async Task ShouldReturnNull()
         {
             var response =
                 (await _nativeDesktopAdditionalInformationController.GetAsync(SolutionId)
