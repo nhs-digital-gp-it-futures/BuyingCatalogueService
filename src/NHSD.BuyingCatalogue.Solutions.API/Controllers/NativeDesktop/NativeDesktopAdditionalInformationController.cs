@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.NativeDesktop;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeDesktop.UpdateNativeDesktopAdditionalInformation;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeDesktop
@@ -32,5 +33,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.NativeDesktop
             var clientApplication = await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
             return Ok(new GetNativeDesktopAdditionalInformationResult(clientApplication?.NativeDesktopAdditionalInformation));
         }
+
+        [HttpPut]
+        [Route("{id}/sections/native-desktop-additional-information")]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult> UpdateAdditionalInformationAsync([FromRoute] [Required] string id,
+            [FromBody] [Required] UpdateNativeDesktopAdditionalInformationViewModel viewModel) =>
+            (await _mediator
+                .Send(new UpdateNativeDesktopAdditionalInformationCommand(id, viewModel?.NativeDesktopAdditionalInformation))
+                .ConfigureAwait(false)).ToActionResult();
     }
 }
