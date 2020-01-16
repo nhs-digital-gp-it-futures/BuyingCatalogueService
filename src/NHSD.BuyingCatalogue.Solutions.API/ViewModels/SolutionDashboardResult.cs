@@ -50,6 +50,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         [JsonProperty("private-cloud")]
         public DashboardSection PrivateCloudSection { get; }
 
+        [JsonProperty("hosting-type-hybrid")]
+        public DashboardSection HostingTypeHybridSection { get; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="SolutionDashboardSections"/> class.
@@ -69,6 +71,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
             ContactDetailsSection = DashboardSection.Optional(new ContactAnswerSection(solution.Contacts).HasData());
             PublicCloudSection = DashboardSection.Optional(false);
             PrivateCloudSection = DashboardSection.Optional(false);
+            HostingTypeHybridSection = DashboardSection.Optional(false);
         }
     }
 
