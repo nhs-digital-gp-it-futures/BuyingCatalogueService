@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientApplications
 {
-    internal class ClientApplicationTestsBase
+    internal abstract class ClientApplicationTestsBase
     {
         protected TestContext Context;
 

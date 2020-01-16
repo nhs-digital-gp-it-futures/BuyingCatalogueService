@@ -210,7 +210,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public Scope(IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
                 IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> getClientApplicationBySolutionIdHandler,
-                IRequestHandler<GetHostingBySolutionIdQuery, IHosting> getHostingHandler,
+                IRequestHandler<GetHostingBySolutionIdQuery, IHosting> getHostingBySolutionIdHandler,
                 IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> submitSolutionForReviewHandler,
                 IRequestHandler<UpdateSolutionSummaryCommand, ISimpleResult> updateSolutionSummaryHandler,
                 IRequestHandler<UpdateSolutionFeaturesCommand, ISimpleResult> updateSolutionFeaturesHandler,
@@ -240,7 +240,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;
                 GetClientApplicationBySolutionIdHandler = getClientApplicationBySolutionIdHandler;
-                GetHostingBySolutionIdHandler = getHostingHandler;
+                GetHostingBySolutionIdHandler = getHostingBySolutionIdHandler;
                 SubmitSolutionForReviewHandler = submitSolutionForReviewHandler;
                 UpdateSolutionSummaryHandler = updateSolutionSummaryHandler;
                 UpdateSolutionFeaturesHandler = updateSolutionFeaturesHandler;
