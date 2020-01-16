@@ -44,11 +44,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         [JsonProperty("contact-details")]
         public DashboardSection ContactDetailsSection { get; }
 
-        [JsonProperty("public-cloud")]
-        public DashboardSection PublicCloudSection { get; }
+        [JsonProperty("hosting-type-public-cloud")]
+        public DashboardSection HostingTypePublicCloudSection { get; }
 
-        [JsonProperty("private-cloud")]
-        public DashboardSection PrivateCloudSection { get; }
+        [JsonProperty("hosting-type-private-cloud")]
+        public DashboardSection HostingTypePrivateCloudSection { get; }
 
         [JsonProperty("hosting-type-hybrid")]
         public DashboardSection HostingTypeHybridSection { get; }
@@ -69,8 +69,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
                 solution.ClientApplication?.ClientApplicationTypes?.Any() == true,
                 new ClientApplicationTypesSubSections(solution.ClientApplication));
             ContactDetailsSection = DashboardSection.Optional(new ContactAnswerSection(solution.Contacts).HasData());
-            PublicCloudSection = DashboardSection.Optional(false);
-            PrivateCloudSection = DashboardSection.Optional(false);
+            HostingTypePublicCloudSection = DashboardSection.Optional(false);
+            HostingTypePrivateCloudSection = DashboardSection.Optional(false);
             HostingTypeHybridSection = DashboardSection.Optional(false);
         }
     }
