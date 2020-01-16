@@ -4,10 +4,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
 {
     internal class UpdateSolutionContactDetailsValidator : IValidator<UpdateSolutionContactDetailsCommand, ContactsMaxLengthResult>
     {
-        public ContactsMaxLengthResult Validate(UpdateSolutionContactDetailsCommand updateSolutionContactDetailsCommand)
+        public ContactsMaxLengthResult Validate(UpdateSolutionContactDetailsCommand command)
         => new ContactsMaxLengthResult(
-            new MaxLengthValidator().ValidateContact(updateSolutionContactDetailsCommand.Data.Contact1).Result(),
-            new MaxLengthValidator().ValidateContact(updateSolutionContactDetailsCommand.Data.Contact2).Result());
+            new MaxLengthValidator().ValidateContact(command.Data.Contact1).Result(),
+            new MaxLengthValidator().ValidateContact(command.Data.Contact2).Result());
     }
 
     internal static class MaxLengthValidatorContactExtensions

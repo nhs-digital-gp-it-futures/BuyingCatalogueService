@@ -4,9 +4,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
 {
     internal sealed class UpdateSolutionBrowserHardwareRequirementsValidator : IValidator<UpdateSolutionBrowserHardwareRequirementsCommand, ISimpleResult>
     {
-        public ISimpleResult Validate(UpdateSolutionBrowserHardwareRequirementsCommand updateSolutionHardwareRequirementsCommand)
+        public ISimpleResult Validate(UpdateSolutionBrowserHardwareRequirementsCommand command)
             => new MaxLengthValidator()
-                .Validate(updateSolutionHardwareRequirementsCommand.HardwareRequirements, 500, "hardware-requirements-description")
+                .Validate(command.HardwareRequirements, 500, "hardware-requirements-description")
                 .Result();
     }
 }
