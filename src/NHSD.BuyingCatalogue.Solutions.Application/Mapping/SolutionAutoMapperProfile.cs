@@ -2,9 +2,12 @@ using AutoMapper;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
+using NHSD.BuyingCatalogue.Solutions.Application.Domain.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
@@ -43,6 +46,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
             CreateMap<NativeDesktopThirdParty, INativeDesktopThirdParty>().As<NativeDesktopThirdPartyDto>();
             CreateMap<NativeDesktopMemoryAndStorage, NativeDesktopMemoryAndStorageDto>();
             CreateMap<NativeDesktopMemoryAndStorage, INativeDesktopMemoryAndStorage>().As<NativeDesktopMemoryAndStorageDto>();
+            CreateMap<PublicCloud, PublicCloudDto>();
+            CreateMap<PublicCloud, IPublicCloud>().As<PublicCloudDto>();
         }
     }
 }

@@ -51,6 +51,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
         public GetClientApplicationBySolutionIdHandler GetClientApplicationBySolutionIdHandler => (GetClientApplicationBySolutionIdHandler)_scope.GetClientApplicationBySolutionIdHandler;
 
+        public GetHostingBySolutionIdHandler GetHostingBySolutionIdHandler => (GetHostingBySolutionIdHandler)_scope.GetHostingBySolutionIdHandler;
+
         public UpdateSolutionSummaryHandler UpdateSolutionSummaryHandler => (UpdateSolutionSummaryHandler)_scope.UpdateSolutionSummaryHandler;
 
         public UpdateSolutionFeaturesHandler UpdateSolutionFeaturesHandler => (UpdateSolutionFeaturesHandler)_scope.UpdateSolutionFeaturesHandler;
@@ -155,6 +157,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> GetClientApplicationBySolutionIdHandler { get; }
 
+            public IRequestHandler<GetHostingBySolutionIdQuery, IHosting> GetHostingBySolutionIdHandler { get; }
+
             public IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> SubmitSolutionForReviewHandler { get; }
 
             public IRequestHandler<UpdateSolutionSummaryCommand, ISimpleResult> UpdateSolutionSummaryHandler { get; }
@@ -206,6 +210,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public Scope(IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
                 IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> getClientApplicationBySolutionIdHandler,
+                IRequestHandler<GetHostingBySolutionIdQuery, IHosting> getHostingHandler,
                 IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> submitSolutionForReviewHandler,
                 IRequestHandler<UpdateSolutionSummaryCommand, ISimpleResult> updateSolutionSummaryHandler,
                 IRequestHandler<UpdateSolutionFeaturesCommand, ISimpleResult> updateSolutionFeaturesHandler,
@@ -235,6 +240,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;
                 GetClientApplicationBySolutionIdHandler = getClientApplicationBySolutionIdHandler;
+                GetHostingBySolutionIdHandler = getHostingHandler;
                 SubmitSolutionForReviewHandler = submitSolutionForReviewHandler;
                 UpdateSolutionSummaryHandler = updateSolutionSummaryHandler;
                 UpdateSolutionFeaturesHandler = updateSolutionFeaturesHandler;

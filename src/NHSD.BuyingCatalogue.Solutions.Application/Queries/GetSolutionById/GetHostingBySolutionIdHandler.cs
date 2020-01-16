@@ -24,6 +24,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
 
         public async Task<IHosting> Handle(GetHostingBySolutionIdQuery request,
             CancellationToken cancellationToken)
-            => _mapper.Map<IHosting>(await _reader.BySolutionIdAsync(request.Id, cancellationToken).ConfigureAwait(false));
+        {
+            var readerResult = await _reader.BySolutionIdAsync(request.Id, cancellationToken)
+                .ConfigureAwait(false);
+            return _mapper.Map<IHosting>(readerResult);
+        }
     }
 }
