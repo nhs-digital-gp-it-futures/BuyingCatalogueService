@@ -41,6 +41,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.AboutUrl).Returns("AboutUrl");
             existingSolution.Setup(s => s.Features).Returns("[ 'Marmite', 'Jam', 'Marmelade' ]");
             existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'MobileFirstDesign': true, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows', 'Linux'], 'OperatingSystemsDescription': 'For windows only version 10' }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileThirdParty': { 'ThirdPartyComponents': 'Component', 'DeviceCapabilities': 'Capabilities'}, 'NativeMobileHardwareRequirements': 'Native Mobile Hardware', 'NativeDesktopHardwareRequirements': 'Native Desktop Hardware', 'NativeMobileAdditionalInformation': 'native mobile additional information', 'NativeDesktopMinimumConnectionSpeed': '6Mbps', 'NativeDesktopOperatingSystemsDescription':'native desktop operating systems description', 'NativeDesktopThirdParty': { 'ThirdPartyComponents': 'Components', 'DeviceCapabilities': 'Capabilities' }, 'NativeDesktopMemoryAndStorage': { 'MinimumMemoryRequirement': '512MB', 'StorageRequirementsDescription': '1024GB', 'MinimumCpu': '3.4GHz', 'RecommendedResolution': '800x600' }, 'NativeDesktopAdditionalInformation': 'some additional information' }");
+            existingSolution.Setup(s => s.Hosting).Returns("{ 'PublicCloud': { 'Summary': 'Some summary', 'URL': 'some link', 'ConnectivityRequired': 'It is required' } }");
             existingSolution.Setup(s => s.SupplierName).Returns("SupplierName");
             existingSolution.Setup(s => s.IsFoundation).Returns(true);
 
@@ -101,7 +102,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.ClientApplication.NativeDesktopMemoryAndStorage.MinimumCpu.Should().Be("3.4GHz");
             solution.ClientApplication.NativeDesktopMemoryAndStorage.RecommendedResolution.Should().Be("800x600");
             solution.ClientApplication.NativeDesktopAdditionalInformation.Should().Be("some additional information");
-            
+
+            solution.Hosting.Should().NotBeNull();
+            solution.Hosting.PublicCloud.Should().NotBeNull();
+            solution.Hosting.PublicCloud.Summary.Should().Be("Some summary");
+            solution.Hosting.PublicCloud.URL.Should().Be("some link");
+            solution.Hosting.PublicCloud.ConnectivityRequired.Should().Be("It is required");
+
             solution.IsFoundation.Should().BeTrue();
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1", "cap2"});
             solution.Contacts.Count().Should().Be(1);

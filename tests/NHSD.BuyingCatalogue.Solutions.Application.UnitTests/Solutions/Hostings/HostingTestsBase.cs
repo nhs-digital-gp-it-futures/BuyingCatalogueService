@@ -3,9 +3,9 @@ using Moq;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
 
-namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientApplications
+namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hostings
 {
-    internal abstract class ClientApplicationTestsBase
+    internal abstract class HostingTestsBase
     {
         protected TestContext Context;
 
@@ -15,13 +15,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
             Context = new TestContext();
         }
 
-        protected void SetUpMockSolutionRepositoryGetByIdAsync(string clientApplicationJson = "")
+        protected void SetUpMockSolutionRepositoryGetByIdAsync(string hostingJson = "")
         {
             var existingSolution = new Mock<ISolutionResult>();
 
             existingSolution.Setup(s => s.Id).Returns("Sln1");
 
-            existingSolution.Setup(s => s.ClientApplication).Returns(clientApplicationJson);
+            existingSolution.Setup(s => s.Hosting).Returns(hostingJson);
 
             Context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
         }
