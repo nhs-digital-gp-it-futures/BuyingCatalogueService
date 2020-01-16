@@ -6,10 +6,13 @@ using FluentAssertions;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
+using NHSD.BuyingCatalogue.Solutions.Application.Domain.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Application.Mapping;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
 using NUnit.Framework;
 
@@ -52,6 +55,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             yield return new KeyValuePair<Type, Type>(typeof(NativeDesktopThirdParty), typeof(INativeDesktopThirdParty));
             yield return new KeyValuePair<Type, Type>(typeof(NativeDesktopMemoryAndStorage), typeof(NativeDesktopMemoryAndStorageDto));
             yield return new KeyValuePair<Type, Type>(typeof(NativeDesktopMemoryAndStorage), typeof(INativeDesktopMemoryAndStorage));
+            yield return new KeyValuePair<Type, Type>(typeof(PublicCloud), typeof(PublicCloudDto));
+            yield return new KeyValuePair<Type, Type>(typeof(PublicCloud), typeof(IPublicCloud));
         }
 
         [Test]
