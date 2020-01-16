@@ -1,5 +1,3 @@
-using System;
-
 namespace NHSD.BuyingCatalogue.SolutionLists.Contracts
 {
     public interface ISolutionSupplier
