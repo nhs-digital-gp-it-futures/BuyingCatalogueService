@@ -4,10 +4,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.Updat
 {
     internal sealed class UpdateSolutionPluginsValidator : IValidator<UpdateSolutionPluginsCommand, ISimpleResult>
     {
-        public ISimpleResult Validate(UpdateSolutionPluginsCommand updateSolutionPluginsCommand)
+        public ISimpleResult Validate(UpdateSolutionPluginsCommand command)
             => new RequiredMaxLengthResult(
-                new RequiredValidator().Validate(updateSolutionPluginsCommand.Data.Required, "plugins-required").Result(),
-                new MaxLengthValidator().Validate(updateSolutionPluginsCommand.Data.AdditionalInformation, 500, "plugins-detail").Result()
+                new RequiredValidator().Validate(command.Data.Required, "plugins-required").Result(),
+                new MaxLengthValidator().Validate(command.Data.AdditionalInformation, 500, "plugins-detail").Result()
             );
     }
 }

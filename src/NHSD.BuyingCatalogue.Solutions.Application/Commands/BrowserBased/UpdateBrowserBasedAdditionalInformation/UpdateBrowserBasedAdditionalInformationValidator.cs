@@ -4,9 +4,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.Updat
 {
     internal sealed class UpdateBrowserBasedAdditionalInformationValidator : IValidator<UpdateBrowserBasedAdditionalInformationCommand, ISimpleResult>
     {
-        public ISimpleResult Validate(UpdateBrowserBasedAdditionalInformationCommand updateSolutionBrowserAdditionalInformationCommand)
+        public ISimpleResult Validate(UpdateBrowserBasedAdditionalInformationCommand command)
          => new MaxLengthValidator()
-                .Validate(updateSolutionBrowserAdditionalInformationCommand.AdditionalInformation, 500, "additional-information")
+                .Validate(command.AdditionalInformation, 500, "additional-information")
                 .Result();
     }
 }

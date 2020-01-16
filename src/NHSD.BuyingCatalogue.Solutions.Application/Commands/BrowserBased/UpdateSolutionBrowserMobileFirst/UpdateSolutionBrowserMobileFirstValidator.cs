@@ -4,9 +4,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.BrowserBased.Updat
 {
     internal sealed class UpdateSolutionBrowserMobileFirstValidator : IValidator<UpdateSolutionBrowserMobileFirstCommand, ISimpleResult>
     {
-        public ISimpleResult Validate(UpdateSolutionBrowserMobileFirstCommand updateSolutionBrowserMobileFirstCommand)
+        public ISimpleResult Validate(UpdateSolutionBrowserMobileFirstCommand command)
             => new RequiredValidator()
-                .Validate(updateSolutionBrowserMobileFirstCommand.MobileFirstDesign, "mobile-first-design")
+                .Validate(command.MobileFirstDesign, "mobile-first-design")
                 .Result();
     }
 }

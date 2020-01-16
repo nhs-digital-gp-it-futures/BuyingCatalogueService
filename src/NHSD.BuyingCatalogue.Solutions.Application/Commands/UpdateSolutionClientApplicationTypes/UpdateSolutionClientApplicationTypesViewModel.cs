@@ -12,7 +12,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionClie
         public HashSet<string> ClientApplicationTypes { get; internal set; }
 
         [JsonIgnore]
-        public List<string> FilteredClientApplicationTypes =>
-            ClientApplicationTypes.Where(s => AcceptedClientApplicationTypes.Contains(s)).ToList();
+        public IEnumerable<string> FilteredClientApplicationTypes =>
+            ClientApplicationTypes.Where(s => AcceptedClientApplicationTypes.Contains(s));
     }
 }

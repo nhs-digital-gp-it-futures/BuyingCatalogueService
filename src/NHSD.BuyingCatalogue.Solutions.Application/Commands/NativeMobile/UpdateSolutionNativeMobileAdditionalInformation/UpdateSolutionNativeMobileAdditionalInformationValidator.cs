@@ -4,9 +4,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.NativeMobile.Updat
 {
     internal sealed class UpdateSolutionNativeMobileAdditionalInformationValidator : IValidator<UpdateSolutionNativeMobileAdditionalInformationCommand, ISimpleResult>
     {
-        public ISimpleResult Validate(UpdateSolutionNativeMobileAdditionalInformationCommand updateSolutionNativeMobileAdditionalInformationCommand)
+        public ISimpleResult Validate(UpdateSolutionNativeMobileAdditionalInformationCommand command)
          => new MaxLengthValidator()
-                .Validate(updateSolutionNativeMobileAdditionalInformationCommand.Data.NativeMobileAdditionalInformation, 500, "additional-information")
+                .Validate(command.Data.NativeMobileAdditionalInformation, 500, "additional-information")
                 .Result();
     }
 }
