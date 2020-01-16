@@ -54,7 +54,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
             var publicCloudData = result.Value as GetPublicCloudResult;
             publicCloudData.Summary.Should().Be(summary);
             publicCloudData.URL.Should().Be(url);
-            publicCloudData.ConnectivityRequired.Should().Be(connectivityRequired);
+
+            if (connectivityRequired == null) 
+            {
+                publicCloudData.ConnectivityRequired.Should().BeEmpty();
+            }
+            else
+            {
+                publicCloudData.ConnectivityRequired.Should().BeEquivalentTo(connectivityRequired);
+            }
         }
 
         [Test]
@@ -71,7 +79,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
             var publicCloudData = result.Value as GetPublicCloudResult;
             publicCloudData.Summary.Should().BeNull();
             publicCloudData.URL.Should().BeNull();
-            publicCloudData.ConnectivityRequired.Should().BeNull();
+            publicCloudData.ConnectivityRequired.Should().BeEmpty();
         }
     }
 }

@@ -26,7 +26,9 @@ Scenario: 1.Public Cloud is retreived for the solution
     Then a successful response is returned
     And the string value of element summary is Some summary
     And the string value of element link is www.somelink.com
-    And the string value of element requires-hscn is This Solution requires a HSCN/N3 connection
+    And the requires-hscn element contains
+        | Elements                                    |
+        | This Solution requires a HSCN/N3 connection |
 
     
 @3639
@@ -35,7 +37,9 @@ Scenario: 2.Public Cloud is retrieved for the solution where no public cloud dat
     Then a successful response is returned
     And the summary string does not exist
     And the link string does not exist
-    And the requires-hscn string does not exist
+    And the requires-hscn element contains
+        | Elements |
+        |          |
 
 @3639
 Scenario: 3. Public Cloud is retrieved for the solution where no solution detail exists
@@ -43,7 +47,9 @@ Scenario: 3. Public Cloud is retrieved for the solution where no solution detail
     Then a successful response is returned
     And the summary string does not exist
     And the link string does not exist
-    And the requires-hscn string does not exist
+    And the requires-hscn element contains
+        | Elements |
+        |          |
 
 @3639
 Scenario: 4. Solution not found

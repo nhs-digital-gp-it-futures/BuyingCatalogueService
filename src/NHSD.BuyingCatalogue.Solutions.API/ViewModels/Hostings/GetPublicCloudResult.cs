@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;
 
@@ -12,13 +13,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Hostings
         public string URL { get; set; }
 
         [JsonProperty("requires-hscn")]
-        public string ConnectivityRequired { get; set; }
+        public HashSet<string> ConnectivityRequired { get; }
 
         public GetPublicCloudResult(IPublicCloud publicCloud)
         {
             Summary = publicCloud?.Summary;
             URL = publicCloud?.URL;
-            ConnectivityRequired = publicCloud?.ConnectivityRequired;
+            ConnectivityRequired = publicCloud?.ConnectivityRequired != null
+                ? new HashSet<string> {publicCloud?.ConnectivityRequired}
+                : new HashSet<string>();
         }
     }
 }
