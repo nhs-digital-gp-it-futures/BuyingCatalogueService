@@ -29,9 +29,9 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             yield return new KeyValuePair<Type, Type>(typeof(SolutionListItem), typeof(ISolutionSummary));
             yield return new KeyValuePair<Type, Type>(typeof(SolutionListItem), typeof(SolutionSummaryDto));
             yield return new KeyValuePair<Type, Type>(typeof(SolutionListItemCapability), typeof(SolutionCapabilityDto));
-            yield return new KeyValuePair<Type, Type>(typeof(SolutionListItemOrganisation), typeof(SolutionOrganisationDto));
+            yield return new KeyValuePair<Type, Type>(typeof(SolutionListItemSupplier), typeof(SolutionSupplierDto));
             yield return new KeyValuePair<Type, Type>(typeof(SolutionListItemCapability), typeof(ISolutionCapability));
-            yield return new KeyValuePair<Type, Type>(typeof(SolutionListItemOrganisation), typeof(ISolutionOrganisation));
+            yield return new KeyValuePair<Type, Type>(typeof(SolutionListItemSupplier), typeof(ISolutionSupplier));
         }
 
         [Test]

@@ -5,7 +5,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts;
 namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
 {
     /// <summary>
-    /// A product and/or service provided by an ‘organisation’.
+    /// A product and/or service provided by a supplier.
     /// </summary>
     internal class SolutionDto : ISolution
     {

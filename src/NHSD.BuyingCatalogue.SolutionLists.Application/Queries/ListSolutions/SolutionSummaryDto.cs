@@ -4,7 +4,7 @@ using NHSD.BuyingCatalogue.SolutionLists.Contracts;
 namespace NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions
 {
     /// <summary>
-    /// Represents the data to summarize a <see cref="Solution"/> entity and associated relationships.
+    /// Represents the data to summarize a solution entity and associated relationships.
     /// </summary>
     internal sealed class SolutionSummaryDto : ISolutionSummary
     {
@@ -29,9 +29,9 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions
         public bool IsFoundation { get; set; }
 
         /// <summary>
-        /// Details of the organisation associated with the solution.
+        /// Details of the supplier associated with the solution.
         /// </summary>
-        public ISolutionOrganisation Organisation { get; set; }
+        public ISolutionSupplier Supplier { get; set; }
 
         /// <summary>
         /// List of capabilities linked with the solution.

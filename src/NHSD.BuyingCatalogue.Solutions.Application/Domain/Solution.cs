@@ -8,7 +8,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 {
     /// <summary>
-    /// A product and/or service provided by an ‘organisation’.
+    /// A product and/or service provided by a supplier.
     /// </summary>
     internal class Solution
     {

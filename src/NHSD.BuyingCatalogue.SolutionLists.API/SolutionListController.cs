@@ -27,9 +27,9 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API
         }
 
         /// <summary>
-        /// Gets a list of solutions that includes information about the organisation and the associated capabilities.
+        /// Gets a list of solutions that includes information about the supplier and the associated capabilities.
         /// </summary>
-        /// <returns>A task representing an operation to retrieve a list of solutions that includes information about the organisation and the associated capabilities.</returns>
+        /// <returns>A task representing an operation to retrieve a list of solutions that includes information about the supplier and the associated capabilities.</returns>
         [HttpGet]
         [ProducesResponseType(typeof(ListSolutionsResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -39,9 +39,9 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API
         }
 
         /// <summary>
-        /// Gets a list of foundation solutions that includes information about the organisation and the associated capabilities.
+        /// Gets a list of foundation solutions that includes information about the supplier and the associated capabilities.
         /// </summary>
-        /// <returns>A task representing an operation to retrieve a list of solutions that includes information about the organisation and the associated capabilities.</returns>
+        /// <returns>A task representing an operation to retrieve a list of solutions that includes information about the supplier and the associated capabilities.</returns>
         [HttpGet]
         [Route("Foundation")]
         [ProducesResponseType(typeof(ListSolutionsResult), (int)HttpStatusCode.OK)]

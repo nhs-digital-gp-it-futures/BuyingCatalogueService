@@ -56,10 +56,10 @@ Scenario: 2. Card Content
     When a GET request is made containing no selection criteria
     Then a successful response is returned
     And the details of the solutions returned are as follows
-        | SolutionID | SolutionName   | SummaryDescription     | OrganisationName | Capabilities                                       | IsFoundation |
-        | Sln1       | MedicOnline    |                        | GPs-R-Us         | Appointments Management, Clinical Safety, Workflow | true         |
-        | Sln2       | TakeTheRedPill | Eye opening experience | Drs. Inc         | Prescribing, Resource Management                   | false        |
-        | Sln3       | PracticeMgr    |                        | Drs. Inc         | Clinical Safety, Prescribing, Workflow             | false        |
+        | SolutionID | SolutionName   | SummaryDescription     | SupplierName | Capabilities                                       | IsFoundation |
+        | Sln1       | MedicOnline    |                        | Supplier 1   | Appointments Management, Clinical Safety, Workflow | true         |
+        | Sln2       | TakeTheRedPill | Eye opening experience | Supplier 2   | Prescribing, Resource Management                   | false        |
+        | Sln3       | PracticeMgr    |                        | Supplier 2   | Clinical Safety, Prescribing, Workflow             | false        |
 
 Scenario: 3. List all Solutions with no marketing data
 	Given a SolutionDetail Sln1 does not exist
