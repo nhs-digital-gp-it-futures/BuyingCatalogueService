@@ -164,3 +164,8 @@ dotnet_diagnostic.CA1812.severity = none
 
 # CA1820: Test for empty strings using length
 dotnet_diagnostic.CA1820.severity = none
+
+# Auto generated Assembly Hook file
+[NUnit.AssemblyHooks.cs]
+# CA1707: Classes should not contain names with underscores
+dotnet_diagnostic.CA1707.severity = none

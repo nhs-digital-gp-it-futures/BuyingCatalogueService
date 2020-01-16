@@ -10,25 +10,22 @@
     <WarningsAsErrors />
   </PropertyGroup>
 
-  <ItemGroup>
+    <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="nunit" Version="3.12.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.16.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
-    <PackageReference Include="SpecFlow" Version="3.1.21-beta" />
-    <PackageReference Include="SpecFlow.NUnit" Version="3.1.21-beta" />
-    <PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.1.21-beta" />
+    <PackageReference Include="SpecFlow" Version="3.1.78" />
+    <PackageReference Include="SpecFlow.NUnit" Version="3.1.78" />
+    <PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.1.78" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Testing.Data\NHSD.BuyingCatalogue.Testing.Data.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Testing.Tools\NHSD.BuyingCatalogue.Testing.Tools.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Steps\BrowserHardwareRequirements\" />
-    <Folder Include="Steps\BrowsersSupported\" />
-    <Folder Include="Steps\ClientApplicationTypes\" />
   </ItemGroup>
 
 </Project>
