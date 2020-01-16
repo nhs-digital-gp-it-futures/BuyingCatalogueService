@@ -1,4 +1,4 @@
-Feature: Display Marketing Page Dashboard Hybrid Section
+Feature: Display Marketing Page Dashboard Hosting Type Hybrid Section
     As an Authority User
     I want to manage Marketing Page Information for the Hybrid Hosting Type
     So that I can ensure the information is correct
@@ -23,8 +23,8 @@ Feature: Display Marketing Page Dashboard Hybrid Section
             | Sln3     | UrlSln3 | Eye opening experience  | Eye opening6         | [ "Referrals", "Workflow" ]       |
 
     @3643
-    Scenario: 1. Hybrid section is optional and is reported incomplete
+    Scenario: 1. Hosting Type Hybrid section is optional and is reported incomplete
         When a GET request is made for solution dashboard Sln1
         Then a successful response is returned
-        And the solution hybrid section status is INCOMPLETE
-        And the solution hybrid section requirement is Optional
+        And the solution hosting-type-hybrid section status is INCOMPLETE
+        And the solution hosting-type-hybrid section requirement is Optional
