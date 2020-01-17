@@ -10,6 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Commands\UpdateSolutionClientApplicationTypes\**" />
+    <EmbeddedResource Remove="Commands\UpdateSolutionClientApplicationTypes\**" />
+    <None Remove="Commands\UpdateSolutionClientApplicationTypes\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="MediatR" Version="7.0.0" />
@@ -29,10 +35,6 @@
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
             <_Parameter1>$(AssemblyName).UnitTests</_Parameter1>
         </AssemblyAttribute>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Commands\UpdateSolutionClientApplicationTypes\" />
     </ItemGroup>
 
 </Project>
