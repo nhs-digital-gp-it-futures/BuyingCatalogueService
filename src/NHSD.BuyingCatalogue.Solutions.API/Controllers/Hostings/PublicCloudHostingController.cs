@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Hostings;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PublicCloud;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Hostings
@@ -34,5 +35,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Hostings
 
             return Ok(new GetPublicCloudResult(hosting?.PublicCloud));
         }
+
+        [HttpPut]
+        [Route("{id}/sections/hosting-type-public-cloud")]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult> UpdatePublicCloudHosting([FromRoute] [Required] string id,
+            [FromBody] [Required] UpdatePublicCloudViewModel viewModel) =>
+            (await _mediator.Send(new UpdatePublicCloudCommand(id, viewModel)).ConfigureAwait(false)).ToActionResult();
     }
 }
