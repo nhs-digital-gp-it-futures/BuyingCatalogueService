@@ -6,9 +6,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure
     public static class StringExtensions
     {
         public static bool? ToBoolean(this string candidate) =>
-            candidate == null
-                ? (bool?)null
-                : candidate.ToUpperInvariant() switch
+            candidate?.ToUpperInvariant() switch
                 {
                     "YES" => true,
                     "NO" => false,

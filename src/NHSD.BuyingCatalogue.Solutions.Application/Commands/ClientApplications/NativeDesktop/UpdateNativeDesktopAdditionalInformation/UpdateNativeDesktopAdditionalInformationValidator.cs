@@ -4,9 +4,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
 {
     internal sealed class UpdateNativeDesktopAdditionalInformationValidator : IValidator<UpdateNativeDesktopAdditionalInformationCommand, ISimpleResult>
     {
-        public ISimpleResult Validate(UpdateNativeDesktopAdditionalInformationCommand updateNativeDesktopAdditionalInformationCommand)
+        public ISimpleResult Validate(UpdateNativeDesktopAdditionalInformationCommand command)
          => new MaxLengthValidator()
-                .Validate(updateNativeDesktopAdditionalInformationCommand.AdditionalInformation, 500, "additional-information")
+                .Validate(command.AdditionalInformation, 500, "additional-information")
                 .Result();
     }
 }

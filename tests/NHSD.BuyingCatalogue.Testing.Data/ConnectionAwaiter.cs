@@ -6,21 +6,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data
 {
     internal static class ConnectionAwaiter
     {
-        public class ConnectionAwaiterTimeoutException : Exception
-        {
-            public ConnectionAwaiterTimeoutException(string message) : base(message)
-            {
-            }
-
-            public ConnectionAwaiterTimeoutException()
-            {
-            }
-
-            public ConnectionAwaiterTimeoutException(string message, Exception innerException) : base(message, innerException)
-            {
-            }
-        }
-
         public static async Task AwaitConnectionAsync(string connectionString, int timeout = 30)
         {
             var now = DateTime.Now;
@@ -41,7 +26,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data
                 }
             }
 
-            throw new ConnectionAwaiterTimeoutException($"Could not connect to database instance after trying for {timeout} seconds");
+            throw new TimeoutException($"Could not connect to database instance after trying for {timeout} seconds");
         }
     }
 }

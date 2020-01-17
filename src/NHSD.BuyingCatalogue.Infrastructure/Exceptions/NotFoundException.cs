@@ -13,7 +13,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Exceptions
         {
         }
 
-        private NotFoundException(SerializationInfo s, StreamingContext context) : base(s,context)
+        private NotFoundException(SerializationInfo serializationInfo, StreamingContext context) : base(serializationInfo,context)
         {
             
         }

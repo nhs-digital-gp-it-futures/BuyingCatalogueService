@@ -1,23 +1,21 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 
 namespace NHSD.BuyingCatalogue.Infrastructure
 {
     /// <summary>
-    /// Represents a building block of a domain model. It should be a small concept representing the value of an entity.
+    ///     Represents a building block of a domain model. It should be a small concept representing the value of an entity.
     /// </summary>
     public abstract class ValueObject
     {
         /// <summary>
-        /// Gets a list of values of this instance to be used for equality.
+        ///     Gets a list of values of this instance to be used for equality.
         /// </summary>
         /// <returns>A list of values of this instance to be used for equality.</returns>
         protected abstract IEnumerable<object> GetEqualityComponents();
 
         /// <summary>
-        /// Determines whether the specified object is equal to the current object.
+        ///     Determines whether the specified object is equal to the current object.
         /// </summary>
         /// <param name="obj">The object to compare with the current object.</param>
         /// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
@@ -37,7 +35,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure
         }
 
         /// <summary>
-        /// Serves as the default hash function.
+        ///     Serves as the default hash function.
         /// </summary>
         /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode()
@@ -53,7 +51,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure
         }
 
         /// <summary>
-        /// Determines whether the specified objects are equal.
+        ///     Determines whether the specified objects are equal.
         /// </summary>
         /// <param name="a">The first object.</param>
         /// <param name="b">The second object.</param>
@@ -74,7 +72,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure
         }
 
         /// <summary>
-        /// Determines whether the specified objects are not equal.
+        ///     Determines whether the specified objects are not equal.
         /// </summary>
         /// <param name="a">The first object.</param>
         /// <param name="b">The second object.</param>
