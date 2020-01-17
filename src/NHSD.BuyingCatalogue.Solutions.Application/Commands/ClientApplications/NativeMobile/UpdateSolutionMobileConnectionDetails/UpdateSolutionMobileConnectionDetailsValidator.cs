@@ -4,7 +4,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
 {
     internal sealed class UpdateSolutionMobileConnectionDetailsValidator : IValidator<UpdateSolutionMobileConnectionDetailsCommand, ISimpleResult>
     {
-        public ISimpleResult Validate(UpdateSolutionMobileConnectionDetailsCommand updateSolutionMobileConnectionDetailsCommand) =>
-            new MaxLengthValidator().Validate(updateSolutionMobileConnectionDetailsCommand.Data.ConnectionRequirementsDescription, 300, "connection-requirements-description").Result();
+        public ISimpleResult Validate(UpdateSolutionMobileConnectionDetailsCommand command) =>
+            new MaxLengthValidator().Validate(command.Data.ConnectionRequirementsDescription, 300, "connection-requirements-description").Result();
     }
 }

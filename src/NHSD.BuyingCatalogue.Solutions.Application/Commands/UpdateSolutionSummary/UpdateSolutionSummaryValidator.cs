@@ -4,13 +4,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSumm
 {
     internal sealed class UpdateSolutionSummaryValidator : IValidator<UpdateSolutionSummaryCommand, ISimpleResult>
     {
-        public ISimpleResult Validate(UpdateSolutionSummaryCommand updateSolutionSummaryCommand)
+        public ISimpleResult Validate(UpdateSolutionSummaryCommand command)
             => new RequiredMaxLengthResult(
-                new RequiredValidator().Validate(updateSolutionSummaryCommand.Data.Summary, "summary").Result(),
+                new RequiredValidator().Validate(command.Data.Summary, "summary").Result(),
                 new MaxLengthValidator()
-                    .Validate(updateSolutionSummaryCommand.Data.Summary, 300, "summary")
-                    .Validate(updateSolutionSummaryCommand.Data.Description, 1000, "description")
-                    .Validate(updateSolutionSummaryCommand.Data.Link, 1000, "link")
+                    .Validate(command.Data.Summary, 300, "summary")
+                    .Validate(command.Data.Description, 1000, "description")
+                    .Validate(command.Data.Link, 1000, "link")
                     .Result()
                 );
     }

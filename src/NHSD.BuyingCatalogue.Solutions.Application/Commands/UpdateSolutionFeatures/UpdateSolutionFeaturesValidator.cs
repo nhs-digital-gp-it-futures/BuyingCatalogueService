@@ -5,12 +5,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeat
 {
     internal sealed class UpdateSolutionFeaturesValidator : IValidator<UpdateSolutionFeaturesCommand, ISimpleResult>
     {
-        public ISimpleResult Validate(UpdateSolutionFeaturesCommand updateSolutionFeaturesCommand)
+        public ISimpleResult Validate(UpdateSolutionFeaturesCommand command)
         {
-            var listing = updateSolutionFeaturesCommand.Data.Listing.ToList();
+            var listing = command.Data.Listing.ToList();
             var validator = new MaxLengthValidator();
 
-            for (int i = 0; i < listing.Count(); i++)
+            for (int i = 0; i < listing.Count; i++)
             {
                 validator.Validate(listing[i], 100, $"listing-{i + 1}");
             }

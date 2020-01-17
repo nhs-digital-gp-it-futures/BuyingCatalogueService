@@ -62,12 +62,12 @@ namespace NHSD.BuyingCatalogue.Infrastructure
         /// Gets the typed Enumerator based on the supplied <paramref name="predicate"/>.
         /// </summary>
         /// <typeparam name="T">Type of Enumerator.</typeparam>
-        /// <typeparam name="V">Property type of the Enumerator.</typeparam>
+        /// <typeparam name="TV">Property type of the Enumerator.</typeparam>
         /// <param name="value">Property value.</param>
         /// <param name="description">Property description.</param>
         /// <param name="predicate">Filter to find the correctly typed Enumerator.</param>
         /// <returns>The typed Enumerator based on the supplied <paramref name="predicate"/>.</returns>
-        private static T Parse<T, V>(V value, string description, Func<T, bool> predicate) where T : Enumerator
+        private static T Parse<T, TV>(TV value, string description, Func<T, bool> predicate) where T : Enumerator
             => GetAll<T>().FirstOrDefault(predicate) ?? throw new InvalidOperationException($"'{value}' is not a valid {description} in {typeof(T)}");
 
         /// <summary>
@@ -76,9 +76,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure
         /// <param name="obj">The object to compare with the current object.</param>
         /// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
         public override bool Equals(object obj)
-            => (obj is null || !(obj is Enumerator comparisonValue)) ?
-                false :
-                GetType() == comparisonValue.GetType() && Equals(Id, comparisonValue.Id);
+            => (!(obj is null) && obj is Enumerator comparisonValue) && (GetType() == comparisonValue.GetType() && Equals(Id, comparisonValue.Id));
 
         /// <summary>
         /// Serves as the default hash function.
