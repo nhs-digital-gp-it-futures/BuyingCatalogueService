@@ -1,3 +1,7 @@
+variables:
+  dockerVersion: '19.03.5'
+  dotnetVersion: '3.1.x'
+
 trigger:
 - master
 - development
@@ -16,8 +20,8 @@ jobs:
   steps:
   - task: DockerInstaller@0
     inputs:
-      dockerVersion: '19.03.5'
-    displayName: 'Docker: Install - 19.03.5'
+      dockerVersion: $(dockerVersion)
+    displayName: 'Docker: Install - $(dockerVersion)'
 
   - task: AzurePowerShell@4
     displayName: 'Setup Test Database'
@@ -27,10 +31,10 @@ jobs:
       azurePowerShellVersion: LatestVersion
 
   - task: UseDotNet@2
-    displayName: 'Use DotNet Core 3.1.x'
+    displayName: 'Use DotNet Core $(dotnetVersion)'
     inputs:
       packageType: 'sdk'
-      version: '3.1.x'
+      version: $(dotnetVersion)
       includePreviewVersions: false
 
   - task: DotNetCoreCLI@2
@@ -76,6 +80,33 @@ jobs:
   condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')))
   dependsOn: buildAndTest
   steps:
+  - task: DockerInstaller@0
+    inputs:
+      dockerVersion: $(dockerVersion)
+    displayName: 'Docker: Install - $(dockerVersion)'
+
+  - task: UseDotNet@2
+    displayName: 'Use DotNet Core $(dotnetVersion)'
+    inputs:
+      packageType: 'sdk'
+      version: $(dotnetVersion)
+      includePreviewVersions: false
+
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      projects: NHSD.BuyingCatalogue.sln
+
+  - task: DotNetCoreCLI@2
+    displayName: Publish
+    inputs:
+      command: publish
+      publishWebProjects: false
+      projects: '**/*NHSD.BuyingCatalogue.API.csproj'
+      arguments: ' --configuration Release --output "docker/out"'
+      zipAfterPublish: false
+      modifyOutputPath: false
+
   - task: DockerCompose@0
     displayName: 'Docker Build: Dev'
     inputs:
