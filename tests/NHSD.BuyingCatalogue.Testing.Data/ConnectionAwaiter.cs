@@ -26,7 +26,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data
                 }
             }
 
-            throw new Exception($"Could not connect to database instance after trying for {timeout} seconds");
+            throw new TimeoutException($"Could not connect to database instance after trying for {timeout} seconds");
         }
     }
 }

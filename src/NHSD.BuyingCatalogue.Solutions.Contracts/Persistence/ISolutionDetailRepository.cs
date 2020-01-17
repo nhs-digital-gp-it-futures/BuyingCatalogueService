@@ -46,7 +46,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         /// <param name="updateSolutionHostingRequest">The ID of the solution</param>
         /// <param name="token">A token to notify if the task is cancelled</param>
         /// <returns>A task containing the hosting data</returns>
-        Task UpdateHostingAsync(IUpdateSolutionHostingRequest updateSolutionHostingRequest, CancellationToken token);
+        Task UpdateHostingAsync(IUpdateSolutionHostingRequest updateSolutionHostingRequest, CancellationToken cancellationToken);
 
         /// <summary>
         /// Retrieve the hosting details for a solution

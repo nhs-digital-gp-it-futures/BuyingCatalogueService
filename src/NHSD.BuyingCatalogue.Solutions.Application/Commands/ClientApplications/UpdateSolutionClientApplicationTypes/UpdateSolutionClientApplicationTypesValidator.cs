@@ -4,9 +4,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
 {
     internal sealed class UpdateSolutionClientApplicationTypesValidator : IValidator<UpdateSolutionClientApplicationTypesCommand, ISimpleResult>
     {
-        public ISimpleResult Validate(UpdateSolutionClientApplicationTypesCommand updateSolutionClientApplicationTypesCommand)
+        public ISimpleResult Validate(UpdateSolutionClientApplicationTypesCommand command)
             => new RequiredValidator()
-                .Validate(updateSolutionClientApplicationTypesCommand.Data.FilteredClientApplicationTypes, "client-application-types")
+                .Validate(command.Data.FilteredClientApplicationTypes, "client-application-types")
                 .Result();
     }
 }
