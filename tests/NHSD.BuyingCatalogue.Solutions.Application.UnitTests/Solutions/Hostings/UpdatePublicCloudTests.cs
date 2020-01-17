@@ -30,7 +30,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
         private string _url;
         private HashSet<string> _connectivity;
 
-        private Hosting hosting;
+        private Hosting _hosting;
+        private string _hostingJson;
 
         [SetUp]
         public void Setup()
@@ -44,7 +45,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
             _dataMock.Setup(x => x.URL).Returns(() => _url);
             _dataMock.Setup(x => x.ConnectivityRequired).Returns(() => _connectivity);
 
-            hosting = new Hosting
+            _hosting = new Hosting
             {
                 PublicCloud = new PublicCloud()
                 {
@@ -53,13 +54,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                     ConnectivityRequired = _connectivity.FirstOrDefault()
                 }
             };
-            var hostingJson = JsonConvert.SerializeObject(hosting);
-            SetUpMockSolutionRepositoryGetByIdAsync(hostingJson);
+
+            _hostingJson = JsonConvert.SerializeObject(_hosting);
         }
 
         [Test]
         public async Task ShouldUpdatePublicCloud()
         {
+            SetUpMockSolutionRepositoryGetByIdAsync(_hostingJson);
             var validationResult = await UpdatePublicCloud().ConfigureAwait(false);
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
@@ -77,6 +79,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
         [Test]
         public async Task ShouldUpdatePublicCloudToNull()
         {
+            SetUpMockSolutionRepositoryGetByIdAsync(_hostingJson);
+
             _summary = null;
             _url = null;
             _connectivity.Clear();
@@ -96,6 +100,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
         [Test]
         public async Task ShouldUpdatePublicCloudyAndNothingElse()
         {
+            SetUpMockSolutionRepositoryGetByIdAsync(_hostingJson);
+
             var calledBack = false;
 
             Context.MockSolutionDetailRepository
@@ -126,6 +132,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
         [TestCase(501, 1001, "summary", "link")]
         public async Task ShouldNotUpdateInvalidPublicCloud(int summary, int link, params string[] expected)
         {
+            SetUpMockSolutionRepositoryGetByIdAsync(_hostingJson);
+
             _summary = new string('a', summary);
             _url = new string('a', link);
 
