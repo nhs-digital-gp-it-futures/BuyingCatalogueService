@@ -48,6 +48,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
             CreateMap<NativeDesktopMemoryAndStorage, INativeDesktopMemoryAndStorage>().As<NativeDesktopMemoryAndStorageDto>();
             CreateMap<PublicCloud, PublicCloudDto>();
             CreateMap<PublicCloud, IPublicCloud>().As<PublicCloudDto>();
+            CreateMap<PrivateCloud, PrivateCloudDto>();
+            CreateMap<PrivateCloud, IPrivateCloud>().As<PrivateCloudDto>();
         }
     }
 }
