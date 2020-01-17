@@ -40,7 +40,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
         }
 
         [Test]
-        public async Task UpdatePrivateCloudDetails()
+        public async Task UpdateValidMemoryAndStorageDetails()
         {
             var request = new UpdatePrivateCloudViewModel();
 
