@@ -10,6 +10,7 @@ using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
@@ -671,6 +672,39 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             else
             {
                 previewResult.Sections.ClientApplicationTypes.Should().BeNull();
+            }
+        }
+
+        [TestCase("Some Summary", "Some url", "Some Connectivity", true)]
+        [TestCase(" ", "Some url", "Some Connectivity", true)]
+        [TestCase("Some Summary", "", "Some Connectivity", true)]
+        [TestCase("Some Summary", "Some url", "     ", true)]
+        [TestCase("     ", "Some url", null, true)]
+        [TestCase("Some Summary", "     ", "     ", true)]
+        [TestCase("     ", "     ", "Some Connectivity", true)]
+        [TestCase(null, null, "Some Connectivity", true)]
+        [TestCase("     ", "", "        ", false)]
+        [TestCase(null, null, null, false)]
+        public async Task IfPublicCloudEmptyThenItHasNoData(string summary, string url, string connectivityRequired, bool hasData)
+        {
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                    s.Hosting == Mock.Of<IHosting>(h =>
+                        h.PublicCloud == Mock.Of<IPublicCloud>(p => p.Summary == summary
+                                                                    && p.URL == url
+                                                                    && p.ConnectivityRequired == connectivityRequired))))
+                .ConfigureAwait(false);
+
+            if (hasData)
+            {
+                previewResult.Sections.PublicCloud.Answers.Summary.Should().Be(summary);
+                previewResult.Sections.PublicCloud.Answers.URL.Should().Be(url);
+                previewResult.Sections.PublicCloud.Answers.ConnectivityRequired.Should().Be(connectivityRequired);
+
+                previewResult.Sections.PublicCloud.Answers.HasData.Should().BeTrue();
+            }
+            else
+            {
+                previewResult.Sections.PublicCloud.Should().BeNull();
             }
         }
 

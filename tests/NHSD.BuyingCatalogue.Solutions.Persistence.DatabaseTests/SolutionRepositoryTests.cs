@@ -81,6 +81,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithAboutUrl("AboutUrl")
                 .WithFeatures("Features")
                 .WithClientApplication("Browser-based")
+                .WithHosting("Hosting")
                 .Build()
                 .InsertAndSetCurrentForSolutionAsync()
                 .ConfigureAwait(false);
@@ -95,6 +96,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             solution.AboutUrl.Should().Be("AboutUrl");
             solution.Features.Should().Be("Features");
             solution.ClientApplication.Should().Be("Browser-based");
+            solution.Hosting.Should().Be("Hosting");
             solution.SupplierName.Should().Be(_supplierName);
             solution.IsFoundation.Should().BeFalse();
             solution.PublishedStatus.Should().Be(PublishedStatus.Published);
