@@ -77,7 +77,7 @@ jobs:
 
 - job: dockerImageBuildAndPush
   displayName: Build and push docker containers to the acr
-  #condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')))
+  condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')))
   dependsOn: buildAndTest
   steps:
   - task: DockerInstaller@0
@@ -117,7 +117,6 @@ jobs:
 
   - task: DockerCompose@0
     displayName: 'Docker Build: Test'
-    condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')))
     inputs:
       azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
       azureContainerRegistry: '{"loginServer":"gpitfuturestestacr.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-test-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturestestacr"}'
@@ -126,7 +125,6 @@ jobs:
 
   - task: DockerCompose@0
     displayName: 'Docker Build: Pre-Prod'
-    condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')))
     inputs:
       azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
       azureContainerRegistry: '{"loginServer":"gpitfuturespprodacr.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-pprod-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturespprodacr"}'
@@ -135,7 +133,6 @@ jobs:
 
   - task: DockerCompose@0
     displayName: 'Docker Build: Prod'
-    condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')))
     inputs:
       azureSubscription: 'NHSAPP-BuyingCatalogue (Prod)'
       azureContainerRegistry: '{"loginServer":"gpitfuturesprodacr.azurecr.io", "id" : "/subscriptions/d1be8dbc-1a9f-4b7b-ba51-037116110e00/resourceGroups/gpitfutures-prod-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturesprodacr"}'
@@ -144,7 +141,6 @@ jobs:
 
   - task: DockerCompose@0
     displayName: 'Docker Push: Dev'
-    condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')))
     inputs:
       azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
       azureContainerRegistry: '{"loginServer":"gpitfuturesdevacr.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-dev-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturesdevacr"}'
@@ -153,7 +149,6 @@ jobs:
 
   - task: DockerCompose@0
     displayName: 'Docker Push: Test'
-    condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')))
     inputs:
       azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
       azureContainerRegistry: '{"loginServer":"gpitfuturestestacr.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-test-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturestestacr"}'
@@ -162,7 +157,6 @@ jobs:
 
   - task: DockerCompose@0
     displayName: 'Docker Push: Pre-Prod'
-    condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')))
     inputs:
       azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
       azureContainerRegistry: '{"loginServer":"gpitfuturespprodacr.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-pprod-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturespprodacr"}'
@@ -171,7 +165,6 @@ jobs:
 
   - task: DockerCompose@0
     displayName: 'Docker Push: Prod'
-    condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')))
     inputs:
       azureSubscription: 'NHSAPP-BuyingCatalogue (Prod)'
       azureContainerRegistry: '{"loginServer":"gpitfuturesprodacr.azurecr.io", "id" : "/subscriptions/d1be8dbc-1a9f-4b7b-ba51-037116110e00/resourceGroups/gpitfutures-prod-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturesprodacr"}'
