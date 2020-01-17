@@ -7,6 +7,8 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
 {
     internal sealed class SolutionList
     {
+        public List<SolutionListItem> Solutions { get; }
+
         internal SolutionList(ISet<Guid> capabilityIdList, IEnumerable<ISolutionListResult> solutionListResults)
         {
             var solutions = new Dictionary<string, SolutionListItem>();
@@ -21,10 +23,9 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
             }
 
             Solutions = solutions.Values
-                .Where(s => s.Capabilities.Select(c=>c.Id).Intersect(capabilityIdList).Count() == capabilityIdList.Count )
+                .Where(s => s.Capabilities.Select(c => c.Id).Intersect(capabilityIdList).Count() ==
+                            capabilityIdList.Count)
                 .ToList();
         }
-
-        public List<SolutionListItem> Solutions { get; }
     }
 }
