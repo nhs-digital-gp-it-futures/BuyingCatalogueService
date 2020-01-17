@@ -5,5 +5,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
     public interface IHosting
     {
         IPublicCloud PublicCloud { get; }
+        IPrivateCloud PrivateCloud { get; }
     }
 }
