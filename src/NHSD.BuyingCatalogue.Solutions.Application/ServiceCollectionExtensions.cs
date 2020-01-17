@@ -20,6 +20,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.Nat
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionNativeMobileHardwareRequirements;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.UpdateSolutionClientApplicationTypes;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PublicCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
@@ -121,7 +122,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<IValidator<UpdateSolutionNativeDesktopThirdPartyCommand, ISimpleResult>, UpdateSolutionNativeDesktopThirdPartyValidator>()
 
                 .AddTransient<IExecutor<UpdateNativeDesktopAdditionalInformationCommand>, UpdateNativeDesktopAdditionalInformationExecutor>()
-                .AddTransient<IValidator<UpdateNativeDesktopAdditionalInformationCommand, ISimpleResult>, UpdateNativeDesktopAdditionalInformationValidator>();
+                .AddTransient<IValidator<UpdateNativeDesktopAdditionalInformationCommand, ISimpleResult>, UpdateNativeDesktopAdditionalInformationValidator>()
+
+                .AddTransient<IExecutor<UpdatePublicCloudCommand>, UpdatePublicCloudExecutor>()
+                .AddTransient<IValidator<UpdatePublicCloudCommand, ISimpleResult>, UpdatePublicCloudValidator>();
         }
     }
 }

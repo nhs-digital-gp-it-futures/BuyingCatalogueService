@@ -1,4 +1,4 @@
-Feature:  Display Marketing Page Form Public Cloud Section
+Feature: Display Marketing Page Form Public Cloud Section
     As a Supplier
     I want to manage Marketing Page Information for the Solution's Public Cloud Section
     So that I can ensure the information is correct
