@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
       <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -8,12 +8,6 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Commands\UpdateSolutionClientApplicationTypes\**" />
-    <EmbeddedResource Remove="Commands\UpdateSolutionClientApplicationTypes\**" />
-    <None Remove="Commands\UpdateSolutionClientApplicationTypes\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
