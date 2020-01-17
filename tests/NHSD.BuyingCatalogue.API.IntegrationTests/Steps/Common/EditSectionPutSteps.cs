@@ -37,6 +37,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             { "native-desktop-memory-and-storage", typeof(NativeDesktopMemoryAndStoragePayload) },
             { "native-desktop-third-party", typeof(NativeDesktopThirdParty) },
             { "native-desktop-additional-information", typeof(NativeDesktopAdditionalInformationPayload) },
+            { "hosting-type-public-cloud", typeof(PublicCloudPayload) },
             { "hosting-type-private-cloud", typeof(HostingPrivateCloudPayload) }
         };
 
@@ -229,6 +230,18 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
         {
             [JsonProperty("additional-information")]
             public string AdditionalInformation { get; set; }
+        }
+
+        private class PublicCloudPayload
+        {
+            [JsonProperty("summary")]
+            public string Summary { get; set; }
+
+            [JsonProperty("link")]
+            public string URL { get; set; }
+
+            [JsonProperty("requires-hscn")]
+            public List<string> ConnectivityRequired { get; set; }
         }
 
         private class HostingPrivateCloudPayload

@@ -24,6 +24,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.Nat
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionNativeMobileFirst;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionNativeMobileHardwareRequirements;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.UpdateSolutionClientApplicationTypes;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PublicCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PrivateCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
@@ -121,6 +122,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
         public UpdateNativeDesktopAdditionalInformationHandler UpdateNativeDesktopAdditionalInformationHandler =>
             (UpdateNativeDesktopAdditionalInformationHandler)_scope.UpdateNativeDesktopAdditionalInformationHandler;
 
+        public UpdatePublicCloudHandler UpdatePublicCloudHandler =>
+            (UpdatePublicCloudHandler)_scope.UpdatePublicCloudHandler;
+
         public UpdatePrivateCloudHandler UpdatePrivateCloudHandler =>
             (UpdatePrivateCloudHandler)_scope.UpdatePrivateCloudHandler;
 
@@ -212,6 +216,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public IRequestHandler<UpdateNativeDesktopAdditionalInformationCommand, ISimpleResult> UpdateNativeDesktopAdditionalInformationHandler { get; }
 
+            public IRequestHandler<UpdatePublicCloudCommand, ISimpleResult> UpdatePublicCloudHandler { get; }
+
             public IRequestHandler<UpdatePrivateCloudCommand, ISimpleResult> UpdatePrivateCloudHandler { get; }
 
             public Scope(IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
@@ -242,6 +248,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdateSolutionNativeDesktopThirdPartyCommand, ISimpleResult> updateSolutionNativeDesktopThirdPartyHandler,
                 IRequestHandler<UpdateNativeDesktopMemoryAndStorageCommand, ISimpleResult> updateNativeDestkopMemoryAndStorageHandler,
                 IRequestHandler<UpdateNativeDesktopAdditionalInformationCommand, ISimpleResult> updateNativeDesktopAdditionalInformationHandler,
+                IRequestHandler<UpdatePublicCloudCommand, ISimpleResult> updatePublicCloudHandler,
                 IRequestHandler<UpdatePrivateCloudCommand, ISimpleResult> updatePrivateCloudHandler
                 )
             {
@@ -273,6 +280,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 UpdateSolutionNativeDesktopThirdPartyHandler = updateSolutionNativeDesktopThirdPartyHandler;
                 UpdateNativeDesktopMemoryAndStorageHandler = updateNativeDestkopMemoryAndStorageHandler;
                 UpdateNativeDesktopAdditionalInformationHandler = updateNativeDesktopAdditionalInformationHandler;
+                UpdatePublicCloudHandler = updatePublicCloudHandler;
                 UpdatePrivateCloudHandler = updatePrivateCloudHandler;
             }
         }
