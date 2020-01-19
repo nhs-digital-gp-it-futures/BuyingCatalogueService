@@ -12,7 +12,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Hostings
 
         [JsonProperty("hosting-model")] public string HostingModel { get; set; }
 
-        [JsonProperty("requires-hscn")] public HashSet<string> ConnectivityRequired { get; set; }
+        [JsonProperty("requires-hscn")] public HashSet<string> ConnectivityRequired { get; }
 
         public GetHostingTypeHybridResult(IHostingTypeHybrid hostingTypeHybrid)
         {
