@@ -26,5 +26,5 @@ Feature: Display Marketing Page Dashboard Private Cloud Section
     Scenario: 1. Private cloud section is optional and is reported incomplete
         When a GET request is made for solution dashboard Sln1
         Then a successful response is returned
-        And the solution private-cloud section status is INCOMPLETE
-        And the solution private-cloud section requirement is Optional
+        And the solution hosting-type-private-cloud section status is INCOMPLETE
+        And the solution hosting-type-private-cloud section requirement is Optional

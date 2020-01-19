@@ -26,5 +26,5 @@ Feature: Display Marketing Page Dashboard Public Cloud Section
     Scenario: 1. Public cloud section is optional and is reported incomplete
         When a GET request is made for solution dashboard Sln1
         Then a successful response is returned
-        And the solution public-cloud section status is INCOMPLETE
-        And the solution public-cloud section requirement is Optional
+        And the solution hosting-type-public-cloud section status is INCOMPLETE
+        And the solution hosting-type-public-cloud section requirement is Optional
