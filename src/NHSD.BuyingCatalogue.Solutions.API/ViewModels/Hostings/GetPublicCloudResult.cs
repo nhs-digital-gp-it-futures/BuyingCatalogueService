@@ -20,7 +20,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Hostings
             Summary = publicCloud?.Summary;
             URL = publicCloud?.URL;
             ConnectivityRequired = publicCloud?.ConnectivityRequired != null
-                ? new HashSet<string> {publicCloud?.ConnectivityRequired}
+                ? new HashSet<string> { publicCloud?.ConnectivityRequired }
                 : new HashSet<string>();
         }
     }

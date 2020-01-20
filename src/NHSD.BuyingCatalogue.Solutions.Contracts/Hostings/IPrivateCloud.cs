@@ -1,4 +1,4 @@
-namespace NHSD.BuyingCatalogue.Solutions.Contracts
+namespace NHSD.BuyingCatalogue.Solutions.Contracts.Hostings
 {
     public interface IPrivateCloud
     {
