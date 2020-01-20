@@ -51,6 +51,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                 RequiresHSCN = "How much wood would a woodchuck chuck if a woodchuck could chuck wood?"
             };
 
+            originalHosting.OnPremise = new OnPremise
+            {
+                Summary = "Private Summary",
+                Link = "www.privatelink.com",
+                HostingModel = "Hosting Model",
+                RequiresHSCN = "This Solution requires a HSCN/N3 connection"
+            };
+
             _hostingResult = Mock.Of<IHostingResult>(r =>
                 r.Id == _solutionId &&
                 r.Hosting == JsonConvert.SerializeObject(originalHosting)

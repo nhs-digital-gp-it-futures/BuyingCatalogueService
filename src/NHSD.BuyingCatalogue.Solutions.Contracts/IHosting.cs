@@ -6,5 +6,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
     {
         IPublicCloud PublicCloud { get; }
         IPrivateCloud PrivateCloud { get; }
+        IOnPremise OnPremise { get; }
     }
 }
