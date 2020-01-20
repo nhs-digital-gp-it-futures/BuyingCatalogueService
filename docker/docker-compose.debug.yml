@@ -3,7 +3,7 @@ version: '3.5'
 services:
 
   db:
-    image: nhsd-buying-catalogue-debug-db:latest
+    image: nhsd/buying-catalogue-debug-db:latest
     build: 
       context: "../../DataModel"
       dockerfile: Dockerfile
@@ -14,11 +14,11 @@ services:
       - nhsd_debug_network
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=Your_password456
+      - SA_PASSWORD=MyTestPassword123!
       - MSSQL_PID=Express
-      - DB_NAME=buyingcataloguegpit
+      - DB_NAME=${NHSD_LOCAL_DB_NAME:-buyingcataloguegpit}
       - DB_USER=${NHSD_LOCAL_DB_USERNAME:-NHSD}
-      - DB_PASSWORD=${NHSD_LOCAL_DB_PASSWORD:-Str0nk3RP455W0rD}
+      - DB_PASSWORD=${NHSD_LOCAL_DB_PASSWORD:-DisruptTheMarket1!}
     ports:
       - "${NHSD_LOCAL_DB_PORT:-1430}:1433"
       

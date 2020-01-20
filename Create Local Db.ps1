@@ -1,8 +1,10 @@
 ﻿param (
     [int]$port = 1430,
     [string]$username = "NHSD",
-    [string]$password = "Str0nk3RP@55W0rD"
+    [string]$password = "DisruptTheMarket1!"
 )
+
+$db_name="buyingcataloguegpit"
 
 function containsSymbol() {
     $SymbolArray = "!@#$^&*()-+={}[]\|/:;<>?,.".ToCharArray()
@@ -43,6 +45,7 @@ function setEnvVariables() {
     $env:NHSD_LOCAL_DB_PORT=$port
     $env:NHSD_LOCAL_DB_USERNAME=$username
     $env:NHSD_LOCAL_DB_PASSWORD=$password
+    $env:NHSD_LOCAL_DB_NAME=$db_name
 }
 
 docker-compose -f "docker/docker-compose.debug.yml" down -v --rmi "all"
@@ -53,7 +56,7 @@ setEnvVariables
 
 docker-compose -f "docker/docker-compose.debug.yml" up -d
 
-$connectionString = "Data Source=127.0.0.1,$port;Initial Catalog=buyingcataloguegpit;MultipleActiveResultSets=True;User Id=$username;Password=$password" 
+$connectionString = "Data Source=127.0.0.1,$port;Initial Catalog=$db_name;MultipleActiveResultSets=True;User Id=$username;Password=$password" 
 
 Write-Host "`nYour connection string for BuyingCatalogue is:`n"
 

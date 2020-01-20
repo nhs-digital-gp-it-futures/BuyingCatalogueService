@@ -2,8 +2,8 @@
 
 port=${1:-1430}
 username=${2:-NHSD}
-password=${3:-Str0nk3RP@55W0rD}
-
+password=${3:-DisruptTheMarket1!}
+db_name="buyingcataloguegpit"
 validate() {
 	message="The password does not meet SQL Server password policy requirements because it is not complex enough.\nThe password must be at least 8 characters long and contain characters from three of the following four sets: Uppercase letters, Lowercase letters, Base 10 digits, and Symbols"
 	declare -i count=0
@@ -33,6 +33,7 @@ set_env_variables() {
 	export NHSD_LOCAL_DB_PORT="$port"
 	export NHSD_LOCAL_DB_USERNAME="$username"
 	export NHSD_LOCAL_DB_PASSWORD="$password"
+	export NHSD_LOCAL_DB_NAME="$db_name"
 }
 
 docker-compose -f "docker/docker-compose.debug.yml" down -v --rmi "all"
