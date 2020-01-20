@@ -14,21 +14,26 @@ Background:
         | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | GPs-R-Us         | 1                | Sup 1      |
-    And SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription | FullDescription   | Hosting                                                                                                                                            |
-        | Sln1     | UrlSln1  |                    | Online medicine 1 | { "PublicCloud": { "Summary": "Some summary", "URL": "www.somelink.com", "ConnectivityRequired": "This Solution requires a HSCN/N3 connection" } } |
-        | Sln2     | UrlSln2  |                    | Online medicine 1 | { }                                                                                                                                                |
+ 
 
 @3639
-Scenario: 1. Public cloud section is optional and is reported complete
-    When a GET request is made for solution dashboard Sln1
+Scenario Outline: 1. Solution description section is optional and is reported complete if there is text in the public Cloud
+    Given SolutionDetail exist
+        | Solution | AboutUrl | SummaryDescription | FullDescription   | Hosting   |
+        | Sln1     | UrlSln1  |                    | Online medicine 1 | <Hosting> |
+    When a GET request is made for solution dashboard <Solution>
     Then a successful response is returned
-    And the solution hosting-type-public-cloud section status is COMPLETE
+    And the solution hosting-type-public-cloud section status is <Status>
     And the solution hosting-type-public-cloud section requirement is Optional
+Examples:
+    | Solution | Status     | Hosting                                                                                                                                            |
+    | Sln1     | INCOMPLETE | { }                                                                                                                                                |
+    | Sln1     | INCOMPLETE |                                                                                                                                                    |
+    | Sln1     | INCOMPLETE | { "PublicCloud": null }                                                                                                                            |
+    | Sln1     | COMPLETE   | { "PublicCloud": {"Summary": "Some summary" } }                                                                                                    |
+    | Sln1     | COMPLETE   | { "PublicCloud": {"URL": "Some url" } }                                                                                                            |
+    | Sln1     | COMPLETE   | { "PublicCloud": {"ConnectivityRequired": "Some connectivity" } }                                                                                  |
+    | Sln1     | COMPLETE   | { "PublicCloud": { "Summary": "Some summary", "URL": "www.somelink.com", "ConnectivityRequired": "This Solution requires a HSCN/N3 connection" } } |
+    | Sln2     | INCOMPLETE |                                                                                                                                                    |
 
-@3639
-Scenario: 2. Public cloud section is optional and is reported incomplete
-    When a GET request is made for solution dashboard Sln2
-    Then a successful response is returned
-    And the solution hosting-type-public-cloud section status is INCOMPLETE
-    And the solution hosting-type-public-cloud section requirement is Optional
+
