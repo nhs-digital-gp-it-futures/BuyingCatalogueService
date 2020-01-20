@@ -1,0 +1,32 @@
+version: '3.5'
+
+services:
+
+  db:
+    image: nhsd-buying-catalogue-debug-db:latest
+    build: 
+      context: "../../DataModel"
+      dockerfile: Dockerfile
+    container_name: nhsd_debug_db
+    volumes:
+      - nhsd_debug_volume:/var/opt/mssql/
+    networks:
+      - nhsd_debug_network
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Your_password456
+      - MSSQL_PID=Express
+      - DB_NAME=buyingcataloguegpit
+      - DB_USER=${NHSD_LOCAL_DB_USERNAME:-NHSD}
+      - DB_PASSWORD=${NHSD_LOCAL_DB_PASSWORD:-Str0nk3RP455W0rD}
+    ports:
+      - "${NHSD_LOCAL_DB_PORT:-1430}:1433"
+      
+networks: 
+  nhsd_debug_network:
+    name: nhsd_debug_network
+    driver: bridge
+
+volumes:
+  nhsd_debug_volume:
+    name: nhsd_debug_volume
