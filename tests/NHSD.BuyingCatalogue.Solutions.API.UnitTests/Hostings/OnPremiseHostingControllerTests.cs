@@ -54,7 +54,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
                                                          p.Link == link &&
                                                          p.HostingModel == hostingModel &&
                                                          p.RequiresHSCN == requiredHscn)));
-            var result = await _controller.GetPremiseHosting(_solutionId).ConfigureAwait(false) as ObjectResult;
+            var result = await _controller.Get(_solutionId).ConfigureAwait(false) as ObjectResult;
             result.Should().NotBeNull();
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
             result.Value.Should().BeOfType<GetOnPremiseResult>();
@@ -81,7 +81,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
                     It.IsAny<CancellationToken>()))
                 .ReturnsAsync(null as IHosting);
 
-            var result = await _controller.GetPremiseHosting(_solutionId).ConfigureAwait(false) as ObjectResult;
+            var result = await _controller.Get(_solutionId).ConfigureAwait(false) as ObjectResult;
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
             result.Value.Should().BeOfType<GetOnPremiseResult>();
 

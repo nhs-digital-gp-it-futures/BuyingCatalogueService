@@ -25,7 +25,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Hostings
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> GetPremiseHosting([FromRoute] [Required] string id)
+        public async Task<ActionResult> Get([FromRoute] [Required] string id)
         {
             var hosting =
                 await _mediator.Send(new GetHostingBySolutionIdQuery(id)).ConfigureAwait(false);

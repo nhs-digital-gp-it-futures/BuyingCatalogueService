@@ -50,8 +50,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
             CreateMap<PublicCloud, IPublicCloud>().As<PublicCloudDto>();
             CreateMap<PrivateCloud, PrivateCloudDto>();
             CreateMap<PrivateCloud, IPrivateCloud>().As<PrivateCloudDto>();
-            CreateMap<OnPremise, PremiseDto>();
-            CreateMap<OnPremise, IOnPremise>().As<PremiseDto>();
+            CreateMap<OnPremise, OnPremiseDto>();
+            CreateMap<OnPremise, IOnPremise>().As<OnPremiseDto>();
         }
     }
 }

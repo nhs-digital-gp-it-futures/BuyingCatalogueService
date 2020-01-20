@@ -59,7 +59,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                 RequiresHSCN = "This Solution requires a HSCN/N3 connection"
             };
 
-
             _hostingResult = Mock.Of<IHostingResult>(r =>
                 r.Id == _solutionId &&
                 r.Hosting == JsonConvert.SerializeObject(originalHosting)

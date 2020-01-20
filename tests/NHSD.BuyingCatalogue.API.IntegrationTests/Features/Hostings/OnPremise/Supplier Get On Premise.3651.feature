@@ -30,11 +30,10 @@ Scenario: 1. On Premise is retreived for the solution
     And the requires-hscn element contains
         | Elements                                    |
         | This Solution requires a HSCN/N3 connection |
-
     
 @3651
 Scenario: 2. On Premise is retrieved for the solution where no public cloud data exists
-    When a GET request is made for hosting-type-private-cloud for solution Sln2
+    When a GET request is made for hosting-type-on-premise for solution Sln2
     Then a successful response is returned
     And the summary string does not exist
     And the link string does not exist
@@ -45,7 +44,7 @@ Scenario: 2. On Premise is retrieved for the solution where no public cloud data
 
 @3651
 Scenario: 3. On Premise is retrieved for the solution where no solution detail exists
-    When a GET request is made for hosting-type-private-cloud for solution Sln3
+    When a GET request is made for hosting-type-on-premise for solution Sln3
     Then a successful response is returned
     And the summary string does not exist
     And the link string does not exist
@@ -57,16 +56,16 @@ Scenario: 3. On Premise is retrieved for the solution where no solution detail e
 @3651
 Scenario: 4. Solution not found
     Given a Solution Sln4 does not exist
-    When a GET request is made for hosting-type-private-cloud for solution Sln4
+    When a GET request is made for hosting-type-on-premise for solution Sln4
     Then a response status of 404 is returned
 
 @3651
 Scenario: 5. Service failure
     Given the call to the database to set the field will fail
-    When a GET request is made for hosting-type-private-cloud for solution Sln2
+    When a GET request is made for hosting-type-on-premise for solution Sln2
     Then a response status of 500 is returned
 
 @3651
 Scenario: 6. Solution id not present in request
-    When a GET request is made for hosting-type-private-cloud with no solution id
+    When a GET request is made for hosting-type-on-premise with no solution id
     Then a response status of 400 is returned
