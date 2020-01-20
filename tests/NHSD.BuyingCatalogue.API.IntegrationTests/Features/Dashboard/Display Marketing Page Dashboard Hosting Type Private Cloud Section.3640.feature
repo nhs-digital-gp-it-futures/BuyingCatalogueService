@@ -3,25 +3,25 @@ Feature: Display Marketing Page Dashboard Private Cloud Section
     I want to manage Marketing Page Information for the Private Cloud Hosting Type
     So that I can ensure the information is correct
 
-Background:
-    Given Organisations exist
-        | Name     |
-        | GPs-R-Us |
-    And Suppliers exist
-        | Id    | SupplierName | OrganisationName |
-        | Sup 1 | Supplier 1   | GPs-R-Us         |
-    And Solutions exist
-        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill | GPs-R-Us         | 1                | Sup 1      |
- 
+    Background:
+        Given Organisations exist
+            | Name     |
+            | GPs-R-Us |
+        And Suppliers exist
+            | Id    | SupplierName | OrganisationName |
+            | Sup 1 | Supplier 1   | GPs-R-Us         |
+        And Solutions exist
+            | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
+            | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
+        	| Sln2       | TakeTheRedPill | GPs-R-Us         | 1                | Sup 1      |
+
 @3641
-Scenario Outline: 1. Solution description section is optional and is reported complete if there is text in the Private Cloud
+Scenario Outline: 1. Private cloud section is optional and is reported complete if there is text in the Private Cloud
     Given SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription | FullDescription   | Hosting   |
         | Sln1     | UrlSln1  |                    | Online medicine 1 | <Hosting> |
     When a GET request is made for solution dashboard <Solution>
-    Then a successful response is returned
+        Then a successful response is returned
     And the solution hosting-type-private-cloud section status is <Status>
     And the solution hosting-type-private-cloud section requirement is Optional
 Examples:
