@@ -25,6 +25,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         [JsonProperty("hosting-type-public-cloud")]
         public PublicCloudSection PublicCloud { get; }
 
+        [JsonProperty("hosting-type-private-cloud")]
+        public PrivateCloudSection PrivateCloud { get; }
+
         /// <summary>
         /// Initialises a new instance of the <see cref="Sections"/> class.
         /// </summary>
@@ -42,6 +45,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
             ContactDetails = new ContactDetailsSection(solution.Contacts).IfPopulated();
             Capabilities = new CapabilitiesSection(solution.Capabilities);
             PublicCloud = new PublicCloudSection(solution.Hosting).IfPopulated();
+            PrivateCloud = new PrivateCloudSection(solution.Hosting).IfPopulated();
         }
     }
 }
