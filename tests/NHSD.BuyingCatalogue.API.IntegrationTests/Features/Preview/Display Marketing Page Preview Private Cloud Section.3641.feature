@@ -17,7 +17,7 @@ Background:
         | Solution | SummaryDescription            | FullDescription   | Hosting                                                                                                                                                                         |
         | Sln1     | A full online medicine system | Online medicine 1 | { "PrivateCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "HostingModel": "A hosting model", "RequiresHscn": "This Solution requires a HSCN/N3 connection" } } |
 
-@3639
+@3641
 Scenario:1. Get Solution Preview contains Hosting for all data
     When a GET request is made for solution preview Sln1
     Then a successful response is returned
