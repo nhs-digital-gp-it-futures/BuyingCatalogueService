@@ -20,6 +20,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.Nat
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionNativeMobileHardwareRequirements;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.UpdateSolutionClientApplicationTypes;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.OnPremise;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PublicCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PrivateCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
@@ -129,7 +130,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<IValidator<UpdatePublicCloudCommand, ISimpleResult>, UpdatePublicCloudValidator>()
 
                 .AddTransient<IExecutor<UpdatePrivateCloudCommand>, UpdatePrivateCloudExecutor>()
-                .AddTransient<IValidator<UpdatePrivateCloudCommand, ISimpleResult>, UpdatePrivateCloudValidator>();
+                .AddTransient<IValidator<UpdatePrivateCloudCommand, ISimpleResult>, UpdatePrivateCloudValidator>()
+            
+                .AddTransient<IExecutor<UpdateOnPremiseCommand>, UpdateOnPremiseExecutor>()
+                .AddTransient<IValidator<UpdateOnPremiseCommand, ISimpleResult>, UpdateOnPremiseValidator>();
         }
     }
 }
