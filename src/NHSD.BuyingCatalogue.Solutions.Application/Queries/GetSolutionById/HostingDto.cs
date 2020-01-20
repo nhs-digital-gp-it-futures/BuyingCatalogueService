@@ -7,5 +7,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
     {
         public IPublicCloud PublicCloud { get; set; }
         public IPrivateCloud PrivateCloud { get; set; }
+        public IOnPremise OnPremise { get; set; }
     }
 }

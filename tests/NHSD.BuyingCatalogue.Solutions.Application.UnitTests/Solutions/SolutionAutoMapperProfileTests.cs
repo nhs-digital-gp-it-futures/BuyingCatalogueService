@@ -59,6 +59,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             yield return new KeyValuePair<Type, Type>(typeof(PublicCloud), typeof(IPublicCloud));
             yield return new KeyValuePair<Type, Type>(typeof(PrivateCloud), typeof(PrivateCloudDto));
             yield return new KeyValuePair<Type, Type>(typeof(PrivateCloud), typeof(IPrivateCloud));
+            yield return new KeyValuePair<Type, Type>(typeof(OnPremise), typeof(PremiseDto));
+            yield return new KeyValuePair<Type, Type>(typeof(OnPremise), typeof(IOnPremise));
         }
 
         [Test]
