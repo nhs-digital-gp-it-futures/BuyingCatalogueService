@@ -11,6 +11,9 @@ using NHSD.BuyingCatalogue.Solutions.API.Controllers.Hostings;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PrivateCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
@@ -37,6 +40,70 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
                     x.Send(It.IsAny<UpdatePrivateCloudCommand>(),
                         It.IsAny<CancellationToken>()))
                 .ReturnsAsync(() => _simpleResultMock.Object);
+        }
+
+
+        [TestCase("Some summary", "Some link", "Some hosting model", "'Tis required")]
+        [TestCase("Some summary", null, "Some hosting model", "'Tis required")]
+        [TestCase(null, "Some link", "Some hosting model", "'Tis required")]
+        [TestCase("Some summary", "Some link", "Some hosting model", null)]
+        [TestCase("Some summary", "Some link", null, "'Tis required")]
+        [TestCase(null, null, "Some hosting model", "'Tis required")]
+        [TestCase("Some summary", null, "Some hosting model", null)]
+        [TestCase(null, "Some link", "Some hosting model", null)]
+        [TestCase("Some summary", null, null, "'Tis required")]
+        [TestCase(null, "Some link", null, "'Tis required")]
+        [TestCase("Some summary", "Some link", null, null)]
+        [TestCase(null, null, "Some hosting model", null)]
+        [TestCase(null, null, null, "'Tis required")]
+        [TestCase("Some summary", null, null, null)]
+        [TestCase(null, "Some link", null, null)]
+        [TestCase(null, null, null, null)]
+        public async Task PopulatedPrivateCloudShouldReturnCorrectDetails(string summary, string link, string hostingModel, string requiredHscn)
+        {
+            _mediatorMock.Setup(m => m.Send(It.Is<GetHostingBySolutionIdQuery>(q => q.Id == _solutionId),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Mock.Of<IHosting>(h => h.PrivateCloud == Mock.Of<IPrivateCloud>(p =>
+                                                         p.Summary == summary &&
+                                                         p.Link == link &&
+                                                         p.HostingModel == hostingModel &&
+                                                         p.RequiresHSCN == requiredHscn)));
+            var result = await _controller.Get(_solutionId).ConfigureAwait(false) as ObjectResult;
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result.Value.Should().BeOfType<GetPrivateCloudResult>();
+
+            var privateCloudResult = result.Value as GetPrivateCloudResult;
+            privateCloudResult.Summary.Should().Be(summary);
+            privateCloudResult.Link.Should().Be(link);
+            privateCloudResult.HostingModel.Should().Be(hostingModel);
+
+            if (requiredHscn == null)
+            {
+                privateCloudResult.RequiredHscn.Should().BeEmpty();
+            }
+            else
+            {
+                privateCloudResult.RequiredHscn.Should().BeEquivalentTo(requiredHscn);
+            }
+        }
+
+        [Test]
+        public async Task NullHostingShouldReturnNull()
+        {
+            _mediatorMock.Setup(m => m.Send(It.Is<GetHostingBySolutionIdQuery>(q => q.Id == _solutionId),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(null as IHosting);
+
+            var result = await _controller.Get(_solutionId).ConfigureAwait(false) as ObjectResult;
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result.Value.Should().BeOfType<GetPrivateCloudResult>();
+
+            var privateCloudResult = result.Value as GetPrivateCloudResult;
+            privateCloudResult.Summary.Should().BeNull();
+            privateCloudResult.Link.Should().BeNull();
+            privateCloudResult.HostingModel.Should().BeNull();
+            privateCloudResult.RequiredHscn.Should().BeEmpty();
         }
 
         [Test]

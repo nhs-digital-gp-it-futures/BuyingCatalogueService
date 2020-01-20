@@ -2,7 +2,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
+using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
+using NHSD.BuyingCatalogue.Solutions.Application.Domain;
+using NHSD.BuyingCatalogue.Solutions.Application.Domain.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
@@ -32,20 +35,31 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
         [Test]
         public async Task ShouldGetHostingById()
         {
+            var originalHosting = new Hosting();
+            originalHosting.PublicCloud = new PublicCloud
+            {
+                Summary = "Some Summary",
+                URL = "www.somelink.com",
+                ConnectivityRequired = "This Solution requires a HSCN/N3 connection"
+            };
+
+            originalHosting.PrivateCloud = new PrivateCloud
+            {
+                Summary = "Private Summary",
+                Link = "www.privatelink.com",
+                HostingModel = "Hosting Model",
+                RequiresHSCN = "How much wood would a woodchuck chuck if a woodchuck could chuck wood?"
+            };
+
             _hostingResult = Mock.Of<IHostingResult>(r =>
                 r.Id == _solutionId &&
-                r.Hosting == "{ 'PublicCloud': { 'Summary': 'Some summary', 'URL': 'www.somelink.com', 'ConnectivityRequired': 'This Solution requires a HSCN/N3 connection' } }"
+                r.Hosting == JsonConvert.SerializeObject(originalHosting)
                 );
 
-            var hosting = await _context.GetHostingBySolutionIdHandler.Handle(
+            var newHosting = await _context.GetHostingBySolutionIdHandler.Handle(
                 new GetHostingBySolutionIdQuery(_solutionId), _cancellationToken).ConfigureAwait(false);
 
-            hosting.Should().NotBeNull();
-            hosting.PublicCloud.Should().NotBeNull();
-
-            hosting.PublicCloud.Summary.Should().Be("Some summary");
-            hosting.PublicCloud.URL.Should().Be("www.somelink.com");
-            hosting.PublicCloud.ConnectivityRequired.Should().Be("This Solution requires a HSCN/N3 connection");
+            newHosting.Should().BeEquivalentTo(originalHosting);
         }
 
         [Test]
