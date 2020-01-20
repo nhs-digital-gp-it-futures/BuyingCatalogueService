@@ -3,28 +3,37 @@ Feature: Display Marketing Page Dashboard Private Cloud Section
     I want to manage Marketing Page Information for the Private Cloud Hosting Type
     So that I can ensure the information is correct
 
-    Background:
-        Given Organisations exist
-            | Name     |
-            | GPs-R-Us |
-            | Drs. Inc |
-        And Suppliers exist
-            | Id    | SupplierName | OrganisationName |
-            | Sup 1 | Supplier 1   | GPs-R-Us         |
-            | Sup 2 | Supplier 2   | Drs. Inc         |
-        And Solutions exist
-            | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
-            | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
-            | Sln2       | TakeTheRedPill | Drs. Inc         | 1                | Sup 2      |
-            | Sln3       | PracticeMgr    | Drs. Inc         | 1                | Sup 2      |
-        And SolutionDetail exist
-            | Solution | AboutUrl| SummaryDescription      | FullDescription      | Features                          |
-            | Sln1     | UrlSln1 |                         | Online medicine 1    | [ "Appointments", "Prescribing" ] |
-            | Sln3     | UrlSln3 | Eye opening experience  | Eye opening6         | [ "Referrals", "Workflow" ]       |
+Background:
+    Given Organisations exist
+        | Name     |
+        | GPs-R-Us |
+    And Suppliers exist
+        | Id    | SupplierName | OrganisationName |
+        | Sup 1 | Supplier 1   | GPs-R-Us         |
+    And Solutions exist
+        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill | GPs-R-Us         | 1                | Sup 1      |
+ 
+@3641
+Scenario Outline: 1. Solution description section is optional and is reported complete if there is text in the Private Cloud
+    Given SolutionDetail exist
+        | Solution | AboutUrl | SummaryDescription | FullDescription   | Hosting   |
+        | Sln1     | UrlSln1  |                    | Online medicine 1 | <Hosting> |
+    When a GET request is made for solution dashboard <Solution>
+    Then a successful response is returned
+    And the solution hosting-type-private-cloud section status is <Status>
+    And the solution hosting-type-private-cloud section requirement is Optional
+Examples:
+    | Solution | Status     | Hosting                                                                                                                                                                            |
+    | Sln1     | INCOMPLETE | { }                                                                                                                                                                                |
+    | Sln1     | INCOMPLETE |                                                                                                                                                                                    |
+    | Sln1     | INCOMPLETE | { "PrivateCloud": null }                                                                                                                                                           |
+    | Sln1     | COMPLETE   | { "PrivateCloud": {"Summary": "Some summary" } }                                                                                                                                   |
+    | Sln1     | COMPLETE   | { "PrivateCloud": {"Link": "Some url" } }                                                                                                                                          |
+    | Sln1     | COMPLETE   | { "PrivateCloud": {"HostingModel": "Some hosting model" } }                                                                                                                        |
+    | Sln1     | COMPLETE   | { "PrivateCloud": {"RequiresHSCN": "Some connectivity" } }                                                                                                                         |
+    | Sln1     | COMPLETE   | { "PrivateCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "HostingModel": "Some hosting model", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
+    | Sln2     | INCOMPLETE |                                                                                                                                                                                    |
 
-    @3640
-    Scenario: 1. Private cloud section is optional and is reported incomplete
-        When a GET request is made for solution dashboard Sln1
-        Then a successful response is returned
-        And the solution private-cloud section status is INCOMPLETE
-        And the solution private-cloud section requirement is Optional
+
