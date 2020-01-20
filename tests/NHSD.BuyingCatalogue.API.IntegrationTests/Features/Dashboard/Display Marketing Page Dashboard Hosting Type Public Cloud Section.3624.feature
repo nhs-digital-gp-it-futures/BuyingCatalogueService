@@ -15,7 +15,6 @@ Background:
         | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | GPs-R-Us         | 1                | Sup 1      |
  
-
 @3639
 Scenario Outline: 1. Solution description section is optional and is reported complete if there is text in the public Cloud
     Given SolutionDetail exist
