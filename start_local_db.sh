@@ -27,7 +27,6 @@ validate() {
 		echo -e $message
 		exit 1
 	fi
-	
 }
 
 set_env_variables() {

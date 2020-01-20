@@ -8,11 +8,8 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure
     {
         private readonly IConfiguration _configuration;
 
-        public Settings(IConfiguration configuration)
-        {
-            _configuration = configuration.ThrowIfNull();
-        }
-
+        public Settings(IConfiguration configuration) => _configuration = configuration.ThrowIfNull();
+        
         public string ConnectionString => _configuration.GetConnectionString("BuyingCatalogue");
     }
 }

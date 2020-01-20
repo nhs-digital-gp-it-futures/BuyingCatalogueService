@@ -3,6 +3,7 @@
     [string]$username = "NHSD",
     [string]$password = "Str0nk3RP@55W0rD"
 )
+
 function containsSymbol() {
     $SymbolArray = "!@#$^&*()-+={}[]\|/:;<>?,.".ToCharArray()
     foreach ($char in $password.ToCharArray()){
@@ -43,7 +44,6 @@ function setEnvVariables() {
     $env:NHSD_LOCAL_DB_USERNAME=$username
     $env:NHSD_LOCAL_DB_PASSWORD=$password
 }
-
 
 docker-compose -f "docker/docker-compose.debug.yml" down -v --rmi "all"
 
