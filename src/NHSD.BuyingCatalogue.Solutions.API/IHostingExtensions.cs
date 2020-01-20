@@ -8,5 +8,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API
             !string.IsNullOrWhiteSpace(hosting?.PublicCloud?.Summary) ||
             !string.IsNullOrWhiteSpace(hosting?.PublicCloud?.URL) ||
             !string.IsNullOrWhiteSpace(hosting?.PublicCloud?.ConnectivityRequired);
+
+        public static bool IsPrivateCloudComplete(this IHosting hosting) =>
+            !string.IsNullOrWhiteSpace(hosting?.PrivateCloud?.Summary) ||
+            !string.IsNullOrWhiteSpace(hosting?.PrivateCloud?.Link) ||
+            !string.IsNullOrWhiteSpace(hosting?.PrivateCloud?.HostingModel) ||
+            !string.IsNullOrWhiteSpace(hosting?.PrivateCloud?.RequiresHSCN);
     }
 }
