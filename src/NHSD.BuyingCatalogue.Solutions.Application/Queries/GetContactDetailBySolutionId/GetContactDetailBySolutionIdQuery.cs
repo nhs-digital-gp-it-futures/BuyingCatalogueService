@@ -3,7 +3,7 @@ using MediatR;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
-namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
+namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId
 {
     /// <summary>
     /// Represents the query parameters for the get Solution by ID request.

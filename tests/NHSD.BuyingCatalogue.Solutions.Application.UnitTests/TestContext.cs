@@ -32,7 +32,10 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Mapping;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicationBySolutionId;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
