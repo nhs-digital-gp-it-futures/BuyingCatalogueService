@@ -10,6 +10,7 @@ using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
@@ -323,6 +324,24 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var clientApplicationTypesSubSections = (ClientApplicationTypesSubSections)dashboardResult.SolutionDashboardSections.ClientApplicationTypesSection.Section;
             clientApplicationTypesSubSections.NativeDesktopSection.Should().NotBeNull();
             clientApplicationTypesSubSections.NativeDesktopSection.Status.Should().Be(result);
+        }
+
+        [TestCase(null, null, null, "INCOMPLETE")]
+        [TestCase("     ", null, "  ", "INCOMPLETE")]
+        [TestCase(null, "       ", " ", "INCOMPLETE")]
+        [TestCase("Summary", null, null, "COMPLETE")]
+        [TestCase(null, "url", null, "COMPLETE")]
+        [TestCase(null, null, "connectivity", "COMPLETE")]
+        [TestCase("Summary", "url", "connectivity", "COMPLETE")]
+        public async Task ShouldGetDashboardToCalculateIfPublicCloudComplete(string isSummary, string isUrl, string isConnectivity, string complete)
+        {
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s =>
+                s.Hosting == Mock.Of<IHosting>(h => h.PublicCloud == Mock.Of<IPublicCloud>(p =>
+                                                        p.Summary == isSummary && p.URL == isUrl &&
+                                                        p.ConnectivityRequired == isConnectivity)))).ConfigureAwait(false);
+
+            dashboardResult.SolutionDashboardSections.Should().NotBeNull();
+            dashboardResult.SolutionDashboardSections.HostingTypePublicCloudSection.Status.Should().Be(complete);
         }
 
 

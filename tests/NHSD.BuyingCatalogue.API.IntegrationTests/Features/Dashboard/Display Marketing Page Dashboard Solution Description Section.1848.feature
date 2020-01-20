@@ -29,7 +29,7 @@ Scenario Outline: 3. Solution description section is mandatory and is reported c
     And the solution solution-description section status is <Status>
     And the solution solution-description section requirement is Mandatory
 Examples:
-    | Solution | Status     | SummaryDescription      |
-    | Sln1     | INCOMPLETE |                         |
-    | Sln2     | INCOMPLETE |                         |
-    | Sln3     | COMPLETE   | Fully fledged GP system |
+    | Solution | Status     |
+    | Sln1     | INCOMPLETE |
+    | Sln2     | INCOMPLETE |
+    | Sln3     | COMPLETE   |
