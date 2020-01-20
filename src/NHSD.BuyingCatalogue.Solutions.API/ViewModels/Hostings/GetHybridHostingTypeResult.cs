@@ -4,7 +4,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Hostings
 {
-    public sealed class GetHostingTypeHybridResult
+    public sealed class GetHybridHostingTypeResult
     {
         [JsonProperty("summary")] public string Summary { get; set; }
 
@@ -14,13 +14,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Hostings
 
         [JsonProperty("requires-hscn")] public HashSet<string> ConnectivityRequired { get; }
 
-        public GetHostingTypeHybridResult(IHostingTypeHybrid hostingTypeHybrid)
+        public GetHybridHostingTypeResult(IHybridHostingType hybridHostingType)
         {
-            Summary = hostingTypeHybrid?.Summary;
-            Url = hostingTypeHybrid?.Url;
-            HostingModel = hostingTypeHybrid?.HostingModel;
-            ConnectivityRequired = hostingTypeHybrid?.ConnectivityRequired != null
-                ? new HashSet<string> {hostingTypeHybrid?.ConnectivityRequired}
+            Summary = hybridHostingType?.Summary;
+            Url = hybridHostingType?.Url;
+            HostingModel = hybridHostingType?.HostingModel;
+            ConnectivityRequired = hybridHostingType?.ConnectivityRequired != null
+                ? new HashSet<string> {hybridHostingType?.ConnectivityRequired}
                 : new HashSet<string>();
         }
     }

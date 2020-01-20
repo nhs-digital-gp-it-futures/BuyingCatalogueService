@@ -8,6 +8,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         
 		IPrivateCloud PrivateCloud { get; }
 
-		IHostingTypeHybrid HostingTypeHybrid { get; }
+		IHybridHostingType HybridHostingType { get; }
     }
 }

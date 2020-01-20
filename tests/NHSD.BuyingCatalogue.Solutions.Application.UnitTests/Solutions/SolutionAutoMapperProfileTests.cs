@@ -57,6 +57,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             yield return new KeyValuePair<Type, Type>(typeof(NativeDesktopMemoryAndStorage), typeof(INativeDesktopMemoryAndStorage));
             yield return new KeyValuePair<Type, Type>(typeof(PublicCloud), typeof(PublicCloudDto));
             yield return new KeyValuePair<Type, Type>(typeof(PublicCloud), typeof(IPublicCloud));
+            yield return new KeyValuePair<Type, Type>(typeof(HybridHostingType), typeof(HybridHostingTypeDto));
+            yield return new KeyValuePair<Type, Type>(typeof(HybridHostingType), typeof(IHybridHostingType));
         }
 
         [Test]

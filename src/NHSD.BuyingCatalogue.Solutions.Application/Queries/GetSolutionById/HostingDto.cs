@@ -9,6 +9,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         
     	public IPrivateCloud PrivateCloud { get; set; }
     	
-		public IHostingTypeHybrid HostingTypeHybrid { get; set; }
+		public IHybridHostingType HybridHostingType { get; set; }
     }
 }

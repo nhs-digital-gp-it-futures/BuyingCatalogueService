@@ -12,21 +12,21 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Hostings
     [ApiController]
     [Produces("application/json")]
     [AllowAnonymous]
-    public sealed class HybridHostingController : ControllerBase
+    public sealed class HybridHostingTypeController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public HybridHostingController(IMediator mediator)
+        public HybridHostingTypeController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         [HttpGet]
         [Route("{id}/sections/hosting-type-hybrid")]
-        public async Task<ActionResult> GetHostingTypeHybrid([FromRoute] [Required] string id)
+        public async Task<ActionResult> GetHybridHostingType([FromRoute] [Required] string id)
         {
             var hosting = await _mediator.Send(new GetHostingBySolutionIdQuery(id)).ConfigureAwait(false);
-            return Ok(new GetHostingTypeHybridResult(hosting?.HostingTypeHybrid));
+            return Ok(new GetHybridHostingTypeResult(hosting?.HybridHostingType));
 
         }
     }

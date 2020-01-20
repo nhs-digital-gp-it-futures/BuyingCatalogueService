@@ -1,6 +1,6 @@
 namespace NHSD.BuyingCatalogue.Solutions.Contracts.Hostings
 {
-    public interface IHostingTypeHybrid
+    public interface IHybridHostingType
     {
         string Summary { get; }
 
