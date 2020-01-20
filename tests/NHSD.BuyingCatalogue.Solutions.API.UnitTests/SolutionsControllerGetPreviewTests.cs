@@ -224,7 +224,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == new HashSet<string> {"browser-based", "native-mobile"} &&
+                    c.ClientApplicationTypes == new HashSet<string> { "browser-based", "native-mobile" } &&
                     c.AdditionalInformation == "Some Additional Info"))).ConfigureAwait(false);
 
             previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections
@@ -242,7 +242,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             previewResult.Sections.ClientApplicationTypes.Should().BeNull();
         }
-        
+
         [TestCase("1GBps", "1x1", true)]
         [TestCase(null, "1x1", true)]
         [TestCase("1GBps", null, true)]
@@ -377,7 +377,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == new HashSet<string> {"native-mobile"} &&
+                    c.ClientApplicationTypes == new HashSet<string> { "native-mobile" } &&
                     c.MobileMemoryAndStorage == Mock.Of<IMobileMemoryAndStorage>(
                         m => m.MinimumMemoryRequirement == minMemoryManagement &&
                              m.Description == description)))).ConfigureAwait(false);
@@ -705,6 +705,51 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             else
             {
                 previewResult.Sections.PublicCloud.Should().BeNull();
+            }
+        }
+
+        [TestCase("Some Summary", "Some url", "Some Hosting", "Some Connectivity", true)]
+        [TestCase("Some Summary", "", "Some Hosting", "Some Connectivity", true)]
+        [TestCase("     ", "     ", "Some Hosting", "Some Connectivity", true)]
+        [TestCase("Some Summary", "Some url", null, "Some Connectivity", true)]
+        [TestCase(" ", "Some url", "Some Hosting", "Some Connectivity", true)]
+        [TestCase("Some Summary", "Some url", "Some Hosting", "     ", true)]
+        [TestCase("Some Summary", "     ", "Some Hosting", "     ", true)]
+        [TestCase(null, null, "Some Hosting", "Some Connectivity", true)]
+        [TestCase("Some Summary", "", null, "Some Connectivity", true)]
+        [TestCase("     ", "     ", null, "Some Connectivity", true)]
+        [TestCase(" ", "Some url", null, "Some Connectivity", true)]
+        [TestCase("Some Summary", "Some url", null, "     ", true)]
+        [TestCase("     ", "Some url", "Some Hosting", null, true)]
+        [TestCase("     ", "", "Some Hosting", "        ", true)]
+        [TestCase("Some Summary", "     ", null, "     ", true)]
+        [TestCase(null, null, null, "Some Connectivity", true)]
+        [TestCase(null, null, "Some Hosting", null, true)]
+        [TestCase("     ", "", "    ", "        ", false)]
+        [TestCase("     ", "Some url", null, null, true)]
+        [TestCase(null, null, null, null, false)]
+        public async Task IfPrivateCloudEmptyThenItHasNoData(string summary, string link, string hosting, string connectivityRequired, bool hasData)
+        {
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                    s.Hosting == Mock.Of<IHosting>(h =>
+                        h.PrivateCloud == Mock.Of<IPrivateCloud>(p => p.Summary == summary
+                                                                    && p.Link == link
+                                                                    && p.HostingModel == hosting
+                                                                    && p.RequiresHSCN == connectivityRequired))))
+                .ConfigureAwait(false);
+
+            if (hasData)
+            {
+                previewResult.Sections.PrivateCloud.Answers.Summary.Should().Be(summary);
+                previewResult.Sections.PrivateCloud.Answers.Link.Should().Be(link);
+                previewResult.Sections.PrivateCloud.Answers.HostingModel.Should().Be(hosting);
+                previewResult.Sections.PrivateCloud.Answers.RequiresHSCN.Should().Be(connectivityRequired);
+
+                previewResult.Sections.PrivateCloud.Answers.HasData.Should().BeTrue();
+            }
+            else
+            {
+                previewResult.Sections.PrivateCloud.Should().BeNull();
             }
         }
 

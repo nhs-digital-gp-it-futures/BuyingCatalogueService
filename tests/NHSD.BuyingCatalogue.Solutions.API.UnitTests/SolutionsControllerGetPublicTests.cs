@@ -372,7 +372,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     s.PublishedStatus == PublishedStatus.Published &&
                     s.ClientApplication ==
                     Mock.Of<IClientApplication>(c =>
-                        c.ClientApplicationTypes == new HashSet<string> {"native-mobile"} &&
+                        c.ClientApplicationTypes == new HashSet<string> { "native-mobile" } &&
                         c.MobileOperatingSystems == Mock.Of<IMobileOperatingSystems>(m =>
                             m.OperatingSystems == operatingSystem &&
                             m.OperatingSystemsDescription == description))), SolutionId1)
@@ -596,7 +596,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     s.PublishedStatus == PublishedStatus.Published &&
                     s.ClientApplication ==
                     Mock.Of<IClientApplication>(c =>
-                        c.ClientApplicationTypes == new HashSet<string> {"native-mobile"} &&
+                        c.ClientApplicationTypes == new HashSet<string> { "native-mobile" } &&
                         c.MobileThirdParty == Mock.Of<IMobileThirdParty>(m =>
                             m.ThirdPartyComponents == component && m.DeviceCapabilities == capability))), SolutionId1)
                 .ConfigureAwait(false);
@@ -770,7 +770,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 publicResult.Sections.ClientApplicationTypes.Should().BeNull();
             }
         }
-        
+
         [TestCase("512TB", "1024TB", "1Hz", "1x1 px", true)]
         [TestCase(null, "1024TB", "1Hz", "1x1 px", true)]
         [TestCase("512TB", null, "1Hz", "1x1 px", true)]
@@ -862,7 +862,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     s.Hosting == Mock.Of<IHosting>(h =>
                         h.PublicCloud == Mock.Of<IPublicCloud>(p => p.Summary == summary
                                                                     && p.URL == url
-                                                                    && p.ConnectivityRequired == connectivityRequired))),SolutionId1)
+                                                                    && p.ConnectivityRequired == connectivityRequired))), SolutionId1)
                 .ConfigureAwait(false);
 
             if (hasData)
@@ -876,6 +876,52 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             else
             {
                 publicResult.Sections.PublicCloud.Should().BeNull();
+            }
+        }
+
+        [TestCase("Some Summary", "Some url", "Some Hosting", "Some Connectivity", true)]
+        [TestCase("Some Summary", "", "Some Hosting", "Some Connectivity", true)]
+        [TestCase("     ", "     ", "Some Hosting", "Some Connectivity", true)]
+        [TestCase("Some Summary", "Some url", null, "Some Connectivity", true)]
+        [TestCase(" ", "Some url", "Some Hosting", "Some Connectivity", true)]
+        [TestCase("Some Summary", "Some url", "Some Hosting", "     ", true)]
+        [TestCase("Some Summary", "     ", "Some Hosting", "     ", true)]
+        [TestCase(null, null, "Some Hosting", "Some Connectivity", true)]
+        [TestCase("Some Summary", "", null, "Some Connectivity", true)]
+        [TestCase("     ", "     ", null, "Some Connectivity", true)]
+        [TestCase(" ", "Some url", null, "Some Connectivity", true)]
+        [TestCase("Some Summary", "Some url", null, "     ", true)]
+        [TestCase("     ", "Some url", "Some Hosting", null, true)]
+        [TestCase("     ", "", "Some Hosting", "        ", true)]
+        [TestCase("Some Summary", "     ", null, "     ", true)]
+        [TestCase(null, null, null, "Some Connectivity", true)]
+        [TestCase(null, null, "Some Hosting", null, true)]
+        [TestCase("     ", "", "    ", "        ", false)]
+        [TestCase("     ", "Some url", null, null, true)]
+        [TestCase(null, null, null, null, false)]
+        public async Task IfPrivateCloudEmptyThenItHasNoData(string summary, string link, string hosting, string connectivityRequired, bool hasData)
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                    s.PublishedStatus == PublishedStatus.Published &&
+                    s.Hosting == Mock.Of<IHosting>(h =>
+                        h.PrivateCloud == Mock.Of<IPrivateCloud>(p => p.Summary == summary
+                                                                    && p.Link == link
+                                                                    && p.HostingModel == hosting
+                                                                    && p.RequiresHSCN == connectivityRequired))),
+                    SolutionId1).ConfigureAwait(false);
+
+            if (hasData)
+            {
+                publicResult.Sections.PrivateCloud.Answers.Summary.Should().Be(summary);
+                publicResult.Sections.PrivateCloud.Answers.Link.Should().Be(link);
+                publicResult.Sections.PrivateCloud.Answers.HostingModel.Should().Be(hosting);
+                publicResult.Sections.PrivateCloud.Answers.RequiresHSCN.Should().Be(connectivityRequired);
+
+                publicResult.Sections.PrivateCloud.Answers.HasData.Should().BeTrue();
+            }
+            else
+            {
+                publicResult.Sections.PrivateCloud.Should().BeNull();
             }
         }
 
