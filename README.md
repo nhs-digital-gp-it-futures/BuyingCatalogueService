@@ -118,9 +118,9 @@ Firstly, run 'Create Local Db' script
 bash create_local_db.sh
 ```
 
-Secondly, copy and paste the connection string into your secrets.json file in visual studio. 
+Secondly, copy and paste the connection string into your User Secrets file (in Visual Studio: src -> Right click on NHSD.BuyingCatalogue.API -> Manage User Secrets ) 
 
-Lastly, press F5 in visual studio
+Lastly, press F5 in Visual Studio
 
 ### Flags
 The scripts have default values for the port that your database listens on, username and password, but they can be specified by passing them when calling the script like so:
