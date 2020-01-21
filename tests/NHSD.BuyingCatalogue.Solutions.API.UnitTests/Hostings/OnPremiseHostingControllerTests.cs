@@ -105,8 +105,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
             onPremiseResult.HostingModel.Should().BeNull();
             onPremiseResult.RequiresHSCN.Should().BeEmpty();
         }
-
-
+        
         [Test]
         public async Task UpdateOnPremiseDetails()
         {

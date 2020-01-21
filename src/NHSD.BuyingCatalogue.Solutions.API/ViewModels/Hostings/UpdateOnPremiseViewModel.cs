@@ -6,7 +6,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Hostings
 {
     public sealed class UpdateOnPremiseViewModel : IUpdateOnPremiseData
     {
-
         [JsonProperty("summary")]
         public string Summary { get; set; }
 

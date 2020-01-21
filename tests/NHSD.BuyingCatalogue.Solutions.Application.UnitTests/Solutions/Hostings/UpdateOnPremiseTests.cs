@@ -38,7 +38,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
         public void Setup()
         {
             _initialHosting = new Hosting
-
             {
                 OnPremise = new OnPremise
                 {
