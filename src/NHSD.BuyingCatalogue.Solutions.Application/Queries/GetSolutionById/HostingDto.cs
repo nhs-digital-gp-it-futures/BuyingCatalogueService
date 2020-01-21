@@ -6,7 +6,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
     internal sealed class HostingDto : IHosting
     {
         public IPublicCloud PublicCloud { get; set; }
+        
         public IPrivateCloud PrivateCloud { get; set; }
-        public IOnPremise OnPremise { get; set; }
+    	
+		public IHybridHostingType HybridHostingType { get; set; }
+		
+		public IOnPremise OnPremise { get; set; }
     }
 }
