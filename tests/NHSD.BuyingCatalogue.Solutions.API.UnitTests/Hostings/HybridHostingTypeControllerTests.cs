@@ -43,15 +43,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
         [TestCase(null, null, "Some hosting model", null)]
         [TestCase(null, null, null, "'Tis required")]
         [TestCase(null, null, null, null)]
-        public async Task ShouldReturnCorrectHybridHostingTypeResultWhenHybridHostingTypeIsPopulated(string summary, string url, string hostingModel, string connectivityRequired)
+        public async Task ShouldReturnCorrectHybridHostingTypeResultWhenHybridHostingTypeIsPopulated(string summary, string link, string hostingModel, string requiresHSCN)
         {
             _mediatorMock.Setup(m => m.Send(It.Is<GetHostingBySolutionIdQuery>(q => q.Id == _solutionId),
                     It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Mock.Of<IHosting>(h => h.HybridHostingType == Mock.Of<IHybridHostingType>(p =>
                                                          p.Summary == summary
-                                                         && p.Link == url
+                                                         && p.Link == link
                                                          && p.HostingModel == hostingModel
-                                                         && p.RequiresHSCN == connectivityRequired)));
+                                                         && p.RequiresHSCN == requiresHSCN)));
 
             var response = await _hybridHostingTypeController.Get(_solutionId).ConfigureAwait(false) as ObjectResult;
             response.Should().NotBeNull();
@@ -61,16 +61,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
             var result = response.Value as GetHybridHostingTypeResult;
             result.Should().NotBeNull();
             result.Summary.Should().Be(summary);
-            result.Link.Should().Be(url);
+            result.Link.Should().Be(link);
             result.HostingModel.Should().Be(hostingModel);
 
-            if (connectivityRequired == null)
+            if (requiresHSCN == null)
             {
                 result.RequiresHSCN.Should().BeEmpty();
             }
             else
             {
-                result.RequiresHSCN.Should().BeEquivalentTo(connectivityRequired);
+                result.RequiresHSCN.Should().BeEquivalentTo(requiresHSCN);
             }
         }
 
