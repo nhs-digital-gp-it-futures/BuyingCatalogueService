@@ -19,8 +19,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PublicClo
                     hosting.PublicCloud = new Domain.Hostings.PublicCloud
                     {
                         Summary = request.Data.Summary,
-                        URL = request.Data.URL,
-                        ConnectivityRequired = request.Data.ConnectivityRequired.FirstOrDefault()
+                        Link = request.Data.Link,
+                        RequiresHSCN = request.Data.RequiresHSCN.FirstOrDefault()
                     };
                 },
                 cancellationToken).ConfigureAwait(false);

@@ -10,17 +10,17 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Hostings
         public string Summary { get; set; }
 
         [JsonProperty("link")]
-        public string URL { get; set; }
+        public string Link { get; set; }
 
         [JsonProperty("requires-hscn")]
-        public HashSet<string> ConnectivityRequired { get; }
+        public HashSet<string> RequiredHscn { get; }
 
         public GetPublicCloudResult(IPublicCloud publicCloud)
         {
             Summary = publicCloud?.Summary;
-            URL = publicCloud?.URL;
-            ConnectivityRequired = publicCloud?.ConnectivityRequired != null
-                ? new HashSet<string> { publicCloud?.ConnectivityRequired }
+            Link = publicCloud?.Link;
+            RequiredHscn = publicCloud?.RequiresHSCN != null
+                ? new HashSet<string> { publicCloud?.RequiresHSCN }
                 : new HashSet<string>();
         }
     }

@@ -7,20 +7,20 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Hostings
     {
         [JsonProperty("summary")] public string Summary { get; set; }
 
-        [JsonProperty("link")] public string URL { get; set; }
+        [JsonProperty("link")] public string Link { get; set; }
 
-        [JsonProperty("requires-hscn")] public string ConnectivityRequired { get; set; }
+        [JsonProperty("requires-hscn")] public string RequiresHSCN { get; set; }
 
         [JsonIgnore]
         public bool HasData => !string.IsNullOrWhiteSpace(Summary) ||
-                               !string.IsNullOrWhiteSpace(URL) ||
-                               !string.IsNullOrWhiteSpace(ConnectivityRequired);
+                               !string.IsNullOrWhiteSpace(Link) ||
+                               !string.IsNullOrWhiteSpace(RequiresHSCN);
 
         public PublicCloudSectionAnswers(IPublicCloud publicCloud)
         {
             Summary = publicCloud?.Summary;
-            URL = publicCloud?.URL;
-            ConnectivityRequired = publicCloud?.ConnectivityRequired;
+            Link = publicCloud?.Link;
+            RequiresHSCN = publicCloud?.RequiresHSCN;
         }
     }
 }

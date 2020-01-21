@@ -855,21 +855,21 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase(null, null, "Some Connectivity", true)]
         [TestCase("     ", "", "        ", false)]
         [TestCase(null, null, null, false)]
-        public async Task IfPublicCloudEmptyThenItHasNoData(string summary, string url, string connectivityRequired, bool hasData)
+        public async Task IfPublicCloudEmptyThenItHasNoData(string summary, string url, string requiresHscn, bool hasData)
         {
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                     s.PublishedStatus == PublishedStatus.Published &&
                     s.Hosting == Mock.Of<IHosting>(h =>
                         h.PublicCloud == Mock.Of<IPublicCloud>(p => p.Summary == summary
-                                                                    && p.URL == url
-                                                                    && p.ConnectivityRequired == connectivityRequired))), SolutionId1)
+                                                                    && p.Link == url
+                                                                    && p.RequiresHSCN == requiresHscn))), SolutionId1)
                 .ConfigureAwait(false);
 
             if (hasData)
             {
                 publicResult.Sections.PublicCloud.Answers.Summary.Should().Be(summary);
-                publicResult.Sections.PublicCloud.Answers.URL.Should().Be(url);
-                publicResult.Sections.PublicCloud.Answers.ConnectivityRequired.Should().Be(connectivityRequired);
+                publicResult.Sections.PublicCloud.Answers.Link.Should().Be(url);
+                publicResult.Sections.PublicCloud.Answers.RequiresHSCN.Should().Be(requiresHscn);
 
                 publicResult.Sections.PublicCloud.Answers.HasData.Should().BeTrue();
             }

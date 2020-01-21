@@ -5,7 +5,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById.Hos
     internal sealed class PublicCloudDto : IPublicCloud
     {
         public string Summary { get; set; }
-        public string URL { get; set; }
-        public string ConnectivityRequired { get; set; }
+        public string Link { get; set; }
+        public string RequiresHSCN { get; set; }
     }
 }
