@@ -40,8 +40,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                 PublicCloud = new PublicCloud
                 {
                     Summary = "Some Summary",
-                    URL = "www.somelink.com",
-                    ConnectivityRequired = "This Solution requires a HSCN/N3 connection"
+                    Link = "www.somelink.com",
+                    RequiresHSCN = "This Solution requires a HSCN/N3 connection"
                 },
                 PrivateCloud = new PrivateCloud
                 {
@@ -66,7 +66,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                 }
             };
 
-            _hostingResult = Mock.Of<IHostingResult>(r =>
+        _hostingResult = Mock.Of<IHostingResult>(r =>
                 r.Id == _solutionId &&
                 r.Hosting == JsonConvert.SerializeObject(originalHosting)
                 );
