@@ -28,6 +28,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         [JsonProperty("hosting-type-private-cloud")]
         public PrivateCloudSection PrivateCloud { get; }
 
+        [JsonProperty("hosting-type-on-premise")]
+        public OnPremiseSection OnPremise { get; }
+
         /// <summary>
         /// Initialises a new instance of the <see cref="Sections"/> class.
         /// </summary>
@@ -46,6 +49,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
             Capabilities = new CapabilitiesSection(solution.Capabilities);
             PublicCloud = new PublicCloudSection(solution.Hosting).IfPopulated();
             PrivateCloud = new PrivateCloudSection(solution.Hosting).IfPopulated();
+            OnPremise = new OnPremiseSection(solution.Hosting).IfPopulated();
         }
     }
 }
