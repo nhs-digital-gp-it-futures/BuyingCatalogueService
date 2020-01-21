@@ -7,7 +7,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PublicClo
         public ISimpleResult Validate(UpdatePublicCloudCommand command)
             => new MaxLengthValidator()
                 .Validate(command.Data.Summary, 500, "summary")
-                .Validate(command.Data.URL, 1000, "link")
+                .Validate(command.Data.Link, 1000, "link")
                 .Result();
     }
 }
