@@ -118,9 +118,18 @@ Firstly, run 'Create Local Db' script
 bash create_local_db.sh
 ```
 
-Secondly, copy and paste the connection string into your User Secrets file (in Visual Studio: src -> Right click on NHSD.BuyingCatalogue.API -> Manage User Secrets ) 
-
-Lastly, press F5 in Visual Studio
+Secondly, copy and paste the connection string into your [User Secrets file](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-3.1&tabs=windows#how-the-secret-manager-tool-works). Your file should have this format:
+```
+{
+  "ConnectionStrings": {
+    "BuyingCatalogue": "Data Source=127.0.0.1,$port;Initial Catalog=$db_name;MultipleActiveResultSets=True;User Id=$username;Password=$password"
+  }
+}
+```
+Lastly, run the API - either through your favourite IDE or using your favourite shell - from root of the directory run
+```
+dotnet run --project ./src/NHSD.BuyingCatalogue.API
+```
 
 ### Flags
 The scripts have default values for the port that your database listens on, username and password, but they can be specified by passing them when calling the script like so:
