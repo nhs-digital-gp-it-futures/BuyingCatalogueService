@@ -1,6 +1,6 @@
 using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
 
-namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
+namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicationBySolutionId
 {
     public sealed class NativeDesktopThirdPartyDto : INativeDesktopThirdParty
     {

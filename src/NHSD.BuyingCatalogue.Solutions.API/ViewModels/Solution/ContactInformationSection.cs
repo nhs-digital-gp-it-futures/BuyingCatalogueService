@@ -1,4 +1,3 @@
-using System;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
