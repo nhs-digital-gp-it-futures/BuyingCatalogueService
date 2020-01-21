@@ -1,6 +1,6 @@
-Feature:  Display Marketing Page Form Browser Hardware Requirements
+Feature:  Display Marketing Page Form Browser Additional Information
     As a Supplier
-    I want to manage Marketing Page Information for the Solution's Browsers Hardware Requirements
+    I want to manage Marketing Page Information for the Solution's Browsers Additional Information
     So that I can ensure the information is correct
 
 Background:
