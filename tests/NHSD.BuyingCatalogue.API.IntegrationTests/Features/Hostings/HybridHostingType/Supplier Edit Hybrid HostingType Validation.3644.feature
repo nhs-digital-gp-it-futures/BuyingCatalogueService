@@ -17,7 +17,7 @@ Background:
         | Solution | SummaryDescription             | FullDescription   | Hosting                                                                                                                     |
         | Sln1     | An full online medicine system | Online medicine 1 | { "HybridHostingType": { "Summary": "A Summary", "Link": "A Link", "HostingModel": "A hosting type", "RequiresHSCN": "A string" } } |
 
-@3651
+@3644
 Scenario: 1. Summary exceeds the maxLength
     When a PUT request is made to update the hosting-type-hybrid section for solution Sln1
         | Summary                     | Link  | HostingModel | RequiresHSCN |
@@ -28,7 +28,7 @@ Scenario: 1. Summary exceeds the maxLength
         | Solution | SummaryDescription             | FullDescription   | Hosting                                                                                                                    |
         | Sln1     | An full online medicine system | Online medicine 1 | { "HybridHostingType": {"Summary": "A Summary", "Link": "A Link", "HostingModel": "A hosting type", "RequiresHSCN": "A string" } } |
 
-@3651
+@3644
 Scenario: 2. Link exceeds the maxLength
     When a PUT request is made to update the hosting-type-hybrid section for solution Sln1
         | Summary   | Link                         | HostingModel | RequiresHSCN |
@@ -39,7 +39,7 @@ Scenario: 2. Link exceeds the maxLength
         | Solution | SummaryDescription             | FullDescription   | Hosting                                                                                                                    |
         | Sln1     | An full online medicine system | Online medicine 1 | { "HybridHostingType": {"Summary": "A Summary", "Link": "A Link", "HostingModel": "A hosting type", "RequiresHSCN": "A string" } } |
 
-@3651
+@3644
 Scenario: 3. Hosting Type exceeds the maxLength
     When a PUT request is made to update the hosting-type-hybrid section for solution Sln1
         | Summary   | Link  | HostingModel                 | RequiresHSCN |
