@@ -14,7 +14,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSumm
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="UpdateSolutionHandler"/> class.
+        /// Initialises a new instance of the <see cref="UpdateSolutionSummaryExecutor"/> class.
         /// </summary>
         public UpdateSolutionSummaryExecutor(SolutionReader solutionReader,
             SolutionSummaryUpdater solutionSummaryUpdater,

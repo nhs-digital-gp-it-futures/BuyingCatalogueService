@@ -27,6 +27,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.Upd
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PublicCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PrivateCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
@@ -128,6 +129,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
         public UpdatePrivateCloudHandler UpdatePrivateCloudHandler =>
             (UpdatePrivateCloudHandler)_scope.UpdatePrivateCloudHandler;
 
+        public UpdateRoadmapHandler UpdateRoadmapHandler =>
+            (UpdateRoadmapHandler)_scope.UpdateRoadmapHandler;
+
         private readonly Scope _scope;
 
         public TestContext()
@@ -150,13 +154,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
         private void RegisterDependencies(ServiceCollection serviceCollection)
         {
             MockSolutionRepository = new Mock<ISolutionRepository>();
-            serviceCollection.AddSingleton<ISolutionRepository>(MockSolutionRepository.Object);
+            serviceCollection.AddSingleton(MockSolutionRepository.Object);
             MockSolutionDetailRepository = new Mock<ISolutionDetailRepository>();
-            serviceCollection.AddSingleton<ISolutionDetailRepository>(MockSolutionDetailRepository.Object);
+            serviceCollection.AddSingleton(MockSolutionDetailRepository.Object);
             MockSolutionCapabilityRepository = new Mock<ISolutionCapabilityRepository>();
-            serviceCollection.AddSingleton<ISolutionCapabilityRepository>(MockSolutionCapabilityRepository.Object);
+            serviceCollection.AddSingleton(MockSolutionCapabilityRepository.Object);
             MockMarketingContactRepository = new Mock<IMarketingContactRepository>();
-            serviceCollection.AddSingleton<IMarketingContactRepository>(MockMarketingContactRepository.Object);
+            serviceCollection.AddSingleton(MockMarketingContactRepository.Object);
         }
 
         private class Scope
@@ -186,6 +190,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             public IRequestHandler<UpdateSolutionBrowserHardwareRequirementsCommand, ISimpleResult> UpdateSolutionBrowserHardwareRequirementsHandler { get; }
 
             public IRequestHandler<UpdateSolutionConnectivityAndResolutionCommand, ISimpleResult> UpdateSolutionConnectivityAndResolutionHandler { get; }
+
             public IRequestHandler<UpdateBrowserBasedAdditionalInformationCommand, ISimpleResult> UpdateSolutionBrowserAdditionalInformationHandler { get; }
 
             public IRequestHandler<UpdateSolutionBrowserMobileFirstCommand, ISimpleResult> UpdateSolutionBrowserMobileFirstHandler { get; }
@@ -220,6 +225,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public IRequestHandler<UpdatePrivateCloudCommand, ISimpleResult> UpdatePrivateCloudHandler { get; }
 
+            public IRequestHandler<UpdateRoadmapCommand, ISimpleResult> UpdateRoadmapHandler { get; }
+
             public Scope(IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
                 IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> getClientApplicationBySolutionIdHandler,
                 IRequestHandler<GetHostingBySolutionIdQuery, IHosting> getHostingBySolutionIdHandler,
@@ -249,7 +256,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdateNativeDesktopMemoryAndStorageCommand, ISimpleResult> updateNativeDestkopMemoryAndStorageHandler,
                 IRequestHandler<UpdateNativeDesktopAdditionalInformationCommand, ISimpleResult> updateNativeDesktopAdditionalInformationHandler,
                 IRequestHandler<UpdatePublicCloudCommand, ISimpleResult> updatePublicCloudHandler,
-                IRequestHandler<UpdatePrivateCloudCommand, ISimpleResult> updatePrivateCloudHandler
+                IRequestHandler<UpdatePrivateCloudCommand, ISimpleResult> updatePrivateCloudHandler,
+                IRequestHandler<UpdateRoadmapCommand, ISimpleResult> updateRoadmapHandler
                 )
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;
@@ -282,6 +290,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 UpdateNativeDesktopAdditionalInformationHandler = updateNativeDesktopAdditionalInformationHandler;
                 UpdatePublicCloudHandler = updatePublicCloudHandler;
                 UpdatePrivateCloudHandler = updatePrivateCloudHandler;
+                UpdateRoadmapHandler = updateRoadmapHandler;
             }
         }
     }

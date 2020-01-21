@@ -38,7 +38,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             { "native-desktop-third-party", typeof(NativeDesktopThirdParty) },
             { "native-desktop-additional-information", typeof(NativeDesktopAdditionalInformationPayload) },
             { "hosting-type-public-cloud", typeof(PublicCloudPayload) },
-            { "hosting-type-private-cloud", typeof(HostingPrivateCloudPayload) }
+            { "hosting-type-private-cloud", typeof(HostingPrivateCloudPayload) },
+            { "roadmap", typeof(RoadmapPayload) }
         };
 
         public EditSectionPutSteps(Response response)
@@ -257,6 +258,12 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
 
             [JsonProperty("requires-hscn")]
             public List<string> RequiresHSCN { get; set; }
+        }
+
+        private class RoadmapPayload
+        {
+            [JsonProperty("description")]
+            public string Description { get; set; }
         }
     }
 }
