@@ -24,6 +24,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.Nat
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionNativeMobileFirst;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionNativeMobileHardwareRequirements;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.UpdateSolutionClientApplicationTypes;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.OnPremise;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PublicCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PrivateCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview;
@@ -129,6 +130,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
         public UpdatePrivateCloudHandler UpdatePrivateCloudHandler =>
             (UpdatePrivateCloudHandler)_scope.UpdatePrivateCloudHandler;
 
+        public UpdateOnPremiseHandler UpdateOnPremiseHandler =>
+            (UpdateOnPremiseHandler)_scope.UpdateOnPremiseHandler;
+
         public UpdateRoadmapHandler UpdateRoadmapHandler =>
             (UpdateRoadmapHandler)_scope.UpdateRoadmapHandler;
 
@@ -225,6 +229,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public IRequestHandler<UpdatePrivateCloudCommand, ISimpleResult> UpdatePrivateCloudHandler { get; }
 
+            public IRequestHandler<UpdateOnPremiseCommand, ISimpleResult> UpdateOnPremiseHandler { get; }
+
             public IRequestHandler<UpdateRoadmapCommand, ISimpleResult> UpdateRoadmapHandler { get; }
 
             public Scope(IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
@@ -257,6 +263,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdateNativeDesktopAdditionalInformationCommand, ISimpleResult> updateNativeDesktopAdditionalInformationHandler,
                 IRequestHandler<UpdatePublicCloudCommand, ISimpleResult> updatePublicCloudHandler,
                 IRequestHandler<UpdatePrivateCloudCommand, ISimpleResult> updatePrivateCloudHandler,
+                IRequestHandler<UpdateOnPremiseCommand, ISimpleResult> updateOnPremiseHandler,
                 IRequestHandler<UpdateRoadmapCommand, ISimpleResult> updateRoadmapHandler
                 )
             {
@@ -290,6 +297,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 UpdateNativeDesktopAdditionalInformationHandler = updateNativeDesktopAdditionalInformationHandler;
                 UpdatePublicCloudHandler = updatePublicCloudHandler;
                 UpdatePrivateCloudHandler = updatePrivateCloudHandler;
+                UpdateOnPremiseHandler = updateOnPremiseHandler;
                 UpdateRoadmapHandler = updateRoadmapHandler;
             }
         }

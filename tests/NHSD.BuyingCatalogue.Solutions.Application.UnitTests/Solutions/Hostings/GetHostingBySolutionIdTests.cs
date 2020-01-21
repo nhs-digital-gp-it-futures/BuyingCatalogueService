@@ -35,23 +35,38 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
         [Test]
         public async Task ShouldGetHostingById()
         {
-            var originalHosting = new Hosting();
-            originalHosting.PublicCloud = new PublicCloud
+            var originalHosting = new Hosting
             {
-                Summary = "Some Summary",
-                URL = "www.somelink.com",
-                ConnectivityRequired = "This Solution requires a HSCN/N3 connection"
+                PublicCloud = new PublicCloud
+                {
+                    Summary = "Some Summary",
+                    Link = "www.somelink.com",
+                    RequiresHSCN = "This Solution requires a HSCN/N3 connection"
+                },
+                PrivateCloud = new PrivateCloud
+                {
+                    Summary = "Private Summary",
+                    Link = "www.privatelink.com",
+                    HostingModel = "Hosting Model",
+                    RequiresHSCN = "How much wood would a woodchuck chuck if a woodchuck could chuck wood?"
+                },
+                HybridHostingType = new HybridHostingType
+                {
+                    Summary = "Private Summary",
+                    Link = "www.privatelink.com",
+                    HostingModel = "Hosting Model",
+                    RequiresHSCN = "This Solution requires a HSCN/N3 connection"
+                },
+                OnPremise = new OnPremise
+                {
+                    Summary = "Private Summary",
+                    Link = "www.privatelink.com",
+                    HostingModel = "Hosting Model",
+                    RequiresHSCN = "This Solution requires a HSCN/N3 connection"
+                }
             };
 
-            originalHosting.PrivateCloud = new PrivateCloud
-            {
-                Summary = "Private Summary",
-                Link = "www.privatelink.com",
-                HostingModel = "Hosting Model",
-                RequiresHSCN = "How much wood would a woodchuck chuck if a woodchuck could chuck wood?"
-            };
-
-            _hostingResult = Mock.Of<IHostingResult>(r =>
+        _hostingResult = Mock.Of<IHostingResult>(r =>
                 r.Id == _solutionId &&
                 r.Hosting == JsonConvert.SerializeObject(originalHosting)
                 );

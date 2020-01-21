@@ -685,20 +685,20 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase(null, null, "Some Connectivity", true)]
         [TestCase("     ", "", "        ", false)]
         [TestCase(null, null, null, false)]
-        public async Task IfPublicCloudEmptyThenItHasNoData(string summary, string url, string connectivityRequired, bool hasData)
+        public async Task IfPublicCloudEmptyThenItHasNoData(string summary, string link, string requiresHscn, bool hasData)
         {
             var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
                     s.Hosting == Mock.Of<IHosting>(h =>
                         h.PublicCloud == Mock.Of<IPublicCloud>(p => p.Summary == summary
-                                                                    && p.URL == url
-                                                                    && p.ConnectivityRequired == connectivityRequired))))
+                                                                    && p.Link == link
+                                                                    && p.RequiresHSCN == requiresHscn))))
                 .ConfigureAwait(false);
 
             if (hasData)
             {
                 previewResult.Sections.PublicCloud.Answers.Summary.Should().Be(summary);
-                previewResult.Sections.PublicCloud.Answers.URL.Should().Be(url);
-                previewResult.Sections.PublicCloud.Answers.ConnectivityRequired.Should().Be(connectivityRequired);
+                previewResult.Sections.PublicCloud.Answers.Link.Should().Be(link);
+                previewResult.Sections.PublicCloud.Answers.RequiresHSCN.Should().Be(requiresHscn);
 
                 previewResult.Sections.PublicCloud.Answers.HasData.Should().BeTrue();
             }
@@ -750,6 +750,51 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             else
             {
                 previewResult.Sections.PrivateCloud.Should().BeNull();
+            }
+        }
+
+        [TestCase("Some Summary", "Some url", "Some Hosting", "Some Connectivity", true)]
+        [TestCase("Some Summary", "", "Some Hosting", "Some Connectivity", true)]
+        [TestCase("     ", "     ", "Some Hosting", "Some Connectivity", true)]
+        [TestCase("Some Summary", "Some url", null, "Some Connectivity", true)]
+        [TestCase(" ", "Some url", "Some Hosting", "Some Connectivity", true)]
+        [TestCase("Some Summary", "Some url", "Some Hosting", "     ", true)]
+        [TestCase("Some Summary", "     ", "Some Hosting", "     ", true)]
+        [TestCase(null, null, "Some Hosting", "Some Connectivity", true)]
+        [TestCase("Some Summary", "", null, "Some Connectivity", true)]
+        [TestCase("     ", "     ", null, "Some Connectivity", true)]
+        [TestCase(" ", "Some url", null, "Some Connectivity", true)]
+        [TestCase("Some Summary", "Some url", null, "     ", true)]
+        [TestCase("     ", "Some url", "Some Hosting", null, true)]
+        [TestCase("     ", "", "Some Hosting", "        ", true)]
+        [TestCase("Some Summary", "     ", null, "     ", true)]
+        [TestCase(null, null, null, "Some Connectivity", true)]
+        [TestCase(null, null, "Some Hosting", null, true)]
+        [TestCase("     ", "", "    ", "        ", false)]
+        [TestCase("     ", "Some url", null, null, true)]
+        [TestCase(null, null, null, null, false)]
+        public async Task IfOnPremiseIsEmptyThenItHasNoData(string summary, string link, string hosting, string requiresHscn, bool hasData)
+        {
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                    s.Hosting == Mock.Of<IHosting>(h =>
+                        h.OnPremise == Mock.Of<IOnPremise>(p => p.Summary == summary
+                                                                    && p.Link == link
+                                                                    && p.HostingModel == hosting
+                                                                    && p.RequiresHSCN == requiresHscn))))
+                .ConfigureAwait(false);
+
+            if (hasData)
+            {
+                previewResult.Sections.OnPremise.Answers.Summary.Should().Be(summary);
+                previewResult.Sections.OnPremise.Answers.Link.Should().Be(link);
+                previewResult.Sections.OnPremise.Answers.HostingModel.Should().Be(hosting);
+                previewResult.Sections.OnPremise.Answers.RequiresHSCN.Should().Be(requiresHscn);
+
+                previewResult.Sections.OnPremise.Answers.HasData.Should().BeTrue();
+            }
+            else
+            {
+                previewResult.Sections.OnPremise.Should().BeNull();
             }
         }
 

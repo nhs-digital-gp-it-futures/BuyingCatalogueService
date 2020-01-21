@@ -71,6 +71,7 @@ To stop the application running in a container and to delete the associated imag
     ```
     & '.\Tear Down Environment.ps1' -q
     ```
+
 ## On a Linux/Mac Box
 *All scripts are meant to be run in bash from within this directory*
 
@@ -102,6 +103,49 @@ bash tear_down_environment.sh
     bash tear_down_environment.sh -q
     ```
 </p>
+
+## Local Debugging
+
+Firstly, run 'Create Local Db' script
+
+### On a Windows box
+```
+& '.\Create Local Db.ps1'
+```
+
+### On Linux/Mac box
+```
+bash create_local_db.sh
+```
+
+Secondly, copy and paste the connection string into your [User Secrets file](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-3.1&tabs=windows#how-the-secret-manager-tool-works). Your file should have this format:
+```
+{
+  "ConnectionStrings": {
+    "BuyingCatalogue": "Data Source=127.0.0.1,$port;Initial Catalog=$db_name;MultipleActiveResultSets=True;User Id=$username;Password=$password"
+  }
+}
+```
+Lastly, run the API - either through your favourite IDE or using your favourite shell - from root of the directory run
+```
+dotnet run --project ./src/NHSD.BuyingCatalogue.API
+```
+
+### Flags
+The scripts have default values for the port that your database listens on, username and password, but they can be specified by passing them when calling the script like so:
+
+### Windows:
+```
+& '.\Create Local Db.ps1' 1420 MyTestUser MyT3stP@ssword!
+```
+
+### Bash:
+```
+bash create_local_db.sh 1420 MyTestUser MyT3stP@ssword!
+```
+
+This would run the database on port 1420, create an user with the id 'MyTestUser' and set its password to 'MyT3stP@ssword!'
+
 
 # Integration Tests
 

@@ -70,7 +70,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
                 new ClientApplicationTypesSubSections(solution.ClientApplication));
             ContactDetailsSection = DashboardSection.Optional(new ContactAnswerSection(solution.Contacts).HasData());
             HostingTypePublicCloudSection = DashboardSection.Optional(solution.Hosting.IsPublicCloudComplete());
-            HostingTypePrivateCloudSection = DashboardSection.Optional(false);
+            HostingTypePrivateCloudSection = DashboardSection.Optional(solution.Hosting.IsPrivateCloudComplete());
             HostingTypeHybridSection = DashboardSection.Optional(false);
         }
     }

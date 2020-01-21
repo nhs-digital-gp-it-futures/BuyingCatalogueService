@@ -6,8 +6,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Commands.Hostings
     {
         string Summary { get; }
 
-        string URL { get; }
+        string Link { get; }
 
-        HashSet<string> ConnectivityRequired { get; }
+        HashSet<string> RequiresHSCN { get; }
     }
 }
