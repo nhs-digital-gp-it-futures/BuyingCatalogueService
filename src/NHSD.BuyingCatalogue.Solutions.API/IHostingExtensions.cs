@@ -14,5 +14,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API
             !string.IsNullOrWhiteSpace(hosting?.PrivateCloud?.Link) ||
             !string.IsNullOrWhiteSpace(hosting?.PrivateCloud?.HostingModel) ||
             !string.IsNullOrWhiteSpace(hosting?.PrivateCloud?.RequiresHSCN);
+
+        public static bool IsOnPremiseComplete(this IHosting hosting) =>
+            !string.IsNullOrWhiteSpace(hosting?.OnPremise?.Summary) ||
+            !string.IsNullOrWhiteSpace(hosting?.OnPremise?.Link) ||
+            !string.IsNullOrWhiteSpace(hosting?.OnPremise?.HostingModel) ||
+            !string.IsNullOrWhiteSpace(hosting?.OnPremise?.RequiresHSCN);
     }
 }
