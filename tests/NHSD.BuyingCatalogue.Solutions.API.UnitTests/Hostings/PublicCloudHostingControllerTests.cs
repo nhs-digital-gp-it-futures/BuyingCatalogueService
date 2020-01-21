@@ -53,14 +53,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
         [TestCase(null, null, "'Tis required")]
         [TestCase(null, null, null)]
 
-        public async Task PopulatedPublicCloudShouldReturnCorrectPublicCloud(string summary, string url, string connectivityRequired)
+        public async Task PopulatedPublicCloudShouldReturnCorrectPublicCloud(string summary, string link, string requiresHscn)
         {
             _mediatorMock.Setup(m => m.Send(It.Is<GetHostingBySolutionIdQuery>(q => q.Id == _solutionId),
                     It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Mock.Of<IHosting>(h => h.PublicCloud == Mock.Of<IPublicCloud>(p =>
                                                          p.Summary == summary &&
-                                                         p.URL == url &&
-                                                         p.ConnectivityRequired == connectivityRequired)));
+                                                         p.Link == link &&
+                                                         p.RequiresHSCN == requiresHscn)));
             var result = await _publicCloudHostingController.GetPublicCloudHosting(_solutionId).ConfigureAwait(false) as ObjectResult;
             result.Should().NotBeNull();
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
@@ -68,15 +68,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
 
             var publicCloudData = result.Value as GetPublicCloudResult;
             publicCloudData.Summary.Should().Be(summary);
-            publicCloudData.URL.Should().Be(url);
+            publicCloudData.Link.Should().Be(link);
 
-            if (connectivityRequired == null) 
+            if (requiresHscn == null) 
             {
-                publicCloudData.ConnectivityRequired.Should().BeEmpty();
+                publicCloudData.RequiredHscn.Should().BeEmpty();
             }
             else
             {
-                publicCloudData.ConnectivityRequired.Should().BeEquivalentTo(connectivityRequired);
+                publicCloudData.RequiredHscn.Should().BeEquivalentTo(requiresHscn);
             }
         }
 
@@ -93,8 +93,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
 
             var publicCloudData = result.Value as GetPublicCloudResult;
             publicCloudData.Summary.Should().BeNull();
-            publicCloudData.URL.Should().BeNull();
-            publicCloudData.ConnectivityRequired.Should().BeEmpty();
+            publicCloudData.Link.Should().BeNull();
+            publicCloudData.RequiredHscn.Should().BeEmpty();
         }
 
         [Test]
@@ -103,8 +103,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
             var request = new UpdatePublicCloudViewModel()
             {
                 Summary = "New Summary",
-                URL = "New URL",
-                ConnectivityRequired = new HashSet<string>() { "New Connectivity" } 
+                Link = "New URL",
+                RequiresHSCN = new HashSet<string>() { "New Connectivity" } 
             };
 
             var result =
@@ -139,8 +139,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
             _mediatorMock.Verify(x => x.Send(
                     It.Is<UpdatePublicCloudCommand>(c =>
                         c.Data.Summary == request.Summary &&
-                        c.Data.URL == request.URL &&
-                        c.Data.ConnectivityRequired == request.ConnectivityRequired &&
+                        c.Data.Link == request.Link &&
+                        c.Data.RequiresHSCN == request.RequiresHSCN &&
                         c.SolutionId == _solutionId), It.IsAny<CancellationToken>()),
                 Times.Once);
         }

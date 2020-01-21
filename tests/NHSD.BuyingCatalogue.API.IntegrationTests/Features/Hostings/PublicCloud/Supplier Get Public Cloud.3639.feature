@@ -16,9 +16,9 @@ Background:
         | Sln2       | TakeTheRedPill   | GPs-R-Us         | 1                | Sup 1      |
         | Sln3       | TakeTheGreenPill | GPs-R-Us         | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription            | FullDescription   | Hosting                                                                                                                                            |
-        | Sln1     | A full online medicine system | Online medicine 1 | { "PublicCloud": { "Summary": "Some summary", "URL": "www.somelink.com", "ConnectivityRequired": "This Solution requires a HSCN/N3 connection" } } |
-        | Sln2     | An online medicine system     | Online medicine 2 | {  }                                                                                                                                               |
+        | Solution | SummaryDescription            | FullDescription   | Hosting                                                                                                                                     |
+        | Sln1     | A full online medicine system | Online medicine 1 | { "PublicCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
+        | Sln2     | An online medicine system     | Online medicine 2 | {  }                                                                                                                                        |
 
 @3639
 Scenario: 1.Public Cloud is retreived for the solution

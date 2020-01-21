@@ -10,9 +10,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Hostings
         public string Summary { get; set; }
 
         [JsonProperty("link")]
-        public string URL { get; set; }
+        public string Link { get; set; }
 
         [JsonProperty("requires-hscn")]
-        public HashSet<string> ConnectivityRequired { get; internal set; } = new HashSet<string>();
+        public HashSet<string> RequiresHSCN { get; internal set; } = new HashSet<string>();
     }
 }

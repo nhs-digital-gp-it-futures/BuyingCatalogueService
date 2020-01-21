@@ -22,8 +22,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
     {
         private const string SolutionId = "Sln1";
         private const string SummaryToken = "PublicCloud.Summary";
-        private const string LinkToken = "PublicCloud.URL";
-        private const string ConnectivityToken = "PublicCloud.ConnectivityRequired";
+        private const string LinkToken = "PublicCloud.Link";
+        private const string ConnectivityToken = "PublicCloud.RequiresHSCN";
 
         private Mock<IUpdatePublicCloudData> _dataMock;
         private string _summary;
@@ -42,16 +42,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
 
             _dataMock = new Mock<IUpdatePublicCloudData>();
             _dataMock.Setup(x => x.Summary).Returns(() => _summary);
-            _dataMock.Setup(x => x.URL).Returns(() => _url);
-            _dataMock.Setup(x => x.ConnectivityRequired).Returns(() => _connectivity);
+            _dataMock.Setup(x => x.Link).Returns(() => _url);
+            _dataMock.Setup(x => x.RequiresHSCN).Returns(() => _connectivity);
 
             _hosting = new Hosting
             {
                 PublicCloud = new PublicCloud()
                 {
                     Summary = _summary,
-                    URL = _url,
-                    ConnectivityRequired = _connectivity.FirstOrDefault()
+                    Link = _url,
+                    RequiresHSCN = _connectivity.FirstOrDefault()
                 }
             };
 
@@ -115,8 +115,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                     var newHosting = JsonConvert.DeserializeObject<Hosting>(json.ToString());
 
                     newHosting.PublicCloud.Summary.Should().Be(_summary);
-                    newHosting.PublicCloud.URL.Should().Be(_url);
-                    newHosting.PublicCloud.ConnectivityRequired.Should().Be(_connectivity.FirstOrDefault());
+                    newHosting.PublicCloud.Link.Should().Be(_url);
+                    newHosting.PublicCloud.RequiresHSCN.Should().Be(_connectivity.FirstOrDefault());
 
                 });
             var validationResult = await UpdatePublicCloud().ConfigureAwait(false);
