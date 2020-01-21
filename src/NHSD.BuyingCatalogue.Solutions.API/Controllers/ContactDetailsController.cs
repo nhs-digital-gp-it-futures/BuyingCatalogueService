@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 {
