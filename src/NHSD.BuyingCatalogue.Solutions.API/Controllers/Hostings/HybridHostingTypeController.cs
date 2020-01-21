@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
@@ -23,11 +24,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Hostings
 
         [HttpGet]
         [Route("{id}/sections/hosting-type-hybrid")]
-        public async Task<ActionResult> GetHybridHostingType([FromRoute] [Required] string id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> Get([FromRoute] [Required] string id)
         {
             var hosting = await _mediator.Send(new GetHostingBySolutionIdQuery(id)).ConfigureAwait(false);
             return Ok(new GetHybridHostingTypeResult(hosting?.HybridHostingType));
-
         }
     }
 }

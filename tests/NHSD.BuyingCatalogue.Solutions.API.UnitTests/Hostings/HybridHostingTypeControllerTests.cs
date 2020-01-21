@@ -49,11 +49,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
                     It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Mock.Of<IHosting>(h => h.HybridHostingType == Mock.Of<IHybridHostingType>(p =>
                                                          p.Summary == summary
-                                                         && p.Url == url
+                                                         && p.Link == url
                                                          && p.HostingModel == hostingModel
-                                                         && p.ConnectivityRequired == connectivityRequired)));
+                                                         && p.RequiresHSCN == connectivityRequired)));
 
-            var response = await _hybridHostingTypeController.GetHybridHostingType(_solutionId).ConfigureAwait(false) as ObjectResult;
+            var response = await _hybridHostingTypeController.Get(_solutionId).ConfigureAwait(false) as ObjectResult;
             response.Should().NotBeNull();
             response.StatusCode.Should().Be((int)HttpStatusCode.OK);
             response.Value.Should().BeOfType<GetHybridHostingTypeResult>();
@@ -61,16 +61,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
             var result = response.Value as GetHybridHostingTypeResult;
             result.Should().NotBeNull();
             result.Summary.Should().Be(summary);
-            result.Url.Should().Be(url);
+            result.Link.Should().Be(url);
             result.HostingModel.Should().Be(hostingModel);
 
             if (connectivityRequired == null)
             {
-                result.ConnectivityRequired.Should().BeEmpty();
+                result.RequiresHSCN.Should().BeEmpty();
             }
             else
             {
-                result.ConnectivityRequired.Should().BeEquivalentTo(connectivityRequired);
+                result.RequiresHSCN.Should().BeEquivalentTo(connectivityRequired);
             }
         }
 
@@ -81,7 +81,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
                     It.IsAny<CancellationToken>()))
                 .ReturnsAsync(null as IHosting);
 
-            var response = await _hybridHostingTypeController.GetHybridHostingType(_solutionId).ConfigureAwait(false) as ObjectResult;
+            var response = await _hybridHostingTypeController.Get(_solutionId).ConfigureAwait(false) as ObjectResult;
             response.Should().NotBeNull();
             response.StatusCode.Should().Be((int)HttpStatusCode.OK);
             response.Value.Should().BeOfType<GetHybridHostingTypeResult>();
@@ -89,9 +89,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
             var result = response.Value as GetHybridHostingTypeResult;
             result.Should().NotBeNull();
             result.Summary.Should().BeNull();
-            result.Url.Should().BeNull();
+            result.Link.Should().BeNull();
             result.HostingModel.Should().BeNull();
-            result.ConnectivityRequired.Should().BeEmpty();
+            result.RequiresHSCN.Should().BeEmpty();
         }
     }
 }

@@ -53,9 +53,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                 HybridHostingType = new HybridHostingType
                 {
                     Summary = "Private Summary",
-                    Url = "www.privatelink.com",
+                    Link = "www.privatelink.com",
                     HostingModel = "Hosting Model",
-                    ConnectivityRequired = "This Solution requires a HSCN/N3 connection"
+                    RequiresHSCN = "This Solution requires a HSCN/N3 connection"
                 },
                 OnPremise = new OnPremise
                 {
