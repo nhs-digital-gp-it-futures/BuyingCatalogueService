@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
 
-namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
+namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicationBySolutionId
 {
     internal sealed class ClientApplicationDto : IClientApplication
     {
