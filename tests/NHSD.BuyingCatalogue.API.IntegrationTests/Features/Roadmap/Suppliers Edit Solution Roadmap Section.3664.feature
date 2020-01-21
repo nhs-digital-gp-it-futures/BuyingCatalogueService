@@ -20,7 +20,7 @@ Background:
         | Sln1     | An original roadmap description      |
         | Sln2     | Another original roadmap description |
 
-@1843
+@3664
 Scenario: 1. Solution roadmap section data is updated
     When a PUT request is made to update the roadmap section for solution Sln1
         | Description            |
@@ -32,7 +32,7 @@ Scenario: 1. Solution roadmap section data is updated
         | Sln2     | Another original roadmap description |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
-@1843
+@3664
 Scenario: 2. Solution roadmap section data is updated with trimmed whitespace
     When a PUT request is made to update the roadmap section for solution Sln1
         | Description                                 |
@@ -43,7 +43,8 @@ Scenario: 2. Solution roadmap section data is updated with trimmed whitespace
         | Sln1     | A new full description               |
         | Sln2     | Another original roadmap description |
     And Last Updated has updated on the SolutionDetail for solution Sln1
-
+    
+@3664
 Scenario: 3. Solution roadmap section data is not created on update, fail fast in this case
     Given a SolutionDetail Sln3 does not exist
     When a PUT request is made to update the roadmap section for solution Sln3
@@ -51,23 +52,23 @@ Scenario: 3. Solution roadmap section data is not created on update, fail fast i
         | A new full description |
     Then a response status of 500 is returned
 
-@1828
+@3664
 Scenario: 4. Solution not found
     Given a Solution Sln4 does not exist
     When a PUT request is made to update the roadmap section for solution Sln4
         | Description            |
         | A new full description |
     Then a response status of 404 is returned
-
-@1828
+    
+@3664
 Scenario: 5. Service failure
     Given the call to the database to set the field will fail
     When a PUT request is made to update the roadmap section for solution Sln1
         | Description            |
         | A new full description |
     Then a response status of 500 is returned
-
-@1828
+    
+@3664
 Scenario: 6. Solution id not present in request
     When a PUT request is made to update the roadmap section with no solution id
         | Description            |

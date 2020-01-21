@@ -16,8 +16,8 @@ Background:
     And SolutionDetail exist
         | Solution | RoadMap                         |
         | Sln1     | An original roadmap description |
-
-@3319
+        
+@3664
 Scenario: 1. Description is greater than max length (1000 characters)
     When a PUT request is made to update the roadmap section for solution Sln1
         | Description                  |
