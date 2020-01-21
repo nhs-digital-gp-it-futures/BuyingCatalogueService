@@ -25,14 +25,14 @@ Scenario Outline: 1. Public cloud section is optional and is reported complete i
     And the solution hosting-type-public-cloud section status is <Status>
     And the solution hosting-type-public-cloud section requirement is Optional
 Examples:
-    | Solution | Status     | Hosting                                                                                                                                            |
-    | Sln1     | INCOMPLETE | { }                                                                                                                                                |
-    | Sln1     | INCOMPLETE |                                                                                                                                                    |
-    | Sln1     | INCOMPLETE | { "PublicCloud": null }                                                                                                                            |
-    | Sln1     | COMPLETE   | { "PublicCloud": {"Summary": "Some summary" } }                                                                                                    |
-    | Sln1     | COMPLETE   | { "PublicCloud": {"URL": "Some url" } }                                                                                                            |
-    | Sln1     | COMPLETE   | { "PublicCloud": {"ConnectivityRequired": "Some connectivity" } }                                                                                  |
-    | Sln1     | COMPLETE   | { "PublicCloud": { "Summary": "Some summary", "URL": "www.somelink.com", "ConnectivityRequired": "This Solution requires a HSCN/N3 connection" } } |
-    | Sln2     | INCOMPLETE |                                                                                                                                                    |
+    | Solution | Status     | Hosting                                                                                                                                     |
+    | Sln1     | INCOMPLETE | { }                                                                                                                                         |
+    | Sln1     | INCOMPLETE |                                                                                                                                             |
+    | Sln1     | INCOMPLETE | { "PublicCloud": null }                                                                                                                     |
+    | Sln1     | COMPLETE   | { "PublicCloud": {"Summary": "Some summary" } }                                                                                             |
+    | Sln1     | COMPLETE   | { "PublicCloud": {"Link": "Some url" } }                                                                                                    |
+    | Sln1     | COMPLETE   | { "PublicCloud": {"RequiresHSCN": "Some connectivity" } }                                                                                   |
+    | Sln1     | COMPLETE   | { "PublicCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
+    | Sln2     | INCOMPLETE |                                                                                                                                             |
 
 
