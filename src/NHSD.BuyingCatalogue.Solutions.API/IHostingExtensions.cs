@@ -20,5 +20,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API
             !string.IsNullOrWhiteSpace(hosting?.OnPremise?.Link) ||
             !string.IsNullOrWhiteSpace(hosting?.OnPremise?.HostingModel) ||
             !string.IsNullOrWhiteSpace(hosting?.OnPremise?.RequiresHSCN);
+
+        public static bool IsHybridHostingTypeComplete(this IHosting hosting) =>
+            !string.IsNullOrWhiteSpace(hosting?.HybridHostingType?.Summary) ||
+            !string.IsNullOrWhiteSpace(hosting?.HybridHostingType?.Link) ||
+            !string.IsNullOrWhiteSpace(hosting?.HybridHostingType?.HostingModel) ||
+            !string.IsNullOrWhiteSpace(hosting?.HybridHostingType?.RequiresHSCN);
     }
 }
