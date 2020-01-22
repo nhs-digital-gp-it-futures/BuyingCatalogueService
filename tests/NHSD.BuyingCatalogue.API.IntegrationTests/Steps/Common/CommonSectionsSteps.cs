@@ -20,14 +20,14 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             _response = response;
         }
 
-        [Then(@"the solution (features|solution-description|client-application-types|contact-details|hosting-type-public-cloud|hosting-type-private-cloud|hosting-type-hybrid|hosting-type-on-premise) section status is (COMPLETE|INCOMPLETE)")]
+        [Then(@"the solution (features|solution-description|client-application-types|contact-details|hosting-type-public-cloud|hosting-type-private-cloud|hosting-type-hybrid|hosting-type-on-premise|about-supplier) section status is (COMPLETE|INCOMPLETE)")]
         public async Task ThenTheSolutionSectionStatusIs(string section, string status)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
             content.SelectToken($"sections.{section}.status").ToString().Should().Be(status);
         }
 
-        [Then(@"the solution (features|solution-description|client-application-types|contact-details|hosting-type-public-cloud|hosting-type-private-cloud|hosting-type-hybrid|hosting-type-on-premise) section requirement is (Mandatory|Optional)")]
+        [Then(@"the solution (features|solution-description|client-application-types|contact-details|hosting-type-public-cloud|hosting-type-private-cloud|hosting-type-hybrid|hosting-type-on-premise|about-supplier) section requirement is (Mandatory|Optional)")]
         public async Task ThenTheSolutionSectionRequirementIsMandatory(string section, string requirement)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
