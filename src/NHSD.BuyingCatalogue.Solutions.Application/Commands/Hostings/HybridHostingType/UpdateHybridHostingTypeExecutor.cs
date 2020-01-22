@@ -21,7 +21,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.HybridHos
                         Summary = request.Data.Summary,
                         Link = request.Data.Link,
                         HostingModel = request.Data.HostingModel,
-                        RequiresHSCN = request.Data.RequiresHSCN.FirstOrDefault()
+                        RequiresHSCN = request.Data.RequiresHSCN
                     };
                 },
                 cancellationToken).ConfigureAwait(false);

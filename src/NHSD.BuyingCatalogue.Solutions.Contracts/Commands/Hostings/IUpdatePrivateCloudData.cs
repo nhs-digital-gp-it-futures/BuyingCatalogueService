@@ -10,6 +10,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Commands.Hostings
 
         string HostingModel { get; }
 
-        HashSet<string> RequiresHSCN { get; }
+        string RequiresHSCN { get; }
     }
 }
