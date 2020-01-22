@@ -1,6 +1,6 @@
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
-namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
+namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicationBySolutionId
 {
     public sealed class MobileThirdPartyDto : IMobileThirdParty
     {

@@ -6,7 +6,7 @@ using MediatR;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
-namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
+namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId
 {
     internal sealed class GetContactDetailBySolutionIdHandler : IRequestHandler<GetContactDetailBySolutionIdQuery, IEnumerable<IContact>>
     {
