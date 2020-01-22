@@ -10,6 +10,7 @@ using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
@@ -28,6 +29,28 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             _mockMediator = new Mock<IMediator>();
             _controller = new RoadmapController(_mockMediator.Object);
+        }
+
+        [Test]
+        public async Task ShouldGetRoadMap()
+        {
+            var description = "Some roadmap description";
+            _mockMediator.Setup(m => m.Send(It.Is<GetRoadMapByIdQuery>(r => r.Id == SolutionId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(description);
+
+            var result = await _controller.Get(SolutionId).ConfigureAwait(false);
+            result.Should().BeOfType<OkObjectResult>();
+            result.Should().NotBeNull();
+
+            var objectResult = result as OkObjectResult;
+            objectResult.Value.Should().BeOfType<RoadMapResult>();
+
+            var roadMapResult = objectResult.Value as RoadMapResult;
+            roadMapResult.Should().NotBeNull();
+            roadMapResult.Description.Should().Be(description);
+
+            _mockMediator.Verify(m => m.Send(It.Is<GetRoadMapByIdQuery>(r => r.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+            _mockMediator.VerifyNoOtherCalls();
         }
 
         [Test]

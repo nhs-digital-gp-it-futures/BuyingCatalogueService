@@ -56,6 +56,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
         public GetSolutionByIdHandler GetSolutionByIdHandler => (GetSolutionByIdHandler)_scope.GetSolutionByIdHandler;
 
+        public GetRoadMapByIdHandler GetRoadMapByIdHandler => (GetRoadMapByIdHandler)_scope.GetRoadMapByIdHandler;
+
         public GetClientApplicationBySolutionIdHandler GetClientApplicationBySolutionIdHandler => (GetClientApplicationBySolutionIdHandler)_scope.GetClientApplicationBySolutionIdHandler;
 
         public GetHostingBySolutionIdHandler GetHostingBySolutionIdHandler => (GetHostingBySolutionIdHandler)_scope.GetHostingBySolutionIdHandler;
@@ -178,6 +180,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public IRequestHandler<GetHostingBySolutionIdQuery, IHosting> GetHostingBySolutionIdHandler { get; }
 
+            public IRequestHandler<GetRoadMapByIdQuery, string> GetRoadMapByIdHandler { get; }
+
             public IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> SubmitSolutionForReviewHandler { get; }
 
             public IRequestHandler<UpdateSolutionSummaryCommand, ISimpleResult> UpdateSolutionSummaryHandler { get; }
@@ -267,8 +271,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdatePublicCloudCommand, ISimpleResult> updatePublicCloudHandler,
                 IRequestHandler<UpdatePrivateCloudCommand, ISimpleResult> updatePrivateCloudHandler,
                 IRequestHandler<UpdateOnPremiseCommand, ISimpleResult> updateOnPremiseHandler,
-                IRequestHandler<UpdateRoadmapCommand, ISimpleResult> updateRoadmapHandler
-                )
+                IRequestHandler<UpdateRoadmapCommand, ISimpleResult> updateRoadmapHandler,
+                IRequestHandler<GetRoadMapByIdQuery, string> getRoadMapByIdHandler)
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;
                 GetClientApplicationBySolutionIdHandler = getClientApplicationBySolutionIdHandler;
@@ -302,6 +306,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 UpdatePrivateCloudHandler = updatePrivateCloudHandler;
                 UpdateOnPremiseHandler = updateOnPremiseHandler;
                 UpdateRoadmapHandler = updateRoadmapHandler;
+                GetRoadMapByIdHandler = getRoadMapByIdHandler;
             }
         }
     }

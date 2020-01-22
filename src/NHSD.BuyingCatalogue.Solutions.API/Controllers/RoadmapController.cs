@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 {
@@ -21,6 +22,23 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         {
             _mediator = mediator;
         }
+
+        /// <summary>
+        /// Gets the roadmap section of a solution matching the supplied ID.
+        /// </summary>
+        /// <param name="id">A value to uniquely identify a solution.</param>
+        /// <returns>A task representing an operation to retrieve the details of the roadmap section of a solution.</returns>
+        [HttpGet]
+        [Route("{id}/sections/roadmap")]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult> Get([FromRoute][Required]string id)
+        {
+            var description = await _mediator.Send(new GetRoadMapByIdQuery(id)).ConfigureAwait(false);
+            return Ok(new RoadMapResult(description));
+        }
+
 
         /// <summary>
         /// Updates the roadmap details of a solution matching the supplied ID.
