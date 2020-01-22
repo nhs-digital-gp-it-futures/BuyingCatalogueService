@@ -96,5 +96,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         public async Task<IHostingResult> GetHostingBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
             => (await _dbConnector.QueryAsync<HostingResult>(getHostingBySolutionIdSql, cancellationToken, new { solutionId }).ConfigureAwait(false)).SingleOrDefault();
+
+        public async Task UpdateRoadmapAsync(IUpdateRoadmapRequest updateRoadmapRequest, CancellationToken cancellationToken)
+            => await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
+                    @"SolutionDetail.RoadMap = @description", StringComparison.InvariantCulture),
+                cancellationToken,
+                updateRoadmapRequest.ThrowIfNull(nameof(updateRoadmapRequest))).ConfigureAwait(false);
     }
 }
