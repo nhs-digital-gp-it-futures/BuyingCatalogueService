@@ -74,7 +74,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
             ContactDetailsSection = DashboardSection.Optional(new ContactAnswerSection(solution.Contacts).HasData());
             HostingTypePublicCloudSection = DashboardSection.Optional(solution.Hosting.IsPublicCloudComplete());
             HostingTypePrivateCloudSection = DashboardSection.Optional(solution.Hosting.IsPrivateCloudComplete());
-            HostingTypeHybridSection = DashboardSection.Optional(false);
+            HostingTypeHybridSection = DashboardSection.Optional(solution.Hosting.IsHybridHostingTypeComplete());
             HostingTypeOnPremiseSection = DashboardSection.Optional(solution.Hosting.IsOnPremiseComplete());
         }
     }
