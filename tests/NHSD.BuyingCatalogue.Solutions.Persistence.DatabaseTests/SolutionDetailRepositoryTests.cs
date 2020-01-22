@@ -415,5 +415,44 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .ConfigureAwait(false);
             result.Hosting.Should().BeNull();
         }
+
+        [Test]
+        public async Task ShouldUpdateRoadmap()
+        {
+            string expectedResult = "some roadmap description";
+
+            await SolutionEntityBuilder.Create()
+                .WithName("Solution1")
+                .WithId(_solution1Id)
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
+                .Build()
+                .InsertAsync()
+                .ConfigureAwait(false);
+
+            await SolutionDetailEntityBuilder.Create()
+                .WithSolutionId(_solution1Id)
+                .WithRoadMap(expectedResult)
+                .Build()
+                .InsertAndSetCurrentForSolutionAsync()
+                .ConfigureAwait(false);
+
+            var mockRequest = new Mock<IUpdateRoadmapRequest>();
+            mockRequest.Setup(m => m.SolutionId).Returns(_solution1Id);
+            mockRequest.Setup(m => m.Description).Returns(expectedResult);
+
+            await _solutionDetailRepository.UpdateRoadmapAsync(mockRequest.Object, new CancellationToken())
+                .ConfigureAwait(false);
+
+            var solution = await SolutionEntity.GetByIdAsync(_solution1Id)
+                .ConfigureAwait(false);
+            solution.Id.Should().Be(_solution1Id);
+
+            var marketingData = await SolutionDetailEntity.GetBySolutionIdAsync(_solution1Id)
+                .ConfigureAwait(false);
+            marketingData.RoadMap.Should().Be(expectedResult);
+
+            (await marketingData.LastUpdated.SecondsFromNow().ConfigureAwait(false)).Should().BeLessOrEqualTo(5);
+        }
     }
 }
