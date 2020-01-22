@@ -28,6 +28,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                     .WithSolutionId(solutionDetail.Solution)
                     .WithClientApplication(solutionDetail.ClientApplication)
                     .WithHosting(solutionDetail.Hosting)
+                    .WithRoadMap(solutionDetail.RoadMap)
                     .WithLastUpdated(solutionDetail.LastUpdated != DateTime.MinValue ? solutionDetail.LastUpdated : DateTime.UtcNow)
                     .Build()
                     .InsertAndSetCurrentForSolutionAsync()
@@ -90,6 +91,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             public string ClientApplication { get; set; }
 
             public string Hosting { get; set; }
+
+            public string RoadMap { get; set; }
 
             public DateTime LastUpdated { get; set; }
         }

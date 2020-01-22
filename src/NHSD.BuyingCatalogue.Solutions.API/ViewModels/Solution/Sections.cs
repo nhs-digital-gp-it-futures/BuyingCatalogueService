@@ -31,6 +31,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         [JsonProperty("hosting-type-on-premise")]
         public OnPremiseSection OnPremise { get; }
 
+        [JsonProperty("hosting-type-hybrid")]
+        public HybridHostingTypeSection HybridHostingType { get; }
+
         /// <summary>
         /// Initialises a new instance of the <see cref="Sections"/> class.
         /// </summary>
@@ -50,6 +53,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
             PublicCloud = new PublicCloudSection(solution.Hosting).IfPopulated();
             PrivateCloud = new PrivateCloudSection(solution.Hosting).IfPopulated();
             OnPremise = new OnPremiseSection(solution.Hosting).IfPopulated();
+            HybridHostingType = new HybridHostingTypeSection(solution.Hosting).IfPopulated();
         }
     }
 }

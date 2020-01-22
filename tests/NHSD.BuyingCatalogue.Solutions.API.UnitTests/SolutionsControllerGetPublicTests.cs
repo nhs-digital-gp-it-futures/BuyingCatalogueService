@@ -971,6 +971,52 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
+        [TestCase("Some Summary", "Some url", "Some Hosting", "Some Connectivity", true)]
+        [TestCase("Some Summary", "", "Some Hosting", "Some Connectivity", true)]
+        [TestCase("     ", "     ", "Some Hosting", "Some Connectivity", true)]
+        [TestCase("Some Summary", "Some url", null, "Some Connectivity", true)]
+        [TestCase(" ", "Some url", "Some Hosting", "Some Connectivity", true)]
+        [TestCase("Some Summary", "Some url", "Some Hosting", "     ", true)]
+        [TestCase("Some Summary", "     ", "Some Hosting", "     ", true)]
+        [TestCase(null, null, "Some Hosting", "Some Connectivity", true)]
+        [TestCase("Some Summary", "", null, "Some Connectivity", true)]
+        [TestCase("     ", "     ", null, "Some Connectivity", true)]
+        [TestCase(" ", "Some url", null, "Some Connectivity", true)]
+        [TestCase("Some Summary", "Some url", null, "     ", true)]
+        [TestCase("     ", "Some url", "Some Hosting", null, true)]
+        [TestCase("     ", "", "Some Hosting", "        ", true)]
+        [TestCase("Some Summary", "     ", null, "     ", true)]
+        [TestCase(null, null, null, "Some Connectivity", true)]
+        [TestCase(null, null, "Some Hosting", null, true)]
+        [TestCase("     ", "", "    ", "        ", false)]
+        [TestCase("     ", "Some url", null, null, true)]
+        [TestCase(null, null, null, null, false)]
+        public async Task IfHybridHostingTypeIsEmptyThenItHasNoData(string summary, string link, string hosting, string requiresHscn, bool hasData)
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                    s.PublishedStatus == PublishedStatus.Published &&
+                    s.Hosting == Mock.Of<IHosting>(h =>
+                        h.HybridHostingType == Mock.Of<IHybridHostingType>(p => p.Summary == summary
+                                                                    && p.Link == link
+                                                                    && p.HostingModel == hosting
+                                                                    && p.RequiresHSCN == requiresHscn))), SolutionId1)
+                .ConfigureAwait(false);
+
+            if (hasData)
+            {
+                publicResult.Sections.HybridHostingType.Answers.Summary.Should().Be(summary);
+                publicResult.Sections.HybridHostingType.Answers.Link.Should().Be(link);
+                publicResult.Sections.HybridHostingType.Answers.HostingModel.Should().Be(hosting);
+                publicResult.Sections.HybridHostingType.Answers.RequiresHSCN.Should().Be(requiresHscn);
+
+                publicResult.Sections.HybridHostingType.Answers.HasData.Should().BeTrue();
+            }
+            else
+            {
+                publicResult.Sections.HybridHostingType.Should().BeNull();
+            }
+        }
+
         [Test]
         public async Task ShouldIncludeNativeDesktopDataIfClientApplicationTypesIncludeNativeDesktop()
         {

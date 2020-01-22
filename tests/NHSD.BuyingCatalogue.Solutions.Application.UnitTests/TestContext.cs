@@ -29,12 +29,16 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.OnPremise;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PublicCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PrivateCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Mapping;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicationBySolutionId;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
@@ -136,6 +140,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
         public UpdateHybridHostingTypeHandler UpdateHybridHostingTypeHandler =>
             (UpdateHybridHostingTypeHandler)_scope.UpdateHybridHostingTypeHandler;
 
+        public UpdateRoadmapHandler UpdateRoadmapHandler =>
+            (UpdateRoadmapHandler)_scope.UpdateRoadmapHandler;
+
         private readonly Scope _scope;
 
         public TestContext()
@@ -158,13 +165,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
         private void RegisterDependencies(ServiceCollection serviceCollection)
         {
             MockSolutionRepository = new Mock<ISolutionRepository>();
-            serviceCollection.AddSingleton<ISolutionRepository>(MockSolutionRepository.Object);
+            serviceCollection.AddSingleton(MockSolutionRepository.Object);
             MockSolutionDetailRepository = new Mock<ISolutionDetailRepository>();
-            serviceCollection.AddSingleton<ISolutionDetailRepository>(MockSolutionDetailRepository.Object);
+            serviceCollection.AddSingleton(MockSolutionDetailRepository.Object);
             MockSolutionCapabilityRepository = new Mock<ISolutionCapabilityRepository>();
-            serviceCollection.AddSingleton<ISolutionCapabilityRepository>(MockSolutionCapabilityRepository.Object);
+            serviceCollection.AddSingleton(MockSolutionCapabilityRepository.Object);
             MockMarketingContactRepository = new Mock<IMarketingContactRepository>();
-            serviceCollection.AddSingleton<IMarketingContactRepository>(MockMarketingContactRepository.Object);
+            serviceCollection.AddSingleton(MockMarketingContactRepository.Object);
         }
 
         private class Scope
@@ -194,6 +201,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             public IRequestHandler<UpdateSolutionBrowserHardwareRequirementsCommand, ISimpleResult> UpdateSolutionBrowserHardwareRequirementsHandler { get; }
 
             public IRequestHandler<UpdateSolutionConnectivityAndResolutionCommand, ISimpleResult> UpdateSolutionConnectivityAndResolutionHandler { get; }
+
             public IRequestHandler<UpdateBrowserBasedAdditionalInformationCommand, ISimpleResult> UpdateSolutionBrowserAdditionalInformationHandler { get; }
 
             public IRequestHandler<UpdateSolutionBrowserMobileFirstCommand, ISimpleResult> UpdateSolutionBrowserMobileFirstHandler { get; }
@@ -232,6 +240,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public IRequestHandler<UpdateHybridHostingTypeCommand, ISimpleResult> UpdateHybridHostingTypeHandler { get; }
 
+            public IRequestHandler<UpdateRoadmapCommand, ISimpleResult> UpdateRoadmapHandler { get; }
+
             public Scope(IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
                 IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> getClientApplicationBySolutionIdHandler,
                 IRequestHandler<GetHostingBySolutionIdQuery, IHosting> getHostingBySolutionIdHandler,
@@ -263,7 +273,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdatePublicCloudCommand, ISimpleResult> updatePublicCloudHandler,
                 IRequestHandler<UpdatePrivateCloudCommand, ISimpleResult> updatePrivateCloudHandler,
                 IRequestHandler<UpdateOnPremiseCommand, ISimpleResult> updateOnPremiseHandler,
-                IRequestHandler<UpdateHybridHostingTypeCommand, ISimpleResult> updateHybridHostingTypeHandler
+                IRequestHandler<UpdateHybridHostingTypeCommand, ISimpleResult> updateHybridHostingTypeHandler,
+                IRequestHandler<UpdateRoadmapCommand, ISimpleResult> updateRoadmapHandler
                 )
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;
@@ -298,6 +309,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 UpdatePrivateCloudHandler = updatePrivateCloudHandler;
                 UpdateOnPremiseHandler = updateOnPremiseHandler;
                 UpdateHybridHostingTypeHandler = updateHybridHostingTypeHandler;
+                UpdateRoadmapHandler = updateRoadmapHandler;
             }
         }
     }
