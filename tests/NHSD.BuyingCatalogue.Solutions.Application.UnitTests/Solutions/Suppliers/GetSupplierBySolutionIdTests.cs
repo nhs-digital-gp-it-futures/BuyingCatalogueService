@@ -43,10 +43,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
                     r.Link == origionalAboutSupplier.Link
                     );
 
-            var newAboutSupplier = await _context.GetAboutSupplierBySolutionIdHandler.Handle(
+            var newSupplier = await _context.GetAboutSupplierBySolutionIdHandler.Handle(
                 new GetSupplierBySolutionIdQuery(_solutionId), _cancellationToken).ConfigureAwait(false);
 
-            newAboutSupplier.Should().BeEquivalentTo(origionalAboutSupplier);
+            newSupplier.Should().BeEquivalentTo(origionalAboutSupplier);
         }
 
         [Test]
@@ -58,10 +58,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
                 r.Link == null
                 );
 
-            var aboutSupplier = await _context.GetAboutSupplierBySolutionIdHandler.Handle(
+            var supplier = await _context.GetAboutSupplierBySolutionIdHandler.Handle(
                 new GetSupplierBySolutionIdQuery(_solutionId), _cancellationToken).ConfigureAwait(false);
-            aboutSupplier.Should().NotBeNull();
-            aboutSupplier.Should().BeEquivalentTo(new SupplierDto());
+            supplier.Should().NotBeNull();
+            supplier.Should().BeEquivalentTo(new SupplierDto());
         }
     }
 }
