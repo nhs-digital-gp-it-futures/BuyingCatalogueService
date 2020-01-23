@@ -38,7 +38,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
             };
 
             _aboutSupplierResult = Mock.Of<ISupplierResult>(r =>
-                    r.Id == _solutionId &&
+                    r.SolutionId == _solutionId &&
                     r.Description == origionalAboutSupplier.Description &&
                     r.Link == origionalAboutSupplier.Link
                     );
@@ -53,7 +53,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
         public async Task EmptyAboutSupplierResultReturnsDefaultAboutSuppler()
         {
             _aboutSupplierResult = Mock.Of<ISupplierResult>(r =>
-                r.Id == _solutionId &&
+                r.SolutionId == _solutionId &&
                 r.Description == null &&
                 r.Link == null
                 );

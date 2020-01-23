@@ -21,7 +21,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierBySoluti
 
         public async Task<ISupplier> Handle(GetSupplierBySolutionIdQuery request,
             CancellationToken cancellationToken) =>
-            _mapper.Map<ISupplier>(await _reader.BySolutionIdAsync(request.Id, cancellationToken)
+            _mapper.Map<ISupplier>(await _reader.BySolutionIdAsync(request.SolutionId, cancellationToken)
                 .ConfigureAwait(false));
     }
 }

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using NHSD.BuyingCatalogue.Solutions.Application.Domain.Suppliers;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
@@ -89,11 +88,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public Hosting Hosting { get; set; }
 
         /// <summary>
-        /// The supplier of the solution
-        /// </summary>
-        public Supplier Supplier { get; set; }
-
-        /// <summary>
         /// Initialises a new instance of the <see cref="Solution"/> class.
         /// </summary>
         internal Solution(ISolutionResult solutionResult,
@@ -121,10 +115,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
             Hosting = string.IsNullOrWhiteSpace(solutionResult.Hosting)
                 ? new Hosting()
                 : JsonConvert.DeserializeObject<Hosting>(solutionResult.Hosting);
-
-            Supplier = string.IsNullOrWhiteSpace(solutionResult.Supplier)
-                ? new Supplier()
-                : JsonConvert.DeserializeObject<Supplier>(solutionResult.Supplier);
         }
 
         /// <summary>

@@ -17,14 +17,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
     public sealed class SupplierControllerTests
     {
         private Mock<IMediator> _mediatorMock;
-        private SupplierController _aboutSupplierController;
+        private SupplierController _supplierController;
         private readonly string _solutionId = "Sln1";
 
         [SetUp]
         public void Setup()
         {
             _mediatorMock = new Mock<IMediator>();
-            _aboutSupplierController = new SupplierController(_mediatorMock.Object);
+            _supplierController = new SupplierController(_mediatorMock.Object);
         }
 
 
@@ -34,10 +34,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
         [TestCase(null, null)]
         public async Task PopulatedAboutSupplierShouldReturnCorrectDetails(string description, string link)
         {
-            _mediatorMock.Setup(m => m.Send(It.Is<GetSupplierBySolutionIdQuery>(q => q.Id == _solutionId),
+            _mediatorMock.Setup(m => m.Send(It.Is<GetSupplierBySolutionIdQuery>(q => q.SolutionId == _solutionId),
                     It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Mock.Of<ISupplier>(s => s.Description == description && s.Link == link));
-            var result = await _aboutSupplierController.Get(_solutionId).ConfigureAwait(false) as ObjectResult;
+            var result = await _supplierController.Get(_solutionId).ConfigureAwait(false) as ObjectResult;
             result.Should().NotBeNull();
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
             result.Value.Should().BeOfType<GetSupplierResult>();
@@ -50,11 +50,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
         [Test]
         public async Task NullAboutSupplierShouldReturnNull()
         {
-            _mediatorMock.Setup(m => m.Send(It.Is<GetSupplierBySolutionIdQuery>(q => q.Id == _solutionId),
+            _mediatorMock.Setup(m => m.Send(It.Is<GetSupplierBySolutionIdQuery>(q => q.SolutionId == _solutionId),
                     It.IsAny<CancellationToken>()))
                 .ReturnsAsync(null as ISupplier);
 
-            var result = await _aboutSupplierController.Get(_solutionId).ConfigureAwait(false) as ObjectResult;
+            var result = await _supplierController.Get(_solutionId).ConfigureAwait(false) as ObjectResult;
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
             result.Value.Should().BeOfType<GetSupplierResult>();
 

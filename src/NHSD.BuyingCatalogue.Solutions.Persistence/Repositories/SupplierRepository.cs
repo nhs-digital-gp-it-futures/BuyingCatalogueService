@@ -14,7 +14,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         public SupplierRepository(IDbConnector dbConnector) => _dbConnector = dbConnector;
 
         private const string getSupplierBySolutionIdSql = @"SELECT
-                                    Supplier.Id,
+                                    Solution.Id as SolutionId,
                                     Supplier.Summary as Description,
                                     Supplier.SupplierUrl as Link
                                  FROM Supplier
