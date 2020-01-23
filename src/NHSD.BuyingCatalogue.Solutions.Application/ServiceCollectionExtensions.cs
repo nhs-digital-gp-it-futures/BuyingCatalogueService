@@ -43,6 +43,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<HostingReader>()
                 .AddTransient<SupplierReader>()
                 .AddTransient<ContactDetailsReader>()
+                .AddTransient<RoadMapReader>()
                 .AddTransient<SolutionVerifier>()
                 .AddTransient<SolutionSummaryUpdater>()
                 .AddTransient<SolutionFeaturesUpdater>()

@@ -18,6 +18,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
 
         string Features { get; }
 
+        string RoadMap { get; }
+
         string ClientApplication { get; }
 
         string Hosting { get; set; }

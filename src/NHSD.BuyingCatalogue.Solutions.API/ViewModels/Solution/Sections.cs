@@ -13,6 +13,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 
         public FeaturesSection Features { get; }
 
+        [JsonProperty("roadmap")]
+        public RoadMapSection RoadMap { get; }
+
         [JsonProperty("client-application-types")]
         public ClientApplicationTypesSection ClientApplicationTypes { get; }
 
@@ -46,8 +49,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 
             SolutionDescription = new SolutionDescriptionSection(solution).IfPopulated();
             Features = new FeaturesSection(solution.Features).IfPopulated();
+            RoadMap = new RoadMapSection(solution.RoadMap).IfPopulated();
             ClientApplicationTypes = new ClientApplicationTypesSection(solution.ClientApplication).IfPopulated();
-
             ContactDetails = new ContactDetailsSection(solution.Contacts).IfPopulated();
             Capabilities = new CapabilitiesSection(solution.Capabilities);
             PublicCloud = new PublicCloudSection(solution.Hosting).IfPopulated();
