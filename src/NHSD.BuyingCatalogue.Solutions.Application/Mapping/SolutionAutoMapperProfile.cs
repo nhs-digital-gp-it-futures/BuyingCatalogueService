@@ -4,13 +4,16 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.NativeDesktop;
+using NHSD.BuyingCatalogue.Solutions.Application.Domain.Suppliers;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicationBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
 {
@@ -56,6 +59,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
             CreateMap<HybridHostingType, IHybridHostingType>().As<HybridHostingTypeDto>();
             CreateMap<OnPremise, OnPremiseDto>();
             CreateMap<OnPremise, IOnPremise>().As<OnPremiseDto>();
+            CreateMap<Supplier, SupplierDto>();
+            CreateMap<Supplier, ISupplier>().As<SupplierDto>();
             CreateMap<RoadMap, RoadMapDto>();
             CreateMap<RoadMap, IRoadMap>().As<RoadMapDto>();
         }

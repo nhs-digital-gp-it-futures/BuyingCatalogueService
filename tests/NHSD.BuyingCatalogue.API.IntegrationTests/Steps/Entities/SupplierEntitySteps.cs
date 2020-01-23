@@ -27,6 +27,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 .WithId(supplierTable.Id)
                 .WithOrganisation(organisations.First(o => o.Name == supplierTable.OrganisationName).Id)
                 .WithName(supplierTable.SupplierName)
+                .WithSummary(supplierTable.Summary)
+                .WithSupplierUrl(supplierTable.SupplierUrl)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
@@ -39,6 +41,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             public string SupplierName { get; set; }
 
             public string OrganisationName { get; set; }
+
+            public string Summary { get; set; }
+
+            public string SupplierUrl { get; set; }
         }
     }
 }
