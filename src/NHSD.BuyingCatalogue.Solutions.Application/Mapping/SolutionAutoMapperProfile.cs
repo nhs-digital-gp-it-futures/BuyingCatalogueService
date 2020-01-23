@@ -56,6 +56,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
             CreateMap<HybridHostingType, IHybridHostingType>().As<HybridHostingTypeDto>();
             CreateMap<OnPremise, OnPremiseDto>();
             CreateMap<OnPremise, IOnPremise>().As<OnPremiseDto>();
+            CreateMap<RoadMap, RoadMapDto>();
+            CreateMap<RoadMap, IRoadMap>().As<RoadMapDto>();
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
+using NHSD.BuyingCatalogue.Solutions.Application.Domain;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
@@ -13,9 +14,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
             _solutionDetailRepository = solutionDetailRepository;
         }
 
-        public async Task<IRoadMapResult> BySolutionIdAsync(string id, CancellationToken cancellationToken)
+        public async Task<RoadMap> BySolutionIdAsync(string id, CancellationToken cancellationToken)
         {
-          return await _solutionDetailRepository.GetRoadMapBySolutionIdAsync(id, cancellationToken).ConfigureAwait(false);
+            var roadMapResult = await _solutionDetailRepository.GetRoadMapBySolutionIdAsync(id, cancellationToken)
+                .ConfigureAwait(false);
+          return new RoadMap{Summary = roadMapResult.Summary};
         }
     }
 }
