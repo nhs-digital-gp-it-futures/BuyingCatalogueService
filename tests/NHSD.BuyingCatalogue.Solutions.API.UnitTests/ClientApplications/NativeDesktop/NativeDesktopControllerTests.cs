@@ -130,7 +130,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
         [TestCase(null, false)]
         [TestCase("", false)]
         [TestCase("                  ", false)]
-        [TestCase("Some OS Description", true)]
+        [TestCase("Some OS Summary", true)]
         public async Task ShouldGetNativeDesktopOperatingSystemsIsComplete(string description, bool isComplete)
         {
             var nativeDesktopResult = await GetNativeDesktopSectionAsync(Mock.Of<IClientApplication>(c => c.NativeDesktopOperatingSystemsDescription == description))

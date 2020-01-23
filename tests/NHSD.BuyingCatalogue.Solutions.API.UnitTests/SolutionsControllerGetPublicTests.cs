@@ -144,6 +144,33 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
+        [TestCase(null, false)]
+        [TestCase("some description", true)]
+        [TestCase(" some description    ", true)]
+        [TestCase(" ", false)]
+        [TestCase("", false)]
+        public async Task ShouldGetPublicCalculateRoadMap(string description, bool hasData)
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                    s.Id == SolutionId1 &&
+                    s.PublishedStatus == PublishedStatus.Published &&
+                    s.RoadMap == description), SolutionId1)
+                .ConfigureAwait(false);
+
+            publicResult.Id.Should().Be(SolutionId1);
+
+            if (hasData)
+            {
+                publicResult.Sections.RoadMap.Should().NotBe(null);
+                publicResult.Sections.RoadMap.Answers.HasData.Should().Be(true);
+                publicResult.Sections.RoadMap.Answers.Summary.Should().Be(description);
+            }
+            else
+            {
+                publicResult.Sections.RoadMap.Should().BeNull();
+            }
+        }
+
         [Test]
         public async Task ShouldCheckForNullClientApplicationTypes()
         {
