@@ -31,12 +31,10 @@ steps:
   inputs:
     azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
     ScriptType: 'FilePath'
-    ScriptPath: 'setup-integration-db.ps1'
+    ScriptPath: 'setup-integration-db.sh'
     errorActionPreference: 'continue'
     preferredAzurePowerShellVersion: '5.1.1'
     pwsh: true
-  enabled: false
-
 
 - task: UseDotNet@2
   displayName: 'Use DotNet Core $(dotnetVersion)'
