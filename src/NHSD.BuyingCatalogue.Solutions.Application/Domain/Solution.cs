@@ -82,6 +82,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         /// </summary>
         public PublishedStatus PublishedStatus { get; set; }
 
+        /// <summary>
+        /// The hosting of the solution
+        /// </summary>
         public Hosting Hosting { get; set; }
 
         /// <summary>
