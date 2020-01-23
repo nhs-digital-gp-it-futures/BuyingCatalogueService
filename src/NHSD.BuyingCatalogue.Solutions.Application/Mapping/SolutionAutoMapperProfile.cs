@@ -61,6 +61,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
             CreateMap<OnPremise, IOnPremise>().As<OnPremiseDto>();
             CreateMap<Supplier, SupplierDto>();
             CreateMap<Supplier, ISupplier>().As<SupplierDto>();
+            CreateMap<RoadMap, RoadMapDto>();
+            CreateMap<RoadMap, IRoadMap>().As<RoadMapDto>();
         }
     }
 }

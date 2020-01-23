@@ -43,6 +43,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                                         LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
                                  WHERE  Solution.Id = @solutionId";
 
+        const string GetRoadMapBySolutionIdSql = @"SELECT
+                                    Solution.Id,
+                                    SolutionDetail.RoadMap as Summary
+                                 FROM   Solution
+                                        LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
+                                 WHERE  Solution.Id = @solutionId";
+
         /// <summary>
         /// Updates the summary details of the solution.
         /// </summary>
@@ -102,5 +109,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                     @"SolutionDetail.RoadMap = @description", StringComparison.InvariantCulture),
                 cancellationToken,
                 updateRoadmapRequest.ThrowIfNull(nameof(updateRoadmapRequest))).ConfigureAwait(false);
+
+        public async Task<IRoadMapResult> GetRoadMapBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
+            => (await _dbConnector.QueryAsync<RoadMapResult>(GetRoadMapBySolutionIdSql, cancellationToken, new { solutionId }).ConfigureAwait(false)).SingleOrDefault();
     }
 }
