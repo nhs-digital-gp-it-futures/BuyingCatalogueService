@@ -291,7 +291,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdateOnPremiseCommand, ISimpleResult> updateOnPremiseHandler,
                 IRequestHandler<UpdateHybridHostingTypeCommand, ISimpleResult> updateHybridHostingTypeHandler,
                 IRequestHandler<UpdateRoadmapCommand, ISimpleResult> updateRoadmapHandler,
-                IRequestHandler<GetRoadMapBySolutionIdQuery, IRoadMap> getRoadMapByIdHandler)
+                IRequestHandler<GetRoadMapBySolutionIdQuery, IRoadMap> getRoadMapByIdHandler
+                )
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;
                 GetClientApplicationBySolutionIdHandler = getClientApplicationBySolutionIdHandler;
