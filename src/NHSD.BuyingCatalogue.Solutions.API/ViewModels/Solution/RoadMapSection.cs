@@ -1,6 +1,6 @@
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 {
-    public class RoadMapSection
+    public sealed class RoadMapSection
     {
         public RoadMapSectionAnswers Answers { get; }
 

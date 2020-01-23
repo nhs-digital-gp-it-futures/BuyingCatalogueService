@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 {
-    public class RoadMapSectionAnswers
+    public sealed class RoadMapSectionAnswers
     {
         [JsonProperty("summary")]
         public string Summary { get; }
