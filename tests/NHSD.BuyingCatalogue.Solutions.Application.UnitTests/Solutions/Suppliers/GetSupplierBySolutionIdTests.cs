@@ -16,7 +16,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
         private TestContext _context;
         private string _solutionId;
         private CancellationToken _cancellationToken;
-        private ISupplierResult _aboutSupplierResult;
+        private ISupplierResult _supplierResult;
 
         [SetUp]
         public void SetUpFixture()
@@ -26,7 +26,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
             _cancellationToken = new CancellationToken();
             _context.MockSupplierRepository
                 .Setup(r => r.GetSupplierBySolutionIdAsync(_solutionId, _cancellationToken))
-                .ReturnsAsync(() => _aboutSupplierResult);
+                .ReturnsAsync(() => _supplierResult);
         }
         [Test]
         public async Task ShouldGetAboutSupplierById()
@@ -37,7 +37,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
                 Link = "Some Link"
             };
 
-            _aboutSupplierResult = Mock.Of<ISupplierResult>(r =>
+            _supplierResult = Mock.Of<ISupplierResult>(r =>
                     r.SolutionId == _solutionId &&
                     r.Description == origionalAboutSupplier.Description &&
                     r.Link == origionalAboutSupplier.Link
@@ -52,7 +52,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
         [Test]
         public async Task EmptyAboutSupplierResultReturnsDefaultAboutSuppler()
         {
-            _aboutSupplierResult = Mock.Of<ISupplierResult>(r =>
+            _supplierResult = Mock.Of<ISupplierResult>(r =>
                 r.SolutionId == _solutionId &&
                 r.Description == null &&
                 r.Link == null
