@@ -416,6 +416,17 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             dashboardResult.SolutionDashboardSections.HostingTypeHybridSection.Status.Should().Be(complete);
         }
 
+        [TestCase("", "INCOMPLETE")]
+        [TestCase("   ", "INCOMPLETE")]
+        [TestCase(null, "INCOMPLETE")]
+        [TestCase("roadmap", "COMPLETE")]
+        public async Task ShouldGetDashboardCalculateCompleteRoadMap(string roadMap, string result)
+        {
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s => s.RoadMap == roadMap)).ConfigureAwait(false);
+            dashboardResult.SolutionDashboardSections.Should().NotBeNull();
+            dashboardResult.SolutionDashboardSections.RoadMapSection.Status.Should().Be(result);
+        }
+
         private async Task<SolutionDashboardResult> GetSolutionDashboardSectionAsync(ISolution solution)
         {
             _mockMediator.Setup(m =>
