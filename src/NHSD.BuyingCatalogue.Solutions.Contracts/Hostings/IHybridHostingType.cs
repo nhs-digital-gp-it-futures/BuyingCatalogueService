@@ -2,12 +2,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Hostings
 {
     public interface IHybridHostingType
     {
-        public string Summary { get; set; }
+        string Summary { get; }
 
-        public string Link { get; set; }
+        string Link { get; }
 
-        public string HostingModel { get; set; }
+        string HostingModel { get; }
 
-        public string RequiresHSCN { get; set;  }
+        string RequiresHSCN { get;  }
     }
 }
