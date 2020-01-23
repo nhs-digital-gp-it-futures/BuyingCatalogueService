@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 {
     [TestFixture]
-    internal sealed class RoadMapGetBySolutionIdTests
+    internal sealed class GetRoadMapBySolutionIdTests
     {
         private TestContext _context;
         private GetRoadMapBySolutionIdQuery _query;
