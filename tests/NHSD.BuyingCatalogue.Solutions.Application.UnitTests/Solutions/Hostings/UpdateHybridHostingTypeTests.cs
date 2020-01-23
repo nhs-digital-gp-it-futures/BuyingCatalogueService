@@ -56,7 +56,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
             _updatedHostingModel = "A _initialHosting model";
             _updatedRequiresHscn = "A requires string";
 
-        _dataMock = new Mock<IUpdateHybridHostingTypeData>();
+            _dataMock = new Mock<IUpdateHybridHostingTypeData>();
             _dataMock.Setup(x => x.Summary).Returns(() => _updatedSummary);
             _dataMock.Setup(x => x.Link).Returns(() => _updatedLink);
             _dataMock.Setup(x => x.HostingModel).Returns(() => _updatedHostingModel);
@@ -138,7 +138,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
         [TestCase(500, 1001, 1000, "link")]
         [TestCase(501, 1000, 1000, "summary")]
         [TestCase(501, 1001, 1001, "summary", "link", "hosting-model")]
-        public async Task MissingDataShouldReturnRequiredValidationResult(int summary, int link, int hosting, params string[] expected)
+        public async Task TooLongDataShouldReturnRequiredValidationResult(int summary, int link, int hosting, params string[] expected)
         {
             _updatedSummary = new string('a', summary);
             _updatedLink = new string('a', link);
@@ -160,7 +160,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
         }
 
         [Test]
-        public void InvalidSolutionIdShouldThrowNotFound()
+        public void NoSolutionReturnedShouldThrowNotFound()
         {
             Assert.ThrowsAsync<NotFoundException>(async () => await Update().ConfigureAwait(false));
             Context.MockSolutionRepository.Verify(x => x.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()),

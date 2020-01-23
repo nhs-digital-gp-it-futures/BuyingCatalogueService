@@ -124,6 +124,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
                         c.Data == request
                     ),
                     It.IsAny<CancellationToken>()), Times.Once);
+            _mediatorMock.VerifyNoOtherCalls();
         }
 
         [Test]
