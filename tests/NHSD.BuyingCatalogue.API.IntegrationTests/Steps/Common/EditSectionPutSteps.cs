@@ -278,8 +278,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
 
         private class RoadmapPayload
         {
-            [JsonProperty("description")]
-            public string Description { get; set; }
+            [JsonProperty("summary")]
+            public string Summary { get; set; }
         }
     }
 }
