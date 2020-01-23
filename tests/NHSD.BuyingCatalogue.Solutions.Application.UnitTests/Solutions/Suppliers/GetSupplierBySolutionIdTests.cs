@@ -31,7 +31,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
         [Test]
         public async Task ShouldGetAboutSupplierById()
         {
-            var origionalAboutSupplier = new Supplier
+            var origionalSupplier = new Supplier
             {
                 Description = "Some Description",
                 Link = "Some Link"
@@ -39,18 +39,18 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
 
             _supplierResult = Mock.Of<ISupplierResult>(r =>
                     r.SolutionId == _solutionId &&
-                    r.Description == origionalAboutSupplier.Description &&
-                    r.Link == origionalAboutSupplier.Link
+                    r.Description == origionalSupplier.Description &&
+                    r.Link == origionalSupplier.Link
                     );
 
-            var newSupplier = await _context.GetAboutSupplierBySolutionIdHandler.Handle(
+            var newSupplier = await _context.GetSupplierBySolutionIdHandler.Handle(
                 new GetSupplierBySolutionIdQuery(_solutionId), _cancellationToken).ConfigureAwait(false);
 
-            newSupplier.Should().BeEquivalentTo(origionalAboutSupplier);
+            newSupplier.Should().BeEquivalentTo(origionalSupplier);
         }
 
         [Test]
-        public async Task EmptyAboutSupplierResultReturnsDefaultAboutSuppler()
+        public async Task EmptySupplierResultReturnsDefaultSuppler()
         {
             _supplierResult = Mock.Of<ISupplierResult>(r =>
                 r.SolutionId == _solutionId &&
@@ -58,7 +58,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
                 r.Link == null
                 );
 
-            var supplier = await _context.GetAboutSupplierBySolutionIdHandler.Handle(
+            var supplier = await _context.GetSupplierBySolutionIdHandler.Handle(
                 new GetSupplierBySolutionIdQuery(_solutionId), _cancellationToken).ConfigureAwait(false);
             supplier.Should().NotBeNull();
             supplier.Should().BeEquivalentTo(new SupplierDto());
