@@ -8,13 +8,13 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetRoadMapBySolutionId
 {
-    internal sealed class GetRoadMapByIdHandler : IRequestHandler<GetRoadMapBySolutionIdQuery, IRoadMap>
+    internal sealed class GetRoadMapBySolutionIdHandler : IRequestHandler<GetRoadMapBySolutionIdQuery, IRoadMap>
     {
         private readonly RoadMapReader _roadMapReader;
         private readonly SolutionVerifier _verifier;
         private readonly IMapper _mapper;
 
-        public GetRoadMapByIdHandler(RoadMapReader roadMapReader, SolutionVerifier verifier, IMapper mapper)
+        public GetRoadMapBySolutionIdHandler(RoadMapReader roadMapReader, SolutionVerifier verifier, IMapper mapper)
         {
             _roadMapReader = roadMapReader;
             _verifier = verifier;

@@ -61,7 +61,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
         public GetSolutionByIdHandler GetSolutionByIdHandler => (GetSolutionByIdHandler)_scope.GetSolutionByIdHandler;
 
-        public GetRoadMapByIdHandler GetRoadMapByIdHandler => (GetRoadMapByIdHandler)_scope.GetRoadMapByIdHandler;
+        public GetRoadMapBySolutionIdHandler GetRoadMapBySolutionIdHandler => (GetRoadMapBySolutionIdHandler)_scope.GetRoadMapByIdHandler;
 
         public GetClientApplicationBySolutionIdHandler GetClientApplicationBySolutionIdHandler => (GetClientApplicationBySolutionIdHandler)_scope.GetClientApplicationBySolutionIdHandler;
 

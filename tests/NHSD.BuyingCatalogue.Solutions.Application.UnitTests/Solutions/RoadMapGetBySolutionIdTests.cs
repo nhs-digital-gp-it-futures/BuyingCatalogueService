@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 {
     [TestFixture]
-    internal sealed class RoadMapGetByIdTests
+    internal sealed class RoadMapGetBySolutionIdTests
     {
         private TestContext _context;
         private GetRoadMapBySolutionIdQuery _query;
@@ -42,7 +42,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         public async Task ShouldGetRoadMapDescription(string description)
         {
             _roadMapDescription = description;
-            var result = await _context.GetRoadMapByIdHandler.Handle(_query, _token).ConfigureAwait(false);
+            var result = await _context.GetRoadMapBySolutionIdHandler.Handle(_query, _token).ConfigureAwait(false);
             result.Summary.Should().Be(_roadMapDescription);
         }
 
@@ -50,7 +50,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         public void ShouldThrowWhenSolutionNotPresent()
         {
             _solutionExists = false;
-            var exception = Assert.ThrowsAsync<NotFoundException>( () => _context.GetRoadMapByIdHandler.Handle(_query, _token));
+            var exception = Assert.ThrowsAsync<NotFoundException>( () => _context.GetRoadMapBySolutionIdHandler.Handle(_query, _token));
 
             _context.MockSolutionRepository.Verify(r => r.CheckExists(_solutionId, _token), Times.Once);
             _context.MockSolutionRepository.VerifyNoOtherCalls();
