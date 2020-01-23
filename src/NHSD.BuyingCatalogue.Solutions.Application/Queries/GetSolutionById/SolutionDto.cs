@@ -42,6 +42,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         public IEnumerable<string> Features { get; set; }
 
         /// <summary>
+        /// Gets or sets a road map description.
+        /// </summary>
+        public string RoadMap { get; set; }
+
+        /// <summary>
         /// A link to provide more information about a solution.
         /// </summary>
         public string AboutUrl { get; set; }
