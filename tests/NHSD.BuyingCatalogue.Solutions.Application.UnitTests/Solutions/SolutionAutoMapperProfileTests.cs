@@ -70,6 +70,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             yield return new KeyValuePair<Type, Type>(typeof(OnPremise), typeof(IOnPremise));
             yield return new KeyValuePair<Type, Type>(typeof(Supplier), typeof(SupplierDto));
             yield return new KeyValuePair<Type, Type>(typeof(Supplier), typeof(ISupplier));
+            yield return new KeyValuePair<Type, Type>(typeof(RoadMap), typeof(RoadMapDto));
+            yield return new KeyValuePair<Type, Type>(typeof(RoadMap), typeof(IRoadMap));
         }
 
         [Test]
