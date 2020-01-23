@@ -30,8 +30,9 @@ steps:
   displayName: 'Setup Test Database'
   inputs:
     azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
+    ScriptType: 'FilePath'
     ScriptPath: 'setup-integration-db.ps1'
-    azurePowerShellVersion: LatestVersion
+    preferredAzurePowerShellVersion: '5.1.1'
 
 - task: UseDotNet@2
   displayName: 'Use DotNet Core $(dotnetVersion)'
