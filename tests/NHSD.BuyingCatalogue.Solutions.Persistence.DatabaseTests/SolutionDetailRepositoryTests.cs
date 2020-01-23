@@ -454,5 +454,43 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             (await marketingData.LastUpdated.SecondsFromNow().ConfigureAwait(false)).Should().BeLessOrEqualTo(5);
         }
+
+        [Test]
+        public async Task ShouldRetrieveRoadmapWhenPresent()
+        {
+            var expectedRoadmapString = "I am the roadmap string";
+            await SolutionEntityBuilder.Create()
+                .WithId(_solution1Id)
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
+                .Build()
+                .InsertAsync()
+                .ConfigureAwait(false);
+            await SolutionDetailEntityBuilder.Create()
+                .WithRoadMap(expectedRoadmapString)
+                .Build()
+                .InsertAndSetCurrentForSolutionAsync()
+                .ConfigureAwait(false);
+
+            var result = await _solutionDetailRepository.GetRoadMapBySolutionIdAsync(_solution1Id, new CancellationToken())
+                .ConfigureAwait(false);
+            result.Summary.Should().Be(expectedRoadmapString);
+        }
+
+        [Test]
+        public async Task ShouldRetrieveNullRoadmapWhenSolutionDetailDoesNotExist()
+        {
+            await SolutionEntityBuilder.Create()
+                .WithId(_solution1Id)
+                .WithOrganisationId(_org1Id)
+                .WithSupplierId(_supplierId)
+                .Build()
+                .InsertAsync()
+                .ConfigureAwait(false);
+
+            var result = await _solutionDetailRepository.GetRoadMapBySolutionIdAsync(_solution1Id, new CancellationToken())
+                .ConfigureAwait(false);
+            result.Summary.Should().BeNull();
+        }
     }
 }
