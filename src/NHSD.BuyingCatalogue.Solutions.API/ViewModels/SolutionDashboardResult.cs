@@ -59,6 +59,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         [JsonProperty("about-supplier")]
         public DashboardSection AboutSupplierSection { get; }
 
+        [JsonProperty("roadmap")]
+        public DashboardSection RoadmapSection { get; }
+
         /// <summary>
         /// Initialises a new instance of the <see cref="SolutionDashboardSections"/> class.
         /// </summary>
@@ -80,6 +83,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
             HostingTypeHybridSection = DashboardSection.Optional(solution.Hosting.IsHybridHostingTypeComplete());
             HostingTypeOnPremiseSection = DashboardSection.Optional(solution.Hosting.IsOnPremiseComplete());
             AboutSupplierSection = DashboardSection.Optional(false);
+            RoadmapSection = DashboardSection.Optional(false);
         }
     }
 
