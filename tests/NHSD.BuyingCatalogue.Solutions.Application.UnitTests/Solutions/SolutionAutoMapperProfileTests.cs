@@ -8,14 +8,17 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.NativeDesktop;
+using NHSD.BuyingCatalogue.Solutions.Application.Domain.Suppliers;
 using NHSD.BuyingCatalogue.Solutions.Application.Mapping;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicationBySolutionId;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
@@ -65,6 +68,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             yield return new KeyValuePair<Type, Type>(typeof(HybridHostingType), typeof(IHybridHostingType));
             yield return new KeyValuePair<Type, Type>(typeof(OnPremise), typeof(OnPremiseDto));
             yield return new KeyValuePair<Type, Type>(typeof(OnPremise), typeof(IOnPremise));
+            yield return new KeyValuePair<Type, Type>(typeof(Supplier), typeof(SupplierDto));
+            yield return new KeyValuePair<Type, Type>(typeof(Supplier), typeof(ISupplier));
         }
 
         [Test]
