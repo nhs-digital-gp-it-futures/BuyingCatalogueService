@@ -4,7 +4,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
 {
     internal sealed class RoadMapResult : IRoadMapResult
     {
-        public string Id { get; set; }
-        public string Description { get; set; }
+        public string Summary { get; set; }
     }
 }

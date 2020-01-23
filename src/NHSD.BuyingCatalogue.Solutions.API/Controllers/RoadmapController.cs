@@ -35,8 +35,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> Get([FromRoute][Required]string id)
         {
-            var description = await _mediator.Send(new GetRoadMapByIdQuery(id)).ConfigureAwait(false);
-            return Ok(new RoadMapResult(description));
+            var roadMap = await _mediator.Send(new GetRoadMapBySolutionIdQuery(id)).ConfigureAwait(false);
+            return Ok(new RoadMapResult(roadMap?.Summary));
         }
 
 

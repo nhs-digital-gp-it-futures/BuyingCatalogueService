@@ -13,7 +13,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
             _solutionDetailRepository = solutionDetailRepository;
         }
 
-        public async Task<IRoadMapResult> ByIdAsync(string id, CancellationToken cancellationToken)
+        public async Task<IRoadMapResult> BySolutionIdAsync(string id, CancellationToken cancellationToken)
         {
           return await _solutionDetailRepository.GetRoadMapBySolutionIdAsync(id, cancellationToken).ConfigureAwait(false);
         }

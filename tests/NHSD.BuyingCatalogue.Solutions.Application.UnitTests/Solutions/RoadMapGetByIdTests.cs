@@ -13,7 +13,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
     internal sealed class RoadMapGetByIdTests
     {
         private TestContext _context;
-        private GetRoadMapByIdQuery _query;
+        private GetRoadMapBySolutionIdQuery _query;
         private CancellationToken _token;
         private const string _solutionId = "Sln1";
         private string _roadMapDescription = "Some roadmap description";
@@ -24,7 +24,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         public void SetUpFixture()
         {
             _context = new TestContext();
-            _query = new GetRoadMapByIdQuery(_solutionId);
+            _query = new GetRoadMapBySolutionIdQuery(_solutionId);
             _token = new CancellationToken();
 
             _context.MockSolutionDetailRepository.Setup(r => r.GetRoadMapBySolutionIdAsync(_solutionId, _token))
@@ -32,7 +32,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             _context.MockSolutionRepository.Setup(r => r.CheckExists(_solutionId, _token)).ReturnsAsync(() => _solutionExists);
 
             _mockResult = new Mock<IRoadMapResult>();
-            _mockResult.Setup(m => m.Description).Returns(() => _roadMapDescription);
+            _mockResult.Setup(m => m.Summary).Returns(() => _roadMapDescription);
         }
 
         [TestCase("Some description")]
@@ -43,7 +43,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             _roadMapDescription = description;
             var result = await _context.GetRoadMapByIdHandler.Handle(_query, _token).ConfigureAwait(false);
-            result.Should().Be(_roadMapDescription);
+            result.Summary.Should().Be(_roadMapDescription);
         }
 
         [Test]

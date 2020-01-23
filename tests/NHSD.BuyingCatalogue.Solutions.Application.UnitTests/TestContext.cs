@@ -38,6 +38,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolut
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicationBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutionId;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetRoadMapBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
@@ -180,7 +181,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public IRequestHandler<GetHostingBySolutionIdQuery, IHosting> GetHostingBySolutionIdHandler { get; }
 
-            public IRequestHandler<GetRoadMapByIdQuery, string> GetRoadMapByIdHandler { get; }
+            public IRequestHandler<GetRoadMapBySolutionIdQuery, IRoadMap> GetRoadMapByIdHandler { get; }
 
             public IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> SubmitSolutionForReviewHandler { get; }
 
@@ -272,7 +273,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdatePrivateCloudCommand, ISimpleResult> updatePrivateCloudHandler,
                 IRequestHandler<UpdateOnPremiseCommand, ISimpleResult> updateOnPremiseHandler,
                 IRequestHandler<UpdateRoadmapCommand, ISimpleResult> updateRoadmapHandler,
-                IRequestHandler<GetRoadMapByIdQuery, string> getRoadMapByIdHandler)
+                IRequestHandler<GetRoadMapBySolutionIdQuery, IRoadMap> getRoadMapByIdHandler)
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;
                 GetClientApplicationBySolutionIdHandler = getClientApplicationBySolutionIdHandler;

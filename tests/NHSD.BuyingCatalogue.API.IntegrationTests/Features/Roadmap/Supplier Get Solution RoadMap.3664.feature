@@ -15,20 +15,20 @@ Background:
         | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | GPs-R-Us         | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | RoadMap                |
-        | Sln1     | some valid description |
+        | Solution | RoadMap            |
+        | Sln1     | some valid summary |
        
 @3664
 Scenario: 1. Solution RoadMap is retrieved for the solution
     When a GET request is made for roadmap for solution Sln1
     Then a successful response is returned
-    And the string value of element description is some valid description 
+    And the string value of element summary is some valid summary 
  
 @3664
 Scenario: 2. Solution RoadMap is retrieved empty for the solution where no solution detail exists
     When a GET request is made for roadmap for solution Sln2
     Then a successful response is returned
-    And the description string does not exist
+    And the summary string does not exist
 
 @3664
 Scenario: 4. Solution not found

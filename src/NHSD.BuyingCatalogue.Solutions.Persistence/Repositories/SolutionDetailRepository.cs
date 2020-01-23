@@ -44,8 +44,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                                  WHERE  Solution.Id = @solutionId";
 
         const string GetRoadMapBySolutionIdSql = @"SELECT
-                                    Solution.Id
-                                    ,SolutionDetail.RoadMap as Description
+                                    Solution.Id,
+                                    SolutionDetail.RoadMap as Summary
                                  FROM   Solution
                                         LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
                                  WHERE  Solution.Id = @solutionId";

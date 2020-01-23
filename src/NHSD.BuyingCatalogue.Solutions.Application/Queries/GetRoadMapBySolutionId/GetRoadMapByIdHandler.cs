@@ -5,7 +5,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
-namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
+namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetRoadMapBySolutionId
 {
     internal sealed class GetRoadMapByIdHandler : IRequestHandler<GetRoadMapBySolutionIdQuery, IRoadMap>
     {

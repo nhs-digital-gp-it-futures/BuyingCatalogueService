@@ -474,7 +474,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             var result = await _solutionDetailRepository.GetRoadMapBySolutionIdAsync(_solution1Id, new CancellationToken())
                 .ConfigureAwait(false);
-            result.Description.Should().Be(expectedRoadmapString);
+            result.Summary.Should().Be(expectedRoadmapString);
         }
 
         [Test]
@@ -490,7 +490,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             var result = await _solutionDetailRepository.GetRoadMapBySolutionIdAsync(_solution1Id, new CancellationToken())
                 .ConfigureAwait(false);
-            result.Description.Should().BeNull();
+            result.Summary.Should().BeNull();
         }
     }
 }

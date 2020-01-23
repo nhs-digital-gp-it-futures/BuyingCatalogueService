@@ -4,12 +4,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 {
     public sealed class RoadMapResult
     {
-        [JsonProperty("description")]
-        public string Description { get; }
+        [JsonProperty("summary")]
+        public string Summary { get; }
 
-        public RoadMapResult(string description)
+        public RoadMapResult(string summary)
         {
-            Description = description;
+            Summary = summary;
         }
     }
 }
