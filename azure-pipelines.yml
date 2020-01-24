@@ -35,6 +35,7 @@ steps:
     errorActionPreference: 'continue'
     preferredAzurePowerShellVersion: '5.1.1'
     pwsh: true
+  enabled: false
 
 - task: UseDotNet@2
   displayName: 'Use DotNet Core $(dotnetVersion)'
