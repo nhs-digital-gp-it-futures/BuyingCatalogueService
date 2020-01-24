@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
 
 namespace NHSD.BuyingCatalogue.Solutions.Contracts
 {
@@ -84,5 +85,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         /// The publish status of the solution
         /// </summary>
         PublishedStatus PublishedStatus { get;  }
+
+        /// <summary>
+        /// Marketing information related to the supplier
+        /// </summary>
+        ISupplier Supplier { get; }
     }
 }

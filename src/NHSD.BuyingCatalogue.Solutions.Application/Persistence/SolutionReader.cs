@@ -13,14 +13,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
         private readonly ISolutionCapabilityRepository _solutionCapabilityRepository;
 
         private readonly IMarketingContactRepository _contactRepository;
+        private readonly ISupplierRepository _supplierRepository;
 
         public SolutionReader(ISolutionRepository solutionRepository,
             ISolutionCapabilityRepository solutionCapabilityRepository,
-            IMarketingContactRepository contactRepository)
+            IMarketingContactRepository contactRepository,
+            ISupplierRepository supplierRepository)
         {
             _solutionRepository = solutionRepository;
             _solutionCapabilityRepository = solutionCapabilityRepository;
             _contactRepository = contactRepository;
+            _supplierRepository = supplierRepository;
         }
 
         public async Task<Solution> ByIdAsync(string id, CancellationToken cancellationToken) =>
@@ -29,6 +32,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
                 await _solutionCapabilityRepository.ListSolutionCapabilities(id, cancellationToken)
                     .ConfigureAwait(false),
                 await _contactRepository.BySolutionIdAsync(id, cancellationToken)
+                    .ConfigureAwait(false),
+                await _supplierRepository.GetSupplierBySolutionIdAsync(id, cancellationToken)
                     .ConfigureAwait(false));
     }
 }

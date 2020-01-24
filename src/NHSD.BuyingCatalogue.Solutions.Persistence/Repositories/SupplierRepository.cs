@@ -15,6 +15,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         private const string getSupplierBySolutionIdSql = @"SELECT
                                     Solution.Id as SolutionId,
+                                    Supplier.Name as Name,
                                     Supplier.Summary as Description,
                                     Supplier.SupplierUrl as Link
                                  FROM Supplier

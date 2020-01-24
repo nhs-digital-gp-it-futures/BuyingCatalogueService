@@ -43,7 +43,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.RoadMap).Returns("Some valid roadmap description");
             existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'MobileFirstDesign': true, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows', 'Linux'], 'OperatingSystemsDescription': 'For windows only version 10' }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileThirdParty': { 'ThirdPartyComponents': 'Component', 'DeviceCapabilities': 'Capabilities'}, 'NativeMobileHardwareRequirements': 'Native Mobile Hardware', 'NativeDesktopHardwareRequirements': 'Native Desktop Hardware', 'NativeMobileAdditionalInformation': 'native mobile additional information', 'NativeDesktopMinimumConnectionSpeed': '6Mbps', 'NativeDesktopOperatingSystemsDescription':'native desktop operating systems description', 'NativeDesktopThirdParty': { 'ThirdPartyComponents': 'Components', 'DeviceCapabilities': 'Capabilities' }, 'NativeDesktopMemoryAndStorage': { 'MinimumMemoryRequirement': '512MB', 'StorageRequirementsDescription': '1024GB', 'MinimumCpu': '3.4GHz', 'RecommendedResolution': '800x600' }, 'NativeDesktopAdditionalInformation': 'some additional information' }");
             existingSolution.Setup(s => s.Hosting).Returns("{ 'PublicCloud': { 'Summary': 'Some summary', 'Link': 'some link', 'RequiresHSCN': 'It is required' } }");
-            existingSolution.Setup(s => s.SupplierName).Returns("SupplierName");
             existingSolution.Setup(s => s.IsFoundation).Returns(true);
 
             var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
@@ -136,7 +135,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Features).Returns((string)null);
             existingSolution.Setup(s => s.RoadMap).Returns((string)null);
             existingSolution.Setup(s => s.ClientApplication).Returns((string)null);
-            existingSolution.Setup(s => s.SupplierName).Returns((string)null);
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
@@ -188,7 +186,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Features).Returns((string)null);
             existingSolution.Setup(s => s.RoadMap).Returns((string)null);
             existingSolution.Setup(s => s.ClientApplication).Returns((string)null);
-            existingSolution.Setup(s => s.SupplierName).Returns("SupplierName");
 
             var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
 
@@ -222,7 +219,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.ClientApplication.NativeDesktopHardwareRequirements.Should().BeNull();
             solution.ClientApplication.NativeDesktopMinimumConnectionSpeed.Should().BeNull();
             solution.ClientApplication.NativeDesktopThirdParty.Should().BeNull();
-            solution.ClientApplication.NativeDesktopMemoryAndStorage.Should().BeNull();  
+            solution.ClientApplication.NativeDesktopMemoryAndStorage.Should().BeNull();
             solution.ClientApplication.NativeDesktopAdditionalInformation.Should().BeNull();
 
 
@@ -245,7 +242,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
             existingSolution.Setup(s => s.Features).Returns("[ 'Marmite', 'Jam', 'Marmelade' ]");
             existingSolution.Setup(s => s.RoadMap).Returns((string)null);
-            existingSolution.Setup(s => s.SupplierName).Returns("SupplierName");
 
             var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
             var capabilities2 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap2");
@@ -285,10 +281,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             var dateTimeExpected = DateTime.ParseExact(expectedDate, DateFormat, CultureInfo.InvariantCulture);
             var existingSolution = Mock.Of<ISolutionResult>(s => s.LastUpdated == (DateTime.ParseExact(existingSolutionDate, DateFormat, CultureInfo.InvariantCulture)));
-           
+            var existingSupplier = Mock.Of<ISupplierResult>();
+
             var contact1Date = DateTime.ParseExact(marketingContact1Date, DateFormat, CultureInfo.InvariantCulture);
             var contact2Date = DateTime.ParseExact(marketingContact2Date, DateFormat, CultureInfo.InvariantCulture);
-            
+
             var existingMarketingContactResult = new List<IMarketingContactResult>
             {
                 Mock.Of<IMarketingContactResult>(s => s.LastUpdated == contact1Date),
@@ -296,7 +293,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             };
 
             var solution = new Solution(existingSolution, new List<ISolutionCapabilityListResult>(),
-                existingMarketingContactResult);
+                existingMarketingContactResult, existingSupplier);
 
             solution.LastUpdated.Should().Be(dateTimeExpected);
         }
@@ -309,9 +306,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             var dateTimeExpected = DateTime.ParseExact(expectedDate, DateFormat, CultureInfo.InvariantCulture);
             var existingSolution = Mock.Of<ISolutionResult>(s => s.LastUpdated == (DateTime.ParseExact(existingSolutionDate, DateFormat, CultureInfo.InvariantCulture)));
-            
+            var existingSupplier = Mock.Of<ISupplierResult>();
+
             var solution = new Solution(existingSolution, new List<ISolutionCapabilityListResult>(),
-                new List<IMarketingContactResult>());
+                new List<IMarketingContactResult>(), existingSupplier);
 
             solution.LastUpdated.Should().Be(dateTimeExpected);
         }
@@ -329,7 +327,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Features).Returns((string)null);
             existingSolution.Setup(s => s.RoadMap).Returns((string)null);
             existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : false, 'AdditionalInformation': null }, 'MobileFirstDesign': false, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows'], 'OperatingSystemsDescription': null }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileThirdParty': { 'ThirdPartyComponents': 'Component' }, 'NativeDesktopMinimumConnectionSpeed': '3 Mbps', 'NativeDesktopThirdParty': { 'ThirdPartyComponents': 'New Components' }, 'NativeDesktopMemoryAndStorage': { 'MinimumMemoryRequirement': '512MB', 'StorageRequirementsDescription': '1024GB', 'MinimumCpu': '3.4GHz' } }");
-            existingSolution.Setup(s => s.SupplierName).Returns("SupplierName");
             existingSolution.Setup(s => s.IsFoundation).Returns(false);
             var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
 

@@ -31,22 +31,24 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
         [Test]
         public async Task ShouldGetAboutSupplierById()
         {
-            var origionalSupplier = new Supplier
+            var originalSupplier = new Supplier
             {
+                Name = "Some name",
                 Description = "Some Description",
                 Link = "Some Link"
             };
 
             _supplierResult = Mock.Of<ISupplierResult>(r =>
-                    r.SolutionId == _solutionId &&
-                    r.Description == origionalSupplier.Description &&
-                    r.Link == origionalSupplier.Link
-                    );
+                r.SolutionId == _solutionId &&
+                r.Name == originalSupplier.Name &&
+                r.Description == originalSupplier.Description &&
+                r.Link == originalSupplier.Link
+                );
 
             var newSupplier = await _context.GetSupplierBySolutionIdHandler.Handle(
                 new GetSupplierBySolutionIdQuery(_solutionId), _cancellationToken).ConfigureAwait(false);
 
-            newSupplier.Should().BeEquivalentTo(origionalSupplier);
+            newSupplier.Should().BeEquivalentTo(originalSupplier);
         }
 
         [Test]
@@ -54,6 +56,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
         {
             _supplierResult = Mock.Of<ISupplierResult>(r =>
                 r.SolutionId == _solutionId &&
+                r.Name == null &&
                 r.Description == null &&
                 r.Link == null
                 );

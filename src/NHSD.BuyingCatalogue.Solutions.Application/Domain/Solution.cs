@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using NHSD.BuyingCatalogue.Solutions.Application.Domain.Suppliers;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
@@ -36,11 +37,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         /// Summary of the solution, as displayed to a user.
         /// </summary>
         public string Summary { get; set; }
-
- 		/// <summary>
-        /// Name of the supplier, as displayed to a user.
-        /// </summary>
-        public string SupplierName { get; set; }
 
         /// <summary>
         /// Gets or sets a list of features.
@@ -93,17 +89,21 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public Hosting Hosting { get; set; }
 
         /// <summary>
+        /// The supplier of the solution
+        /// </summary>
+        public Supplier Supplier { get; set; }
+
+        /// <summary>
         /// Initialises a new instance of the <see cref="Solution"/> class.
         /// </summary>
         internal Solution(ISolutionResult solutionResult,
             IEnumerable<ISolutionCapabilityListResult> solutionCapabilityListResult,
-            IEnumerable<IMarketingContactResult> contactResult)
+            IEnumerable<IMarketingContactResult> contactResult, ISupplierResult supplierResult)
         {
             Id = solutionResult.Id;
-            Name = solutionResult.Name; 
+            Name = solutionResult.Name;
             LastUpdated = GetLatestLastUpdated(solutionResult, contactResult);
             Summary = solutionResult.Summary;
-            SupplierName = solutionResult.SupplierName;
             Description = solutionResult.Description;
             Features = string.IsNullOrWhiteSpace(solutionResult.Features)
                 ? new List<string>()
@@ -121,6 +121,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
             Hosting = string.IsNullOrWhiteSpace(solutionResult.Hosting)
                 ? new Hosting()
                 : JsonConvert.DeserializeObject<Hosting>(solutionResult.Hosting);
+            Supplier = supplierResult != null ? new Supplier(supplierResult) : null;
+
         }
 
         /// <summary>
