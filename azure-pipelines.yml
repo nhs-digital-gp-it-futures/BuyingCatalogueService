@@ -21,22 +21,6 @@ steps:
     dockerVersion: $(dockerVersion)
   displayName: 'Docker: Install - $(dockerVersion)'
 
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      # Stop Containers
-      
-      docker container stop $(docker container ls -aq)
-
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      # Remove Containers
-      
-      docker container rm $(docker container ls -aq)
-
     
 - task: Bash@3
   inputs:
