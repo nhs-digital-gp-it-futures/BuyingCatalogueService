@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSuppliers;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers
@@ -31,5 +32,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers
 
             return Ok(new GetSupplierResult(aboutSupplier));
         }
+
+        [HttpPut]
+        [Route("{id}/sections/about-supplier")]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult> Update([FromRoute] [Required] string id, [FromBody] [Required] UpdateSupplierViewModel viewModel) =>
+            (await _mediator.Send(new UpdateSupplierCommand(id, viewModel)).ConfigureAwait(false)).ToActionResult();
     }
 }

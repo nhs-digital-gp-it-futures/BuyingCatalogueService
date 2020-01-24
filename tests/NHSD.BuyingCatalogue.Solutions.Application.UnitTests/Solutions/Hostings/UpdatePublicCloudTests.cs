@@ -98,7 +98,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
         }
 
         [Test]
-        public async Task ShouldUpdatePublicCloudyAndNothingElse()
+        public async Task ShouldUpdatePublicCloudAndNothingElse()
         {
             SetUpMockSolutionRepositoryGetByIdAsync(_hostingJson);
 
