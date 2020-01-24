@@ -15,21 +15,21 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
         }
 
 
-        [Then(@"the solutions ([\w-]*) section contains answer ([\w-]*) with value (.*)")]
+        [Then(@"the solutions (.*) section contains answer (.*) with value (.*)")]
         public async Task ThenTheSolutionContains(string section, string field, string value)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
             content.SelectToken($"sections.{section}.answers.{field}").ToString().Should().Be(value);
         }
 
-        [Then(@"the solutions ([\w-]*) section does not contain answer ([\w-]*)")]
+        [Then(@"the solutions (.*) section does not contain answer (.*)")]
         public async Task ThenTheSolutionDoesNotContainLink(string section, string field)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
             content.SelectToken($"sections.{section}.answers.{field}").Should().BeNull();
         }
 
-        [Then(@"the solutions ([\w-]*) section contains ([\w-]*) with value (.*)")]
+        [Then(@"the solutions (.*) section contains (.*) with value (.*)")]
         public async Task ThenTheSolutionsSectionContainsWithValue(string section, string contains, string value)
         {
             var context = await _response.ReadBody().ConfigureAwait(false);
@@ -37,14 +37,14 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
                 .ToString().Should().Be(value);
         }
 
-        [Then(@"the solutions ([\w-]*) section is returned")]
+        [Then(@"the solutions (.*) section is returned")]
         public async Task ThenTheSolutionSectionIsReturnedAsync(string section)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
             content.SelectToken($"sections.{section}").Should().NotBeNullOrEmpty();
         }
 
-        [Then(@"the solutions ([\w-]*) section is not returned")]
+        [Then(@"the solutions (.*) section is not returned")]
         public async Task ThenTheSolutionSectionIsNotReturnedAsync(string section)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
