@@ -23,6 +23,7 @@ steps:
 
     
 - task: Bash@3
+  displayName: 'Setup Test Database'
   inputs:
     filePath: 'setup-integration-db.sh'
 
