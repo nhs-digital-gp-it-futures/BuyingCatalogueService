@@ -21,7 +21,7 @@ Background:
         | Sln2     | An online medicine system     | Online medicine 2 | {  }                                                                                                                                                                                    |
 
 @3644
-Scenario: 1. Hybrid hosting type is retreived for the solution
+Scenario: 1. Hybrid hosting type is retrieved for the solution
     When a GET request is made for hosting-type-hybrid for solution Sln1
     Then a successful response is returned
     And the string value of element summary is Some summary
@@ -30,7 +30,7 @@ Scenario: 1. Hybrid hosting type is retreived for the solution
     And the requires-hscn element contains
         | Elements                                    |
         | This Solution requires a HSCN/N3 connection |
-    
+
 @3644
 Scenario: 2. Hybrid hosting type is retrieved for the solution where no hybrid hosting type data exists
     When a GET request is made for hosting-type-hybrid for solution Sln2

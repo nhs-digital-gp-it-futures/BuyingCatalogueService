@@ -52,6 +52,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> Update([FromRoute][Required]string id, [FromBody][Required]UpdateRoadmapViewModel viewModel) =>
-            (await _mediator.Send(new UpdateRoadmapCommand(id, viewModel?.Description)).ConfigureAwait(false)).ToActionResult();
+            (await _mediator.Send(new UpdateRoadmapCommand(id, viewModel?.Summary)).ConfigureAwait(false)).ToActionResult();
     }
 }

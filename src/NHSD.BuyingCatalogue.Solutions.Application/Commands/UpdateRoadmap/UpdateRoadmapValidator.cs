@@ -6,7 +6,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap
     {
         public ISimpleResult Validate(UpdateRoadmapCommand command)
             => new MaxLengthValidator()
-                    .Validate(command.Description, 1000, "description")
+                    .Validate(command.Summary, 1000, "summary")
                     .Result();
     }
 }

@@ -123,6 +123,28 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
+        [TestCase(null, false)]
+        [TestCase("some description", true)]
+        [TestCase(" some description    ", true)]
+        [TestCase(" ", false)]
+        [TestCase("", false)]
+        public async Task ShouldGetPreviewCalculateRoadMap(string description, bool hasData)
+        {
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s => s.RoadMap == description))
+                .ConfigureAwait(false);
+
+            if (hasData)
+            {
+                previewResult.Sections.RoadMap.Should().NotBe(null);
+                previewResult.Sections.RoadMap.Answers.HasData.Should().Be(true);
+                previewResult.Sections.RoadMap.Answers.Summary.Should().Be(description);
+            }
+            else
+            {
+                previewResult.Sections.RoadMap.Should().BeNull();
+            }
+        }
+
         [TestCase(false, false, null, false)]
         [TestCase(true, false, null, false)]
         [TestCase(true, true, null, true)]
@@ -520,7 +542,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
-        [TestCase("New Description", true)]
+        [TestCase("New Summary", true)]
         [TestCase(null, false)]
         [TestCase("", false)]
         [TestCase("      ", false)]
