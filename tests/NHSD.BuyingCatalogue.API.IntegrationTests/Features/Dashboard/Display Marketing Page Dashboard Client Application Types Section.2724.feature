@@ -61,50 +61,50 @@ Scenario: 3. Sections presented where ClientApplicationTypes is empty
 Scenario: 4. Sections Mandatory when ClientApplicationTypes is set
     When a GET request is made for solution dashboard Sln5
     Then a successful response is returned
-    And the solution browser-based section requirement is Mandatory
-    And the solution native-desktop section requirement is Mandatory
-    And the solution native-mobile section requirement is Mandatory
-
+    And the solution client-application-types section browser-based subsection requirement is Mandatory
+    And the solution client-application-types section native-mobile subsection requirement is Mandatory
+    And the solution client-application-types section native-desktop subsection requirement is Mandatory
+   
 @3597
 Scenario: 5. Section Browser Based is Incomplete
     When a GET request is made for solution dashboard Sln1
     Then a successful response is returned
-    Then the solution browser-based status is INCOMPLETE
-    And the solution browser-based section requirement is Mandatory
+    Then the solution client-application-types section browser-based subsection status is INCOMPLETE
+    And the solution client-application-types section browser-based subsection requirement is Mandatory
 
 @3597
 Scenario: 6. Section Browser Based is Complete
     When a GET request is made for solution dashboard Sln6
     Then a successful response is returned
-    Then the solution browser-based status is COMPLETE
-    And the solution browser-based section requirement is Mandatory
+    Then the solution client-application-types section browser-based subsection status is COMPLETE
+    And the solution client-application-types section browser-based subsection requirement is Mandatory
 
 @3612
 Scenario: 7. Section Native Mobile is Incomplete
     When a GET request is made for solution dashboard Sln5
     Then a successful response is returned
-    Then the solution native-mobile status is INCOMPLETE
-    And the solution native-mobile section requirement is Mandatory
+    Then the solution client-application-types section native-mobile subsection status is INCOMPLETE
+    And the solution client-application-types section native-mobile subsection requirement is Mandatory
 
 @3612
 Scenario: 8. Section Native Mobile is Complete
     When a GET request is made for solution dashboard Sln7
     Then a successful response is returned
-    Then the solution native-mobile status is COMPLETE
-    And the solution native-mobile section requirement is Mandatory
+    Then the solution client-application-types section native-mobile subsection status is COMPLETE
+    And the solution client-application-types section native-mobile subsection requirement is Mandatory
 
 @3615
 Scenario: 9. Section Native Desktop is Incomplete
     When a GET request is made for solution dashboard Sln5
     Then a successful response is returned
-    Then the solution native-desktop status is INCOMPLETE
-    And the solution native-desktop section requirement is Mandatory
+    Then the solution client-application-types section native-desktop subsection status is INCOMPLETE
+    And the solution client-application-types section native-desktop subsection requirement is Mandatory
 
 @3615
 Scenario: 10. Section Native Desktop is Complete
     When a GET request is made for solution dashboard Sln8
     Then a successful response is returned
-    Then the solution native-desktop status is COMPLETE
-    And the solution native-desktop section requirement is Mandatory
+    Then the solution client-application-types section native-desktop subsection status is COMPLETE
+    And the solution client-application-types section native-desktop subsection requirement is Mandatory
 
 

@@ -24,7 +24,7 @@ Background:
 
 @2724
 Scenario: 1. SolutionDescription are retrieved for the solution
-    When a GET request is made for solution-description for solution Sln1
+    When a GET request is made for solution-description section for solution Sln1
     Then a successful response is returned
     And the solution link is UrlSln1
     And the solution summary is An full online medicine system
@@ -32,7 +32,7 @@ Scenario: 1. SolutionDescription are retrieved for the solution
 
 @2724
 Scenario: 2. SolutionDescription are retrieved empty for the solution where no solution detail exists
-    When a GET request is made for solution-description for solution Sln2
+    When a GET request is made for solution-description section for solution Sln2
     Then a successful response is returned
     And the solution does not contain link
     And the solution does not contain summary
@@ -41,16 +41,16 @@ Scenario: 2. SolutionDescription are retrieved empty for the solution where no s
 @2726
 Scenario: 4. Solution not found
     Given a Solution Sln4 does not exist
-    When a GET request is made for solution-description for solution Sln4
+    When a GET request is made for solution-description section for solution Sln4
     Then a response status of 404 is returned
 
 @2726
 Scenario: 5. Service failure
     Given the call to the database to set the field will fail
-    When a GET request is made for solution-description for solution Sln1
+    When a GET request is made for solution-description section for solution Sln1
     Then a response status of 500 is returned
 
 @2726
 Scenario: 6. Solution id not present in request
-    When a GET request is made for solution-description with no solution id
+    When a GET request is made for solution-description section with no solution id
     Then a response status of 400 is returned

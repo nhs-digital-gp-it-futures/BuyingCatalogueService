@@ -20,29 +20,29 @@ Background:
        
 @3664
 Scenario: 1. Solution RoadMap is retrieved for the solution
-    When a GET request is made for roadmap for solution Sln1
+    When a GET request is made for roadmap section for solution Sln1
     Then a successful response is returned
     And the string value of element summary is some valid summary 
  
 @3664
 Scenario: 2. Solution RoadMap is retrieved empty for the solution where no solution detail exists
-    When a GET request is made for roadmap for solution Sln2
+    When a GET request is made for roadmap section for solution Sln2
     Then a successful response is returned
     And the summary string does not exist
 
 @3664
 Scenario: 4. Solution not found
     Given a Solution Sln3 does not exist
-    When a GET request is made for roadmap for solution Sln3
+    When a GET request is made for roadmap section for solution Sln3
     Then a response status of 404 is returned
 
 @3664
 Scenario: 5. Service failure
     Given the call to the database to set the field will fail
-    When a GET request is made for roadmap for solution Sln1
+    When a GET request is made for roadmap section for solution Sln1
     Then a response status of 500 is returned
 
 @3664
 Scenario: 6. Solution id not present in request
-    When a GET request is made for roadmap with no solution id
+    When a GET request is made for roadmap section with no solution id
     Then a response status of 400 is returned
