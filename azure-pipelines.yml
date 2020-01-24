@@ -16,6 +16,11 @@ pool:
 
 steps:
 
+- task: DockerInstaller@0
+  inputs:
+    dockerVersion: $(dockerVersion)
+  displayName: 'Docker: Install - $(dockerVersion)'
+
 - task: Bash@3
   inputs:
     targetType: 'inline'
@@ -24,10 +29,6 @@ steps:
       
       docker-compose down --remove-orphans
 
-- task: DockerInstaller@0
-  inputs:
-    dockerVersion: $(dockerVersion)
-  displayName: 'Docker: Install - $(dockerVersion)'
     
 - task: Bash@3
   inputs:
