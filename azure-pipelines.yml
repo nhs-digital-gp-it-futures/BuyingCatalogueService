@@ -19,12 +19,6 @@ steps:
   inputs:
     dockerVersion: $(dockerVersion)
   displayName: 'Docker: Install - $(dockerVersion)'
-
-- task: UseDotNet@2
-  displayName: 'Use DotNet Core 3.1'
-  inputs:
-    version: 3.1.x
-    includePreviewVersions: false
     
 - task: Bash@3
   inputs:
