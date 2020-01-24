@@ -22,7 +22,7 @@ Background:
 
 @3639
 Scenario: 1.Public Cloud is retreived for the solution
-    When a GET request is made for hosting-type-public-cloud for solution Sln1
+    When a GET request is made for hosting-type-public-cloud section for solution Sln1
     Then a successful response is returned
     And the string value of element summary is Some summary
     And the string value of element link is www.somelink.com
@@ -33,7 +33,7 @@ Scenario: 1.Public Cloud is retreived for the solution
     
 @3639
 Scenario: 2.Public Cloud is retrieved for the solution where no public cloud data exists
-    When a GET request is made for hosting-type-public-cloud for solution Sln2
+    When a GET request is made for hosting-type-public-cloud section for solution Sln2
     Then a successful response is returned
     And the summary string does not exist
     And the link string does not exist
@@ -43,7 +43,7 @@ Scenario: 2.Public Cloud is retrieved for the solution where no public cloud dat
 
 @3639
 Scenario: 3. Public Cloud is retrieved for the solution where no solution detail exists
-    When a GET request is made for hosting-type-public-cloud for solution Sln3
+    When a GET request is made for hosting-type-public-cloud section for solution Sln3
     Then a successful response is returned
     And the summary string does not exist
     And the link string does not exist
@@ -54,16 +54,16 @@ Scenario: 3. Public Cloud is retrieved for the solution where no solution detail
 @3639
 Scenario: 4. Solution not found
     Given a Solution Sln4 does not exist
-    When a GET request is made for hosting-type-public-cloud for solution Sln4
+    When a GET request is made for hosting-type-public-cloud section for solution Sln4
     Then a response status of 404 is returned
 
 @3639
 Scenario: 5. Service failure
     Given the call to the database to set the field will fail
-    When a GET request is made for hosting-type-public-cloud for solution Sln2
+    When a GET request is made for hosting-type-public-cloud section for solution Sln2
     Then a response status of 500 is returned
 
 @3639
 Scenario: 6. Solution id not present in request
-    When a GET request is made for hosting-type-public-cloud with no solution id
+    When a GET request is made for hosting-type-public-cloud section with no solution id
     Then a response status of 400 is returned
