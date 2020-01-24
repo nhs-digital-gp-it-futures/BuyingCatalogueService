@@ -37,7 +37,7 @@ steps:
   inputs:
     azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
     ScriptType: 'FilePath'
-    ScriptPath: 'setup-integration-db.sh'
+    ScriptPath: 'setup-integration-db.ps1'
     errorActionPreference: 'continue'
     preferredAzurePowerShellVersion: '5.1.1'
     pwsh: true
