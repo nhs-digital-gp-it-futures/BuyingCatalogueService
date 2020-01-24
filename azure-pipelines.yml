@@ -15,6 +15,15 @@ pool:
   name: GP IT Futures AKS Build Agents
 
 steps:
+
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Remove Containers
+      
+      docker-compose down --remove-orphans
+
 - task: DockerInstaller@0
   inputs:
     dockerVersion: $(dockerVersion)
