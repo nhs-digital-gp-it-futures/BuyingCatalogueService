@@ -26,16 +26,9 @@ steps:
     version: 3.1.x
     includePreviewVersions: false
     
-- task: AzurePowerShell@4
-  displayName: 'Setup Test Database'
+- task: Bash@3
   inputs:
-    azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
-    ScriptType: 'FilePath'
-    ScriptPath: 'setup-integration-db.ps1'
-    errorActionPreference: 'continue'
-    preferredAzurePowerShellVersion: '5.1.1'
-    pwsh: true
-  enabled: false
+    filePath: 'setup-integration-db.sh'
 
 - task: UseDotNet@2
   displayName: 'Use DotNet Core $(dotnetVersion)'
