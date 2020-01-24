@@ -40,6 +40,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             { "hosting-type-public-cloud", typeof(PublicCloudPayload) },
             { "hosting-type-private-cloud", typeof(HostingPrivateCloudPayload) },
             { "hosting-type-on-premise", typeof(HostingOnPremisePayload) },
+            { "hosting-type-hybrid", typeof(HostingHybridHostingTypePayload) },
             { "roadmap", typeof(RoadmapPayload) }
         };
 
@@ -262,6 +263,21 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
         }
 
         private class HostingOnPremisePayload
+        {
+            [JsonProperty("summary")]
+            public string Summary { get; set; }
+
+            [JsonProperty("link")]
+            public string Link { get; set; }
+
+            [JsonProperty("hosting-model")]
+            public string HostingModel { get; set; }
+
+            [JsonProperty("requires-hscn")]
+            public List<string> RequiresHSCN { get; set; }
+        }
+
+        private class HostingHybridHostingTypePayload
         {
             [JsonProperty("summary")]
             public string Summary { get; set; }
