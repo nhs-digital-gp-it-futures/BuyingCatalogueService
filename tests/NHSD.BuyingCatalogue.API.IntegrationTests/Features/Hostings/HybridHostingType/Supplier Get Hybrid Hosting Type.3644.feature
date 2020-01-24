@@ -21,8 +21,8 @@ Background:
         | Sln2     | An online medicine system     | Online medicine 2 | {  }                                                                                                                                                                                    |
 
 @3644
-Scenario: 1. Hybrid hosting type is retrieved for the solution
-    When a GET request is made for hosting-type-hybrid for solution Sln1
+Scenario: 1. Hybrid hosting type is retreived for the solution
+    When a GET request is made for hosting-type-hybrid section for solution Sln1
     Then a successful response is returned
     And the string value of element summary is Some summary
     And the string value of element link is www.somelink.com
@@ -33,7 +33,7 @@ Scenario: 1. Hybrid hosting type is retrieved for the solution
 
 @3644
 Scenario: 2. Hybrid hosting type is retrieved for the solution where no hybrid hosting type data exists
-    When a GET request is made for hosting-type-hybrid for solution Sln2
+    When a GET request is made for hosting-type-hybrid section for solution Sln2
     Then a successful response is returned
     And the summary string does not exist
     And the link string does not exist
@@ -44,7 +44,7 @@ Scenario: 2. Hybrid hosting type is retrieved for the solution where no hybrid h
 
 @3644
 Scenario: 3. Hybrid hosting type is retrieved for the solution where no solution detail exists
-    When a GET request is made for hosting-type-hybrid for solution Sln3
+    When a GET request is made for hosting-type-hybrid section for solution Sln3
     Then a successful response is returned
     And the summary string does not exist
     And the link string does not exist
@@ -56,16 +56,16 @@ Scenario: 3. Hybrid hosting type is retrieved for the solution where no solution
 @3644
 Scenario: 4. Solution not found
     Given a Solution Sln4 does not exist
-    When a GET request is made for hosting-type-hybrid for solution Sln4
+    When a GET request is made for hosting-type-hybrid section for solution Sln4
     Then a response status of 404 is returned
 
 @3644
 Scenario: 5. Service failure
     Given the call to the database to set the field will fail
-    When a GET request is made for hosting-type-hybrid for solution Sln2
+    When a GET request is made for hosting-type-hybrid section for solution Sln2
     Then a response status of 500 is returned
 
 @3644
 Scenario: 6. Solution id not present in request
-    When a GET request is made for hosting-type-hybrid with no solution id
+    When a GET request is made for hosting-type-hybrid section with no solution id
     Then a response status of 400 is returned

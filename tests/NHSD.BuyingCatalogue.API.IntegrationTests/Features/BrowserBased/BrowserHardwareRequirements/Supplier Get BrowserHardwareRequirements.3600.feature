@@ -24,36 +24,36 @@ Background:
 
 @3600
 Scenario: 1. Browser Hardware Requirements are retreived for the solution
-    When a GET request is made for browser-hardware-requirements for solution Sln1
+    When a GET request is made for browser-hardware-requirements section for solution Sln1
     Then a successful response is returned
     And the string value of element hardware-requirements-description is Hardware Information
 
 @3600
 Scenario: 2. Browser Hardware Requirements are retrieved for the solution where no solutiondetail exists
-    When a GET request is made for browser-hardware-requirements for solution Sln2
+    When a GET request is made for browser-hardware-requirements section for solution Sln2
     Then a successful response is returned
     And there are no browser-hardware-requirements
 
 @3600
 Scenario: 3. Browser Hardware Requirements are retrieved for the solution where there are no hardware requirements
-    When a GET request is made for browser-hardware-requirements for solution Sln3
+    When a GET request is made for browser-hardware-requirements section for solution Sln3
     Then a successful response is returned
     And there are no browser-hardware-requirements
 
 @3600
 Scenario: 4. Solution not found
     Given a Solution Sln4 does not exist
-    When a GET request is made for browser-hardware-requirements for solution Sln4
+    When a GET request is made for browser-hardware-requirements section for solution Sln4
     Then a response status of 404 is returned
 
 @2786
 Scenario: 5. Service failure
     Given the call to the database to set the field will fail
-    When a GET request is made for browser-hardware-requirements for solution Sln1
+    When a GET request is made for browser-hardware-requirements section for solution Sln1
     Then a response status of 500 is returned
 
 @2786
 Scenario: 6. Solution id not present in request
-    When a GET request is made for browser-hardware-requirements with no solution id
+    When a GET request is made for browser-hardware-requirements section with no solution id
     Then a response status of 400 is returned
 

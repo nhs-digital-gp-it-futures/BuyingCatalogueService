@@ -22,7 +22,7 @@ Background:
 
 @3606
 Scenario: 1. Mobile Connection Details are retrieved for the solution
-    When a GET request is made for native-mobile-connection-details for solution Sln1
+    When a GET request is made for native-mobile-connection-details section for solution Sln1
     Then a successful response is returned
     And the connection-types element contains
         | Elements |
@@ -32,7 +32,7 @@ Scenario: 1. Mobile Connection Details are retrieved for the solution
 
 @3606
 Scenario: 2. Mobile Operating Systems are retrieved for the solution where no solution detail exists
-    When a GET request is made for native-mobile-connection-details for solution Sln2
+    When a GET request is made for native-mobile-connection-details section for solution Sln2
     Then a successful response is returned
     And the connection-types element contains
         | Elements |
@@ -43,23 +43,23 @@ Scenario: 2. Mobile Operating Systems are retrieved for the solution where no so
 @3606
 Scenario: 3. Solution not found
     Given a Solution Sln4 does not exist
-    When a GET request is made for native-mobile-connection-details for solution Sln4
+    When a GET request is made for native-mobile-connection-details section for solution Sln4
     Then a response status of 404 is returned
 
 @3606
 Scenario: 4. Service failure
     Given the call to the database to set the field will fail
-    When a GET request is made for native-mobile-connection-details for solution Sln1
+    When a GET request is made for native-mobile-connection-details section for solution Sln1
     Then a response status of 500 is returned
 
 @3606
 Scenario: 5. Solution id not present in request
-    When a GET request is made for native-mobile-connection-details with no solution id
+    When a GET request is made for native-mobile-connection-details section with no solution id
     Then a response status of 400 is returned
     
 @3606
 Scenario: 6. Mobile Connection Details are retrieved as empty if they do not exist yet
-    When a GET request is made for native-mobile-connection-details for solution Sln3
+    When a GET request is made for native-mobile-connection-details section for solution Sln3
     Then a successful response is returned
     And the connection-types element contains
         | Elements |
