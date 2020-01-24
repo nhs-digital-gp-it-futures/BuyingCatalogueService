@@ -8,12 +8,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence.Suppliers
     internal sealed class SupplierPartialUpdater
     {
         private readonly SupplierReader _supplierReader;
-        private readonly SupplierUpdater _solutionSupplierUpdater;
+        private readonly SupplierUpdater _supplierUpdater;
 
         public SupplierPartialUpdater(SupplierReader supplierReader, SupplierUpdater solutionSupplierUpdater)
         {
             _supplierReader = supplierReader;
-            _solutionSupplierUpdater = solutionSupplierUpdater;
+            _supplierUpdater = solutionSupplierUpdater;
         }
 
         public async Task UpdateAsync(string solutionId, Action<Supplier> updateAction,
@@ -24,7 +24,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence.Suppliers
 
             updateAction(supplier);
 
-            await _solutionSupplierUpdater.Update(solutionId, supplier, cancellationToken).ConfigureAwait(false);
+            await _supplierUpdater.UpdateBySolutionId(solutionId, supplier, cancellationToken).ConfigureAwait(false);
         }
     }
 }

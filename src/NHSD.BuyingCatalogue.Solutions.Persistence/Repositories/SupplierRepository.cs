@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Persistence.Models;
 
@@ -23,7 +22,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                                       LEFT JOIN Solution ON Supplier.Id = Solution.SupplierId
                                  WHERE  Solution.Id = @solutionId";
 
-        private const string updateSupplierBy = @"UPDATE
+        private const string updateSupplierBySolutionId = @"UPDATE
                                     Supplier
                                     SET
                                     Supplier.Summary = @Summary,
@@ -48,7 +47,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 throw new ArgumentNullException(nameof(updateSupplierRequest));
             }
 
-            await _dbConnector.ExecuteAsync(updateSupplierBy, cancellationToken,
+            await _dbConnector.ExecuteAsync(updateSupplierBySolutionId, cancellationToken,
                 new
                 {
                     solutionId = updateSupplierRequest.SolutionId,

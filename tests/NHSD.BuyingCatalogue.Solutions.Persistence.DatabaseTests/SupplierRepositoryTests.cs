@@ -5,7 +5,6 @@ using FluentAssertions;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Testing.Data;
-using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
 using NUnit.Framework;
 
@@ -43,7 +42,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         [Test]
         public async Task ShouldGetSupplier()
         {
-            var expected = await InsertSupplier().ConfigureAwait(false);
+            await InsertSupplier().ConfigureAwait(false);
 
             var result = await _supplierRepository.GetSupplierBySolutionIdAsync(_solutionId, new CancellationToken())
                 .ConfigureAwait(false);
@@ -54,7 +53,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         }
 
         [Test]
-        public async Task ThrowNotFoundOnSupplierIfNoSupplierOrSolution()
+        public async Task IfSolutionDoesNotExistThenReturnNull()
         {
             var result = (await _supplierRepository.GetSupplierBySolutionIdAsync(_solutionId, new CancellationToken())
                 .ConfigureAwait(false));
@@ -88,16 +87,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 _supplierRepository.UpdateSupplierAsync(null, new CancellationToken()));
         }
 
-        private async Task<SupplierEntity> InsertSupplier()
+        private async Task InsertSupplier()
         {
-            var expected = SupplierEntityBuilder.Create()
+            await SupplierEntityBuilder.Create()
                 .WithOrganisation(_org1Id)
                 .WithId(_supplierId)
                 .WithSummary(_description)
                 .WithSupplierUrl(_link)
-                .Build();
-
-            await expected.InsertAsync().ConfigureAwait(false);
+                .Build()
+                .InsertAsync().ConfigureAwait(false);
 
             await SolutionEntityBuilder.Create()
                 .WithId(_solutionId)
@@ -106,8 +104,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
-
-            return expected;
         }
     }
 }

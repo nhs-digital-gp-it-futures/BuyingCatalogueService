@@ -38,6 +38,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
         public async Task ShouldUpdateSupplierOnHandler()
         {
             SetupMockSolutionRepositoryGetByIdAsync();
+            SetupMockSolutionCheckExists();
             SetupMockSupplierRepositoryGetByIdAsync();
 
             var validationResult = await UpdateSupplier().ConfigureAwait(false);
@@ -57,6 +58,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
         public async Task ShouldUpdateSupplierInformationToNullOnHandler()
         {
             SetupMockSolutionRepositoryGetByIdAsync();
+            SetupMockSolutionCheckExists();
             SetupMockSupplierRepositoryGetByIdAsync();
 
             _description = null;
@@ -81,6 +83,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
         public async Task ShouldNotUpdateInvalidSupplierOnHandler(int description, int link, params string[] expected)
         {
             SetupMockSolutionRepositoryGetByIdAsync();
+            SetupMockSolutionCheckExists();
             SetupMockSupplierRepositoryGetByIdAsync();
 
             _description = new string('a', description);
@@ -107,13 +110,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
                 new CancellationToken()).ConfigureAwait(false);
         }
 
-        private void SetupMockSolutionRepositoryGetByIdAsync(bool solutionExists = true)
+        private void SetupMockSolutionCheckExists(bool solutionExists = true)
+        {
+            _context.MockSolutionRepository.Setup(x => x.CheckExists(SolutionId, It.IsAny<CancellationToken>())).ReturnsAsync(solutionExists);
+        }
+
+        private void SetupMockSolutionRepositoryGetByIdAsync()
         {
             var existingSolution = new Mock<ISolutionResult>();
 
             existingSolution.Setup(s => s.Id).Returns(SolutionId);
-
-            _context.MockSolutionRepository.Setup(x => x.CheckExists(SolutionId, It.IsAny<CancellationToken>())).ReturnsAsync(solutionExists);
 
             _context.MockSolutionRepository.Setup(s => s.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(existingSolution.Object).Verifiable();
@@ -122,7 +128,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
         private void SetupMockSupplierRepositoryGetByIdAsync()
         {
             var existingSupplier = new Mock<ISupplierResult>();
-            var request = new Mock<IUpdateSupplierRequest>();
 
             existingSupplier.Setup(s => s.SolutionId).Returns(SolutionId);
 
