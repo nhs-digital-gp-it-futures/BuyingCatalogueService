@@ -19,7 +19,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap
         public async Task UpdateAsync(UpdateRoadmapCommand request, CancellationToken cancellationToken)
         {
             await _verifier.ThrowWhenMissing(request.SolutionId, cancellationToken).ConfigureAwait(false);
-            await _updater.Update(request.SolutionId, request.Description, cancellationToken).ConfigureAwait(false);
+            await _updater.Update(request.SolutionId, request.Summary, cancellationToken).ConfigureAwait(false);
         }
     }
 }

@@ -52,7 +52,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             validationResult.IsValid.Should().BeFalse();
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(1);
-            results["description"].Should().Be("maxLength");
+            results["summary"].Should().Be("maxLength");
 
             _context.MockSolutionRepository.Verify(r => r.CheckExists(_existingSolutionId, It.IsAny<CancellationToken>()), Times.Never());
             _context.MockSolutionDetailRepository.Verify(r => r.UpdateRoadmapAsync(It.IsAny<IUpdateRoadmapRequest>(), It.IsAny<CancellationToken>()), Times.Never);
