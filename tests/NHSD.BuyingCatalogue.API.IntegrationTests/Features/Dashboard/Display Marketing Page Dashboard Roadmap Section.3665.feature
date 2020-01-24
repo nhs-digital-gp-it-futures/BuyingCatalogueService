@@ -10,15 +10,25 @@ Background:
         | Id    | SupplierName | OrganisationName |
         | Sup 1 | Supplier 1   | GPs-R-Us         |
     And Solutions exist
-        | SolutionID | SolutionName     | OrganisationName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline      | GPs-R-Us         | 1                | Sup 1      |
-    And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   |
-        | Sln1     | An full online medicine system | Online medicine 1 |
+        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill | GPs-R-Us         | 1                | Sup 1      |
 
-@3665
-Scenario: 1. Roadmap section is optional and is reported incomplete
-    When a GET request is made for solution dashboard Sln1
+    @3664
+Scenario Outline: 1. Roadmap section is optional and is reported complete if there is text
+    Given SolutionDetail exist
+        | Solution | AboutUrl | SummaryDescription | FullDescription   | RoadMap   |
+        | Sln1     | UrlSln1  |                    | Online medicine 1 | <RoadMap> |
+    When a GET request is made for solution dashboard <Solution>
     Then a successful response is returned
-    And the solution roadmap section status is INCOMPLETE
+    And the solution roadmap section status is <Status>
     And the solution roadmap section requirement is Optional
+
+    Examples:
+        | Solution | Status     | RoadMap           |
+        | Sln1     | INCOMPLETE | ""                |
+        | Sln1     | INCOMPLETE | "   "             |
+        | Sln1     | INCOMPLETE |                   |
+        | Sln1     | COMPLETE   | "Roadmap summary" |
+        | Sln2     | INCOMPLETE |                   |
+

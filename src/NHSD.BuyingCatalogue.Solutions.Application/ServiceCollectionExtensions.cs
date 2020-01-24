@@ -20,6 +20,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.Nat
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionNativeMobileHardwareRequirements;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.UpdateSolutionClientApplicationTypes;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.HybridHostingType;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.OnPremise;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PublicCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PrivateCloud;
@@ -117,7 +118,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
 
                 .AddTransient<IExecutor<UpdateSolutionNativeDesktopConnectivityDetailsCommand>, UpdateSolutionNativeDesktopConnectivityDetailsExecutor>()
                 .AddTransient<IValidator<UpdateSolutionNativeDesktopConnectivityDetailsCommand, ISimpleResult>, UpdateSolutionNativeDesktopConnectivityDetailsValidator>()
-                
+
                 .AddTransient<IExecutor<UpdateSolutionNativeDesktopOperatingSystemsCommand>, UpdateSolutionNativeDesktopOperatingSystemsExecutor>()
                 .AddTransient<IValidator<UpdateSolutionNativeDesktopOperatingSystemsCommand, ISimpleResult>, UpdateSolutionNativeDesktopOperatingSystemsValidator>()
 
@@ -135,13 +136,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
 
                 .AddTransient<IExecutor<UpdatePrivateCloudCommand>, UpdatePrivateCloudExecutor>()
                 .AddTransient<IValidator<UpdatePrivateCloudCommand, ISimpleResult>, UpdatePrivateCloudValidator>()
-            
+
                 .AddTransient<IExecutor<UpdateOnPremiseCommand>, UpdateOnPremiseExecutor>()
                 .AddTransient<IValidator<UpdateOnPremiseCommand, ISimpleResult>, UpdateOnPremiseValidator>()
 
+                .AddTransient<IExecutor<UpdateHybridHostingTypeCommand>, UpdateHybridHostingTypeExecutor>()
+                .AddTransient<IValidator<UpdateHybridHostingTypeCommand, ISimpleResult>, UpdateHybridHostingTypeValidator>()
+
                 .AddTransient<IExecutor<UpdateRoadmapCommand>, UpdateRoadmapExecutor>()
-                .AddTransient<IValidator<UpdateRoadmapCommand, ISimpleResult>, UpdateRoadmapValidator>()
-                ;
+                .AddTransient<IValidator<UpdateRoadmapCommand, ISimpleResult>, UpdateRoadmapValidator>();
         }
     }
 }

@@ -29,7 +29,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             content.SelectToken($"sections.{section}.answers.{field}").Should().BeNull();
         }
 
-        [Then(@"the solutions ([\w-]*) section contains ([\w-]*) with value (.*)")]
+        [Then(@"the solutions ([\.\w-]*) section contains ([\w-]*) with value (.*)")]
         public async Task ThenTheSolutionsSectionContainsWithValue(string section, string contains, string value)
         {
             var context = await _response.ReadBody().ConfigureAwait(false);
