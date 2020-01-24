@@ -32,19 +32,19 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
         [TestCase("Some description", null)]
         [TestCase(null, "Some link")]
         [TestCase(null, null)]
-        public async Task PopulatedAboutSupplierShouldReturnCorrectDetails(string description, string link)
+        public async Task PopulatedAboutSupplierShouldReturnCorrectDetails(string summary, string url)
         {
             _mediatorMock.Setup(m => m.Send(It.Is<GetSupplierBySolutionIdQuery>(q => q.SolutionId == _solutionId),
                     It.IsAny<CancellationToken>()))
-                .ReturnsAsync(Mock.Of<ISupplier>(s => s.Description == description && s.Link == link));
+                .ReturnsAsync(Mock.Of<ISupplier>(s => s.Summary == summary && s.Url == url));
             var result = await _supplierController.Get(_solutionId).ConfigureAwait(false) as ObjectResult;
             result.Should().NotBeNull();
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
             result.Value.Should().BeOfType<GetSupplierResult>();
 
             var aboutSupplierResult = result.Value as GetSupplierResult;
-            aboutSupplierResult.Description.Should().Be(description);
-            aboutSupplierResult.Link.Should().Be(link);
+            aboutSupplierResult.SupplierDescription.Should().Be(summary);
+            aboutSupplierResult.SupplierLink.Should().Be(url);
         }
 
         [Test]
@@ -59,8 +59,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
             result.Value.Should().BeOfType<GetSupplierResult>();
 
             var aboutSupplierResult = result.Value as GetSupplierResult;
-            aboutSupplierResult.Description.Should().BeNull();
-            aboutSupplierResult.Link.Should().BeNull();
+            aboutSupplierResult.SupplierDescription.Should().BeNull();
+            aboutSupplierResult.SupplierLink.Should().BeNull();
         }
     }
 }

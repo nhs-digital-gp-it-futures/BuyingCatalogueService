@@ -6,8 +6,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
 
         string Name { get; }
 
-        string Description { get; }
+        string Summary { get; }
 
-        string Link { get; }
+        string Url { get; }
     }
 }

@@ -8,7 +8,7 @@ Background:
         | Name     |
         | GPs-R-Us |
     And Suppliers exist
-        | Id    | SupplierName | OrganisationName | Summary      | SupplierUrl |
+        | Id    | SupplierName | OrganisationName | Summary      | Url         |
         | Sup 1 | Supplier 1   | GPs-R-Us         | Some Summary | www.url.com |
         | Sup 2 | Supplier 1   | GPs-R-Us         | NULL         | NULL        |
     And Solutions exist

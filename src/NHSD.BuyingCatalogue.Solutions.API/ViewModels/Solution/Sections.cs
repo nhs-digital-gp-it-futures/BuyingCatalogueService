@@ -61,7 +61,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
             PrivateCloud = new PrivateCloudSection(solution.Hosting).IfPopulated();
             OnPremise = new OnPremiseSection(solution.Hosting).IfPopulated();
             HybridHostingType = new HybridHostingTypeSection(solution.Hosting).IfPopulated();
-            AboutSupplier = new AboutSupplierSection(solution.Supplier).IfPopulated();
+            AboutSupplier = new AboutSupplierSection(solution?.Supplier).IfPopulated();
         }
     }
 }

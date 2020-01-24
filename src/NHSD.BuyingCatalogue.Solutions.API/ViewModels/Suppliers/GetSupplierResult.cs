@@ -6,15 +6,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers
     public sealed class GetSupplierResult
     {
         [JsonProperty("description")]
-        public string Description { get; set; }
+        public string SupplierDescription { get; set; }
 
         [JsonProperty("link")]
-        public string Link { get; set; }
+        public string SupplierLink { get; set; }
 
         public GetSupplierResult(ISupplier aboutSupplier)
         {
-            Description = aboutSupplier?.Description;
-            Link = aboutSupplier?.Link;
+            SupplierDescription = aboutSupplier?.Summary;
+            SupplierLink = aboutSupplier?.Url;
         }
     }
 }

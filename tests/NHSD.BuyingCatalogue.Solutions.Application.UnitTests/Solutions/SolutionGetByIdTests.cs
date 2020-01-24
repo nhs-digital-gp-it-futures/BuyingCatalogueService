@@ -68,7 +68,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.Name.Should().Be("Name");
             solution.LastUpdated.Should().Be(_lastUpdated);
             solution.Summary.Should().Be("Summary");
-            solution.SupplierName.Should().Be("SupplierName");
+            
             solution.Description.Should().Be("Description");
             solution.AboutUrl.Should().Be("AboutUrl");
 
@@ -221,9 +221,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.ClientApplication.NativeDesktopThirdParty.Should().BeNull();
             solution.ClientApplication.NativeDesktopMemoryAndStorage.Should().BeNull();
             solution.ClientApplication.NativeDesktopAdditionalInformation.Should().BeNull();
-
-
-            solution.SupplierName.Should().Be("SupplierName");
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1"});
             solution.Contacts.Count().Should().Be(0);
 
@@ -265,7 +262,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.Features.Should().BeEquivalentTo(new[] { "Marmite", "Jam", "Marmelade" });
             solution.RoadMap.Should().BeNullOrEmpty();
 
-            solution.SupplierName.Should().Be("SupplierName");
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1", "cap2", "cap3"});
             solution.Contacts.Count().Should().Be(0);
 
@@ -383,7 +379,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.ClientApplication.NativeDesktopMemoryAndStorage.RecommendedResolution.Should().BeNull();
             solution.ClientApplication.NativeDesktopAdditionalInformation.Should().BeNull();
 
-            solution.SupplierName.Should().Be("SupplierName");
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1"});
             solution.Contacts.Count().Should().Be(0);
 

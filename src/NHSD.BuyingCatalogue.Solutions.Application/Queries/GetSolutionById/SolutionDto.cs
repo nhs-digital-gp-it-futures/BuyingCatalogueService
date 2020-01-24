@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using NHSD.BuyingCatalogue.Solutions.Application.Domain.Suppliers;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
 

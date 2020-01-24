@@ -34,15 +34,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
             var originalSupplier = new Supplier
             {
                 Name = "Some name",
-                Description = "Some Description",
-                Link = "Some Link"
+                Summary = "Some Summary",
+                Url = "Some Url"
             };
 
             _supplierResult = Mock.Of<ISupplierResult>(r =>
                 r.SolutionId == _solutionId &&
                 r.Name == originalSupplier.Name &&
-                r.Description == originalSupplier.Description &&
-                r.Link == originalSupplier.Link
+                r.Summary == originalSupplier.Summary &&
+                r.Url == originalSupplier.Url
                 );
 
             var newSupplier = await _context.GetSupplierBySolutionIdHandler.Handle(
@@ -57,8 +57,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
             _supplierResult = Mock.Of<ISupplierResult>(r =>
                 r.SolutionId == _solutionId &&
                 r.Name == null &&
-                r.Description == null &&
-                r.Link == null
+                r.Summary == null &&
+                r.Url == null
                 );
 
             var supplier = await _context.GetSupplierBySolutionIdHandler.Handle(
