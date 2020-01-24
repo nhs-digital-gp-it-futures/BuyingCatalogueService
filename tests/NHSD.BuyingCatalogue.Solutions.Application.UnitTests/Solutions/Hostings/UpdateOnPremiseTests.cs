@@ -29,7 +29,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
         private string _updatedSummary;
         private string _updatedLink;
         private string _updatedHostingModel;
-        private HashSet<string> _updatedRequiresHscn;
+        private string _updatedRequiresHscn;
 
         private Hosting _initialHosting;
         private string _initialHostingJson;
@@ -53,7 +53,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
             _updatedSummary = "A summary";
             _updatedLink = "A link";
             _updatedHostingModel = "A _initialHosting model";
-            _updatedRequiresHscn = new HashSet<string> {"A requires string"};
+            _updatedRequiresHscn = "A requires string";
 
         _dataMock = new Mock<IUpdateOnPremiseData>();
             _dataMock.Setup(x => x.Summary).Returns(() => _updatedSummary);
@@ -75,7 +75,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                         JToken.Parse(c.Hosting).SelectToken(SummaryToken).Value<string>() == _updatedSummary &&
                         JToken.Parse(c.Hosting).SelectToken(LinkToken).Value<string>() == _updatedLink &&
                         JToken.Parse(c.Hosting).SelectToken(HostingModelToken).Value<string>() == _updatedHostingModel &&
-                        JToken.Parse(c.Hosting).SelectToken(RequiresHscnToken).Value<string>() == _updatedRequiresHscn.First()
+                        JToken.Parse(c.Hosting).SelectToken(RequiresHscnToken).Value<string>() == _updatedRequiresHscn
                 ), It.IsAny<CancellationToken>()), Times.Once);
             validationResult.IsValid.Should().BeTrue();
         }
@@ -88,7 +88,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
             _updatedSummary = null;
             _updatedLink = null;
             _updatedHostingModel = null;
-            _updatedRequiresHscn.Clear();
+            _updatedRequiresHscn = null;
 
             var validationResult = await Update().ConfigureAwait(false);
 
@@ -123,7 +123,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                     newHosting.OnPremise.Summary.Should().Be(_updatedSummary);
                     newHosting.OnPremise.Link.Should().Be(_updatedLink);
                     newHosting.OnPremise.HostingModel.Should().Be(_updatedHostingModel);
-                    newHosting.OnPremise.RequiresHSCN.Should().BeEquivalentTo(_updatedRequiresHscn.First());
+                    newHosting.OnPremise.RequiresHSCN.Should().BeEquivalentTo(_updatedRequiresHscn);
                 });
             var validationResult = await Update().ConfigureAwait(false);
             validationResult.IsValid.Should().BeTrue();

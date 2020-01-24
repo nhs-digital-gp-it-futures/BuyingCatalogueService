@@ -24,6 +24,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.Nat
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionNativeMobileFirst;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionNativeMobileHardwareRequirements;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.UpdateSolutionClientApplicationTypes;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.HybridHostingType;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.OnPremise;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PublicCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PrivateCloud;
@@ -111,7 +112,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
         public UpdateSolutionMobileThirdPartyHandler UpdateSolutionMobileThirdPartyHandler =>
             (UpdateSolutionMobileThirdPartyHandler)_scope.UpdateSolutionMobileThirdHandler;
-            
+
         public UpdateSolutionNativeMobileHardwareRequirementsHandler UpdateSolutionNativeMobileHardwareRequirementsHandler =>
             (UpdateSolutionNativeMobileHardwareRequirementsHandler)_scope.UpdateSolutionNativeMobileHardwareRequirementsHandler;
         public UpdateSolutionNativeMobileAdditionalInformationHandler UpdateSolutionNativeMobileAdditionalInformationHandler =>
@@ -144,6 +145,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
         public UpdateOnPremiseHandler UpdateOnPremiseHandler =>
             (UpdateOnPremiseHandler)_scope.UpdateOnPremiseHandler;
+
+        public UpdateHybridHostingTypeHandler UpdateHybridHostingTypeHandler =>
+            (UpdateHybridHostingTypeHandler)_scope.UpdateHybridHostingTypeHandler;
 
         public UpdateRoadmapHandler UpdateRoadmapHandler =>
             (UpdateRoadmapHandler)_scope.UpdateRoadmapHandler;
@@ -226,7 +230,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             public IRequestHandler<UpdateSolutionMobileMemoryStorageCommand, ISimpleResult> UpdateSolutionMobileMemoryStorageHandler { get; }
 
             public IRequestHandler<UpdateSolutionMobileThirdPartyCommand, ISimpleResult> UpdateSolutionMobileThirdHandler { get; }
-           
+
             public IRequestHandler<UpdateSolutionNativeMobileAdditionalInformationCommand, ISimpleResult> UpdateSolutionNativeMobileAdditionalInformationHandler { get; }
 
             public IRequestHandler<UpdateSolutionNativeMobileHardwareRequirementsCommand, ISimpleResult> UpdateSolutionNativeMobileHardwareRequirementsHandler { get; }
@@ -234,7 +238,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             public IRequestHandler<UpdateNativeDesktopHardwareRequirementsCommand, ISimpleResult> UpdateNativeDesktopHardwareRequirementsHandler { get; }
 
             public IRequestHandler<UpdateSolutionNativeDesktopConnectivityDetailsCommand, ISimpleResult> UpdateSolutionNativeDesktopConnectivityDetailsHandler { get; }
-            
+
             public IRequestHandler<UpdateSolutionNativeDesktopOperatingSystemsCommand, ISimpleResult> UpdateSolutionNativeDesktopOperatingSystemsHandler { get; }
 
             public IRequestHandler<UpdateSolutionNativeDesktopThirdPartyCommand, ISimpleResult> UpdateSolutionNativeDesktopThirdPartyHandler { get; }
@@ -248,6 +252,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             public IRequestHandler<UpdatePrivateCloudCommand, ISimpleResult> UpdatePrivateCloudHandler { get; }
 
             public IRequestHandler<UpdateOnPremiseCommand, ISimpleResult> UpdateOnPremiseHandler { get; }
+
+            public IRequestHandler<UpdateHybridHostingTypeCommand, ISimpleResult> UpdateHybridHostingTypeHandler { get; }
 
             public IRequestHandler<UpdateRoadmapCommand, ISimpleResult> UpdateRoadmapHandler { get; }
 
@@ -283,8 +289,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdatePublicCloudCommand, ISimpleResult> updatePublicCloudHandler,
                 IRequestHandler<UpdatePrivateCloudCommand, ISimpleResult> updatePrivateCloudHandler,
                 IRequestHandler<UpdateOnPremiseCommand, ISimpleResult> updateOnPremiseHandler,
+                IRequestHandler<UpdateHybridHostingTypeCommand, ISimpleResult> updateHybridHostingTypeHandler,
                 IRequestHandler<UpdateRoadmapCommand, ISimpleResult> updateRoadmapHandler,
-                IRequestHandler<GetRoadMapBySolutionIdQuery, IRoadMap> getRoadMapByIdHandler)
+                IRequestHandler<GetRoadMapBySolutionIdQuery, IRoadMap> getRoadMapByIdHandler
+                )
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;
                 GetClientApplicationBySolutionIdHandler = getClientApplicationBySolutionIdHandler;
@@ -318,6 +326,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 UpdatePublicCloudHandler = updatePublicCloudHandler;
                 UpdatePrivateCloudHandler = updatePrivateCloudHandler;
                 UpdateOnPremiseHandler = updateOnPremiseHandler;
+                UpdateHybridHostingTypeHandler = updateHybridHostingTypeHandler;
                 UpdateRoadmapHandler = updateRoadmapHandler;
                 GetRoadMapByIdHandler = getRoadMapByIdHandler;
             }
