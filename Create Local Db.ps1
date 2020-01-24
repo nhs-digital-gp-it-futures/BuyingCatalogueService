@@ -48,7 +48,14 @@ function setEnvVariables() {
     $env:NHSD_LOCAL_DB_NAME=$db_name
 }
 
-docker-compose -f "docker/docker-compose.debug.yml" down -v --rmi "all"
+function tearDown() {
+    docker rm nhsd_debug_db -f
+    docker volume rm nsd_debug_volume
+    docker network rm nhsd_debug_network
+    docker image rm nhsd/buying-catalogue-debug-db
+}
+
+tearDown
 
 validate 
 
