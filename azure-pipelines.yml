@@ -25,13 +25,7 @@ steps:
   inputs:
     version: 3.1.x
     includePreviewVersions: false
-
-- powershell: |
-   # Install Azure PowerShell Modules
-   
-   Install-Module -Name Az -Force -AllowClobber
-  displayName: 'PowerShell Script'
-
+    
 - task: AzurePowerShell@4
   displayName: 'Setup Test Database'
   inputs:
