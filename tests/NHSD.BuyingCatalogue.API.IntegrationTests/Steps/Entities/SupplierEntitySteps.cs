@@ -21,11 +21,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
 
         private static async Task InsertSupplierAsync(SupplierTable supplierTable)
         {
-            var organisations = (await OrganisationEntity.FetchAllAsync().ConfigureAwait(false)).ToList();
-
             await SupplierEntityBuilder.Create()
                 .WithId(supplierTable.Id)
-                .WithOrganisation(organisations.First(o => o.Name == supplierTable.OrganisationName).Id)
                 .WithName(supplierTable.SupplierName)
                 .WithSummary(supplierTable.Summary)
                 .WithSupplierUrl(supplierTable.SupplierUrl)
@@ -39,8 +36,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             public string Id { get; set; }
 
             public string SupplierName { get; set; }
-
-            public string OrganisationName { get; set; }
 
             public string Summary { get; set; }
 

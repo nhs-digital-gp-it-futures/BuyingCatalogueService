@@ -4,12 +4,9 @@ Feature: Supplier Submit for Moderation
     So that my Marketing Page can be approved and published
 
 Background:
-    Given Organisations exist
-        | Name     |
-        | GPs-R-Us |
-    And Suppliers exist
-        | Id    | SupplierName | OrganisationName |
-        | Sup 1 | Supplier 1   | GPs-R-Us         |
+    Given Suppliers exist
+        | Id    | SupplierName |
+        | Sup 1 | Supplier 1   |
 
 @2836
 Scenario: 1. Solution successfully submitted for review
