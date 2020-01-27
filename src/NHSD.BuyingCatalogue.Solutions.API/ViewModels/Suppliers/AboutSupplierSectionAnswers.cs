@@ -6,19 +6,19 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers
     public sealed class AboutSupplierSectionAnswers
     {
         [JsonProperty("description")]
-        public string SupplierDescription { get; }
+        public string Description { get; }
 
         [JsonProperty("link")]
-        public string SupplierLink { get; }
+        public string Link { get; }
 
         [JsonIgnore]
-        public bool HasData => !string.IsNullOrWhiteSpace(SupplierDescription) ||
-                               !string.IsNullOrWhiteSpace(SupplierLink);
+        public bool HasData => !string.IsNullOrWhiteSpace(Description) ||
+                               !string.IsNullOrWhiteSpace(Link);
 
         public AboutSupplierSectionAnswers(ISupplier supplier)
         {
-            SupplierDescription = supplier?.Summary;
-            SupplierLink = supplier?.Url;
+            Description = supplier?.Summary;
+            Link = supplier?.Url;
         }
     }
 }

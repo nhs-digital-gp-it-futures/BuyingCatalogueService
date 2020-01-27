@@ -13,6 +13,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
         private readonly ISolutionCapabilityRepository _solutionCapabilityRepository;
 
         private readonly IMarketingContactRepository _contactRepository;
+
         private readonly ISupplierRepository _supplierRepository;
 
         public SolutionReader(ISolutionRepository solutionRepository,

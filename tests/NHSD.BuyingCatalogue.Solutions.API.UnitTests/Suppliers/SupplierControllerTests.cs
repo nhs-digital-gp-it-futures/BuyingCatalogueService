@@ -56,8 +56,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
             result.Value.Should().BeOfType<GetSupplierResult>();
 
             var aboutSupplierResult = result.Value as GetSupplierResult;
-            aboutSupplierResult.SupplierDescription.Should().Be(summary);
-            aboutSupplierResult.SupplierLink.Should().Be(url);
+            aboutSupplierResult.Description.Should().Be(summary);
+            aboutSupplierResult.Link.Should().Be(url);
         }
 
         [Test]
@@ -72,8 +72,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
             result.Value.Should().BeOfType<GetSupplierResult>();
 
             var aboutSupplierResult = result.Value as GetSupplierResult;
-            aboutSupplierResult.SupplierDescription.Should().BeNull();
-            aboutSupplierResult.SupplierLink.Should().BeNull();
+            aboutSupplierResult.Description.Should().BeNull();
+            aboutSupplierResult.Link.Should().BeNull();
         }
 
         [Test]
