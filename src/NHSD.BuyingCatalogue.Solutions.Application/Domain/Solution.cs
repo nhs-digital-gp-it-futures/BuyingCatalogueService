@@ -98,7 +98,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         /// </summary>
         internal Solution(ISolutionResult solutionResult,
             IEnumerable<ISolutionCapabilityListResult> solutionCapabilityListResult,
-            IEnumerable<IMarketingContactResult> contactResult, ISupplierResult supplierResult)
+            IEnumerable<IMarketingContactResult> contactResult,
+            ISupplierResult supplierResult)
         {
             Id = solutionResult.Id;
             Name = solutionResult.Name;
@@ -122,7 +123,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
                 ? new Hosting()
                 : JsonConvert.DeserializeObject<Hosting>(solutionResult.Hosting);
             Supplier = supplierResult != null ? new Supplier(supplierResult) : null;
-
         }
 
         /// <summary>

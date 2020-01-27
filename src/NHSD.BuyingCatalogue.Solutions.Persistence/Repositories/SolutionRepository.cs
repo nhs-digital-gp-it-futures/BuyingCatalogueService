@@ -80,6 +80,5 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
             return solutionCount.Sum() == 1;
         }
-
     }
 }
