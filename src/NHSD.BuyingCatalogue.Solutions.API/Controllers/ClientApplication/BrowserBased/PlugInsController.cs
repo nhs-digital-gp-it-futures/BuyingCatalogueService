@@ -53,7 +53,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Brows
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> UpdatePlugInsAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionPluginsViewModel updateSolutionPlugInsViewModel) =>
-            (await _mediator.Send(new UpdateSolutionPluginsCommand(id, updateSolutionPlugInsViewModel)).ConfigureAwait(false)).ToActionResult();
+        public async Task<ActionResult> UpdatePlugInsAsync([FromRoute][Required]string id, [FromBody][Required] UpdateBrowserBasedPluginsViewModel viewModel) =>
+            (await _mediator.Send(new UpdateSolutionPluginsCommand(id, viewModel)).ConfigureAwait(false)).ToActionResult();
     }
 }
