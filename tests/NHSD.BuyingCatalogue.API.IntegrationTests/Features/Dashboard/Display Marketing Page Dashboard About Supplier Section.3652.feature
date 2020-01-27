@@ -32,4 +32,3 @@ Scenario Outline: 1. About supplier section is optional and is reported complete
         | Sln1     | COMPLETE   | "a summary" |             |
         | Sln1     | COMPLETE   |             | "url here"  |
         | Sln1     | COMPLETE   | "a summary" | "url here"  |
-        | Sln2     | INCOMPLETE | NULL        | NULL        |
