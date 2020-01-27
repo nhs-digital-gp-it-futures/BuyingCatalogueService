@@ -82,7 +82,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
             HostingTypePrivateCloudSection = DashboardSection.Optional(solution.Hosting.IsPrivateCloudComplete());
             HostingTypeHybridSection = DashboardSection.Optional(solution.Hosting.IsHybridHostingTypeComplete());
             HostingTypeOnPremiseSection = DashboardSection.Optional(solution.Hosting.IsOnPremiseComplete());
-            AboutSupplierSection = DashboardSection.Optional(false);
+            AboutSupplierSection = DashboardSection.Optional(solution.Supplier.IsSupplierComplete());
             RoadMapSection = DashboardSection.Optional(solution.IsRoadMapComplete());
         }
     }
