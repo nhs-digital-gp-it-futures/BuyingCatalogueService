@@ -48,8 +48,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .ConfigureAwait(false);
 
             result.SolutionId.Should().Be(_solutionId);
-            result.Description.Should().Be(_description);
-            result.Link.Should().Be(_link);
+            result.Summary.Should().Be(_description);
+            result.Url.Should().Be(_link);
         }
 
         [Test]
@@ -74,8 +74,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             var supplier = await _supplierRepository.GetSupplierBySolutionIdAsync(_solutionId, new CancellationToken())
                 .ConfigureAwait(false);
             supplier.SolutionId.Should().Be(_solutionId);
-            supplier.Description.Should().Be(_newDescription);
-            supplier.Link.Should().Be(_newLink);
+            supplier.Summary.Should().Be(_newDescription);
+            supplier.Url.Should().Be(_newLink);
         }
 
         [Test]

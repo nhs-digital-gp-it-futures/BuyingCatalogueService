@@ -8,7 +8,7 @@ Background:
         | Name     |
         | GPs-R-Us |
     And Suppliers exist
-        | Id    | SupplierName | OrganisationName | Summary      | Url         |
+        | Id    | SupplierName | OrganisationName | Summary      | SupplierUrl |
         | Sup 1 | Supplier 1   | GPs-R-Us         | Some Summary | www.url.com |
         | Sup 2 | Supplier 1   | GPs-R-Us         | NULL         | NULL        |
     And Solutions exist
@@ -22,7 +22,7 @@ Scenario: 1. About Supplier is retreived for the solution
     Then a successful response is returned
     And the string value of element description is Some Summary
     And the string value of element link is www.url.com
-    
+
 @3653
 Scenario: 2. About Supplier is retrieved for the solution where no about supplier exists
     When a GET request is made for about-supplier section for solution Sln2

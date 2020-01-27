@@ -14,7 +14,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence.Suppliers
 
         public async Task UpdateBySolutionId(string solutionId, Domain.Suppliers.Supplier supplier, CancellationToken cancellationToken) =>
             await _supplierRepository
-                .UpdateSupplierAsync(new UpdateSupplierRequest(solutionId, supplier.Description, supplier.Link),
+                .UpdateSupplierAsync(new UpdateSupplierRequest(solutionId, supplier.Summary, supplier.Url),
                     cancellationToken).ConfigureAwait(false);
     }
 }

@@ -9,7 +9,7 @@ Background:
 		| GPs-R-Us |
 		| Drs. Inc |
 	And Suppliers exist
-		| Id    | SupplierName | OrganisationName | Summary            | Url           |
+		| Id    | SupplierName | OrganisationName | Summary            | SupplierUrl           |
 		| Sup 1 | Supplier 1   | GPs-R-Us         |                    |               |
 		| Sup 2 | Supplier 2   | Drs. Inc         | NULL               | supplier-url2 |
 		| Sup 3 | Supplier 3   | Drs. Inc         | Supplier summary 3 | NULL          |
