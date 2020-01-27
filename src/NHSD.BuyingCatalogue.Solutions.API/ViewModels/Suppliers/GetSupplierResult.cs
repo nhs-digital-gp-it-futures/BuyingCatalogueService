@@ -11,10 +11,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers
         [JsonProperty("link")]
         public string Link { get; set; }
 
-        public GetSupplierResult(ISupplier aboutSupplier)
+        public GetSupplierResult(ISupplier supplier)
         {
-            Description = aboutSupplier?.Description;
-            Link = aboutSupplier?.Link;
+            Description = supplier?.Summary;
+            Link = supplier?.Url;
         }
     }
 }

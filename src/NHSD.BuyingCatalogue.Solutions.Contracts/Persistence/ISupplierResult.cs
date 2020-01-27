@@ -4,8 +4,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
     {
         string SolutionId { get; }
 
-        string Description { get; }
+        string Name { get; }
 
-        string Link { get; }
+        string Summary { get; }
+
+        string Url { get; }
     }
 }

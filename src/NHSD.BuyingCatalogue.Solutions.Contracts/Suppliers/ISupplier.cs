@@ -2,8 +2,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers
 {
     public interface ISupplier
     {
-        string Description { get; }
+        string Summary { get; }
 
-        string Link { get; }
+        string Url { get; }
     }
 }

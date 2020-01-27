@@ -2,6 +2,7 @@ using System;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.ClientApplications;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Hostings;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
@@ -37,6 +38,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         [JsonProperty("hosting-type-hybrid")]
         public HybridHostingTypeSection HybridHostingType { get; }
 
+        [JsonProperty("about-supplier")]
+        public AboutSupplierSection AboutSupplier { get; }
+
         /// <summary>
         /// Initialises a new instance of the <see cref="Sections"/> class.
         /// </summary>
@@ -57,6 +61,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
             PrivateCloud = new PrivateCloudSection(solution.Hosting).IfPopulated();
             OnPremise = new OnPremiseSection(solution.Hosting).IfPopulated();
             HybridHostingType = new HybridHostingTypeSection(solution.Hosting).IfPopulated();
+            AboutSupplier = new AboutSupplierSection(solution?.Supplier).IfPopulated();
         }
     }
 }
