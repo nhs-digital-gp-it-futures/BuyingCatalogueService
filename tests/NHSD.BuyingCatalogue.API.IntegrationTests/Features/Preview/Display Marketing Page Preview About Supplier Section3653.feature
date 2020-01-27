@@ -4,11 +4,7 @@ Feature: Display Marketing Page Preview Solution About Supplier Section
     So that I can ensure the information is correct
 
 Background:
-	Given Organisations exist
-		| Name     |
-		| GPs-R-Us |
-		| Drs. Inc |
-	And Suppliers exist
+    Given Suppliers exist
 		| Id    | SupplierName | OrganisationName | Summary            | SupplierUrl   |
 		| Sup 1 | Supplier 1   | GPs-R-Us         |                    |               |
 		| Sup 2 | Supplier 2   | Drs. Inc         | NULL               | supplier-url2 |
