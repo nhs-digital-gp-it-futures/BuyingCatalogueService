@@ -122,7 +122,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
             Hosting = string.IsNullOrWhiteSpace(solutionResult.Hosting)
                 ? new Hosting()
                 : JsonConvert.DeserializeObject<Hosting>(solutionResult.Hosting);
-            Supplier = supplierResult != null ? new Supplier(supplierResult) : null;
+            Supplier = supplierResult != null ? new Supplier(supplierResult) : new Supplier();
         }
 
         /// <summary>
