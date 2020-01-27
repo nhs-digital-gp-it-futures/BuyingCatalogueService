@@ -14,7 +14,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
     public sealed class SupplierRepositoryTests
     {
         private ISupplierRepository _supplierRepository;
-        private readonly Guid _org1Id = Guid.NewGuid();
+
         private readonly string _supplierId = "Sup 1";
         private readonly string _solutionId = "Sln1";
 
@@ -28,12 +28,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public async Task SetUp()
         {
             await Database.ClearAsync().ConfigureAwait(false);
-
-            await OrganisationEntityBuilder.Create()
-                .WithId(_org1Id)
-                .Build()
-                .InsertAsync()
-                .ConfigureAwait(false);
 
             TestContext testContext = new TestContext();
             _supplierRepository = testContext.SupplierRepository;
@@ -90,7 +84,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         private async Task InsertSupplier()
         {
             await SupplierEntityBuilder.Create()
-                .WithOrganisation(_org1Id)
                 .WithId(_supplierId)
                 .WithSummary(_description)
                 .WithSupplierUrl(_link)
@@ -99,7 +92,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await SolutionEntityBuilder.Create()
                 .WithId(_solutionId)
-                .WithOrganisationId(_org1Id)
                 .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
