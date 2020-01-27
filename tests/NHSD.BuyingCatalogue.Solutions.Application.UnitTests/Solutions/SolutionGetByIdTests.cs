@@ -48,6 +48,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
             var capabilities2 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap2");
 
+            var mockSupplier = Mock.Of<ISupplierResult>(m =>
+                m.Name == "supplier name" && m.Summary == "supplier summary" && m.Url == "supplierUrl");
+
             _context.MockSolutionCapabilityRepository
                 .Setup(r => r.ListSolutionCapabilities("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new []{capabilities1, capabilities2});
             var expectedContact = Mock.Of<IMarketingContactResult>(c =>
@@ -62,13 +65,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 .Setup(r => r.BySolutionIdAsync("Sln1", It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new[]{expectedContact});
 
+            _context.MockSupplierRepository.Setup(r => r.GetSupplierBySolutionIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(mockSupplier);
+
             var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken()).ConfigureAwait(false);
 
             solution.Id.Should().Be("Sln1");
             solution.Name.Should().Be("Name");
             solution.LastUpdated.Should().Be(_lastUpdated);
             solution.Summary.Should().Be("Summary");
-            
+
             solution.Description.Should().Be("Description");
             solution.AboutUrl.Should().Be("AboutUrl");
 
@@ -118,6 +123,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             contact.Email.Should().Be(expectedContact.Email);
             contact.PhoneNumber.Should().Be(expectedContact.PhoneNumber);
             contact.Department.Should().Be(expectedContact.Department);
+
+            solution.Supplier.Summary.Should().Be(mockSupplier.Summary);
+            solution.Supplier.Url.Should().Be(mockSupplier.Url);
+
+            solution.SupplierName.Should().Be(mockSupplier.Name);
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -169,6 +179,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.SupplierName.Should().BeNull();
             solution.Capabilities.Should().BeEmpty();
             solution.Contacts.Count().Should().Be(0);
+
+            solution.Supplier.Summary.Should().BeNull();
+            solution.Supplier.Url.Should().BeNull();
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -223,6 +236,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.ClientApplication.NativeDesktopAdditionalInformation.Should().BeNull();
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1"});
             solution.Contacts.Count().Should().Be(0);
+
+            solution.Supplier.Summary.Should().BeNull();
+            solution.Supplier.Url.Should().BeNull();
+
+            solution.SupplierName.Should().BeNull();
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -385,6 +403,70 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.IsFoundation.Should().BeFalse();
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
+
+        [Test]
+        public async Task ShouldGetPartialSolutionByIdWithSupplier()
+        {
+            var existingSolution = new Mock<ISolutionResult>();
+            existingSolution.Setup(s => s.Id).Returns("Sln1");
+            existingSolution.Setup(s => s.Name).Returns("Name");
+            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated);
+            existingSolution.Setup(s => s.Description).Returns((string)null);
+            existingSolution.Setup(s => s.Summary).Returns("Summary");
+            existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
+            existingSolution.Setup(s => s.Features).Returns((string)null);
+            existingSolution.Setup(s => s.RoadMap).Returns((string)null);
+            existingSolution.Setup(s => s.ClientApplication).Returns((string)null);
+
+            var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
+
+            var mockSupplier = Mock.Of<ISupplierResult>(m =>
+                m.Name == "supplier name" && m.Summary == "supplier summary" && m.Url == "supplierUrl");
+
+            _context.MockSolutionCapabilityRepository
+                .Setup(r => r.ListSolutionCapabilities("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new[] { capabilities1 });
+
+            _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
+            _context.MockSupplierRepository.Setup(r => r.GetSupplierBySolutionIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(mockSupplier);
+
+            var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken()).ConfigureAwait(false);
+
+            solution.Id.Should().Be("Sln1");
+            solution.Name.Should().Be("Name");
+            solution.LastUpdated.Should().Be(_lastUpdated);
+
+            solution.Summary.Should().Be("Summary");
+            solution.Description.Should().BeNullOrEmpty();
+            solution.AboutUrl.Should().BeNullOrEmpty();
+
+            solution.Features.Should().BeEmpty();
+            solution.RoadMap.Should().BeNullOrEmpty();
+            solution.ClientApplication.ClientApplicationTypes.Should().BeEmpty();
+            solution.ClientApplication.BrowsersSupported.Should().BeEmpty();
+            solution.ClientApplication.MobileResponsive.Should().BeNull();
+            solution.ClientApplication.Plugins.Should().BeNull();
+            solution.ClientApplication.MobileFirstDesign.Should().BeNull();
+            solution.ClientApplication.MobileOperatingSystems.Should().BeNull();
+            solution.ClientApplication.MobileConnectionDetails.Should().BeNull();
+            solution.ClientApplication.MobileThirdParty.Should().BeNull();
+            solution.ClientApplication.NativeMobileHardwareRequirements.Should().BeNull();
+            solution.ClientApplication.NativeDesktopOperatingSystemsDescription.Should().BeNull();
+            solution.ClientApplication.NativeDesktopHardwareRequirements.Should().BeNull();
+            solution.ClientApplication.NativeDesktopMinimumConnectionSpeed.Should().BeNull();
+            solution.ClientApplication.NativeDesktopThirdParty.Should().BeNull();
+            solution.ClientApplication.NativeDesktopMemoryAndStorage.Should().BeNull();
+            solution.ClientApplication.NativeDesktopAdditionalInformation.Should().BeNull();
+            solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1"});
+            solution.Contacts.Count().Should().Be(0);
+
+            solution.Supplier.Summary.Should().Be(mockSupplier.Summary);
+            solution.Supplier.Url.Should().Be(mockSupplier.Url);
+
+            solution.SupplierName.Should().Be(mockSupplier.Name);
+
+            _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+        }
+
 
         [Test]
         public void ShouldThrowWhenSolutionNotPresent()
