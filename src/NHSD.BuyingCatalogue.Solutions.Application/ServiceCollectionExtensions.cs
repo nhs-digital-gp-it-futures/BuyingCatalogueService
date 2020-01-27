@@ -28,8 +28,10 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSuppliers;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
+using NHSD.BuyingCatalogue.Solutions.Application.Persistence.Suppliers;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application
 {
@@ -53,6 +55,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<SolutionContactDetailsUpdater>()
                 .AddTransient<ClientApplicationPartialUpdater>()
                 .AddTransient<HostingPartialUpdater>()
+                .AddTransient<SupplierUpdater>()
+                .AddTransient<SupplierPartialUpdater>()
                 .AddTransient<UpdateSolutionFeaturesValidator>()
                 .AddTransient<UpdateSolutionClientApplicationTypesValidator>()
                 .AddTransient<UpdateSolutionBrowsersSupportedValidator>()
@@ -64,6 +68,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<UpdateSolutionMobileOperatingSystemsValidator>()
                 .AddTransient<UpdateSolutionMobileConnectionDetailsValidator>()
 				.AddTransient<UpdateSolutionNativeMobileFirstValidator>()
+                .AddTransient<UpdateSupplierValidator>()
 
                 .AddTransient<IExecutor<UpdateSolutionSummaryCommand>, UpdateSolutionSummaryExecutor>()
                 .AddTransient<IValidator<UpdateSolutionSummaryCommand, ISimpleResult>, UpdateSolutionSummaryValidator>()
@@ -144,7 +149,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<IValidator<UpdateHybridHostingTypeCommand, ISimpleResult>, UpdateHybridHostingTypeValidator>()
 
                 .AddTransient<IExecutor<UpdateRoadmapCommand>, UpdateRoadmapExecutor>()
-                .AddTransient<IValidator<UpdateRoadmapCommand, ISimpleResult>, UpdateRoadmapValidator>();
+                .AddTransient<IValidator<UpdateRoadmapCommand, ISimpleResult>, UpdateRoadmapValidator>()
+
+                .AddTransient<IExecutor<UpdateSupplierCommand>, UpdateSupplierExecutor>()
+                .AddTransient<IValidator<UpdateSupplierCommand, ISimpleResult>, UpdateSupplierValidator>()
+                ;
         }
     }
 }
