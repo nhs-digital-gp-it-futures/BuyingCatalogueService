@@ -4,13 +4,10 @@ Feature: Display Marketing Page Form About Supplier Section
     So that I can ensure the information is correct
 
 Background:
-    Given Organisations exist
-        | Name     |
-        | GPs-R-Us |
-    And Suppliers exist
-        | Id    | SupplierName | OrganisationName | Summary      | SupplierUrl |
-        | Sup 1 | Supplier 1   | GPs-R-Us         | Some Summary | www.url.com |
-        | Sup 2 | Supplier 1   | GPs-R-Us         | NULL         | NULL        |
+    Given Suppliers exist
+        | Id    | SupplierName | Summary      | SupplierUrl |
+        | Sup 1 | Supplier 1   | Some Summary | www.url.com |
+        | Sup 2 | Supplier 1   | NULL         | NULL        |
     And Solutions exist
         | SolutionID | SolutionName     | OrganisationName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline      | GPs-R-Us         | 1                | Sup 1      |
