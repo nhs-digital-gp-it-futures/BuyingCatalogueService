@@ -85,7 +85,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             solution.Features.Should().Be("Features");
             solution.ClientApplication.Should().Be("Browser-based");
             solution.Hosting.Should().Be("Hosting");
-            solution.SupplierName.Should().Be(_supplierName);
             solution.IsFoundation.Should().BeFalse();
             solution.PublishedStatus.Should().Be(PublishedStatus.Published);
         }
@@ -146,7 +145,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             solution.LastUpdated.Should().Be(_lastUpdated);
             solution.Summary.Should().BeNull();
             solution.Description.Should().BeNull();
-            solution.SupplierName.Should().Be(_supplierName);
             solution.AboutUrl.Should().BeNull();
             solution.Features.Should().BeNull();
             solution.ClientApplication.Should().BeNull();

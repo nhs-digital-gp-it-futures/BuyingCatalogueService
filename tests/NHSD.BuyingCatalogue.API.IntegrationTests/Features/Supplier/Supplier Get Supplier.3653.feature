@@ -19,7 +19,7 @@ Scenario: 1. About Supplier is retreived for the solution
     Then a successful response is returned
     And the string value of element description is Some Summary
     And the string value of element link is www.url.com
-    
+
 @3653
 Scenario: 2. About Supplier is retrieved for the solution where no about supplier exists
     When a GET request is made for about-supplier section for solution Sln2
