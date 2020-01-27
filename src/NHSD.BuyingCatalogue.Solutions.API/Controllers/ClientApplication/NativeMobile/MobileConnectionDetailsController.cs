@@ -42,7 +42,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Nativ
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> UpdateMobileConnectionDetails([FromRoute] [Required] string id,
-            [FromBody] [Required] UpdateSolutionMobileConnectionDetailsViewModel viewModel) =>
+            [FromBody] [Required] UpdateNativeMobileConnectionDetailsViewModel viewModel) =>
             (await _mediator.Send(new UpdateSolutionMobileConnectionDetailsCommand(id, viewModel)).ConfigureAwait(false)).ToActionResult();
     }
 }
