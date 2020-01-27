@@ -8,12 +8,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap
     {
         public string SolutionId { get; }
 
-        public string Description { get; }
+        public string Summary { get; }
 
-        public UpdateRoadmapCommand(string solutionId, string description)
+        public UpdateRoadmapCommand(string solutionId, string summary)
         {
             SolutionId = solutionId.ThrowIfNull();
-            Description = description;
+            Summary = summary;
         }
     }
 }

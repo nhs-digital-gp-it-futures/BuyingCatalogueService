@@ -18,14 +18,14 @@ Background:
 
 @3653
 Scenario: 1. About Supplier is retreived for the solution
-    When a GET request is made for about-supplier for solution Sln1
+    When a GET request is made for about-supplier section for solution Sln1
     Then a successful response is returned
     And the string value of element description is Some Summary
     And the string value of element link is www.url.com
     
 @3653
 Scenario: 2. About Supplier is retrieved for the solution where no about supplier exists
-    When a GET request is made for about-supplier for solution Sln2
+    When a GET request is made for about-supplier section for solution Sln2
     Then a successful response is returned
     And the description string does not exist
     And the link string does not exist
@@ -33,10 +33,10 @@ Scenario: 2. About Supplier is retrieved for the solution where no about supplie
 @3653
 Scenario: 3. Service failure
     Given the call to the database to set the field will fail
-    When a GET request is made for about-supplier for solution Sln2
+    When a GET request is made for about-supplier section for solution Sln2
     Then a response status of 500 is returned
 
 @3653
 Scenario: 4. Solution id not present in request
-    When a GET request is made for about-supplier with no solution id
+    When a GET request is made for about-supplier section with no solution id
     Then a response status of 400 is returned

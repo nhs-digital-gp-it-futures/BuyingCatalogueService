@@ -4,7 +4,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 {
     public sealed class UpdateRoadmapViewModel
     {
-        [JsonProperty("description")]
-        public string Description { get; set; }
+        [JsonProperty("summary")]
+        public string Summary { get; set; }
     }
 }

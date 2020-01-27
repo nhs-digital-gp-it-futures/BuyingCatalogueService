@@ -58,25 +58,25 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         public async Task ShouldUpdateValidationValid()
         {
             var expected = "a description";
-            var viewModel = new UpdateRoadmapViewModel { Description = expected };
+            var viewModel = new UpdateRoadmapViewModel { Summary = expected };
             var validationModel = new Mock<ISimpleResult>();
             validationModel.Setup(s => s.IsValid).Returns(true);
 
-            _mockMediator.Setup(m => m.Send(It.Is<UpdateRoadmapCommand>(q => q.SolutionId == SolutionId && q.Description == expected), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
+            _mockMediator.Setup(m => m.Send(It.Is<UpdateRoadmapCommand>(q => q.SolutionId == SolutionId && q.Summary == expected), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result =
                 (await _controller.Update(SolutionId, viewModel).ConfigureAwait(false)) as
                     NoContentResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
-            _mockMediator.Verify(m => m.Send(It.Is<UpdateRoadmapCommand>(q => q.SolutionId == SolutionId && q.Description == expected), It.IsAny<CancellationToken>()), Times.Once);
+            _mockMediator.Verify(m => m.Send(It.Is<UpdateRoadmapCommand>(q => q.SolutionId == SolutionId && q.Summary == expected), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
         public async Task ShouldUpdateValidationInvalid()
         {
             var expected = "a description";
-            var viewModel = new UpdateRoadmapViewModel {Description = expected};
+            var viewModel = new UpdateRoadmapViewModel {Summary = expected};
             var validationModel = new Mock<ISimpleResult>();
             validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "description", "maxLength" } });
             validationModel.Setup(s => s.IsValid).Returns(false);
@@ -91,7 +91,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             resultValue.Count.Should().Be(1);
             resultValue["description"].Should().Be("maxLength");
 
-            _mockMediator.Verify(m => m.Send(It.Is<UpdateRoadmapCommand>(q => q.SolutionId == SolutionId && q.Description == expected), It.IsAny<CancellationToken>()), Times.Once);
+            _mockMediator.Verify(m => m.Send(It.Is<UpdateRoadmapCommand>(q => q.SolutionId == SolutionId && q.Summary == expected), It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }
