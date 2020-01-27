@@ -21,16 +21,24 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
     public sealed class MobileConnectionDetailsControllerTests
     {
         private Mock<IMediator> _mockMediator;
-
         private MobileConnectionDetailsController _controller;
-
         private const string SolutionId = "Sln1";
+        private Mock<ISimpleResult> _simpleResultMock;
+        private Dictionary<string, string> _resultDictionary;
 
         [SetUp]
         public void Setup()
         {
             _mockMediator = new Mock<IMediator>();
             _controller = new MobileConnectionDetailsController(_mockMediator.Object);
+            _simpleResultMock = new Mock<ISimpleResult>();
+            _simpleResultMock.Setup(x => x.IsValid).Returns(() => !_resultDictionary.Any());
+            _simpleResultMock.Setup(x => x.ToDictionary()).Returns(() => _resultDictionary);
+            _resultDictionary = new Dictionary<string, string>();
+            _mockMediator.Setup(x =>
+                    x.Send(It.IsAny<UpdateSolutionMobileConnectionDetailsCommand>(),
+                        It.IsAny<CancellationToken>()))
+                .ReturnsAsync(() => _simpleResultMock.Object);
         }
         [Test]
         public async Task ShouldGetOperatingSystems()
@@ -98,19 +106,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
         [Test]
         public async Task ShouldUpdateValidationValid()
         {
-            var viewModel = new UpdateSolutionMobileConnectionDetailsViewModel();
-
-            var validationModel = new Mock<ISimpleResult>();
-            validationModel.Setup(s => s.IsValid).Returns(true);
-
-            _mockMediator
-                .Setup(m => m.Send(
-                    It.Is<UpdateSolutionMobileConnectionDetailsCommand>(q =>
-                        q.SolutionId == SolutionId && q.Data == viewModel), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(validationModel.Object);
+            var request = new UpdateNativeMobileConnectionDetailsViewModel();
 
             var result =
-                (await _controller.UpdateMobileConnectionDetails(SolutionId, viewModel)
+                (await _controller.UpdateMobileConnectionDetails(SolutionId, request)
                     .ConfigureAwait(false)) as NoContentResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
@@ -118,25 +117,19 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionMobileConnectionDetailsCommand>(q =>
-                        q.SolutionId == SolutionId && q.Data == viewModel), It.IsAny<CancellationToken>()), Times.Once);
+                        q.SolutionId == SolutionId && q.Data == request), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
         public async Task ShouldUpdateValidationInvalid()
         {
-            var viewModel = new UpdateSolutionMobileConnectionDetailsViewModel();
+            _resultDictionary.Add("connection-requirements-description", "maxLength");
+            var request = new UpdateNativeMobileConnectionDetailsViewModel();
 
-            var validationModel = new Mock<ISimpleResult>();
-            validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "connection-requirements-description", "maxLength" } });
-            validationModel.Setup(s => s.IsValid).Returns(false);
 
-            _mockMediator.Setup(m =>
-                m.Send(
-                    It.Is<UpdateSolutionMobileConnectionDetailsCommand>(q =>
-                        q.SolutionId == SolutionId && q.Data == viewModel),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
-
-            var result = (await _controller.UpdateMobileConnectionDetails(SolutionId, viewModel).ConfigureAwait(false)) as BadRequestObjectResult;
+            var result =
+                (await _controller.UpdateMobileConnectionDetails(SolutionId, request).ConfigureAwait(false)) as
+                BadRequestObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
             var resultValue = result.Value as Dictionary<string, string>;
@@ -147,7 +140,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
                 m => m.Send(
                     It.Is<UpdateSolutionMobileConnectionDetailsCommand>(q =>
                         q.SolutionId == SolutionId && q.Data ==
-                        viewModel), It.IsAny<CancellationToken>()), Times.Once);
+                        request), It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }
