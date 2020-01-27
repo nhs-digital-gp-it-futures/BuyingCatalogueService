@@ -41,7 +41,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             { "hosting-type-private-cloud", typeof(HostingPrivateCloudPayload) },
             { "hosting-type-on-premise", typeof(HostingOnPremisePayload) },
             { "hosting-type-hybrid", typeof(HostingHybridHostingTypePayload) },
-            { "roadmap", typeof(RoadmapPayload) }
+            { "roadmap", typeof(RoadmapPayload) },
+            { "about-supplier", typeof(SupplierPayload) }
         };
 
         public EditSectionPutSteps(Response response)
@@ -296,6 +297,15 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
         {
             [JsonProperty("summary")]
             public string Summary { get; set; }
+        }
+
+        private class SupplierPayload
+        {
+            [JsonProperty("description")]
+            public string Summary { get; set; }
+
+            [JsonProperty("Link")]
+            public string SupplierUrl { get; set; }
         }
     }
 }

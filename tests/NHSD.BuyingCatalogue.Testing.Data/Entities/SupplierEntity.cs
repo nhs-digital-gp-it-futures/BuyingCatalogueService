@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 {
@@ -37,5 +40,19 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             ,@LastUpdatedBy
             )
         ";
+
+        public static async Task<IEnumerable<SupplierEntity>> FetchAllAsync()
+        {
+            return await SqlRunner.FetchAllAsync<SupplierEntity>($@"SELECT
+                                [Id],
+                                [Summary],
+                                [SupplierUrl]
+                                FROM Supplier").ConfigureAwait(false);
+        }
+
+        public static async Task<SupplierEntity> GetByIdAsync(string supplierId)
+        {
+            return (await FetchAllAsync().ConfigureAwait(false)).First(item => supplierId == item.Id);
+        }
     }
 }
