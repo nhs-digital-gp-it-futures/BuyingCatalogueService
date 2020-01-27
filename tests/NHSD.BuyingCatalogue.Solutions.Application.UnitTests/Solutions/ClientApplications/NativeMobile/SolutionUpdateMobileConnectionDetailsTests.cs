@@ -9,6 +9,7 @@ using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionMobileConnectionDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Tools;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Commands.NativeMobile;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
 
@@ -84,14 +85,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
         private async Task<ISimpleResult> UpdateConnectionDetails(HashSet<string> connectionType, string description, string connectionSpeed)
         {
+            var data = Mock.Of<IUpdateNativeMobileConnectionDetailsData>(c =>
+                c.ConnectionType == connectionType && c.ConnectionRequirementsDescription == description &&
+                c.MinimumConnectionSpeed == connectionSpeed);
+
             return await Context.UpdateSolutionMobileConnectionDetailsHandler.Handle(
-                new UpdateSolutionMobileConnectionDetailsCommand(SolutionId,
-                    new UpdateSolutionMobileConnectionDetailsViewModel()
-                    {
-                        ConnectionRequirementsDescription = description,
-                        ConnectionType = connectionType,
-                        MinimumConnectionSpeed = connectionSpeed
-                    }), CancellationToken.None).ConfigureAwait(false);
+                new UpdateSolutionMobileConnectionDetailsCommand(SolutionId, data), CancellationToken.None).ConfigureAwait(false);
         }
     }
 }

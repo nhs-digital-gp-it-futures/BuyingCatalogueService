@@ -6,6 +6,7 @@ using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.BrowserBased.UpdateSolutionPlugins;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Commands.BrowserBased;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
 
@@ -112,11 +113,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
         private async Task<ISimpleResult> UpdatePlugins(string required = null, string additionalInformation = null)
         {
-            return await Context.UpdateSolutionPluginsHandler.Handle(new UpdateSolutionPluginsCommand(SolutionId, new UpdateSolutionPluginsViewModel()
-            {
-                Required = required,
-                AdditionalInformation = additionalInformation
-            }), CancellationToken.None).ConfigureAwait(false);
+            var data = Mock.Of<IUpdateBrowserBasedPluginsData>(p =>
+                p.Required == required && p.AdditionalInformation == additionalInformation);
+
+            return await Context.UpdateSolutionPluginsHandler
+                .Handle(new UpdateSolutionPluginsCommand(SolutionId, data), CancellationToken.None)
+                .ConfigureAwait(false);
         }
     }
 }

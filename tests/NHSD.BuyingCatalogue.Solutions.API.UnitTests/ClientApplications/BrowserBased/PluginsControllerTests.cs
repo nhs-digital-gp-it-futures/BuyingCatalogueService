@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,16 +21,24 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
     public sealed class PluginsControllerTests
     {
         private Mock<IMediator> _mockMediator;
-
         private PlugInsController _plugInsController;
-
         private const string SolutionId = "Sln1";
+        private Mock<ISimpleResult> _simpleResultMock;
+        private Dictionary<string, string> _resultDictionary;
 
         [SetUp]
         public void Setup()
         {
             _mockMediator = new Mock<IMediator>();
             _plugInsController = new PlugInsController(_mockMediator.Object);
+            _simpleResultMock = new Mock<ISimpleResult>();
+            _simpleResultMock.Setup(x => x.IsValid).Returns(() => !_resultDictionary.Any());
+            _simpleResultMock.Setup(x => x.ToDictionary()).Returns(() => _resultDictionary);
+            _resultDictionary = new Dictionary<string, string>();
+            _mockMediator.Setup(x =>
+                    x.Send(It.IsAny<UpdateSolutionPluginsCommand>(),
+                        It.IsAny<CancellationToken>()))
+                .ReturnsAsync(() => _simpleResultMock.Object);
         }
 
         [Test]
@@ -110,44 +119,31 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
         [Test]
         public async Task ShouldUpdateValidationValid()
         {
-            var pluginsViewModel = new UpdateSolutionPluginsViewModel();
+            var request = new UpdateBrowserBasedPluginsViewModel()
+            {
+                Required = "yes",
+                AdditionalInformation = "Some info"
+            };
 
-            var validationModel = new Mock<ISimpleResult>();
-            validationModel.Setup(s => s.IsValid).Returns(true);
-
-            _mockMediator
-                .Setup(m => m.Send(
-                    It.Is<UpdateSolutionPluginsCommand>(q =>
-                        q.SolutionId == SolutionId && q.Data == pluginsViewModel),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
-
-            var result = (await _plugInsController.UpdatePlugInsAsync(SolutionId, pluginsViewModel).ConfigureAwait(false)) as NoContentResult;
-
-            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+            var result = (await _plugInsController.UpdatePlugInsAsync(SolutionId, request).ConfigureAwait(false)) as NoContentResult;
 
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionPluginsCommand>(q =>
-                        q.SolutionId == SolutionId && q.Data ==
-                        pluginsViewModel), It.IsAny<CancellationToken>()), Times.Once);
+                        q.SolutionId == SolutionId && q.Data == request), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
         public async Task ShouldUpdateValidationInvalid()
         {
-            var pluginsViewModel = new UpdateSolutionPluginsViewModel();
+            _resultDictionary.Add("plugins-required", "required");
+            _resultDictionary.Add("plugins-detail", "maxLength");
 
-            var validationModel = new Mock<ISimpleResult>();
-            validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "plugins-required", "required" }, { "plugins-detail", "maxLength" } });
-            validationModel.Setup(s => s.IsValid).Returns(false);
+            var request = new UpdateBrowserBasedPluginsViewModel();
 
-            _mockMediator.Setup(m =>
-                m.Send(
-                    It.Is<UpdateSolutionPluginsCommand>(q =>
-                        q.SolutionId == SolutionId && q.Data == pluginsViewModel),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
-
-            var result = (await _plugInsController.UpdatePlugInsAsync(SolutionId, pluginsViewModel).ConfigureAwait(false)) as BadRequestObjectResult;
+            var result =
+                (await _plugInsController.UpdatePlugInsAsync(SolutionId, request).ConfigureAwait(false)) as
+                BadRequestObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
             var validationResult = result.Value as Dictionary<string, string>;
@@ -159,7 +155,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
                 m => m.Send(
                     It.Is<UpdateSolutionPluginsCommand>(q =>
                         q.SolutionId == SolutionId && q.Data ==
-                        pluginsViewModel), It.IsAny<CancellationToken>()), Times.Once);
+                        request), It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }
