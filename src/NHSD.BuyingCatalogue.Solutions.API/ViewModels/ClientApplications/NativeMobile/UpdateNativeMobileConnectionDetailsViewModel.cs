@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Commands.NativeMobile;
 
-namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionMobileConnectionDetails
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.ClientApplications.NativeMobile
 {
-    public class UpdateSolutionMobileConnectionDetailsViewModel
+    public sealed class UpdateNativeMobileConnectionDetailsViewModel : IUpdateNativeMobileConnectionDetailsData
     {
         [JsonProperty("minimum-connection-speed")]
         public string MinimumConnectionSpeed { get; set; }
