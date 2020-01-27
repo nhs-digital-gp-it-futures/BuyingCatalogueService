@@ -45,7 +45,11 @@ namespace NHSD.BuyingCatalogue.API.Extensions
 		/// <returns>The extended service collection instance.</returns>
 		public static IServiceCollection AddCustomMvc(this IServiceCollection services)
         {
-            Action<MvcOptions> op = options => options.Filters.Add(typeof(CustomExceptionFilter));
+            Action<MvcOptions> op = options =>
+            {
+                options.Filters.Add(typeof(CustomExceptionFilter));
+                options.Filters.Add<SerilogLoggingActionFilter>();
+            };
 
             Action<IMvcBuilder> controllerAction = builder => builder
                 .AddNewtonsoftJson(jsonOptions =>

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using NHSD.BuyingCatalogue.API.Extensions;
 using NHSD.BuyingCatalogue.API.Infrastructure;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
+using NHSD.BuyingCatalogue.API.Infrastructure.Logging;
 using NHSD.BuyingCatalogue.Capabilities.Application;
 using NHSD.BuyingCatalogue.Capabilities.Application.Mapping;
 using NHSD.BuyingCatalogue.Capabilities.Contracts;
@@ -22,6 +23,7 @@ using NHSD.BuyingCatalogue.SolutionLists.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Application;
 using NHSD.BuyingCatalogue.Solutions.Application.Mapping;
 using NHSD.BuyingCatalogue.Solutions.Persistence;
+using Serilog;
 
 namespace NHSD.BuyingCatalogue.API
 {
@@ -69,6 +71,12 @@ namespace NHSD.BuyingCatalogue.API
         /// <param name="env">The hosting environment details.</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSerilogRequestLogging(opts =>
+            {
+                opts.EnrichDiagnosticContext = LogHelper.EnrichFromRequest;
+                opts.GetLevel = LogHelper.ExcludeHealthChecks;
+            });
+
             app.UseRouting();
 
             if (env.IsDevelopment())
