@@ -21,16 +21,24 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
     public sealed class MobileOperatingSystemsControllerTests
     {
         private Mock<IMediator> _mockMediator;
-
         private MobileOperatingSystemsController _mobileOperatingSystemsController;
-
         private const string SolutionId = "Sln1";
+        private Mock<ISimpleResult> _simpleResultMock;
+        private Dictionary<string, string> _resultDictionary;
 
         [SetUp]
         public void Setup()
         {
             _mockMediator = new Mock<IMediator>();
             _mobileOperatingSystemsController = new MobileOperatingSystemsController(_mockMediator.Object);
+            _simpleResultMock = new Mock<ISimpleResult>();
+            _simpleResultMock.Setup(x => x.IsValid).Returns(() => !_resultDictionary.Any());
+            _simpleResultMock.Setup(x => x.ToDictionary()).Returns(() => _resultDictionary);
+            _resultDictionary = new Dictionary<string, string>();
+            _mockMediator.Setup(x =>
+                    x.Send(It.IsAny<UpdateSolutionMobileOperatingSystemsCommand>(),
+                        It.IsAny<CancellationToken>()))
+                .ReturnsAsync(() => _simpleResultMock.Object);
         }
 
         [Test]
@@ -85,7 +93,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
             var result =
                 (await _mobileOperatingSystemsController.GetMobileOperatingSystems(SolutionId)
                     .ConfigureAwait(false)) as ObjectResult;
-            
+
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
             var operatingSystem = (result.Value as GetMobileOperatingSystemsResult);
@@ -96,19 +104,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
         [Test]
         public async Task ShouldUpdateValidationValid()
         {
-            var viewModel = new UpdateSolutionMobileOperatingSystemsViewModel();
-
-            var validationModel = new Mock<ISimpleResult>();
-            validationModel.Setup(s => s.IsValid).Returns(true);
-
-            _mockMediator
-                .Setup(m => m.Send(
-                    It.Is<UpdateSolutionMobileOperatingSystemsCommand>(q =>
-                        q.Id == SolutionId && q.Data == viewModel), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(validationModel.Object);
+            var request = new UpdateNativeMobileOperatingSystemsViewModel();
 
             var result =
-                (await _mobileOperatingSystemsController.UpdateMobileOperatingSystems(SolutionId, viewModel)
+                (await _mobileOperatingSystemsController.UpdateMobileOperatingSystems(SolutionId, request)
                     .ConfigureAwait(false)) as NoContentResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
@@ -116,25 +115,18 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionMobileOperatingSystemsCommand>(q =>
-                        q.Id == SolutionId && q.Data == viewModel), It.IsAny<CancellationToken>()), Times.Once);
+                        q.Id == SolutionId && q.Data == request), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
         public async Task ShouldUpdateValidationInvalid()
         {
-            var viewModel = new UpdateSolutionMobileOperatingSystemsViewModel();
+            _resultDictionary.Add("operating-systems-description", "maxLength");
+            _resultDictionary.Add("operating-systems", "required");
 
-            var validationModel = new Mock<ISimpleResult>();
-            validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "operating-systems-description", "maxLength" }, { "operating-systems", "required" } });
-            validationModel.Setup(s => s.IsValid).Returns(false);
+            var request = new UpdateNativeMobileOperatingSystemsViewModel();
 
-            _mockMediator.Setup(m =>
-                m.Send(
-                    It.Is<UpdateSolutionMobileOperatingSystemsCommand>(q =>
-                        q.Id == SolutionId && q.Data == viewModel),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
-
-            var result = (await _mobileOperatingSystemsController.UpdateMobileOperatingSystems(SolutionId, viewModel).ConfigureAwait(false)) as BadRequestObjectResult;
+            var result = (await _mobileOperatingSystemsController.UpdateMobileOperatingSystems(SolutionId, request).ConfigureAwait(false)) as BadRequestObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
             var validationResult = result.Value as Dictionary<string, string>;
@@ -146,7 +138,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
                 m => m.Send(
                     It.Is<UpdateSolutionMobileOperatingSystemsCommand>(q =>
                         q.Id == SolutionId && q.Data ==
-                        viewModel), It.IsAny<CancellationToken>()), Times.Once);
+                        request), It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }

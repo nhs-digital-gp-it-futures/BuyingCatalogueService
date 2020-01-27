@@ -9,6 +9,7 @@ using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionMobileOperatingSystems;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Tools;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Commands.NativeMobile;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
 
@@ -92,13 +93,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
         private async Task<ISimpleResult> UpdateOperatingSystems(HashSet<string> operatingSystems, string operatingSystemsDescription = null)
         {
+            var data = Mock.Of<IUpdateNativeMobileOperatingSystemsData>(o =>
+                o.OperatingSystems == operatingSystems && o.OperatingSystemsDescription == operatingSystemsDescription);
+
             return await Context.UpdateSolutionMobileOperatingSystemsHandler.Handle(
-                new UpdateSolutionMobileOperatingSystemsCommand(SolutionId,
-                    new UpdateSolutionMobileOperatingSystemsViewModel()
-                    {
-                        OperatingSystems = operatingSystems,
-                        OperatingSystemsDescription = operatingSystemsDescription
-                    }), CancellationToken.None).ConfigureAwait(false);
+                    new UpdateSolutionMobileOperatingSystemsCommand(SolutionId, data), CancellationToken.None)
+                .ConfigureAwait(false);
         }
     }
 }
