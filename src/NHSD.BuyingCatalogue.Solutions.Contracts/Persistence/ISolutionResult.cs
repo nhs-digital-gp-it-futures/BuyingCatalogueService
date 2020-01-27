@@ -24,12 +24,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
 
         string Hosting { get; set; }
 
-        string SupplierName { get; }
-
         bool IsFoundation { get; }
 
         DateTime SolutionDetailLastUpdated { get; }
-        
+
         PublishedStatus PublishedStatus { get; }
     }
 }

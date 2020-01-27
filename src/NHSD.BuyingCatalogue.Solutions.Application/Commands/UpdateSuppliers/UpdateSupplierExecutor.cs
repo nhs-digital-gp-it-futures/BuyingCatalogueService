@@ -25,8 +25,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSuppliers
 
             await _updater.UpdateAsync(request.SolutionId, supplier =>
             {
-                supplier.Description = request.Data.Description;
-                supplier.Link = request.Data.Link;
+                supplier.Summary = request.Data.Description;
+                supplier.Url = request.Data.Link;
             }, cancellationToken).ConfigureAwait(false);
         }
     }

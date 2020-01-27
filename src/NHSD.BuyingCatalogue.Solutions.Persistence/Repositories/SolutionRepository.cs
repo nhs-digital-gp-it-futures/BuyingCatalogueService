@@ -21,18 +21,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                                         Solution.Name,
                                         Solution.LastUpdated,
                                         Solution.PublishedStatusId AS PublishedStatus,
-                                        Supplier.Name as SupplierName,
                                         SolutionDetail.Summary AS Summary,
                                         SolutionDetail.FullDescription AS Description,
                                         SolutionDetail.AboutUrl AS AboutUrl,
                                         SolutionDetail.Features As Features,
-                                        SolutionDetail.RoadMap As RoadMap,                                        
+                                        SolutionDetail.RoadMap As RoadMap,
                                         SolutionDetail.ClientApplication as ClientApplication,
                                         SolutionDetail.Hosting as Hosting,
-                                        SolutionDetail.LastUpdated as SolutionDetailLastUpdated,                                     
+                                        SolutionDetail.LastUpdated as SolutionDetailLastUpdated,
                                         FrameworkSolutions.IsFoundation as IsFoundation
                                  FROM   Solution
-                                        INNER JOIN Supplier ON Supplier.Id = Solution.SupplierId
                                         LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
                                         LEFT JOIN FrameworkSolutions ON Solution.Id = FrameworkSolutions.SolutionId
                                  WHERE  Solution.Id = @id";
@@ -82,6 +80,5 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
             return solutionCount.Sum() == 1;
         }
-        
     }
 }
