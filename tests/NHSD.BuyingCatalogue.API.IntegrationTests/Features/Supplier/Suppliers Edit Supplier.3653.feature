@@ -4,10 +4,7 @@ Feature: Suppliers Edit Solution Supplier Section
     So that I can make sure the information is correct
 
 Background:
-    Given Organisations exist
-        | Name     |
-        | GPs-R-Us |
-    And Suppliers exist
+    Given Suppliers exist
         | Id    | SupplierName | OrganisationName | Summary      | SupplierUrl |
         | Sup 1 | Supplier 1   | GPs-R-Us         | Some Summary | www.url.com |
     And Solutions exist

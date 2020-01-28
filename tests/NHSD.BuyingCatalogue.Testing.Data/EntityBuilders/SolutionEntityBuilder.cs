@@ -5,7 +5,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 {
     public sealed class SolutionEntityBuilder
     {
-        private readonly SolutionEntity _SolutionEntity;
+        private readonly SolutionEntity _solutionEntity;
 
         public static SolutionEntityBuilder Create()
         {
@@ -17,12 +17,11 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             //Default
             var id = "SolutionId";
 
-            _SolutionEntity = new SolutionEntity
+            _solutionEntity = new SolutionEntity
             {
                 Id = id,
                 ParentId = null,
                 SupplierId = "Sup 1",
-                OrganisationId = Guid.NewGuid(),
                 SolutionDetailId = null,
                 Name = $"Solution Name {id}",
                 Version = "1.0.0",
@@ -37,98 +36,91 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 
         public SolutionEntityBuilder WithId(string id)
         {
-            _SolutionEntity.Id = id;
+            _solutionEntity.Id = id;
             return this;
         }
 
         public SolutionEntityBuilder WithParentId(string parentId)
         {
-            _SolutionEntity.ParentId = parentId;
+            _solutionEntity.ParentId = parentId;
             return this;
         }
 
         public SolutionEntityBuilder WithSupplierId(string supplierId)
         {
-            _SolutionEntity.SupplierId = supplierId;
-            return this;
-        }
-
-        public SolutionEntityBuilder WithOrganisationId(Guid organisationId)
-        {
-            _SolutionEntity.OrganisationId = organisationId;
+            _solutionEntity.SupplierId = supplierId;
             return this;
         }
 
         public SolutionEntityBuilder WithSolutionDetailId(Guid solutionDetailId)
         {
-            _SolutionEntity.SolutionDetailId = solutionDetailId;
+            _solutionEntity.SolutionDetailId = solutionDetailId;
             return this;
         }
 
         public SolutionEntityBuilder WithName(string name)
         {
-            _SolutionEntity.Name = name;
+            _solutionEntity.Name = name;
             return this;
         }
 
         public SolutionEntityBuilder WithVersion(string version)
         {
-            _SolutionEntity.Version = version;
+            _solutionEntity.Version = version;
             return this;
         }
 
         public SolutionEntityBuilder WithPublishedStatusId(int publishedStatusId)
         {
-            _SolutionEntity.PublishedStatusId = publishedStatusId;
+            _solutionEntity.PublishedStatusId = publishedStatusId;
             return this;
         }
 
         public SolutionEntityBuilder WithAuthorityStatusId(int authorityStatusId)
         {
-            _SolutionEntity.AuthorityStatusId = authorityStatusId;
+            _solutionEntity.AuthorityStatusId = authorityStatusId;
             return this;
         }
 
         public SolutionEntityBuilder WithSupplierStatusId(int supplierStatusId)
         {
-            _SolutionEntity.SupplierStatusId = supplierStatusId;
+            _solutionEntity.SupplierStatusId = supplierStatusId;
             return this;
         }
 
         public SolutionEntityBuilder WithOnCatalogueVersion(int onCatalogueVersion)
         {
-            _SolutionEntity.OnCatalogueVersion = onCatalogueVersion;
+            _solutionEntity.OnCatalogueVersion = onCatalogueVersion;
             return this;
         }
 
         public SolutionEntityBuilder WithServiceLevelAgreement(string serviceLevelAgreement)
         {
-            _SolutionEntity.ServiceLevelAgreement = serviceLevelAgreement;
+            _solutionEntity.ServiceLevelAgreement = serviceLevelAgreement;
             return this;
         }
 
         public SolutionEntityBuilder WithWorkOfPlan(string workOfPlan)
         {
-            _SolutionEntity.WorkOfPlan = workOfPlan;
+            _solutionEntity.WorkOfPlan = workOfPlan;
             return this;
         }
 
         public SolutionEntityBuilder WithOnLastUpdated(DateTime lastUpdated)
         {
-            _SolutionEntity.LastUpdated = lastUpdated;
+            _solutionEntity.LastUpdated = lastUpdated;
             return this;
         }
 
         public SolutionEntityBuilder WithLastUpdatedBy(Guid lastUpdatedBy)
         {
-            _SolutionEntity.LastUpdatedBy = lastUpdatedBy;
+            _solutionEntity.LastUpdatedBy = lastUpdatedBy;
             return this;
         }
 
-
         public SolutionEntity Build()
         {
-            return _SolutionEntity;
+            return _solutionEntity;
         }
     }
 }

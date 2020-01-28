@@ -11,14 +11,10 @@ Background:
         | Workflow                | true         |
         | Clinical Safety         | false        |
         | Resource Management     | false        |
-   And Organisations exist
-        | Name     |
-        | GPs-R-Us |
-        | Drs. Inc |
     And Suppliers exist
-        | Id    | SupplierName | OrganisationName |
-        | Sup 1 | Supplier 1   | GPs-R-Us         |
-        | Sup 2 | Supplier 2   | Drs. Inc         |
+        | Id    | SupplierName |
+        | Sup 1 | Supplier 1   |
+        | Sup 2 | Supplier 2   |
    And Solutions exist
         | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId | PublishedStatusId |
         | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      | 3                 |
