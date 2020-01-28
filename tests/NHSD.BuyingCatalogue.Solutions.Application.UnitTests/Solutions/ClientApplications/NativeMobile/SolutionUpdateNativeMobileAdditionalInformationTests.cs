@@ -119,14 +119,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
-        private async Task<ISimpleResult> UpdateNativeMobileAdditionalInformation(string additionalInformation)
+        private async Task<ISimpleResult> UpdateNativeMobileAdditionalInformation(
+            string additionalInformation = null)
         {
             return await Context.UpdateSolutionNativeMobileAdditionalInformationHandler.Handle(
-                new UpdateSolutionNativeMobileAdditionalInformationCommand(SolutionId,
-                    new UpdateSolutionNativeMobileAdditionalInformationViewModel
-                    {
-                        NativeMobileAdditionalInformation = additionalInformation
-                    }), new CancellationToken()).ConfigureAwait(false);
+                new UpdateSolutionNativeMobileAdditionalInformationCommand(SolutionId, additionalInformation),
+                new CancellationToken()).ConfigureAwait(false);
         }
     }
 }
