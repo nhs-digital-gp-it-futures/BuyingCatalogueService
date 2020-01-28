@@ -5,7 +5,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Commands.NativeMobile;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionMobileOperatingSystems
 {
-    public class UpdateSolutionMobileOperatingSystemsCommand : IRequest<ISimpleResult>
+    public sealed class UpdateSolutionMobileOperatingSystemsCommand : IRequest<ISimpleResult>
     {
         public string Id { get; }
         public IUpdateNativeMobileOperatingSystemsData Data { get; }
