@@ -21,19 +21,27 @@ steps:
     dockerVersion: $(dockerVersion)
   displayName: 'Docker: Install - $(dockerVersion)'
 
-    
-- task: Bash@3
-  displayName: 'Setup Test Database'
+
+- task: UseDotNet@2
+  displayName: 'Use .Net Core 2.1.x'
   inputs:
-    filePath: 'setup-integration-db.sh'
+    packageType: 'sdk'
+    version: 2.1.x
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+    includePreviewVersions: true
 
 - task: UseDotNet@2
   displayName: 'Use DotNet Core 3.1.x'
   inputs:
     packageType: 'sdk'
     version: '3.1.x'
-    includePreviewVersions: false
+    includePreviewVersions: true
     installationPath: '$(Agent.ToolsDirectory)'
+
+- task: Bash@3
+  displayName: 'Setup Test Database'
+  inputs:
+    filePath: 'setup-integration-db.sh'
 
 - task: DotNetCoreCLI@2
   displayName: Build
