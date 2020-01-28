@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.NativeMobile;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.ClientApplications.NativeMobile;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionMobileOperatingSystems;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionNativeMobileAdditionalInformation;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
@@ -20,9 +22,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
     public sealed class NativeMobileAdditionalInformationControllerTests
     {
         private Mock<IMediator> _mockMediator;
-
         private NativeMobileAdditionalInformationController _nativeMobileAdditionalInformationController;
-
         private const string SolutionId = "Sln1";
 
         [SetUp]
@@ -68,7 +68,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
         [Test]
         public async Task ShouldUpdateValidationValid()
         {
-            var viewModel = new UpdateSolutionNativeMobileAdditionalInformationViewModel();
+            var viewModel = new UpdateNativeMobileAdditionalInformationViewModel();
 
             var validationResult = new Mock<ISimpleResult>();
             validationResult.Setup(s => s.IsValid).Returns(true);
@@ -76,7 +76,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
             _mockMediator
                 .Setup(m => m.Send(
                     It.Is<UpdateSolutionNativeMobileAdditionalInformationCommand>(q =>
-                        q.SolutionId == SolutionId && q.Data == viewModel),
+                        q.SolutionId == SolutionId && q.AdditionalInformation == viewModel.NativeMobileAdditionalInformation),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationResult.Object);
 
             var response = await _nativeMobileAdditionalInformationController.UpdateAdditionalInformationAsync(SolutionId, viewModel)
@@ -86,14 +86,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionNativeMobileAdditionalInformationCommand>(q =>
-                        q.SolutionId == SolutionId && q.Data ==
-                        viewModel), It.IsAny<CancellationToken>()), Times.Once);
+                        q.SolutionId == SolutionId && q.AdditionalInformation ==
+                        viewModel.NativeMobileAdditionalInformation), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
         public async Task ShouldUpdateValidationInvalid()
         {
-            var viewModel = new UpdateSolutionNativeMobileAdditionalInformationViewModel();
+            var viewModel = new UpdateNativeMobileAdditionalInformationViewModel();
 
             var validationResult = new Mock<ISimpleResult>();
             validationResult.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "additional-information", "maxLength" } });
@@ -102,7 +102,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
             _mockMediator
                 .Setup(m => m.Send(
                     It.Is<UpdateSolutionNativeMobileAdditionalInformationCommand>(q =>
-                        q.SolutionId == SolutionId && q.Data == viewModel),
+                        q.SolutionId == SolutionId && q.AdditionalInformation == viewModel.NativeMobileAdditionalInformation),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationResult.Object);
 
             var response = await _nativeMobileAdditionalInformationController.UpdateAdditionalInformationAsync(SolutionId, viewModel)
@@ -116,8 +116,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionNativeMobileAdditionalInformationCommand>(q =>
-                        q.SolutionId == SolutionId && q.Data ==
-                        viewModel), It.IsAny<CancellationToken>()), Times.Once);
+                        q.SolutionId == SolutionId && q.AdditionalInformation ==
+                        viewModel.NativeMobileAdditionalInformation), It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
         public async Task UpdateAsync(UpdateSolutionNativeMobileAdditionalInformationCommand request, CancellationToken cancellationToken) =>
             await _clientApplicationPartialUpdater.UpdateAsync(request.SolutionId, clientApplication =>
                 {
-                    clientApplication.NativeMobileAdditionalInformation = request.Data.NativeMobileAdditionalInformation;
+                    clientApplication.NativeMobileAdditionalInformation = request.AdditionalInformation;
                 },
                 cancellationToken).ConfigureAwait(false);
     }
