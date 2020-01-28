@@ -9,9 +9,9 @@ Background:
         | Sup 1 | Supplier 1   | Some Summary | www.url.com |
         | Sup 2 | Supplier 1   | NULL         | NULL        |
     And Solutions exist
-        | SolutionID | SolutionName     | OrganisationName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline      | GPs-R-Us         | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill   | GPs-R-Us         | 1                | Sup 2      |
+        | SolutionID | SolutionName     | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline      | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill   | 1                | Sup 2      |
 
 @3653
 Scenario: 1. About Supplier is retreived for the solution
