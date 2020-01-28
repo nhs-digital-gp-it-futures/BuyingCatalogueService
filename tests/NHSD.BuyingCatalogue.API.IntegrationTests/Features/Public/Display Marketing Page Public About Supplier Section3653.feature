@@ -5,17 +5,17 @@ Feature: Display Marketing Page Public Solution About Supplier Section
 
 Background:
 	Given Suppliers exist
-		| Id    | SupplierName | OrganisationName | Summary            | SupplierUrl   |
-		| Sup 1 | Supplier 1   | GPs-R-Us         |                    |               |
-		| Sup 2 | Supplier 2   | Drs. Inc         | NULL               | supplier-url2 |
-		| Sup 3 | Supplier 3   | Drs. Inc         | Supplier summary 3 | NULL          |
-		| Sup 4 | Supplier 4   | Drs. Inc         | Supplier summary 4 | supplier-url4 |
+		| Id    | SupplierName | Summary            | SupplierUrl   |
+		| Sup 1 | Supplier 1   |                    |               |
+		| Sup 2 | Supplier 2   | NULL               | supplier-url2 |
+		| Sup 3 | Supplier 3   | Supplier summary 3 | NULL          |
+		| Sup 4 | Supplier 4   | Supplier summary 4 | supplier-url4 |
 	And Solutions exist
-		| SolutionID | SolutionName    | OrganisationName | SupplierStatusId | SupplierId |
-		| Sln1       | MedicOnline     | GPs-R-Us         | 1                | Sup 1      |
-		| Sln2       | TakeTheRedPill  | Drs. Inc         | 1                | Sup 2      |
-		| Sln3       | PracticeMgr     | Drs. Inc         | 1                | Sup 3      |
-		| Sln4       | AnotherSolution | Drs. Inc         | 1                | Sup 4      |
+		| SolutionID | SolutionName    | SupplierStatusId | SupplierId |
+		| Sln1       | MedicOnline     | 1                | Sup 1      |
+		| Sln2       | TakeTheRedPill  | 1                | Sup 2      |
+		| Sln3       | PracticeMgr     | 1                | Sup 3      |
+		| Sln4       | AnotherSolution | 1                | Sup 4      |
 
 @3653
 Scenario: 1. About supplier section presented where description and link exists

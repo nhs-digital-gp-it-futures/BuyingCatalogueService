@@ -9,10 +9,10 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionID | SolutionName   | OrganisationName | LastUpdated | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | GPs-R-Us         | 19/11/2019  | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill | Drs. Inc         | 15/11/2019  | 1                | Sup 2      |
-        | Sln3       | PracticeMgr    | Drs. Inc         | 20/11/2019  | 1                | Sup 2      |
+        | SolutionID | SolutionName   | LastUpdated | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | 19/11/2019  | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill | 15/11/2019  | 1                | Sup 2      |
+        | Sln3       | PracticeMgr    | 20/11/2019  | 1                | Sup 2      |
     And Framework Solutions exist
         | SolutionId | IsFoundation |
         | Sln1       | true         |
