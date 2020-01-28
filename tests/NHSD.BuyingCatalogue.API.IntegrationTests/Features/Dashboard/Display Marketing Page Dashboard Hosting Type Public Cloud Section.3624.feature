@@ -8,9 +8,9 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
 	And Solutions exist
-		| SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
-		| Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
-		| Sln2       | TakeTheRedPill | GPs-R-Us         | 1                | Sup 1      |
+		| SolutionID | SolutionName   | SupplierStatusId | SupplierId |
+		| Sln1       | MedicOnline    | 1                | Sup 1      |
+		| Sln2       | TakeTheRedPill | 1                | Sup 1      |
 
 @3639
 Scenario Outline: 1. Public cloud section is optional and is reported complete if there is text in the public Cloud
