@@ -21,20 +21,11 @@ steps:
     dockerVersion: $(dockerVersion)
   displayName: 'Docker: Install - $(dockerVersion)'
 
-
 - task: UseDotNet@2
-  displayName: 'Use .Net Core 2.1.x'
+  displayName: 'Use DotNet Core 3.1.0'
   inputs:
     packageType: 'sdk'
-    version: 2.1.x
-    installationPath: $(Agent.ToolsDirectory)/dotnet
-    includePreviewVersions: true
-
-- task: UseDotNet@2
-  displayName: 'Use DotNet Core 3.1.x'
-  inputs:
-    packageType: 'sdk'
-    version: '3.1.x'
+    version: '3.1.0'
     includePreviewVersions: true
     installationPath: '$(Agent.ToolsDirectory)'
 
