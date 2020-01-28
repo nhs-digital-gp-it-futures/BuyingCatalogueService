@@ -14,11 +14,12 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 
         public SupplierEntityBuilder()
         {
-            _entity = new SupplierEntity()
+            _entity = new SupplierEntity
             {
                 Id = "Sup",
-                OrganisationId = Guid.Empty,
-                Name = "Supplier"
+                Name = "Supplier",
+                LegalName = "Supplier",
+                Deleted = false
             };
         }
 
@@ -28,15 +29,15 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             return this;
         }
 
-        public SupplierEntityBuilder WithOrganisation(Guid id)
-        {
-            _entity.OrganisationId = id;
-            return this;
-        }
-
         public SupplierEntityBuilder WithName(string name)
         {
             _entity.Name = name;
+            return this;
+        }
+
+        public SupplierEntityBuilder WithLegalName(string legalName)
+        {
+            _entity.LegalName = legalName;
             return this;
         }
 
@@ -52,9 +53,27 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             return this;
         }
 
+        public SupplierEntityBuilder WithAddress(string address)
+        {
+            _entity.Address = address;
+            return this;
+        }
+
+        public SupplierEntityBuilder WithOdsCode(string odsCode)
+        {
+            _entity.OdsCode = odsCode;
+            return this;
+        }
+
         public SupplierEntityBuilder WithCrmRef(Guid? crmRef)
         {
             _entity.CrmRef = crmRef;
+            return this;
+        }
+
+        public SupplierEntityBuilder WithDeleted(bool delete)
+        {
+            _entity.Deleted = delete;
             return this;
         }
 
