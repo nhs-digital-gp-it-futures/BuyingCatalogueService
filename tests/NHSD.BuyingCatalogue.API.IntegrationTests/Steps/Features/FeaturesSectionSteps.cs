@@ -39,14 +39,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Features
             _response.Result = await Client.PutAsJsonAsync(string.Format(CultureInfo.InvariantCulture, FeaturesUrl, solutionId), new { Listing = content.Features }).ConfigureAwait(false);
         }
 
-        [Then(@"the solution features section contains Features")]
-        public async Task ThenTheSolutionContainsFeatures(Table table)
-        {
-            var content = await _response.ReadBody().ConfigureAwait(false);
-            content.SelectToken("sections.features.answers.listing")
-                .Select(s => s.ToString()).Should().BeEquivalentTo(table.CreateSet<FeaturesTable>().Select(s => s.Feature));
-        }
-
         [Then(@"the solution features section contains no features")]
         public async Task ThenTheSolutionContainsNoFeatures()
         {
@@ -58,11 +50,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Features
         private class FeaturesPostTable
         {
             public List<string> Features { get; set; }
-        }
-
-        private class FeaturesTable
-        {
-            public string Feature { get; set; }
         }
     }
 }

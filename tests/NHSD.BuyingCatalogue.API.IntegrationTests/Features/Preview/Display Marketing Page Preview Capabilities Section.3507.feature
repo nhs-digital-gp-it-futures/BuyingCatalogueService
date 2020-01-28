@@ -1,4 +1,4 @@
-Feature: Display Marketing Page Public Capabilities Section
+Feature: Display Marketing Page Preview Capabilities Section
     As a Supplier
     I want to manage Marketing Page Information for the Solution's Capabilities
     So that I can ensure the information is correct
@@ -25,7 +25,7 @@ Background:
 
 @3507
 Scenario: 1. Sections presented where Capabilities exists
-	When a GET request is made for solution public Sln1
+	When a GET request is made for solution preview Sln1
 	Then a successful response is returned
 	And the response contains the following values
 		| Section      | Field            | Value                                              |
@@ -33,6 +33,6 @@ Scenario: 1. Sections presented where Capabilities exists
 
 @3507
 Scenario: 2. Sections not presented where no Capabilities exists
-	When a GET request is made for solution public Sln2
+	When a GET request is made for solution preview Sln2
 	Then a successful response is returned
 	And the solution capabilities section contains no Capabilities
