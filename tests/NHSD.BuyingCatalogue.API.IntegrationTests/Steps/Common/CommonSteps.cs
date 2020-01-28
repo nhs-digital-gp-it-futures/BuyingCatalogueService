@@ -40,7 +40,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             { "roadmap","sections.roadmap.answers." },
             { "features","sections.features.answers." },
             { "capabilities", "sections.capabilities.answers."},
-            { "contact-details", "sections.contact-details.answers." }
+            { "contact-details", "sections.contact-details.answers." },
+            { "about-supplier", "sections.about-supplier.answers."}
         };
 
         private readonly Response _response;
