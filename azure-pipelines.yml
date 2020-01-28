@@ -22,12 +22,12 @@ steps:
   displayName: 'Docker: Install - $(dockerVersion)'
 
 - task: UseDotNet@2
-  displayName: 'Use DotNet Core 2.x'
+  displayName: 'Use DotNet Core 3.1.x'
   inputs:
     packageType: 'sdk'
-    version: '2.2.x'
-    includePreviewVersions: true
+    useGlobalJson: true
     installationPath: '$(Agent.ToolsDirectory)'
+    performMultiLevelLookup: true
 
 - task: Bash@3
   displayName: 'Setup Test Database'
