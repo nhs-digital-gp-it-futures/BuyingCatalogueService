@@ -4,12 +4,9 @@ Feature: Display Marketing Page Preview Solution LastUpdated Section
     So that I can ensure the lastUpdated is the latest within solution
 
 Background:
-    Given Organisations exist
-        | Name     |
-        | GPs-R-Us |
-    And Suppliers exist
-        | Id    | SupplierName | OrganisationName |
-        | Sup 1 | Supplier 1   | GPs-R-Us         |
+    Given Suppliers exist
+        | Id    | SupplierName |
+        | Sup 1 | Supplier 1   |
 
 @3520
 Scenario Outline: 1. Last Updated is the latest of last updated in the solution tables

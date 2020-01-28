@@ -13,8 +13,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public string SupplierId { get; set; }
 
-        public Guid OrganisationId { get; set; }
-
         public Guid? SolutionDetailId { get; set; }
 
         public string Name { get; set; }
@@ -39,7 +37,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             [Id]
             ,[ParentId]
             ,[SupplierId]
-            ,[OrganisationId]
             ,[SolutionDetailId]
             ,[Name]
 	        ,[Version]
@@ -57,7 +54,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
              @Id
             ,@ParentId
             ,@SupplierId
-            ,@OrganisationId
             ,@SolutionDetailId
             ,@Name
             ,@Version
@@ -76,7 +72,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             return await SqlRunner.FetchAllAsync<SolutionEntity>($@"SELECT [Id]
                                 ,[ParentId]
                                 ,[SupplierId]
-                                ,[OrganisationId]
                                 ,[SolutionDetailId]
                                 ,[Name]
 	                            ,[Version]
