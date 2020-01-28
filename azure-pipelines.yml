@@ -25,7 +25,8 @@ steps:
   displayName: 'Use DotNet Core 3.1.x'
   inputs:
     packageType: 'sdk'
-    useGlobalJson: true
+    version: '3.1.x'
+    includePreviewVersions: true
     installationPath: '$(Agent.ToolsDirectory)'
     performMultiLevelLookup: true
 
