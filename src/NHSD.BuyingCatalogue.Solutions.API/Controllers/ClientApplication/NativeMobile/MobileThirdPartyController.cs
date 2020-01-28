@@ -32,7 +32,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Nativ
         {
             var clientApplication =
                 await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
-            
             return Ok(new GetMobileThirdPartyResult(clientApplication?.MobileThirdParty));
         }
 
@@ -42,7 +41,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Nativ
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> UpdateNativeMobileThirdParty([FromRoute] [Required] string id,
-            [FromBody] [Required] UpdateSolutionMobileThirdPartyViewModel viewModel) =>
+            [FromBody] [Required] UpdateNativeMobileThirdPartyViewModel viewModel) =>
             (await _mediator.Send(new UpdateSolutionMobileThirdPartyCommand(id, viewModel)).ConfigureAwait(false))
                 .ToActionResult();
     }
