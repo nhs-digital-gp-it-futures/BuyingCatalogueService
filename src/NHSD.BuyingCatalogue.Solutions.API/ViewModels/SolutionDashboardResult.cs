@@ -53,6 +53,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         [JsonProperty("hosting-type-hybrid")]
         public DashboardSection HostingTypeHybridSection { get; }
 
+        [JsonProperty("hosting-type-on-premise")]
+        public DashboardSection HostingTypeOnPremiseSection { get; }
+
+        [JsonProperty("about-supplier")]
+        public DashboardSection AboutSupplierSection { get; }
+
+        [JsonProperty("roadmap")]
+        public DashboardSection RoadMapSection { get; }
+
         /// <summary>
         /// Initialises a new instance of the <see cref="SolutionDashboardSections"/> class.
         /// </summary>
@@ -71,7 +80,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
             ContactDetailsSection = DashboardSection.Optional(new ContactAnswerSection(solution.Contacts).HasData());
             HostingTypePublicCloudSection = DashboardSection.Optional(solution.Hosting.IsPublicCloudComplete());
             HostingTypePrivateCloudSection = DashboardSection.Optional(solution.Hosting.IsPrivateCloudComplete());
-            HostingTypeHybridSection = DashboardSection.Optional(false);
+            HostingTypeHybridSection = DashboardSection.Optional(solution.Hosting.IsHybridHostingTypeComplete());
+            HostingTypeOnPremiseSection = DashboardSection.Optional(solution.Hosting.IsOnPremiseComplete());
+            AboutSupplierSection = DashboardSection.Optional(solution.Supplier.IsSupplierComplete());
+            RoadMapSection = DashboardSection.Optional(solution.IsRoadMapComplete());
         }
     }
 

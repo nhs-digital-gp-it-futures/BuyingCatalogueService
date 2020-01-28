@@ -40,13 +40,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Summary).Returns("Summary");
             existingSolution.Setup(s => s.AboutUrl).Returns("AboutUrl");
             existingSolution.Setup(s => s.Features).Returns("[ 'Marmite', 'Jam', 'Marmelade' ]");
+            existingSolution.Setup(s => s.RoadMap).Returns("Some valid roadmap description");
             existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'MobileFirstDesign': true, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows', 'Linux'], 'OperatingSystemsDescription': 'For windows only version 10' }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileThirdParty': { 'ThirdPartyComponents': 'Component', 'DeviceCapabilities': 'Capabilities'}, 'NativeMobileHardwareRequirements': 'Native Mobile Hardware', 'NativeDesktopHardwareRequirements': 'Native Desktop Hardware', 'NativeMobileAdditionalInformation': 'native mobile additional information', 'NativeDesktopMinimumConnectionSpeed': '6Mbps', 'NativeDesktopOperatingSystemsDescription':'native desktop operating systems description', 'NativeDesktopThirdParty': { 'ThirdPartyComponents': 'Components', 'DeviceCapabilities': 'Capabilities' }, 'NativeDesktopMemoryAndStorage': { 'MinimumMemoryRequirement': '512MB', 'StorageRequirementsDescription': '1024GB', 'MinimumCpu': '3.4GHz', 'RecommendedResolution': '800x600' }, 'NativeDesktopAdditionalInformation': 'some additional information' }");
             existingSolution.Setup(s => s.Hosting).Returns("{ 'PublicCloud': { 'Summary': 'Some summary', 'Link': 'some link', 'RequiresHSCN': 'It is required' } }");
-            existingSolution.Setup(s => s.SupplierName).Returns("SupplierName");
             existingSolution.Setup(s => s.IsFoundation).Returns(true);
 
             var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
             var capabilities2 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap2");
+
+            var mockSupplier = Mock.Of<ISupplierResult>(m =>
+                m.Name == "supplier name" && m.Summary == "supplier summary" && m.Url == "supplierUrl");
 
             _context.MockSolutionCapabilityRepository
                 .Setup(r => r.ListSolutionCapabilities("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new []{capabilities1, capabilities2});
@@ -62,17 +65,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 .Setup(r => r.BySolutionIdAsync("Sln1", It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new[]{expectedContact});
 
+            _context.MockSupplierRepository.Setup(r => r.GetSupplierBySolutionIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(mockSupplier);
+
             var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken()).ConfigureAwait(false);
 
             solution.Id.Should().Be("Sln1");
             solution.Name.Should().Be("Name");
             solution.LastUpdated.Should().Be(_lastUpdated);
             solution.Summary.Should().Be("Summary");
-            solution.SupplierName.Should().Be("SupplierName");
+
             solution.Description.Should().Be("Description");
             solution.AboutUrl.Should().Be("AboutUrl");
 
             solution.Features.Should().BeEquivalentTo(new [] {"Marmite", "Jam", "Marmelade"});
+            solution.RoadMap.Should().Be("Some valid roadmap description");
             solution.ClientApplication.ClientApplicationTypes.Should().BeEquivalentTo(new[] { "browser-based", "native-mobile" });
             solution.ClientApplication.BrowsersSupported.Should().BeEquivalentTo(new[] { "Chrome", "Edge" });
             solution.ClientApplication.MobileResponsive.Should().BeTrue();
@@ -118,6 +124,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             contact.PhoneNumber.Should().Be(expectedContact.PhoneNumber);
             contact.Department.Should().Be(expectedContact.Department);
 
+            solution.Supplier.Summary.Should().Be(mockSupplier.Summary);
+            solution.Supplier.Url.Should().Be(mockSupplier.Url);
+
+            solution.SupplierName.Should().Be(mockSupplier.Name);
+
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
 
@@ -132,8 +143,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Summary).Returns((string)null);
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
             existingSolution.Setup(s => s.Features).Returns((string)null);
+            existingSolution.Setup(s => s.RoadMap).Returns((string)null);
             existingSolution.Setup(s => s.ClientApplication).Returns((string)null);
-            existingSolution.Setup(s => s.SupplierName).Returns((string)null);
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
@@ -148,6 +159,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.AboutUrl.Should().BeNullOrEmpty();
 
             solution.Features.Should().BeEmpty();
+            solution.RoadMap.Should().BeNullOrEmpty();
             solution.ClientApplication.ClientApplicationTypes.Should().BeEmpty();
             solution.ClientApplication.BrowsersSupported.Should().BeEmpty();
             solution.ClientApplication.MobileResponsive.Should().BeNull();
@@ -168,6 +180,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.Capabilities.Should().BeEmpty();
             solution.Contacts.Count().Should().Be(0);
 
+            solution.Supplier.Summary.Should().BeNull();
+            solution.Supplier.Url.Should().BeNull();
+
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
 
@@ -182,8 +197,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Summary).Returns("Summary");
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
             existingSolution.Setup(s => s.Features).Returns((string)null);
+            existingSolution.Setup(s => s.RoadMap).Returns((string)null);
             existingSolution.Setup(s => s.ClientApplication).Returns((string)null);
-            existingSolution.Setup(s => s.SupplierName).Returns("SupplierName");
 
             var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
 
@@ -203,6 +218,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.AboutUrl.Should().BeNullOrEmpty();
 
             solution.Features.Should().BeEmpty();
+            solution.RoadMap.Should().BeNullOrEmpty();
             solution.ClientApplication.ClientApplicationTypes.Should().BeEmpty();
             solution.ClientApplication.BrowsersSupported.Should().BeEmpty();
             solution.ClientApplication.MobileResponsive.Should().BeNull();
@@ -216,13 +232,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.ClientApplication.NativeDesktopHardwareRequirements.Should().BeNull();
             solution.ClientApplication.NativeDesktopMinimumConnectionSpeed.Should().BeNull();
             solution.ClientApplication.NativeDesktopThirdParty.Should().BeNull();
-            solution.ClientApplication.NativeDesktopMemoryAndStorage.Should().BeNull();  
+            solution.ClientApplication.NativeDesktopMemoryAndStorage.Should().BeNull();
             solution.ClientApplication.NativeDesktopAdditionalInformation.Should().BeNull();
-
-
-            solution.SupplierName.Should().Be("SupplierName");
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1"});
             solution.Contacts.Count().Should().Be(0);
+
+            solution.Supplier.Summary.Should().BeNull();
+            solution.Supplier.Url.Should().BeNull();
+
+            solution.SupplierName.Should().BeNull();
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -238,7 +256,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Summary).Returns((string)null);
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
             existingSolution.Setup(s => s.Features).Returns("[ 'Marmite', 'Jam', 'Marmelade' ]");
-            existingSolution.Setup(s => s.SupplierName).Returns("SupplierName");
+            existingSolution.Setup(s => s.RoadMap).Returns((string)null);
 
             var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
             var capabilities2 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap2");
@@ -260,8 +278,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.AboutUrl.Should().BeNullOrEmpty();
 
             solution.Features.Should().BeEquivalentTo(new[] { "Marmite", "Jam", "Marmelade" });
+            solution.RoadMap.Should().BeNullOrEmpty();
 
-            solution.SupplierName.Should().Be("SupplierName");
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1", "cap2", "cap3"});
             solution.Contacts.Count().Should().Be(0);
 
@@ -277,10 +295,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             var dateTimeExpected = DateTime.ParseExact(expectedDate, DateFormat, CultureInfo.InvariantCulture);
             var existingSolution = Mock.Of<ISolutionResult>(s => s.LastUpdated == (DateTime.ParseExact(existingSolutionDate, DateFormat, CultureInfo.InvariantCulture)));
-           
+            var existingSupplier = Mock.Of<ISupplierResult>();
+
             var contact1Date = DateTime.ParseExact(marketingContact1Date, DateFormat, CultureInfo.InvariantCulture);
             var contact2Date = DateTime.ParseExact(marketingContact2Date, DateFormat, CultureInfo.InvariantCulture);
-            
+
             var existingMarketingContactResult = new List<IMarketingContactResult>
             {
                 Mock.Of<IMarketingContactResult>(s => s.LastUpdated == contact1Date),
@@ -288,7 +307,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             };
 
             var solution = new Solution(existingSolution, new List<ISolutionCapabilityListResult>(),
-                existingMarketingContactResult);
+                existingMarketingContactResult, existingSupplier);
 
             solution.LastUpdated.Should().Be(dateTimeExpected);
         }
@@ -301,9 +320,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             var dateTimeExpected = DateTime.ParseExact(expectedDate, DateFormat, CultureInfo.InvariantCulture);
             var existingSolution = Mock.Of<ISolutionResult>(s => s.LastUpdated == (DateTime.ParseExact(existingSolutionDate, DateFormat, CultureInfo.InvariantCulture)));
-            
+            var existingSupplier = Mock.Of<ISupplierResult>();
+
             var solution = new Solution(existingSolution, new List<ISolutionCapabilityListResult>(),
-                new List<IMarketingContactResult>());
+                new List<IMarketingContactResult>(), existingSupplier);
 
             solution.LastUpdated.Should().Be(dateTimeExpected);
         }
@@ -319,8 +339,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Summary).Returns((string)null);
             existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
             existingSolution.Setup(s => s.Features).Returns((string)null);
+            existingSolution.Setup(s => s.RoadMap).Returns((string)null);
             existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : false, 'AdditionalInformation': null }, 'MobileFirstDesign': false, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows'], 'OperatingSystemsDescription': null }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileThirdParty': { 'ThirdPartyComponents': 'Component' }, 'NativeDesktopMinimumConnectionSpeed': '3 Mbps', 'NativeDesktopThirdParty': { 'ThirdPartyComponents': 'New Components' }, 'NativeDesktopMemoryAndStorage': { 'MinimumMemoryRequirement': '512MB', 'StorageRequirementsDescription': '1024GB', 'MinimumCpu': '3.4GHz' } }");
-            existingSolution.Setup(s => s.SupplierName).Returns("SupplierName");
             existingSolution.Setup(s => s.IsFoundation).Returns(false);
             var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
 
@@ -341,6 +361,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.AboutUrl.Should().BeNullOrEmpty();
 
             solution.Features.Should().BeEmpty();
+            solution.RoadMap.Should().BeNullOrEmpty();
             solution.ClientApplication.ClientApplicationTypes.Should().BeEquivalentTo(new[] { "browser-based", "native-mobile" });
             solution.ClientApplication.BrowsersSupported.Should().BeEquivalentTo(new[] { "Chrome", "Edge" });
             solution.ClientApplication.MobileResponsive.Should().BeTrue();
@@ -376,13 +397,76 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.ClientApplication.NativeDesktopMemoryAndStorage.RecommendedResolution.Should().BeNull();
             solution.ClientApplication.NativeDesktopAdditionalInformation.Should().BeNull();
 
-            solution.SupplierName.Should().Be("SupplierName");
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1"});
             solution.Contacts.Count().Should().Be(0);
 
             solution.IsFoundation.Should().BeFalse();
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
+
+        [Test]
+        public async Task ShouldGetPartialSolutionByIdWithSupplier()
+        {
+            var existingSolution = new Mock<ISolutionResult>();
+            existingSolution.Setup(s => s.Id).Returns("Sln1");
+            existingSolution.Setup(s => s.Name).Returns("Name");
+            existingSolution.Setup(s => s.LastUpdated).Returns(_lastUpdated);
+            existingSolution.Setup(s => s.Description).Returns((string)null);
+            existingSolution.Setup(s => s.Summary).Returns("Summary");
+            existingSolution.Setup(s => s.AboutUrl).Returns((string)null);
+            existingSolution.Setup(s => s.Features).Returns((string)null);
+            existingSolution.Setup(s => s.RoadMap).Returns((string)null);
+            existingSolution.Setup(s => s.ClientApplication).Returns((string)null);
+
+            var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
+
+            var mockSupplier = Mock.Of<ISupplierResult>(m =>
+                m.Name == "supplier name" && m.Summary == "supplier summary" && m.Url == "supplierUrl");
+
+            _context.MockSolutionCapabilityRepository
+                .Setup(r => r.ListSolutionCapabilities("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new[] { capabilities1 });
+
+            _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
+            _context.MockSupplierRepository.Setup(r => r.GetSupplierBySolutionIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(mockSupplier);
+
+            var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken()).ConfigureAwait(false);
+
+            solution.Id.Should().Be("Sln1");
+            solution.Name.Should().Be("Name");
+            solution.LastUpdated.Should().Be(_lastUpdated);
+
+            solution.Summary.Should().Be("Summary");
+            solution.Description.Should().BeNullOrEmpty();
+            solution.AboutUrl.Should().BeNullOrEmpty();
+
+            solution.Features.Should().BeEmpty();
+            solution.RoadMap.Should().BeNullOrEmpty();
+            solution.ClientApplication.ClientApplicationTypes.Should().BeEmpty();
+            solution.ClientApplication.BrowsersSupported.Should().BeEmpty();
+            solution.ClientApplication.MobileResponsive.Should().BeNull();
+            solution.ClientApplication.Plugins.Should().BeNull();
+            solution.ClientApplication.MobileFirstDesign.Should().BeNull();
+            solution.ClientApplication.MobileOperatingSystems.Should().BeNull();
+            solution.ClientApplication.MobileConnectionDetails.Should().BeNull();
+            solution.ClientApplication.MobileThirdParty.Should().BeNull();
+            solution.ClientApplication.NativeMobileHardwareRequirements.Should().BeNull();
+            solution.ClientApplication.NativeDesktopOperatingSystemsDescription.Should().BeNull();
+            solution.ClientApplication.NativeDesktopHardwareRequirements.Should().BeNull();
+            solution.ClientApplication.NativeDesktopMinimumConnectionSpeed.Should().BeNull();
+            solution.ClientApplication.NativeDesktopThirdParty.Should().BeNull();
+            solution.ClientApplication.NativeDesktopMemoryAndStorage.Should().BeNull();
+            solution.ClientApplication.NativeDesktopAdditionalInformation.Should().BeNull();
+            solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1"});
+            solution.Contacts.Count().Should().Be(0);
+
+            solution.Supplier.Summary.Should().Be(mockSupplier.Summary);
+            solution.Supplier.Url.Should().Be(mockSupplier.Url);
+
+            solution.SupplierName.Should().Be(mockSupplier.Name);
+
+            _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+        }
+
 
         [Test]
         public void ShouldThrowWhenSolutionNotPresent()

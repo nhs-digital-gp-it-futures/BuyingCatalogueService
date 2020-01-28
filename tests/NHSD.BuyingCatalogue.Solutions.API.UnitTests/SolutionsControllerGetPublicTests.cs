@@ -144,6 +144,33 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
+        [TestCase(null, false)]
+        [TestCase("some description", true)]
+        [TestCase(" some description    ", true)]
+        [TestCase(" ", false)]
+        [TestCase("", false)]
+        public async Task ShouldGetPublicCalculateRoadMap(string description, bool hasData)
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                    s.Id == SolutionId1 &&
+                    s.PublishedStatus == PublishedStatus.Published &&
+                    s.RoadMap == description), SolutionId1)
+                .ConfigureAwait(false);
+
+            publicResult.Id.Should().Be(SolutionId1);
+
+            if (hasData)
+            {
+                publicResult.Sections.RoadMap.Should().NotBe(null);
+                publicResult.Sections.RoadMap.Answers.HasData.Should().Be(true);
+                publicResult.Sections.RoadMap.Answers.Summary.Should().Be(description);
+            }
+            else
+            {
+                publicResult.Sections.RoadMap.Should().BeNull();
+            }
+        }
+
         [Test]
         public async Task ShouldCheckForNullClientApplicationTypes()
         {
@@ -922,6 +949,98 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             else
             {
                 publicResult.Sections.PrivateCloud.Should().BeNull();
+            }
+        }
+
+        [TestCase("Some Summary", "Some url", "Some Hosting", "Some Connectivity", true)]
+        [TestCase("Some Summary", "", "Some Hosting", "Some Connectivity", true)]
+        [TestCase("     ", "     ", "Some Hosting", "Some Connectivity", true)]
+        [TestCase("Some Summary", "Some url", null, "Some Connectivity", true)]
+        [TestCase(" ", "Some url", "Some Hosting", "Some Connectivity", true)]
+        [TestCase("Some Summary", "Some url", "Some Hosting", "     ", true)]
+        [TestCase("Some Summary", "     ", "Some Hosting", "     ", true)]
+        [TestCase(null, null, "Some Hosting", "Some Connectivity", true)]
+        [TestCase("Some Summary", "", null, "Some Connectivity", true)]
+        [TestCase("     ", "     ", null, "Some Connectivity", true)]
+        [TestCase(" ", "Some url", null, "Some Connectivity", true)]
+        [TestCase("Some Summary", "Some url", null, "     ", true)]
+        [TestCase("     ", "Some url", "Some Hosting", null, true)]
+        [TestCase("     ", "", "Some Hosting", "        ", true)]
+        [TestCase("Some Summary", "     ", null, "     ", true)]
+        [TestCase(null, null, null, "Some Connectivity", true)]
+        [TestCase(null, null, "Some Hosting", null, true)]
+        [TestCase("     ", "", "    ", "        ", false)]
+        [TestCase("     ", "Some url", null, null, true)]
+        [TestCase(null, null, null, null, false)]
+        public async Task IfOnPremiseIsEmptyThenItHasNoData(string summary, string link, string hosting, string requiresHscn, bool hasData)
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                    s.PublishedStatus == PublishedStatus.Published &&
+                    s.Hosting == Mock.Of<IHosting>(h =>
+                        h.OnPremise == Mock.Of<IOnPremise>(p => p.Summary == summary
+                                                                    && p.Link == link
+                                                                    && p.HostingModel == hosting
+                                                                    && p.RequiresHSCN == requiresHscn))), SolutionId1)
+                .ConfigureAwait(false);
+
+            if (hasData)
+            {
+                publicResult.Sections.OnPremise.Answers.Summary.Should().Be(summary);
+                publicResult.Sections.OnPremise.Answers.Link.Should().Be(link);
+                publicResult.Sections.OnPremise.Answers.HostingModel.Should().Be(hosting);
+                publicResult.Sections.OnPremise.Answers.RequiresHSCN.Should().Be(requiresHscn);
+
+                publicResult.Sections.OnPremise.Answers.HasData.Should().BeTrue();
+            }
+            else
+            {
+                publicResult.Sections.OnPremise.Should().BeNull();
+            }
+        }
+
+        [TestCase("Some Summary", "Some url", "Some Hosting", "Some Connectivity", true)]
+        [TestCase("Some Summary", "", "Some Hosting", "Some Connectivity", true)]
+        [TestCase("     ", "     ", "Some Hosting", "Some Connectivity", true)]
+        [TestCase("Some Summary", "Some url", null, "Some Connectivity", true)]
+        [TestCase(" ", "Some url", "Some Hosting", "Some Connectivity", true)]
+        [TestCase("Some Summary", "Some url", "Some Hosting", "     ", true)]
+        [TestCase("Some Summary", "     ", "Some Hosting", "     ", true)]
+        [TestCase(null, null, "Some Hosting", "Some Connectivity", true)]
+        [TestCase("Some Summary", "", null, "Some Connectivity", true)]
+        [TestCase("     ", "     ", null, "Some Connectivity", true)]
+        [TestCase(" ", "Some url", null, "Some Connectivity", true)]
+        [TestCase("Some Summary", "Some url", null, "     ", true)]
+        [TestCase("     ", "Some url", "Some Hosting", null, true)]
+        [TestCase("     ", "", "Some Hosting", "        ", true)]
+        [TestCase("Some Summary", "     ", null, "     ", true)]
+        [TestCase(null, null, null, "Some Connectivity", true)]
+        [TestCase(null, null, "Some Hosting", null, true)]
+        [TestCase("     ", "", "    ", "        ", false)]
+        [TestCase("     ", "Some url", null, null, true)]
+        [TestCase(null, null, null, null, false)]
+        public async Task IfHybridHostingTypeIsEmptyThenItHasNoData(string summary, string link, string hosting, string requiresHscn, bool hasData)
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                    s.PublishedStatus == PublishedStatus.Published &&
+                    s.Hosting == Mock.Of<IHosting>(h =>
+                        h.HybridHostingType == Mock.Of<IHybridHostingType>(p => p.Summary == summary
+                                                                    && p.Link == link
+                                                                    && p.HostingModel == hosting
+                                                                    && p.RequiresHSCN == requiresHscn))), SolutionId1)
+                .ConfigureAwait(false);
+
+            if (hasData)
+            {
+                publicResult.Sections.HybridHostingType.Answers.Summary.Should().Be(summary);
+                publicResult.Sections.HybridHostingType.Answers.Link.Should().Be(link);
+                publicResult.Sections.HybridHostingType.Answers.HostingModel.Should().Be(hosting);
+                publicResult.Sections.HybridHostingType.Answers.RequiresHSCN.Should().Be(requiresHscn);
+
+                publicResult.Sections.HybridHostingType.Answers.HasData.Should().BeTrue();
+            }
+            else
+            {
+                publicResult.Sections.HybridHostingType.Should().BeNull();
             }
         }
 

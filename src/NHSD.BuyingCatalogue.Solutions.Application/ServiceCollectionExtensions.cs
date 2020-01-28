@@ -20,14 +20,18 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.Nat
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionNativeMobileHardwareRequirements;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.UpdateSolutionClientApplicationTypes;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.HybridHostingType;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.OnPremise;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PublicCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PrivateCloud;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSuppliers;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
+using NHSD.BuyingCatalogue.Solutions.Application.Persistence.Suppliers;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application
 {
@@ -39,15 +43,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<SolutionReader>()
                 .AddTransient<ClientApplicationReader>()
                 .AddTransient<HostingReader>()
+                .AddTransient<SupplierReader>()
                 .AddTransient<ContactDetailsReader>()
+                .AddTransient<RoadMapReader>()
                 .AddTransient<SolutionVerifier>()
                 .AddTransient<SolutionSummaryUpdater>()
                 .AddTransient<SolutionFeaturesUpdater>()
                 .AddTransient<SolutionClientApplicationUpdater>()
                 .AddTransient<SolutionHostingUpdater>()
+                .AddTransient<SolutionRoadmapUpdater>()
                 .AddTransient<SolutionContactDetailsUpdater>()
                 .AddTransient<ClientApplicationPartialUpdater>()
                 .AddTransient<HostingPartialUpdater>()
+                .AddTransient<SupplierUpdater>()
+                .AddTransient<SupplierPartialUpdater>()
                 .AddTransient<UpdateSolutionFeaturesValidator>()
                 .AddTransient<UpdateSolutionClientApplicationTypesValidator>()
                 .AddTransient<UpdateSolutionBrowsersSupportedValidator>()
@@ -59,6 +68,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<UpdateSolutionMobileOperatingSystemsValidator>()
                 .AddTransient<UpdateSolutionMobileConnectionDetailsValidator>()
 				.AddTransient<UpdateSolutionNativeMobileFirstValidator>()
+                .AddTransient<UpdateSupplierValidator>()
 
                 .AddTransient<IExecutor<UpdateSolutionSummaryCommand>, UpdateSolutionSummaryExecutor>()
                 .AddTransient<IValidator<UpdateSolutionSummaryCommand, ISimpleResult>, UpdateSolutionSummaryValidator>()
@@ -113,7 +123,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
 
                 .AddTransient<IExecutor<UpdateSolutionNativeDesktopConnectivityDetailsCommand>, UpdateSolutionNativeDesktopConnectivityDetailsExecutor>()
                 .AddTransient<IValidator<UpdateSolutionNativeDesktopConnectivityDetailsCommand, ISimpleResult>, UpdateSolutionNativeDesktopConnectivityDetailsValidator>()
-                
+
                 .AddTransient<IExecutor<UpdateSolutionNativeDesktopOperatingSystemsCommand>, UpdateSolutionNativeDesktopOperatingSystemsExecutor>()
                 .AddTransient<IValidator<UpdateSolutionNativeDesktopOperatingSystemsCommand, ISimpleResult>, UpdateSolutionNativeDesktopOperatingSystemsValidator>()
 
@@ -131,9 +141,19 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
 
                 .AddTransient<IExecutor<UpdatePrivateCloudCommand>, UpdatePrivateCloudExecutor>()
                 .AddTransient<IValidator<UpdatePrivateCloudCommand, ISimpleResult>, UpdatePrivateCloudValidator>()
-            
+
                 .AddTransient<IExecutor<UpdateOnPremiseCommand>, UpdateOnPremiseExecutor>()
-                .AddTransient<IValidator<UpdateOnPremiseCommand, ISimpleResult>, UpdateOnPremiseValidator>();
+                .AddTransient<IValidator<UpdateOnPremiseCommand, ISimpleResult>, UpdateOnPremiseValidator>()
+
+                .AddTransient<IExecutor<UpdateHybridHostingTypeCommand>, UpdateHybridHostingTypeExecutor>()
+                .AddTransient<IValidator<UpdateHybridHostingTypeCommand, ISimpleResult>, UpdateHybridHostingTypeValidator>()
+
+                .AddTransient<IExecutor<UpdateRoadmapCommand>, UpdateRoadmapExecutor>()
+                .AddTransient<IValidator<UpdateRoadmapCommand, ISimpleResult>, UpdateRoadmapValidator>()
+
+                .AddTransient<IExecutor<UpdateSupplierCommand>, UpdateSupplierExecutor>()
+                .AddTransient<IValidator<UpdateSupplierCommand, ISimpleResult>, UpdateSupplierValidator>()
+                ;
         }
     }
 }

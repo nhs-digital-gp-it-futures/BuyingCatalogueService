@@ -4,14 +4,10 @@ Feature:  Display Marketing Page Form Mobile Operating Systems Section
     So that I can ensure the information is correct
 
 Background:
-    Given Organisations exist
-        | Name     |
-        | GPs-R-Us |
-        | Drs. Inc |
-    And Suppliers exist
-        | Id    | SupplierName | OrganisationName |
-        | Sup 1 | Supplier 1   | GPs-R-Us         |
-        | Sup 2 | Supplier 2   | Drs. Inc         |
+    Given Suppliers exist
+        | Id    | SupplierName |
+        | Sup 1 | Supplier 1   |
+        | Sup 2 | Supplier 2   |
     And Solutions exist
         | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
@@ -24,7 +20,7 @@ Background:
 
 @3605
 Scenario: 1. Mobile Operating Systems are retrieved for the solution
-    When a GET request is made for native-mobile-operating-systems for solution Sln1
+    When a GET request is made for native-mobile-operating-systems section for solution Sln1
     Then a successful response is returned
     And the operating-systems element contains
         | Elements       |
@@ -33,7 +29,7 @@ Scenario: 1. Mobile Operating Systems are retrieved for the solution
 
 @3605
 Scenario: 2. Mobile Operating Systems are retrieved for the solution where no solution detail exists
-    When a GET request is made for native-mobile-operating-systems for solution Sln2
+    When a GET request is made for native-mobile-operating-systems section for solution Sln2
     Then a successful response is returned
     And the operating-systems element contains
         | Elements |
@@ -43,23 +39,23 @@ Scenario: 2. Mobile Operating Systems are retrieved for the solution where no so
 @3605
 Scenario: 3. Solution not found
     Given a Solution Sln4 does not exist
-    When a GET request is made for native-mobile-operating-systems for solution Sln4
+    When a GET request is made for native-mobile-operating-systems section for solution Sln4
     Then a response status of 404 is returned
 
 @3605
 Scenario: 4. Service failure
     Given the call to the database to set the field will fail
-    When a GET request is made for native-mobile-operating-systems for solution Sln1
+    When a GET request is made for native-mobile-operating-systems section for solution Sln1
     Then a response status of 500 is returned
 
 @3605
 Scenario: 5. Solution id not present in request
-    When a GET request is made for native-mobile-operating-systems with no solution id
+    When a GET request is made for native-mobile-operating-systems section with no solution id
     Then a response status of 400 is returned
     
 @3605
 Scenario: 6. Mobile Operating Systems are retrieved for the solution where no mobile-operating-systems
-    When a GET request is made for native-mobile-operating-systems for solution Sln3
+    When a GET request is made for native-mobile-operating-systems section for solution Sln3
     Then a successful response is returned
     And the operating-systems element contains
         | Elements |

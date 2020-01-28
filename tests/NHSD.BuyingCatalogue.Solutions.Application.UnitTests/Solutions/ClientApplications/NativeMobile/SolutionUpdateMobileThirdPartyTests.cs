@@ -5,6 +5,7 @@ using Moq;
 using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionMobileThirdParty;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Commands.NativeMobile;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
 
@@ -74,7 +75,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(1);
             results["third-party-components"].Should().Be("maxLength");
-            
+
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Never);
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never);
         }
@@ -112,12 +113,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
         private async Task<ISimpleResult> UpdateMobileThirdParty(string thirdPartyComponents = null, string deviceCapabilities = null)
         {
+            var data = Mock.Of<IUpdateNativeMobileThirdPartyData>(n =>
+                n.ThirdPartyComponents == thirdPartyComponents && n.DeviceCapabilities == deviceCapabilities);
             return await Context.UpdateSolutionMobileThirdPartyHandler.Handle(
-                new UpdateSolutionMobileThirdPartyCommand(SolutionId,
-                    new UpdateSolutionMobileThirdPartyViewModel()
-                    {
-                        ThirdPartyComponents = thirdPartyComponents, DeviceCapabilities = deviceCapabilities
-                    }), CancellationToken.None).ConfigureAwait(false);
+                new UpdateSolutionMobileThirdPartyCommand(SolutionId, data), CancellationToken.None)
+                .ConfigureAwait(false);
         }
     }
 }

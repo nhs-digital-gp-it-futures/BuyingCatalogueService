@@ -39,7 +39,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             { "native-desktop-additional-information", typeof(NativeDesktopAdditionalInformationPayload) },
             { "hosting-type-public-cloud", typeof(PublicCloudPayload) },
             { "hosting-type-private-cloud", typeof(HostingPrivateCloudPayload) },
-            { "hosting-type-on-premise", typeof(HostingOnPremisePayload) }
+            { "hosting-type-on-premise", typeof(HostingOnPremisePayload) },
+            { "hosting-type-hybrid", typeof(HostingHybridHostingTypePayload) },
+            { "roadmap", typeof(RoadmapPayload) },
+            { "about-supplier", typeof(SupplierPayload) }
         };
 
         public EditSectionPutSteps(Response response)
@@ -273,6 +276,36 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
 
             [JsonProperty("requires-hscn")]
             public List<string> RequiresHSCN { get; set; }
+        }
+
+        private class HostingHybridHostingTypePayload
+        {
+            [JsonProperty("summary")]
+            public string Summary { get; set; }
+
+            [JsonProperty("link")]
+            public string Link { get; set; }
+
+            [JsonProperty("hosting-model")]
+            public string HostingModel { get; set; }
+
+            [JsonProperty("requires-hscn")]
+            public List<string> RequiresHSCN { get; set; }
+        }
+
+        private class RoadmapPayload
+        {
+            [JsonProperty("summary")]
+            public string Summary { get; set; }
+        }
+
+        private class SupplierPayload
+        {
+            [JsonProperty("description")]
+            public string Summary { get; set; }
+
+            [JsonProperty("Link")]
+            public string SupplierUrl { get; set; }
         }
     }
 }

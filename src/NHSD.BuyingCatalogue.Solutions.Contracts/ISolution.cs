@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
 
 namespace NHSD.BuyingCatalogue.Solutions.Contracts
 {
@@ -41,6 +42,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         IEnumerable<string> Features { get; }
 
         /// <summary>
+        /// Gets or sets the Road Map description.
+        /// </summary>
+        string RoadMap { get; }
+
+        /// <summary>
         /// A link to provide more information about a solution.
         /// </summary>
         string AboutUrl { get; }
@@ -79,5 +85,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         /// The publish status of the solution
         /// </summary>
         PublishedStatus PublishedStatus { get;  }
+
+        /// <summary>
+        /// Marketing information related to the supplier
+        /// </summary>
+        ISupplier Supplier { get; }
     }
 }

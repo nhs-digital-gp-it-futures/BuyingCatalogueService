@@ -41,10 +41,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         Task<IClientApplicationResult> GetClientApplicationBySolutionIdAsync(string solutionId, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Retrieve the hosting details for a solution
+        /// Update the hosting details for a solution
         /// </summary>
         /// <param name="updateSolutionHostingRequest">The ID of the solution</param>
-        /// <param name="token">A token to notify if the task is cancelled</param>
+        /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
         /// <returns>A task containing the hosting data</returns>
         Task UpdateHostingAsync(IUpdateSolutionHostingRequest updateSolutionHostingRequest, CancellationToken cancellationToken);
 
@@ -55,5 +55,21 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
         /// <returns>A task containing the hosting data</returns>
         Task<IHostingResult> GetHostingBySolutionIdAsync(string solutionId, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Update the roadmap details for a solution
+        /// </summary>
+        /// <param name="updateRoadmapRequest">The ID of the solution</param>
+        /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
+        /// <returns>A task containing the roadmap data</returns>
+        Task UpdateRoadmapAsync(IUpdateRoadmapRequest updateRoadmapRequest, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Retrieve the roadmap details for a solution
+        /// </summary>
+        /// <param name="solutionId">The ID of the solution</param>
+        /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
+        /// <returns>A task containing the hosting data</returns>
+        Task<IRoadMapResult> GetRoadMapBySolutionIdAsync(string solutionId, CancellationToken cancellationToken);
     }
 }

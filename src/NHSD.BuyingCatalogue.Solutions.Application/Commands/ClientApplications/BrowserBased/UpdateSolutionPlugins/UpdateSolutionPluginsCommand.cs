@@ -1,6 +1,7 @@
 using MediatR;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Commands.BrowserBased;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.BrowserBased.UpdateSolutionPlugins
 {
@@ -8,9 +9,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
     {
         public string SolutionId { get; }
 
-        public UpdateSolutionPluginsViewModel Data { get; }
+        public IUpdateBrowserBasedPluginsData Data { get; }
 
-        public UpdateSolutionPluginsCommand(string solutionId, UpdateSolutionPluginsViewModel data)
+        public UpdateSolutionPluginsCommand(string solutionId, IUpdateBrowserBasedPluginsData data)
         {
             SolutionId = solutionId.ThrowIfNull();
             Data = data.ThrowIfNull();

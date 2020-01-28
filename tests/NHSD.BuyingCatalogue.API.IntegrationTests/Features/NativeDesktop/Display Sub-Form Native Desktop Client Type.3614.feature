@@ -4,14 +4,10 @@ Feature: Supplier Display Sub-Form Native Desktop Client Type
     So that I can make sure the information is correct
 
 Background:
-    Given Organisations exist
-        | Name     |
-        | GPs-R-Us |
-        | Drs. Inc |
-    And Suppliers exist
-        | Id    | SupplierName | OrganisationName |
-        | Sup 1 | Supplier 1   | GPs-R-Us         |
-        | Sup 2 | Supplier 2   | Drs. Inc         |
+    Given Suppliers exist
+        | Id    | SupplierName |
+        | Sup 1 | Supplier 1   |
+        | Sup 2 | Supplier 2   |
     And Solutions exist
         | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | FullDescription     | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | Online medicine 1   | 1                | Sup 1      |
@@ -20,7 +16,7 @@ Background:
 
 @3614
 Scenario: 1. Sub-Form Native Desktop Client Type all sections are Displayed
-    When a GET request is made for native-desktop dashboard for solution Sln1
+    When a GET request is made for native-desktop section dashboard for solution Sln1
     Then a successful response is returned
     And Solutions section contains all items  
         | Id                                    | Status     | Requirement |
@@ -34,18 +30,18 @@ Scenario: 1. Sub-Form Native Desktop Client Type all sections are Displayed
 @3614
 Scenario: 2. Solution not found
     Given a Solution Sln4 does not exist
-    When a GET request is made for native-desktop dashboard for solution Sln4
+    When a GET request is made for native-desktop section dashboard for solution Sln4
     Then a response status of 404 is returned
 
 @3614
 Scenario: 3. Service failure
     Given the call to the database to set the field will fail
-    When a GET request is made for native-desktop dashboard for solution Sln1
+    When a GET request is made for native-desktop section dashboard for solution Sln1
     Then a response status of 500 is returned
 
 @3614
 Scenario: 4. Solution id not present in request
-    When a GET request is made for native-desktop dashboard with no solution id
+    When a GET request is made for native-desktop section dashboard with no solution id
     Then a response status of 400 is returned
     
 @3622
@@ -53,9 +49,9 @@ Scenario Outline: 5. Native Desktop Hardware Requirements based on data in Clien
   Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
-    When a GET request is made for native-desktop dashboard for solution Sln1
+    When a GET request is made for native-desktop section dashboard for solution Sln1
     Then a successful response is returned
-    And the status of the native-desktop-hardware-requirements section is <Status>
+    And the solution native-desktop-hardware-requirements section status is <Status>
 Examples:
     | ClientApplication                                           | Status     |
     |                                                             | INCOMPLETE |
@@ -68,9 +64,9 @@ Scenario Outline: 6. Native Desktop Operating Systems Description based on data 
   Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
-    When a GET request is made for native-desktop dashboard for solution Sln1
+    When a GET request is made for native-desktop section dashboard for solution Sln1
     Then a successful response is returned
-    And the status of the native-desktop-operating-systems section is <Status>
+    And the solution native-desktop-operating-systems section status is <Status>
 Examples:
     | ClientApplication                                                                | Status     |
     |                                                                                  | INCOMPLETE |
@@ -83,9 +79,9 @@ Scenario Outline: 7. Native Desktop Connectivity Details based on data in Client
   Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
-    When a GET request is made for native-desktop dashboard for solution Sln1
+    When a GET request is made for native-desktop section dashboard for solution Sln1
     Then a successful response is returned
-    And the status of the native-desktop-connection-details section is <Status>
+    And the solution native-desktop-connection-details section status is <Status>
 Examples:
     | ClientApplication                                   | Status     |
     |                                                     | INCOMPLETE |
@@ -98,9 +94,9 @@ Scenario Outline: 8. Native Desktop Third Party based on data in Client Applicat
   Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
-    When a GET request is made for native-desktop dashboard for solution Sln1
+    When a GET request is made for native-desktop section dashboard for solution Sln1
     Then a successful response is returned
-    And the status of the native-desktop-third-party section is <Status>
+    And the solution native-desktop-third-party section status is <Status>
 Examples:
     | ClientApplication                                                                                          | Status     |
     |                                                                                                            | INCOMPLETE |
@@ -117,9 +113,9 @@ Scenario Outline: 9. Native Desktop Memory And Storage Based on data in Client A
   Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
-    When a GET request is made for native-desktop dashboard for solution Sln1
+    When a GET request is made for native-desktop section dashboard for solution Sln1
     Then a successful response is returned
-    And the status of the native-desktop-memory-and-storage section is <Status>
+    And the solution native-desktop-memory-and-storage section status is <Status>
 Examples:
     | ClientApplication                                                                                                                                     | Status     |
     |                                                                                                                                                       | INCOMPLETE |
@@ -144,9 +140,9 @@ Scenario Outline: 10. Native Desktop Additional Information Details based on dat
   Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
-    When a GET request is made for native-desktop dashboard for solution Sln1
+    When a GET request is made for native-desktop section dashboard for solution Sln1
     Then a successful response is returned
-    And the status of the native-desktop-additional-information section is <Status>
+    And the solution native-desktop-additional-information section status is <Status>
 Examples:
     | ClientApplication                                                       | Status     |
     |                                                                         | INCOMPLETE |

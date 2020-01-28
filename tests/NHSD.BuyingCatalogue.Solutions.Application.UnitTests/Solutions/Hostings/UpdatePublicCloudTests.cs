@@ -23,27 +23,27 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
         private const string SolutionId = "Sln1";
         private const string SummaryToken = "PublicCloud.Summary";
         private const string LinkToken = "PublicCloud.Link";
-        private const string ConnectivityToken = "PublicCloud.RequiresHSCN";
+        private const string RequiresHscnToken = "PublicCloud.RequiresHSCN";
 
         private Mock<IUpdatePublicCloudData> _dataMock;
         private string _summary;
         private string _url;
-        private HashSet<string> _connectivity;
 
         private Hosting _hosting;
         private string _hostingJson;
+        private string _requiresHscn;
 
         [SetUp]
         public void Setup()
         {
             _summary = "A Summary";
             _url = "A URL";
-            _connectivity = new HashSet<string>{"Some Connectivity"};
+            _requiresHscn = "Requires HSCN";
 
             _dataMock = new Mock<IUpdatePublicCloudData>();
             _dataMock.Setup(x => x.Summary).Returns(() => _summary);
             _dataMock.Setup(x => x.Link).Returns(() => _url);
-            _dataMock.Setup(x => x.RequiresHSCN).Returns(() => _connectivity);
+            _dataMock.Setup(x => x.RequiresHSCN).Returns(() => _requiresHscn);
 
             _hosting = new Hosting
             {
@@ -51,7 +51,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                 {
                     Summary = _summary,
                     Link = _url,
-                    RequiresHSCN = _connectivity.FirstOrDefault()
+                    RequiresHSCN = _requiresHscn
                 }
             };
 
@@ -70,7 +70,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                 r.SolutionId == SolutionId
                 && JToken.Parse(r.Hosting).SelectToken(SummaryToken).Value<string>() == _summary
                 && JToken.Parse(r.Hosting).SelectToken(LinkToken).Value<string>() == _url
-                && JToken.Parse(r.Hosting).SelectToken(ConnectivityToken).Value<string>() == _connectivity.FirstOrDefault()
+                && JToken.Parse(r.Hosting).SelectToken(RequiresHscnToken).Value<string>() == _requiresHscn
             ), It.IsAny<CancellationToken>()), Times.Once());
 
             validationResult.IsValid.Should().BeTrue();
@@ -83,10 +83,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
 
             _summary = null;
             _url = null;
-            _connectivity.Clear();
+            _requiresHscn = null;
 
             var validationResult = await UpdatePublicCloud().ConfigureAwait(false);
-         
+
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
 
             Context.MockSolutionDetailRepository.Verify(r => r.UpdateHostingAsync(It.Is<IUpdateSolutionHostingRequest>(r =>
@@ -98,7 +98,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
         }
 
         [Test]
-        public async Task ShouldUpdatePublicCloudyAndNothingElse()
+        public async Task ShouldUpdatePublicCloudAndNothingElse()
         {
             SetUpMockSolutionRepositoryGetByIdAsync(_hostingJson);
 
@@ -116,7 +116,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
 
                     newHosting.PublicCloud.Summary.Should().Be(_summary);
                     newHosting.PublicCloud.Link.Should().Be(_url);
-                    newHosting.PublicCloud.RequiresHSCN.Should().Be(_connectivity.FirstOrDefault());
+                    newHosting.PublicCloud.RequiresHSCN.Should().Be(_requiresHscn);
 
                 });
             var validationResult = await UpdatePublicCloud().ConfigureAwait(false);

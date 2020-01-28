@@ -4,14 +4,10 @@ Feature: Supplier Display Sub-Form Native Mobile Client Type
     So that I can make sure the information is correct
 
 Background:
-    Given Organisations exist
-        | Name     |
-        | GPs-R-Us |
-        | Drs. Inc |
-    And Suppliers exist
-        | Id    | SupplierName | OrganisationName |
-        | Sup 1 | Supplier 1   | GPs-R-Us         |
-        | Sup 2 | Supplier 2   | Drs. Inc         |
+    Given Suppliers exist
+        | Id    | SupplierName |
+        | Sup 1 | Supplier 1   |
+        | Sup 2 | Supplier 2   |
     And Solutions exist
         | SolutionID | SolutionName   | SummaryDescription             | OrganisationName | FullDescription     | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | An full online medicine system | GPs-R-Us         | Online medicine 1   | 1                | Sup 1      |
@@ -20,7 +16,7 @@ Background:
 
 @3604
 Scenario: 1. Sub-Form Native Mobile Client Type all sections are Displayed
-    When a GET request is made for native-mobile dashboard for solution Sln1
+    When a GET request is made for native-mobile section dashboard for solution Sln1
     Then a successful response is returned
     And Solutions section contains all items  
         | Id                                               | Status     | Requirement |
@@ -36,18 +32,18 @@ Scenario: 1. Sub-Form Native Mobile Client Type all sections are Displayed
 @3604
 Scenario: 2. Solution not found
     Given a Solution Sln4 does not exist
-    When a GET request is made for native-mobile dashboard for solution Sln4
+    When a GET request is made for native-mobile section dashboard for solution Sln4
     Then a response status of 404 is returned
 
 @3604
 Scenario: 3. Service failure
     Given the call to the database to set the field will fail
-    When a GET request is made for native-mobile dashboard for solution Sln1
+    When a GET request is made for native-mobile section dashboard for solution Sln1
     Then a response status of 500 is returned
 
 @3604
 Scenario: 4. Solution id not present in request
-    When a GET request is made for native-mobile dashboard with no solution id
+    When a GET request is made for native-mobile section dashboard with no solution id
     Then a response status of 400 is returned
 
 @3605
@@ -55,9 +51,9 @@ Scenario Outline: 5. Native Mobile Operating Systems Based on data in Client App
   Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
-    When a GET request is made for native-mobile dashboard for solution Sln1
+    When a GET request is made for native-mobile section dashboard for solution Sln1
     Then a successful response is returned
-    And the status of the native-mobile-operating-systems section is <Status>
+    And the solution native-mobile-operating-systems section status is <Status>
 Examples:
     | ClientApplication                                                                                             | Status     |
     |                                                                                                               | INCOMPLETE |
@@ -72,9 +68,9 @@ Scenario Outline: 5. Native Mobile Connection Details Based on data in Client Ap
   Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
-    When a GET request is made for native-mobile dashboard for solution Sln1
+    When a GET request is made for native-mobile section dashboard for solution Sln1
     Then a successful response is returned
-    And the status of the native-mobile-connection-details section is <Status>
+    And the solution native-mobile-connection-details section status is <Status>
 Examples:
     | ClientApplication                                                                                                                | Status     |
     |                                                                                                                                  | INCOMPLETE |
@@ -89,9 +85,9 @@ Scenario Outline: 6. Native Mobile Memory And Storage Based on data in Client Ap
   Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
-    When a GET request is made for native-mobile dashboard for solution Sln1
+    When a GET request is made for native-mobile section dashboard for solution Sln1
     Then a successful response is returned
-    And the status of the native-mobile-memory-and-storage section is <Status>
+    And the solution native-mobile-memory-and-storage section status is <Status>
 Examples:
     | ClientApplication                                                                                                                | Status     |
     |                                                                                                                                  | INCOMPLETE |
@@ -106,9 +102,9 @@ Scenario Outline: 7. Native Mobile First Based on data in Client Application
   Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
-    When a GET request is made for native-mobile dashboard for solution Sln1
+    When a GET request is made for native-mobile section dashboard for solution Sln1
     Then a successful response is returned
-    And the status of the native-mobile-first section is <Status>
+    And the solution native-mobile-first section status is <Status>
 Examples:
     | ClientApplication                    | Status     |
     |                                      | INCOMPLETE |
@@ -121,9 +117,9 @@ Scenario Outline: 7. Native Mobile Hardware Requirements based on data in Client
   Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
-    When a GET request is made for native-mobile dashboard for solution Sln1
+    When a GET request is made for native-mobile section dashboard for solution Sln1
     Then a successful response is returned
-    And the status of the native-mobile-hardware-requirements section is <Status>
+    And the solution native-mobile-hardware-requirements section status is <Status>
 Examples:
     | ClientApplication                                          | Status     |
     |                                                            | INCOMPLETE |
@@ -136,9 +132,9 @@ Scenario Outline: 8. Mobile Third Party based on data in Client Application
     Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
-    When a GET request is made for native-mobile dashboard for solution Sln1
+    When a GET request is made for native-mobile section dashboard for solution Sln1
     Then a successful response is returned
-    And the status of the native-mobile-third-party section is <Status>
+    And the solution native-mobile-third-party section status is <Status>
     Examples:
     | ClientApplication                                                                                   | Status     |
     |                                                                                                     | INCOMPLETE |
@@ -152,13 +148,13 @@ Scenario Outline: 8. Mobile Third Party based on data in Client Application
     | { "MobileThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": "Capability" } } | COMPLETE   |
 
 @3609
-Scenario Outline: 9. Native Mobile Hardware Requirements based on data in Client Application
+Scenario Outline: 9. Native Mobile Additional Information based on data in Client Application
     Given SolutionDetail exist
         | Solution | ClientApplication   |
         | Sln1     | <ClientApplication> |
-    When a GET request is made for native-mobile dashboard for solution Sln1
+    When a GET request is made for native-mobile section dashboard for solution Sln1
     Then a successful response is returned
-    And the status of the native-mobile-additional-information section is <Status>
+    And the solution native-mobile-additional-information section status is <Status>
 Examples:
     | ClientApplication                                                 | Status     |
     |                                                                   | INCOMPLETE |

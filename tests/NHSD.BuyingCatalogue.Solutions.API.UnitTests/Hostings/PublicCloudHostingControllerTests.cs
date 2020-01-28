@@ -70,7 +70,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
             publicCloudData.Summary.Should().Be(summary);
             publicCloudData.Link.Should().Be(link);
 
-            if (requiresHscn == null) 
+            if (requiresHscn == null)
             {
                 publicCloudData.RequiredHscn.Should().BeEmpty();
             }
@@ -104,7 +104,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
             {
                 Summary = "New Summary",
                 Link = "New URL",
-                RequiresHSCN = new HashSet<string>() { "New Connectivity" } 
+                RequiresHSCNArray = new HashSet<string> {"New requires HSCN"}
             };
 
             var result =

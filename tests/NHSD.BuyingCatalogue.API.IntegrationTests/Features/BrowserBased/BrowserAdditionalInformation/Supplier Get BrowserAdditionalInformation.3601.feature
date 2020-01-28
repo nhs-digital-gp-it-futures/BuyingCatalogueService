@@ -4,14 +4,10 @@ Feature:  Display Marketing Page Form Browser Additional Information
     So that I can ensure the information is correct
 
 Background:
-    Given Organisations exist
-        | Name     |
-        | GPs-R-Us |
-        | Drs. Inc |
-    And Suppliers exist
-        | Id    | SupplierName | OrganisationName |
-        | Sup 1 | Supplier 1   | GPs-R-Us         |
-        | Sup 2 | Supplier 2   | Drs. Inc         |
+    Given Suppliers exist
+        | Id    | SupplierName |
+        | Sup 1 | Supplier 1   |
+        | Sup 2 | Supplier 2   |
     And Solutions exist
         | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
@@ -24,36 +20,36 @@ Background:
 
 @3601
 Scenario: 1. Browser Additional Information are retreived for the solution
-    When a GET request is made for browser-additional-information for solution Sln1
+    When a GET request is made for browser-additional-information section for solution Sln1
     Then a successful response is returned
     And the string value of element additional-information is Some more info
 
 @3601
 Scenario: 2. Browser Additional Information are retrieved for the solution where no solutiondetail exists
-    When a GET request is made for browser-additional-information for solution Sln2
+    When a GET request is made for browser-additional-information section for solution Sln2
     Then a successful response is returned
     And the additional-information string does not exist
 
 @3601
 Scenario: 3. Browser Additional Information are retrieved for the solution where there is no additional information
-    When a GET request is made for browser-additional-information for solution Sln3
+    When a GET request is made for browser-additional-information section for solution Sln3
     Then a successful response is returned
     And the additional-information string does not exist
 
 @3601
 Scenario: 4. Solution not found
     Given a Solution Sln4 does not exist
-    When a GET request is made for browser-additional-information for solution Sln4
+    When a GET request is made for browser-additional-information section for solution Sln4
     Then a response status of 404 is returned
 
 @3601
 Scenario: 5. Service failure
     Given the call to the database to set the field will fail
-    When a GET request is made for browser-additional-information for solution Sln1
+    When a GET request is made for browser-additional-information section for solution Sln1
     Then a response status of 500 is returned
 
 @3601
 Scenario: 6. Solution id not present in request
-    When a GET request is made for browser-additional-information with no solution id
+    When a GET request is made for browser-additional-information section with no solution id
     Then a response status of 400 is returned
 

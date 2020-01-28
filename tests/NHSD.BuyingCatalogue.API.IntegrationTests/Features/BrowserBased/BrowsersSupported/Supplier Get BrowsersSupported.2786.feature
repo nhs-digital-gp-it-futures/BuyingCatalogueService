@@ -4,14 +4,10 @@ Feature:  Display Marketing Page Form Browsers Supported Section
     So that I can ensure the information is correct
 
 Background:
-    Given Organisations exist
-        | Name     |
-        | GPs-R-Us |
-        | Drs. Inc |
-    And Suppliers exist
-        | Id    | SupplierName | OrganisationName |
-        | Sup 1 | Supplier 1   | GPs-R-Us         |
-        | Sup 2 | Supplier 2   | Drs. Inc         |
+    Given Suppliers exist
+        | Id    | SupplierName |
+        | Sup 1 | Supplier 1   |
+        | Sup 2 | Supplier 2   |
     And Solutions exist
         | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
@@ -26,7 +22,7 @@ Background:
 
 @2786
 Scenario: 1. Supported Browsers are retrieved for the solution
-    When a GET request is made for browser-browsers-supported for solution Sln1
+    When a GET request is made for browser-browsers-supported section for solution Sln1
     Then a successful response is returned
     And the supported-browsers element contains
         | Elements     |
@@ -35,7 +31,7 @@ Scenario: 1. Supported Browsers are retrieved for the solution
 
 @2786
 Scenario: 2. Supported Browsers are retrieved for the solution where no solution detail exists
-    When a GET request is made for browser-browsers-supported for solution Sln2
+    When a GET request is made for browser-browsers-supported section for solution Sln2
     Then a successful response is returned
     And the supported-browsers element contains
         | Elements |
@@ -44,7 +40,7 @@ Scenario: 2. Supported Browsers are retrieved for the solution where no solution
 
 @2786
 Scenario: 3.Supported Browsers are retrieved for the solution where no browser-browsers-supported exist
-    When a GET request is made for browser-browsers-supported for solution Sln3
+    When a GET request is made for browser-browsers-supported section for solution Sln3
     Then a successful response is returned
     And the supported-browsers element contains
         | Elements |
@@ -54,24 +50,24 @@ Scenario: 3.Supported Browsers are retrieved for the solution where no browser-b
 @2786
 Scenario: 4. Solution not found
     Given a Solution Sln4 does not exist
-    When a GET request is made for browser-browsers-supported for solution Sln4
+    When a GET request is made for browser-browsers-supported section for solution Sln4
     Then a response status of 404 is returned
 
 @2786
 Scenario: 5. Service failure
     Given the call to the database to set the field will fail
-    When a GET request is made for browser-browsers-supported for solution Sln1
+    When a GET request is made for browser-browsers-supported section for solution Sln1
     Then a response status of 500 is returned
 
 @2786
 Scenario: 6. Solution id not present in request
-    When a GET request is made for browser-browsers-supported with no solution id
+    When a GET request is made for browser-browsers-supported section with no solution id
     Then a response status of 400 is returned
 
 
 @2786
 Scenario: 7.Supported Browsers are retrieved for the solution where no supported-browsers
-    When a GET request is made for browser-browsers-supported for solution Sln5
+    When a GET request is made for browser-browsers-supported section for solution Sln5
     Then a successful response is returned
     And the supported-browsers element contains
     | Elements |

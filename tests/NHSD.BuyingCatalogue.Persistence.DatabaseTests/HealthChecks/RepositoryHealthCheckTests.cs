@@ -3,7 +3,6 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.Extensions.Configuration;
 using Moq;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.Data.HealthChecks;

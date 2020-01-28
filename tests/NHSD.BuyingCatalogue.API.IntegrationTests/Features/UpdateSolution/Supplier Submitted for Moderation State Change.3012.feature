@@ -3,12 +3,9 @@ Feature: Supplier Submitted for Moderation State Change
     I want the State of the Marketing Page to change after Submission of the Marketing Page
 
 Background:
-    Given Organisations exist
-        | Name     |
-        | GPs-R-Us |
-    And Suppliers exist
-        | Id    | SupplierName | OrganisationName |
-        | Sup 1 | Supplier 1   | GPs-R-Us         |
+    Given Suppliers exist
+        | Id    | SupplierName |
+        | Sup 1 | Supplier 1   |
 
 @3012
 Scenario: 1. Supplier status successfully updated upon Solution submitted for review

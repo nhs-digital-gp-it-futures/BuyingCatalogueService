@@ -84,7 +84,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             solutionDashboardSections.ClientApplicationTypesSection.Should().NotBeNull();
             solutionDashboardSections.ClientApplicationTypesSection.Requirement.Should().Be("Mandatory");
         }
-        
+
         [Test]
         public async Task ShouldGetDashboardCalculateCompleteNull()
         {
@@ -366,6 +366,65 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             dashboardResult.SolutionDashboardSections.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.HostingTypePrivateCloudSection.Status.Should().Be(complete);
+        }
+
+        [TestCase(null, "url", null, null, "COMPLETE")]
+        [TestCase(null, null, null, null, "INCOMPLETE")]
+        [TestCase("Summary", null, null, null, "COMPLETE")]
+        [TestCase(null, "url", "hosting", null, "COMPLETE")]
+        [TestCase(null, null, "hosting", null, "COMPLETE")]
+        [TestCase(null, "       ", "hosting", " ", "COMPLETE")]
+        [TestCase(null, "       ", "     ", " ", "INCOMPLETE")]
+        [TestCase("Summary", null, "hosting", null, "COMPLETE")]
+        [TestCase(null, null, null, "connectivity", "COMPLETE")]
+        [TestCase("     ", null, "hosting", "  ", "COMPLETE")]
+        [TestCase(null, null, "hosting", "connectivity", "COMPLETE")]
+        [TestCase("Summary", "url", null, "connectivity", "COMPLETE")]
+        [TestCase("Summary", "url", "hosting", "connectivity", "COMPLETE")]
+        public async Task ShouldGetDashboardToCalculateIfOnPremiseComplete(string summary, string link, string hosting, string requiresHscn, string complete)
+        {
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s =>
+                s.Hosting == Mock.Of<IHosting>(h => h.OnPremise == Mock.Of<IOnPremise>(p =>
+                                                        p.Summary == summary && p.Link == link && p.HostingModel == hosting &&
+                                                        p.RequiresHSCN == requiresHscn)))).ConfigureAwait(false);
+
+            dashboardResult.SolutionDashboardSections.Should().NotBeNull();
+            dashboardResult.SolutionDashboardSections.HostingTypeOnPremiseSection.Status.Should().Be(complete);
+        }
+
+        [TestCase(null, "url", null, null, "COMPLETE")]
+        [TestCase(null, null, null, null, "INCOMPLETE")]
+        [TestCase("Summary", null, null, null, "COMPLETE")]
+        [TestCase(null, "url", "hosting", null, "COMPLETE")]
+        [TestCase(null, null, "hosting", null, "COMPLETE")]
+        [TestCase(null, "       ", "hosting", " ", "COMPLETE")]
+        [TestCase(null, "       ", "     ", " ", "INCOMPLETE")]
+        [TestCase("Summary", null, "hosting", null, "COMPLETE")]
+        [TestCase(null, null, null, "connectivity", "COMPLETE")]
+        [TestCase("     ", null, "hosting", "  ", "COMPLETE")]
+        [TestCase(null, null, "hosting", "connectivity", "COMPLETE")]
+        [TestCase("Summary", "url", null, "connectivity", "COMPLETE")]
+        [TestCase("Summary", "url", "hosting", "connectivity", "COMPLETE")]
+        public async Task ShouldGetDashboardToCalculateIfHybridComplete(string summary, string link, string hosting, string requiresHscn, string complete)
+        {
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s =>
+                s.Hosting == Mock.Of<IHosting>(h => h.HybridHostingType == Mock.Of<IHybridHostingType>(p =>
+                                                        p.Summary == summary && p.Link == link && p.HostingModel == hosting &&
+                                                        p.RequiresHSCN == requiresHscn)))).ConfigureAwait(false);
+
+            dashboardResult.SolutionDashboardSections.Should().NotBeNull();
+            dashboardResult.SolutionDashboardSections.HostingTypeHybridSection.Status.Should().Be(complete);
+        }
+
+        [TestCase("", "INCOMPLETE")]
+        [TestCase("   ", "INCOMPLETE")]
+        [TestCase(null, "INCOMPLETE")]
+        [TestCase("roadmap", "COMPLETE")]
+        public async Task ShouldGetDashboardCalculateCompleteRoadMap(string roadMap, string result)
+        {
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s => s.RoadMap == roadMap)).ConfigureAwait(false);
+            dashboardResult.SolutionDashboardSections.Should().NotBeNull();
+            dashboardResult.SolutionDashboardSections.RoadMapSection.Status.Should().Be(result);
         }
 
         private async Task<SolutionDashboardResult> GetSolutionDashboardSectionAsync(ISolution solution)

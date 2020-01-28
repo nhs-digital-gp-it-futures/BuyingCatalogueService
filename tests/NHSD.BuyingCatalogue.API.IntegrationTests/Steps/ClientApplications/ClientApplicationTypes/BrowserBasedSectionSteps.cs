@@ -17,13 +17,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ClientApplications.Cli
             _response = response;
         }
 
-        [Then(@"the solution browser-based status is (INCOMPLETE|COMPLETE)")]
-        public async Task ThenTheSolutionBrowser_BasedStatusIsINCOMPLETE(string status)
-        {
-            var content = await _response.ReadBody().ConfigureAwait(false);
-            content.SelectToken($"sections.client-application-types.sections.browser-based.status").ToString().Should().Be(status);
-        }
-
         [Then(@"the solution client-application-types section contains Browsers")]
         public async Task ThenTheSolutionClient_Application_TypesSectionContainsSupportedBrowsersOf(Table table)
         {
