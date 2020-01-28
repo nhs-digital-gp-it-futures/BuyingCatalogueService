@@ -16,8 +16,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         [Given(@"Solutions exist")]
         public static async Task GivenSolutionsExist(Table table)
         {
-            var organisations = await OrganisationEntity.FetchAllAsync().ConfigureAwait(false);
-
             foreach (var solutionTable in table.CreateSet<SolutionTable>())
             {
                 await SolutionEntityBuilder.Create()
@@ -25,7 +23,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                     .WithId(solutionTable.SolutionID)
                     .WithOnLastUpdated(solutionTable.LastUpdated)
                     .WithSupplierId(solutionTable.SupplierId)
-                    .WithOrganisationId(organisations.First(o => o.Name == solutionTable.OrganisationName).Id)
                     .WithSupplierStatusId(solutionTable.SupplierStatusId)
                     .WithPublishedStatusId(solutionTable.PublishedStatusId)
                     .WithOnLastUpdated(solutionTable.LastUpdated != DateTime.MinValue ? solutionTable.LastUpdated : DateTime.UtcNow)
@@ -92,8 +89,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             public string SolutionID { get; set; }
 
             public string SolutionName { get; set; }
-
-            public string OrganisationName { get; set; }
 
             public int SupplierStatusId { get; set; }
 

@@ -13,8 +13,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
     [TestFixture]
     public class SolutionCapabilityRepositoryTests
     {
-        private readonly Guid _org1Id = Guid.NewGuid();
-
         private const string Solution1Id = "Sln1";
         private const string Solution2Id = "Sln2";
 
@@ -31,14 +29,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             await Database.ClearAsync().ConfigureAwait(false);
 
-            await OrganisationEntityBuilder.Create()
-                .WithId(_org1Id)
-                .Build()
-                .InsertAsync()
-                .ConfigureAwait(false);
-
             await SupplierEntityBuilder.Create()
-                .WithOrganisation(_org1Id)
                 .WithId(SupplierId)
                 .Build()
                 .InsertAsync()
@@ -46,7 +37,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await SolutionEntityBuilder.Create()
                 .WithId(Solution1Id)
-                .WithOrganisationId(_org1Id)
                 .WithSupplierId(SupplierId)
                 .Build()
                 .InsertAsync()
@@ -162,7 +152,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await SolutionEntityBuilder.Create()
                 .WithId(Solution2Id)
-                .WithOrganisationId(_org1Id)
                 .WithSupplierId(SupplierId)
                 .Build()
                 .InsertAsync()
@@ -226,7 +215,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                     .ConfigureAwait(false);
 
             solutionCapabilityResponse.Should().BeEmpty();
-
         }
 
         [Test]

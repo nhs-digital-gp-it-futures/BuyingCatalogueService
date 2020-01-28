@@ -2,10 +2,6 @@ Feature: Display Marketing Page Dashboard About Supplier Section
     As an Authority User
     I want to manage Marketing Page Information for the About Supplier
     So that I can ensure the information is correct
-Background:
-    Given Organisations exist
-        | Name     |
-        | GPs-R-Us |
 
 @3652
 Scenario Outline: 1. About supplier section is optional and is reported complete if there is text
