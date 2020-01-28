@@ -19,7 +19,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
     [TestFixture]
     public sealed class MarketingContactsRepositoryTests
     {
-        private readonly Guid _org1Id = Guid.NewGuid();
         private readonly string _supplierId = "Sup 1";
         private readonly string _solutionId1 = "Sln1";
         private readonly string _solutionId2 = "Sln2";
@@ -33,22 +32,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             await Database.ClearAsync().ConfigureAwait(false);
 
-            await OrganisationEntityBuilder.Create()
-                .WithId(_org1Id)
-                .Build()
-                .InsertAsync()
-                .ConfigureAwait(false);
-
             await SupplierEntityBuilder.Create()
                 .WithId(_supplierId)
-                .WithOrganisation(_org1Id)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
 
             await SolutionEntityBuilder.Create()
                 .WithId(_solutionId1)
-                .WithOrganisationId(_org1Id)
                 .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
@@ -95,7 +86,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             await SolutionEntityBuilder.Create()
                 .WithId(_solutionId2)
-                .WithOrganisationId(_org1Id)
                 .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
