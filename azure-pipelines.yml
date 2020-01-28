@@ -12,7 +12,7 @@ pr:
 - development
 
 pool:
-  vmImage: 'ubuntu-latest'
+  name: GP IT Futures AKS Build Agents
 
 steps:
 - task: DockerInstaller@0
@@ -20,12 +20,10 @@ steps:
     dockerVersion: $(dockerVersion)
   displayName: 'Docker: Install - $(dockerVersion)'
 
-- task: AzurePowerShell@4
+- task: Bash@3
   displayName: 'Setup Test Database'
   inputs:
-    azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
-    ScriptPath: 'setup-integration-db.ps1'
-    azurePowerShellVersion: LatestVersion
+    filePath: 'setup-integration-db.sh'
 
 - task: UseDotNet@2
   displayName: 'Use DotNet Core $(dotnetVersion)'
