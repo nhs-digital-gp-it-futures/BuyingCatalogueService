@@ -71,6 +71,8 @@ namespace NHSD.BuyingCatalogue.API
         /// <param name="env">The hosting environment details.</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseEnableRequestRewind();
+
             app.UseSerilogRequestLogging(opts =>
             {
                 opts.EnrichDiagnosticContext = LogHelper.EnrichFromRequest;

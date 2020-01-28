@@ -6,13 +6,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
+using Serilog.Formatting.Compact;
 
 namespace NHSD.BuyingCatalogue.API
 {
     public static class Program
 	{
 		public static int Main(string[] args)
-		{
+        {
+            Environment.GetEnvironmentVariable("LOGGERSTYLE");
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
@@ -20,8 +22,10 @@ namespace NHSD.BuyingCatalogue.API
                 .Enrich.FromLogContext()
 #if DEBUG
                 .WriteTo.Debug()
+                .WriteTo.Console(new RenderedCompactJsonFormatter())
+#else
+                .WriteTo.Console(new CompactJsonFormatter())
 #endif
-                .WriteTo.Console()
                 .CreateLogger();
 
             try
@@ -30,7 +34,9 @@ namespace NHSD.BuyingCatalogue.API
                 CreateHostBuilder(args).Build().Run();
                 return 0;
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 Log.Fatal(ex, "Host terminated unexpectedly");
                 return 1;

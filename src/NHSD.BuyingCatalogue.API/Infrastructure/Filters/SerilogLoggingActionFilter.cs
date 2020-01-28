@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc.Filters;
+using NHSD.BuyingCatalogue.Infrastructure;
 using Serilog;
 
 namespace NHSD.BuyingCatalogue.API.Infrastructure.Filters
@@ -13,6 +14,8 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.Filters
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
+            context = context.ThrowIfNull();
+
             _diagnosticContext.Set("RouteData", context.ActionDescriptor.RouteValues);
             _diagnosticContext.Set("ActionName", context.ActionDescriptor.DisplayName);
             _diagnosticContext.Set("ActionId", context.ActionDescriptor.Id);
