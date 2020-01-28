@@ -9,11 +9,11 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionID | SolutionName        | OrganisationName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline         | GPs-R-Us         | 1                | Sup 1      |
-        | Sln2       | SubStandardPractice | GPs-R-Us         | 1                | Sup 1      |
-        | Sln3       | Banana              | Drs. Inc         | 1                | Sup 2      |
-        | Sln4       | Water Bottle        | Drs. Inc         | 1                | Sup 2      |
+        | SolutionID | SolutionName        | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline         | 1                | Sup 1      |
+        | Sln2       | SubStandardPractice | 1                | Sup 1      |
+        | Sln3       | Banana              | 1                | Sup 2      |
+        | Sln4       | Water Bottle        | 1                | Sup 2      |
     And SolutionDetail exist
         | Solution | SummaryDescription          | FullDescription         | ClientApplication                                                                                                                                                                                                                                                                                                                                          |
         | Sln1     |                             | Online medicine 1       | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ], "BrowsersSupported": ["Google Chrome", "Edge"], "MobileResponsive": false, "Plugins": null, "MinimumConnectionSpeed": "1GBps", "MinimumDesktopResolution": "1x1", "HardwareRequirements": "New Hardware", "AdditionalInformation": "Some Additional Info", "MobileFirstDesign": true } |

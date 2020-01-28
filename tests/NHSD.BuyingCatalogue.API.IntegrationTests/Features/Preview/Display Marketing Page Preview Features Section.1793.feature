@@ -9,10 +9,10 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                | Sup 2      |
-        | Sln3       | PracticeMgr    | Drs. Inc         | 1                | Sup 2      |
+        | SolutionID | SolutionName   | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill | 1                | Sup 2      |
+        | Sln3       | PracticeMgr    | 1                | Sup 2      |
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | Features                          |
         | Sln1     | UrlSln1  | An full online medicine system | [ "Appointments", "Prescribing" ] |
