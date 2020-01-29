@@ -40,7 +40,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Nativ
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> UpdateMobileFirstAsync([FromRoute] [Required] string id,
-            [FromBody] [Required] UpdateSolutionNativeMobileFirstViewModel viewModel) =>
-            (await _mediator.Send(new UpdateSolutionNativeMobileFirstCommand(id, viewModel)).ConfigureAwait(false)).ToActionResult();
+            [FromBody] [Required] UpdateNativeMobileFirstViewModel viewModel) =>
+            (await _mediator.Send(new UpdateSolutionNativeMobileFirstCommand(id, viewModel?.MobileFirstDesign)).ConfigureAwait(false)).ToActionResult();
     }
 }

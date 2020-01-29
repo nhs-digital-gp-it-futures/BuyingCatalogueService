@@ -84,7 +84,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
         [Test]
         public async Task ShouldUpdateValidationValid()
         {
-            var viewModel = new UpdateSolutionNativeMobileFirstViewModel();
+            var viewModel = new UpdateNativeMobileFirstViewModel();
 
             var validationModel = new Mock<ISimpleResult>();
             validationModel.Setup(s => s.IsValid).Returns(true);
@@ -92,7 +92,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
             _mockMediator
                 .Setup(m => m.Send(
                     It.Is<UpdateSolutionNativeMobileFirstCommand>(q =>
-                        q.SolutionId == SolutionId && q.Data == viewModel),
+                        q.SolutionId == SolutionId && q.MobileFirstDesign == viewModel.MobileFirstDesign),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result = await _nativeMobileFirstController.UpdateMobileFirstAsync(SolutionId, viewModel).ConfigureAwait(false) as NoContentResult;
@@ -101,14 +101,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionNativeMobileFirstCommand>(q =>
-                        q.SolutionId == SolutionId && q.Data == viewModel),
+                        q.SolutionId == SolutionId && q.MobileFirstDesign == viewModel.MobileFirstDesign),
                     It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
         public async Task ShouldNotUpdateAsValidationInValid()
         {
-            var viewModel = new UpdateSolutionNativeMobileFirstViewModel();
+            var viewModel = new UpdateNativeMobileFirstViewModel();
 
             var validationModel = new Mock<ISimpleResult>();
             validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "mobile-first-design", "required" } });
@@ -117,7 +117,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
             _mockMediator
                 .Setup(m => m.Send(
                     It.Is<UpdateSolutionNativeMobileFirstCommand>(q =>
-                        q.SolutionId == SolutionId && q.Data == viewModel),
+                        q.SolutionId == SolutionId && q.MobileFirstDesign == viewModel.MobileFirstDesign),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result = await _nativeMobileFirstController.UpdateMobileFirstAsync(SolutionId, viewModel).ConfigureAwait(false) as BadRequestObjectResult;
@@ -130,7 +130,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<UpdateSolutionNativeMobileFirstCommand>(q =>
-                        q.SolutionId == SolutionId && q.Data == viewModel),
+                        q.SolutionId == SolutionId && q.MobileFirstDesign == viewModel.MobileFirstDesign),
                     It.IsAny<CancellationToken>()), Times.Once);
         }
     }
