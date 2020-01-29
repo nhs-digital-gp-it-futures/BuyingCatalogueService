@@ -25,8 +25,4 @@
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Testing.Tools\NHSD.BuyingCatalogue.Testing.Tools.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="Features\Dashboard\Display Marketing Page Dashboard Integrations Section.3666.feature" />
-  </ItemGroup>
-
 </Project>
