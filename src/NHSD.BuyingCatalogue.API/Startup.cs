@@ -50,6 +50,7 @@ namespace NHSD.BuyingCatalogue.API
 
             services
                 .AddTransient<ISettings, Settings>()
+                .AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>))
                 .AddAutoMapper(assemblies)
                 .AddMediatR(assemblies)
                 .RegisterSolutionApplication()
@@ -71,8 +72,6 @@ namespace NHSD.BuyingCatalogue.API
         /// <param name="env">The hosting environment details.</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseEnableRequestRewind();
-
             app.UseSerilogRequestLogging(opts =>
             {
                 opts.EnrichDiagnosticContext = LogHelper.EnrichFromRequest;

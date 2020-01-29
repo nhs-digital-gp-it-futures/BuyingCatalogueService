@@ -170,6 +170,9 @@ dotnet_diagnostic.CA1820.severity = none
 # CA1303: Do not pass literals as localized parameters
 dotnet_diagnostic.CA1303.severity = suggestion
 
+# CA1031: Do not catch general exception types
+dotnet_diagnostic.CA1031.severity = none
+
 [NUnit.AssemblyHooks.cs]
 # CA1707: Classes should not contain names with underscores
 dotnet_diagnostic.CA1707.severity = none

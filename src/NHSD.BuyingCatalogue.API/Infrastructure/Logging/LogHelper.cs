@@ -1,6 +1,4 @@
 using System;
-using System.IO;
-using System.Text;
 using Microsoft.AspNetCore.Http;
 using NHSD.BuyingCatalogue.Infrastructure;
 using Serilog;
@@ -28,32 +26,6 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.Logging
             {
                 diagnosticContext.Set("QueryString", request.QueryString.Value);
             }
-
-            request.EnableBuffering();
-            using (var reader = new StreamReader(
-                request.Body,
-                encoding: Encoding.UTF8,
-                detectEncodingFromByteOrderMarks: false,
-                //bufferSize: bufferSize,
-                leaveOpen: true))
-            {
-                
-                // Reset the request body stream position
-                request.Body.Position = 0;
-                var task = reader.ReadToEndAsync();
-                task.Wait();
-                var body = task.Result;
-
-                // Do some processing with body…
-                if (!string.IsNullOrWhiteSpace(body))
-                {
-                    diagnosticContext.Set("Body", body);
-                }
-
-                // Reset the request body stream position so the next middleware can read it
-                request.Body.Position = 0;
-            }
-
 
             // Set the content-type of the Response at this point
             diagnosticContext.Set("ContentType", httpContext.Response.ContentType);

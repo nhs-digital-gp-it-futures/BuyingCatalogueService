@@ -34,9 +34,7 @@ namespace NHSD.BuyingCatalogue.API
                 CreateHostBuilder(args).Build().Run();
                 return 0;
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
-#pragma warning restore CA1031 // Do not catch general exception types
             {
                 Log.Fatal(ex, "Host terminated unexpectedly");
                 return 1;
