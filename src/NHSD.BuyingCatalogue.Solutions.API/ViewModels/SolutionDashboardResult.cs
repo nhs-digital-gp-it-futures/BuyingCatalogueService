@@ -64,6 +64,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 
         [JsonProperty("integrations")]
         public DashboardSection IntegrationsSection { get; }
+        
+        [JsonProperty("implementation-timescales")]
+        public DashboardSection ImplementationTimescalesSection { get; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="SolutionDashboardSections"/> class.
@@ -88,6 +91,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
             AboutSupplierSection = DashboardSection.Optional(solution.Supplier.IsSupplierComplete());
             RoadMapSection = DashboardSection.Optional(solution.IsRoadMapComplete());
             IntegrationsSection = DashboardSection.Optional(false);
+            ImplementationTimescalesSection = DashboardSection.Optional(false);
         }
     }
 
