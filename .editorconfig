@@ -166,6 +166,10 @@ dotnet_diagnostic.CA1812.severity = none
 dotnet_diagnostic.CA1820.severity = none
 
 # Auto generated Assembly Hook file
+
+# CA1303: Do not pass literals as localized parameters
+dotnet_diagnostic.CA1303.severity = suggestion
+
 [NUnit.AssemblyHooks.cs]
 # CA1707: Classes should not contain names with underscores
 dotnet_diagnostic.CA1707.severity = none

@@ -1,27 +1,55 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
+using Microsoft.Extensions.Logging;
 
 namespace NHSD.BuyingCatalogue.Data.Infrastructure
 {
     internal sealed class DbConnector : IDbConnector
     {
         private readonly IDbConnectionFactory _dbConnectionFactory;
+        private readonly ILogger<DbConnector> _logger;
 
-        public DbConnector(IDbConnectionFactory dbConnectionFactory) => _dbConnectionFactory = dbConnectionFactory;
+        
+        public DbConnector(IDbConnectionFactory dbConnectionFactory, ILogger<DbConnector> logger)
+        {
+            _dbConnectionFactory = dbConnectionFactory;
+            _logger = logger;
+        }
 
         public async Task<IEnumerable<T>> QueryAsync<T>(string sql, CancellationToken cancellationToken, object args = null)
         {
             using var databaseConnection = await _dbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false);
-            return (await databaseConnection.QueryAsync<T>(sql, args).ConfigureAwait(false)).ToList();
+            var result = (await databaseConnection.QueryAsync<T>(sql, args).ConfigureAwait(false)).ToList();
+
+            IDictionary stats = null;
+            if (databaseConnection is SqlConnection sr)
+            {
+                stats = sr.RetrieveStatistics();
+                _logger.LogInformation(LoggingEvents.GetItem, "Query {sql} with params: {@args} with ConnectionTime {ConnectionTime}ms, ExecutionTime is {ExecutionTime}",
+                    sql, args, stats["ConnectionTime"], stats["ExecutionTime"]);
+            }
+            
+            return result;
         }
 
         public async Task ExecuteAsync(string sql, CancellationToken cancellationToken, object args = null)
         {
             using var databaseConnection = await _dbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false);
             await databaseConnection.ExecuteAsync(sql, args).ConfigureAwait(false);
+
+            IDictionary stats = null;
+            if (databaseConnection is SqlConnection sr)
+            {
+                stats = sr.RetrieveStatistics();
+                _logger.LogInformation(LoggingEvents.UpdateItem,
+                    @"Execute {sql} with params: {@args} with ConnectionTime {ConnectionTime}ms, ExecutionTime is {ExecutionTime}",
+                    sql, args, stats["ConnectionTime"], stats["ExecutionTime"]);
+            }
         }
         public async Task ExecuteMultipleWithTransactionAsync(IEnumerable<(string sql, object args)> functions, CancellationToken cancellationToken)
         {
@@ -30,8 +58,16 @@ namespace NHSD.BuyingCatalogue.Data.Infrastructure
             foreach (var (sql, args) in functions)
             {
                 await databaseConnection.ExecuteAsync(sql, args, transaction).ConfigureAwait(false);
+                
             }
             transaction.Commit();
+            IDictionary stats = null;
+            if (databaseConnection is SqlConnection sr)
+            {
+                stats = sr.RetrieveStatistics();
+                _logger.LogInformation(LoggingEvents.UpdateWithMultipleDocuments, "Execute Multiple {@functions} with ConnectionTime {ConnectionTime}ms, ExecutionTime is {ExecutionTime}",
+                    functions, stats["ConnectionTime"], stats["ExecutionTime"]);
+            }
         }
     }
 }
