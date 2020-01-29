@@ -35,7 +35,7 @@ Scenario: 2. Solution section is presented where the solution isFoundation is fa
     And the last updated date in the solution is 15/11/2019
 
 @3507
-Scenario: 3. Solution is not linked to Framwork Solution
+Scenario: 3. Solution is not linked to Framework Solution
     When a GET request is made for solution preview Sln3
     Then a successful response is returned
     And the string value of element supplierName is Supplier 2
