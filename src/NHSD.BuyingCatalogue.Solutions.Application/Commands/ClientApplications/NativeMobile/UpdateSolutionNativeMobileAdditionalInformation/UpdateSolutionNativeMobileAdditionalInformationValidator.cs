@@ -6,7 +6,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
     {
         public ISimpleResult Validate(UpdateSolutionNativeMobileAdditionalInformationCommand command)
          => new MaxLengthValidator()
-                .Validate(command.Data.NativeMobileAdditionalInformation, 500, "additional-information")
+                .Validate(command.AdditionalInformation, 500, "additional-information")
                 .Result();
     }
 }

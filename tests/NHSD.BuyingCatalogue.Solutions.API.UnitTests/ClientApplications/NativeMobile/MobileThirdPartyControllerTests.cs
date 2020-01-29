@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,16 +21,24 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
     public sealed class MobileThirdPartyControllerTests
     {
         private Mock<IMediator> _mockMediator;
-
         private MobileThirdPartyController _mobileThirdPartyController;
-
         private const string SolutionId = "Sln1";
+        private Mock<ISimpleResult> _simpleResultMock;
+        private Dictionary<string, string> _resultDictionary;
 
         [SetUp]
         public void Setup()
         {
             _mockMediator = new Mock<IMediator>();
             _mobileThirdPartyController = new MobileThirdPartyController(_mockMediator.Object);
+            _simpleResultMock = new Mock<ISimpleResult>();
+            _simpleResultMock.Setup(x => x.IsValid).Returns(() => !_resultDictionary.Any());
+            _simpleResultMock.Setup(x => x.ToDictionary()).Returns(() => _resultDictionary);
+            _resultDictionary = new Dictionary<string, string>();
+            _mockMediator.Setup(x =>
+                    x.Send(It.IsAny<UpdateSolutionMobileThirdPartyCommand>(),
+                        It.IsAny<CancellationToken>()))
+                .ReturnsAsync(() => _simpleResultMock.Object);
         }
 
         [TestCase(null, null)]
@@ -94,45 +103,30 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
         [Test]
         public async Task ShouldUpdateValidationValid()
         {
-            var viewModel = new UpdateSolutionMobileThirdPartyViewModel();
-
-            var validationModel = new Mock<ISimpleResult>();
-            validationModel.Setup(s => s.IsValid).Returns(true);
-
-            _mockMediator
-                .Setup(m => m.Send(
-                    It.Is<UpdateSolutionMobileThirdPartyCommand>(q => q.Id == SolutionId && q.Data == viewModel),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
-
-            var result = await _mobileThirdPartyController.UpdateNativeMobileThirdParty(SolutionId, viewModel)
+            var request = new UpdateNativeMobileThirdPartyViewModel();
+            var result = await _mobileThirdPartyController.UpdateNativeMobileThirdParty(SolutionId, request)
                 .ConfigureAwait(false) as NoContentResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+
             _mockMediator.Verify(
                 m => m.Send(
-                    It.Is<UpdateSolutionMobileThirdPartyCommand>(q => q.Id == SolutionId && q.Data == viewModel),
+                    It.Is<UpdateSolutionMobileThirdPartyCommand>(q => q.Id == SolutionId && q.Data == request),
                     It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
         public async Task ShouldUpdateValidationInvalid()
         {
-            var viewModel = new UpdateSolutionMobileThirdPartyViewModel();
+            _resultDictionary.Add("third-party-components", "maxLength");
+            _resultDictionary.Add("device-capabilities", "maxLength");
 
-            var validationModel = new Mock<ISimpleResult>();
-            validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "third-party-components", "maxLength" }, { "device-capabilities", "maxLength" } });
-            validationModel.Setup(s => s.IsValid).Returns(false);
-
-
-            _mockMediator
-                .Setup(m => m.Send(
-                    It.Is<UpdateSolutionMobileThirdPartyCommand>(q => q.Id == SolutionId && q.Data == viewModel),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
-
-            var result = await _mobileThirdPartyController.UpdateNativeMobileThirdParty(SolutionId, viewModel)
+            var request = new UpdateNativeMobileThirdPartyViewModel();
+            var result = await _mobileThirdPartyController.UpdateNativeMobileThirdParty(SolutionId, request)
                 .ConfigureAwait(false) as BadRequestObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+
             var resultValue = result.Value as Dictionary<string, string>;
             resultValue.Count.Should().Be(2);
             resultValue["third-party-components"].Should().Be("maxLength");
@@ -140,7 +134,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
 
             _mockMediator.Verify(
                 m => m.Send(
-                    It.Is<UpdateSolutionMobileThirdPartyCommand>(q => q.Id == SolutionId && q.Data == viewModel),
+                    It.Is<UpdateSolutionMobileThirdPartyCommand>(q => q.Id == SolutionId && q.Data == request),
                     It.IsAny<CancellationToken>()), Times.Once);
         }
     }

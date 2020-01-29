@@ -8,15 +8,15 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionID | SolutionName     | OrganisationName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline      | GPs-R-Us         | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill   | GPs-R-Us         | 1                | Sup 1      |
-        | Sln3       | PracticeMgr      | GPs-R-Us         | 1                | Sup 1      |
-        | Sln4       | PracticeMgr      | GPs-R-Us         | 1                | Sup 1      |
-        | Sln5       | Integral         | GPs-R-Us         | 1                | Sup 1      |
-        | Sln6       | Medical Stuff    | GPs-R-Us         | 1                | Sup 1      |
-        | Sln7       | TooCoolForSchool | GPs-R-Us         | 1                | Sup 1      |
-        | Sln8       | MedicsAnonymous  | GPs-R-Us         | 1                | Sup 1      |
+        | SolutionID | SolutionName     | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline      | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill   | 1                | Sup 1      |
+        | Sln3       | PracticeMgr      | 1                | Sup 1      |
+        | Sln4       | PracticeMgr      | 1                | Sup 1      |
+        | Sln5       | Integral         | 1                | Sup 1      |
+        | Sln6       | Medical Stuff    | 1                | Sup 1      |
+        | Sln7       | TooCoolForSchool | 1                | Sup 1      |
+        | Sln8       | MedicsAnonymous  | 1                | Sup 1      |
 
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                                                                                                                                              |

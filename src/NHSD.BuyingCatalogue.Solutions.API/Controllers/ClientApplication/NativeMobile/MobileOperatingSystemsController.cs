@@ -42,7 +42,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Nativ
             [ProducesResponseType((int)HttpStatusCode.NoContent)]
             [ProducesResponseType((int)HttpStatusCode.NotFound)]
             public async Task<ActionResult> UpdateMobileOperatingSystems([FromRoute] [Required] string id,
-                [FromBody] [Required] UpdateSolutionMobileOperatingSystemsViewModel viewModel) =>
+                [FromBody] [Required] UpdateNativeMobileOperatingSystemsViewModel viewModel) =>
                 (await _mediator.Send(new UpdateSolutionMobileOperatingSystemsCommand(id, viewModel)).ConfigureAwait(false)).ToActionResult();
         }
 }

@@ -8,8 +8,8 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
+        | SolutionID | SolutionName   | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | 1                | Sup 1      |
     And SolutionDetail exist
         | Solution | RoadMap                     |
         | Sln1     | An original roadmap summary |
