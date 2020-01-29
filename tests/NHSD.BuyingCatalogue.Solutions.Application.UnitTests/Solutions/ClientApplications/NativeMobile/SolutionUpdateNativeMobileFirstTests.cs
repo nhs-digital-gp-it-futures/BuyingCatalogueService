@@ -101,8 +101,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             return await Context.UpdateSolutionNativeMobileFirstHandler
                 .Handle(
-                    new UpdateSolutionNativeMobileFirstCommand(SolutionId,
-                        new UpdateSolutionNativeMobileFirstViewModel { MobileFirstDesign = mobileFirstDesign }),
+                    new UpdateSolutionNativeMobileFirstCommand(SolutionId, mobileFirstDesign),
                     new CancellationToken()).ConfigureAwait(false);
         }
     }
