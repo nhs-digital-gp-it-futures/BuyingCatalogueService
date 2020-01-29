@@ -10,44 +10,26 @@ Background:
     And Solutions exist
         | SolutionID | SolutionName                   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline                    | 1                | Sup 1      |
-        | Sln2       | Mobile Connection Details Only | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription                  | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-        | Sln1     | Online Description             | Online medicine 1                | { "ClientApplicationTypes" : [ "native-mobile"], "MobileOperatingSystems": { "OperatingSystems": ["Windows", "Linux"], "OperatingSystemsDescription": "For windows only version 10" }, "NativeMobileFirstDesign": true, "MobileConnectionDetails": { "ConnectionType": [ "3G", "4G" ], "MinimumConnectionSpeed": "1GBps", "Description": "A connecton detail description" }, "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "500MB", "Description": "Storage Description" }, "NativeMobileHardwareRequirements": "A native mobile hardware requirement", "MobileThirdParty": { "ThirdPartyComponents": "Components", "DeviceCapabilities": "Cap" }, "NativeMobileAdditionalInformation": "native mobile additional info" } |
-        | Sln2     | Mobile Connection Details Only | Mobile Connection Details Only 1 | { "ClientApplicationTypes" : [ "native-mobile"], "MobileConnectionDetails": { "ConnectionType": [ "3G", "4G" ], "MinimumConnectionSpeed": "1GBps", "Description": "A connecton detail description" } }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+        | Solution | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+        | Sln1     | { "ClientApplicationTypes" : [ "native-mobile"], "MobileOperatingSystems": { "OperatingSystems": ["Windows", "Linux"], "OperatingSystemsDescription": "For windows only version 10" }, "NativeMobileFirstDesign": true, "MobileConnectionDetails": { "ConnectionType": [ "3G", "4G" ], "MinimumConnectionSpeed": "1GBps", "Description": "A connecton detail description" }, "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "500MB", "Description": "Storage Description" }, "NativeMobileHardwareRequirements": "A native mobile hardware requirement", "MobileThirdParty": { "ThirdPartyComponents": "Components", "DeviceCapabilities": "Cap" }, "NativeMobileAdditionalInformation": "native mobile additional info" } |
 
 @3605
 Scenario:1. Get Solution Preview contains client application types native-mobile answers for all data
     When a GET request is made for solution preview Sln1
     Then a successful response is returned
     And the solution client-application-types section is returned
-    And the solution client-application-types section contains operating-systems
-        | OperatingSystems |
-        | Windows, Linux   |
-   And the solution client-application-types section contains operating-systems-description with value For windows only version 10
-   And the solution native-mobile native-mobile-connection-details section contains connection-types
-        | ConnectionTypes |
-        | 3G,4G           |
-    And the solution native-mobile native-mobile-first section contains mobile-first-design with value Yes
-    And the solution native-mobile native-mobile-connection-details section contains minimum-connection-speed with value 1GBps
-    And the solution native-mobile native-mobile-connection-details section contains connection-requirements-description with value A connecton detail description
-    And the solution client-application-types section contains minimum-memory-requirement with value 500MB
-    And the solution client-application-types section contains storage-requirements-description with value Storage Description
-    And the solution native-mobile native-mobile-hardware-requirements section contains hardware-requirements with value A native mobile hardware requirement
-    And the solution native-mobile native-mobile-third-party section contains third-party-components with value Components
-    And the solution native-mobile native-mobile-third-party section contains device-capabilities with value Cap
-    And the solution client-application-types section contains native-mobile-additional-information with value native mobile additional info
-
-
-Scenario:2. Get Solution Preview contains client application types native-mobile answers for mobile connection details
-    When a GET request is made for solution preview Sln2
-    Then a successful response is returned
-    And the solution client-application-types section is returned
-   And the solution native-mobile native-mobile-connection-details section contains connection-types
-        | ConnectionTypes |
-        | 3G,4G           |
-    And the solution native-mobile native-mobile-connection-details section contains minimum-connection-speed with value 1GBps
-    And the solution native-mobile native-mobile-connection-details section contains connection-requirements-description with value A connecton detail description
-    And the solution native-mobile native-mobile-first section does not contain mobile-first-design
-    And the solution native-mobile native-mobile-additional-information section does not contain additional-information
-
+    And the response contains the following values
+        | Section                              | Field                               | Value                                |
+        | native-mobile-connection-details     | connection-types                    | 3G,4G                                |
+        | native-mobile-connection-details     | minimum-connection-speed            | 1GBps                                |
+        | native-mobile-connection-details     | connection-requirements-description | A connecton detail description       |
+        | native-mobile-third-party            | third-party-components              | Components                           |
+        | native-mobile-third-party            | device-capabilities                 | Cap                                  |
+        | native-mobile-operating-systems      | operating-systems                   | Windows, Linux                       |
+        | native-mobile-operating-systems      | operating-systems-description       | For windows only version 10          |
+        | native-mobile-first                  | mobile-first-design                 | Yes                                  |
+        | native-mobile-memory-and-storage     | minimum-memory-requirement          | 500MB                                |
+        | native-mobile-memory-and-storage     | storage-requirements-description    | Storage Description                  |
+        | native-mobile-hardware-requirements  | hardware-requirements               | A native mobile hardware requirement |
+        | native-mobile-additional-information | additional-information              | native mobile additional info        |

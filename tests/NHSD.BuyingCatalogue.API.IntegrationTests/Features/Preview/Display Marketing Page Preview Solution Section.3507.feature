@@ -1,4 +1,4 @@
-Feature: Display Marketing Page Public Solution Section
+Feature: Display Marketing Page Preview Solution Section
 	As a Supplier
     I want to manage Marketing Page Information for the Solution Section
     So that I can ensure the information is correct
@@ -20,7 +20,7 @@ Background:
 
 @3507
 Scenario: 1. Solution section is presented where the solution isFoundation is true
-    When a GET request is made for solution public Sln1
+    When a GET request is made for solution preview Sln1
     Then a successful response is returned
     And the string value of element supplierName is Supplier 1
     And the string value of element isFoundation is True
@@ -28,7 +28,7 @@ Scenario: 1. Solution section is presented where the solution isFoundation is tr
 
 @3507
 Scenario: 2. Solution section is presented where the solution isFoundation is false
-    When a GET request is made for solution public Sln2
+    When a GET request is made for solution preview Sln2
     Then a successful response is returned
     And the string value of element supplierName is Supplier 2
     And the string value of element isFoundation is False
@@ -36,7 +36,7 @@ Scenario: 2. Solution section is presented where the solution isFoundation is fa
 
 @3507
 Scenario: 3. Solution is not linked to Framework Solution
-    When a GET request is made for solution public Sln3
+    When a GET request is made for solution preview Sln3
     Then a successful response is returned
     And the string value of element supplierName is Supplier 2
     And the string value of element isFoundation is False

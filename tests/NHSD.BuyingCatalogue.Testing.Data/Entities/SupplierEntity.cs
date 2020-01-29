@@ -58,7 +58,8 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             return await SqlRunner.FetchAllAsync<SupplierEntity>($@"SELECT
                                 [Id],
                                 [Summary],
-                                [SupplierUrl]
+                                [SupplierUrl],
+	                            [LastUpdated]
                                 FROM Supplier").ConfigureAwait(false);
         }
 

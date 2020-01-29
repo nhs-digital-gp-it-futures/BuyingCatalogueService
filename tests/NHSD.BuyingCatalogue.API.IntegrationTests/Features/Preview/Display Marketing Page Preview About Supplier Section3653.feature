@@ -21,24 +21,30 @@ Background:
 Scenario: 1. About supplier section presented where description and link exists
 	When a GET request is made for solution preview Sln4
 	Then a successful response is returned
-    And the solutions about-supplier section is returned
-	And the solutions about-supplier.answers section contains description with value Supplier summary 4
-	And the solutions about-supplier.answers section contains link with value supplier-url4
+	And the solutions about-supplier section is returned
+	And the response contains the following values
+		| Section        | Field       | Value              |
+		| about-supplier | description | Supplier summary 4 |
+		| about-supplier | link        | supplier-url4      |
 
 @3653
 Scenario: 2. About supplier section presented where description exists
 	When a GET request is made for solution preview Sln3
 	Then a successful response is returned
-    And the solutions about-supplier section is returned
-	And the solutions about-supplier.answers section contains description with value Supplier summary 3
+	And the solutions about-supplier section is returned
+	And the response contains the following values
+		| Section        | Field       | Value              |
+		| about-supplier | description | Supplier summary 3 |
 	And the solutions about-supplier section does not contain answer link
 
 @3653
 Scenario: 3. About supplier section presented where link exists
 	When a GET request is made for solution preview Sln2
 	Then a successful response is returned
-    And the solutions about-supplier section is returned
-	And the solutions about-supplier.answers section contains link with value supplier-url2
+	And the solutions about-supplier section is returned
+	And the response contains the following values
+		| Section        | Field       | Value              |
+		| about-supplier | link        | supplier-url2      |
 	And the solutions about-supplier section does not contain answer description
 
 @3653
