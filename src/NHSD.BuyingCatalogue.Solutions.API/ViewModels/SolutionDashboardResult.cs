@@ -62,6 +62,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         [JsonProperty("roadmap")]
         public DashboardSection RoadMapSection { get; }
 
+        [JsonProperty("integrations")]
+        public DashboardSection IntegrationsSection { get; }
+
         /// <summary>
         /// Initialises a new instance of the <see cref="SolutionDashboardSections"/> class.
         /// </summary>
@@ -84,6 +87,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
             HostingTypeOnPremiseSection = DashboardSection.Optional(solution.Hosting.IsOnPremiseComplete());
             AboutSupplierSection = DashboardSection.Optional(solution.Supplier.IsSupplierComplete());
             RoadMapSection = DashboardSection.Optional(solution.IsRoadMapComplete());
+            IntegrationsSection = DashboardSection.Optional(false);
         }
     }
 
