@@ -25,4 +25,8 @@
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Testing.Tools\NHSD.BuyingCatalogue.Testing.Tools.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="Features\Dashboard\Display Marketing Page Dashboard Implementation Timescales Section.3669.feature" />
+  </ItemGroup>
+
 </Project>
