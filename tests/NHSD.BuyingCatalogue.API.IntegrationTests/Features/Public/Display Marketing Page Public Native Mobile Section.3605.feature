@@ -8,9 +8,9 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionID | SolutionName                   | OrganisationName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline                    | GPs-R-Us         | 1                | Sup 1      |
-        | Sln2       | Mobile Connection Details Only | GPs-R-Us         | 1                | Sup 1      |
+        | SolutionID | SolutionName                   | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline                    | 1                | Sup 1      |
+        | Sln2       | Mobile Connection Details Only | 1                | Sup 1      |
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription                  | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
         | Sln1     | Online Description             | Online medicine 1                | { "ClientApplicationTypes" : [ "native-mobile"], "MobileOperatingSystems": { "OperatingSystems": ["Windows", "Linux"], "OperatingSystemsDescription": "For windows only version 10" }, "NativeMobileFirstDesign": true, "MobileConnectionDetails": { "ConnectionType": [ "3G", "4G" ], "MinimumConnectionSpeed": "1GBps", "Description": "A connecton detail description" }, "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "500MB", "Description": "Storage Description" }, "NativeMobileHardwareRequirements": "A native mobile hardware requirement", "NativeMobileAdditionalInformation": "native mobile additional info" } |

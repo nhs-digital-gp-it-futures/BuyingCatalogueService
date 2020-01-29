@@ -8,9 +8,9 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
-        | Sol1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
-        | Sol2       | TakeTheRedPill | GPs-R-Us         | 1                | Sup 1      |
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
+        | Sol1       | MedicOnline    | 1                | Sup 1      |
+        | Sol2       | TakeTheRedPill | 1                | Sup 1      |
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription | Features                          |
         | Sol1     | UrlSln1  | The best solution  | [ "Appointments", "Prescribing" ] |

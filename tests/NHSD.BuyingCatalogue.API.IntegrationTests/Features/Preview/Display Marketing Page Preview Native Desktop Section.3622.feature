@@ -8,8 +8,8 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionID | SolutionName | OrganisationName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline  | GPs-R-Us         | 1                | Sup 1      |
+        | SolutionID | SolutionName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline  | 1                | Sup 1      |
     And SolutionDetail exist
         | Solution | SummaryDescription | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
         | Sln1     | Online Description | Online medicine 1 | { "ClientApplicationTypes" : [ "native-desktop"], "NativeDesktopHardwareRequirements": "A native desktop hardware requirement","NativeDesktopOperatingSystemsDescription": "A native desktop OS description", "NativeDesktopMinimumConnectionSpeed": "2Mbps", "NativeDesktopThirdParty": { "ThirdPartyComponents": "Components", "DeviceCapabilities": "Capabilities" }, "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "StorageRequirementsDescription": "A description", "MinimumCpu": "3.5Ghz", "RecommendedResolution": "800x600" }, "NativeDesktopAdditionalInformation": "some additional information" } |

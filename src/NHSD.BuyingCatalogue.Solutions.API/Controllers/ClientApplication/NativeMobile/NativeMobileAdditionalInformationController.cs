@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
 using MediatR;
@@ -41,8 +42,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Nativ
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> UpdateAdditionalInformationAsync([FromRoute] [Required] string id,
             [FromBody] [Required]
-            UpdateSolutionNativeMobileAdditionalInformationViewModel viewModel) =>
-            (await _mediator.Send(new UpdateSolutionNativeMobileAdditionalInformationCommand(id, viewModel))
+            UpdateNativeMobileAdditionalInformationViewModel viewModel) =>
+            (await _mediator.Send(new UpdateSolutionNativeMobileAdditionalInformationCommand(id, viewModel?.NativeMobileAdditionalInformation))
                 .ConfigureAwait(false)).ToActionResult();
     }
 }
