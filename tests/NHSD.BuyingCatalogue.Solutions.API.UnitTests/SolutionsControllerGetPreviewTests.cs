@@ -130,7 +130,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase("", false)]
         public async Task ShouldGetPreviewCalculateRoadMap(string description, bool hasData)
         {
-            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s => s.RoadMap == description))
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s => s.RoadMap.Summary == description))
                 .ConfigureAwait(false);
 
             if (hasData)

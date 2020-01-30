@@ -14,6 +14,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicationBySolutionId;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetRoadMapBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;

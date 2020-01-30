@@ -5,5 +5,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetRoadMapBySolutio
     internal sealed class RoadMapDto : IRoadMap
     {
         public string Summary { get; set; }
+        public bool HasDocument { get; set; }
     }
 }

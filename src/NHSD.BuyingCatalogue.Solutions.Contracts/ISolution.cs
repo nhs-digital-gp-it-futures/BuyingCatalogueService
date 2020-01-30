@@ -42,9 +42,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         IEnumerable<string> Features { get; }
 
         /// <summary>
-        /// Gets or sets the Road Map description.
+        /// Gets or sets the Road Map.
         /// </summary>
-        string RoadMap { get; }
+        IRoadMap RoadMap { get; }
 
         /// <summary>
         /// A link to provide more information about a solution.

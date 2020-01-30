@@ -154,7 +154,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                     s.Id == SolutionId1 &&
                     s.PublishedStatus == PublishedStatus.Published &&
-                    s.RoadMap == description), SolutionId1)
+                    s.RoadMap.Summary == description), SolutionId1)
                 .ConfigureAwait(false);
 
             publicResult.Id.Should().Be(SolutionId1);
