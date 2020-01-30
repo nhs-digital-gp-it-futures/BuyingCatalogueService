@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.Data;
@@ -33,7 +34,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             serviceCollection.RegisterData();
             serviceCollection.RegisterSolutionsPersistence();
+            var logger = new Mock<ILogger<DbConnector>>();
 
+            serviceCollection.AddSingleton(logger.Object);
             serviceCollection.AddSingleton<Scope>();
 
             _scope = serviceCollection.BuildServiceProvider().GetService<Scope>();

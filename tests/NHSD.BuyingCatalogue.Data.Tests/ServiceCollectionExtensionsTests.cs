@@ -1,5 +1,6 @@
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure.HealthChecks;
@@ -17,6 +18,9 @@ namespace NHSD.BuyingCatalogue.Data.Tests
         {
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddSingleton(Mock.Of<ISettings>());
+            var logger = new Mock<ILogger<DbConnector>>();
+
+            serviceCollection.AddSingleton(logger.Object);
             serviceCollection.RegisterData();
 
             var provider = serviceCollection.BuildServiceProvider();
