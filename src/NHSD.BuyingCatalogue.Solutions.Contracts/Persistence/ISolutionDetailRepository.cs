@@ -69,7 +69,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         /// </summary>
         /// <param name="solutionId">The ID of the solution</param>
         /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
-        /// <returns>A task containing the hosting data</returns>
+        /// <returns>A task containing the roadmap data</returns>
         Task<IRoadMapResult> GetRoadMapBySolutionIdAsync(string solutionId, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Retrieve the integrations details for a solution
+        /// </summary>
+        /// <param name="solutionId">The ID of the solution</param>
+        /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
+        /// <returns>A task containing the integrations data</returns>
+        Task<IIntegrationsResult> GetIntegrationsBySolutionIdAsync(string solutionId, CancellationToken cancellationToken);
     }
 }

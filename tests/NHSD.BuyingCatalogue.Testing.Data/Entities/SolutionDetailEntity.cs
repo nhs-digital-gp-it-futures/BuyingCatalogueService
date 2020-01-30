@@ -23,6 +23,9 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public string RoadMap { get; set; }
 
+
+        public string IntegrationsUrl { get; set; }
+
         public string RoadMapImageUrl { get; set; }
 
         public string AboutUrl { get; set; }
@@ -35,20 +38,21 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         INSERT INTO [dbo].[SolutionDetail]
         ([Id]
         ,[SolutionId]
-        ,[PublishedStatusId]        
+        ,[PublishedStatusId]
         ,[Features]
         ,[ClientApplication]
         ,[Hosting]
         ,[ImplementationDetail]
         ,[RoadMap]
         ,[RoadMapImageUrl]
+        ,[IntegrationsUrl]
         ,[AboutUrl]
         ,[Summary]
         ,[FullDescription]
         ,[LastUpdated]
         ,[LastUpdatedBy])
         VALUES
-            (@Id          
+            (@Id
             ,@SolutionId
             ,@PublishedStatusId
             ,@Features
@@ -57,6 +61,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             ,@ImplementationDetail
             ,@RoadMap
             ,@RoadMapImageUrl
+            ,@IntegrationsUrl
             ,@AboutUrl
             ,@Summary
             ,@FullDescription
@@ -66,16 +71,17 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public static async Task<IEnumerable<SolutionDetailEntity>> FetchAllAsync()
         {
-            return await SqlRunner.FetchAllAsync<SolutionDetailEntity>($@"SELECT 
+            return await SqlRunner.FetchAllAsync<SolutionDetailEntity>($@"SELECT
                            [Id]
                             ,[SolutionId]
-                            ,[PublishedStatusId]        
+                            ,[PublishedStatusId]
                             ,[Features]
                             ,[ClientApplication]
                             ,[Hosting]
                             ,[ImplementationDetail]
                             ,[RoadMap]
                             ,[RoadMapImageUrl]
+                            ,[IntegrationsUrl]
                             ,[AboutUrl]
                             ,[Summary]
                             ,[FullDescription]
