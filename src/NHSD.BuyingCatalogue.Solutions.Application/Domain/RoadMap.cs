@@ -4,6 +4,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
     {
         public string Summary { get; set; }
 
-        public bool HasDocument { get; set; }
+        public string DocumentName { get; set; }
     }
 }

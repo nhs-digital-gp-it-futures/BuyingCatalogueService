@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NHSD.BuyingCatalogue.API.Extensions;
@@ -35,6 +36,7 @@ namespace NHSD.BuyingCatalogue.API
         /// Configures the services for the application.
         /// </summary>
         /// <param name="services">The collection of services.</param>
+        /// <param name="configuration">the app configuration</param>
         /// <remarks>This method gets called by the runtime. Use this method to add services to the container.</remarks>
         public void ConfigureServices(IServiceCollection services)
         {

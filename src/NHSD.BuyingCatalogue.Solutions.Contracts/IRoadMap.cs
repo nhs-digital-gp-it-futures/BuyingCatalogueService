@@ -3,6 +3,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
     public interface IRoadMap
     {
         string Summary { get; }
-        bool HasDocument { get; }
+        string DocumentName { get; }
     }
 }

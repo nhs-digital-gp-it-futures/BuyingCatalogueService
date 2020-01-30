@@ -8,8 +8,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         [JsonProperty("summary")]
         public string Summary { get; }
 
-        [JsonProperty("hasDocument")]
-        public bool? HasDocument { get; }
+        [JsonProperty("documentName")]
+        public string DocumentName { get; }
 
         [JsonIgnore]
         public bool HasData => !string.IsNullOrWhiteSpace(Summary);
@@ -17,7 +17,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         public RoadMapSectionAnswers(IRoadMap roadMap)
         {
             Summary = roadMap?.Summary;
-            HasDocument = roadMap?.HasDocument;
+            DocumentName = roadMap?.DocumentName;
         }
     }
 }

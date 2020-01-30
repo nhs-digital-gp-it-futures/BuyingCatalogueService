@@ -61,6 +61,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
         public Mock<ISupplierRepository> MockSupplierRepository { get; private set; }
 
+        public Mock<IDocumentRepository> MockDocumentRepository { get; private set; }
+
         public GetSolutionByIdHandler GetSolutionByIdHandler => (GetSolutionByIdHandler)_scope.GetSolutionByIdHandler;
 
         public GetRoadMapBySolutionIdHandler GetRoadMapBySolutionIdHandler => (GetRoadMapBySolutionIdHandler)_scope.GetRoadMapByIdHandler;
@@ -187,6 +189,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             serviceCollection.AddSingleton(MockMarketingContactRepository.Object);
             MockSupplierRepository = new Mock<ISupplierRepository>();
             serviceCollection.AddSingleton(MockSupplierRepository.Object);
+            MockDocumentRepository = new Mock<IDocumentRepository>();
+            serviceCollection.AddSingleton(MockDocumentRepository.Object);
         }
 
         private class Scope

@@ -94,12 +94,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public Supplier Supplier { get; set; }
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="Solution"/> class.
+        /// Initialises a new instance of the <see cref="Solution" /> class.
         /// </summary>
         internal Solution(ISolutionResult solutionResult,
             IEnumerable<ISolutionCapabilityListResult> solutionCapabilityListResult,
             IEnumerable<IMarketingContactResult> contactResult,
-            ISupplierResult supplierResult)
+            ISupplierResult supplierResult,
+            IDocumentResult documentResult)
         {
             Id = solutionResult.Id;
             Name = solutionResult.Name;
@@ -110,7 +111,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
                 ? new List<string>()
                 : JsonConvert.DeserializeObject<IEnumerable<string>>(solutionResult.Features);
             AboutUrl = solutionResult.AboutUrl;
-            RoadMap = new RoadMap {Summary = solutionResult.RoadMap};
+            RoadMap = new RoadMap {Summary = solutionResult.RoadMap, DocumentName = documentResult?.RoadMapDocumentName};
             ClientApplication = string.IsNullOrWhiteSpace(solutionResult.ClientApplication)
                 ? new ClientApplication()
                 : JsonConvert.DeserializeObject<ClientApplication>(solutionResult.ClientApplication);
@@ -126,7 +127,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         }
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="Solution"/> class.
+        /// Initialises a new instance of the <see cref="Solution" /> class.
         /// </summary>
         public Solution()
         {
@@ -134,7 +135,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
             PublishedStatus = PublishedStatus.Draft;
         }
 
-        private DateTime GetLatestLastUpdated(ISolutionResult solutionResult, IEnumerable<IMarketingContactResult> contactResult) =>
+        private DateTime GetLatestLastUpdated(ISolutionResult solutionResult,
+            IEnumerable<IMarketingContactResult> contactResult) =>
             new List<DateTime>
             {
                 solutionResult.LastUpdated,
