@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
@@ -27,10 +28,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             _controller = new IntegrationsController(_mockMediator.Object);
         }
 
-        [Test]
-        public async Task ShouldGetIntegrations()
+        [TestCase("Some integrations url")]
+        [TestCase(null)]
+        public async Task ShouldGetIntegrations(string url)
         {
-            var url = "Some integrations url";
             _mockMediator.Setup(m => m.Send(It.Is<GetIntegrationsBySolutionIdQuery>(r => r.Id == SolutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Mock.Of<IIntegrations>(m => m.Url == url));
 

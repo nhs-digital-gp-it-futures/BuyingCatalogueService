@@ -64,9 +64,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
         public GetSolutionByIdHandler GetSolutionByIdHandler => (GetSolutionByIdHandler)_scope.GetSolutionByIdHandler;
 
-        public GetRoadMapBySolutionIdHandler GetRoadMapBySolutionIdHandler => (GetRoadMapBySolutionIdHandler)_scope.GetRoadMapByIdHandler;
+        public GetRoadMapBySolutionIdHandler GetRoadMapBySolutionIdHandler => (GetRoadMapBySolutionIdHandler)_scope.GetRoadMapBySolutionIdHandler;
 
-        public GetIntegrationsBySolutionIdHandler GetIntegrationsBySolutionIdHandler => (GetIntegrationsBySolutionIdHandler)_scope.GetIntegrationsByIdHandler;
+        public GetIntegrationsBySolutionIdHandler GetIntegrationsBySolutionIdHandler => (GetIntegrationsBySolutionIdHandler)_scope.GetIntegrationsBySolutionIdHandler;
 
         public GetClientApplicationBySolutionIdHandler GetClientApplicationBySolutionIdHandler => (GetClientApplicationBySolutionIdHandler)_scope.GetClientApplicationBySolutionIdHandler;
 
@@ -202,9 +202,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public IRequestHandler<GetSupplierBySolutionIdQuery, ISupplier> GetSupplierBySolutionIdHandler { get; }
 
-            public IRequestHandler<GetRoadMapBySolutionIdQuery, IRoadMap> GetRoadMapByIdHandler { get; }
+            public IRequestHandler<GetRoadMapBySolutionIdQuery, IRoadMap> GetRoadMapBySolutionIdHandler { get; }
 
-            public IRequestHandler<GetIntegrationsBySolutionIdQuery, IIntegrations> GetIntegrationsByIdHandler { get; }
+            public IRequestHandler<GetIntegrationsBySolutionIdQuery, IIntegrations> GetIntegrationsBySolutionIdHandler { get; }
 
             public IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> SubmitSolutionForReviewHandler { get; }
 
@@ -302,8 +302,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdateOnPremiseCommand, ISimpleResult> updateOnPremiseHandler,
                 IRequestHandler<UpdateHybridHostingTypeCommand, ISimpleResult> updateHybridHostingTypeHandler,
                 IRequestHandler<UpdateRoadmapCommand, ISimpleResult> updateRoadmapHandler,
-                IRequestHandler<GetRoadMapBySolutionIdQuery, IRoadMap> getRoadMapByIdHandler,
-                IRequestHandler<GetIntegrationsBySolutionIdQuery, IIntegrations> getIntegrationsByIdHandler,
+                IRequestHandler<GetRoadMapBySolutionIdQuery, IRoadMap> getRoadMapBySolutionIdHandler,
+                IRequestHandler<GetIntegrationsBySolutionIdQuery, IIntegrations> getIntegrationsBySolutionIdHandler,
                 IRequestHandler<UpdateSupplierCommand, ISimpleResult> updateSupplierRequestHandler)
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;
@@ -340,8 +340,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 UpdateOnPremiseHandler = updateOnPremiseHandler;
                 UpdateHybridHostingTypeHandler = updateHybridHostingTypeHandler;
                 UpdateRoadmapHandler = updateRoadmapHandler;
-                GetRoadMapByIdHandler = getRoadMapByIdHandler;
-                GetIntegrationsByIdHandler = getIntegrationsByIdHandler;
+                GetRoadMapBySolutionIdHandler = getRoadMapBySolutionIdHandler;
+                GetIntegrationsBySolutionIdHandler = getIntegrationsBySolutionIdHandler;
                 UpdateSupplierHandler = updateSupplierRequestHandler;
             }
         }

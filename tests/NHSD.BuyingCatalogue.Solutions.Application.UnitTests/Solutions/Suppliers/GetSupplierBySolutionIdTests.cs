@@ -52,7 +52,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
         }
 
         [Test]
-        public async Task EmptySupplierResultReturnsDefaultSuppler()
+        public async Task EmptySupplierResultReturnsDefaultSupplier()
         {
             _supplierResult = Mock.Of<ISupplierResult>(r =>
                 r.SolutionId == _solutionId &&
