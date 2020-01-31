@@ -4,7 +4,7 @@ using Serilog;
 
 namespace NHSD.BuyingCatalogue.API.Infrastructure.Filters
 {
-    public class SerilogLoggingActionFilter : IActionFilter
+    public sealed class SerilogLoggingActionFilter : IActionFilter
     {
         private readonly IDiagnosticContext _diagnosticContext;
         public SerilogLoggingActionFilter(IDiagnosticContext diagnosticContext)

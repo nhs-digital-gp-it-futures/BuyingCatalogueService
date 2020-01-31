@@ -14,7 +14,6 @@ namespace NHSD.BuyingCatalogue.API
 	{
 		public static int Main(string[] args)
         {
-            Environment.GetEnvironmentVariable("LOGGERSTYLE");
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)

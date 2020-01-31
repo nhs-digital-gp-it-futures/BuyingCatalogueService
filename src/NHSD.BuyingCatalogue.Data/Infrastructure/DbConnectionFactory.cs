@@ -36,9 +36,9 @@ namespace NHSD.BuyingCatalogue.Data.Infrastructure
             var connection = SqlClientFactory.Instance.CreateConnection();
             connection.ConnectionString = connectionStringBuilder.ThrowIfNull().ConnectionString;
 
-            if (connection is SqlConnection s)
+            if (connection is SqlConnection sqlConnection)
             {
-                s.StatisticsEnabled = true;
+                sqlConnection.StatisticsEnabled = true;
             }
 
             await connection.OpenAsync(cancellationToken).ConfigureAwait(false);

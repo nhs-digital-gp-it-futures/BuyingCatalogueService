@@ -38,9 +38,9 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.Logging
             }
         }
 
-        private static bool IsHealthCheckEndpoint(HttpContext ctx)
+        private static bool IsHealthCheckEndpoint(HttpContext httpContext)
         {
-            var endpoint = ctx.GetEndpoint();
+            var endpoint = httpContext.GetEndpoint();
             if (endpoint != null) 
             {
                 return string.Equals(
@@ -53,8 +53,8 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.Logging
             return false;
         }
 
-        public static LogEventLevel ExcludeHealthChecks(HttpContext ctx, double elapsedMs, Exception ex) =>
-            ex != null
+        public static LogEventLevel ExcludeHealthChecks(HttpContext ctx, double elapsedMs, Exception exception) =>
+            exception != null
                 ? LogEventLevel.Error
                 : ctx == null || ctx.Response.StatusCode > 499
                     ? LogEventLevel.Error

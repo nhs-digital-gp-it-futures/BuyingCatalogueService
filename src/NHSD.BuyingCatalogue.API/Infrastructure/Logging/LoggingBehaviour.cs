@@ -11,15 +11,18 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.Logging
     public sealed class LoggingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
         private readonly ILogger<LoggingBehaviour<TRequest, TResponse>> _logger;
+
         public LoggingBehaviour(ILogger<LoggingBehaviour<TRequest, TResponse>> logger)
         {
             _logger = logger;
         }
+
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
+            next = next.ThrowIfNull();
+
             try
             {
-                next = next.ThrowIfNull();
                 var stopWatch = new Stopwatch();
                 stopWatch.Start();
                 
