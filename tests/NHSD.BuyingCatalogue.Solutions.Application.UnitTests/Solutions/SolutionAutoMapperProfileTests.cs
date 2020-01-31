@@ -14,6 +14,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicationBySolutionId;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetIntegrationsBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;
@@ -72,6 +73,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             yield return new KeyValuePair<Type, Type>(typeof(Supplier), typeof(ISupplier));
             yield return new KeyValuePair<Type, Type>(typeof(RoadMap), typeof(RoadMapDto));
             yield return new KeyValuePair<Type, Type>(typeof(RoadMap), typeof(IRoadMap));
+            yield return new KeyValuePair<Type, Type>(typeof(Integrations), typeof(IntegrationsDto));
+            yield return new KeyValuePair<Type, Type>(typeof(Integrations), typeof(IIntegrations));
         }
 
         [Test]
