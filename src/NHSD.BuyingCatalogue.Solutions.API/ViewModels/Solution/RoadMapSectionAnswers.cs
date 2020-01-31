@@ -12,7 +12,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         public string DocumentName { get; }
 
         [JsonIgnore]
-        public bool HasData => !string.IsNullOrWhiteSpace(Summary);
+        public bool HasData => !string.IsNullOrWhiteSpace(Summary) || !string.IsNullOrWhiteSpace(DocumentName);
 
         public RoadMapSectionAnswers(IRoadMap roadMap)
         {
