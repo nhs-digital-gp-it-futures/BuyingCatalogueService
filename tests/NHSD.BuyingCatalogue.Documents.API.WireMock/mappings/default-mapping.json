@@ -1,0 +1,44 @@
+[
+    {
+      "Guid": "ab5db982-c25a-40d4-941c-7896bae96798",
+      "Request": {
+        "Path": {
+          "Matchers": [
+            {
+              "Name": "WildcardMatcher",
+              "Pattern": "/api/v1/solutions/*/documents",
+              "IgnoreCase": true
+            }
+          ]
+        },
+        "Methods": [
+          "GET"
+        ]
+      },
+      "Response": {
+        "Body": "[]",
+        "Headers": {}
+      }
+    },
+    {
+        "Guid": "db9e853a-73f0-4605-ad83-240c8e634460",
+        "Request": {
+          "Path": {
+            "Matchers": [
+              {
+                "Name": "WildcardMatcher",
+                "Pattern": "/",
+                "IgnoreCase": false
+              }
+            ]
+          },
+          "Methods": [
+            "GET"
+          ]
+        },
+        "Response": {
+          "Body": "Hello World",
+          "Headers": {}
+        }
+      }
+]

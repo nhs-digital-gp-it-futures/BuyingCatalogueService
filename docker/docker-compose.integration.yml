@@ -26,6 +26,18 @@ services:
     ports:
       - "8080:80"
 
+
+  nhsd.buyingcatalogue.documents.api.wiremock:
+    container_name: documents_api_wiremock
+    build: 
+      context: ../tests/NHSD.BuyingCatalogue.Documents.API.WireMock/
+      dockerfile: Dockerfile    
+    networks:
+      - integration_network    
+    ports:
+      - "9090:80"
+
+
 networks: 
   integration_network:
     name: integration_network
