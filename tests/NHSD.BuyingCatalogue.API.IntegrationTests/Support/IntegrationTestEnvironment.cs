@@ -7,6 +7,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
         public static async Task StartAsync()
         {
             await BuyingCatalogueService.AwaitApiRunningAsync().ConfigureAwait(false);
+            //TODO: Check Wiremock / DOc API is running
+
         }
     }
 }
