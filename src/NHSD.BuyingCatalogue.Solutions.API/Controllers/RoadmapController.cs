@@ -39,7 +39,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
             return Ok(new RoadMapResult(roadMap?.Summary));
         }
 
-
         /// <summary>
         /// Updates the roadmap details of a solution matching the supplied ID.
         /// </summary>
