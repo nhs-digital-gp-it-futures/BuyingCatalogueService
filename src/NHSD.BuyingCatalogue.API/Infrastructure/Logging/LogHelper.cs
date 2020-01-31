@@ -53,12 +53,12 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.Logging
             return false;
         }
 
-        public static LogEventLevel ExcludeHealthChecks(HttpContext ctx, double elapsedMs, Exception exception) =>
+        public static LogEventLevel ExcludeHealthChecks(HttpContext httpContext, double elapsedMs, Exception exception) =>
             exception != null
                 ? LogEventLevel.Error
-                : ctx == null || ctx.Response.StatusCode > 499
+                : httpContext == null || httpContext.Response.StatusCode > 499
                     ? LogEventLevel.Error
-                    : IsHealthCheckEndpoint(ctx) // Not an error, check if it was a health check
+                    : IsHealthCheckEndpoint(httpContext) // Not an error, check if it was a health check
                         ? LogEventLevel.Verbose // Was a health check, use Verbose
                         : LogEventLevel.Information;
     }
