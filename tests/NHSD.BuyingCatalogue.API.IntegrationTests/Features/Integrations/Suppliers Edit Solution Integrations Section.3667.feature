@@ -42,7 +42,7 @@ Feature: Suppliers Edit Solution Integrations Section
         And Last Updated has updated on the SolutionDetail for solution Sln1
 
     @3667
-    Scenario: 3. Solution integrations section data is not created on update, fail fast in this case
+    Scenario: 3. Solution integrations section data is not created on update if no SolutionDetail
         Given a SolutionDetail Sln3 does not exist
         When a PUT request is made to update the integrations section for solution Sln3
             | IntegrationsUrl        |

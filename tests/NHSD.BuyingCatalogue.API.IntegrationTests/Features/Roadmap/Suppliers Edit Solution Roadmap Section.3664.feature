@@ -40,9 +40,9 @@ Scenario: 2. Solution roadmap section data is updated with trimmed whitespace
         | Sln1     | A new full summary               |
         | Sln2     | Another original roadmap summary |
     And Last Updated has updated on the SolutionDetail for solution Sln1
-    
+
 @3664
-Scenario: 3. Solution roadmap section data is not created on update, fail fast in this case
+Scenario: 3. Solution roadmap section data is not created on update if no SolutionDetail
     Given a SolutionDetail Sln3 does not exist
     When a PUT request is made to update the roadmap section for solution Sln3
         | Summary            |
@@ -56,7 +56,7 @@ Scenario: 4. Solution not found
         | Summary            |
         | A new full summary |
     Then a response status of 404 is returned
-    
+
 @3664
 Scenario: 5. Service failure
     Given the call to the database to set the field will fail
@@ -64,7 +64,7 @@ Scenario: 5. Service failure
         | Summary            |
         | A new full summary |
     Then a response status of 500 is returned
-    
+
 @3664
 Scenario: 6. Solution id not present in request
     When a PUT request is made to update the roadmap section with no solution id

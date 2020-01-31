@@ -4,7 +4,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateIntegrations
 {
-    public class UpdateIntegrationsCommand : IRequest<ISimpleResult>
+    public sealed class UpdateIntegrationsCommand : IRequest<ISimpleResult>
     {
         public string SolutionId { get; }
 

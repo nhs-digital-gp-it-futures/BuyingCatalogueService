@@ -11,7 +11,7 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 {
     [TestFixture]
-    public class SolutionUpdateIntegrationsTests
+    public sealed class SolutionUpdateIntegrationsTests
     {
         private TestContext _context;
         private string _existingSolutionId = "Sln1";
