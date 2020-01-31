@@ -122,5 +122,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         public async Task<IIntegrationsResult> GetIntegrationsBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
             => (await _dbConnector.QueryAsync<IntegrationsResult>(GetIntegrationsBySolutionIdSql, cancellationToken, new { solutionId }).ConfigureAwait(false)).SingleOrDefault();
+
+        public async Task UpdateIntegrationsAsync(IUpdateIntegrationsRequest updateIntegrationsRequest, CancellationToken cancellationToken)
+            => await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
+                    @"SolutionDetail.IntegrationsUrl = @url", StringComparison.InvariantCulture),
+                cancellationToken,
+                updateIntegrationsRequest.ThrowIfNull(nameof(updateIntegrationsRequest))).ConfigureAwait(false);
     }
 }
