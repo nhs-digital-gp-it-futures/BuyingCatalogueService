@@ -30,6 +30,7 @@ services:
 
   nhsd.buyingcatalogue.documents.api.wiremock:
     container_name: documents_api_wiremock
+    image: ${REGISTRY:-nhsd}/buying-catalogue/documents-api-wiremock:${TAG:-latest}
     build: 
       context: ../tests/NHSD.BuyingCatalogue.Documents.API.WireMock/
       dockerfile: Dockerfile    
