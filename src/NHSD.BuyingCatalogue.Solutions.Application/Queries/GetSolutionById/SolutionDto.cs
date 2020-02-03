@@ -91,5 +91,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         /// The supplier info for the solution
         /// </summary>
         public ISupplier Supplier { get; set; }
+
+        /// <summary>
+        /// Gets or sets an integration url.
+        /// </summary>
+        public string IntegrationsUrl { get; set; }
     }
 }
