@@ -28,3 +28,13 @@ Scenario: 2. Solution Road Map section presented where no Solution Detail exists
 	When a GET request is made for solution preview Sln2
 	Then a successful response is returned
 	And the solutions roadmap section is not returned
+
+@3657
+Scenario: 3. Solution Road Map section presented where Document exists
+    Given a document named roadmap exists with solutionId Sln1
+    When a GET request is made for solution preview Sln1    
+	Then a successful response is returned
+	And the response contains the following values
+		| Section | Field        | Value            |
+		| roadmap | documentName | roadmap          |
+		| roadmap | summary      | Some description |

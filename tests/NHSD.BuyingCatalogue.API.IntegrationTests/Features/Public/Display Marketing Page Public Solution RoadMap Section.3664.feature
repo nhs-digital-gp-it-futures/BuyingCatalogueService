@@ -35,5 +35,6 @@ Scenario: 3. Solution Road Map section presented where Document exists
     When a GET request is made for solution public Sln1    
 	Then a successful response is returned
 	And the response contains the following values
-		| Section | Field   | Value            |
-		| roadmap | summary | Some description |
+		| Section | Field        | Value            |
+		| roadmap | documentName | roadmap          |
+		| roadmap | summary      | Some description |

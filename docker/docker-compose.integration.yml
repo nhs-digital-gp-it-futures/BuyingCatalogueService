@@ -18,7 +18,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      - ConnectionStrings__BuyingCatalogue=Server=db;Initial Catalog=gpitfuture-db-dev;Persist Security Info=False;User Id=NHSD;Password=DisruptTheMarket1!
+      - CONNECTIONSTRINGS__BUYINGCATALOGUE=Server=db;Initial Catalog=gpitfuture-db-dev;Persist Security Info=False;User Id=NHSD;Password=DisruptTheMarket1!
+      - APICLIENTSETTINGS__DOCUMENTAPI__BASEURL=http://nhsd.buyingcatalogue.documents.api.wiremock:80
     networks:
       - integration_network
     depends_on:
