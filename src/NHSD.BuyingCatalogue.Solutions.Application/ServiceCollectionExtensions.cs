@@ -24,6 +24,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.HybridHosting
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.OnPremise;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PublicCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PrivateCloud;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateIntegrations;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
@@ -46,12 +47,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<SupplierReader>()
                 .AddTransient<ContactDetailsReader>()
                 .AddTransient<RoadMapReader>()
+                .AddTransient<IntegrationsReader>()
                 .AddTransient<SolutionVerifier>()
                 .AddTransient<SolutionSummaryUpdater>()
                 .AddTransient<SolutionFeaturesUpdater>()
                 .AddTransient<SolutionClientApplicationUpdater>()
                 .AddTransient<SolutionHostingUpdater>()
                 .AddTransient<SolutionRoadmapUpdater>()
+                .AddTransient<SolutionIntegrationsUpdater>()
                 .AddTransient<SolutionContactDetailsUpdater>()
                 .AddTransient<ClientApplicationPartialUpdater>()
                 .AddTransient<HostingPartialUpdater>()
@@ -153,6 +156,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
 
                 .AddTransient<IExecutor<UpdateSupplierCommand>, UpdateSupplierExecutor>()
                 .AddTransient<IValidator<UpdateSupplierCommand, ISimpleResult>, UpdateSupplierValidator>()
+
+                .AddTransient<IExecutor<UpdateIntegrationsCommand>, UpdateIntegrationsExecutor>()
+                .AddTransient<IValidator<UpdateIntegrationsCommand, ISimpleResult>, UpdateIntegrationsValidator>()
                 ;
         }
     }

@@ -32,10 +32,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             _controller = new RoadmapController(_mockMediator.Object);
         }
 
-        [Test]
-        public async Task ShouldGetRoadMap()
+        [TestCase("Some roadmap summary")]
+        [TestCase(null)]
+        public async Task ShouldGetRoadMap(string summary)
         {
-            var summary = "Some roadmap summary";
             _mockMediator.Setup(m => m.Send(It.Is<GetRoadMapBySolutionIdQuery>(r => r.Id == SolutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Mock.Of<IRoadMap>(m => m.Summary == summary));
 

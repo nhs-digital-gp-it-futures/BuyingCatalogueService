@@ -19,7 +19,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         public SolutionDetailRepository(IDbConnector dbConnector) => _dbConnector = dbConnector;
 
         private const string updateTemplate = @"
-                                UPDATE  SolutionDetail                                   
+                                UPDATE  SolutionDetail
                                 SET     [Setters],
 								SolutionDetail.LastUpdated = GETDATE()
                                 FROM SolutionDetail
@@ -46,6 +46,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         const string GetRoadMapBySolutionIdSql = @"SELECT
                                     Solution.Id,
                                     SolutionDetail.RoadMap as Summary
+                                 FROM   Solution
+                                        LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
+                                 WHERE  Solution.Id = @solutionId";
+
+        const string GetIntegrationsBySolutionIdSql = @"SELECT
+                                    Solution.Id,
+                                    SolutionDetail.IntegrationsUrl as IntegrationsUrl
                                  FROM   Solution
                                         LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
                                  WHERE  Solution.Id = @solutionId";
@@ -112,5 +119,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         public async Task<IRoadMapResult> GetRoadMapBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
             => (await _dbConnector.QueryAsync<RoadMapResult>(GetRoadMapBySolutionIdSql, cancellationToken, new { solutionId }).ConfigureAwait(false)).SingleOrDefault();
+
+        public async Task<IIntegrationsResult> GetIntegrationsBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
+            => (await _dbConnector.QueryAsync<IntegrationsResult>(GetIntegrationsBySolutionIdSql, cancellationToken, new { solutionId }).ConfigureAwait(false)).SingleOrDefault();
+
+        public async Task UpdateIntegrationsAsync(IUpdateIntegrationsRequest updateIntegrationsRequest, CancellationToken cancellationToken)
+            => await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
+                    @"SolutionDetail.IntegrationsUrl = @url", StringComparison.InvariantCulture),
+                cancellationToken,
+                updateIntegrationsRequest.ThrowIfNull(nameof(updateIntegrationsRequest))).ConfigureAwait(false);
     }
 }

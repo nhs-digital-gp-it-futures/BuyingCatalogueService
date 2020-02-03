@@ -9,6 +9,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicationByS
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetRoadMapBySolutionId;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetIntegrationsBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
@@ -64,6 +65,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
             CreateMap<Supplier, ISupplier>().As<SupplierDto>();
             CreateMap<RoadMap, RoadMapDto>();
             CreateMap<RoadMap, IRoadMap>().As<RoadMapDto>();
+            CreateMap<Integrations, IntegrationsDto>();
+            CreateMap<Integrations, IIntegrations>().As<IntegrationsDto>();
         }
     }
 }

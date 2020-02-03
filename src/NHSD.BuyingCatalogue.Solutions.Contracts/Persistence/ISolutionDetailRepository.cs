@@ -43,7 +43,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         /// <summary>
         /// Update the hosting details for a solution
         /// </summary>
-        /// <param name="updateSolutionHostingRequest">The ID of the solution</param>
+        /// <param name="updateSolutionHostingRequest">The updated details of solution hosting to save to the data store</param>
         /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
         /// <returns>A task containing the hosting data</returns>
         Task UpdateHostingAsync(IUpdateSolutionHostingRequest updateSolutionHostingRequest, CancellationToken cancellationToken);
@@ -57,19 +57,35 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         Task<IHostingResult> GetHostingBySolutionIdAsync(string solutionId, CancellationToken cancellationToken);
 
         /// <summary>
+        /// Retrieve the roadmap details for a solution
+        /// </summary>
+        /// <param name="solutionId">The ID of the solution</param>
+        /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
+        /// <returns>A task containing the roadmap data</returns>
+        Task<IRoadMapResult> GetRoadMapBySolutionIdAsync(string solutionId, CancellationToken cancellationToken);
+
+        /// <summary>
         /// Update the roadmap details for a solution
         /// </summary>
-        /// <param name="updateRoadmapRequest">The ID of the solution</param>
+        /// <param name="updateRoadmapRequest">The updated details of solution roadmap to save to the data store</param>
         /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
         /// <returns>A task containing the roadmap data</returns>
         Task UpdateRoadmapAsync(IUpdateRoadmapRequest updateRoadmapRequest, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Retrieve the roadmap details for a solution
+        /// Retrieve the integrations details for a solution
         /// </summary>
         /// <param name="solutionId">The ID of the solution</param>
         /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
-        /// <returns>A task containing the hosting data</returns>
-        Task<IRoadMapResult> GetRoadMapBySolutionIdAsync(string solutionId, CancellationToken cancellationToken);
+        /// <returns>A task containing the integrations data</returns>
+        Task<IIntegrationsResult> GetIntegrationsBySolutionIdAsync(string solutionId, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Update the integrations details for a solution
+        /// </summary>
+        /// <param name="updateIntegrationsRequest">The updated details of solution integrations to save to the data store</param>
+        /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
+        /// <returns>A task containing the roadmap data</returns>
+        Task UpdateIntegrationsAsync(IUpdateIntegrationsRequest updateIntegrationsRequest, CancellationToken cancellationToken);
     }
 }

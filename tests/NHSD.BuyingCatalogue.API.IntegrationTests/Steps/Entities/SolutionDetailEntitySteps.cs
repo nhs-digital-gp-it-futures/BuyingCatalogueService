@@ -29,6 +29,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                     .WithClientApplication(solutionDetail.ClientApplication)
                     .WithHosting(solutionDetail.Hosting)
                     .WithRoadMap(solutionDetail.RoadMap)
+                    .WithIntegrationsUrl(solutionDetail.IntegrationsUrl)
                     .WithLastUpdated(solutionDetail.LastUpdated != DateTime.MinValue ? solutionDetail.LastUpdated : DateTime.UtcNow)
                     .Build()
                     .InsertAndSetCurrentForSolutionAsync()
@@ -54,7 +55,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 Summary = string.IsNullOrWhiteSpace(m.SummaryDescription) ? null : m.SummaryDescription,
                 FullDescription = string.IsNullOrWhiteSpace(m.FullDescription) ? null : m.FullDescription,
                 ClientApplication = string.IsNullOrWhiteSpace(m.ClientApplication) ? null : JToken.Parse(m.ClientApplication).ToString(),
-                Hosting = string.IsNullOrWhiteSpace(m.Hosting) ? null : JToken.Parse(m.Hosting).ToString() 
+                Hosting = string.IsNullOrWhiteSpace(m.Hosting) ? null : JToken.Parse(m.Hosting).ToString()
             });
             var solutionDetails = await SolutionDetailEntity.FetchAllAsync().ConfigureAwait(false);
             solutionDetails.Select(m => new
@@ -93,6 +94,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             public string Hosting { get; set; }
 
             public string RoadMap { get; set; }
+
+            public string IntegrationsUrl { get; set; }
 
             public DateTime LastUpdated { get; set; }
         }
