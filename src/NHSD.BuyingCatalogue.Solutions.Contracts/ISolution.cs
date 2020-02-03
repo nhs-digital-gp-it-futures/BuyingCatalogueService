@@ -90,5 +90,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         /// Marketing information related to the supplier
         /// </summary>
         ISupplier Supplier { get; }
+
+        /// <summary>
+        /// Gets or sets the Integrations url.
+        /// </summary>
+        string IntegrationsUrl { get; }
     }
 }
