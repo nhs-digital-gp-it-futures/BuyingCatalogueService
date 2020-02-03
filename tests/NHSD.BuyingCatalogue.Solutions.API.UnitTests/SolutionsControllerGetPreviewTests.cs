@@ -145,6 +145,28 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
+        [TestCase(null, false)]
+        [TestCase("some integrations url", true)]
+        [TestCase(" some integrations url    ", true)]
+        [TestCase(" ", false)]
+        [TestCase("", false)]
+        public async Task ShouldGetPreviewCalculateIntegrations(string url, bool hasData)
+        {
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s => s.IntegrationsUrl == url))
+                .ConfigureAwait(false);
+
+            if (hasData)
+            {
+                previewResult.Sections.Integrations.Should().NotBe(null);
+                previewResult.Sections.Integrations.Answers.HasData.Should().Be(true);
+                previewResult.Sections.Integrations.Answers.IntegrationsUrl.Should().Be(url);
+            }
+            else
+            {
+                previewResult.Sections.Integrations.Should().BeNull();
+            }
+        }
+
         [TestCase(false, false, null, false)]
         [TestCase(true, false, null, false)]
         [TestCase(true, true, null, true)]
