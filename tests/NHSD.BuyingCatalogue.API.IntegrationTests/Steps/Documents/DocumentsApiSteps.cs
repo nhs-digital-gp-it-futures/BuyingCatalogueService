@@ -42,6 +42,39 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Documents
             await api.PostMappingAsync(model).ConfigureAwait(false);
         }
 
+        [Given(@"the document api fails with solutionId ([\w-]*)")]
+        public async Task GivenTheDocumentApiFailsWithSolutionId(string solutionId)
+        {
+            //Send specific route map to wiremock for 500 error
+            var api = RestClient.For<IWireMockAdminApi>(new Uri(BaseWireMockUrl));
+
+            MappingModel model = new MappingModel
+            {
+                Guid = new Guid(),
+                Response = new ResponseModel { StatusCode = 500, Body = "Demo Error" }
+            };
+
+            model.Request = new RequestModel
+            {
+                Path = new PathModel
+                {
+                    Matchers = new[]
+                    {
+                        new MatcherModel
+                        {
+                            Name = "WildcardMatcher",
+                            Pattern = $"/api/v1/solutions/{solutionId}/documents",
+                            IgnoreCase = true
+                        }
+                    }
+                },
+                Methods = new[] { "GET" }
+            };
+            var response = await api.PostMappingAsync(model).ConfigureAwait(false);
+        }
+
+
+
         //TODO: Think about tear down (at end of scenario, want to clear the config)
     }
 }
