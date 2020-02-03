@@ -55,13 +55,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         /// <returns>A task representing an operation of the Dashboard Authority.</returns>
         [HttpGet]
         [Route("{id}/Dashboard/Authority")]
-        [ProducesResponseType(typeof(SolutionDashboardAuthorityResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(SolutionAuthorityDashboardResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<SolutionDashboardAuthorityResult>> DashboardAuthority([FromRoute][Required]string id)
+        public async Task<ActionResult<SolutionAuthorityDashboardResult>> AuthorityDashboard([FromRoute][Required]string id)
         {
             var result = await _mediator.Send(new GetSolutionByIdQuery(id)).ConfigureAwait(false);
-            return Ok(new SolutionDashboardAuthorityResult(result));
+            return Ok(new SolutionAuthorityDashboardResult(result));
         }
 
         /// <summary>
