@@ -159,7 +159,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             {
                 previewResult.Sections.Integrations.Should().NotBe(null);
                 previewResult.Sections.Integrations.Answers.HasData.Should().Be(true);
-                previewResult.Sections.Integrations.Answers.Integrations.Should().Be(url);
+                previewResult.Sections.Integrations.Answers.IntegrationsUrl.Should().Be(url);
             }
             else
             {

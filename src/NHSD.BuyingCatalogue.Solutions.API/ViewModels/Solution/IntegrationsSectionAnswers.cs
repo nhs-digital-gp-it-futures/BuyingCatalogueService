@@ -5,14 +5,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
     public sealed class IntegrationsSectionAnswers
     {
         [JsonProperty("link")]
-        public string Integrations { get; }
+        public string IntegrationsUrl { get; }
 
         [JsonIgnore]
-        public bool HasData => !string.IsNullOrWhiteSpace(Integrations);
+        public bool HasData => !string.IsNullOrWhiteSpace(IntegrationsUrl);
 
         public IntegrationsSectionAnswers(string integrationsUrl)
         {
-            Integrations = integrationsUrl;
+            IntegrationsUrl = integrationsUrl;
         }
     }
 }

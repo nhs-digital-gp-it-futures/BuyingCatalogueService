@@ -190,7 +190,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             {
                 publicResult.Sections.Integrations.Should().NotBe(null);
                 publicResult.Sections.Integrations.Answers.HasData.Should().Be(true);
-                publicResult.Sections.Integrations.Answers.Integrations.Should().Be(url);
+                publicResult.Sections.Integrations.Answers.IntegrationsUrl.Should().Be(url);
             }
             else
             {
