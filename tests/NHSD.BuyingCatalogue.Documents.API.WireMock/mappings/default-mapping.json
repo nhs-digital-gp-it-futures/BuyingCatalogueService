@@ -1,6 +1,7 @@
 [
     {
       "Guid": "ab5db982-c25a-40d4-941c-7896bae96798",
+      "Priority" : 10000,
       "Request": {
         "Path": {
           "Matchers": [
@@ -22,6 +23,7 @@
     },
     {
         "Guid": "db9e853a-73f0-4605-ad83-240c8e634460",
+        "Priority" : 10000,
         "Request": {
           "Path": {
             "Matchers": [

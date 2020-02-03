@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
+using NUnit.Framework;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 
@@ -54,13 +56,15 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
         [Then(@"the response contains the following values")]
         public async Task ResponseContainsTableValues(Table table)
         {
+            var context = await _response.ReadBody().ConfigureAwait(false);
             foreach (var row in table.CreateSet<SectionFieldValueTable>())
             {
                 var responseValues = new List<string>();
-                var context = await _response.ReadBody().ConfigureAwait(false);
-
                 var token = $"{Tokens[row.Section]}{row.Field}";
+                
                 var responseToken = context.SelectToken(token);
+
+                responseToken.Should().NotBeNull("token: {0} not found in {1}",token,context);
 
                 if (responseToken is JValue responseValue)
                 {

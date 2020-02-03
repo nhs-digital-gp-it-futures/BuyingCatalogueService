@@ -26,8 +26,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Documents
         public async Task GivenANamedDocumentForAGivenSolutionIdExists(string documentName,
             string solutionId)
         {
-            MappingModel model = new MappingModel {Response = new ResponseModel {Body = $"[\"{documentName}\"]"}};
-
+            MappingModel model = new MappingModel {Response = new ResponseModel {Body = $"[\"{documentName}\"]"} };
+            
             model.Request = new RequestModel
             {
                 Path = new PathModel
@@ -78,6 +78,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Documents
         private static async Task SendModel(MappingModel model, ScenarioContext context)
         {
             model.Guid = Guid.NewGuid();
+            model.Priority = 10;
             var api = RestClient.For<IWireMockAdminApi>(new Uri(BaseWireMockUrl));
             var result = await api.PostMappingAsync(model).ConfigureAwait(false);
             result.Status.Should().Be("Mapping added");
