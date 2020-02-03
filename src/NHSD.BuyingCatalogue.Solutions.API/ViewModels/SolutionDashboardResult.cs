@@ -64,7 +64,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 
         [JsonProperty("integrations")]
         public DashboardSection IntegrationsSection { get; }
-        
+
         [JsonProperty("implementation-timescales")]
         public DashboardSection ImplementationTimescalesSection { get; }
 
@@ -90,7 +90,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
             HostingTypeOnPremiseSection = DashboardSection.Optional(solution.Hosting.IsOnPremiseComplete());
             AboutSupplierSection = DashboardSection.Optional(solution.Supplier.IsSupplierComplete());
             RoadMapSection = DashboardSection.Optional(solution.IsRoadMapComplete());
-            IntegrationsSection = DashboardSection.Optional(false);
+            IntegrationsSection = DashboardSection.Optional(solution.IsIntegrationsComplete());
             ImplementationTimescalesSection = DashboardSection.Optional(false);
         }
     }

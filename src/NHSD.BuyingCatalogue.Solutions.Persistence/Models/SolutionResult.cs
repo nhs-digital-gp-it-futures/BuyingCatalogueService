@@ -22,16 +22,18 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
 
         public string RoadMap { get; set; }
 
+        public string IntegrationsUrl { get; set; }
+
         public string ClientApplication { get; set; }
 
         public string Hosting { get; set; }
 
-        public string SupplierName { get; set; }
-
         public bool IsFoundation { get; set; }
 
+        public string SupplierName { get; set; }
+
         public DateTime SolutionDetailLastUpdated { get; set; }
-        
+
         public PublishedStatus PublishedStatus { get; set; }
     }
 }
