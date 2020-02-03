@@ -52,6 +52,22 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         /// Get a solution matching the specified ID.
         /// </summary>
         /// <param name="id">A value to uniquely identify a solution.</param>
+        /// <returns>A task representing an operation of the Dashboard Authority.</returns>
+        [HttpGet]
+        [Route("{id}/Dashboard/Authority")]
+        [ProducesResponseType(typeof(SolutionDashboardAuthorityResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult<SolutionDashboardAuthorityResult>> DashboardAuthority([FromRoute][Required]string id)
+        {
+            var result = await _mediator.Send(new GetSolutionByIdQuery(id)).ConfigureAwait(false);
+            return Ok(new SolutionDashboardAuthorityResult(result));
+        }
+
+        /// <summary>
+        /// Get a solution matching the specified ID.
+        /// </summary>
+        /// <param name="id">A value to uniquely identify a solution.</param>
         /// <returns>A task representing an operation to retrieve the details of a Solution.</returns>
         [HttpGet]
         [Route("{id}/Preview")]

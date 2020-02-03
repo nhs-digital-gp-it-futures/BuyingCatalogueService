@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -40,12 +41,18 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
 
             foreach (var solutionCapabilityTable in table.CreateSet<SolutionCapabilityTable>())
             {
-                await SolutionCapabilityEntityBuilder.Create()
-                    .WithSolutionId(solutions.First(s => s.Name == solutionCapabilityTable.Solution).Id)
-                    .WithCapabilityId(capabilities.First(s => s.Name == solutionCapabilityTable.Capability).Id)
-                    .Build()
-                    .InsertAsync()
-                    .ConfigureAwait(false);
+                if (solutionCapabilityTable.Capability.Any())
+                {
+                    foreach (var capability in solutionCapabilityTable.Capability)
+                    {
+                        await SolutionCapabilityEntityBuilder.Create()
+                        .WithSolutionId(solutions.First(s => s.Name == solutionCapabilityTable.Solution).Id)
+                        .WithCapabilityId(capabilities.First(s => s.Name == capability).Id)
+                        .Build()
+                        .InsertAsync()
+                        .ConfigureAwait(false);
+                    }
+                }
             }
         }
 
@@ -103,7 +110,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         {
             public string Solution { get; set; }
 
-            public string Capability { get; set; }
+            public List<string> Capability { get; set; }
         }
 
         private class SolutionUpdatedTable
