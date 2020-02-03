@@ -171,6 +171,33 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
+        [TestCase(null, false)]
+        [TestCase("some integrations url", true)]
+        [TestCase(" some integrations url    ", true)]
+        [TestCase(" ", false)]
+        [TestCase("", false)]
+        public async Task ShouldGetPublicCalculateIntegrations(string url, bool hasData)
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                    s.Id == SolutionId1 &&
+                    s.PublishedStatus == PublishedStatus.Published &&
+                    s.IntegrationsUrl == url), SolutionId1)
+                .ConfigureAwait(false);
+
+            publicResult.Id.Should().Be(SolutionId1);
+
+            if (hasData)
+            {
+                publicResult.Sections.Integrations.Should().NotBe(null);
+                publicResult.Sections.Integrations.Answers.HasData.Should().Be(true);
+                publicResult.Sections.Integrations.Answers.Integrations.Should().Be(url);
+            }
+            else
+            {
+                publicResult.Sections.Integrations.Should().BeNull();
+            }
+        }
+
         [Test]
         public async Task ShouldCheckForNullClientApplicationTypes()
         {
