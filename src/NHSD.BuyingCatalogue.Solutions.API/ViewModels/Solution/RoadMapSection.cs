@@ -1,12 +1,14 @@
+using NHSD.BuyingCatalogue.Solutions.Contracts;
+
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 {
     public sealed class RoadMapSection
     {
         public RoadMapSectionAnswers Answers { get; }
 
-        public RoadMapSection(string summary)
+        public RoadMapSection(IRoadMap roadMap)
         {
-            Answers = new RoadMapSectionAnswers(summary);
+            Answers = new RoadMapSectionAnswers(roadMap);
         }
 
         public RoadMapSection IfPopulated()

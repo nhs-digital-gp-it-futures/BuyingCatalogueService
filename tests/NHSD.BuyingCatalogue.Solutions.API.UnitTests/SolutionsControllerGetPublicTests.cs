@@ -144,17 +144,20 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
-        [TestCase(null, false)]
-        [TestCase("some description", true)]
-        [TestCase(" some description    ", true)]
-        [TestCase(" ", false)]
-        [TestCase("", false)]
-        public async Task ShouldGetPublicCalculateRoadMap(string description, bool hasData)
+        [TestCase(null, null, false)]
+        [TestCase("some description", null, true)]
+        [TestCase(" some description    ", null, true)]
+        [TestCase(" ", null, false)]
+        [TestCase("", null, false)]
+        [TestCase("some description", "roadmap.pdf", true)]
+        [TestCase(null, "roadmap.pdf", true)]
+        public async Task ShouldGetPublicCalculateRoadMap(string description, string documentName, bool hasData)
         {
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                     s.Id == SolutionId1 &&
                     s.PublishedStatus == PublishedStatus.Published &&
-                    s.RoadMap == description), SolutionId1)
+                    s.RoadMap.Summary == description &&
+                    s.RoadMap.DocumentName == documentName), SolutionId1)
                 .ConfigureAwait(false);
 
             publicResult.Id.Should().Be(SolutionId1);
@@ -164,6 +167,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 publicResult.Sections.RoadMap.Should().NotBe(null);
                 publicResult.Sections.RoadMap.Answers.HasData.Should().Be(true);
                 publicResult.Sections.RoadMap.Answers.Summary.Should().Be(description);
+                publicResult.Sections.RoadMap.Answers.DocumentName.Should().Be(documentName);
             }
             else
             {
