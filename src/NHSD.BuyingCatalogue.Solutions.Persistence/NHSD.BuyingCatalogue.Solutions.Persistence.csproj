@@ -12,11 +12,27 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Data\NHSD.BuyingCatalogue.Data.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Solutions.Contracts\NHSD.BuyingCatalogue.Solutions.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Clients\DocumentsAPI.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DocumentsAPI.json</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Clients\DocumentsAPI.json">
+      <Generator>NSwagCodeGenerator</Generator>
+      <LastGenOutput>DocumentsAPI.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   
 </Project>
