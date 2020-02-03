@@ -38,6 +38,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             { "hosting-type-on-premise","sections.hosting-type-on-premise.answers." },
             { "solution-description","sections.solution-description.answers." },
             { "roadmap","sections.roadmap.answers." },
+            { "integrations","sections.integrations.answers." },
             { "features","sections.features.answers." },
             { "capabilities", "sections.capabilities.answers."},
             { "contact-details", "sections.contact-details.answers." },

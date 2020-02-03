@@ -17,6 +17,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         [JsonProperty("roadmap")]
         public RoadMapSection RoadMap { get; }
 
+        [JsonProperty("integrations")]
+        public IntegrationsSection Integrations { get; }
+
         [JsonProperty("client-application-types")]
         public ClientApplicationTypesSection ClientApplicationTypes { get; }
 
@@ -54,6 +57,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
             SolutionDescription = new SolutionDescriptionSection(solution).IfPopulated();
             Features = new FeaturesSection(solution.Features).IfPopulated();
             RoadMap = new RoadMapSection(solution.RoadMap).IfPopulated();
+            Integrations = new IntegrationsSection(solution.IntegrationsUrl).IfPopulated();
             ClientApplicationTypes = new ClientApplicationTypesSection(solution.ClientApplication).IfPopulated();
             ContactDetails = new ContactDetailsSection(solution.Contacts).IfPopulated();
             Capabilities = new CapabilitiesSection(solution.Capabilities);
