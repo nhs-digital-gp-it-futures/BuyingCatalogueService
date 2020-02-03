@@ -45,6 +45,6 @@ Scenario: 4. Solution Road Map section presented where Document API Fails
     When a GET request is made for solution preview Sln1    
 	Then a successful response is returned
 	And the response contains the following values
-		| Section | Field        | Value            |
-		| roadmap | documentName | NULL             |
+		| Section | Field        | Value            |		
 		| roadmap | summary      | Some description |
+    And the solutions roadmap section does not contain answer documentName

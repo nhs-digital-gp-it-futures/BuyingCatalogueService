@@ -116,6 +116,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
                 ? new List<string>()
                 : JsonConvert.DeserializeObject<IEnumerable<string>>(solutionResult.Features);
             IntegrationsUrl = solutionResult.IntegrationsUrl;
+            AboutUrl = solutionResult.AboutUrl;
             RoadMap = new RoadMap {Summary = solutionResult.RoadMap, DocumentName = documentResult?.RoadMapDocumentName};
             ClientApplication = string.IsNullOrWhiteSpace(solutionResult.ClientApplication)
                 ? new ClientApplication()

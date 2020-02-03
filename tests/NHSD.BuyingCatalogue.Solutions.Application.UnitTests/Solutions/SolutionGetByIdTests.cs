@@ -165,7 +165,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.Features.Should().BeEmpty();
 
             solution.RoadMap.DocumentName.Should().BeNullOrEmpty();
-            solution.RoadMap.Should().BeNullOrEmpty();
+            solution.RoadMap.Summary.Should().BeNullOrEmpty();
 
             solution.IntegrationsUrl.Should().BeNullOrEmpty();
 
