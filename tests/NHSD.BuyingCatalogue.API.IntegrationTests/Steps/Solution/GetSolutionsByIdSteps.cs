@@ -23,13 +23,19 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
         [When(@"a GET request is made for (dashboard|preview|public|dashboard/authority) with no solution id")]
         public async Task WhenAGETRequestIsMadeForSolutionSlnNoId(string view)
         {
-            await WhenAGETRequestIsMadeForSolutionSln(view, " ").ConfigureAwait(false);
+            await WhenAGETRequestIsMadeForSolution(view, " ").ConfigureAwait(false);
         }
 
         [When(@"a GET request is made for solution (dashboard|preview|public|dashboard/authority) (.*)")]
-        public async Task WhenAGETRequestIsMadeForSolutionSln(string view, string solutionId)
+        public async Task WhenAGETRequestIsMadeForSolution(string view, string solutionId)
         {
             _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, ByIdSolutionsUrl, solutionId, view)).ConfigureAwait(false);
+        }
+
+        [When(@"a GET request is made for solution authority dashboard (.*)")]
+        public async Task WhenAGETRequestIsMadeForSolutionSln(string solutionId)
+        {
+            await WhenAGETRequestIsMadeForSolution("dashboard/authority", solutionId).ConfigureAwait(false);
         }
 
         [Then(@"the last updated date in the solution is (.*)")]

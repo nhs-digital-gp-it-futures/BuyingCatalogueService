@@ -16,11 +16,11 @@ Background:
 	   | Sln1       | MedicOnline    | 1                | Sup 1      |
 
 @3678
-Scenario Outline: 1. Capabilities section is mandotory and is reported complete if there are any capabilities for that solution
+Scenario Outline: 1. Capabilities section is mandatory and is reported complete if there are any capabilities for that solution
     Given Solutions are linked to Capabilities
         | Solution   | Capability   |
         | <Solution> | <Capability> |
-    When a GET request is made for solution dashboard/authority Sln1
+    When a GET request is made for solution authority dashboard Sln1
     Then a successful response is returned
     And the solution capabilities section status is <Status>
     And the solution capabilities section requirement is Mandatory
