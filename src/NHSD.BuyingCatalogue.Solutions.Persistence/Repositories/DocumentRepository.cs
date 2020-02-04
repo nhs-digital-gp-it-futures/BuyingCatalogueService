@@ -13,7 +13,7 @@ using IDocumentsAPIClient = NHSD.BuyingCatalogue.Solutions.Persistence.Clients.I
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 {
     /// <summary>
-    /// Represents the data access layer for the Solution entity.
+    /// Represents the data access layer for the Documents Api.
     /// </summary>
     public sealed class DocumentRepository : IDocumentRepository
     {
