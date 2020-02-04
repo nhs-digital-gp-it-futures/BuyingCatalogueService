@@ -149,21 +149,26 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
-        [TestCase(null, false)]
-        [TestCase("some integrations url", true)]
-        [TestCase(" some integrations url    ", true)]
-        [TestCase(" ", false)]
-        [TestCase("", false)]
-        public async Task ShouldGetPreviewCalculateIntegrations(string url, bool hasData)
+        [TestCase(null, null, false)]
+        [TestCase("some integrations url", null, true)]
+        [TestCase(" some integrations url    ", null, true)]
+        [TestCase(" ", null, false)]
+        [TestCase("", null, false)]
+        [TestCase("some integrations url", "integration.pdf", true)]
+        [TestCase(null, "integration.pdf", true)]
+        public async Task ShouldGetPreviewCalculateIntegrations(string url, string documentName, bool hasData)
         {
-            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s => s.IntegrationsUrl == url))
-                .ConfigureAwait(false);
+            var previewResult =
+                await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                        s.Integration == Mock.Of<IIntegrations>(i => i.Url == url && i.DocumentName == documentName)))
+                    .ConfigureAwait(false);
 
             if (hasData)
             {
                 previewResult.Sections.Integrations.Should().NotBe(null);
                 previewResult.Sections.Integrations.Answers.HasData.Should().Be(true);
                 previewResult.Sections.Integrations.Answers.IntegrationsUrl.Should().Be(url);
+                previewResult.Sections.Integrations.Answers.DocumentName.Should().Be(documentName);
             }
             else
             {

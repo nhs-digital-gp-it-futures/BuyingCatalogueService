@@ -80,7 +80,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             solution.Features.Should().BeEquivalentTo(new [] {"Marmite", "Jam", "Marmelade"});
 
-            solution.IntegrationsUrl.Should().Be("Some valid integrations url");
+            solution.Integration.Url.Should().Be("Some valid integrations url");
+            solution.Integration.DocumentName.Should().BeNullOrEmpty();
+
             solution.RoadMap.Summary.Should().Be("Some valid roadmap description");
 
             solution.ClientApplication.ClientApplicationTypes.Should().BeEquivalentTo(new[] { "browser-based", "native-mobile" });
@@ -167,7 +169,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.RoadMap.DocumentName.Should().BeNullOrEmpty();
             solution.RoadMap.Summary.Should().BeNullOrEmpty();
 
-            solution.IntegrationsUrl.Should().BeNullOrEmpty();
+            solution.Integration.Url.Should().BeNullOrEmpty();
+            solution.Integration.DocumentName.Should().BeNullOrEmpty();
 
             solution.ClientApplication.ClientApplicationTypes.Should().BeEmpty();
             solution.ClientApplication.BrowsersSupported.Should().BeEmpty();
@@ -229,7 +232,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             solution.Features.Should().BeEmpty();
             
-            solution.IntegrationsUrl.Should().BeNullOrEmpty();
+            solution.Integration.Url.Should().BeNullOrEmpty();
+            solution.Integration.DocumentName.Should().BeNullOrEmpty();
 
             solution.RoadMap.Summary.Should().BeNullOrEmpty();
             solution.RoadMap.DocumentName.Should().BeNullOrEmpty();
@@ -296,8 +300,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.Features.Should().BeEquivalentTo(new[] { "Marmite", "Jam", "Marmelade" });
             
             solution.RoadMap.Summary.Should().BeNullOrEmpty();
-            
-            solution.IntegrationsUrl.Should().BeNullOrEmpty();
+
+            solution.Integration.Url.Should().BeNullOrEmpty();
+            solution.Integration.DocumentName.Should().BeNullOrEmpty();
 
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1", "cap2", "cap3"});
             solution.Contacts.Count().Should().Be(0);
@@ -382,7 +387,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             solution.Features.Should().BeEmpty();
 
-            solution.IntegrationsUrl.Should().BeNullOrEmpty();
+            solution.Integration.Url.Should().BeNullOrEmpty();
+            solution.Integration.DocumentName.Should().BeNullOrEmpty();
 
             solution.RoadMap.Summary.Should().BeNullOrEmpty();
             solution.RoadMap.DocumentName.Should().BeNullOrEmpty();
@@ -467,7 +473,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             solution.Features.Should().BeEmpty();
             
-            solution.IntegrationsUrl.Should().BeNullOrEmpty();
+            solution.Integration.Url.Should().BeNullOrEmpty();
+            solution.Integration.DocumentName.Should().BeNullOrEmpty();
 
             solution.RoadMap.Summary.Should().BeNullOrEmpty();
             solution.RoadMap.DocumentName.Should().BeNullOrEmpty();
