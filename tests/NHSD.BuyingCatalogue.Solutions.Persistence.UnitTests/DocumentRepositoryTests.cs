@@ -1,4 +1,5 @@
 using System;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -66,10 +67,31 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.UnitTests
         }
 
         [Test]
-        public async Task ShouldLogErrorReturnEmptyResult()
+        public async Task ShouldLogErrorReturnEmptyResultOnApiException()
         {
             _apiClientMock.Setup(api => api.DocumentsAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ThrowsAsync(new ApiException("Api Failure", 500, "Response", null, null));
+            var sut = new DocumentRepository(_apiClientMock.Object, _settingsMock.Object, _loggerMock.Object);
+
+            var result = await sut.GetDocumentResultBySolutionIdAsync(SolutionId, _cancellationToken)
+                .ConfigureAwait(false);
+            result.RoadMapDocumentName.Should().BeNullOrEmpty();
+
+            _loggerMock.Verify(
+                x => x.Log(
+                    LogLevel.Error,
+                    It.IsAny<EventId>(),
+                    It.Is<It.IsAnyType>((v, t) => true),
+                    It.IsAny<Exception>(),
+                    It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)),
+                Times.Once);
+        }
+
+        [Test]
+        public async Task ShouldLogErrorReturnEmptyResultOnHttpRequestException()
+        {
+            _apiClientMock.Setup(api => api.DocumentsAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new HttpRequestException("message"));
             var sut = new DocumentRepository(_apiClientMock.Object, _settingsMock.Object, _loggerMock.Object);
 
             var result = await sut.GetDocumentResultBySolutionIdAsync(SolutionId, _cancellationToken)

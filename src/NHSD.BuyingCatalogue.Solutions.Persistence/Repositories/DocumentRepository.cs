@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -38,15 +39,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 return new DocumentResult
                 {
                     RoadMapDocumentName = documents.OrderByDescending(x => x)
-                        .FirstOrDefault(x => x.Contains(_settings.DocumentRoadMapIdentifier, StringComparison.InvariantCultureIgnoreCase)),
-
+                        .FirstOrDefault(x => x.Contains(_settings.DocumentRoadMapIdentifier,
+                            StringComparison.InvariantCultureIgnoreCase)),
                     IntegrationDocumentName = documents.OrderByDescending(x => x)
-                        .FirstOrDefault(x => x.Contains(_settings.DocumentIntegrationIdentifier, StringComparison.InvariantCultureIgnoreCase))
+                        .FirstOrDefault(x => x.Contains(_settings.DocumentIntegrationIdentifier,
+                            StringComparison.InvariantCultureIgnoreCase))
                 };
             }
             catch (ApiException e)
             {
-                _logger.LogError(e,"Call to {baseAddress} failed", _client.BaseAddress);
+                _logger.LogError(e, "Call to {baseAddress} failed with Api Error", _client.BaseAddress);
+            }
+            catch (HttpRequestException e)
+            {
+                _logger.LogError(e, "Call to {baseAddress} failed with Http Request Error", _client.BaseAddress);
             }
             return new DocumentResult();
         }
