@@ -44,8 +44,11 @@ determine_environment () {
 remove_integration () {
 	docker rm integration_api -f
 	docker rm integration_db -f
+    docker rm documents_api_wiremock -f
+
 	docker image rm nhsd/buying-catalogue-api:test
     docker image rm nhsd/buying-catalogue/api:latest
+    docker image rm nhsd/buying-catalogue/documents-api-wiremock:latest
 }
 
 remove_development () {

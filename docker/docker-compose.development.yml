@@ -27,12 +27,24 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - ConnectionStrings__BuyingCatalogue=${NHSD_BUYINGCATALOGUE_DB:-Data Source=db;Initial Catalog=buyingcatalogue;MultipleActiveResultSets=True;User Id=sa;Password=MyTestPassword123!}
+      - APICLIENTSETTINGS__DOCUMENTAPI__BASEURL=http://nhsd.buyingcatalogue.documents.api.wiremock:80
     depends_on:
       - db
     networks:
       - nhsd_bcnetwork
     ports:
       - "8080:80"
+
+  nhsd.buyingcatalogue.documents.api.wiremock:
+    container_name: documents_api_wiremock
+    image: ${REGISTRY:-nhsd}/buying-catalogue/documents-api-wiremock:${TAG:-latest}
+    build: 
+      context: ../tests/NHSD.BuyingCatalogue.Documents.API.WireMock/
+      dockerfile: Dockerfile    
+    networks:
+      - nhsd_bcnetwork   
+    ports:
+      - "9090:80"
       
 networks: 
   nhsd_bcnetwork:
