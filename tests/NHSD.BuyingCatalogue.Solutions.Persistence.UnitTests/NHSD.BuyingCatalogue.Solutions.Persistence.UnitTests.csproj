@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\NHSD.BuyingCatalogue.Solutions.Persistence\NHSD.BuyingCatalogue.Solutions.Persistence.csproj" />
+    <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.Solutions.Persistence\NHSD.BuyingCatalogue.Solutions.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
