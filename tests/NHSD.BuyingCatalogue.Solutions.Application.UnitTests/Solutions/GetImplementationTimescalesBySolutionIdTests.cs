@@ -36,7 +36,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             _mockResult.Setup(m => m.Description).Returns(() => _implementationTimescalesDescription);
         }
 
-        [TestCase("Some url")]
+        [TestCase("Some description")]
         [TestCase("         ")]
         [TestCase("")]
         [TestCase(null)]
