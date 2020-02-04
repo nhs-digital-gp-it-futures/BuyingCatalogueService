@@ -5,5 +5,9 @@ namespace NHSD.BuyingCatalogue.Contracts.Infrastructure
         string ConnectionString { get; }
 
         string DocumentApiBaseUrl { get; }
+
+        string DocumentRoadMapIdentifier { get; }
+
+        string DocumentIntegrationIdentifier { get; }
     }
 }

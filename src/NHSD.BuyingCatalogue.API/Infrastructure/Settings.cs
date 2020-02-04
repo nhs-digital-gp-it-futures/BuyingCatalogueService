@@ -12,5 +12,7 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure
         
         public string ConnectionString => _configuration.GetConnectionString("BuyingCatalogue");
         public string DocumentApiBaseUrl => _configuration["ApiClientSettings:DocumentApi:BaseUrl"];
+        public string DocumentRoadMapIdentifier => _configuration["ApiClientSettings:DocumentApi:DocumentRoadMapIdentifier"];
+        public string DocumentIntegrationIdentifier => _configuration["ApiClientSettings:DocumentApi:DocumentIntegrationIdentifier"];
     }
 }
