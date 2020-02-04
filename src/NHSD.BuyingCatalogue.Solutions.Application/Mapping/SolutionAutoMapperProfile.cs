@@ -8,6 +8,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Domain.Suppliers;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicationBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutionId;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetImplementationTimescalesBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetRoadMapBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetIntegrationsBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
@@ -67,6 +68,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
             CreateMap<RoadMap, IRoadMap>().As<RoadMapDto>();
             CreateMap<Integrations, IntegrationsDto>();
             CreateMap<Integrations, IIntegrations>().As<IntegrationsDto>();
+            CreateMap<ImplementationTimescales, ImplementationTimescalesDto>();
+            CreateMap<ImplementationTimescales, IImplementationTimescales>().As<ImplementationTimescalesDto>();
         }
     }
 }

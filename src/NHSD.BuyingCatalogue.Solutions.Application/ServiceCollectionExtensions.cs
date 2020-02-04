@@ -48,6 +48,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<ContactDetailsReader>()
                 .AddTransient<RoadMapReader>()
                 .AddTransient<IntegrationsReader>()
+                .AddTransient<ImplementationTimescalesReader>()
                 .AddTransient<SolutionVerifier>()
                 .AddTransient<SolutionSummaryUpdater>()
                 .AddTransient<SolutionFeaturesUpdater>()

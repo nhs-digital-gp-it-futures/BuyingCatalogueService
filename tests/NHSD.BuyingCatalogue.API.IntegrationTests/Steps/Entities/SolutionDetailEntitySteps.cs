@@ -30,6 +30,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                     .WithHosting(solutionDetail.Hosting)
                     .WithRoadMap(solutionDetail.RoadMap)
                     .WithIntegrationsUrl(solutionDetail.IntegrationsUrl)
+                    .WithImplementationTimescales(solutionDetail.ImplementationTimescales)
                     .WithLastUpdated(solutionDetail.LastUpdated != DateTime.MinValue ? solutionDetail.LastUpdated : DateTime.UtcNow)
                     .Build()
                     .InsertAndSetCurrentForSolutionAsync()
@@ -96,6 +97,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             public string RoadMap { get; set; }
 
             public string IntegrationsUrl { get; set; }
+
+            public string ImplementationTimescales { get; set; }
 
             public DateTime LastUpdated { get; set; }
         }

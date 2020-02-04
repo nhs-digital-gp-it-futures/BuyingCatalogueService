@@ -590,7 +590,7 @@ CREATE TABLE [dbo].[SolutionDetail](
 	[Features] [nvarchar](max) NULL,
 	[ClientApplication] [nvarchar](max) NULL,
 	[Hosting] [nvarchar](max) NULL,
-	[ImplementationDetail] [nvarchar](max) NULL,
+	[ImplementationDetail] [varchar](1000) NULL,
 	[RoadMap] [varchar](1000) NULL,
 	[RoadMapImageUrl] [varchar](1000) NULL,
 	[IntegrationsUrl] [varchar](1000) NULL,

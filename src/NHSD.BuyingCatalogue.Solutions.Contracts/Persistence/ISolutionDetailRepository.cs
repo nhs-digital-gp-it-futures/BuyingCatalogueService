@@ -87,5 +87,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
         /// <returns>A task containing the roadmap data</returns>
         Task UpdateIntegrationsAsync(IUpdateIntegrationsRequest updateIntegrationsRequest, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Retrieve the implementation timescales details for a solution
+        /// </summary>
+        /// <param name="solutionId">The ID of the solution</param>
+        /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
+        /// <returns>A task containing the implementation timescales data</returns>
+        Task<IImplementationTimescalesResult> GetImplementationTimescalesBySolutionIdAsync(string solutionId, CancellationToken cancellationToken);
     }
 }

@@ -22,6 +22,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
 
         string IntegrationsUrl { get; }
 
+        string ImplementationTimescales { get; }
+
         string ClientApplication { get; }
 
         string Hosting { get; set; }

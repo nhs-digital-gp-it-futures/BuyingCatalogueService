@@ -41,6 +41,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolut
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicationBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutionId;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetImplementationTimescalesBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetIntegrationsBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetRoadMapBySolutionId;
@@ -70,6 +71,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
         public GetRoadMapBySolutionIdHandler GetRoadMapBySolutionIdHandler => (GetRoadMapBySolutionIdHandler)_scope.GetRoadMapBySolutionIdHandler;
 
         public GetIntegrationsBySolutionIdHandler GetIntegrationsBySolutionIdHandler => (GetIntegrationsBySolutionIdHandler)_scope.GetIntegrationsBySolutionIdHandler;
+
+        public GetImplementationTimescalesBySolutionIdHandler GetImplementationTimescalesBySolutionIdHandler => (GetImplementationTimescalesBySolutionIdHandler)_scope.GetImplementationTimescalesBySolutionIdHandler;
 
         public GetClientApplicationBySolutionIdHandler GetClientApplicationBySolutionIdHandler => (GetClientApplicationBySolutionIdHandler)_scope.GetClientApplicationBySolutionIdHandler;
 
@@ -214,6 +217,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public IRequestHandler<GetIntegrationsBySolutionIdQuery, IIntegrations> GetIntegrationsBySolutionIdHandler { get; }
 
+            public IRequestHandler<GetImplementationTimescalesBySolutionIdQuery, IImplementationTimescales> GetImplementationTimescalesBySolutionIdHandler { get; }
+
             public IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> SubmitSolutionForReviewHandler { get; }
 
             public IRequestHandler<UpdateSolutionSummaryCommand, ISimpleResult> UpdateSolutionSummaryHandler { get; }
@@ -314,6 +319,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdateRoadmapCommand, ISimpleResult> updateRoadmapHandler,
                 IRequestHandler<GetRoadMapBySolutionIdQuery, IRoadMap> getRoadMapBySolutionIdHandler,
                 IRequestHandler<GetIntegrationsBySolutionIdQuery, IIntegrations> getIntegrationsBySolutionIdHandler,
+                IRequestHandler<GetImplementationTimescalesBySolutionIdQuery, IImplementationTimescales> getImplementationTimescalesBySolutionIdHandler,
                 IRequestHandler<UpdateSupplierCommand, ISimpleResult> updateSupplierRequestHandler,
                 IRequestHandler<UpdateIntegrationsCommand, ISimpleResult> updateIntegrationsRequestHandler)
             {
@@ -353,6 +359,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 UpdateRoadmapHandler = updateRoadmapHandler;
                 GetRoadMapBySolutionIdHandler = getRoadMapBySolutionIdHandler;
                 GetIntegrationsBySolutionIdHandler = getIntegrationsBySolutionIdHandler;
+                GetImplementationTimescalesBySolutionIdHandler = getImplementationTimescalesBySolutionIdHandler;
                 UpdateSupplierHandler = updateSupplierRequestHandler;
                 UpdateIntegrationsHandler = updateIntegrationsRequestHandler;
             }
