@@ -95,6 +95,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         /// <summary>
         /// Gets or sets an integration.
         /// </summary>
-        public IIntegrations Integration { get; set; }
+        public IIntegrations Integrations { get; set; }
     }
 }

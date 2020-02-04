@@ -51,7 +51,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         /// <summary>
         /// Gets or sets an integration.
         /// </summary>
-        public Integrations Integration { get; set; }
+        public Integrations Integrations { get; set; }
 
         /// <summary>
         /// A link to provide more information about a solution.
@@ -115,7 +115,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
             Features = string.IsNullOrWhiteSpace(solutionResult.Features)
                 ? new List<string>()
                 : JsonConvert.DeserializeObject<IEnumerable<string>>(solutionResult.Features);
-            Integration = new Integrations { Url = solutionResult.IntegrationsUrl, DocumentName = documentResult?.IntegrationDocumentName };
+            Integrations = new Integrations { Url = solutionResult.IntegrationsUrl, DocumentName = documentResult?.IntegrationDocumentName };
             AboutUrl = solutionResult.AboutUrl;
             RoadMap = new RoadMap { Summary = solutionResult.RoadMap, DocumentName = documentResult?.RoadMapDocumentName };
             ClientApplication = string.IsNullOrWhiteSpace(solutionResult.ClientApplication)

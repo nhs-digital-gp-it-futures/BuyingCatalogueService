@@ -94,6 +94,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         /// <summary>
         /// Gets or sets the Integrations.
         /// </summary>
-        IIntegrations Integration { get; }
+        IIntegrations Integrations { get; }
     }
 }

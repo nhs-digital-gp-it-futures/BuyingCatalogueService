@@ -160,7 +160,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var previewResult =
                 await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
-                        s.Integration == Mock.Of<IIntegrations>(i => i.Url == url && i.DocumentName == documentName)))
+                        s.Integrations == Mock.Of<IIntegrations>(i => i.Url == url && i.DocumentName == documentName)))
                     .ConfigureAwait(false);
 
             if (hasData)

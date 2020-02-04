@@ -187,7 +187,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var publicResult =
                 await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                         s.PublishedStatus == PublishedStatus.Published &&
-                        s.Integration == Mock.Of<IIntegrations>(i => i.Url == url && i.DocumentName == documentName)), SolutionId1)
+                        s.Integrations == Mock.Of<IIntegrations>(i => i.Url == url && i.DocumentName == documentName)), SolutionId1)
                     .ConfigureAwait(false);
 
             if (hasData)
