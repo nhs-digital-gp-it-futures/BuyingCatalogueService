@@ -22,7 +22,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         public DocumentRepository(IDocumentsAPIClient client, ISettings settings, ILogger<DocumentRepository> logger)
         {
-            _logger = logger;
+            _logger = logger.ThrowIfNull();
             _client = client.ThrowIfNull();
             _client.BaseAddress = new Uri(settings.ThrowIfNull().DocumentApiBaseUrl);
         }
