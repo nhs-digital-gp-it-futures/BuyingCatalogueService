@@ -19,6 +19,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.UnitTests
         private const string SolutionId = "Sln1";
 
         private Mock<IDocumentsAPIClient> _apiClientMock;
+        private CancellationToken _cancellationToken;
         private Mock<ILogger<DocumentRepository>> _loggerMock;
         private Mock<ISettings> _settingsMock;
 
@@ -34,6 +35,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.UnitTests
             _settingsMock.SetupGet(s => s.DocumentIntegrationIdentifier).Returns(DocumentIntegrationIdentifier);
 
             _loggerMock = new Mock<ILogger<DocumentRepository>>();
+            _cancellationToken = new CancellationToken();
         }
 
         [TestCase(new[] {"RoadMap.pdf"}, "RoadMap.pdf", null)]
@@ -47,7 +49,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.UnitTests
 
             var sut = new DocumentRepository(_apiClientMock.Object, _settingsMock.Object, _loggerMock.Object);
 
-            var result = await sut.GetDocumentResultBySolutionIdAsync(SolutionId, CancellationToken.None)
+            var result = await sut.GetDocumentResultBySolutionIdAsync(SolutionId, _cancellationToken)
                 .ConfigureAwait(false);
 
             result.RoadMapDocumentName.Should().Be(roadMapDocumentName);
@@ -56,14 +58,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.UnitTests
             _apiClientMock.Verify(api => api.DocumentsAsync(SolutionId, CancellationToken.None), Times.Once);
         }
 
-
         [Test]
         public void ShouldSetBaseUrl()
         {
             var unused = new DocumentRepository(_apiClientMock.Object, _settingsMock.Object, _loggerMock.Object);
             _apiClientMock.Object.BaseAddress.AbsoluteUri.Should().Be(SampleUrl);
         }
-            
+
         [Test]
         public async Task ShouldLogErrorReturnEmptyResult()
         {
@@ -71,7 +72,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.UnitTests
                 .ThrowsAsync(new ApiException("Api Failure", 500, "Response", null, null));
             var sut = new DocumentRepository(_apiClientMock.Object, _settingsMock.Object, _loggerMock.Object);
 
-            var result = await sut.GetDocumentResultBySolutionIdAsync(SolutionId, CancellationToken.None)
+            var result = await sut.GetDocumentResultBySolutionIdAsync(SolutionId, _cancellationToken)
                 .ConfigureAwait(false);
             result.RoadMapDocumentName.Should().BeNullOrEmpty();
 

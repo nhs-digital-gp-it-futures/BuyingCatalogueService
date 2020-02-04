@@ -27,7 +27,6 @@ services:
     ports:
       - "8080:80"
 
-
   nhsd.buyingcatalogue.documents.api.wiremock:
     container_name: documents_api_wiremock
     image: ${REGISTRY:-nhsd}/buying-catalogue/documents-api-wiremock:${TAG:-latest}
@@ -38,7 +37,6 @@ services:
       - integration_network    
     ports:
       - "9090:80"
-
 
 networks: 
   integration_network:
