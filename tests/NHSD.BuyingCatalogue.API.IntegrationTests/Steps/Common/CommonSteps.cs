@@ -39,6 +39,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             { "solution-description","sections.solution-description.answers." },
             { "roadmap","sections.roadmap.answers." },
             { "integrations","sections.integrations.answers." },
+            { "implementation-timescales","sections.implementation-timescales.answers." },
             { "features","sections.features.answers." },
             { "capabilities", "sections.capabilities.answers."},
             { "contact-details", "sections.contact-details.answers." },

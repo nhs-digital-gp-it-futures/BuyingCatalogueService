@@ -59,9 +59,9 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             return this;
         }
 
-        public SolutionDetailEntityBuilder WithImplementationDetail(string implementationDetail)
+        public SolutionDetailEntityBuilder WithImplementationTimescales(string implementationTimescales)
         {
-            _solutionDetailEntity.ImplementationDetail = implementationDetail;
+            _solutionDetailEntity.ImplementationDetail = implementationTimescales;
             return this;
         }
 

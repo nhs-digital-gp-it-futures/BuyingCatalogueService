@@ -14,6 +14,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicationBySolutionId;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetImplementationTimescalesBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetIntegrationsBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
@@ -75,6 +76,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             yield return new KeyValuePair<Type, Type>(typeof(RoadMap), typeof(IRoadMap));
             yield return new KeyValuePair<Type, Type>(typeof(Integrations), typeof(IntegrationsDto));
             yield return new KeyValuePair<Type, Type>(typeof(Integrations), typeof(IIntegrations));
+            yield return new KeyValuePair<Type, Type>(typeof(ImplementationTimescales), typeof(ImplementationTimescalesDto));
+            yield return new KeyValuePair<Type, Type>(typeof(ImplementationTimescales), typeof(IImplementationTimescales));
         }
 
         [Test]

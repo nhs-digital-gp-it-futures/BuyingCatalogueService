@@ -96,5 +96,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         /// Gets or sets an integration url.
         /// </summary>
         public string IntegrationsUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets an implementation timescales.
+        /// </summary>
+        public string ImplementationTimescales { get; set; }
     }
 }

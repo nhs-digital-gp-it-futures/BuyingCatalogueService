@@ -99,6 +99,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public Supplier Supplier { get; set; }
 
         /// <summary>
+        /// Gets or sets an implementation timescales.
+        /// </summary>
+        public string ImplementationTimescales { get; set; }
+
+        /// <summary>
         /// Initialises a new instance of the <see cref="Solution"/> class.
         /// </summary>
         internal Solution(ISolutionResult solutionResult,
@@ -117,6 +122,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
             AboutUrl = solutionResult.AboutUrl;
             RoadMap = solutionResult.RoadMap;
             IntegrationsUrl = solutionResult.IntegrationsUrl;
+            ImplementationTimescales = solutionResult.ImplementationTimescales;
             ClientApplication = string.IsNullOrWhiteSpace(solutionResult.ClientApplication)
                 ? new ClientApplication()
                 : JsonConvert.DeserializeObject<ClientApplication>(solutionResult.ClientApplication);

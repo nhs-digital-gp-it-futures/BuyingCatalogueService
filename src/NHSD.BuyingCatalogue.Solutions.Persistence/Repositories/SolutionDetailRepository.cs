@@ -57,6 +57,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                                         LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
                                  WHERE  Solution.Id = @solutionId";
 
+        const string GetImplementationTimescalesBySolutionIdSql = @"SELECT
+                                    Solution.Id,
+                                    SolutionDetail.ImplementationDetail as ImplementationTimescales
+                                 FROM   Solution
+                                        LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
+                                 WHERE  Solution.Id = @solutionId";
+
         /// <summary>
         /// Updates the summary details of the solution.
         /// </summary>
@@ -128,5 +135,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                     @"SolutionDetail.IntegrationsUrl = @url", StringComparison.InvariantCulture),
                 cancellationToken,
                 updateIntegrationsRequest.ThrowIfNull(nameof(updateIntegrationsRequest))).ConfigureAwait(false);
+
+        public async Task<IImplementationTimescalesResult> GetImplementationTimescalesBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
+            => (await _dbConnector.QueryAsync<ImplementationTimescalesResult>(GetImplementationTimescalesBySolutionIdSql, cancellationToken, new { solutionId }).ConfigureAwait(false)).SingleOrDefault();
+
     }
 }
