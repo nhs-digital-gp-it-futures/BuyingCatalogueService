@@ -92,13 +92,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         ISupplier Supplier { get; }
 
         /// <summary>
-        /// Gets or sets the integrations url.
+        /// Gets or sets the Integrations.
         /// </summary>
-        string IntegrationsUrl { get; }
-
-        /// <summary>
-        /// Gets or sets the implementation timescales.
-        /// </summary>
-        string ImplementationTimescales { get; }
+        IIntegrations Integrations { get; }
     }
 }
