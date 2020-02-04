@@ -14,11 +14,8 @@ using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicationBySolutionId;
-<<<<<<< HEAD
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetImplementationTimescalesBySolutionId;
-=======
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetRoadMapBySolutionId;
->>>>>>> 3595944d55458d1afd1eef1ca64e4a8ed5494f86
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetIntegrationsBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
