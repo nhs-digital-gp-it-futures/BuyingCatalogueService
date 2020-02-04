@@ -59,7 +59,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         const string GetImplementationTimescalesBySolutionIdSql = @"SELECT
                                     Solution.Id,
-                                    SolutionDetail.ImplementationDetail as ImplementationTimescales
+                                    SolutionDetail.ImplementationDetail as Description
                                  FROM   Solution
                                         LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
                                  WHERE  Solution.Id = @solutionId";
