@@ -17,11 +17,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
     /// </summary>
     public sealed class DocumentRepository : IDocumentRepository
     {
+        private readonly ISettings _settings;
         private readonly ILogger<DocumentRepository> _logger;
         private readonly IDocumentsAPIClient _client;
 
         public DocumentRepository(IDocumentsAPIClient client, ISettings settings, ILogger<DocumentRepository> logger)
         {
+            _settings = settings.ThrowIfNull();
             _logger = logger.ThrowIfNull();
             _client = client.ThrowIfNull();
             _client.BaseAddress = new Uri(settings.ThrowIfNull().DocumentApiBaseUrl);
@@ -36,7 +38,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 return new DocumentResult
                 {
                     RoadMapDocumentName = documents.OrderByDescending(x => x)
-                        .FirstOrDefault(x => x.Contains("RoadMap", StringComparison.InvariantCultureIgnoreCase))
+                        .FirstOrDefault(x => x.Contains(_settings.DocumentRoadMapIdentifier, StringComparison.InvariantCultureIgnoreCase)),
+
+                    IntegrationDocumentName = documents.OrderByDescending(x => x)
+                        .FirstOrDefault(x => x.Contains(_settings.DocumentIntegrationIdentifier, StringComparison.InvariantCultureIgnoreCase))
                 };
             }
             catch (ApiException e)

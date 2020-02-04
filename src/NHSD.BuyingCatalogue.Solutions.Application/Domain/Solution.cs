@@ -49,9 +49,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public RoadMap RoadMap { get; set; }
 
         /// <summary>
-        /// Gets or sets an integrations url.
+        /// Gets or sets an integration.
         /// </summary>
-        public string IntegrationsUrl { get; set; }
+        public Integrations Integrations { get; set; }
 
         /// <summary>
         /// A link to provide more information about a solution.
@@ -115,9 +115,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
             Features = string.IsNullOrWhiteSpace(solutionResult.Features)
                 ? new List<string>()
                 : JsonConvert.DeserializeObject<IEnumerable<string>>(solutionResult.Features);
-            IntegrationsUrl = solutionResult.IntegrationsUrl;
+            Integrations = new Integrations { Url = solutionResult.IntegrationsUrl, DocumentName = documentResult?.IntegrationDocumentName };
             AboutUrl = solutionResult.AboutUrl;
-            RoadMap = new RoadMap {Summary = solutionResult.RoadMap, DocumentName = documentResult?.RoadMapDocumentName};
+            RoadMap = new RoadMap { Summary = solutionResult.RoadMap, DocumentName = documentResult?.RoadMapDocumentName };
             ClientApplication = string.IsNullOrWhiteSpace(solutionResult.ClientApplication)
                 ? new ClientApplication()
                 : JsonConvert.DeserializeObject<ClientApplication>(solutionResult.ClientApplication);

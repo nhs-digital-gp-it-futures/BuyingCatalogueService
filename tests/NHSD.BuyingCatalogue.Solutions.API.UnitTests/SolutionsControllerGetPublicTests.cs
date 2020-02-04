@@ -175,26 +175,27 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
-        [TestCase(null, false)]
-        [TestCase("some integrations url", true)]
-        [TestCase(" some integrations url    ", true)]
-        [TestCase(" ", false)]
-        [TestCase("", false)]
-        public async Task ShouldGetPublicCalculateIntegrations(string url, bool hasData)
+        [TestCase(null, null, false)]
+        [TestCase("some integrations url", null, true)]
+        [TestCase(" some integrations url    ", null, true)]
+        [TestCase(" ", null, false)]
+        [TestCase("", null, false)]
+        [TestCase("some integrations url", "integration.pdf", true)]
+        [TestCase(null, "integration.pdf", true)]
+        public async Task ShouldGetPublicCalculateIntegrations(string url, string documentName, bool hasData)
         {
-            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
-                    s.Id == SolutionId1 &&
-                    s.PublishedStatus == PublishedStatus.Published &&
-                    s.IntegrationsUrl == url), SolutionId1)
-                .ConfigureAwait(false);
-
-            publicResult.Id.Should().Be(SolutionId1);
+            var publicResult =
+                await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                        s.PublishedStatus == PublishedStatus.Published &&
+                        s.Integrations == Mock.Of<IIntegrations>(i => i.Url == url && i.DocumentName == documentName)), SolutionId1)
+                    .ConfigureAwait(false);
 
             if (hasData)
             {
                 publicResult.Sections.Integrations.Should().NotBe(null);
                 publicResult.Sections.Integrations.Answers.HasData.Should().Be(true);
                 publicResult.Sections.Integrations.Answers.IntegrationsUrl.Should().Be(url);
+                publicResult.Sections.Integrations.Answers.DocumentName.Should().Be(documentName);
             }
             else
             {

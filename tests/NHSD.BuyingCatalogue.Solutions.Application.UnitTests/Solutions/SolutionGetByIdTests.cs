@@ -52,6 +52,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var mockSupplier = Mock.Of<ISupplierResult>(m =>
                 m.Name == "supplier name" && m.Summary == "supplier summary" && m.Url == "supplierUrl");
 
+            var mockDocument = new Mock<IDocumentResult>();
+            mockDocument.Setup(s => s.RoadMapDocumentName).Returns("RoadMap.pdf");
+            mockDocument.Setup(s => s.IntegrationDocumentName).Returns("Integration.pdf");
+
             _context.MockSolutionCapabilityRepository
                 .Setup(r => r.ListSolutionCapabilities("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new []{capabilities1, capabilities2});
             var expectedContact = Mock.Of<IMarketingContactResult>(c =>
@@ -68,6 +72,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             _context.MockSupplierRepository.Setup(r => r.GetSupplierBySolutionIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(mockSupplier);
 
+            _context.MockDocumentRepository
+                .Setup(r => r.GetDocumentResultBySolutionIdAsync("Sln1", It.IsAny<CancellationToken>()))
+                .ReturnsAsync(mockDocument.Object);
+
             var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken()).ConfigureAwait(false);
 
             solution.Id.Should().Be("Sln1");
@@ -80,8 +88,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             solution.Features.Should().BeEquivalentTo(new [] {"Marmite", "Jam", "Marmelade"});
 
-            solution.IntegrationsUrl.Should().Be("Some valid integrations url");
+            solution.Integrations.Url.Should().Be("Some valid integrations url");
+            solution.Integrations.DocumentName.Should().Be("Integration.pdf");
+
             solution.RoadMap.Summary.Should().Be("Some valid roadmap description");
+            solution.RoadMap.DocumentName.Should().Be("RoadMap.pdf");
 
             solution.ClientApplication.ClientApplicationTypes.Should().BeEquivalentTo(new[] { "browser-based", "native-mobile" });
             solution.ClientApplication.BrowsersSupported.Should().BeEquivalentTo(new[] { "Chrome", "Edge" });
@@ -167,7 +178,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.RoadMap.DocumentName.Should().BeNullOrEmpty();
             solution.RoadMap.Summary.Should().BeNullOrEmpty();
 
-            solution.IntegrationsUrl.Should().BeNullOrEmpty();
+            solution.Integrations.Url.Should().BeNullOrEmpty();
+            solution.Integrations.DocumentName.Should().BeNullOrEmpty();
 
             solution.ClientApplication.ClientApplicationTypes.Should().BeEmpty();
             solution.ClientApplication.BrowsersSupported.Should().BeEmpty();
@@ -229,7 +241,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             solution.Features.Should().BeEmpty();
             
-            solution.IntegrationsUrl.Should().BeNullOrEmpty();
+            solution.Integrations.Url.Should().BeNullOrEmpty();
+            solution.Integrations.DocumentName.Should().BeNullOrEmpty();
 
             solution.RoadMap.Summary.Should().BeNullOrEmpty();
             solution.RoadMap.DocumentName.Should().BeNullOrEmpty();
@@ -296,8 +309,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.Features.Should().BeEquivalentTo(new[] { "Marmite", "Jam", "Marmelade" });
             
             solution.RoadMap.Summary.Should().BeNullOrEmpty();
-            
-            solution.IntegrationsUrl.Should().BeNullOrEmpty();
+
+            solution.Integrations.Url.Should().BeNullOrEmpty();
+            solution.Integrations.DocumentName.Should().BeNullOrEmpty();
 
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1", "cap2", "cap3"});
             solution.Contacts.Count().Should().Be(0);
@@ -382,7 +396,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             solution.Features.Should().BeEmpty();
 
-            solution.IntegrationsUrl.Should().BeNullOrEmpty();
+            solution.Integrations.Url.Should().BeNullOrEmpty();
+            solution.Integrations.DocumentName.Should().BeNullOrEmpty();
 
             solution.RoadMap.Summary.Should().BeNullOrEmpty();
             solution.RoadMap.DocumentName.Should().BeNullOrEmpty();
@@ -467,7 +482,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             solution.Features.Should().BeEmpty();
             
-            solution.IntegrationsUrl.Should().BeNullOrEmpty();
+            solution.Integrations.Url.Should().BeNullOrEmpty();
+            solution.Integrations.DocumentName.Should().BeNullOrEmpty();
 
             solution.RoadMap.Summary.Should().BeNullOrEmpty();
             solution.RoadMap.DocumentName.Should().BeNullOrEmpty();

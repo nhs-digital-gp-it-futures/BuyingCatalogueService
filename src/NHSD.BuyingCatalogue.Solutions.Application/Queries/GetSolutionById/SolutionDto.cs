@@ -93,8 +93,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         public ISupplier Supplier { get; set; }
 
         /// <summary>
-        /// Gets or sets an integration url.
+        /// Gets or sets an integration.
         /// </summary>
-        public string IntegrationsUrl { get; set; }
+        public IIntegrations Integrations { get; set; }
     }
 }

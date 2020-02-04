@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 {
@@ -7,12 +8,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         [JsonProperty("link")]
         public string IntegrationsUrl { get; }
 
-        [JsonIgnore]
-        public bool HasData => !string.IsNullOrWhiteSpace(IntegrationsUrl);
+        [JsonProperty("documentName")]
+        public string DocumentName { get; }
 
-        public IntegrationsSectionAnswers(string integrationsUrl)
+        [JsonIgnore]
+        public bool HasData => !string.IsNullOrWhiteSpace(IntegrationsUrl) || !string.IsNullOrWhiteSpace(DocumentName);
+
+        public IntegrationsSectionAnswers(IIntegrations integration)
         {
-            IntegrationsUrl = integrationsUrl;
+            IntegrationsUrl = integration?.Url;
+            DocumentName = integration?.DocumentName;
         }
     }
 }

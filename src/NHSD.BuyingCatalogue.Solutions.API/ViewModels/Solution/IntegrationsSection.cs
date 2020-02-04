@@ -1,12 +1,14 @@
+using NHSD.BuyingCatalogue.Solutions.Contracts;
+
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 {
     public sealed class IntegrationsSection
     {
         public IntegrationsSectionAnswers Answers { get; }
 
-        public IntegrationsSection(string integrationsUrl)
+        public IntegrationsSection(IIntegrations integration)
         {
-            Answers = new IntegrationsSectionAnswers(integrationsUrl);
+            Answers = new IntegrationsSectionAnswers(integration);
         }
 
         public IntegrationsSection IfPopulated()
