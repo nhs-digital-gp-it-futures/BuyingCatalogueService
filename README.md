@@ -225,7 +225,7 @@ To build / update the image run `setup-integration-db` script either in PowerShe
 | CLI | Command |
 |---------------|--------------------|
 |`bash` | `bash setup-integration-db.sh` |
-| `PowerShell` | `.\setup-integration-db.ps1` |
+| `PowerShell` | `& '.\Setup Integration Db.ps1'` |
 
 ## Troubleshooting
 - `./integration-entrypoint.sh: line 2: $'\r': command not found` during the image build

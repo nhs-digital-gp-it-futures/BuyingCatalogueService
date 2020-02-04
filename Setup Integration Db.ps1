@@ -1,7 +1,7 @@
 ﻿
-$image="integration_db:test"
+$image="nhsd/buying-catalogue-integration-db:test"
 $cwd=$(pwd).Path
-Write-Host "[ x ] Checking whether the 'integration_db:test' image exists..."
+Write-Host "[ x ] Checking whether the $image image exists..."
 
 $ErrorActionPreference = "SilentlyContinue"; #This will hide errors
 Invoke-Expression "docker image inspect $image" -ErrorVariable NoImage > $null #if we get error from this cmdlet, that means there is no image of that name.

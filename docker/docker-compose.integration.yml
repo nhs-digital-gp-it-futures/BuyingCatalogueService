@@ -3,18 +3,15 @@ version: '3.5'
 services:
 
   db:
-    image: integration_db:test
-    container_name: integration_db
+    image: nhsd/buying-catalogue-integration-db:test
+    container_name: nhsd_bc_integration_db
     networks:
       - integration_network
     ports:
       - "1433:1433"
 
   nhsd.buyingcatalogue.api:
-    container_name: integration_api
-    build: 
-      context: .
-      dockerfile: Dockerfile
+    container_name: nhsd_bc_integration_api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80

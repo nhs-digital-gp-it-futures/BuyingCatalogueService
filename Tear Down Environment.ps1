@@ -14,16 +14,8 @@ function determine_environment() {
     return "$env"
 }
 
-function remove_integration(){
-
-    docker rm integration_api -f
-    docker rm integration_db -f
-    docker image rm nhsd/buying-catalogue-api:test 
-    docker image rm nhsd/buying-catalogue/api:latest
-}
-
-function remove_development() {
-    $DockerComposeDown = 'docker-compose -f "docker\docker-compose.yml" -f "docker\docker-compose.development.yml" down'
+function remove_environment() {
+    $DockerComposeDown = "docker-compose -f `"docker\docker-compose.yml`" -f `"docker\docker-compose.$($env).yml`" down"
     $Args=''
     if ($c) {
         $Args='-v --rmi "all"'
@@ -34,11 +26,7 @@ function remove_development() {
 
 $env=determine_environment
 
-if ($env -eq "development") {
-    remove_development
-} else {
-    remove_integration
-}
+remove_environment
 
 if (!$q) {
     docker ps -a
