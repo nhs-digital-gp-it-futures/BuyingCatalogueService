@@ -422,7 +422,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase("roadmap", "COMPLETE")]
         public async Task ShouldGetDashboardCalculateCompleteRoadMap(string roadMap, string result)
         {
-            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s => s.RoadMap == roadMap)).ConfigureAwait(false);
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s => s.RoadMap.Summary == roadMap)).ConfigureAwait(false);
             dashboardResult.SolutionDashboardSections.Should().NotBeNull();
             dashboardResult.SolutionDashboardSections.RoadMapSection.Status.Should().Be(result);
         }

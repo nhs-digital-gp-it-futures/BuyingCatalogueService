@@ -149,8 +149,9 @@ This would run the database on port 1420, create an user with the id 'MyTestUser
 
 # Integration Tests
 
-Integration Tests and Persistence Tests run against Docker containers of service and database.
-These tests rely on a docker image 'integration_db', this image must be created before running any tests. [How to is listed below.](#integration_db_setup_id)
+Integration Tests and Persistence Tests run against Docker containers of service, a [mock of the document api](tests/NHSD.BuyingCatalogue.Documents.API.WireMock/README.md), and the database.
+These tests rely on a docker image 'integration_db', this image must be created before running any tests. [How to is listed below.](#integration_db_setup_id).
+
 <br/>
 
 ## On a Windows Box

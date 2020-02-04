@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 {
@@ -7,12 +8,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         [JsonProperty("summary")]
         public string Summary { get; }
 
-        [JsonIgnore]
-        public bool HasData => !string.IsNullOrWhiteSpace(Summary);
+        [JsonProperty("documentName")]
+        public string DocumentName { get; }
 
-        public RoadMapSectionAnswers(string summary)
+        [JsonIgnore]
+        public bool HasData => !string.IsNullOrWhiteSpace(Summary) || !string.IsNullOrWhiteSpace(DocumentName);
+
+        public RoadMapSectionAnswers(IRoadMap roadMap)
         {
-            Summary = summary;
+            Summary = roadMap?.Summary;
+            DocumentName = roadMap?.DocumentName;
         }
     }
 }

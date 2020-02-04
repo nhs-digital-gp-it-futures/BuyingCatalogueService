@@ -80,9 +80,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.AboutUrl.Should().Be("AboutUrl");
 
             solution.Features.Should().BeEquivalentTo(new [] {"Marmite", "Jam", "Marmelade"});
-            solution.RoadMap.Should().Be("Some valid roadmap description");
+
             solution.IntegrationsUrl.Should().Be("Some valid integrations url");
+<<<<<<< HEAD
             solution.ImplementationTimescales.Should().Be("Some valid implementation timescales description");
+=======
+            solution.RoadMap.Summary.Should().Be("Some valid roadmap description");
+
+>>>>>>> 3595944d55458d1afd1eef1ca64e4a8ed5494f86
             solution.ClientApplication.ClientApplicationTypes.Should().BeEquivalentTo(new[] { "browser-based", "native-mobile" });
             solution.ClientApplication.BrowsersSupported.Should().BeEquivalentTo(new[] { "Chrome", "Edge" });
             solution.ClientApplication.MobileResponsive.Should().BeTrue();
@@ -163,11 +168,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.Summary.Should().BeNullOrEmpty();
             solution.Description.Should().BeNullOrEmpty();
             solution.AboutUrl.Should().BeNullOrEmpty();
-
             solution.Features.Should().BeEmpty();
-            solution.RoadMap.Should().BeNullOrEmpty();
+
+            solution.RoadMap.DocumentName.Should().BeNullOrEmpty();
+            solution.RoadMap.Summary.Should().BeNullOrEmpty();
+
             solution.IntegrationsUrl.Should().BeNullOrEmpty();
+<<<<<<< HEAD
             solution.ImplementationTimescales.Should().BeNullOrEmpty();
+=======
+
+>>>>>>> 3595944d55458d1afd1eef1ca64e4a8ed5494f86
             solution.ClientApplication.ClientApplicationTypes.Should().BeEmpty();
             solution.ClientApplication.BrowsersSupported.Should().BeEmpty();
             solution.ClientApplication.MobileResponsive.Should().BeNull();
@@ -228,9 +239,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.AboutUrl.Should().BeNullOrEmpty();
 
             solution.Features.Should().BeEmpty();
-            solution.RoadMap.Should().BeNullOrEmpty();
+            
             solution.IntegrationsUrl.Should().BeNullOrEmpty();
+<<<<<<< HEAD
             solution.ImplementationTimescales.Should().BeNullOrEmpty();
+=======
+
+            solution.RoadMap.Summary.Should().BeNullOrEmpty();
+            solution.RoadMap.DocumentName.Should().BeNullOrEmpty();
+
+>>>>>>> 3595944d55458d1afd1eef1ca64e4a8ed5494f86
             solution.ClientApplication.ClientApplicationTypes.Should().BeEmpty();
             solution.ClientApplication.BrowsersSupported.Should().BeEmpty();
             solution.ClientApplication.MobileResponsive.Should().BeNull();
@@ -292,7 +310,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.AboutUrl.Should().BeNullOrEmpty();
 
             solution.Features.Should().BeEquivalentTo(new[] { "Marmite", "Jam", "Marmelade" });
-            solution.RoadMap.Should().BeNullOrEmpty();
+            
+            solution.RoadMap.Summary.Should().BeNullOrEmpty();
+            
             solution.IntegrationsUrl.Should().BeNullOrEmpty();
             solution.ImplementationTimescales.Should().BeNullOrEmpty();
 
@@ -323,7 +343,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             };
 
             var solution = new Solution(existingSolution, new List<ISolutionCapabilityListResult>(),
-                existingMarketingContactResult, existingSupplier);
+                existingMarketingContactResult, existingSupplier,null);
 
             solution.LastUpdated.Should().Be(dateTimeExpected);
         }
@@ -339,7 +359,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var existingSupplier = Mock.Of<ISupplierResult>();
 
             var solution = new Solution(existingSolution, new List<ISolutionCapabilityListResult>(),
-                new List<IMarketingContactResult>(), existingSupplier);
+                new List<IMarketingContactResult>(), existingSupplier, null);
 
             solution.LastUpdated.Should().Be(dateTimeExpected);
         }
@@ -379,9 +399,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.AboutUrl.Should().BeNullOrEmpty();
 
             solution.Features.Should().BeEmpty();
-            solution.RoadMap.Should().BeNullOrEmpty();
+
             solution.IntegrationsUrl.Should().BeNullOrEmpty();
+<<<<<<< HEAD
             solution.ImplementationTimescales.Should().BeNullOrEmpty();
+=======
+
+            solution.RoadMap.Summary.Should().BeNullOrEmpty();
+            solution.RoadMap.DocumentName.Should().BeNullOrEmpty();
+
+>>>>>>> 3595944d55458d1afd1eef1ca64e4a8ed5494f86
             solution.ClientApplication.ClientApplicationTypes.Should().BeEquivalentTo(new[] { "browser-based", "native-mobile" });
             solution.ClientApplication.BrowsersSupported.Should().BeEquivalentTo(new[] { "Chrome", "Edge" });
             solution.ClientApplication.MobileResponsive.Should().BeTrue();
@@ -462,9 +489,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.AboutUrl.Should().BeNullOrEmpty();
 
             solution.Features.Should().BeEmpty();
-            solution.RoadMap.Should().BeNullOrEmpty();
+            
             solution.IntegrationsUrl.Should().BeNullOrEmpty();
+<<<<<<< HEAD
             solution.ImplementationTimescales.Should().BeNullOrEmpty();
+=======
+
+            solution.RoadMap.Summary.Should().BeNullOrEmpty();
+            solution.RoadMap.DocumentName.Should().BeNullOrEmpty();
+
+>>>>>>> 3595944d55458d1afd1eef1ca64e4a8ed5494f86
             solution.ClientApplication.ClientApplicationTypes.Should().BeEmpty();
             solution.ClientApplication.BrowsersSupported.Should().BeEmpty();
             solution.ClientApplication.MobileResponsive.Should().BeNull();
