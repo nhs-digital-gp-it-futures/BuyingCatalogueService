@@ -20,13 +20,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
             _response = response;
         }
 
-        [When(@"a GET request is made for (dashboard|preview|public|dashboard/authority) with no solution id")]
+        [When(@"a GET request is made for (dashboard|preview|public) with no solution id")]
         public async Task WhenAGETRequestIsMadeForSolutionSlnNoId(string view)
         {
             await WhenAGETRequestIsMadeForSolution(view, " ").ConfigureAwait(false);
         }
 
-        [When(@"a GET request is made for solution (dashboard|preview|public|dashboard/authority) (.*)")]
+        [When(@"a GET request is made for solution (dashboard|preview|public) (.*)")]
         public async Task WhenAGETRequestIsMadeForSolution(string view, string solutionId)
         {
             _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, ByIdSolutionsUrl, solutionId, view)).ConfigureAwait(false);
