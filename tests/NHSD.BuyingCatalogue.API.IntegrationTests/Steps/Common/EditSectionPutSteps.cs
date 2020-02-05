@@ -319,7 +319,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
         private class ImplementationTimescalesPayload
         {
             [JsonProperty("description")]
-            public string Description { get; set; }
+            public string ImplementationTimescales { get; set; }
         }
     }
 }

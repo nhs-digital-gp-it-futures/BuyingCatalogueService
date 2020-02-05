@@ -56,7 +56,9 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 Summary = string.IsNullOrWhiteSpace(m.SummaryDescription) ? null : m.SummaryDescription,
                 FullDescription = string.IsNullOrWhiteSpace(m.FullDescription) ? null : m.FullDescription,
                 ClientApplication = string.IsNullOrWhiteSpace(m.ClientApplication) ? null : JToken.Parse(m.ClientApplication).ToString(),
-                Hosting = string.IsNullOrWhiteSpace(m.Hosting) ? null : JToken.Parse(m.Hosting).ToString()
+                Hosting = string.IsNullOrWhiteSpace(m.Hosting) ? null : JToken.Parse(m.Hosting).ToString(),
+                RoadMap = string.IsNullOrWhiteSpace(m.RoadMap) ? null : m.RoadMap,
+                IntegrationsUrl = string.IsNullOrWhiteSpace(m.IntegrationsUrl) ? null : m.IntegrationsUrl,
             });
             var solutionDetails = await SolutionDetailEntity.FetchAllAsync().ConfigureAwait(false);
             solutionDetails.Select(m => new
@@ -66,6 +68,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 m.Features,
                 m.Summary,
                 m.FullDescription,
+                m.RoadMap,
+                m.IntegrationsUrl,
                 ClientApplication = string.IsNullOrWhiteSpace(m.ClientApplication) ? null : JToken.Parse(m.ClientApplication).ToString(),
                 Hosting = string.IsNullOrWhiteSpace(m.Hosting) ? null : JToken.Parse(m.Hosting).ToString()
             }).Should().BeEquivalentTo(expectedSolutionDetails);
