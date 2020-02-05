@@ -27,6 +27,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                                         SolutionDetail.Features As Features,
                                         SolutionDetail.RoadMap As RoadMap,
                                         SolutionDetail.IntegrationsUrl As IntegrationsUrl,
+                                        SolutionDetail.ImplementationDetail As ImplementationTimescales,
                                         SolutionDetail.ClientApplication as ClientApplication,
                                         SolutionDetail.Hosting as Hosting,
                                         SolutionDetail.LastUpdated as SolutionDetailLastUpdated,

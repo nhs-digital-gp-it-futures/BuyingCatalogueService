@@ -24,6 +24,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.HybridHosting
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.OnPremise;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PublicCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PrivateCloud;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateImplementationTimescales;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateIntegrations;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
@@ -56,6 +57,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<SolutionHostingUpdater>()
                 .AddTransient<SolutionRoadmapUpdater>()
                 .AddTransient<SolutionIntegrationsUpdater>()
+                .AddTransient<SolutionImplementationTimescalesUpdater>()
                 .AddTransient<SolutionContactDetailsUpdater>()
                 .AddTransient<ClientApplicationPartialUpdater>()
                 .AddTransient<HostingPartialUpdater>()
@@ -160,6 +162,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
 
                 .AddTransient<IExecutor<UpdateIntegrationsCommand>, UpdateIntegrationsExecutor>()
                 .AddTransient<IValidator<UpdateIntegrationsCommand, ISimpleResult>, UpdateIntegrationsValidator>()
+
+                .AddTransient<IExecutor<UpdateImplementationTimescalesCommand>, UpdateImplementationTimescalesExecutor>()
+                .AddTransient<IValidator<UpdateImplementationTimescalesCommand, ISimpleResult>, UpdateImplementationTimescalesValidator>()
                 ;
         }
     }

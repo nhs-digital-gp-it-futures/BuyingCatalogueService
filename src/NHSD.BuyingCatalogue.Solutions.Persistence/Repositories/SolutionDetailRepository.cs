@@ -139,5 +139,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         public async Task<IImplementationTimescalesResult> GetImplementationTimescalesBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
             => (await _dbConnector.QueryAsync<ImplementationTimescalesResult>(GetImplementationTimescalesBySolutionIdSql, cancellationToken, new { solutionId }).ConfigureAwait(false)).SingleOrDefault();
 
+        public async Task UpdateImplementationTimescalesAsync(IUpdateImplementationTimescalesRequest updateImplementationTimescalesRequest, CancellationToken cancellationToken)
+            => await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
+                    @"SolutionDetail.ImplementationDetail = @description", StringComparison.InvariantCulture),
+                cancellationToken,
+                updateImplementationTimescalesRequest.ThrowIfNull(nameof(updateImplementationTimescalesRequest))).ConfigureAwait(false);
     }
 }

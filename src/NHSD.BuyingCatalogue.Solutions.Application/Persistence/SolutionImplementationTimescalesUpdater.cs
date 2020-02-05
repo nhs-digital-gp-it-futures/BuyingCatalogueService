@@ -5,19 +5,19 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 {
-    internal sealed class SolutionIntegrationsUpdater
+    internal sealed class SolutionImplementationTimescalesUpdater
     {
         /// <summary>
         /// Data access layer for the <see cref="Solution"/> entity.
         /// </summary>
         private readonly ISolutionDetailRepository _solutionDetailRepository;
 
-        public SolutionIntegrationsUpdater(ISolutionDetailRepository solutionDetailRepository)
+        public SolutionImplementationTimescalesUpdater(ISolutionDetailRepository solutionDetailRepository)
             => _solutionDetailRepository = solutionDetailRepository;
 
-        public async Task Update(string solutionId, string url, CancellationToken cancellationToken)
-            => await _solutionDetailRepository.UpdateIntegrationsAsync(
-                new UpdateIntegrationsRequest(solutionId, url),
+        public async Task Update(string solutionId, string description, CancellationToken cancellationToken)
+            => await _solutionDetailRepository.UpdateImplementationTimescalesAsync(
+                new UpdateImplementationTimescalesRequest(solutionId, description),
                 cancellationToken).ConfigureAwait(false);
     }
 }

@@ -29,6 +29,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.OnPremise;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PublicCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PrivateCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateImplementationTimescales;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateIntegrations;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
@@ -89,6 +90,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
         public UpdateSolutionClientApplicationTypesHandler UpdateSolutionClientApplicationTypesHandler => (UpdateSolutionClientApplicationTypesHandler)_scope.UpdateSolutionClientApplicationTypesHandler;
 
         public UpdateSolutionBrowsersSupportedHandler UpdateSolutionBrowsersSupportedHandler => (UpdateSolutionBrowsersSupportedHandler)_scope.UpdateSolutionBrowsersSupportedHandler;
+
         public UpdateSolutionContactDetailsHandler UpdateSolutionContactDetailsHandler => (UpdateSolutionContactDetailsHandler)_scope.UpdateSolutionContactDetailsHandler;
 
         public GetContactDetailBySolutionIdHandler GetContactDetailBySolutionIdHandler =>
@@ -167,6 +169,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
         public UpdateIntegrationsHandler UpdateIntegrationsHandler =>
             (UpdateIntegrationsHandler)_scope.UpdateIntegrationsHandler;
+
+        public UpdateImplementationTimescalesHandler UpdateImplementationTimescalesHandler =>
+            (UpdateImplementationTimescalesHandler)_scope.UpdateImplementationTimescalesHandler;
 
         private readonly Scope _scope;
 
@@ -283,6 +288,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public IRequestHandler<UpdateIntegrationsCommand, ISimpleResult> UpdateIntegrationsHandler { get; }
 
+            public IRequestHandler<UpdateImplementationTimescalesCommand, ISimpleResult> UpdateImplementationTimescalesHandler { get; }
+
             public Scope(IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
                 IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> getClientApplicationBySolutionIdHandler,
                 IRequestHandler<GetHostingBySolutionIdQuery, IHosting> getHostingBySolutionIdHandler,
@@ -321,7 +328,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<GetIntegrationsBySolutionIdQuery, IIntegrations> getIntegrationsBySolutionIdHandler,
                 IRequestHandler<GetImplementationTimescalesBySolutionIdQuery, IImplementationTimescales> getImplementationTimescalesBySolutionIdHandler,
                 IRequestHandler<UpdateSupplierCommand, ISimpleResult> updateSupplierRequestHandler,
-                IRequestHandler<UpdateIntegrationsCommand, ISimpleResult> updateIntegrationsRequestHandler)
+                IRequestHandler<UpdateIntegrationsCommand, ISimpleResult> updateIntegrationsRequestHandler,
+                IRequestHandler<UpdateImplementationTimescalesCommand, ISimpleResult> updateImplementationTimescalesHandler)
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;
                 GetClientApplicationBySolutionIdHandler = getClientApplicationBySolutionIdHandler;
@@ -362,6 +370,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 GetImplementationTimescalesBySolutionIdHandler = getImplementationTimescalesBySolutionIdHandler;
                 UpdateSupplierHandler = updateSupplierRequestHandler;
                 UpdateIntegrationsHandler = updateIntegrationsRequestHandler;
+                UpdateImplementationTimescalesHandler = updateImplementationTimescalesHandler;
+
             }
         }
     }

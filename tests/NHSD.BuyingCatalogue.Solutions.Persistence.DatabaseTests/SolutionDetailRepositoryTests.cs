@@ -32,7 +32,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
-            
+
             TestContext testContext = new TestContext();
             _solutionDetailRepository = testContext.SolutionDetailRepository;
         }
@@ -263,7 +263,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public async Task ShouldRetrieveClientApplicationDetailsWhenPresent()
         {
             const string expectedClientApplication = "I am the client application string";
-            
+
             await SolutionEntityBuilder.Create()
                 .WithId(_solution1Id)
                 .WithSupplierId(_supplierId)
@@ -401,7 +401,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public async Task ShouldUpdateRoadmap()
         {
             string expectedResult = "some roadmap description";
-            
+
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId(_solution1Id)
@@ -439,7 +439,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public async Task ShouldRetrieveRoadmapWhenPresent()
         {
             const string expectedRoadmapString = "I am the roadmap string";
-            
+
             await SolutionEntityBuilder.Create()
                 .WithId(_solution1Id)
                 .WithSupplierId(_supplierId)
@@ -470,6 +470,81 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             var result = await _solutionDetailRepository.GetRoadMapBySolutionIdAsync(_solution1Id, new CancellationToken())
                 .ConfigureAwait(false);
             result.Summary.Should().BeNull();
+        }
+
+         [Test]
+        public async Task ShouldUpdateImplementationTimescales()
+        {
+            string expectedResult = "some implementation timescales description";
+
+            await SolutionEntityBuilder.Create()
+                .WithName("Solution1")
+                .WithId(_solution1Id)
+                .WithSupplierId(_supplierId)
+                .Build()
+                .InsertAsync()
+                .ConfigureAwait(false);
+
+            await SolutionDetailEntityBuilder.Create()
+                .WithSolutionId(_solution1Id)
+                .WithImplementationTimescales(expectedResult)
+                .Build()
+                .InsertAndSetCurrentForSolutionAsync()
+                .ConfigureAwait(false);
+
+            var mockRequest = new Mock<IUpdateImplementationTimescalesRequest>();
+            mockRequest.Setup(m => m.SolutionId).Returns(_solution1Id);
+            mockRequest.Setup(m => m.Description).Returns(expectedResult);
+
+            await _solutionDetailRepository.UpdateImplementationTimescalesAsync(mockRequest.Object, new CancellationToken())
+                .ConfigureAwait(false);
+
+            var solution = await SolutionEntity.GetByIdAsync(_solution1Id)
+                .ConfigureAwait(false);
+            solution.Id.Should().Be(_solution1Id);
+
+            var marketingData = await SolutionDetailEntity.GetBySolutionIdAsync(_solution1Id)
+                .ConfigureAwait(false);
+            marketingData.ImplementationDetail.Should().Be(expectedResult);
+
+            (await marketingData.LastUpdated.SecondsFromNow().ConfigureAwait(false)).Should().BeLessOrEqualTo(5);
+        }
+
+        [Test]
+        public async Task ShouldRetrieveImplementationTimescalesWhenPresent()
+        {
+            const string expectedImplementationTimescalesString = "I am the integrations timescales description";
+
+            await SolutionEntityBuilder.Create()
+                .WithId(_solution1Id)
+                .WithSupplierId(_supplierId)
+                .Build()
+                .InsertAsync()
+                .ConfigureAwait(false);
+            await SolutionDetailEntityBuilder.Create()
+                .WithImplementationTimescales(expectedImplementationTimescalesString)
+                .Build()
+                .InsertAndSetCurrentForSolutionAsync()
+                .ConfigureAwait(false);
+
+            var result = await _solutionDetailRepository.GetImplementationTimescalesBySolutionIdAsync(_solution1Id, new CancellationToken())
+                .ConfigureAwait(false);
+            result.Description.Should().Be(expectedImplementationTimescalesString);
+        }
+
+        [Test]
+        public async Task ShouldRetrieveNullImplementationTimescalesWhenSolutionDetailDoesNotExist()
+        {
+            await SolutionEntityBuilder.Create()
+                .WithId(_solution1Id)
+                .WithSupplierId(_supplierId)
+                .Build()
+                .InsertAsync()
+                .ConfigureAwait(false);
+
+            var result = await _solutionDetailRepository.GetImplementationTimescalesBySolutionIdAsync(_solution1Id, new CancellationToken())
+                .ConfigureAwait(false);
+            result.Description.Should().BeNull();
         }
     }
 }

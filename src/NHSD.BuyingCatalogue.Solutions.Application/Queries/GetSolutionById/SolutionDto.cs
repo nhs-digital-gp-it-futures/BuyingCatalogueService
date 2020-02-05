@@ -100,6 +100,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         /// <summary>
         /// Gets or sets an implementation timescales.
         /// </summary>
-        public string ImplementationTimescales { get; set; }
+        public IImplementationTimescales ImplementationTimescales { get; set; }
     }
 }
