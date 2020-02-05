@@ -24,7 +24,7 @@ Feature: Suppliers Edit Solution Implementation Timescales Section
             | A new implementation timescales description |
         Then a successful response is returned
         And SolutionDetail exist
-            | Solution | ImplementationTimescales                              |
+            | Solution | ImplementationTimescales                               |
             | Sln1     | A new implementation timescales description            |
             | Sln2     | Another original implementation timescales description |
         And Last Updated has updated on the SolutionDetail for solution Sln1
