@@ -14,7 +14,7 @@ Feature: Display Marketing Page Dashboard Implementation Timescales Section
     @3669
     Scenario Outline: 1. Implementation Timescales section is optional and is reported incomplete
         Given SolutionDetail exist
-            | Solution | AboutUrl | SummaryDescription | FullDescription   | ImplementationTimescales   |
+            | Solution | AboutUrl | SummaryDescription | FullDescription   | ImplementationDetail       |
             | Sln1     | UrlSln1  |                    | Online medicine 1 | <ImplementationTimescales> |
         When a GET request is made for solution dashboard <Solution>
         Then a successful response is returned
@@ -26,3 +26,5 @@ Feature: Display Marketing Page Dashboard Implementation Timescales Section
             | Sln1     | INCOMPLETE | ""                       |
             | Sln1     | INCOMPLETE | "   "                    |
             | Sln1     | INCOMPLETE |                          |
+            | Sln1     | COMPLETE   | "integrations url"       |
+            | Sln2     | INCOMPLETE |                          |
