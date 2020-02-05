@@ -47,4 +47,4 @@ Scenario: 4. Solution Integration section presented where Document API Fails
 	And the response contains the following values
 		| Section      | Field | Value                 |
 		| integrations | link  | Some integrations url |
-	And the solutions integration section does not contain answer documentName
+	And the solutions integration section does not contain answer document-name
