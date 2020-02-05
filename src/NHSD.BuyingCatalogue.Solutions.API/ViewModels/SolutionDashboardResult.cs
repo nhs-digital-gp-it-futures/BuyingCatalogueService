@@ -91,7 +91,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
             AboutSupplierSection = DashboardSection.Optional(solution.Supplier.IsSupplierComplete());
             RoadMapSection = DashboardSection.Optional(solution.IsRoadMapComplete());
             IntegrationsSection = DashboardSection.Optional(solution.IsIntegrationsComplete());
-            ImplementationTimescalesSection = DashboardSection.Optional(false);
+            ImplementationTimescalesSection = DashboardSection.Optional(solution.IsImplementationTimescalesComplete());
         }
     }
 
