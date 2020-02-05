@@ -89,7 +89,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             solution.Features.Should().BeEquivalentTo(new [] {"Marmite", "Jam", "Marmelade"});
 
-            solution.ImplementationTimescales.Should().Be("Some valid implementation timescales description");
+            solution.ImplementationTimescales.Description.Should().Be("Some valid implementation timescales description");
             solution.Integrations.Url.Should().Be("Some valid integrations url");
             solution.Integrations.DocumentName.Should().Be("Integration.pdf");
 
@@ -181,7 +181,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.RoadMap.DocumentName.Should().BeNullOrEmpty();
             solution.RoadMap.Summary.Should().BeNullOrEmpty();
 
-            solution.ImplementationTimescales.Should().BeNullOrEmpty();
+            solution.ImplementationTimescales.Description.Should().BeNullOrEmpty();
             solution.Integrations.Url.Should().BeNullOrEmpty();
             solution.Integrations.DocumentName.Should().BeNullOrEmpty();
 
@@ -245,8 +245,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.AboutUrl.Should().BeNullOrEmpty();
 
             solution.Features.Should().BeEmpty();
-            
-            solution.ImplementationTimescales.Should().BeNullOrEmpty();
+
+            solution.ImplementationTimescales.Description.Should().BeNullOrEmpty();
             solution.Integrations.Url.Should().BeNullOrEmpty();
             solution.Integrations.DocumentName.Should().BeNullOrEmpty();
 
@@ -314,10 +314,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.AboutUrl.Should().BeNullOrEmpty();
 
             solution.Features.Should().BeEquivalentTo(new[] { "Marmite", "Jam", "Marmelade" });
-            
+
             solution.RoadMap.Summary.Should().BeNullOrEmpty();
-            
-            solution.ImplementationTimescales.Should().BeNullOrEmpty();
+
+            solution.ImplementationTimescales.Description.Should().BeNullOrEmpty();
 
             solution.Integrations.Url.Should().BeNullOrEmpty();
             solution.Integrations.DocumentName.Should().BeNullOrEmpty();
@@ -406,7 +406,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             solution.Features.Should().BeEmpty();
 
-            solution.ImplementationTimescales.Should().BeNullOrEmpty();
+            solution.ImplementationTimescales.Description.Should().BeNullOrEmpty();
             solution.Integrations.Url.Should().BeNullOrEmpty();
             solution.Integrations.DocumentName.Should().BeNullOrEmpty();
 
@@ -493,8 +493,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.AboutUrl.Should().BeNullOrEmpty();
 
             solution.Features.Should().BeEmpty();
-            
-            solution.ImplementationTimescales.Should().BeNullOrEmpty();
+
+            solution.ImplementationTimescales.Description.Should().BeNullOrEmpty();
 
             solution.Integrations.Url.Should().BeNullOrEmpty();
             solution.Integrations.DocumentName.Should().BeNullOrEmpty();
