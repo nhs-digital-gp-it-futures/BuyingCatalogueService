@@ -35,9 +35,9 @@ Scenario: 3. Solution Road Map section presented where Document exists
     When a GET request is made for solution preview Sln1    
 	Then a successful response is returned
 	And the response contains the following values
-		| Section | Field        | Value            |
-		| roadmap | documentName | roadmap          |
-		| roadmap | summary      | Some description |
+		| Section | Field         | Value            |
+		| roadmap | document-name | roadmap          |
+		| roadmap | summary       | Some description |
 
 @3657
 Scenario: 4. Solution Road Map section presented where Document API Fails
@@ -47,4 +47,4 @@ Scenario: 4. Solution Road Map section presented where Document API Fails
 	And the response contains the following values
 		| Section | Field        | Value            |		
 		| roadmap | summary      | Some description |
-    And the solutions roadmap section does not contain answer documentName
+    And the solutions roadmap section does not contain answer document-name
