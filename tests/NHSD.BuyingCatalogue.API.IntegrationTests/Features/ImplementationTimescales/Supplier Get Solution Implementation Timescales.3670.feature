@@ -12,8 +12,8 @@ Feature:  Display Marketing Page Form Solution Supplier Implementation Timescale
             | Sln1       | MedicOnline    | 1                | Sup 1      |
             | Sln2       | TakeTheRedPill | 1                | Sup 1      |
         And SolutionDetail exist
-            | Solution | ImplementationTimescales |
-            | Sln1     | some valid description   |
+            | Solution | ImplementationDetail   |
+            | Sln1     | some valid description |
 
     @3670
     Scenario: 1. Solution Implementation Timescales is retrieved for the solution

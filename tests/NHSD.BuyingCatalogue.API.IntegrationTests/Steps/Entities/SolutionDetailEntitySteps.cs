@@ -30,7 +30,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                     .WithHosting(solutionDetail.Hosting)
                     .WithRoadMap(solutionDetail.RoadMap)
                     .WithIntegrationsUrl(solutionDetail.IntegrationsUrl)
-                    .WithImplementationTimescales(solutionDetail.ImplementationTimescales)
+                    .WithImplementationTimescales(solutionDetail.ImplementationDetail)
                     .WithLastUpdated(solutionDetail.LastUpdated != DateTime.MinValue ? solutionDetail.LastUpdated : DateTime.UtcNow)
                     .Build()
                     .InsertAndSetCurrentForSolutionAsync()
@@ -59,6 +59,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 Hosting = string.IsNullOrWhiteSpace(m.Hosting) ? null : JToken.Parse(m.Hosting).ToString(),
                 RoadMap = string.IsNullOrWhiteSpace(m.RoadMap) ? null : m.RoadMap,
                 IntegrationsUrl = string.IsNullOrWhiteSpace(m.IntegrationsUrl) ? null : m.IntegrationsUrl,
+                ImplementationDetail = string.IsNullOrWhiteSpace(m.ImplementationDetail) ? null : m.ImplementationDetail,
             });
             var solutionDetails = await SolutionDetailEntity.FetchAllAsync().ConfigureAwait(false);
             solutionDetails.Select(m => new
@@ -70,6 +71,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 m.FullDescription,
                 m.RoadMap,
                 m.IntegrationsUrl,
+                m.ImplementationDetail,
                 ClientApplication = string.IsNullOrWhiteSpace(m.ClientApplication) ? null : JToken.Parse(m.ClientApplication).ToString(),
                 Hosting = string.IsNullOrWhiteSpace(m.Hosting) ? null : JToken.Parse(m.Hosting).ToString()
             }).Should().BeEquivalentTo(expectedSolutionDetails);
@@ -102,7 +104,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
 
             public string IntegrationsUrl { get; set; }
 
-            public string ImplementationTimescales { get; set; }
+            public string ImplementationDetail { get; set; }
 
             public DateTime LastUpdated { get; set; }
         }
