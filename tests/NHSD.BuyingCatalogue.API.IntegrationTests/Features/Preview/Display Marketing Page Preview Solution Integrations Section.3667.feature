@@ -35,9 +35,9 @@ Scenario: 3. Solution Integration section presented where Document exists
 	When a GET request is made for solution preview Sln1
 	Then a successful response is returned
 	And the response contains the following values
-		| Section      | Field        | Value                 |
-		| integrations | documentName | integration           |
-		| integrations | link         | Some integrations url |
+		| Section      | Field         | Value                 |
+		| integrations | document-name | integration           |
+		| integrations | link          | Some integrations url |
 
 @3697
 Scenario: 4. Solution Integration section presented where Document API Fails
@@ -47,4 +47,4 @@ Scenario: 4. Solution Integration section presented where Document API Fails
 	And the response contains the following values
 		| Section      | Field | Value                 |
 		| integrations | link  | Some integrations url |
-	And the solutions integration section does not contain answer documentName
+	And the solutions integration section does not contain answer document-name

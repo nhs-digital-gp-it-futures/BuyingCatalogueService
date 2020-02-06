@@ -8,7 +8,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         [JsonProperty("link")]
         public string IntegrationsUrl { get; }
 
-        [JsonProperty("documentName")]
+        [JsonProperty("document-name")]
         public string DocumentName { get; }
 
         [JsonIgnore]

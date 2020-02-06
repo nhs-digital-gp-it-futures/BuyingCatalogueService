@@ -472,7 +472,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             result.Summary.Should().BeNull();
         }
 
-         [Test]
+        [Test]
         public async Task ShouldUpdateImplementationTimescales()
         {
             string expectedResult = "some implementation timescales description";

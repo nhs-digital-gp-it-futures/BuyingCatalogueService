@@ -427,6 +427,17 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             dashboardResult.SolutionDashboardSections.RoadMapSection.Status.Should().Be(result);
         }
 
+        [TestCase("", "INCOMPLETE")]
+        [TestCase("   ", "INCOMPLETE")]
+        [TestCase(null, "INCOMPLETE")]
+        [TestCase("implementation timescales description", "COMPLETE")]
+        public async Task ShouldGetDashboardCalculateCompleteImplementationTimescales(string implementationTimescales, string result)
+        {
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s => s.ImplementationTimescales.Description == implementationTimescales)).ConfigureAwait(false);
+            dashboardResult.SolutionDashboardSections.Should().NotBeNull();
+            dashboardResult.SolutionDashboardSections.ImplementationTimescalesSection.Status.Should().Be(result);
+        }
+
         private async Task<SolutionDashboardResult> GetSolutionDashboardSectionAsync(ISolution solution)
         {
             _mockMediator.Setup(m =>

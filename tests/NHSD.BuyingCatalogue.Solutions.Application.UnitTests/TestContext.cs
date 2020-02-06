@@ -371,7 +371,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 UpdateSupplierHandler = updateSupplierRequestHandler;
                 UpdateIntegrationsHandler = updateIntegrationsRequestHandler;
                 UpdateImplementationTimescalesHandler = updateImplementationTimescalesHandler;
-
             }
         }
     }

@@ -35,9 +35,9 @@ Scenario: 3. Solution Integration section presented where Document exists
 	When a GET request is made for solution public Sln1
 	Then a successful response is returned
 	And the response contains the following values
-		| Section      | Field        | Value                 |
-		| integrations | documentName | integration           |
-		| integrations | link         | Some integrations url |
+		| Section      | Field         | Value                 |
+		| integrations | document-name | integration           |
+		| integrations | link          | Some integrations url |
 
 @3697
 Scenario: 4. Solution Integration section presented where Document API Fails
