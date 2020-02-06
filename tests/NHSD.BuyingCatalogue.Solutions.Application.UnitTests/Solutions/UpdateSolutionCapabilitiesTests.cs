@@ -43,8 +43,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                         c.SolutionId == ValidSolutionId && c.NewCapabilitiesReference == capabilityRefs),
                     It.IsAny<CancellationToken>()), Times.Once);
         }
-
-
+        
         [Test]
         public void ShouldThrowNotFoundExceptionWhenSolutionIsNotFound()
         {

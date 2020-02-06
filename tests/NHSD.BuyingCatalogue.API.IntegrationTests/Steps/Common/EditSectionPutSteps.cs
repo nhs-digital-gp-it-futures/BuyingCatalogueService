@@ -326,7 +326,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
         private class CapabilitiesPayload
         {
             [JsonProperty("capabilities")]
-            public List<string> CapabilitiesRef { get; set; }
+            public List<string> CapabilityRefs { get; set; }
         }
     }
 }

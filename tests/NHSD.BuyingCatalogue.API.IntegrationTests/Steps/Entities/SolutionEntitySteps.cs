@@ -64,7 +64,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 var capabilities = await SolutionCapabilityEntity.FetchForSolutionAsync(row.SolutionId)
                     .ConfigureAwait(false);
 
-                capabilities.Should().BeEquivalentTo(row.CapabilitiesRef);
+                capabilities.Should().BeEquivalentTo(row.CapabilityRefs);
             }
         }
         
@@ -136,7 +136,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         {
             public string SolutionId { get; set; }
 
-            public List<string> CapabilitiesRef { get; set; }
+            public List<string> CapabilityRefs { get; set; }
         }
     }
 }

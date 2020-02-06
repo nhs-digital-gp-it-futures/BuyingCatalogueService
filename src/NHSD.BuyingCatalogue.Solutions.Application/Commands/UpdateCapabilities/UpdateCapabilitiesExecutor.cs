@@ -18,7 +18,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateCapabilities
 
         public async Task UpdateAsync(UpdateCapabilitiesCommand request, CancellationToken cancellationToken)
         {
-            await _verifier.ThrowWhenMissing(request.SolutionId, cancellationToken).ConfigureAwait(false);
+            await _verifier.ThrowWhenMissingAsync(request.SolutionId, cancellationToken).ConfigureAwait(false);
             await _updater.UpdateAsync(request.SolutionId, request.NewCapabilitiesReferences, cancellationToken).ConfigureAwait(false);
         }
     }

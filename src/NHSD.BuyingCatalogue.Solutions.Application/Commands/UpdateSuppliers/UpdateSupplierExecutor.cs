@@ -21,7 +21,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSuppliers
         public async Task UpdateAsync(UpdateSupplierCommand request, CancellationToken cancellationToken)
         {
 
-            await _verifier.ThrowWhenMissing(request.SolutionId, cancellationToken).ConfigureAwait(false);
+            await _verifier.ThrowWhenMissingAsync(request.SolutionId, cancellationToken).ConfigureAwait(false);
 
             await _updater.UpdateAsync(request.SolutionId, supplier =>
             {

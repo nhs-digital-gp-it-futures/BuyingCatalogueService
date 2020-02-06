@@ -23,41 +23,42 @@ Background:
 @3678
 Scenario: 1. A Capability is added to a solution which has no capabilities
 	When a PUT request is made to update the capabilities section for solution Sln1
-		| CapabilitiesRef |
-		| C2              |
+		| CapabilityRefs |
+		| C2             |
 	Then a successful response is returned
 	Then Solutions are linked to Capabilities
-		| SolutionId | CapabilitiesRef |
-		| Sln2       | C1              |
-		| Sln1       | C2              |
+		| SolutionId | CapabilityRefs |
+		| Sln2       | C1             |
+		| Sln1       | C2             |
 
 @3678
 Scenario: 2. A Capability is added to a solution which has has a capability
 	When a PUT request is made to update the capabilities section for solution Sln2
-		| CapabilitiesRef |
-		| C2              |
+		| CapabilityRefs |
+		| C2             |
 	Then a successful response is returned
 	Then Solutions are linked to Capabilities
-		| SolutionId | CapabilitiesRef |
-		| Sln2       | C2              |
+		| SolutionId | CapabilityRefs |
+		| Sln2       | C2             |
 
 @3678
 Scenario: 3. Multiple Capabilies are added to a solution which has has a capability
 	When a PUT request is made to update the capabilities section for solution Sln2
-		| CapabilitiesRef |
-		| C1, C2, C3      |
+		| CapabilityRefs |
+		| C1, C2, C3     |
 	Then a successful response is returned
 	Then Solutions are linked to Capabilities
-		| SolutionId | CapabilitiesRef |
-		| Sln2       | C1, C2, C3      |
+		| SolutionId | CapabilityRefs |
+		| Sln2       | C1, C2, C3     |
 
 @3678
 Scenario: 4. Capabilies are removed for a solution which has has a capability
 	When a PUT request is made to update the capabilities section for solution Sln2
-		| CapabilitiesRef |
+		| CapabilityRefs |
 	Then a successful response is returned
 	Then Solutions are linked to Capabilities
-		| SolutionId | CapabilitiesRef |
+		| SolutionId | CapabilityRefs |
+		| Sln2       |                |
 
 @3678
 Scenario: 5. A Capability is added for a solution which has has multiple capabilies
@@ -66,9 +67,9 @@ Scenario: 5. A Capability is added for a solution which has has multiple capabil
 		| MedicOnline | Resource Management |
 		| MedicOnline | Prescribing         |
 	When a PUT request is made to update the capabilities section for solution Sln1
-		| CapabilitiesRef |
-		| C3              |
+		| CapabilityRefs |
+		| C3             |
 	Then a successful response is returned
 	Then Solutions are linked to Capabilities
-		| SolutionId | CapabilitiesRef |
-		| Sln1       | C3              |
+		| SolutionId | CapabilityRefs |
+		| Sln1       | C3             |

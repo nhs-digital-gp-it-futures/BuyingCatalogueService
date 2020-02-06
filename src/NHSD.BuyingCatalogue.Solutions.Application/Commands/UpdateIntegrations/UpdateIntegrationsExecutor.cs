@@ -18,7 +18,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateIntegrations
 
         public async Task UpdateAsync(UpdateIntegrationsCommand request, CancellationToken cancellationToken)
         {
-            await _verifier.ThrowWhenMissing(request.SolutionId, cancellationToken).ConfigureAwait(false);
+            await _verifier.ThrowWhenMissingAsync(request.SolutionId, cancellationToken).ConfigureAwait(false);
             await _updater.Update(request.SolutionId, request.Url, cancellationToken).ConfigureAwait(false);
         }
     }
