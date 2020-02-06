@@ -430,6 +430,17 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase("", "INCOMPLETE")]
         [TestCase("   ", "INCOMPLETE")]
         [TestCase(null, "INCOMPLETE")]
+        [TestCase("integrations url", "COMPLETE")]
+        public async Task ShouldGetDashboardCalculateCompleteIntegrations(string integrationsUrl, string result)
+        {
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s => s.Integrations.Url == integrationsUrl)).ConfigureAwait(false);
+            dashboardResult.SolutionDashboardSections.Should().NotBeNull();
+            dashboardResult.SolutionDashboardSections.IntegrationsSection.Status.Should().Be(result);
+        }
+
+        [TestCase("", "INCOMPLETE")]
+        [TestCase("   ", "INCOMPLETE")]
+        [TestCase(null, "INCOMPLETE")]
         [TestCase("implementation timescales description", "COMPLETE")]
         public async Task ShouldGetDashboardCalculateCompleteImplementationTimescales(string implementationTimescales, string result)
         {
