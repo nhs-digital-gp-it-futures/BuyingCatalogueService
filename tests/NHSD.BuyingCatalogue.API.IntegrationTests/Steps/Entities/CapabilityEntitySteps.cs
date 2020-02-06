@@ -19,7 +19,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
 
         private static async Task InsertCapabilityAsync(CapabilityTable capabilityTable)
         {
-            var capability = CapabilityEntityBuilder.Create().WithName(capabilityTable.CapabilityName).Build();
+            var capability = CapabilityEntityBuilder.Create()
+                .WithName(capabilityTable.CapabilityName)
+                .WithCapabilityRef(capabilityTable.CapabilityRef)
+                .Build();
             await capability.InsertAsync().ConfigureAwait(false);
             await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capability.Id).WithIsFoundation(capabilityTable.IsFoundation).Build().InsertAsync().ConfigureAwait(false);
         }
@@ -27,6 +30,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         private class CapabilityTable
         {
             public string CapabilityName { get; set; }
+
+            public string CapabilityRef { get; set; } = "Ref";
 
             public bool IsFoundation { get; set; }
         }

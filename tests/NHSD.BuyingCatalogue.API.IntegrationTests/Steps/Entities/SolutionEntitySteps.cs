@@ -56,6 +56,18 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             }
         }
 
+        [Then(@"Solutions are linked to Capabilities")]
+        public static async Task ThenSolutionsAreLinkedToCapabilities(Table table)
+        {
+            foreach (var row in table.CreateSet<SolutionCapabilityReferenceTable>())
+            {
+                var capabilities = await SolutionCapabilityEntity.FetchForSolutionAsync(row.SolutionId)
+                    .ConfigureAwait(false);
+
+                capabilities.Should().BeEquivalentTo(row.CapabilitiesRef);
+            }
+        }
+        
         [Given(@"a Solution (.*) does not exist")]
         public static async Task GivenASolutionSlnDoesNotExist(string solutionId)
         {
@@ -118,6 +130,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             public string SolutionID { get; set; }
 
             public string SolutionName { get; set; }
+        }
+
+        private class SolutionCapabilityReferenceTable
+        {
+            public string SolutionId { get; set; }
+
+            public List<string> CapabilitiesRef { get; set; }
         }
     }
 }

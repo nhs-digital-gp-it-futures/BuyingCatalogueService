@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 {
@@ -27,5 +29,18 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             ,@LastUpdated
             ,@LastUpdatedBy
         )";
+
+        public static async Task<IEnumerable<string>> FetchForSolutionAsync(string solutionId)
+        {
+            return await SqlRunner.FetchAllAsync<string>($@"SELECT
+                                   [Capability].[CapabilityRef]
+                                   FROM SolutionCapability
+                                   INNER JOIN Capability ON SolutionCapability.CapabilityId = Capability.Id
+                                   WHERE SolutionId = @solutionId;", new
+            {
+                solutionId
+            })
+                .ConfigureAwait(false);
+        }
     }
 }
