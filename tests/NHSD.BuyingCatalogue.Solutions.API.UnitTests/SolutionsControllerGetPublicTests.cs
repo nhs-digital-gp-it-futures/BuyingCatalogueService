@@ -203,6 +203,31 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
+        [TestCase(null, false)]
+        [TestCase("some implementation timescales description", true)]
+        [TestCase(" some implementation timescales description    ", true)]
+        [TestCase(" ", false)]
+        [TestCase("", false)]
+        public async Task ShouldGetPublicCalculateImplementationTimescales(string description, bool hasData)
+        {
+            var publicResult =
+                await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                        s.PublishedStatus == PublishedStatus.Published &&
+                        s.ImplementationTimescales == Mock.Of<IImplementationTimescales>(i => i.Description == description)), SolutionId1)
+                    .ConfigureAwait(false);
+
+            if (hasData)
+            {
+                publicResult.Sections.ImplementationTimescales.Should().NotBe(null);
+                publicResult.Sections.ImplementationTimescales.Answers.HasData.Should().Be(true);
+                publicResult.Sections.ImplementationTimescales.Answers.Description.Should().Be(description);
+            }
+            else
+            {
+                publicResult.Sections.ImplementationTimescales.Should().BeNull();
+            }
+        }
+
         [Test]
         public async Task ShouldCheckForNullClientApplicationTypes()
         {
