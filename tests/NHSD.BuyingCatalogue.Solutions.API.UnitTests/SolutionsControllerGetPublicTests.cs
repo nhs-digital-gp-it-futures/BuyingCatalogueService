@@ -144,17 +144,20 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
-        [TestCase(null, false)]
-        [TestCase("some description", true)]
-        [TestCase(" some description    ", true)]
-        [TestCase(" ", false)]
-        [TestCase("", false)]
-        public async Task ShouldGetPublicCalculateRoadMap(string description, bool hasData)
+        [TestCase(null, null, false)]
+        [TestCase("some description", null, true)]
+        [TestCase(" some description    ", null, true)]
+        [TestCase(" ", null, false)]
+        [TestCase("", null, false)]
+        [TestCase("some description", "roadmap.pdf", true)]
+        [TestCase(null, "roadmap.pdf", true)]
+        public async Task ShouldGetPublicCalculateRoadMap(string description, string documentName, bool hasData)
         {
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                     s.Id == SolutionId1 &&
                     s.PublishedStatus == PublishedStatus.Published &&
-                    s.RoadMap == description), SolutionId1)
+                    s.RoadMap.Summary == description &&
+                    s.RoadMap.DocumentName == documentName), SolutionId1)
                 .ConfigureAwait(false);
 
             publicResult.Id.Should().Be(SolutionId1);
@@ -164,6 +167,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 publicResult.Sections.RoadMap.Should().NotBe(null);
                 publicResult.Sections.RoadMap.Answers.HasData.Should().Be(true);
                 publicResult.Sections.RoadMap.Answers.Summary.Should().Be(description);
+                publicResult.Sections.RoadMap.Answers.DocumentName.Should().Be(documentName);
             }
             else
             {
@@ -171,30 +175,56 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
-        [TestCase(null, false)]
-        [TestCase("some integrations url", true)]
-        [TestCase(" some integrations url    ", true)]
-        [TestCase(" ", false)]
-        [TestCase("", false)]
-        public async Task ShouldGetPublicCalculateIntegrations(string url, bool hasData)
+        [TestCase(null, null, false)]
+        [TestCase("some integrations url", null, true)]
+        [TestCase(" some integrations url    ", null, true)]
+        [TestCase(" ", null, false)]
+        [TestCase("", null, false)]
+        [TestCase("some integrations url", "integration.pdf", true)]
+        [TestCase(null, "integration.pdf", true)]
+        public async Task ShouldGetPublicCalculateIntegrations(string url, string documentName, bool hasData)
         {
-            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
-                    s.Id == SolutionId1 &&
-                    s.PublishedStatus == PublishedStatus.Published &&
-                    s.IntegrationsUrl == url), SolutionId1)
-                .ConfigureAwait(false);
-
-            publicResult.Id.Should().Be(SolutionId1);
+            var publicResult =
+                await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                        s.PublishedStatus == PublishedStatus.Published &&
+                        s.Integrations == Mock.Of<IIntegrations>(i => i.Url == url && i.DocumentName == documentName)), SolutionId1)
+                    .ConfigureAwait(false);
 
             if (hasData)
             {
                 publicResult.Sections.Integrations.Should().NotBe(null);
                 publicResult.Sections.Integrations.Answers.HasData.Should().Be(true);
                 publicResult.Sections.Integrations.Answers.IntegrationsUrl.Should().Be(url);
+                publicResult.Sections.Integrations.Answers.DocumentName.Should().Be(documentName);
             }
             else
             {
                 publicResult.Sections.Integrations.Should().BeNull();
+            }
+        }
+
+        [TestCase(null, false)]
+        [TestCase("some implementation timescales description", true)]
+        [TestCase(" some implementation timescales description    ", true)]
+        [TestCase(" ", false)]
+        [TestCase("", false)]
+        public async Task ShouldGetPublicCalculateImplementationTimescales(string description, bool hasData)
+        {
+            var publicResult =
+                await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                        s.PublishedStatus == PublishedStatus.Published &&
+                        s.ImplementationTimescales == Mock.Of<IImplementationTimescales>(i => i.Description == description)), SolutionId1)
+                    .ConfigureAwait(false);
+
+            if (hasData)
+            {
+                publicResult.Sections.ImplementationTimescales.Should().NotBe(null);
+                publicResult.Sections.ImplementationTimescales.Answers.HasData.Should().Be(true);
+                publicResult.Sections.ImplementationTimescales.Answers.Description.Should().Be(description);
+            }
+            else
+            {
+                publicResult.Sections.ImplementationTimescales.Should().BeNull();
             }
         }
 

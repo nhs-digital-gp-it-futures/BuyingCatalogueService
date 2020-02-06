@@ -20,6 +20,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         [JsonProperty("integrations")]
         public IntegrationsSection Integrations { get; }
 
+        [JsonProperty("implementation-timescales")]
+        public ImplementationTimescalesSection ImplementationTimescales { get; }
+
         [JsonProperty("client-application-types")]
         public ClientApplicationTypesSection ClientApplicationTypes { get; }
 
@@ -57,7 +60,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
             SolutionDescription = new SolutionDescriptionSection(solution).IfPopulated();
             Features = new FeaturesSection(solution.Features).IfPopulated();
             RoadMap = new RoadMapSection(solution.RoadMap).IfPopulated();
-            Integrations = new IntegrationsSection(solution.IntegrationsUrl).IfPopulated();
+            Integrations = new IntegrationsSection(solution.Integrations).IfPopulated();
+            ImplementationTimescales = new ImplementationTimescalesSection(solution.ImplementationTimescales).IfPopulated();
             ClientApplicationTypes = new ClientApplicationTypesSection(solution.ClientApplication).IfPopulated();
             ContactDetails = new ContactDetailsSection(solution.Contacts).IfPopulated();
             Capabilities = new CapabilitiesSection(solution.Capabilities);

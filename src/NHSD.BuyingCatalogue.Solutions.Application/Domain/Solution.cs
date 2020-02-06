@@ -46,12 +46,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         /// <summary>
         /// Gets or sets a road map description.
         /// </summary>
-        public string RoadMap { get; set; }
+        public RoadMap RoadMap { get; set; }
 
         /// <summary>
-        /// Gets or sets an integrations url.
+        /// Gets or sets an integration.
         /// </summary>
-        public string IntegrationsUrl { get; set; }
+        public Integrations Integrations { get; set; }
 
         /// <summary>
         /// A link to provide more information about a solution.
@@ -99,12 +99,18 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public Supplier Supplier { get; set; }
 
         /// <summary>
+        /// Gets or sets an implementation timescales.
+        /// </summary>
+        public ImplementationTimescales ImplementationTimescales { get; set; }
+
+        /// <summary>
         /// Initialises a new instance of the <see cref="Solution"/> class.
         /// </summary>
         internal Solution(ISolutionResult solutionResult,
             IEnumerable<ISolutionCapabilityListResult> solutionCapabilityListResult,
             IEnumerable<IMarketingContactResult> contactResult,
-            ISupplierResult supplierResult)
+            ISupplierResult supplierResult,
+            IDocumentResult documentResult)
         {
             Id = solutionResult.Id;
             Name = solutionResult.Name;
@@ -114,9 +120,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
             Features = string.IsNullOrWhiteSpace(solutionResult.Features)
                 ? new List<string>()
                 : JsonConvert.DeserializeObject<IEnumerable<string>>(solutionResult.Features);
+            Integrations = new Integrations { Url = solutionResult.IntegrationsUrl, DocumentName = documentResult?.IntegrationDocumentName };
+            ImplementationTimescales = new ImplementationTimescales { Description = solutionResult.ImplementationTimescales };
             AboutUrl = solutionResult.AboutUrl;
-            RoadMap = solutionResult.RoadMap;
-            IntegrationsUrl = solutionResult.IntegrationsUrl;
+            RoadMap = new RoadMap { Summary = solutionResult.RoadMap, DocumentName = documentResult?.RoadMapDocumentName };
             ClientApplication = string.IsNullOrWhiteSpace(solutionResult.ClientApplication)
                 ? new ClientApplication()
                 : JsonConvert.DeserializeObject<ClientApplication>(solutionResult.ClientApplication);
@@ -132,7 +139,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         }
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="Solution"/> class.
+        /// Initialises a new instance of the <see cref="Solution" /> class.
         /// </summary>
         public Solution()
         {
@@ -140,7 +147,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
             PublishedStatus = PublishedStatus.Draft;
         }
 
-        private DateTime GetLatestLastUpdated(ISolutionResult solutionResult, IEnumerable<IMarketingContactResult> contactResult) =>
+        private DateTime GetLatestLastUpdated(ISolutionResult solutionResult,
+            IEnumerable<IMarketingContactResult> contactResult) =>
             new List<DateTime>
             {
                 solutionResult.LastUpdated,

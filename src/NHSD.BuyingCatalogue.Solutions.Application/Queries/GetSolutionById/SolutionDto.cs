@@ -43,9 +43,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         public IEnumerable<string> Features { get; set; }
 
         /// <summary>
-        /// Gets or sets a road map description.
+        /// Gets or sets a road map.
         /// </summary>
-        public string RoadMap { get; set; }
+        public IRoadMap RoadMap { get; set; }
 
         /// <summary>
         /// A link to provide more information about a solution.
@@ -93,8 +93,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         public ISupplier Supplier { get; set; }
 
         /// <summary>
-        /// Gets or sets an integration url.
+        /// Gets or sets an integration.
         /// </summary>
-        public string IntegrationsUrl { get; set; }
+        public IIntegrations Integrations { get; set; }
+
+        /// <summary>
+        /// Gets or sets an implementation timescales.
+        /// </summary>
+        public IImplementationTimescales ImplementationTimescales { get; set; }
     }
 }

@@ -42,6 +42,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Features).Returns("[ 'Marmite', 'Jam', 'Marmelade' ]");
             existingSolution.Setup(s => s.RoadMap).Returns("Some valid roadmap description");
             existingSolution.Setup(s => s.IntegrationsUrl).Returns("Some valid integrations url");
+            existingSolution.Setup(s => s.ImplementationTimescales).Returns("Some valid implementation timescales description");
             existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'MobileFirstDesign': true, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows', 'Linux'], 'OperatingSystemsDescription': 'For windows only version 10' }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileThirdParty': { 'ThirdPartyComponents': 'Component', 'DeviceCapabilities': 'Capabilities'}, 'NativeMobileHardwareRequirements': 'Native Mobile Hardware', 'NativeDesktopHardwareRequirements': 'Native Desktop Hardware', 'NativeMobileAdditionalInformation': 'native mobile additional information', 'NativeDesktopMinimumConnectionSpeed': '6Mbps', 'NativeDesktopOperatingSystemsDescription':'native desktop operating systems description', 'NativeDesktopThirdParty': { 'ThirdPartyComponents': 'Components', 'DeviceCapabilities': 'Capabilities' }, 'NativeDesktopMemoryAndStorage': { 'MinimumMemoryRequirement': '512MB', 'StorageRequirementsDescription': '1024GB', 'MinimumCpu': '3.4GHz', 'RecommendedResolution': '800x600' }, 'NativeDesktopAdditionalInformation': 'some additional information' }");
             existingSolution.Setup(s => s.Hosting).Returns("{ 'PublicCloud': { 'Summary': 'Some summary', 'Link': 'some link', 'RequiresHSCN': 'It is required' } }");
             existingSolution.Setup(s => s.IsFoundation).Returns(true);
@@ -51,6 +52,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             var mockSupplier = Mock.Of<ISupplierResult>(m =>
                 m.Name == "supplier name" && m.Summary == "supplier summary" && m.Url == "supplierUrl");
+
+            var mockDocument = new Mock<IDocumentResult>();
+            mockDocument.Setup(s => s.RoadMapDocumentName).Returns("RoadMap.pdf");
+            mockDocument.Setup(s => s.IntegrationDocumentName).Returns("Integration.pdf");
 
             _context.MockSolutionCapabilityRepository
                 .Setup(r => r.ListSolutionCapabilities("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new []{capabilities1, capabilities2});
@@ -68,6 +73,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             _context.MockSupplierRepository.Setup(r => r.GetSupplierBySolutionIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(mockSupplier);
 
+            _context.MockDocumentRepository
+                .Setup(r => r.GetDocumentResultBySolutionIdAsync("Sln1", It.IsAny<CancellationToken>()))
+                .ReturnsAsync(mockDocument.Object);
+
             var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken()).ConfigureAwait(false);
 
             solution.Id.Should().Be("Sln1");
@@ -79,8 +88,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.AboutUrl.Should().Be("AboutUrl");
 
             solution.Features.Should().BeEquivalentTo(new [] {"Marmite", "Jam", "Marmelade"});
-            solution.RoadMap.Should().Be("Some valid roadmap description");
-            solution.IntegrationsUrl.Should().Be("Some valid integrations url");
+
+            solution.ImplementationTimescales.Description.Should().Be("Some valid implementation timescales description");
+            solution.Integrations.Url.Should().Be("Some valid integrations url");
+            solution.Integrations.DocumentName.Should().Be("Integration.pdf");
+
+            solution.RoadMap.Summary.Should().Be("Some valid roadmap description");
+            solution.RoadMap.DocumentName.Should().Be("RoadMap.pdf");
+
             solution.ClientApplication.ClientApplicationTypes.Should().BeEquivalentTo(new[] { "browser-based", "native-mobile" });
             solution.ClientApplication.BrowsersSupported.Should().BeEquivalentTo(new[] { "Chrome", "Edge" });
             solution.ClientApplication.MobileResponsive.Should().BeTrue();
@@ -147,6 +162,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Features).Returns((string)null);
             existingSolution.Setup(s => s.RoadMap).Returns((string)null);
             existingSolution.Setup(s => s.IntegrationsUrl).Returns((string)null);
+            existingSolution.Setup(s => s.ImplementationTimescales).Returns((string)null);
             existingSolution.Setup(s => s.ClientApplication).Returns((string)null);
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
@@ -160,10 +176,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.Summary.Should().BeNullOrEmpty();
             solution.Description.Should().BeNullOrEmpty();
             solution.AboutUrl.Should().BeNullOrEmpty();
-
             solution.Features.Should().BeEmpty();
-            solution.RoadMap.Should().BeNullOrEmpty();
-            solution.IntegrationsUrl.Should().BeNullOrEmpty();
+
+            solution.RoadMap.DocumentName.Should().BeNullOrEmpty();
+            solution.RoadMap.Summary.Should().BeNullOrEmpty();
+
+            solution.ImplementationTimescales.Description.Should().BeNullOrEmpty();
+            solution.Integrations.Url.Should().BeNullOrEmpty();
+            solution.Integrations.DocumentName.Should().BeNullOrEmpty();
+
             solution.ClientApplication.ClientApplicationTypes.Should().BeEmpty();
             solution.ClientApplication.BrowsersSupported.Should().BeEmpty();
             solution.ClientApplication.MobileResponsive.Should().BeNull();
@@ -203,6 +224,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Features).Returns((string)null);
             existingSolution.Setup(s => s.RoadMap).Returns((string)null);
             existingSolution.Setup(s => s.IntegrationsUrl).Returns((string)null);
+            existingSolution.Setup(s => s.ImplementationTimescales).Returns((string)null);
             existingSolution.Setup(s => s.ClientApplication).Returns((string)null);
 
             var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
@@ -223,8 +245,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.AboutUrl.Should().BeNullOrEmpty();
 
             solution.Features.Should().BeEmpty();
-            solution.RoadMap.Should().BeNullOrEmpty();
-            solution.IntegrationsUrl.Should().BeNullOrEmpty();
+
+            solution.ImplementationTimescales.Description.Should().BeNullOrEmpty();
+            solution.Integrations.Url.Should().BeNullOrEmpty();
+            solution.Integrations.DocumentName.Should().BeNullOrEmpty();
+
+            solution.RoadMap.Summary.Should().BeNullOrEmpty();
+            solution.RoadMap.DocumentName.Should().BeNullOrEmpty();
+
             solution.ClientApplication.ClientApplicationTypes.Should().BeEmpty();
             solution.ClientApplication.BrowsersSupported.Should().BeEmpty();
             solution.ClientApplication.MobileResponsive.Should().BeNull();
@@ -264,6 +292,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Features).Returns("[ 'Marmite', 'Jam', 'Marmelade' ]");
             existingSolution.Setup(s => s.RoadMap).Returns((string)null);
             existingSolution.Setup(s => s.IntegrationsUrl).Returns((string)null);
+            existingSolution.Setup(s => s.ImplementationTimescales).Returns((string)null);
 
             var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
             var capabilities2 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap2");
@@ -285,8 +314,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.AboutUrl.Should().BeNullOrEmpty();
 
             solution.Features.Should().BeEquivalentTo(new[] { "Marmite", "Jam", "Marmelade" });
-            solution.RoadMap.Should().BeNullOrEmpty();
-            solution.IntegrationsUrl.Should().BeNullOrEmpty();
+
+            solution.RoadMap.Summary.Should().BeNullOrEmpty();
+
+            solution.ImplementationTimescales.Description.Should().BeNullOrEmpty();
+
+            solution.Integrations.Url.Should().BeNullOrEmpty();
+            solution.Integrations.DocumentName.Should().BeNullOrEmpty();
 
             solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1", "cap2", "cap3"});
             solution.Contacts.Count().Should().Be(0);
@@ -315,7 +349,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             };
 
             var solution = new Solution(existingSolution, new List<ISolutionCapabilityListResult>(),
-                existingMarketingContactResult, existingSupplier);
+                existingMarketingContactResult, existingSupplier,null);
 
             solution.LastUpdated.Should().Be(dateTimeExpected);
         }
@@ -331,7 +365,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var existingSupplier = Mock.Of<ISupplierResult>();
 
             var solution = new Solution(existingSolution, new List<ISolutionCapabilityListResult>(),
-                new List<IMarketingContactResult>(), existingSupplier);
+                new List<IMarketingContactResult>(), existingSupplier, null);
 
             solution.LastUpdated.Should().Be(dateTimeExpected);
         }
@@ -349,6 +383,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Features).Returns((string)null);
             existingSolution.Setup(s => s.RoadMap).Returns((string)null);
             existingSolution.Setup(s => s.IntegrationsUrl).Returns((string)null);
+            existingSolution.Setup(s => s.ImplementationTimescales).Returns((string)null);
             existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : false, 'AdditionalInformation': null }, 'MobileFirstDesign': false, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows'], 'OperatingSystemsDescription': null }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileThirdParty': { 'ThirdPartyComponents': 'Component' }, 'NativeDesktopMinimumConnectionSpeed': '3 Mbps', 'NativeDesktopThirdParty': { 'ThirdPartyComponents': 'New Components' }, 'NativeDesktopMemoryAndStorage': { 'MinimumMemoryRequirement': '512MB', 'StorageRequirementsDescription': '1024GB', 'MinimumCpu': '3.4GHz' } }");
             existingSolution.Setup(s => s.IsFoundation).Returns(false);
             var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
@@ -370,8 +405,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.AboutUrl.Should().BeNullOrEmpty();
 
             solution.Features.Should().BeEmpty();
-            solution.RoadMap.Should().BeNullOrEmpty();
-            solution.IntegrationsUrl.Should().BeNullOrEmpty();
+
+            solution.ImplementationTimescales.Description.Should().BeNullOrEmpty();
+            solution.Integrations.Url.Should().BeNullOrEmpty();
+            solution.Integrations.DocumentName.Should().BeNullOrEmpty();
+
+            solution.RoadMap.Summary.Should().BeNullOrEmpty();
+            solution.RoadMap.DocumentName.Should().BeNullOrEmpty();
+
             solution.ClientApplication.ClientApplicationTypes.Should().BeEquivalentTo(new[] { "browser-based", "native-mobile" });
             solution.ClientApplication.BrowsersSupported.Should().BeEquivalentTo(new[] { "Chrome", "Edge" });
             solution.ClientApplication.MobileResponsive.Should().BeTrue();
@@ -427,6 +468,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Features).Returns((string)null);
             existingSolution.Setup(s => s.RoadMap).Returns((string)null);
             existingSolution.Setup(s => s.IntegrationsUrl).Returns((string)null);
+            existingSolution.Setup(s => s.ImplementationTimescales).Returns((string)null);
             existingSolution.Setup(s => s.ClientApplication).Returns((string)null);
 
             var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
@@ -451,8 +493,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.AboutUrl.Should().BeNullOrEmpty();
 
             solution.Features.Should().BeEmpty();
-            solution.RoadMap.Should().BeNullOrEmpty();
-            solution.IntegrationsUrl.Should().BeNullOrEmpty();
+
+            solution.ImplementationTimescales.Description.Should().BeNullOrEmpty();
+
+            solution.Integrations.Url.Should().BeNullOrEmpty();
+            solution.Integrations.DocumentName.Should().BeNullOrEmpty();
+
+            solution.RoadMap.Summary.Should().BeNullOrEmpty();
+            solution.RoadMap.DocumentName.Should().BeNullOrEmpty();
+
             solution.ClientApplication.ClientApplicationTypes.Should().BeEmpty();
             solution.ClientApplication.BrowsersSupported.Should().BeEmpty();
             solution.ClientApplication.MobileResponsive.Should().BeNull();

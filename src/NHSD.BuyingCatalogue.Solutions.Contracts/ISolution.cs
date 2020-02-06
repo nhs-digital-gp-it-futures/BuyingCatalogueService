@@ -42,9 +42,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         IEnumerable<string> Features { get; }
 
         /// <summary>
-        /// Gets or sets the Road Map description.
+        /// Gets or sets the Road Map.
         /// </summary>
-        string RoadMap { get; }
+        IRoadMap RoadMap { get; }
 
         /// <summary>
         /// A link to provide more information about a solution.
@@ -92,8 +92,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         ISupplier Supplier { get; }
 
         /// <summary>
-        /// Gets or sets the Integrations url.
+        /// Gets or sets the integrations.
         /// </summary>
-        string IntegrationsUrl { get; }
+        IIntegrations Integrations { get; }
+
+        /// <summary>
+        /// Gets or sets the implementation timescales.
+        /// </summary>
+        IImplementationTimescales ImplementationTimescales { get; }
     }
 }

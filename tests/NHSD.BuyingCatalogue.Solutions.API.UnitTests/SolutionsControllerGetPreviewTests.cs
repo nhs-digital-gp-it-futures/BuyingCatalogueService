@@ -123,14 +123,17 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
-        [TestCase(null, false)]
-        [TestCase("some description", true)]
-        [TestCase(" some description    ", true)]
-        [TestCase(" ", false)]
-        [TestCase("", false)]
-        public async Task ShouldGetPreviewCalculateRoadMap(string description, bool hasData)
+        [TestCase(null, null,false)]
+        [TestCase("some description", null, true)]
+        [TestCase(" some description    ", null, true)]
+        [TestCase(" ", null, false)]
+        [TestCase("", null, false)]
+        [TestCase("some description", "roadmap.pdf", true)]
+        [TestCase(null, "roadmap.pdf", true)]
+        public async Task ShouldGetPreviewCalculateRoadMap(string description, string documentName, bool hasData)
         {
-            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s => s.RoadMap == description))
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s => s.RoadMap.Summary == description &&
+                                                                                             s.RoadMap.DocumentName == documentName))
                 .ConfigureAwait(false);
 
             if (hasData)
@@ -138,6 +141,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 previewResult.Sections.RoadMap.Should().NotBe(null);
                 previewResult.Sections.RoadMap.Answers.HasData.Should().Be(true);
                 previewResult.Sections.RoadMap.Answers.Summary.Should().Be(description);
+                previewResult.Sections.RoadMap.Answers.DocumentName.Should().Be(documentName);
             }
             else
             {
@@ -145,21 +149,74 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
-        [TestCase(null, false)]
-        [TestCase("some integrations url", true)]
-        [TestCase(" some integrations url    ", true)]
-        [TestCase(" ", false)]
-        [TestCase("", false)]
-        public async Task ShouldGetPreviewCalculateIntegrations(string url, bool hasData)
+        [TestCase(null, null, false)]
+        [TestCase("some integrations url", null, true)]
+        [TestCase(" some integrations url    ", null, true)]
+        [TestCase(" ", null, false)]
+        [TestCase("", null, false)]
+        [TestCase("some integrations url", "integration.pdf", true)]
+        [TestCase(null, "integration.pdf", true)]
+        public async Task ShouldGetPreviewCalculateIntegrations(string url, string documentName, bool hasData)
         {
-            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s => s.IntegrationsUrl == url))
-                .ConfigureAwait(false);
+            var previewResult =
+                await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                        s.Integrations == Mock.Of<IIntegrations>(i => i.Url == url && i.DocumentName == documentName)))
+                    .ConfigureAwait(false);
 
             if (hasData)
             {
                 previewResult.Sections.Integrations.Should().NotBe(null);
                 previewResult.Sections.Integrations.Answers.HasData.Should().Be(true);
                 previewResult.Sections.Integrations.Answers.IntegrationsUrl.Should().Be(url);
+                previewResult.Sections.Integrations.Answers.DocumentName.Should().Be(documentName);
+            }
+            else
+            {
+                previewResult.Sections.Integrations.Should().BeNull();
+            }
+        }
+
+        [TestCase(null, false)]
+        [TestCase("some implementation timescales description", true)]
+        [TestCase(" some implementation timescales description    ", true)]
+        [TestCase(" ", false)]
+        [TestCase("", false)]
+        public async Task ShouldGetPreviewImplementationTimescales(string description, bool hasData)
+        {
+            var previewResult =
+                await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                        s.ImplementationTimescales == Mock.Of<IImplementationTimescales>(i => i.Description == description)))
+                    .ConfigureAwait(false);
+
+            if (hasData)
+            {
+                previewResult.Sections.ImplementationTimescales.Should().NotBe(null);
+                previewResult.Sections.ImplementationTimescales.Answers.HasData.Should().Be(true);
+                previewResult.Sections.ImplementationTimescales.Answers.Description.Should().Be(description);
+            }
+            else
+            {
+                previewResult.Sections.ImplementationTimescales.Should().BeNull();
+            }
+        }
+
+        [TestCase(null, false)]
+        [TestCase("some integrations timescales description", true)]
+        [TestCase(" some integrations timescales description    ", true)]
+        [TestCase(" ", false)]
+        [TestCase("", false)]
+        public async Task ShouldGetPreviewCalculateImplementationTimescales(string description, bool hasData)
+        {
+            var previewResult =
+                await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                        s.ImplementationTimescales == Mock.Of<IImplementationTimescales>(i => i.Description == description)))
+                    .ConfigureAwait(false);
+
+            if (hasData)
+            {
+                previewResult.Sections.ImplementationTimescales.Should().NotBe(null);
+                previewResult.Sections.ImplementationTimescales.Answers.HasData.Should().Be(true);
+                previewResult.Sections.ImplementationTimescales.Answers.Description.Should().Be(description);
             }
             else
             {
