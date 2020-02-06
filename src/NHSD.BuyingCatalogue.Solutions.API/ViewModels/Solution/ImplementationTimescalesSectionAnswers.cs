@@ -8,7 +8,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         [JsonProperty("description")]
         public string Description { get; }
 
-        [JsonIgnore] public bool HasData => !string.IsNullOrWhiteSpace(Description);
+        [JsonIgnore]
+        public bool HasData => !string.IsNullOrWhiteSpace(Description);
 
         public ImplementationTimescalesSectionAnswers(IImplementationTimescales implementationTimescales)
         {
