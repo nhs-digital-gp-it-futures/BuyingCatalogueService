@@ -23,19 +23,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         }
 
         [HttpGet]
-        [Route("{id}/sections/capabilities")]
+        [Route("/sections/capabilities")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult Get([FromRoute][Required]string id)
+        public ActionResult GetAll()
         {
-            // Canned Data
-            var result = new CapabilitiesResult
-            {
-                SolutionId = id
-            };
-
-            return Ok(result);
+            return Ok();
         }
 
         /// <summary>
