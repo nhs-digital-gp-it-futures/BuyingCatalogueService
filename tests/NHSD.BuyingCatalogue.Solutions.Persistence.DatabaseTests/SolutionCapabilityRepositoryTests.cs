@@ -21,9 +21,25 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
         private const string SupplierId = "Sup 1";
 
-        private static List<CapabilityDetails> _capDetails;
+        private readonly List<CapabilityDetails> _capDetails = new List<CapabilityDetails>()
+        {
+            CreateCapability("Cap1", "Desc1", "Ref1"),
+            CreateCapability("Cap2", "Desc2", "Ref2"),
+            CreateCapability("Cap3", "Desc3", "Ref3")
+        };
 
         private ISolutionCapabilityRepository _solutionCapabilityRepository;
+
+        private static CapabilityDetails CreateCapability(string name, string desc, string reference)
+        {
+            return new CapabilityDetails()
+            {
+                Id = Guid.NewGuid(),
+                Name = name,
+                Desc = desc,
+                Reference = reference
+            };
+        }
 
         [SetUp]
         public async Task Setup()
@@ -45,11 +61,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             TestContext testContext = new TestContext();
             _solutionCapabilityRepository = testContext.SolutionCapabilityRepository;
-            _capDetails = new List<CapabilityDetails>();
-
-            AddCapability("Cap1", "Desc1", "Ref1");
-            AddCapability("Cap2", "Desc2", "Ref2");
-            AddCapability("Cap3", "Desc3", "Ref3");
         }
 
         [Test]
@@ -228,17 +239,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
-        }
-
-        private void AddCapability(string name, string desc, string reference)
-        {
-            _capDetails.Add(new CapabilityDetails()
-            {
-                Id = Guid.NewGuid(),
-                Name = name,
-                Desc = desc,
-                Reference = reference
-            });
         }
     }
 }
