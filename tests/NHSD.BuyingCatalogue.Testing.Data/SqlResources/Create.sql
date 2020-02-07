@@ -12,11 +12,11 @@ GO
 CREATE TABLE [dbo].[CompliancyLevel](
 	[Id] [int] NOT NULL,
 	[Name] [varchar](16) NOT NULL,
- CONSTRAINT [PK_CompliancyLevel] PRIMARY KEY CLUSTERED
+ CONSTRAINT [PK_CompliancyLevel] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [IX_CompliancyLevelName] UNIQUE NONCLUSTERED
+ CONSTRAINT [IX_CompliancyLevelName] UNIQUE NONCLUSTERED 
 (
 	[Name] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -32,11 +32,11 @@ GO
 CREATE TABLE [dbo].[CapabilityCategory](
 	[Id] [int] NOT NULL,
 	[Name] [varchar](50) NOT NULL,
- CONSTRAINT [PK_CapabilityCategory] PRIMARY KEY CLUSTERED
+ CONSTRAINT [PK_CapabilityCategory] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [IX_CapabilityCategoryName] UNIQUE NONCLUSTERED
+ CONSTRAINT [IX_CapabilityCategoryName] UNIQUE NONCLUSTERED 
 (
 	[Name] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -51,22 +51,22 @@ GO
 CREATE TABLE [dbo].[CapabilityStatus](
 	[Id] [int] NOT NULL,
 	[Name] [varchar](16) NOT NULL,
- CONSTRAINT [PK_CapabilityStatus] PRIMARY KEY CLUSTERED
+ CONSTRAINT [PK_CapabilityStatus] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [IX_CapabilityStatusName] UNIQUE NONCLUSTERED
+ CONSTRAINT [IX_CapabilityStatusName] UNIQUE NONCLUSTERED 
 (
 	[Name] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
-
+ 
 /*-----------------------------------------------------------------------
 --
 -- Capability
--- Note: Clustering turned off on Id as uniqueidentifer, but enabled on
+-- Note: Clustering turned off on Id as uniqueidentifer, but enabled on 
 -- CapabilityRef as Azure SQL requires one and only one per table
 ------------------------------------------------------------------------*/
 CREATE TABLE [dbo].[Capability](
@@ -80,7 +80,7 @@ CREATE TABLE [dbo].[Capability](
 	[SourceUrl] [varchar](1000) NULL,
 	[EffectiveDate] [date] NOT NULL,
 	[CategoryId] [int] NOT NULL,
- CONSTRAINT [PK_Capability] PRIMARY KEY NONCLUSTERED
+ CONSTRAINT [PK_Capability] PRIMARY KEY NONCLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -119,7 +119,7 @@ CREATE TABLE [dbo].[Epic](
 	[SourceUrl] [varchar](max) NULL,
 	[CompliancyLevelId] [int],
 	[Active] [bit] NOT NULL,
- CONSTRAINT [PK_Epic] PRIMARY KEY NONCLUSTERED
+ CONSTRAINT [PK_Epic] PRIMARY KEY NONCLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -147,12 +147,12 @@ GO
 ------------------------------------------------------------------------*/
 CREATE TABLE [dbo].[StandardStatus](
 	[Id] [int] NOT NULL,
-	[Name] [varchar](16) NOT NULL,
- CONSTRAINT [PK_StandardStatus] PRIMARY KEY CLUSTERED
+	[Name] [varchar](16) NOT NULL,	
+ CONSTRAINT [PK_StandardStatus] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [IX_StandardStatusName] UNIQUE NONCLUSTERED
+ CONSTRAINT [IX_StandardStatusName] UNIQUE NONCLUSTERED 
 (
 	[Name] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -167,11 +167,11 @@ GO
 CREATE TABLE [dbo].[StandardCategory](
 	[Id] [int] NOT NULL,
 	[Name] [varchar](16) NOT NULL,
- CONSTRAINT [PK_StandardCategory] PRIMARY KEY CLUSTERED
+ CONSTRAINT [PK_StandardCategory] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [IX_StandardCategoryName] UNIQUE NONCLUSTERED
+ CONSTRAINT [IX_StandardCategoryName] UNIQUE NONCLUSTERED 
 (
 	[Name] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -195,7 +195,7 @@ CREATE TABLE [dbo].[Standard](
 	[SourceUrl] [varchar](1000) NULL,
 	[StatusId] [int] NOT NULL,
 	[EffectiveDate] [date] NULL,
- CONSTRAINT [PK_Standard] PRIMARY KEY NONCLUSTERED
+ CONSTRAINT [PK_Standard] PRIMARY KEY NONCLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -229,12 +229,12 @@ GO
 ------------------------------------------------------------------------*/
 CREATE TABLE [dbo].[CapabilityStandards](
 	[CapabilityId] [uniqueidentifier] NOT NULL,
-	[StandardId] [uniqueidentifier] NOT NULL,
+	[StandardId] [uniqueidentifier] NOT NULL,	
 	[IsOptional] [bit] NOT NULL CONSTRAINT [DF_CapabilityStandards_IsOptional] DEFAULT 0,
- CONSTRAINT [PK_CapabilityStandards] PRIMARY KEY CLUSTERED
+ CONSTRAINT [PK_CapabilityStandards] PRIMARY KEY CLUSTERED 
 (
-	[CapabilityId] ASC,
-	[StandardId] ASC
+	[CapabilityId] ASC,	
+	[StandardId] ASC	
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
@@ -265,7 +265,7 @@ CREATE TABLE [dbo].[Framework](
 	[Owner] [varchar](100) NULL,
 	[ActiveDate] [date] NULL,
 	[ExpiryDate] [date] NULL,
- CONSTRAINT [PK_Framework] PRIMARY KEY CLUSTERED
+ CONSTRAINT [PK_Framework] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -280,9 +280,9 @@ GO
 ------------------------------------------------------------------------*/
 CREATE TABLE [dbo].[FrameworkCapabilities](
 	[FrameworkId] [varchar](10) NOT NULL,
-	[CapabilityId] [uniqueidentifier] NOT NULL,
+	[CapabilityId] [uniqueidentifier] NOT NULL,	
 	[IsFoundation] [bit] NOT NULL CONSTRAINT [DF_FrameworkCapabilities_IsFoundation] DEFAULT 0,
- CONSTRAINT [PK_FrameworkCapabilities] PRIMARY KEY CLUSTERED
+ CONSTRAINT [PK_FrameworkCapabilities] PRIMARY KEY CLUSTERED 
 (
 	[FrameworkId] ASC,
 	[CapabilityId] ASC
@@ -312,8 +312,8 @@ GO
 ------------------------------------------------------------------------*/
 CREATE TABLE [dbo].[FrameworkStandards](
 	[FrameworkId] [varchar](10) NOT NULL,
-	[StandardId] [uniqueidentifier] NOT NULL,
- CONSTRAINT [PK_FrameworkStandards] PRIMARY KEY CLUSTERED
+	[StandardId] [uniqueidentifier] NOT NULL,	
+ CONSTRAINT [PK_FrameworkStandards] PRIMARY KEY CLUSTERED 
 (
 	[FrameworkId] ASC,
 	[StandardId] ASC
@@ -351,7 +351,7 @@ CREATE TABLE [dbo].[Organisation](
 	[Deleted] bit NOT NULL CONSTRAINT [DF_Organisation_Deleted] DEFAULT 0,
 	[LastUpdated] [datetime2](7) NOT NULL,
 	[LastUpdatedBy] [uniqueidentifier] NOT NULL,
- CONSTRAINT [PK_Organisation] PRIMARY KEY NONCLUSTERED
+ CONSTRAINT [PK_Organisation] PRIMARY KEY NONCLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -378,11 +378,11 @@ CREATE TABLE [dbo].[Supplier](
 	[SupplierUrl] [varchar](1000) NULL,
 	[Address] [nvarchar](500) NULL,
 	[OdsCode] [varchar](8) NULL,
-	[CrmRef] [uniqueidentifier] NULL,
+	[CrmRef] [uniqueidentifier] NULL,	
 	[Deleted] bit NOT NULL CONSTRAINT [DF_Supplier_Deleted] DEFAULT 0,
 	[LastUpdated] [datetime2](7) NOT NULL,
 	[LastUpdatedBy] [uniqueidentifier] NOT NULL,
- CONSTRAINT [PK_Supplier] PRIMARY KEY CLUSTERED
+ CONSTRAINT [PK_Supplier] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -396,7 +396,7 @@ GO
 --
 ------------------------------------------------------------------------*/
 CREATE TABLE [dbo].[SupplierContact](
-	[Id] [uniqueidentifier] NOT NULL,
+	[Id] [uniqueidentifier] NOT NULL,	
 	[SupplierId] [varchar](6) NOT NULL,
 	[FirstName] [varchar](35) NOT NULL,
 	[LastName] [varchar](35) NOT NULL,
@@ -404,7 +404,7 @@ CREATE TABLE [dbo].[SupplierContact](
 	[PhoneNumber] [varchar](35) NULL,
 	[LastUpdated] [datetime2](7) NOT NULL,
 	[LastUpdatedBy] [uniqueidentifier] NOT NULL,
- CONSTRAINT [PK_SupplierContact] PRIMARY KEY NONCLUSTERED
+ CONSTRAINT [PK_SupplierContact] PRIMARY KEY NONCLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -432,12 +432,12 @@ GO
 ------------------------------------------------------------------------*/
 CREATE TABLE [dbo].[PublicationStatus](
 	[Id] [int] NOT NULL,
-	[Name] [varchar](16) NOT NULL,
- CONSTRAINT [PK_PublicationStatus] PRIMARY KEY CLUSTERED
+	[Name] [varchar](16) NOT NULL,	
+ CONSTRAINT [PK_PublicationStatus] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [IX_PublicationStatusName] UNIQUE NONCLUSTERED
+ CONSTRAINT [IX_PublicationStatusName] UNIQUE NONCLUSTERED 
 (
 	[Name] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -451,12 +451,12 @@ GO
 ------------------------------------------------------------------------*/
 CREATE TABLE [dbo].[SolutionAuthorityStatus](
 	[Id] [int] NOT NULL,
-	[Name] [varchar](16) NOT NULL,
- CONSTRAINT [PK_SolutionAuthorityStatus] PRIMARY KEY CLUSTERED
+	[Name] [varchar](16) NOT NULL,	
+ CONSTRAINT [PK_SolutionAuthorityStatus] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [IX_SolutionAuthorityStatusName] UNIQUE NONCLUSTERED
+ CONSTRAINT [IX_SolutionAuthorityStatusName] UNIQUE NONCLUSTERED 
 (
 	[Name] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -470,12 +470,12 @@ GO
 ------------------------------------------------------------------------*/
 CREATE TABLE [dbo].[SolutionSupplierStatus](
 	[Id] [int] NOT NULL,
-	[Name] [varchar](16) NOT NULL,
- CONSTRAINT [PK_SolutionSupplierStatus] PRIMARY KEY CLUSTERED
+	[Name] [varchar](16) NOT NULL,	
+ CONSTRAINT [PK_SolutionSupplierStatus] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [IX_SolutionSupplierStatusName] UNIQUE NONCLUSTERED
+ CONSTRAINT [IX_SolutionSupplierStatusName] UNIQUE NONCLUSTERED 
 (
 	[Name] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -489,20 +489,20 @@ GO
 ------------------------------------------------------------------------*/
 CREATE TABLE [dbo].[Solution](
 	[Id] [varchar](14) NOT NULL,
-	[ParentId] [varchar](14) NULL,
-	[SupplierId] [varchar](6) NOT NULL,
-	[SolutionDetailId] [uniqueidentifier] NULL,
+	[ParentId] [varchar](14) NULL,	
+	[SupplierId] [varchar](6) NOT NULL,	
+	[SolutionDetailId] [uniqueidentifier] NULL,	
 	[Name] [varchar](255) NOT NULL,
 	[Version] [varchar](10) NULL,
 	[PublishedStatusId] [int] NOT NULL CONSTRAINT [DF_Solution_PublishedStatus] DEFAULT 1,
 	[AuthorityStatusId] [int] NOT NULL CONSTRAINT [DF_Solution_AuthorityStatus] DEFAULT 1,
-	[SupplierStatusId] [int] NOT NULL CONSTRAINT [DF_Solution_SupplierStatus] DEFAULT 1,
-	[OnCatalogueVersion] [int] NOT NULL CONSTRAINT [DF_Solution_OnCatalogueVersion] DEFAULT 0,
+	[SupplierStatusId] [int] NOT NULL CONSTRAINT [DF_Solution_SupplierStatus] DEFAULT 1,	
+	[OnCatalogueVersion] [int] NOT NULL CONSTRAINT [DF_Solution_OnCatalogueVersion] DEFAULT 0,	
 	[ServiceLevelAgreement] [nvarchar](1000) NULL,
 	[WorkOfPlan] [nvarchar](max) NULL,
 	[LastUpdated] [datetime2](7) NOT NULL,
 	[LastUpdatedBy] [uniqueidentifier] NOT NULL,
- CONSTRAINT [PK_Solution] PRIMARY KEY CLUSTERED
+ CONSTRAINT [PK_Solution] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -558,14 +558,14 @@ CREATE TABLE [dbo].[SolutionDetail](
 	[ClientApplication] [nvarchar](max) NULL,
 	[Hosting] [nvarchar](max) NULL,
 	[ImplementationDetail] [varchar](1000) NULL,
-	[RoadMap] [varchar](1000) NULL,
-	[IntegrationsUrl] [varchar](1000) NULL,
-	[AboutUrl] [varchar](1000) NULL,
+	[RoadMap] [varchar](1000) NULL,	
+	[IntegrationsUrl] [varchar](1000) NULL,	
+	[AboutUrl] [varchar](1000) NULL,	
 	[Summary] [varchar](300) NULL,
 	[FullDescription] [varchar](3000) NULL,
 	[LastUpdated] [datetime2](7) NOT NULL,
 	[LastUpdatedBy] [uniqueidentifier] NOT NULL,
- CONSTRAINT [PK_SolutionDetail] PRIMARY KEY NONCLUSTERED
+ CONSTRAINT [PK_SolutionDetail] PRIMARY KEY NONCLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -610,7 +610,7 @@ CREATE TABLE [dbo].[AdditionalServiceDetail](
 	[FullDescription] [varchar](3000) NULL,
 	[LastUpdated] [datetime2](7) NOT NULL,
 	[LastUpdatedBy] [uniqueidentifier] NOT NULL,
- CONSTRAINT [PK_AdditionalServiceDetail] PRIMARY KEY CLUSTERED
+ CONSTRAINT [PK_AdditionalServiceDetail] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -633,11 +633,11 @@ CREATE TABLE [dbo].[SolutionCapabilityStatus](
 	[Id] [int] NOT NULL,
 	[Name] [varchar](16) NOT NULL,
 	[Pass] [bit] NOT NULL,
- CONSTRAINT [PK_SolutionCapabilityStatus] PRIMARY KEY CLUSTERED
+ CONSTRAINT [PK_SolutionCapabilityStatus] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [IX_SolutionCapabilityStatusName] UNIQUE NONCLUSTERED
+ CONSTRAINT [IX_SolutionCapabilityStatusName] UNIQUE NONCLUSTERED 
 (
 	[Name] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -652,11 +652,11 @@ GO
 ------------------------------------------------------------------------*/
 CREATE TABLE [dbo].[SolutionCapability](
 	[SolutionId] [varchar](14) NOT NULL,
-	[CapabilityId] [uniqueidentifier] NOT NULL,
+	[CapabilityId] [uniqueidentifier] NOT NULL,	
 	[StatusId] [int] NOT NULL,
 	[LastUpdated] [datetime2](7) NOT NULL,
 	[LastUpdatedBy] [uniqueidentifier] NOT NULL,
- CONSTRAINT [PK_SolutionCapability] PRIMARY KEY CLUSTERED
+ CONSTRAINT [PK_SolutionCapability] PRIMARY KEY CLUSTERED 
 (
 	[SolutionId] ASC,
 	[CapabilityId] ASC
@@ -696,11 +696,11 @@ CREATE TABLE [dbo].[SolutionEpicStatus](
 	[Id] [int] NOT NULL,
 	[Name] [varchar](16) NOT NULL,
 	[IsMet] [bit] NOT NULL,
- CONSTRAINT [PK_EpicStatus] PRIMARY KEY CLUSTERED
+ CONSTRAINT [PK_EpicStatus] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [IX_EpicStatusName] UNIQUE NONCLUSTERED
+ CONSTRAINT [IX_EpicStatusName] UNIQUE NONCLUSTERED 
 (
 	[Name] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -716,11 +716,11 @@ GO
 CREATE TABLE [dbo].[SolutionEpic](
 	[SolutionId] [varchar](14) NOT NULL,
 	[CapabilityId] [uniqueidentifier] NOT NULL,
-	[EpicId] [uniqueidentifier] NOT NULL,
+	[EpicId] [varchar](10) NOT NULL,
 	[StatusId] [int] NOT NULL,
 	[LastUpdated] [datetime2](7) NOT NULL,
 	[LastUpdatedBy] [uniqueidentifier] NOT NULL,
- CONSTRAINT [PK_SolutionEpic] PRIMARY KEY CLUSTERED
+ CONSTRAINT [PK_SolutionEpic] PRIMARY KEY CLUSTERED 
 (
 	[SolutionId] ASC,
 	[CapabilityId],
@@ -772,12 +772,12 @@ GO
 ------------------------------------------------------------------------*/
 CREATE TABLE [dbo].[SolutionStandardStatus](
 	[Id] [int] NOT NULL,
-	[Name] [varchar](16) NOT NULL,
- CONSTRAINT [PK_SolutionStandardStatus] PRIMARY KEY CLUSTERED
+	[Name] [varchar](16) NOT NULL,	
+ CONSTRAINT [PK_SolutionStandardStatus] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [IX_SolutionStandardStatusName] UNIQUE NONCLUSTERED
+ CONSTRAINT [IX_SolutionStandardStatusName] UNIQUE NONCLUSTERED 
 (
 	[Name] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -792,12 +792,12 @@ GO
 ------------------------------------------------------------------------*/
 CREATE TABLE [dbo].[SolutionStandard](
 	[SolutionId] [varchar](14) NOT NULL,
-	[StandardId] [uniqueidentifier] NOT NULL,
+	[StandardId] [uniqueidentifier] NOT NULL,		
 	[StatusId] [int] NOT NULL,
 	[LastUpdated] [datetime2](7) NOT NULL,
 	[LastUpdatedBy] [uniqueidentifier] NOT NULL,
- CONSTRAINT [PK_SolutionStandard_1] PRIMARY KEY CLUSTERED
-(
+ CONSTRAINT [PK_SolutionStandard_1] PRIMARY KEY CLUSTERED 
+(	
 	[SolutionId] ASC,
 	[StandardId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -832,8 +832,8 @@ GO
 -- SolutionDefinedCapability
 --
 ------------------------------------------------------------------------*/
-CREATE TABLE [dbo].[SolutionDefinedCapability](
-	[Id] [varchar](18) NOT NULL,
+CREATE TABLE [dbo].[SolutionDefinedCapability](	
+	[Id] [varchar](18) NOT NULL,	
 	[SolutionId] [varchar](14) NOT NULL,
 	[Name] [varchar](100) NOT NULL,
 	[StatusId] [int] NOT NULL,
@@ -841,7 +841,7 @@ CREATE TABLE [dbo].[SolutionDefinedCapability](
 	[Tag] [varchar](100) NULL,
 	[LastUpdated] [datetime2](7) NOT NULL,
 	[LastUpdatedBy] [uniqueidentifier] NOT NULL,
- CONSTRAINT [PK_SolutionDefinedCapability] PRIMARY KEY CLUSTERED
+ CONSTRAINT [PK_SolutionDefinedCapability] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -871,15 +871,15 @@ GO
 ------------------------------------------------------------------------*/
 CREATE TABLE [dbo].[SolutionDefinedEpic](
 	[Id] [uniqueidentifier] NOT NULL,
-	[SolutionDefinedCapabilityId] [varchar](18) NOT NULL,
+	[SolutionDefinedCapabilityId] [varchar](18) NOT NULL,	
 	[EpicRef] [varchar](16) NOT NULL,
 	[Name] [varchar](100) NOT NULL,
 	[Description] [varchar](3000) NOT NULL,
 	[StatusId] [int] NOT NULL,
 	[LastUpdated] [datetime2](7) NOT NULL,
 	[LastUpdatedBy] [uniqueidentifier] NOT NULL,
- CONSTRAINT [PK_SolutionDefinedEpic] PRIMARY KEY NONCLUSTERED
-(
+ CONSTRAINT [PK_SolutionDefinedEpic] PRIMARY KEY NONCLUSTERED 
+(		
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
@@ -918,7 +918,7 @@ CREATE TABLE [dbo].[SolutionDefinedEpicAcceptanceCriteria](
 	[Description] [nvarchar](max) NOT NULL,
 	[LastUpdated] [datetime2](7) NOT NULL,
 	[LastUpdatedBy] [uniqueidentifier] NOT NULL,
- CONSTRAINT [PK_SolutionDefinedEpicAcceptanceCriteria] PRIMARY KEY NONCLUSTERED
+ CONSTRAINT [PK_SolutionDefinedEpicAcceptanceCriteria] PRIMARY KEY NONCLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -947,8 +947,8 @@ GO
 CREATE TABLE [dbo].[PricingUnit](
 	[Id] [int] NOT NULL,
 	[Name] [varchar](50) NOT NULL,
-	[Description] [varchar](500) NOT NULL,
- CONSTRAINT [PK_PricingUnit] PRIMARY KEY CLUSTERED
+	[Description] [varchar](500) NOT NULL,	
+ CONSTRAINT [PK_PricingUnit] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -963,8 +963,8 @@ GO
 ------------------------------------------------------------------------*/
 CREATE TABLE [dbo].[PriceType](
 	[Id] [int] NOT NULL,
-	[Name] [varchar](35) NOT NULL,
- CONSTRAINT [PK_PricingType] PRIMARY KEY CLUSTERED
+	[Name] [varchar](35) NOT NULL,	
+ CONSTRAINT [PK_PricingType] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -986,7 +986,7 @@ CREATE TABLE [dbo].[PurchasingModel](
 	[Deleted] [bit] NOT NULL CONSTRAINT [DF_PurchaseModel_Deleted] DEFAULT 0,
 	[LastUpdated] [datetime2](7) NOT NULL,
 	[LastUpdatedBy] [uniqueidentifier] NOT NULL,
- CONSTRAINT [PK_PurchasingModel] PRIMARY KEY NONCLUSTERED
+ CONSTRAINT [PK_PurchasingModel] PRIMARY KEY NONCLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -1041,9 +1041,9 @@ CREATE TABLE [dbo].[SolutionPrice](
 	[Description] [varchar](30) NULL,
 	[Price] [decimal](18, 4) NOT NULL,
 	[BandStart] [int] NOT NULL,
-	[BandEnd] [int] NULL,
+	[BandEnd] [int] NULL,	
 	[Created] [datetime2](7) NOT NULL CONSTRAINT [DF_SolutionPrice_Created] DEFAULT GetUtcDate(),
- CONSTRAINT [PK_SolutionPrice] PRIMARY KEY NONCLUSTERED
+ CONSTRAINT [PK_SolutionPrice] PRIMARY KEY NONCLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -1093,8 +1093,8 @@ CREATE TABLE [dbo].[AdditionalServicePrice](
 	[Description] [varchar](30) NULL,
 	[Price] [decimal](18, 4) NOT NULL,
 	[BandStart] [int] NOT NULL,
-	[BandEnd] [int] NULL,
- CONSTRAINT [PK_AdditionalServicePrice] PRIMARY KEY NONCLUSTERED
+	[BandEnd] [int] NULL,	
+ CONSTRAINT [PK_AdditionalServicePrice] PRIMARY KEY NONCLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -1147,10 +1147,10 @@ CREATE TABLE [dbo].[AssociatedService](
 	[SolutionId] [varchar](14) NOT NULL,
 	[Name] [varchar](100) NOT NULL,
 	[Description] [varchar](1000) NOT NULL,
-	[OrderGuidance] [varchar](1000) NULL,
+	[OrderGuidance] [varchar](1000) NULL,	
 	[LastUpdated] [datetime2](7) NOT NULL,
 	[LastUpdatedBy] [uniqueidentifier] NOT NULL,
- CONSTRAINT [PK_AssociatedService] PRIMARY KEY CLUSTERED
+ CONSTRAINT [PK_AssociatedService] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -1180,9 +1180,9 @@ CREATE TABLE [dbo].[AssociatedServicePrice](
 	[Description] [varchar](30) NULL,
 	[Price] [decimal](18, 4) NOT NULL,
 	[BandStart] [int] NOT NULL,
-	[BandEnd] [int] NULL,
+	[BandEnd] [int] NULL,	
 	[Created] [datetime2](7) NOT NULL CONSTRAINT [DF_AssociatedServicePrice_Created] DEFAULT GetUtcDate(),
-CONSTRAINT [PK_AssociatedServicePrice] PRIMARY KEY NONCLUSTERED
+CONSTRAINT [PK_AssociatedServicePrice] PRIMARY KEY NONCLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -1232,7 +1232,7 @@ CREATE TABLE [dbo].[MarketingContact](
 	[Department] [varchar](50) NULL,
 	[LastUpdated] [datetime2](7) NOT NULL,
 	[LastUpdatedBy] [uniqueidentifier] NOT NULL,
- CONSTRAINT [PK_MarketingContact] PRIMARY KEY CLUSTERED
+ CONSTRAINT [PK_MarketingContact] PRIMARY KEY CLUSTERED 
 (
 	[SolutionId] ASC,
 	[Id] ASC
@@ -1260,7 +1260,7 @@ CREATE TABLE [dbo].[FrameworkSolutions](
 	[LastUpdated] [datetime2](7) NOT NULL,
 	[LastUpdatedBy] [uniqueidentifier] NOT NULL,
  CONSTRAINT [PK_FrameworkSolutions] PRIMARY KEY CLUSTERED
-(
+( 
 	[FrameworkId] ASC,
 	[SolutionId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -1295,7 +1295,7 @@ CREATE TABLE [dbo].[Audit](
 	[AuditType] [varchar](30) NOT NULL,
 	[PerformedAt] [datetime2](7) NOT NULL,
 	[PerformedBy] [uniqueidentifier] NOT NULL,
-CONSTRAINT [PK_Audit] PRIMARY KEY NONCLUSTERED
+CONSTRAINT [PK_Audit] PRIMARY KEY NONCLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
