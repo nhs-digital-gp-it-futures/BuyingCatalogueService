@@ -34,13 +34,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
             return _verifyCapabilityResult;
         }
 
-        public async Task<bool> CheckCapabilityReferenceExists(IEnumerable<string> newCapabilitiesReferences,
+        public async Task<bool> CheckCapabilityReferenceExists(IEnumerable<string> capabilitiesToMatch,
             CancellationToken cancellationToken)
         {
-            var count = await _solutionCapabilityRepository.CheckCapabilitiesFromReferenceExistAsync(newCapabilitiesReferences,
+            var count = await _solutionCapabilityRepository.GetMatchingCapabilitiesCount(capabilitiesToMatch,
                 cancellationToken).ConfigureAwait(false);
 
-            return count == newCapabilitiesReferences.ToList().Count;
+            return count == capabilitiesToMatch.ToList().Count;
         }
     }
 }

@@ -220,7 +220,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         }
 
         [Test]
-        public async Task ValidationShouldReturnFalse()
+        public async Task ValidationIfOneCapabilityRefDoesNotExistThenCountIsZero()
         {
             await InsertCapabilityAsync(_capDetails[0]).ConfigureAwait(false);
             await InsertSolutionCapabilityAsync(Solution1Id, _capDetails[0].Id).ConfigureAwait(false);
@@ -228,7 +228,40 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             IEnumerable<string> capabilityReferences = new List<string>() { _capDetails[1].Reference };
 
             var count = await _solutionCapabilityRepository
-                .CheckCapabilitiesFromReferenceExistAsync(capabilityReferences, new CancellationToken())
+                .GetMatchingCapabilitiesCount(capabilityReferences, new CancellationToken())
+                .ConfigureAwait(false);
+
+            count.Should().Be(0);
+        }
+
+        [Test]
+        public async Task ValidationIfASingleCapabilityRefInAListOfThreeDoesNotExistThenCountIsTwo()
+        {
+            await InsertCapabilityAsync(_capDetails[0]).ConfigureAwait(false);
+            await InsertSolutionCapabilityAsync(Solution1Id, _capDetails[0].Id).ConfigureAwait(false);
+
+            await InsertCapabilityAsync(_capDetails[2]).ConfigureAwait(false);
+            await InsertSolutionCapabilityAsync(Solution1Id, _capDetails[2].Id).ConfigureAwait(false);
+
+            IEnumerable<string> capabilityReferences = new List<string>() { _capDetails[0].Reference, _capDetails[1].Reference, _capDetails[2].Reference };
+
+            var count = await _solutionCapabilityRepository
+                .GetMatchingCapabilitiesCount(capabilityReferences, new CancellationToken())
+                .ConfigureAwait(false);
+
+            count.Should().Be(2);
+        }
+
+        [Test]
+        public async Task ValidationIfNoCapabilityRefsThenCountIsZero()
+        {
+            await InsertCapabilityAsync(_capDetails[0]).ConfigureAwait(false);
+            await InsertSolutionCapabilityAsync(Solution1Id, _capDetails[0].Id).ConfigureAwait(false);
+
+            IEnumerable<string> capabilityReferences = new List<string>();
+
+            var count = await _solutionCapabilityRepository
+                .GetMatchingCapabilitiesCount(capabilityReferences, new CancellationToken())
                 .ConfigureAwait(false);
 
             count.Should().Be(0);
