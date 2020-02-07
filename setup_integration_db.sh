@@ -1,12 +1,11 @@
 #!/bin/bash
 set -e
 
-image="integration_db:test"
+image="nhsd/buying-catalogue-integration-db:test"
 cwd=$(pwd)
 
-echo "[ x ] Checking whether the 'integration_db:test' image exists..."
-# assert whether the 'integration_db:test' image exists or not
-image_exists=0
+echo "[ x ] Checking whether the $image image exists..."
+# assert whether the 'nhsd/buying-catalogue-integration-db' image exists or not
 docker image inspect "$image" >/dev/null 2>&1 && image_exists=1 || image_exists=0
 
 if [ $image_exists -eq 1 ]
