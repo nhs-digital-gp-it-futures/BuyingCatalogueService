@@ -23,7 +23,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetIntegrationsBySo
 
         public async Task<IIntegrations> Handle(GetIntegrationsBySolutionIdQuery request, CancellationToken cancellationToken)
         {
-            await _verifier.ThrowWhenMissing(request.Id, cancellationToken).ConfigureAwait(false);
+            await _verifier.ThrowWhenMissingAsync(request.Id, cancellationToken).ConfigureAwait(false);
             var integrationsResult = (await _integrationsReader.BySolutionIdAsync(request.Id, cancellationToken).ConfigureAwait(false));
             return _mapper.Map<IIntegrations>(integrationsResult);
         }

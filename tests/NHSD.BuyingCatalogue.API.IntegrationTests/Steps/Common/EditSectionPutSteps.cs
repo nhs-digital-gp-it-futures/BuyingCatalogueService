@@ -44,7 +44,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             { "roadmap", typeof(RoadmapPayload) },
             { "about-supplier", typeof(SupplierPayload) },
             { "integrations", typeof(IntegrationsPayload) },
-            { "implementation-timescales", typeof(ImplementationTimescalesPayload )}
+            { "implementation-timescales", typeof(ImplementationTimescalesPayload )},
+            { "capabilities", typeof(CapabilitiesPayload) }
         };
 
         public EditSectionPutSteps(Response response)
@@ -320,6 +321,12 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
         {
             [JsonProperty("description")]
             public string ImplementationTimescales { get; set; }
+        }
+        
+        private class CapabilitiesPayload
+        {
+            [JsonProperty("capabilities")]
+            public List<string> CapabilityRefs { get; set; }
         }
     }
 }

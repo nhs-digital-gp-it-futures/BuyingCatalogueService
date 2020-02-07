@@ -23,7 +23,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailByS
 
         public async Task<IEnumerable<IContact>> Handle(GetContactDetailBySolutionIdQuery request, CancellationToken cancellationToken)
         {
-            await _solutionVerifier.ThrowWhenMissing(request.Id, cancellationToken).ConfigureAwait(false);
+            await _solutionVerifier.ThrowWhenMissingAsync(request.Id, cancellationToken).ConfigureAwait(false);
             return _mapper.Map<IEnumerable<IContact>>(await _contactDetailsReader.ByIdAsync(request.Id, cancellationToken).ConfigureAwait(false));
         }
     }

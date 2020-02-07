@@ -23,7 +23,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetImplementationTi
 
         public async Task<IImplementationTimescales> Handle(GetImplementationTimescalesBySolutionIdQuery request, CancellationToken cancellationToken)
         {
-            await _verifier.ThrowWhenMissing(request.Id, cancellationToken).ConfigureAwait(false);
+            await _verifier.ThrowWhenMissingAsync(request.Id, cancellationToken).ConfigureAwait(false);
             var implementationTimescalesResult = (await _implementationTimescalesReader.BySolutionIdAsync(request.Id, cancellationToken).ConfigureAwait(false));
             return _mapper.Map<IImplementationTimescales>(implementationTimescalesResult);
         }
