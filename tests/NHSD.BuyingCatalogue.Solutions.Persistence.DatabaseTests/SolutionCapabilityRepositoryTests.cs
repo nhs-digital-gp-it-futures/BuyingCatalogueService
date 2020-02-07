@@ -228,7 +228,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             IEnumerable<string> capabilityReferences = new List<string>() { _capDetails[1].Reference };
 
             var count = await _solutionCapabilityRepository
-                .GetMatchingCapabilitiesCount(capabilityReferences, new CancellationToken())
+                .GetMatchingCapabilitiesCountAsync(capabilityReferences, new CancellationToken())
                 .ConfigureAwait(false);
 
             count.Should().Be(0);
@@ -246,7 +246,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             IEnumerable<string> capabilityReferences = new List<string>() { _capDetails[0].Reference, _capDetails[1].Reference, _capDetails[2].Reference };
 
             var count = await _solutionCapabilityRepository
-                .GetMatchingCapabilitiesCount(capabilityReferences, new CancellationToken())
+                .GetMatchingCapabilitiesCountAsync(capabilityReferences, new CancellationToken())
                 .ConfigureAwait(false);
 
             count.Should().Be(2);
@@ -261,7 +261,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             IEnumerable<string> capabilityReferences = new List<string>();
 
             var count = await _solutionCapabilityRepository
-                .GetMatchingCapabilitiesCount(capabilityReferences, new CancellationToken())
+                .GetMatchingCapabilitiesCountAsync(capabilityReferences, new CancellationToken())
                 .ConfigureAwait(false);
 
             count.Should().Be(0);

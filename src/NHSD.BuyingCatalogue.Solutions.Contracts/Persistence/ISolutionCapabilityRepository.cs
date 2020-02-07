@@ -10,7 +10,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
 
         Task UpdateCapabilitiesAsync(IUpdateCapabilityRequest updateCapabilityRequest, CancellationToken cancellationToken);
 
-        Task<int> GetMatchingCapabilitiesCount(IEnumerable<string> capabilitiesToMatch,
+        Task<int> GetMatchingCapabilitiesCountAsync(IEnumerable<string> capabilitiesToMatch,
             CancellationToken cancellationToken);
     }
 }

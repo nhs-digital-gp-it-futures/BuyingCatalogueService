@@ -17,11 +17,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution
 
             if (verifier != null)
             {
-                var verfifierResult = await verifier.Verify(request).ConfigureAwait(false);
+                var verifierResult = await verifier.VerifyAsync(request).ConfigureAwait(false);
 
-                if (!verfifierResult.IsValid)
+                if (!verifierResult.IsValid)
                 {
-                    return verfifierResult;
+                    return verifierResult;
                 }
             }
 

@@ -32,7 +32,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                                                        (SELECT CapabilityRef
                                                         FROM Capability
                                                         WHERE CapabilityRef in @capabilitiesToMatch
-                                                        GROUP BY CapabilityRef) AS a";
+                                                        GROUP BY CapabilityRef) AS count";
 
         private const string updateCapabilities = @"DELETE FROM SolutionCapability WHERE SolutionId = @solutionId
                                                     INSERT INTO dbo.SolutionCapability
@@ -44,7 +44,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         public async Task<IEnumerable<ISolutionCapabilityListResult>> ListSolutionCapabilities(string solutionId, CancellationToken cancellationToken)
             => await _dbConnector.QueryAsync<SolutionCapabilityListResult>(sql, cancellationToken, new { solutionId }).ConfigureAwait(false);
 
-        public async Task<int> GetMatchingCapabilitiesCount(IEnumerable<string> capabilitiesToMatch, CancellationToken cancellationToken)
+        public async Task<int> GetMatchingCapabilitiesCountAsync(IEnumerable<string> capabilitiesToMatch, CancellationToken cancellationToken)
         {
             return (await _dbConnector.QueryAsync<int>(checkCapabilitiesExist, cancellationToken, new
             {

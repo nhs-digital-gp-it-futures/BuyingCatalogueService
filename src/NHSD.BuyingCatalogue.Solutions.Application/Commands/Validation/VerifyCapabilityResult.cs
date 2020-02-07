@@ -4,13 +4,13 @@ using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
 {
-    internal class VerifyCapabilityResult : ISimpleResult
+    internal sealed class VerifyCapabilityResult : ISimpleResult
     {
-        public bool IsValid => !CapabilityValid.Any();
+        public bool IsValid => !ValidCapabilityList.Any();
 
-        public HashSet<string> CapabilityValid { get; } = new HashSet<string>();
+        public HashSet<string> ValidCapabilityList { get; } = new HashSet<string>();
 
         public Dictionary<string, string> ToDictionary() =>
-            CapabilityValid.ToConstantValueDictionary(ValidationConstants.Capability);
+            ValidCapabilityList.ToConstantValueDictionary(ValidationConstants.Capability);
     }
 }

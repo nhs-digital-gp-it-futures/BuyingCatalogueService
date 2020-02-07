@@ -33,7 +33,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var capabilityRefs = new HashSet<string>(){"C1", "C2"};
 
             _context.MockSolutionCapabilityRepository.Setup(c =>
-                    c.GetMatchingCapabilitiesCount(capabilityRefs, It.IsAny<CancellationToken>()))
+                    c.GetMatchingCapabilitiesCountAsync(capabilityRefs, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(2);
 
             var validationResult = await UpdateCapabilitiesAsync(ValidSolutionId, capabilityRefs).ConfigureAwait(false);
@@ -54,7 +54,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var capabilitiesToMatch = new HashSet<string>() { "C2", "C3" };
 
             _context.MockSolutionCapabilityRepository.Setup(c =>
-                    c.GetMatchingCapabilitiesCount(capabilitiesToMatch, It.IsAny<CancellationToken>()))
+                    c.GetMatchingCapabilitiesCountAsync(capabilitiesToMatch, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(1);
 
             var validationResult =
@@ -66,7 +66,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             results["capabilities"].Should().Be("capabilityInvalid");
 
             _context.MockSolutionCapabilityRepository.Verify(
-                r => r.GetMatchingCapabilitiesCount(capabilitiesToMatch, It.IsAny<CancellationToken>()),
+                r => r.GetMatchingCapabilitiesCountAsync(capabilitiesToMatch, It.IsAny<CancellationToken>()),
                 Times.Once);
 
             _context.MockSolutionCapabilityRepository.Verify(
