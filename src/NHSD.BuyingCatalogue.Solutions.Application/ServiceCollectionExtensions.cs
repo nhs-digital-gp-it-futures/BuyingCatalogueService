@@ -52,6 +52,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<IntegrationsReader>()
                 .AddTransient<ImplementationTimescalesReader>()
                 .AddTransient<SolutionVerifier>()
+                .AddTransient<CapabilityCountVerifier>()
                 .AddTransient<SolutionSummaryUpdater>()
                 .AddTransient<SolutionFeaturesUpdater>()
                 .AddTransient<SolutionClientApplicationUpdater>()
@@ -167,8 +168,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
 
                 .AddTransient<IExecutor<UpdateImplementationTimescalesCommand>, UpdateImplementationTimescalesExecutor>()
                 .AddTransient<IValidator<UpdateImplementationTimescalesCommand, ISimpleResult>, UpdateImplementationTimescalesValidator>()
+
                 .AddTransient<IExecutor<UpdateCapabilitiesCommand>, UpdateCapabilitiesExecutor>()
                 .AddTransient<IValidator<UpdateCapabilitiesCommand, ISimpleResult>, UpdateCapabilitiesValidator>()
+
+                .AddTransient<IVerifier<UpdateCapabilitiesCommand, ISimpleResult>, CapabilityVerifier>()
                 ;
         }
     }

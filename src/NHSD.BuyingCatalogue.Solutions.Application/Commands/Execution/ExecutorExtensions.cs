@@ -6,14 +6,26 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution
 {
     internal static class ExecutorExtensions
     {
-        internal static async Task<TResult> ExecuteIfValidAsync<T, TResult>(this IExecutor<T> executor, T request, IValidator<T, TResult> validator, CancellationToken cancellationToken) where TResult : IResult
+        internal static async Task<TResult> ExecuteIfValidAsync<T, TResult>(this IExecutor<T> executor, T request, IValidator<T, TResult> validator, IVerifier<T, TResult> verifier, CancellationToken cancellationToken) where TResult : IResult
         {
             var validationResult = validator.Validate(request);
 
-            if (validationResult.IsValid)
+            if (!validationResult.IsValid)
             {
-                await executor.UpdateAsync(request, cancellationToken).ConfigureAwait(false);
+                return validationResult;
             }
+
+            if (verifier != null)
+            {
+                var verfifierResult = await verifier.Verify(request).ConfigureAwait(false);
+
+                if (!verfifierResult.IsValid)
+                {
+                    return verfifierResult;
+                }
+            }
+
+            await executor.UpdateAsync(request, cancellationToken).ConfigureAwait(false);
 
             return validationResult;
         }

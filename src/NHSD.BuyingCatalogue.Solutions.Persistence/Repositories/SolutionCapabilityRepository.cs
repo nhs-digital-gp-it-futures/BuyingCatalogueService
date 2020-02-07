@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
@@ -26,6 +27,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                                 WHERE SolutionCapability.SolutionId = @solutionId
                                 ORDER BY Capability.Name";
 
+        private const string checkCapabilitiesExist = @"SELECT COUNT(*)
+                                                        FROM
+                                                       (SELECT CapabilityRef
+                                                        FROM Capability
+                                                        WHERE CapabilityRef in @newCapabilitiesReference
+                                                        GROUP BY CapabilityRef) AS a";
+
         private const string updateCapabilities = @"DELETE FROM SolutionCapability WHERE SolutionId = @solutionId
                                                     INSERT INTO dbo.SolutionCapability
                                                     (SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
@@ -34,7 +42,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                                                     WHERE CapabilityRef in @newCapabilitiesReference";
 
         public async Task<IEnumerable<ISolutionCapabilityListResult>> ListSolutionCapabilities(string solutionId, CancellationToken cancellationToken)
-            => await _dbConnector.QueryAsync<SolutionCapabilityListResult>(sql, cancellationToken, new{solutionId}).ConfigureAwait(false);
+            => await _dbConnector.QueryAsync<SolutionCapabilityListResult>(sql, cancellationToken, new { solutionId }).ConfigureAwait(false);
+
+        public async Task<int> CheckCapabilitiesFromReferenceExistAsync(IEnumerable<string> newCapabilitiesReference, CancellationToken cancellationToken)
+        {
+            return (await _dbConnector.QueryAsync<int>(checkCapabilitiesExist, cancellationToken, new
+            {
+                newCapabilitiesReference
+            }).ConfigureAwait(false)).FirstOrDefault();
+        }
 
         public async Task UpdateCapabilitiesAsync(IUpdateCapabilityRequest updateCapabilityRequest, CancellationToken cancellationToken)
         {

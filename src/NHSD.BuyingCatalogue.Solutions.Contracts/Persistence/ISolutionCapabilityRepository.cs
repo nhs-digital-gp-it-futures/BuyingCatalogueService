@@ -9,5 +9,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         Task<IEnumerable<ISolutionCapabilityListResult>> ListSolutionCapabilities(string solutionId, CancellationToken cancellationToken);
 
         Task UpdateCapabilitiesAsync(IUpdateCapabilityRequest updateCapabilityRequest, CancellationToken cancellationToken);
+
+        Task<int> CheckCapabilitiesFromReferenceExistAsync(IEnumerable<string> newCapabilitiesReference,
+            CancellationToken cancellationToken);
     }
 }

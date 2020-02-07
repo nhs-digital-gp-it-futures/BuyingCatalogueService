@@ -219,6 +219,21 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 _solutionCapabilityRepository.UpdateCapabilitiesAsync(null, new CancellationToken()));
         }
 
+        [Test]
+        public async Task ValidationShouldReturnFalse()
+        {
+            await InsertCapabilityAsync(_capDetails[0]).ConfigureAwait(false);
+            await InsertSolutionCapabilityAsync(Solution1Id, _capDetails[0].Id).ConfigureAwait(false);
+
+            IEnumerable<string> capabilityReferences = new List<string>() { _capDetails[1].Reference };
+
+            var count = await _solutionCapabilityRepository
+                .CheckCapabilitiesFromReferenceExistAsync(capabilityReferences, new CancellationToken())
+                .ConfigureAwait(false);
+
+            count.Should().Be(0);
+        }
+
         private async Task InsertCapabilityAsync(CapabilityDetails capability)
         {
             await CapabilityEntityBuilder.Create()
