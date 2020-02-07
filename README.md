@@ -220,12 +220,12 @@ bash tear_down_environment.sh i
 ## <a name="integration_db_setup_id"></a> Integration db setup
 In order to speed up the API Integration test execution, a docker image which contains all the data needed has been build.
 This docker image needs to be built locally before running the API Integration tests. It only needs to be built once, and then updated every time the DataModel changes.
-To build / update the image run `setup-integration-db` script either in PowerShell or Bash
+To build / update the image run the 'setup integration db' script either in PowerShell or Bash
 
 ### Running the Script
 | CLI | Command |
 |---------------|--------------------|
-|`bash` | `bash setup-integration-db.sh` |
+|`bash` | `bash setup_integration_db.sh` |
 | `PowerShell` | `& '.\Setup Integration Db.ps1'` |
 
 ## Troubleshooting
