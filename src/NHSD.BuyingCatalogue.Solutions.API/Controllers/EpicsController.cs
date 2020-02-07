@@ -21,7 +21,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         }
 
         [HttpGet]
-        [Route("{id}/sections/capabilities")]
+        [Route("{id}/sections/epics")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
