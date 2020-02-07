@@ -52,7 +52,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<IntegrationsReader>()
                 .AddTransient<ImplementationTimescalesReader>()
                 .AddTransient<SolutionVerifier>()
-                .AddTransient<CapabilityCountVerifier>()
                 .AddTransient<SolutionSummaryUpdater>()
                 .AddTransient<SolutionFeaturesUpdater>()
                 .AddTransient<SolutionClientApplicationUpdater>()
