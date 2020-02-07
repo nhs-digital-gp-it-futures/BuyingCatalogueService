@@ -77,11 +77,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             return this;
         }
 
-        public SolutionDetailEntityBuilder WithRoadMapImageUrl(string roadMapImageUrl)
-        {
-            _solutionDetailEntity.RoadMapImageUrl = roadMapImageUrl;
-            return this;
-        }
 
         public SolutionDetailEntityBuilder WithAboutUrl(string aboutUrl)
         {
