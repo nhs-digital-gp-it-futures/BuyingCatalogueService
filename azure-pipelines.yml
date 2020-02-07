@@ -24,7 +24,7 @@ steps:
   displayName: 'Setup Test Database'
   inputs:
     azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
-    ScriptPath: 'setup-integration-db.ps1'
+    ScriptPath: 'Setup Integration Db.ps1'
     azurePowerShellVersion: LatestVersion
 
 - task: UseDotNet@2

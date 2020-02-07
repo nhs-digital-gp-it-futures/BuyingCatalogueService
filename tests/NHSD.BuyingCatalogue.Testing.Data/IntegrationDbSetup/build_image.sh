@@ -13,7 +13,6 @@ then
 	mkdir SQL
 fi
 
-cp "$integration_sql_resource"/"Create Database.sql" ./SQL/ && 
 cp -r "$integration_sql_resource"/. ./SQL/ && 
-docker build -f Dockerfile.build.integration . -t integration_db:test && 
+docker build -f Dockerfile.build.integration . -t nhsd/buying-catalogue-integration-db:test && 
 rm -rf ./SQL
