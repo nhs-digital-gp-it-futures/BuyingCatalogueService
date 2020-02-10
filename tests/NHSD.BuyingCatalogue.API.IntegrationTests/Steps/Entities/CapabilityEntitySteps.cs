@@ -22,18 +22,33 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             var capability = CapabilityEntityBuilder.Create()
                 .WithName(capabilityTable.CapabilityName)
                 .WithCapabilityRef(capabilityTable.CapabilityRef)
+                .WithVersion(capabilityTable.Version)
+                .WithDescription(capabilityTable.Description)
+                .WithSourceUrl(capabilityTable.SourceUrl)
                 .Build();
             await capability.InsertAsync().ConfigureAwait(false);
-            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capability.Id).WithIsFoundation(capabilityTable.IsFoundation).Build().InsertAsync().ConfigureAwait(false);
+
+            await FrameworkCapabilitiesEntityBuilder.Create()
+                .WithCapabilityId(capability.Id)
+                .WithIsFoundation(capabilityTable.IsFoundation)
+                .Build()
+                .InsertAsync().ConfigureAwait(false);
         }
+
 
         private class CapabilityTable
         {
             public string CapabilityName { get; set; }
 
-            public string CapabilityRef { get; set; } = "Ref";
+            public string CapabilityRef { get; } = "Ref";
 
             public bool IsFoundation { get; set; }
+
+            public string Version { get; } = "1.0";
+
+            public string Description { get; } = "Capability Description";
+
+            public string SourceUrl { get; } = "http://source.url";
         }
     }
 }

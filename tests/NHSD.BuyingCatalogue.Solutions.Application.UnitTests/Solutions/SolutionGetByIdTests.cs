@@ -8,6 +8,7 @@ using FluentAssertions;
 using Moq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
@@ -133,7 +134,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.Hosting.PublicCloud.RequiresHSCN.Should().Be("It is required");
 
             solution.IsFoundation.Should().BeTrue();
-            solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1", "cap2"});
+            solution.Capabilities.Should().HaveCount(2);
+            solution.Capabilities.Should()
+                .BeEquivalentTo(
+                    new[]
+                    {
+                        Mock.Of<IClaimedCapability>(cc => cc.Name == "cap1"),
+                        Mock.Of<IClaimedCapability>(cc => cc.Name == "cap2")
+                    }, config => config.ComparingByMembers<IClaimedCapability>());
+
+
             solution.Contacts.Count().Should().Be(1);
             var contact = solution.Contacts.Single();
             contact.Name.Should().Be("Bob Bobbington");
@@ -268,8 +278,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.ClientApplication.NativeDesktopThirdParty.Should().BeNull();
             solution.ClientApplication.NativeDesktopMemoryAndStorage.Should().BeNull();
             solution.ClientApplication.NativeDesktopAdditionalInformation.Should().BeNull();
-            solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1"});
-            solution.Contacts.Count().Should().Be(0);
+            solution.Capabilities.Should().HaveCount(1);
+            solution.Capabilities.Should().BeEquivalentTo(new[] {Mock.Of<IClaimedCapability>(cc=>cc.Name=="cap1") }, config=>config.ComparingByMembers<IClaimedCapability>());
+            solution.Contacts.Should().HaveCount(0);
 
             solution.Supplier.Summary.Should().BeNull();
             solution.Supplier.Url.Should().BeNull();
@@ -322,7 +333,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.Integrations.Url.Should().BeNullOrEmpty();
             solution.Integrations.DocumentName.Should().BeNullOrEmpty();
 
-            solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1", "cap2", "cap3"});
+            solution.Capabilities.Should().HaveCount(3);
+            solution.Capabilities.Should()
+                .BeEquivalentTo(
+                    new[]
+                    {
+                        Mock.Of<IClaimedCapability>(cc => cc.Name == "cap1"),
+                        Mock.Of<IClaimedCapability>(cc => cc.Name == "cap2"),
+                        Mock.Of<IClaimedCapability>(cc => cc.Name == "cap3")
+                    }, config => config.ComparingByMembers<IClaimedCapability>());
+
+
             solution.Contacts.Count().Should().Be(0);
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
@@ -448,7 +469,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.ClientApplication.NativeDesktopMemoryAndStorage.RecommendedResolution.Should().BeNull();
             solution.ClientApplication.NativeDesktopAdditionalInformation.Should().BeNull();
 
-            solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1"});
+            solution.Capabilities.Should().HaveCount(1);
+            solution.Capabilities.Should()
+                .BeEquivalentTo(
+                    new[]
+                    {
+                        Mock.Of<IClaimedCapability>(cc => cc.Name == "cap1")
+                    }, config => config.ComparingByMembers<IClaimedCapability>());
+
             solution.Contacts.Count().Should().Be(0);
 
             solution.IsFoundation.Should().BeFalse();
@@ -517,8 +545,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.ClientApplication.NativeDesktopThirdParty.Should().BeNull();
             solution.ClientApplication.NativeDesktopMemoryAndStorage.Should().BeNull();
             solution.ClientApplication.NativeDesktopAdditionalInformation.Should().BeNull();
-            solution.Capabilities.Should().BeEquivalentTo(new[] {"cap1"});
-            solution.Contacts.Count().Should().Be(0);
+            solution.Capabilities.Should().HaveCount(1);
+            solution.Capabilities.Should().BeEquivalentTo(new[] { Mock.Of<IClaimedCapability>(cc => cc.Name == "cap1") }, config => config.ComparingByMembers<IClaimedCapability>());
+            solution.Contacts.Should().HaveCount(0);
 
             solution.Supplier.Summary.Should().Be(mockSupplier.Summary);
             solution.Supplier.Url.Should().Be(mockSupplier.Url);
@@ -531,7 +560,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public void ShouldThrowWhenSolutionNotPresent()
         {
-            var exception = Assert.ThrowsAsync<NotFoundException>(() =>
+            Assert.ThrowsAsync<NotFoundException>(() =>
                 _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken()));
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
