@@ -9,7 +9,7 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionID | SolutionName   | SummaryDescription             | FullDescription     | SupplierStatusId | SupplierId |
+        | SolutionId | SolutionName   | SummaryDescription             | FullDescription     | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | An full online medicine system | Online medicine 1   | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | Eye opening experience         | Eye opening6        | 1                | Sup 2      |
         | Sln3       | PracticeMgr    | Fully fledged GP system        | Fully fledged GP 12 | 1                | Sup 2      |

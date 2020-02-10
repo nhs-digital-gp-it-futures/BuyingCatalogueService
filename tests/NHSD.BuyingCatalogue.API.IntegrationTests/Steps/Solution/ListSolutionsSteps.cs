@@ -88,7 +88,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
 
             foreach (var expectedSolution in expectedSolutions)
             {
-                var solution = solutions.First(t => t.SelectToken("id").ToString() == expectedSolution.SolutionID);
+                var solution = solutions.First(t => t.SelectToken("id").ToString() == expectedSolution.SolutionId);
                 solution.SelectToken("name").ToString().Should().Be(expectedSolution.SolutionName);
                 solution.SelectToken("summary")?.ToString().Should().Be(expectedSolution.SummaryDescription);
                 solution.SelectToken("supplier.name").ToString().Should().Be(expectedSolution.SupplierName);
@@ -104,7 +104,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
 
         private class SolutionDetailsTable
         {
-            public string SolutionID { get; set; }
+            public string SolutionId { get; set; }
 
             public string SolutionName { get; set; }
 

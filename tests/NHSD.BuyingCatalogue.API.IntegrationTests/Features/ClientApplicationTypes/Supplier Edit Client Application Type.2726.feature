@@ -9,7 +9,7 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionID | SolutionName   | SupplierStatusId | SupplierId |
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 2      |
         | Sln3       | PracticeMgr    | 1                | Sup 2      |
@@ -26,7 +26,7 @@ Scenario: 1. Client Application Types are updated for the solution
         | browser-based,native-mobile |
     Then a successful response is returned
     And Solutions exist
-        | SolutionID | SolutionName   |
+        | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |
@@ -49,7 +49,7 @@ Scenario: 2. Client Application Types are updated for the solution with trimmed 
         | "      browser-based     ", "    native-mobile    " |
     Then a successful response is returned
     And Solutions exist
-        | SolutionID | SolutionName   |
+        | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |
@@ -80,7 +80,7 @@ Scenario: 4. Client Application Types that we do not understand are ignored
         | browser-based,native-mobile,elephant,cheese |
     Then a successful response is returned
     And Solutions exist
-        | SolutionID | SolutionName   |
+        | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |
@@ -104,7 +104,7 @@ Scenario: 5. Client Application Types cannot be completely cleared
     Then a response status of 400 is returned
     Then the client-application-types field value is the validation failure required
     And Solutions exist
-        | SolutionID | SolutionName   |
+        | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |

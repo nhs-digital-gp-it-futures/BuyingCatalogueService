@@ -8,7 +8,7 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionID | SolutionName      | LastUpdated | SupplierStatusId | SupplierId | PublishedStatusId |
+        | SolutionId | SolutionName      | LastUpdated | SupplierStatusId | SupplierId | PublishedStatusId |
         | Sln1       | MedicOnline       | 19/11/2019  | 1                | Sup 1      | 1                 |
         | Sln2       | TakeTheRedPill    | 15/11/2019  | 1                | Sup 1      | 2                 |
         | Sln3       | TakeTheBluePill   | 15/11/2019  | 1                | Sup 1      | 3                 |

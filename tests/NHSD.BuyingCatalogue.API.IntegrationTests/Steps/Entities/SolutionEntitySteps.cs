@@ -83,7 +83,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             var solutions = await SolutionEntity.FetchAllAsync().ConfigureAwait(false);
             solutions.Select(s => new
             {
-                SolutionID = s.Id,
+                SolutionId = s.Id,
                 SolutionName = s.Name,
             }).Should().BeEquivalentTo(expectedSolutions);
         }

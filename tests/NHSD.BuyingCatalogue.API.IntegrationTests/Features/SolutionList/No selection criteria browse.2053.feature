@@ -16,7 +16,7 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionID | SolutionName   | SupplierStatusId | SupplierId | PublicationStatus |
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId | PublicationStatus |
         | Sln1       | MedicOnline    | 1                | Sup 1      | 3                 |
         | Sln2       | TakeTheRedPill | 1                | Sup 2      | 3                 |
         | Sln3       | PracticeMgr    | 1                | Sup 2      | 3                 |
@@ -52,7 +52,7 @@ Scenario: 2. Card Content
     When a GET request is made containing no selection criteria
     Then a successful response is returned
     And the details of the solutions returned are as follows
-        | SolutionID | SolutionName   | SummaryDescription     | SupplierName | Capabilities                                       | IsFoundation |
+        | SolutionId | SolutionName   | SummaryDescription     | SupplierName | Capabilities                                       | IsFoundation |
         | Sln1       | MedicOnline    |                        | Supplier 1   | Appointments Management, Clinical Safety, Workflow | true         |
         | Sln2       | TakeTheRedPill | Eye opening experience | Supplier 2   | Prescribing, Resource Management                   | false        |
         | Sln3       | PracticeMgr    |                        | Supplier 2   | Clinical Safety, Prescribing, Workflow             | false        |

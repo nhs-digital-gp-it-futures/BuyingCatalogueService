@@ -8,7 +8,7 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionID | SolutionName   | SupplierStatusId | SupplierId |
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
@@ -20,7 +20,7 @@ Scenario: 1. No features are filled out
     When the update features request is made for Sln1
     Then a successful response is returned
     And Solutions exist
-        | SolutionID | SolutionName   |
+        | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                                  |
@@ -34,7 +34,7 @@ Scenario: 2. listing-1 exceeds the character limit
     Then a response status of 400 is returned
     And the listing-1 field value is the validation failure maxLength
     And Solutions exist
-        | SolutionID | SolutionName   |
+        | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
@@ -52,7 +52,7 @@ Scenario: 3. listing-1 & listing-3 are within the character limit. listing-5 & l
     And the listing-5 field value is the validation failure maxLength
     And the listing-8 field value is the validation failure maxLength
     And Solutions exist
-        | SolutionID | SolutionName   |
+        | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                          |

@@ -8,7 +8,7 @@ Background:
         | Id    | SupplierName | Summary      | SupplierUrl |
         | Sup 1 | Supplier 1   | Some Summary | www.url.com |
     And Solutions exist
-        | SolutionID | SolutionName     | SupplierStatusId | SupplierId |
+        | SolutionId | SolutionName     | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline      | 1                | Sup 1      |
 
 @3653

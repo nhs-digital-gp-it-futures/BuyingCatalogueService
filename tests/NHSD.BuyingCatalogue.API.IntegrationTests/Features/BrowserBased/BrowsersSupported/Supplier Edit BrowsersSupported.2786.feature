@@ -9,7 +9,7 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionID | SolutionName   | SupplierStatusId | SupplierId |
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 2      |
         | Sln3       | PracticeMgr    | 1                | Sup 2      |
@@ -64,7 +64,7 @@ Scenario: 3. Browsers Supported is empty, Mobile Responsive has a result
     Then a response status of 400 is returned
     And the supported-browsers field value is the validation failure required
      And Solutions exist
-        | SolutionID | SolutionName   |
+        | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |
@@ -88,7 +88,7 @@ Scenario: 4. Mobile Responsive is empty
     Then a response status of 400 is returned
     And the mobile-responsive field value is the validation failure required
     And Solutions exist
-        | SolutionID | SolutionName   |
+        | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |
@@ -113,7 +113,7 @@ Scenario: 5. Browsers Supported & Mobile Responsive are empty
     And the supported-browsers field value is the validation failure required
     And the mobile-responsive field value is the validation failure required
     And Solutions exist
-        | SolutionID | SolutionName   |
+        | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |

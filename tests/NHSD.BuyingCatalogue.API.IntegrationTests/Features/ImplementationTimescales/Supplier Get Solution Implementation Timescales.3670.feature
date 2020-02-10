@@ -8,7 +8,7 @@ Feature:  Display Marketing Page Form Solution Supplier Implementation Timescale
             | Id    | SupplierName |
             | Sup 1 | Supplier 1   |
         And Solutions exist
-            | SolutionID | SolutionName   | SupplierStatusId | SupplierId |
+            | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
             | Sln1       | MedicOnline    | 1                | Sup 1      |
             | Sln2       | TakeTheRedPill | 1                | Sup 1      |
         And SolutionDetail exist

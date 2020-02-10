@@ -40,15 +40,15 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         {
             public string CapabilityName { get; set; }
 
-            public string CapabilityRef { get; } = "Ref";
+            public string CapabilityRef { get; set; } = "Ref";
 
             public bool IsFoundation { get; set; }
 
-            public string Version { get; } = "1.0";
+            public string Version { get; set; } = "1.0";
 
-            public string Description { get; } = "Capability Description";
+            public string Description { get; set; } = "Capability Description";
 
-            public string SourceUrl { get; } = "http://source.url";
+            public string SourceUrl { get; set; } = "http://source.url";
         }
     }
 }

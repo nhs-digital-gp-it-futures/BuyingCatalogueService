@@ -9,7 +9,7 @@ Scenario Outline: 1. About supplier section is optional and is reported complete
 		| Id    | SupplierName | Summary   | SupplierUrl   |
 		| Sup 1 | Supplier 1   | <Summary> | <SupplierUrl> |
 	And Solutions exist
-		| SolutionID | SolutionName | SupplierStatusId | SupplierId |
+		| SolutionId | SolutionName | SupplierStatusId | SupplierId |
 		| Sln1       | MedicOnline  | 1                | Sup 1      |
 	And SolutionDetail exist
 		| Solution | SummaryDescription             | FullDescription   |

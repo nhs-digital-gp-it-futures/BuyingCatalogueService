@@ -16,7 +16,7 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
    And Solutions exist
-        | SolutionID | SolutionName   | SupplierStatusId | SupplierId | PublishedStatusId |
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId | PublishedStatusId |
         | Sln1       | MedicOnline    | 1                | Sup 1      | 3                 |
         | Sln2       | TakeTheRedPill | 1                | Sup 2      | 3                 |
         | Sln3       | PracticeMgr    | 1                | Sup 2      | 3                 |
