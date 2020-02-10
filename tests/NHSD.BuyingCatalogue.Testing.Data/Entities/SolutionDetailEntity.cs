@@ -23,8 +23,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public string RoadMap { get; set; }
 
-        public string RoadMapImageUrl { get; set; }
-
         public string IntegrationsUrl { get; set; }
 
         public string AboutUrl { get; set; }
@@ -43,7 +41,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         ,[Hosting]
         ,[ImplementationDetail]
         ,[RoadMap]
-        ,[RoadMapImageUrl]
         ,[IntegrationsUrl]
         ,[AboutUrl]
         ,[Summary]
@@ -59,7 +56,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             ,@Hosting
             ,@ImplementationDetail
             ,@RoadMap
-            ,@RoadMapImageUrl
             ,@IntegrationsUrl
             ,@AboutUrl
             ,@Summary
@@ -79,7 +75,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
                             ,[Hosting]
                             ,[ImplementationDetail]
                             ,[RoadMap]
-                            ,[RoadMapImageUrl]
                             ,[IntegrationsUrl]
                             ,[AboutUrl]
                             ,[Summary]
