@@ -22,24 +22,24 @@ Background:
 
 @3678
 Scenario: 1. A Capability that has no existing Capability Reference is added
-    When a PUT request is made to update the capabilities section for solution Sln1
+	When a PUT request is made to update the capabilities section for solution Sln1
 		| CapabilityRefs |
 		| TEST           |
-    Then a response status of 400 is returned
-    And the capabilities field value is the validation failure capabilityInvalid
-    Then Solutions are linked to Capabilities
+	Then a response status of 400 is returned
+	And the capabilities field value is the validation failure capabilityInvalid
+	Then Solutions are linked to Capabilities
 		| SolutionId | CapabilityRefs |
 		| Sln1       |                |
 		| Sln2       | C1             |
 
 @3678
 Scenario: 2. Muliple Capabilies are added with one that has no existing Capability Reference
-    When a PUT request is made to update the capabilities section for solution Sln2
+	When a PUT request is made to update the capabilities section for solution Sln2
 		| CapabilityRefs |
 		| C1, TEST, C2   |
-    Then a response status of 400 is returned
-    And the capabilities field value is the validation failure capabilityInvalid
-    Then Solutions are linked to Capabilities
+	Then a response status of 400 is returned
+	And the capabilities field value is the validation failure capabilityInvalid
+	Then Solutions are linked to Capabilities
 		| SolutionId | CapabilityRefs |
 		| Sln1       |                |
 		| Sln2       | C1             |

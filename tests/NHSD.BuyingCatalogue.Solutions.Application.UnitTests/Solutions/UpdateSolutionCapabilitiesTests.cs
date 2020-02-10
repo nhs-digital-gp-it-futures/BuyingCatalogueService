@@ -31,10 +31,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         public async Task ShouldUpdateCapabilitiesAsync()
         {
             var capabilityRefs = new HashSet<string>(){"C1", "C2"};
+            var expectedCapabilityCount = 2 ;
 
             _context.MockSolutionCapabilityRepository.Setup(c =>
                     c.GetMatchingCapabilitiesCountAsync(capabilityRefs, It.IsAny<CancellationToken>()))
-                .ReturnsAsync(2);
+                .ReturnsAsync(expectedCapabilityCount);
 
             var validationResult = await UpdateCapabilitiesAsync(ValidSolutionId, capabilityRefs).ConfigureAwait(false);
             validationResult.IsValid.Should().BeTrue();
@@ -52,17 +53,18 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         public async Task ShouldValidateCapabilities()
         {
             var capabilitiesToMatch = new HashSet<string>() { "C2", "C3" };
+            var expectedCapabilityCount = 1;
 
             _context.MockSolutionCapabilityRepository.Setup(c =>
                     c.GetMatchingCapabilitiesCountAsync(capabilitiesToMatch, It.IsAny<CancellationToken>()))
-                .ReturnsAsync(1);
+                .ReturnsAsync(expectedCapabilityCount);
 
             var validationResult =
                 await UpdateCapabilitiesAsync(ValidSolutionId, capabilitiesToMatch).ConfigureAwait(false);
             
             validationResult.IsValid.Should().BeFalse();
             var results = validationResult.ToDictionary();
-            results.Count.Should().Be(1);
+            results.Count.Should().Be(expectedCapabilityCount);
             results["capabilities"].Should().Be("capabilityInvalid");
 
             _context.MockSolutionCapabilityRepository.Verify(
