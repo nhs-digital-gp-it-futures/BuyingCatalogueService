@@ -52,5 +52,35 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                         q.SolutionId == SolutionId && q.NewCapabilitiesReferences == newCapabilitiesReferences),
                     It.IsAny<CancellationToken>()), Times.Once);
         }
+
+        [Test]
+        public async Task ShouldUpdateValidationInvalid()
+        {
+            HashSet<string> newCapabilitiesReferences = new HashSet<string>() { "C1", "C2" };
+            var viewModel = new UpdateCapabilitiesViewModel { NewCapabilitiesReferences = newCapabilitiesReferences };
+            var validationModel = new Mock<ISimpleResult>();
+            validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "capabilities", "capabilityInvalid" } });
+            validationModel.Setup(s => s.IsValid).Returns(false);
+
+            _mockMediator
+                .Setup(m => m.Send(
+                    It.Is<UpdateCapabilitiesCommand>(q =>
+                        q.SolutionId == SolutionId && q.NewCapabilitiesReferences == newCapabilitiesReferences),
+                    It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
+
+            var result =
+                (await _controller.Update(SolutionId, viewModel).ConfigureAwait(false)) as BadRequestObjectResult;
+
+            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            var resultValue = result.Value as Dictionary<string, string>;
+            resultValue.Count.Should().Be(1);
+            resultValue["capabilities"].Should().Be("capabilityInvalid");
+
+            _mockMediator.Verify(
+                m => m.Send(
+                    It.Is<UpdateCapabilitiesCommand>(q =>
+                        q.SolutionId == SolutionId && q.NewCapabilitiesReferences == newCapabilitiesReferences),
+                    It.IsAny<CancellationToken>()), Times.Once);
+        }
     }
 }

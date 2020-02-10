@@ -167,8 +167,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
 
                 .AddTransient<IExecutor<UpdateImplementationTimescalesCommand>, UpdateImplementationTimescalesExecutor>()
                 .AddTransient<IValidator<UpdateImplementationTimescalesCommand, ISimpleResult>, UpdateImplementationTimescalesValidator>()
+
                 .AddTransient<IExecutor<UpdateCapabilitiesCommand>, UpdateCapabilitiesExecutor>()
                 .AddTransient<IValidator<UpdateCapabilitiesCommand, ISimpleResult>, UpdateCapabilitiesValidator>()
+
+                .AddTransient<IVerifier<UpdateCapabilitiesCommand, ISimpleResult>, CapabilityVerifier>()
                 ;
         }
     }

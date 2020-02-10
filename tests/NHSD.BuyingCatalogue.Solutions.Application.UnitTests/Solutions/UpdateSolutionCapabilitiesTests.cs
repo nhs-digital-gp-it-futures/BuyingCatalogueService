@@ -31,6 +31,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         public async Task ShouldUpdateCapabilitiesAsync()
         {
             var capabilityRefs = new HashSet<string>(){"C1", "C2"};
+            var expectedCapabilityCount = 2 ;
+
+            _context.MockSolutionCapabilityRepository.Setup(c =>
+                    c.GetMatchingCapabilitiesCountAsync(capabilityRefs, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(expectedCapabilityCount);
 
             var validationResult = await UpdateCapabilitiesAsync(ValidSolutionId, capabilityRefs).ConfigureAwait(false);
             validationResult.IsValid.Should().BeTrue();
@@ -43,8 +48,37 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                         c.SolutionId == ValidSolutionId && c.NewCapabilitiesReference == capabilityRefs),
                     It.IsAny<CancellationToken>()), Times.Once);
         }
-        
+
         [Test]
+        public async Task ShouldValidateCapabilities()
+        {
+            var capabilitiesToMatch = new HashSet<string>() { "C2", "C3" };
+            var expectedCapabilityCount = 1;
+
+            _context.MockSolutionCapabilityRepository.Setup(c =>
+                    c.GetMatchingCapabilitiesCountAsync(capabilitiesToMatch, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(expectedCapabilityCount);
+
+            var validationResult =
+                await UpdateCapabilitiesAsync(ValidSolutionId, capabilitiesToMatch).ConfigureAwait(false);
+            
+            validationResult.IsValid.Should().BeFalse();
+            var results = validationResult.ToDictionary();
+            results.Count.Should().Be(expectedCapabilityCount);
+            results["capabilities"].Should().Be("capabilityInvalid");
+
+            _context.MockSolutionCapabilityRepository.Verify(
+                r => r.GetMatchingCapabilitiesCountAsync(capabilitiesToMatch, It.IsAny<CancellationToken>()),
+                Times.Once);
+
+            _context.MockSolutionCapabilityRepository.Verify(
+                r => r.UpdateCapabilitiesAsync(
+                    It.Is<IUpdateCapabilityRequest>(c =>
+                        c.SolutionId == ValidSolutionId && c.NewCapabilitiesReference == capabilitiesToMatch),
+                    It.IsAny<CancellationToken>()), Times.Never);
+        }
+
+            [Test]
         public void ShouldThrowNotFoundExceptionWhenSolutionIsNotFound()
         {
             Assert.ThrowsAsync<NotFoundException>(() => UpdateCapabilitiesAsync(InvalidSolutionId, new HashSet<string>()));

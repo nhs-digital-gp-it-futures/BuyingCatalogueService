@@ -73,3 +73,14 @@ Scenario: 5. A Capability is added for a solution which has has multiple capabil
 	Then Solutions are linked to Capabilities
 		| SolutionId | CapabilityRefs |
 		| Sln1       | C3             |
+
+@3678
+Scenario: 6. Two of the same capability references are added, only one is linked.
+    When a PUT request is made to update the capabilities section for solution Sln1
+		| CapabilityRefs |
+		| C1, C1         |
+    Then a response status of 204 is returned
+    Then Solutions are linked to Capabilities
+		| SolutionId | CapabilityRefs |
+		| Sln1       | C1             |
+		| Sln2       | C1             |
