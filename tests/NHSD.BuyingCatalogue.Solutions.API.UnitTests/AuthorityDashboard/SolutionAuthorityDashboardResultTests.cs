@@ -34,12 +34,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.AuthorityDashboard
         public async Task ShouldGetAuthorityDashboardCompleteCapabilities(int capabilityCount, string result)
         {
             var ccMock = new Mock<IClaimedCapability>();
-            var items = new List<IClaimedCapability>();
+            var claimedCapabilities = new List<IClaimedCapability>();
             for (int i = 0; i < capabilityCount; i++)
-                items.Add(ccMock.Object);
+                claimedCapabilities.Add(ccMock.Object);
 
             var dashboardAuthorityResult =
-                await GetSolutionAuthorityDashboardSectionAsync(Mock.Of<ISolution>(s => s.Capabilities == items))
+                await GetSolutionAuthorityDashboardSectionAsync(Mock.Of<ISolution>(s => s.Capabilities == claimedCapabilities))
                     .ConfigureAwait(false);
 
             dashboardAuthorityResult.SolutionAuthorityDashboardSections.Should().NotBeNull();

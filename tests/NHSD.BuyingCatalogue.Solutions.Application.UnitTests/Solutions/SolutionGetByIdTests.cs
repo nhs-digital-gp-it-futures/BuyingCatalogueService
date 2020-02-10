@@ -545,8 +545,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.ClientApplication.NativeDesktopThirdParty.Should().BeNull();
             solution.ClientApplication.NativeDesktopMemoryAndStorage.Should().BeNull();
             solution.ClientApplication.NativeDesktopAdditionalInformation.Should().BeNull();
+
             solution.Capabilities.Should().HaveCount(1);
-            solution.Capabilities.Should().BeEquivalentTo(new[] { Mock.Of<IClaimedCapability>(cc => cc.Name == "cap1") }, config => config.ComparingByMembers<IClaimedCapability>());
+            solution.Capabilities.Should()
+                .BeEquivalentTo(
+                    new[]
+                    {
+                        Mock.Of<IClaimedCapability>(cc => cc.Name == "cap1")
+                    }, config => config.ComparingByMembers<IClaimedCapability>());
             solution.Contacts.Should().HaveCount(0);
 
             solution.Supplier.Summary.Should().Be(mockSupplier.Summary);

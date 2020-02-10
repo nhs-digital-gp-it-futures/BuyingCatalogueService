@@ -22,7 +22,7 @@ Background:
 		| MedicOnline | Appointments Management | True  |
 		| MedicOnline | Clinical Safety         | True  |
 		| MedicOnline | Workflow                | True  |
-        | MedicOnline | Prescribing             | False |
+		| MedicOnline | Prescribing             | False |
 
 @3507
 Scenario: 1. Sections presented where Capabilities exists
