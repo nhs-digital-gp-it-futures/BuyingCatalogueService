@@ -17,6 +17,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.AuthorityDashboard
     [TestFixture]
     public sealed class SolutionAuthorityDashboardResultTests
     {
+        private const string SolutionId = "Sln1";
         private Mock<IMediator> _mockMediator;
         private SolutionsController _solutionsController;
 
@@ -35,8 +36,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.AuthorityDashboard
             dashboardAuthority.Name.Should().BeNull();
             dashboardAuthority.SolutionAuthorityDashboardSections.Should().BeNull();
         }
-
-        private const string SolutionId = "Sln1";
 
         [TestCase(0, "INCOMPLETE")]
         [TestCase(1, "COMPLETE")]
