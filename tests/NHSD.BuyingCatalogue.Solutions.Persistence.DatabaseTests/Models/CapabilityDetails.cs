@@ -11,5 +11,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests.Models
         public string Desc { get; set; }
 
         public string Reference { get; set; }
+
+        public string Version { get; set; }
+
+        public string SourceUrl { get; set; }
     }
 }

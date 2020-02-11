@@ -14,7 +14,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         {
             solution = solution.ThrowIfNull(nameof(solution));
 
-            Capabilities = DashboardSection.Mandatory(solution.Capabilities.Any(x => !string.IsNullOrWhiteSpace(x)));
+            Capabilities = DashboardSection.Mandatory(solution.Capabilities.Any());
         }
     }
 }

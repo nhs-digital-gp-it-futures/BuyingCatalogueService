@@ -8,7 +8,7 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionID | SolutionName   | SupplierStatusId | SupplierId |
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
 @3619
 Scenario: 1. Native Desktop Hardware Requirements is updated

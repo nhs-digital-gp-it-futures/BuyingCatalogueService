@@ -74,7 +74,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         /// <summary>
         /// Capabilities claimed by the solution
         /// </summary>
-        IEnumerable<string> Capabilities { get; }
+        IEnumerable<IClaimedCapability> Capabilities { get; }
 
         /// <summary>
         /// The contacts for the solution

@@ -8,7 +8,7 @@ Background:
 		| Id    | SupplierName |
 		| Sup 1 | Supplier 1   |
 	And Solutions exist
-		| SolutionID | SolutionName   | SupplierStatusId | SupplierId |
+		| SolutionId | SolutionName   | SupplierStatusId | SupplierId |
 		| Sln1       | PracticeMgr    | 1                | Sup 1      |
 		| Sln2       | TakeTheRedPill | 1                | Sup 1      |
 	And SolutionDetail exist

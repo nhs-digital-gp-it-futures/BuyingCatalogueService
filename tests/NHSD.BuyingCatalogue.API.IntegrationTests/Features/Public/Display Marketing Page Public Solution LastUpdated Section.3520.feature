@@ -10,7 +10,7 @@ Background:
 @3520
 Scenario Outline: 1. Last Updated is the latest of last updated in the solution tables
     Given Solutions exist
-        | SolutionID | SolutionName | SupplierStatusId | SupplierId | LastUpdated |
+        | SolutionId | SolutionName | SupplierStatusId | SupplierId | LastUpdated |
         | Sln1       | MedicOnline  | 1                | Sup 1      | <Solution>  |
     And SolutionDetail exist
         | Solution | LastUpdated      |
@@ -34,7 +34,7 @@ Examples:
 @3520
 Scenario Outline: 2. No marketing contact exist, Last Updated is the latest of last updated in the solution tables
     Given Solutions exist
-        | SolutionID | SolutionName | SupplierStatusId | SupplierId | LastUpdated |
+        | SolutionId | SolutionName | SupplierStatusId | SupplierId | LastUpdated |
         | Sln1       | MedicOnline  | 1                | Sup 1      | <Solution>  |
     And SolutionDetail exist
         | Solution | LastUpdated      |

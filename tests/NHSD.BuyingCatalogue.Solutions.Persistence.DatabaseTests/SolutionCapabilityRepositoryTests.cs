@@ -23,21 +23,23 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
         private readonly List<CapabilityDetails> _capDetails = new List<CapabilityDetails>()
         {
-            CreateCapability("Cap1", "Desc1", "Ref1"),
-            CreateCapability("Cap2", "Desc2", "Ref2"),
-            CreateCapability("Cap3", "Desc3", "Ref3")
+            CreateCapability("Cap1", "Desc1", "Ref1", "1.0.0","http://cap1.link"),
+            CreateCapability("Cap2", "Desc2", "Ref2","1.0.0","http://cap2.link"),
+            CreateCapability("Cap3", "Desc3", "Ref3","1.0.0","http://cap3.link")
         };
 
         private ISolutionCapabilityRepository _solutionCapabilityRepository;
 
-        private static CapabilityDetails CreateCapability(string name, string desc, string reference)
+        private static CapabilityDetails CreateCapability(string name, string desc, string reference, string version, string sourceUrl)
         {
             return new CapabilityDetails()
             {
                 Id = Guid.NewGuid(),
                 Name = name,
                 Desc = desc,
-                Reference = reference
+                Reference = reference,
+                Version = version,
+                SourceUrl = sourceUrl
             };
         }
 
@@ -141,6 +143,26 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                     .ConfigureAwait(false);
 
             solutionCapabilityResponse.Should().BeEmpty();
+        }
+
+        [Test]
+        public async Task NoFailedCapabilitiesAsync()
+        {
+            await InsertCapabilityAsync(_capDetails[0]).ConfigureAwait(false);
+            await InsertCapabilityAsync(_capDetails[1]).ConfigureAwait(false);
+
+            await InsertSolutionCapabilityAsync(Solution1Id, _capDetails[0].Id, true).ConfigureAwait(false);
+            await InsertSolutionCapabilityAsync(Solution1Id, _capDetails[1].Id, false).ConfigureAwait(false);
+
+
+            var solutionCapabilityResponseSolution1 =
+                await _solutionCapabilityRepository.ListSolutionCapabilities(Solution1Id, CancellationToken.None)
+                    .ConfigureAwait(false);
+
+            var solutionCapability1 = solutionCapabilityResponseSolution1.Should().ContainSingle().Subject;
+            solutionCapability1.CapabilityId.Should().Be(_capDetails[0].Id);
+            solutionCapability1.CapabilityName.Should().Be(_capDetails[0].Name);
+            solutionCapability1.CapabilityDescription.Should().Be(_capDetails[0].Desc);
         }
 
         [Test]
@@ -274,16 +296,19 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithName(capability.Name)
                 .WithDescription(capability.Desc)
                 .WithCapabilityRef(capability.Reference)
+                .WithVersion(capability.Version)
+                .WithSourceUrl(capability.SourceUrl)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
         }
 
-        private async Task InsertSolutionCapabilityAsync(string solutionId, Guid capId)
+        private async Task InsertSolutionCapabilityAsync(string solutionId, Guid capId, bool passed=true)
         {
             await SolutionCapabilityEntityBuilder.Create()
                 .WithCapabilityId(capId)
                 .WithSolutionId(solutionId)
+                .WithStatusId(passed? 1 : 2)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);

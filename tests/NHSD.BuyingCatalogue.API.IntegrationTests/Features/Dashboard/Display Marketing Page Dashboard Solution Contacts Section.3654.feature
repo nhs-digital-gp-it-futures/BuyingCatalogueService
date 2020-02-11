@@ -9,7 +9,7 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionID | SolutionName   | SupplierStatusId | SupplierId |
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 2      |
         | Sln3       | NoContact      | 1                | Sup 2      |

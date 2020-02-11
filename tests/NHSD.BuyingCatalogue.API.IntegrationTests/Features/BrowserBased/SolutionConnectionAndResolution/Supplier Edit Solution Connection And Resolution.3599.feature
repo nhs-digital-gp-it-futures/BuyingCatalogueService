@@ -8,7 +8,7 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionID | SolutionName   | SupplierStatusId | SupplierId |
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
 
 @3599
@@ -21,7 +21,7 @@ Scenario: 1. Connection and Resolution are updated for the solution
         | 1GBps                  | 800x600                  |
     Then a successful response is returned
     And Solutions exist
-        | SolutionID | SolutionName   |
+        | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                   |
@@ -38,7 +38,7 @@ Scenario: 2. Connection and Resolution are updated for the solution with trimmed
         | "     1GBps      "     | "     800x600   "        |
     Then a successful response is returned
     And Solutions exist
-        | SolutionID | SolutionName   |
+        | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                   |
@@ -55,7 +55,7 @@ Scenario: 3. Connection and Resolution are updated for the solution with empty r
         | 1GBps                  | NULL                     |
     Then a successful response is returned
     And Solutions exist
-        | SolutionID | SolutionName   |
+        | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                            |

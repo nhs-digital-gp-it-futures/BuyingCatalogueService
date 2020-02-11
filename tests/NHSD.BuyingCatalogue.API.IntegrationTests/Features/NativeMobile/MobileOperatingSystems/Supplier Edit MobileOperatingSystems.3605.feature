@@ -8,7 +8,7 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionID | SolutionName   | SupplierStatusId | SupplierId |
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
 @3605
 Scenario: 1. Mobile Operating Systems is updated

@@ -76,7 +76,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         /// <summary>
         /// Capabilities claimed by the solution
         /// </summary>
-        public HashSet<string> Capabilities { get; set; }
+        public IEnumerable<ClaimedCapability> Capabilities { get; set; }
 
         /// <summary>
         /// The contacts for the solution
@@ -104,7 +104,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public ImplementationTimescales ImplementationTimescales { get; set; }
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="Solution"/> class.
+        /// Initialises a new instance of the <see cref="Solution" /> class.
         /// </summary>
         internal Solution(ISolutionResult solutionResult,
             IEnumerable<ISolutionCapabilityListResult> solutionCapabilityListResult,
@@ -112,24 +112,32 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
             ISupplierResult supplierResult,
             IDocumentResult documentResult)
         {
+            var contactResultList = contactResult.ToList();
             Id = solutionResult.Id;
             Name = solutionResult.Name;
-            LastUpdated = GetLatestLastUpdated(solutionResult, contactResult);
+            LastUpdated = GetLatestLastUpdated(solutionResult, contactResultList);
             Summary = solutionResult.Summary;
             Description = solutionResult.Description;
             Features = string.IsNullOrWhiteSpace(solutionResult.Features)
                 ? new List<string>()
                 : JsonConvert.DeserializeObject<IEnumerable<string>>(solutionResult.Features);
-            Integrations = new Integrations { Url = solutionResult.IntegrationsUrl, DocumentName = documentResult?.IntegrationDocumentName };
-            ImplementationTimescales = new ImplementationTimescales { Description = solutionResult.ImplementationTimescales };
+            Integrations = new Integrations
+            {
+                Url = solutionResult.IntegrationsUrl, DocumentName = documentResult?.IntegrationDocumentName
+            };
+            ImplementationTimescales =
+                new ImplementationTimescales {Description = solutionResult.ImplementationTimescales};
             AboutUrl = solutionResult.AboutUrl;
-            RoadMap = new RoadMap { Summary = solutionResult.RoadMap, DocumentName = documentResult?.RoadMapDocumentName };
+            RoadMap = new RoadMap
+            {
+                Summary = solutionResult.RoadMap, DocumentName = documentResult?.RoadMapDocumentName
+            };
             ClientApplication = string.IsNullOrWhiteSpace(solutionResult.ClientApplication)
                 ? new ClientApplication()
                 : JsonConvert.DeserializeObject<ClientApplication>(solutionResult.ClientApplication);
             IsFoundation = solutionResult.IsFoundation;
-            Capabilities = new HashSet<string>(solutionCapabilityListResult.Select(c => c.CapabilityName));
-            Contacts = contactResult.Select(c => new Contact(c));
+            Capabilities = solutionCapabilityListResult.Select(c => new ClaimedCapability(c));
+            Contacts = contactResultList.Select(c => new Contact(c));
             PublishedStatus = solutionResult.PublishedStatus;
 
             Hosting = string.IsNullOrWhiteSpace(solutionResult.Hosting)
@@ -148,12 +156,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         }
 
         private DateTime GetLatestLastUpdated(ISolutionResult solutionResult,
-            IEnumerable<IMarketingContactResult> contactResult) =>
+            IList<IMarketingContactResult> contactResult) =>
             new List<DateTime>
             {
                 solutionResult.LastUpdated,
                 solutionResult.SolutionDetailLastUpdated,
-                contactResult?.Any() == false ? DateTime.MinValue : contactResult.Max(x => x.LastUpdated)
+                contactResult?.Any() == true ? contactResult.Max(x => x.LastUpdated) : DateTime.MinValue
             }.Max();
     }
 }

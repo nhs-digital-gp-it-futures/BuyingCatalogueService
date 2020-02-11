@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,9 +17,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.AuthorityDashboard
     [TestFixture]
     public sealed class SolutionAuthorityDashboardResultTests
     {
+        private const string SolutionId = "Sln1";
         private Mock<IMediator> _mockMediator;
         private SolutionsController _solutionsController;
-        private const string SolutionId = "Sln1";
 
         [SetUp]
         public void SetUp()
@@ -36,16 +37,19 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.AuthorityDashboard
             dashboardAuthority.SolutionAuthorityDashboardSections.Should().BeNull();
         }
 
-        [TestCase(new string[0], "INCOMPLETE")]
-        [TestCase(new[] { "      " }, "INCOMPLETE")]
-        [TestCase(new[] { "", " " }, "INCOMPLETE")]
-        [TestCase(new[] { "Capability1" }, "COMPLETE")]
-        [TestCase(new[] { "     Capability1 " }, "COMPLETE")]
-        [TestCase(new[] { "Capability1", "Capability2" }, "COMPLETE")]
-        public async Task ShouldGetAuthorityDashboardCompleteCapabilities(string[] capabilities, string result)
+        [TestCase(0, "INCOMPLETE")]
+        [TestCase(1, "COMPLETE")]
+        [TestCase(2, "COMPLETE")]
+        public async Task ShouldGetAuthorityDashboardCompleteCapabilities(int capabilityCount, string result)
         {
+            var ccMock = new Mock<IClaimedCapability>();
+            var claimedCapabilities = new List<IClaimedCapability>();
+            for (int i = 0; i < capabilityCount; i++)
+                claimedCapabilities.Add(ccMock.Object);
+
             var dashboardAuthorityResult =
-                await GetSolutionAuthorityDashboardSectionAsync(Mock.Of<ISolution>(s => s.Capabilities == capabilities))
+                await GetSolutionAuthorityDashboardSectionAsync(Mock.Of<ISolution>(s =>
+                        s.Capabilities == claimedCapabilities))
                     .ConfigureAwait(false);
 
             dashboardAuthorityResult.SolutionAuthorityDashboardSections.Should().NotBeNull();
@@ -65,13 +69,17 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.AuthorityDashboard
             dashboardResult.Name.Should().Be(name);
         }
 
-        private async Task<SolutionAuthorityDashboardResult> GetSolutionAuthorityDashboardSectionAsync(ISolution solution)
+        private async Task<SolutionAuthorityDashboardResult> GetSolutionAuthorityDashboardSectionAsync(
+            ISolution solution)
         {
             _mockMediator.Setup(m =>
                     m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(solution);
 
-            var result = (await _solutionsController.AuthorityDashboard(SolutionId).ConfigureAwait(false)).Result as ObjectResult;
+            var result =
+                (await _solutionsController.AuthorityDashboard(SolutionId).ConfigureAwait(false))
+                .Result as ObjectResult;
+            result.Should().NotBeNull();
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
             _mockMediator.Verify(

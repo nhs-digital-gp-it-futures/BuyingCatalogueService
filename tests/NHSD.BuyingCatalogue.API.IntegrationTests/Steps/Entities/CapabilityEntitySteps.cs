@@ -22,10 +22,19 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             var capability = CapabilityEntityBuilder.Create()
                 .WithName(capabilityTable.CapabilityName)
                 .WithCapabilityRef(capabilityTable.CapabilityRef)
+                .WithVersion(capabilityTable.Version)
+                .WithDescription(capabilityTable.Description)
+                .WithSourceUrl(capabilityTable.SourceUrl)
                 .Build();
             await capability.InsertAsync().ConfigureAwait(false);
-            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capability.Id).WithIsFoundation(capabilityTable.IsFoundation).Build().InsertAsync().ConfigureAwait(false);
+
+            await FrameworkCapabilitiesEntityBuilder.Create()
+                .WithCapabilityId(capability.Id)
+                .WithIsFoundation(capabilityTable.IsFoundation)
+                .Build()
+                .InsertAsync().ConfigureAwait(false);
         }
+
 
         private class CapabilityTable
         {
@@ -34,6 +43,12 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             public string CapabilityRef { get; set; } = "Ref";
 
             public bool IsFoundation { get; set; }
+
+            public string Version { get; set; } = "1.0";
+
+            public string Description { get; set; } = "Capability Description";
+
+            public string SourceUrl { get; set; } = "http://source.url";
         }
     }
 }

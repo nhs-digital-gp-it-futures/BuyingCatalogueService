@@ -9,8 +9,8 @@ using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicationByS
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetImplementationTimescalesBySolutionId;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetRoadMapBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetIntegrationsBySolutionId;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetRoadMapBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
@@ -23,7 +23,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
     public sealed class SolutionAutoMapperProfile : Profile
     {
         /// <summary>
-        /// Initialises a new instance of the <see cref="SolutionAutoMapperProfile"/> class.
+        /// Initialises a new instance of the <see cref="SolutionAutoMapperProfile" /> class.
         /// </summary>
         public SolutionAutoMapperProfile()
         {
@@ -53,7 +53,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
             CreateMap<NativeDesktopThirdParty, NativeDesktopThirdPartyDto>();
             CreateMap<NativeDesktopThirdParty, INativeDesktopThirdParty>().As<NativeDesktopThirdPartyDto>();
             CreateMap<NativeDesktopMemoryAndStorage, NativeDesktopMemoryAndStorageDto>();
-            CreateMap<NativeDesktopMemoryAndStorage, INativeDesktopMemoryAndStorage>().As<NativeDesktopMemoryAndStorageDto>();
+            CreateMap<NativeDesktopMemoryAndStorage, INativeDesktopMemoryAndStorage>()
+                .As<NativeDesktopMemoryAndStorageDto>();
             CreateMap<PublicCloud, PublicCloudDto>();
             CreateMap<PublicCloud, IPublicCloud>().As<PublicCloudDto>();
             CreateMap<PrivateCloud, PrivateCloudDto>();
@@ -70,6 +71,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
             CreateMap<Integrations, IIntegrations>().As<IntegrationsDto>();
             CreateMap<ImplementationTimescales, ImplementationTimescalesDto>();
             CreateMap<ImplementationTimescales, IImplementationTimescales>().As<ImplementationTimescalesDto>();
+            CreateMap<ClaimedCapability, ClaimedCapabilityDto>();
+            CreateMap<ClaimedCapability, IClaimedCapability>().As<ClaimedCapabilityDto>();
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Capabilities;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
@@ -20,6 +22,31 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
     [TestFixture]
     public sealed class SolutionsControllerGetPublicTests
     {
+        [SetUp]
+        public void Setup()
+        {
+            _mockMediator = new Mock<IMediator>();
+            _solutionsController = new SolutionsController(_mockMediator.Object);
+           
+        }
+
+        private static List<(IClaimedCapability, ClaimedCapabilitySection)> GetClaimedCapabilityTestData()
+        {
+            var data = new List<(IClaimedCapability, ClaimedCapabilitySection)>();
+            for (int i = 1; i <= 5; i++)
+            {
+                var capabilityNumber = i;
+                var ccMock = Mock.Of<IClaimedCapability>(
+                    cc => cc.Name == $"Capability {capabilityNumber}" &&
+                          cc.Version == $"Version {capabilityNumber}" &&
+                          cc.Description == $"Description {capabilityNumber}" &&
+                          cc.Link == $"http://Capability.Link/{capabilityNumber}");
+                data.Add((ccMock,new ClaimedCapabilitySection(ccMock)));
+            }
+
+            return data;
+        }
+
         private Mock<IMediator> _mockMediator;
 
         private SolutionsController _solutionsController;
@@ -28,43 +55,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         private const string SolutionId2 = "Sln2";
 
         private readonly DateTime _lastUpdated = DateTime.Today;
-
-        [SetUp]
-        public void Setup()
-        {
-            _mockMediator = new Mock<IMediator>();
-            _solutionsController = new SolutionsController(_mockMediator.Object);
-        }
-
-        [Test]
-        public async Task NoSolutionShouldReturnNotFound()
-        {
-            var result = (await _solutionsController.Public(SolutionId1).ConfigureAwait(false)).Result as NotFoundResult;
-
-            result.Should().NotBeNull();
-            result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
-
-            _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId1), It.IsAny<CancellationToken>()), Times.Once);
-        }
-
-        [Test]
-        public async Task UnpublishedSolutionShouldReturnNotFound()
-        {
-            var solution = Mock.Of<ISolution>(
-                s => s.Id == SolutionId1 &&
-                     s.PublishedStatus == PublishedStatus.Draft);
-
-            _mockMediator
-                .Setup(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId1), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(solution);
-
-            var result = (await _solutionsController.Public(SolutionId1).ConfigureAwait(false)).Result as NotFoundResult;
-
-            result.Should().NotBeNull();
-            result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
-
-            _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId1), It.IsAny<CancellationToken>()), Times.Once);
-        }
 
         [TestCase(null, null, null, false)]
         [TestCase("Sln2", null, null, false)]
@@ -124,7 +114,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase(true)]
         public async Task ShouldGetFeaturesForSolution(bool hasFeature)
         {
-            var feature = hasFeature ? new List<string>() { "feature1", "feature2" } : new List<string>();
+            var feature = hasFeature ? new List<string> {"feature1", "feature2"} : new List<string>();
 
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.Id == SolutionId1 &&
@@ -136,7 +126,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             if (hasFeature)
             {
                 publicResult.Sections.Features.Answers.Listing.Should()
-                    .BeEquivalentTo(new List<string>() { "feature1", "feature2" });
+                    .BeEquivalentTo(new List<string> {"feature1", "feature2"});
             }
             else
             {
@@ -186,8 +176,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var publicResult =
                 await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
-                        s.PublishedStatus == PublishedStatus.Published &&
-                        s.Integrations == Mock.Of<IIntegrations>(i => i.Url == url && i.DocumentName == documentName)), SolutionId1)
+                            s.PublishedStatus == PublishedStatus.Published &&
+                            s.Integrations ==
+                            Mock.Of<IIntegrations>(i => i.Url == url && i.DocumentName == documentName)),
+                        SolutionId1)
                     .ConfigureAwait(false);
 
             if (hasData)
@@ -213,7 +205,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var publicResult =
                 await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                         s.PublishedStatus == PublishedStatus.Published &&
-                        s.ImplementationTimescales == Mock.Of<IImplementationTimescales>(i => i.Description == description)), SolutionId1)
+                        s.ImplementationTimescales ==
+                        Mock.Of<IImplementationTimescales>(i => i.Description == description)), SolutionId1)
                     .ConfigureAwait(false);
 
             if (hasData)
@@ -228,16 +221,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
-        [Test]
-        public async Task ShouldCheckForNullClientApplicationTypes()
-        {
-            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
-                s.ClientApplication == null &&
-                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
-
-            publicResult.Sections.ClientApplicationTypes.Should().BeNull();
-        }
-
         [TestCase(false, false, null, false)]
         [TestCase(true, false, null, false)]
         [TestCase(true, true, null, true)]
@@ -245,14 +228,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase(true, false, true, true)]
         [TestCase(true, true, false, true)]
         [TestCase(true, true, true, true)]
-
         public async Task ShouldGetPublicCalculateClientApplication(bool isClientApplication, bool isBrowserSupported,
             bool? mobileResponsive, bool expectData)
         {
             var clientApplicationTypes = isClientApplication
-                ? new HashSet<string> { "browser-based", "native-mobile" }
+                ? new HashSet<string> {"browser-based", "native-mobile"}
                 : new HashSet<string>();
-            var browsersSupported = isBrowserSupported ? new HashSet<string> { "Chrome", "Edge" } : new HashSet<string>();
+            var browsersSupported = isBrowserSupported ? new HashSet<string> {"Chrome", "Edge"} : new HashSet<string>();
 
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
@@ -266,26 +248,30 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
                 if (mobileResponsive.HasValue)
                 {
-                    publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers.MobileResponsive
+                    publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported
+                        .Answers.MobileResponsive
                         .Should()
                         .Be(mobileResponsive.GetValueOrDefault() ? "Yes" : "No");
                 }
                 else
                 {
-                    publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers
+                    publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported
+                        .Answers
                         .MobileResponsive.Should().BeNull();
                 }
 
                 if (isBrowserSupported)
                 {
-                    publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers.SupportedBrowsers
+                    publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported
+                        .Answers.SupportedBrowsers
                         .Should().BeEquivalentTo(isClientApplication
-                            ? new HashSet<string> { "Chrome", "Edge" }
+                            ? new HashSet<string> {"Chrome", "Edge"}
                             : new HashSet<string>());
                 }
                 else
                 {
-                    publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers
+                    publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported
+                        .Answers
                         .SupportedBrowsers.Should().BeNull();
                 }
             }
@@ -295,93 +281,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
-        [Test]
-        public async Task ShouldIncludeBrowserBasedDataIfClientApplicationTypesIncludeBrowserBased()
-        {
-            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
-                s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == new HashSet<string> { "browser-based", "native-mobile" } &&
-                    c.BrowsersSupported == new HashSet<string> { "Chrome", "Edge" } &&
-                    c.MobileResponsive == true) &&
-                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
-
-            publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers.SupportedBrowsers
-                .Should().BeEquivalentTo(new HashSet<string> { "Chrome", "Edge" });
-            publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers.MobileResponsive
-                .Should().Be("Yes");
-        }
-
-        [Test]
-        public async Task ShouldIncludeBrowserBasedDataIfClientApplicationTypesIncludePluginInformation()
-        {
-            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
-                s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == new HashSet<string> { "browser-based", "native-mobile" }
-                    && c.Plugins == Mock.Of<IPlugins>(p => p.Required == true && p.AdditionalInformation == "Plugin additional information")) &&
-                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
-
-            publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.PluginOrExtensionsSection.Answers.Required
-                .Should().Be("Yes");
-            publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.PluginOrExtensionsSection.Answers.AdditionalInformation
-                .Should().Be("Plugin additional information");
-        }
-
-        [Test]
-        public async Task IfBrowserBasedThenHardwareRequirementsCanBeSet()
-        {
-            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
-                s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == new HashSet<string> { "browser-based", "native-mobile" }
-                    && c.HardwareRequirements == "New Hardware") &&
-                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
-
-            publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections
-                .BrowserHardwareRequirementsSection.Answers.HardwareRequirements.Should().Be("New Hardware");
-        }
-
-        [Test]
-        public async Task IfBrowserBasedThenAdditionalInformationCanBeSet()
-        {
-            var previewResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
-                s.PublishedStatus == PublishedStatus.Published &&
-                s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == new HashSet<string> { "browser-based", "native-mobile" } &&
-                    c.AdditionalInformation == "Some Additional Info")), SolutionId1).ConfigureAwait(false);
-
-            previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections
-                .BrowserAdditionalInformationSection.Answers.AdditionalInformation.Should().Be("Some Additional Info");
-        }
-
-        [Test]
-        public async Task ShouldNotIncludeBrowserBasedDataIfClientApplicationTypesDoNotIncludeBrowserBased()
-        {
-            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
-                s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == new HashSet<string> { "native-desktop", "native-mobile" } &&
-                    c.BrowsersSupported == new HashSet<string> { "Chrome", "Edge" } &&
-                    c.MobileResponsive == true) &&
-                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
-
-            publicResult.Sections.ClientApplicationTypes.Should().BeNull();
-        }
-
-        [Test]
-        public async Task CapabilitiesIsNullForSolution()
-        {
-            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
-                s.Id == SolutionId1 &&
-                s.Capabilities == null &&
-                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
-
-            publicResult.Id.Should().Be(SolutionId1);
-            publicResult.Sections.Capabilities.Answers.CapabilitiesMet.Should().BeEquivalentTo(new List<string>());
-        }
-
         [TestCase(false)]
         [TestCase(true)]
         public async Task ShouldGetCapabilitiesOnlyForSolution(bool hasCapability)
         {
-            var capabilities = hasCapability ? new List<string>() { "cap1", "cap2" } : new List<string>();
+            var capabilityData = GetClaimedCapabilityTestData().Take(2).ToArray();
+
+            var capabilities = hasCapability ? capabilityData.Select(c=>c.Item1) : Array.Empty<IClaimedCapability>();
 
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.Id == SolutionId1 &&
@@ -389,29 +295,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
 
             publicResult.Id.Should().Be(SolutionId1);
-            publicResult.Sections.Capabilities.Answers.CapabilitiesMet.Should().ContainInOrder(hasCapability ? new List<string> { "cap1", "cap2" } : new List<string>());
-        }
-
-        [Test]
-        public async Task MultipleCapabilitiesForDifferentSolutions()
-        {
-            var publicResult1 = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
-                s.Id == SolutionId1 &&
-                s.Capabilities == new List<string>() { "cap1", "cap2" } &&
-                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
-
-            var publicResult2 = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
-                s.Id == SolutionId2 &&
-                s.Capabilities == new List<string>() { "cap3", "cap4", "cap5" } &&
-                s.PublishedStatus == PublishedStatus.Published), SolutionId2).ConfigureAwait(false);
-
-            publicResult1.Id.Should().Be(SolutionId1);
-            publicResult1.Sections.Capabilities.Answers.CapabilitiesMet.Should()
-                .ContainInOrder(new List<string>() { "cap1", "cap2" });
-
-            publicResult2.Id.Should().Be(SolutionId2);
-            publicResult2.Sections.Capabilities.Answers.CapabilitiesMet.Should()
-                .ContainInOrder(new List<string>() { "cap3", "cap4", "cap5" });
+            if (hasCapability)
+                publicResult.Sections.Capabilities.Answers.CapabilitiesMet.Should()
+                    .BeEquivalentTo(capabilityData.Select(c=>c.Item2));
+            else
+                publicResult.Sections.Capabilities.Should().BeNull();
         }
 
         [TestCase("1GBps", "1x1", true)]
@@ -421,12 +309,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase("    ", "    ", false)]
         [TestCase("", "", false)]
         [TestCase("	", "	", false)]
-        public async Task ConnectivityAndResolutionSectionIsSetCorrectly(string connectivity, string resolution, bool hasData)
+        public async Task ConnectivityAndResolutionSectionIsSetCorrectly(string connectivity, string resolution,
+            bool hasData)
         {
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.PublishedStatus == PublishedStatus.Published &&
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == new HashSet<string> { "browser-based" } &&
+                    c.ClientApplicationTypes == new HashSet<string> {"browser-based"} &&
                     c.MinimumConnectionSpeed == connectivity &&
                     c.MinimumDesktopResolution == resolution)), SolutionId1).ConfigureAwait(false);
             var connectivitySection = publicResult?.Sections?.ClientApplicationTypes?.Sections?.BrowserBased?.Sections?
@@ -450,13 +339,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase(true, "Desc", true)]
         public async Task MobileOperatingSystemsIsSetCorrectly(bool isOperatingSystem, string description, bool hasData)
         {
-            var operatingSystem = isOperatingSystem ? new HashSet<string> { "IOS", "Windows" } : new HashSet<string>();
+            var operatingSystem = isOperatingSystem ? new HashSet<string> {"IOS", "Windows"} : new HashSet<string>();
 
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                     s.PublishedStatus == PublishedStatus.Published &&
                     s.ClientApplication ==
                     Mock.Of<IClientApplication>(c =>
-                        c.ClientApplicationTypes == new HashSet<string> { "native-mobile" } &&
+                        c.ClientApplicationTypes == new HashSet<string> {"native-mobile"} &&
                         c.MobileOperatingSystems == Mock.Of<IMobileOperatingSystems>(m =>
                             m.OperatingSystems == operatingSystem &&
                             m.OperatingSystemsDescription == description))), SolutionId1)
@@ -485,9 +374,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase(false, false, true, true)]
         [TestCase(false, true, false, true)]
         [TestCase(true, false, false, true)]
-        public async Task MobileConnectionDetailsIsSetCorrectly(bool hasConnectionType, bool hasDescription, bool hasMinimumConnectionSpeed, bool hasData)
+        public async Task MobileConnectionDetailsIsSetCorrectly(bool hasConnectionType, bool hasDescription,
+            bool hasMinimumConnectionSpeed, bool hasData)
         {
-            var connectionType = hasConnectionType ? new HashSet<string> { "3G", "4G" } : null;
+            var connectionType = hasConnectionType ? new HashSet<string> {"3G", "4G"} : null;
             var description = hasDescription ? "I am a description" : null;
             var minimumConnectionSpeed = hasMinimumConnectionSpeed ? "1GBps" : null;
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
@@ -495,7 +385,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     s.PublishedStatus == PublishedStatus.Published &&
                     s.ClientApplication ==
                     Mock.Of<IClientApplication>(c =>
-                        c.ClientApplicationTypes == new HashSet<string> { "native-mobile" } &&
+                        c.ClientApplicationTypes == new HashSet<string> {"native-mobile"} &&
                         c.MobileConnectionDetails == Mock.Of<IMobileConnectionDetails>(m =>
                             m.ConnectionType == connectionType &&
                             m.Description == description &&
@@ -528,7 +418,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.PublishedStatus == PublishedStatus.Published &&
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == new HashSet<string> { "native-mobile" } &&
+                    c.ClientApplicationTypes == new HashSet<string> {"native-mobile"} &&
                     c.MobileMemoryAndStorage == Mock.Of<IMobileMemoryAndStorage>(
                         m => m.MinimumMemoryRequirement == minMemoryManagement &&
                              m.Description == description))), SolutionId1).ConfigureAwait(false);
@@ -556,7 +446,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.Id == SolutionId1 &&
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == new HashSet<string> { "browser-based" } &&
+                    c.ClientApplicationTypes == new HashSet<string> {"browser-based"} &&
                     c.MobileFirstDesign == mobileFirst) &&
                 s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
 
@@ -568,79 +458,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 mobileFirstSection.Should().BeNull();
                 return;
             }
-
+            mobileFirstSection.Should().NotBeNull();
             mobileFirstSection.Answers.MobileFirstDesign.Should().Be(result);
-        }
-
-        [Test]
-        public async Task ShouldGetContacts()
-        {
-            var contacts = new List<IContact>
-            {
-                Mock.Of<IContact>(m => m.Name == "name1" && m.Department == "dep1" && m.Email == "test@gmail.com" && m.PhoneNumber == "01234567890"),
-                Mock.Of<IContact>(m => m.Name == "name2" && m.Department == "dep2" && m.Email == "test2@gmail.com" && m.PhoneNumber == "12345678901")
-            };
-
-            var contact = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
-                s.Id == SolutionId1 &&
-                s.Contacts == contacts &&
-                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
-
-            contact.Id.Should().Be(SolutionId1);
-
-            contact.Sections.ContactDetails.Answers.Contact1.ContactName.Should().BeEquivalentTo(contacts[0].Name);
-            contact.Sections.ContactDetails.Answers.Contact1.DepartmentName.Should().BeEquivalentTo(contacts[0].Department);
-            contact.Sections.ContactDetails.Answers.Contact1.EmailAddress.Should().BeEquivalentTo(contacts[0].Email);
-            contact.Sections.ContactDetails.Answers.Contact1.PhoneNumber.Should().BeEquivalentTo(contacts[0].PhoneNumber);
-
-            contact.Sections.ContactDetails.Answers.Contact2.ContactName.Should().BeEquivalentTo(contacts[1].Name);
-            contact.Sections.ContactDetails.Answers.Contact2.DepartmentName.Should().BeEquivalentTo(contacts[1].Department);
-            contact.Sections.ContactDetails.Answers.Contact2.EmailAddress.Should().BeEquivalentTo(contacts[1].Email);
-            contact.Sections.ContactDetails.Answers.Contact2.PhoneNumber.Should().BeEquivalentTo(contacts[1].PhoneNumber);
-        }
-
-        [Test]
-        public async Task EmptyContactShouldReturnNoData()
-        {
-            var contacts = new List<IContact>
-            {
-                Mock.Of<IContact>(m =>
-                    m.Name == null && m.Department == "" && m.Email == "" && m.PhoneNumber == "   "),
-                Mock.Of<IContact>(m => m.Name == "" && m.Department == "" && m.Email == "" && m.PhoneNumber == "")
-            };
-
-            var contact = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
-                s.Id == SolutionId1 &&
-                s.Contacts == contacts &&
-                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
-
-            contact.Id.Should().Be(SolutionId1);
-            contact.Sections.ContactDetails.Should().BeNull();
-        }
-
-        [Test]
-        public async Task SingleContactShouldReturnNullForEmptyData()
-        {
-            var contacts = new List<IContact>
-            {
-                Mock.Of<IContact>(m =>
-                    m.Name == "Hello" && m.Department == "" && m.Email == "" && m.PhoneNumber == "   "),
-                Mock.Of<IContact>(m => m.Name == "" && m.Department == "" && m.Email == "" && m.PhoneNumber == "")
-            };
-
-            var contact = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
-                s.Id == SolutionId1 &&
-                s.Contacts == contacts &&
-                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
-
-            contact.Id.Should().Be(SolutionId1);
-            contact.Sections.ContactDetails.Should().NotBeNull();
-            contact.Sections.ContactDetails.Answers.HasData().Should().BeTrue();
-            contact.Sections.ContactDetails.Answers.Contact2.Should().BeNull();
-            contact.Sections.ContactDetails.Answers.Contact1.ContactName.Should().NotBeNull();
-            contact.Sections.ContactDetails.Answers.Contact1.PhoneNumber.Should().BeNull();
-            contact.Sections.ContactDetails.Answers.Contact1.DepartmentName.Should().BeNull();
-            contact.Sections.ContactDetails.Answers.Contact1.EmailAddress.Should().BeNull();
         }
 
         [TestCase("New hardware", true)]
@@ -652,7 +471,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.PublishedStatus == PublishedStatus.Published &&
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == new HashSet<string> { "native-mobile" }
+                    c.ClientApplicationTypes == new HashSet<string> {"native-mobile"}
                     && c.NativeMobileHardwareRequirements == requirements)), SolutionId1).ConfigureAwait(false);
 
             if (hasData)
@@ -673,14 +492,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase("Component", null, true)]
         [TestCase(null, "Capability", true)]
         [TestCase("Component", "Capability", true)]
-
-        public async Task IfNativeMobileThenEmptyMobileThirdPartyHasNoData(string component, string capability, bool hasData)
+        public async Task IfNativeMobileThenEmptyMobileThirdPartyHasNoData(string component, string capability,
+            bool hasData)
         {
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                     s.PublishedStatus == PublishedStatus.Published &&
                     s.ClientApplication ==
                     Mock.Of<IClientApplication>(c =>
-                        c.ClientApplicationTypes == new HashSet<string> { "native-mobile" } &&
+                        c.ClientApplicationTypes == new HashSet<string> {"native-mobile"} &&
                         c.MobileThirdParty == Mock.Of<IMobileThirdParty>(m =>
                             m.ThirdPartyComponents == component && m.DeviceCapabilities == capability))), SolutionId1)
                 .ConfigureAwait(false);
@@ -704,19 +523,21 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase(null, false)]
         [TestCase("", false)]
         [TestCase("      ", false)]
-        public async Task IfNativeMobileThenEmptyAdditionalInformationHasNoData(string additionalInformation, bool hasData)
+        public async Task IfNativeMobileThenEmptyAdditionalInformationHasNoData(string additionalInformation,
+            bool hasData)
         {
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
-                s.PublishedStatus == PublishedStatus.Published &&
-                s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == new HashSet<string> { "native-mobile" }
-                    && c.NativeMobileAdditionalInformation == additionalInformation)), SolutionId1)
+                    s.PublishedStatus == PublishedStatus.Published &&
+                    s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                        c.ClientApplicationTypes == new HashSet<string> {"native-mobile"}
+                        && c.NativeMobileAdditionalInformation == additionalInformation)), SolutionId1)
                 .ConfigureAwait(false);
 
             if (hasData)
             {
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections
-                    .MobileAdditionalInformationSection.Answers.NativeMobileAdditionalInformation.Should().Be(additionalInformation);
+                    .MobileAdditionalInformationSection.Answers.NativeMobileAdditionalInformation.Should()
+                    .Be(additionalInformation);
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections
                     .MobileAdditionalInformationSection.Answers.HasData.Should().BeTrue();
             }
@@ -735,7 +556,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.PublishedStatus == PublishedStatus.Published &&
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == new HashSet<string> { "native-desktop" }
+                    c.ClientApplicationTypes == new HashSet<string> {"native-desktop"}
                     && c.NativeDesktopOperatingSystemsDescription == description)), SolutionId1).ConfigureAwait(false);
 
             if (hasData)
@@ -751,25 +572,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
-        [Test]
-        public void NullSolutionShouldThrowNullExceptionPublicResult()
-        {
-            var solution = new SolutionResult(null);
-            solution.Id.Should().BeNull();
-            solution.Name.Should().BeNull();
-            solution.SupplierName.Should().BeNull();
-            solution.LastUpdated.Should().BeNull();
-            solution.IsFoundation.Should().BeNull();
-
-            solution.Sections.Should().BeNull();
-        }
-
-        [Test]
-        public void NullSolutionShouldThrowNullExceptionSolutionDescriptionPublicAnswers()
-        {
-            Assert.Throws<ArgumentNullException>(() => new SolutionDescriptionSectionAnswers(null));
-        }
-
         [TestCase("New hardware", true)]
         [TestCase(null, false)]
         [TestCase("", false)]
@@ -779,7 +581,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.PublishedStatus == PublishedStatus.Published &&
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == new HashSet<string> { "native-desktop" }
+                    c.ClientApplicationTypes == new HashSet<string> {"native-desktop"}
                     && c.NativeDesktopHardwareRequirements == requirements)), SolutionId1).ConfigureAwait(false);
 
             if (hasData)
@@ -799,19 +601,21 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase(null, false)]
         [TestCase("", false)]
         [TestCase("      ", false)]
-        public async Task IfNativeDesktopThenNativeConnectivityDetailsIsSetCorrectly(string minimumConnectionSpeed, bool hasData)
+        public async Task IfNativeDesktopThenNativeConnectivityDetailsIsSetCorrectly(string minimumConnectionSpeed,
+            bool hasData)
         {
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.PublishedStatus == PublishedStatus.Published &&
                 s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == new HashSet<string> { "native-desktop" } &&
+                    c.ClientApplicationTypes == new HashSet<string> {"native-desktop"} &&
                     c.NativeDesktopMinimumConnectionSpeed == minimumConnectionSpeed
                 )), SolutionId1).ConfigureAwait(false);
 
             if (hasData)
             {
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
-                    .NativeDesktopConnectivityDetailsSection.Answers.NativeDesktopMinimumConnectionSpeed.Should().Be(minimumConnectionSpeed);
+                    .NativeDesktopConnectivityDetailsSection.Answers.NativeDesktopMinimumConnectionSpeed.Should()
+                    .Be(minimumConnectionSpeed);
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
                     .NativeDesktopConnectivityDetailsSection.Answers.HasData.Should().BeTrue();
             }
@@ -828,25 +632,28 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase("Component", null, true)]
         [TestCase(null, "Capability", true)]
         [TestCase("Component", "Capability", true)]
-
-        public async Task NativeDesktopThirdPartySectionIsPopulatedCorrectly(string component, string capability, bool hasData)
+        public async Task NativeDesktopThirdPartySectionIsPopulatedCorrectly(string component, string capability,
+            bool hasData)
         {
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                     s.PublishedStatus == PublishedStatus.Published &&
                     s.ClientApplication ==
                     Mock.Of<IClientApplication>(c =>
-                        c.ClientApplicationTypes == new HashSet<string> { "native-desktop" } &&
+                        c.ClientApplicationTypes == new HashSet<string> {"native-desktop"} &&
                         c.NativeDesktopThirdParty == Mock.Of<INativeDesktopThirdParty>(m =>
                             m.ThirdPartyComponents == component && m.DeviceCapabilities == capability))), SolutionId1)
                 .ConfigureAwait(false);
 
             if (hasData)
             {
-                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopThirdPartySection
+                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
+                    .NativeDesktopThirdPartySection
                     .Answers.ThirdPartyComponents.Should().Be(component);
-                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopThirdPartySection
+                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
+                    .NativeDesktopThirdPartySection
                     .Answers.DeviceCapabilities.Should().Be(capability);
-                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopThirdPartySection
+                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
+                    .NativeDesktopThirdPartySection
                     .Answers.HasData.Should().BeTrue();
             }
             else
@@ -869,14 +676,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase("512TB", null, null, null, true)]
         [TestCase(null, null, "1Hz", null, true)]
         [TestCase(null, null, null, null, false)]
-
-        public async Task NativeDesktopMemoryAndStorageSectionIsPopulatedCorrectly(string memory, string storage, string cpu, string resolution, bool hasData)
+        public async Task NativeDesktopMemoryAndStorageSectionIsPopulatedCorrectly(string memory, string storage,
+            string cpu, string resolution, bool hasData)
         {
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                     s.PublishedStatus == PublishedStatus.Published &&
                     s.ClientApplication ==
                     Mock.Of<IClientApplication>(c =>
-                        c.ClientApplicationTypes == new HashSet<string> { "native-desktop" } &&
+                        c.ClientApplicationTypes == new HashSet<string> {"native-desktop"} &&
                         c.NativeDesktopMemoryAndStorage == Mock.Of<INativeDesktopMemoryAndStorage>(m =>
                             m.MinimumMemoryRequirement == memory &&
                             m.StorageRequirementsDescription == storage &&
@@ -886,15 +693,20 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             if (hasData)
             {
-                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopMemoryAndStorageSection
+                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
+                    .NativeDesktopMemoryAndStorageSection
                     .Answers.MinimumMemoryRequirement.Should().Be(memory);
-                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopMemoryAndStorageSection
+                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
+                    .NativeDesktopMemoryAndStorageSection
                     .Answers.StorageRequirementsDescription.Should().Be(storage);
-                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopMemoryAndStorageSection
+                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
+                    .NativeDesktopMemoryAndStorageSection
                     .Answers.MinimumCpu.Should().Be(cpu);
-                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopMemoryAndStorageSection
+                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
+                    .NativeDesktopMemoryAndStorageSection
                     .Answers.RecommendedResolution.Should().Be(resolution);
-                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopMemoryAndStorageSection
+                publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
+                    .NativeDesktopMemoryAndStorageSection
                     .Answers.HasData.Should().BeTrue();
             }
             else
@@ -907,19 +719,21 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase(null, false)]
         [TestCase("", false)]
         [TestCase("      ", false)]
-        public async Task IfNativeDesktopEmptyThenAdditionalInformationHasNoData(string additionalInformation, bool hasData)
+        public async Task IfNativeDesktopEmptyThenAdditionalInformationHasNoData(string additionalInformation,
+            bool hasData)
         {
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                     s.PublishedStatus == PublishedStatus.Published &&
                     s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                        c.ClientApplicationTypes == new HashSet<string> { "native-desktop" }
+                        c.ClientApplicationTypes == new HashSet<string> {"native-desktop"}
                         && c.NativeDesktopAdditionalInformation == additionalInformation)), SolutionId1)
                 .ConfigureAwait(false);
 
             if (hasData)
             {
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
-                    .NativeDesktopAdditionalInformationSection.Answers.NativeDesktopAdditionalInformation.Should().Be(additionalInformation);
+                    .NativeDesktopAdditionalInformationSection.Answers.NativeDesktopAdditionalInformation.Should()
+                    .Be(additionalInformation);
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
                     .NativeDesktopAdditionalInformationSection.Answers.HasData.Should().BeTrue();
             }
@@ -939,7 +753,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase(null, null, "Some Connectivity", true)]
         [TestCase("     ", "", "        ", false)]
         [TestCase(null, null, null, false)]
-        public async Task IfPublicCloudEmptyThenItHasNoData(string summary, string url, string requiresHscn, bool hasData)
+        public async Task IfPublicCloudEmptyThenItHasNoData(string summary, string url, string requiresHscn,
+            bool hasData)
         {
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                     s.PublishedStatus == PublishedStatus.Published &&
@@ -983,16 +798,17 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase("     ", "", "    ", "        ", false)]
         [TestCase("     ", "Some url", null, null, true)]
         [TestCase(null, null, null, null, false)]
-        public async Task IfPrivateCloudEmptyThenItHasNoData(string summary, string link, string hosting, string connectivityRequired, bool hasData)
+        public async Task IfPrivateCloudEmptyThenItHasNoData(string summary, string link, string hosting,
+            string connectivityRequired, bool hasData)
         {
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                     s.PublishedStatus == PublishedStatus.Published &&
                     s.Hosting == Mock.Of<IHosting>(h =>
                         h.PrivateCloud == Mock.Of<IPrivateCloud>(p => p.Summary == summary
-                                                                    && p.Link == link
-                                                                    && p.HostingModel == hosting
-                                                                    && p.RequiresHSCN == connectivityRequired))),
-                    SolutionId1).ConfigureAwait(false);
+                                                                      && p.Link == link
+                                                                      && p.HostingModel == hosting
+                                                                      && p.RequiresHSCN == connectivityRequired))),
+                SolutionId1).ConfigureAwait(false);
 
             if (hasData)
             {
@@ -1029,15 +845,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase("     ", "", "    ", "        ", false)]
         [TestCase("     ", "Some url", null, null, true)]
         [TestCase(null, null, null, null, false)]
-        public async Task IfOnPremiseIsEmptyThenItHasNoData(string summary, string link, string hosting, string requiresHscn, bool hasData)
+        public async Task IfOnPremiseIsEmptyThenItHasNoData(string summary, string link, string hosting,
+            string requiresHscn, bool hasData)
         {
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                     s.PublishedStatus == PublishedStatus.Published &&
                     s.Hosting == Mock.Of<IHosting>(h =>
                         h.OnPremise == Mock.Of<IOnPremise>(p => p.Summary == summary
-                                                                    && p.Link == link
-                                                                    && p.HostingModel == hosting
-                                                                    && p.RequiresHSCN == requiresHscn))), SolutionId1)
+                                                                && p.Link == link
+                                                                && p.HostingModel == hosting
+                                                                && p.RequiresHSCN == requiresHscn))), SolutionId1)
                 .ConfigureAwait(false);
 
             if (hasData)
@@ -1075,15 +892,18 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase("     ", "", "    ", "        ", false)]
         [TestCase("     ", "Some url", null, null, true)]
         [TestCase(null, null, null, null, false)]
-        public async Task IfHybridHostingTypeIsEmptyThenItHasNoData(string summary, string link, string hosting, string requiresHscn, bool hasData)
+        public async Task IfHybridHostingTypeIsEmptyThenItHasNoData(string summary, string link, string hosting,
+            string requiresHscn, bool hasData)
         {
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
-                    s.PublishedStatus == PublishedStatus.Published &&
-                    s.Hosting == Mock.Of<IHosting>(h =>
-                        h.HybridHostingType == Mock.Of<IHybridHostingType>(p => p.Summary == summary
-                                                                    && p.Link == link
-                                                                    && p.HostingModel == hosting
-                                                                    && p.RequiresHSCN == requiresHscn))), SolutionId1)
+                        s.PublishedStatus == PublishedStatus.Published &&
+                        s.Hosting == Mock.Of<IHosting>(h =>
+                            h.HybridHostingType == Mock.Of<IHybridHostingType>(p => p.Summary == summary
+                                                                                    && p.Link == link
+                                                                                    && p.HostingModel == hosting
+                                                                                    && p.RequiresHSCN ==
+                                                                                    requiresHscn))),
+                    SolutionId1)
                 .ConfigureAwait(false);
 
             if (hasData)
@@ -1101,31 +921,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
-        [Test]
-        public async Task ShouldIncludeNativeDesktopDataIfClientApplicationTypesIncludeNativeDesktop()
-        {
-            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
-                s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == new HashSet<string> { "native-desktop" } &&
-                    c.NativeDesktopHardwareRequirements == "Hardware requirements") &&
-                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
-
-            publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.HardwareRequirementsSection
-                .Answers.HardwareRequirements.Should().Be("Hardware requirements");
-        }
-
-        [Test]
-        public async Task ShouldNotIncludeNativeDesktopDataIfClientApplicationTypesDoNotIncludeNativeDesktop()
-        {
-            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
-                s.ClientApplication == Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == new HashSet<string> { "browser-based", "native-mobile" } &&
-                    c.NativeDesktopHardwareRequirements == "Hardware requirements") &&
-                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
-
-            publicResult.Sections.ClientApplicationTypes.Should().BeNull();
-        }
-
         private async Task<SolutionResult> GetSolutionPublicResultAsync(ISolution solution, string solutionId)
         {
             _mockMediator
@@ -1136,9 +931,294 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             result.Should().NotBeNull();
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
-            _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == solutionId), It.IsAny<CancellationToken>()), Times.Once);
+            _mockMediator.Verify(
+                m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == solutionId), It.IsAny<CancellationToken>()),
+                Times.Once);
 
             return result.Value as SolutionResult;
+        }
+
+        [Test]
+        public async Task CapabilitiesIsNullForSolution()
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.Id == SolutionId1 &&
+                s.Capabilities == null &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
+
+            publicResult.Id.Should().Be(SolutionId1);
+            publicResult.Sections.Capabilities.Should().BeNull();
+        }
+
+        [Test]
+        public async Task EmptyContactShouldReturnNoData()
+        {
+            var contacts = new List<IContact>
+            {
+                Mock.Of<IContact>(m =>
+                    m.Name == null && m.Department == "" && m.Email == "" && m.PhoneNumber == "   "),
+                Mock.Of<IContact>(m => m.Name == "" && m.Department == "" && m.Email == "" && m.PhoneNumber == "")
+            };
+
+            var contact = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.Id == SolutionId1 &&
+                s.Contacts == contacts &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
+
+            contact.Id.Should().Be(SolutionId1);
+            contact.Sections.ContactDetails.Should().BeNull();
+        }
+
+        [Test]
+        public async Task IfBrowserBasedThenAdditionalInformationCanBeSet()
+        {
+            var previewResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.PublishedStatus == PublishedStatus.Published &&
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> {"browser-based", "native-mobile"} &&
+                    c.AdditionalInformation == "Some Additional Info")), SolutionId1).ConfigureAwait(false);
+
+            previewResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections
+                .BrowserAdditionalInformationSection.Answers.AdditionalInformation.Should().Be("Some Additional Info");
+        }
+
+        [Test]
+        public async Task IfBrowserBasedThenHardwareRequirementsCanBeSet()
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> {"browser-based", "native-mobile"}
+                    && c.HardwareRequirements == "New Hardware") &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
+
+            publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections
+                .BrowserHardwareRequirementsSection.Answers.HardwareRequirements.Should().Be("New Hardware");
+        }
+
+        [Test]
+        public async Task MultipleCapabilitiesForDifferentSolutions()
+        {
+            var capabilityData = GetClaimedCapabilityTestData();
+            var solution1Capabilities = capabilityData.Take(2);
+            var solution2Capabilities = capabilityData.Skip(2).Take(3);
+
+            var publicResult1 = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.Id == SolutionId1 &&
+                s.Capabilities == solution1Capabilities.Select(c=>c.Item1) &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
+
+            var publicResult2 = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.Id == SolutionId2 &&
+                s.Capabilities == solution2Capabilities.Select(c => c.Item1) &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId2).ConfigureAwait(false);
+
+            publicResult1.Id.Should().Be(SolutionId1);
+            publicResult1.Sections.Capabilities.Answers.CapabilitiesMet.Should()
+                .BeEquivalentTo(solution1Capabilities.Select(c=>c.Item2));
+
+            publicResult2.Id.Should().Be(SolutionId2);
+            publicResult2.Sections.Capabilities.Answers.CapabilitiesMet.Should()
+                .BeEquivalentTo(solution2Capabilities.Select(c=>c.Item2));
+        }
+
+        [Test]
+        public async Task NoSolutionShouldReturnNotFound()
+        {
+            var result =
+                (await _solutionsController.Public(SolutionId1).ConfigureAwait(false)).Result as NotFoundResult;
+
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+
+            _mockMediator.Verify(
+                m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId1), It.IsAny<CancellationToken>()),
+                Times.Once);
+        }
+
+        [Test]
+        public void NullSolutionShouldThrowNullExceptionPublicResult()
+        {
+            var solution = new SolutionResult(null);
+            solution.Id.Should().BeNull();
+            solution.Name.Should().BeNull();
+            solution.SupplierName.Should().BeNull();
+            solution.LastUpdated.Should().BeNull();
+            solution.IsFoundation.Should().BeNull();
+
+            solution.Sections.Should().BeNull();
+        }
+
+        [Test]
+        public void NullSolutionShouldThrowNullExceptionSolutionDescriptionPublicAnswers()
+        {
+            Assert.Throws<ArgumentNullException>(() => new SolutionDescriptionSectionAnswers(null));
+        }
+
+        [Test]
+        public async Task ShouldCheckForNullClientApplicationTypes()
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == null &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
+
+            publicResult.Sections.ClientApplicationTypes.Should().BeNull();
+        }
+
+        [Test]
+        public async Task ShouldGetContacts()
+        {
+            var contacts = new List<IContact>
+            {
+                Mock.Of<IContact>(m =>
+                    m.Name == "name1" && m.Department == "dep1" && m.Email == "test@gmail.com" &&
+                    m.PhoneNumber == "01234567890"),
+                Mock.Of<IContact>(m =>
+                    m.Name == "name2" && m.Department == "dep2" && m.Email == "test2@gmail.com" &&
+                    m.PhoneNumber == "12345678901")
+            };
+
+            var contact = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.Id == SolutionId1 &&
+                s.Contacts == contacts &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
+
+            contact.Id.Should().Be(SolutionId1);
+
+            contact.Sections.ContactDetails.Answers.Contact1.ContactName.Should().BeEquivalentTo(contacts[0].Name);
+            contact.Sections.ContactDetails.Answers.Contact1.DepartmentName.Should()
+                .BeEquivalentTo(contacts[0].Department);
+            contact.Sections.ContactDetails.Answers.Contact1.EmailAddress.Should().BeEquivalentTo(contacts[0].Email);
+            contact.Sections.ContactDetails.Answers.Contact1.PhoneNumber.Should()
+                .BeEquivalentTo(contacts[0].PhoneNumber);
+
+            contact.Sections.ContactDetails.Answers.Contact2.ContactName.Should().BeEquivalentTo(contacts[1].Name);
+            contact.Sections.ContactDetails.Answers.Contact2.DepartmentName.Should()
+                .BeEquivalentTo(contacts[1].Department);
+            contact.Sections.ContactDetails.Answers.Contact2.EmailAddress.Should().BeEquivalentTo(contacts[1].Email);
+            contact.Sections.ContactDetails.Answers.Contact2.PhoneNumber.Should()
+                .BeEquivalentTo(contacts[1].PhoneNumber);
+        }
+
+        [Test]
+        public async Task ShouldIncludeBrowserBasedDataIfClientApplicationTypesIncludeBrowserBased()
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> {"browser-based", "native-mobile"} &&
+                    c.BrowsersSupported == new HashSet<string> {"Chrome", "Edge"} &&
+                    c.MobileResponsive == true) &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
+
+            publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers
+                .SupportedBrowsers
+                .Should().BeEquivalentTo(new HashSet<string> {"Chrome", "Edge"});
+            publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.BrowsersSupported.Answers
+                .MobileResponsive
+                .Should().Be("Yes");
+        }
+
+        [Test]
+        public async Task ShouldIncludeBrowserBasedDataIfClientApplicationTypesIncludePluginInformation()
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> {"browser-based", "native-mobile"}
+                    && c.Plugins == Mock.Of<IPlugins>(p =>
+                        p.Required == true && p.AdditionalInformation == "Plugin additional information")) &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
+
+            publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.PluginOrExtensionsSection
+                .Answers.Required
+                .Should().Be("Yes");
+            publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.PluginOrExtensionsSection
+                .Answers.AdditionalInformation
+                .Should().Be("Plugin additional information");
+        }
+
+        [Test]
+        public async Task ShouldIncludeNativeDesktopDataIfClientApplicationTypesIncludeNativeDesktop()
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> {"native-desktop"} &&
+                    c.NativeDesktopHardwareRequirements == "Hardware requirements") &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
+
+            publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.HardwareRequirementsSection
+                .Answers.HardwareRequirements.Should().Be("Hardware requirements");
+        }
+
+        [Test]
+        public async Task ShouldNotIncludeBrowserBasedDataIfClientApplicationTypesDoNotIncludeBrowserBased()
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> {"native-desktop", "native-mobile"} &&
+                    c.BrowsersSupported == new HashSet<string> {"Chrome", "Edge"} &&
+                    c.MobileResponsive == true) &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
+
+            publicResult.Sections.ClientApplicationTypes.Should().BeNull();
+        }
+
+        [Test]
+        public async Task ShouldNotIncludeNativeDesktopDataIfClientApplicationTypesDoNotIncludeNativeDesktop()
+        {
+            var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.ClientApplication == Mock.Of<IClientApplication>(c =>
+                    c.ClientApplicationTypes == new HashSet<string> {"browser-based", "native-mobile"} &&
+                    c.NativeDesktopHardwareRequirements == "Hardware requirements") &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
+
+            publicResult.Sections.ClientApplicationTypes.Should().BeNull();
+        }
+
+        [Test]
+        public async Task SingleContactShouldReturnNullForEmptyData()
+        {
+            var contacts = new List<IContact>
+            {
+                Mock.Of<IContact>(m =>
+                    m.Name == "Hello" && m.Department == "" && m.Email == "" && m.PhoneNumber == "   "),
+                Mock.Of<IContact>(m => m.Name == "" && m.Department == "" && m.Email == "" && m.PhoneNumber == "")
+            };
+
+            var contact = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
+                s.Id == SolutionId1 &&
+                s.Contacts == contacts &&
+                s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
+
+            contact.Id.Should().Be(SolutionId1);
+            contact.Sections.ContactDetails.Should().NotBeNull();
+            contact.Sections.ContactDetails.Answers.HasData().Should().BeTrue();
+            contact.Sections.ContactDetails.Answers.Contact2.Should().BeNull();
+            contact.Sections.ContactDetails.Answers.Contact1.ContactName.Should().NotBeNull();
+            contact.Sections.ContactDetails.Answers.Contact1.PhoneNumber.Should().BeNull();
+            contact.Sections.ContactDetails.Answers.Contact1.DepartmentName.Should().BeNull();
+            contact.Sections.ContactDetails.Answers.Contact1.EmailAddress.Should().BeNull();
+        }
+
+        [Test]
+        public async Task UnpublishedSolutionShouldReturnNotFound()
+        {
+            var solution = Mock.Of<ISolution>(
+                s => s.Id == SolutionId1 &&
+                     s.PublishedStatus == PublishedStatus.Draft);
+
+            _mockMediator
+                .Setup(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId1),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(solution);
+
+            var result =
+                (await _solutionsController.Public(SolutionId1).ConfigureAwait(false)).Result as NotFoundResult;
+
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+
+            _mockMediator.Verify(
+                m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId1), It.IsAny<CancellationToken>()),
+                Times.Once);
         }
     }
 }

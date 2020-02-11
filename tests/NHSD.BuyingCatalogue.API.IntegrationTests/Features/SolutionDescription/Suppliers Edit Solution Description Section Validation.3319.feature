@@ -8,7 +8,7 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionID | SolutionName   | SupplierStatusId | SupplierId |
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
@@ -22,7 +22,7 @@ Scenario: 1. Summary is not filled out
     Then a response status of 400 is returned
     And the summary field value is the validation failure required
     And Solutions exist
-        | SolutionID | SolutionName |
+        | SolutionId | SolutionName |
         | Sln1       | MedicOnline  |
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
@@ -36,7 +36,7 @@ Scenario: 2. Summary exceeds the character limit
     Then a response status of 400 is returned
     And the summary field value is the validation failure maxLength
     And Solutions exist
-        | SolutionID | SolutionName | 
+        | SolutionId | SolutionName | 
         | Sln1       | MedicOnline  | 
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
@@ -50,7 +50,7 @@ Scenario: 3. Description exceeds the character limit
     Then a response status of 400 is returned
     And the description field value is the validation failure maxLength
     And Solutions exist
-        | SolutionID | SolutionName |
+        | SolutionId | SolutionName |
         | Sln1       | MedicOnline  |
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | AboutUrl | Features                          |
@@ -64,7 +64,7 @@ Scenario: 4. Link exceeds the character limit
     Then a response status of 400 is returned
     And the link field value is the validation failure maxLength
        And Solutions exist
-        | SolutionID | SolutionName |
+        | SolutionId | SolutionName |
         | Sln1       | MedicOnline  |
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
@@ -79,7 +79,7 @@ Scenario: 5. Summary is not filled out & Description exceeds the character limit
     And the summary field value is the validation failure required
     And the description field value is the validation failure maxLength
     And Solutions exist
-        | SolutionID | SolutionName |
+        | SolutionId | SolutionName |
         | Sln1       | MedicOnline  |
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
@@ -94,7 +94,7 @@ Scenario: 6. Summary is not filled out & Link exceeds the character limit
     And the summary field value is the validation failure required
     And the link field value is the validation failure maxLength
     And Solutions exist
-        | SolutionID | SolutionName |
+        | SolutionId | SolutionName |
         | Sln1       | MedicOnline  |
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
@@ -109,7 +109,7 @@ Scenario: 7. Summary & Description exceeds the character limit
     And the description field value is the validation failure maxLength
     And the summary field value is the validation failure maxLength
     And Solutions exist
-        | SolutionID | SolutionName | 
+        | SolutionId | SolutionName | 
         | Sln1       | MedicOnline  | 
     And SolutionDetail exist
         | Solution | AboutUrl |SummaryDescription             | FullDescription   | Features                          |
@@ -124,7 +124,7 @@ Scenario: 8. Summary & Link exceeds the character limit
     And the summary field value is the validation failure maxLength
     And the link field value is the validation failure maxLength
     And Solutions exist
-        | SolutionID | SolutionName | 
+        | SolutionId | SolutionName | 
         | Sln1       | MedicOnline  | 
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
@@ -139,7 +139,7 @@ Scenario: 9. Description & Link exceeds the character limit
     And the link field value is the validation failure maxLength
     And the description field value is the validation failure maxLength
     And Solutions exist
-        | SolutionID | SolutionName |
+        | SolutionId | SolutionName |
         | Sln1       | MedicOnline  |
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
@@ -155,7 +155,7 @@ Scenario: 10. Summary is not filled out, Description & Link exceeds the characte
     And the description field value is the validation failure maxLength
     And the link field value is the validation failure maxLength
        And Solutions exist
-        | SolutionID | SolutionName | 
+        | SolutionId | SolutionName | 
         | Sln1       | MedicOnline  | 
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
@@ -171,7 +171,7 @@ Scenario: 11. Summary, Description & Link exceeds the character limit
     And the description field value is the validation failure maxLength
     And the link field value is the validation failure maxLength
     And Solutions exist
-        | SolutionID | SolutionName | 
+        | SolutionId | SolutionName | 
         | Sln1       | MedicOnline  | 
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |

@@ -14,6 +14,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
     [Binding]
     public sealed class SolutionEntitySteps
     {
+
+        //Constants from Integration Reference Data at /tests/NHSD.BuyingCatalogue.Testing.Data/SqlResources/ReferenceData.sql
+        private const int PassedSolutionCapabilityStatusId = 1;
+        private const int FailedSolutionCapabilityStatusId = 2;
+
         [Given(@"Solutions exist")]
         public static async Task GivenSolutionsExist(Table table)
         {
@@ -21,7 +26,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             {
                 await SolutionEntityBuilder.Create()
                     .WithName(solutionTable.SolutionName)
-                    .WithId(solutionTable.SolutionID)
+                    .WithId(solutionTable.SolutionId)
                     .WithOnLastUpdated(solutionTable.LastUpdated)
                     .WithSupplierId(solutionTable.SupplierId)
                     .WithSupplierStatusId(solutionTable.SupplierStatusId)
@@ -36,18 +41,19 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         [Given(@"Solutions are linked to Capabilities")]
         public static async Task GivenSolutionsAreLinkedToCapabilities(Table table)
         {
-            var solutions = await SolutionEntity.FetchAllAsync().ConfigureAwait(false);
-            var capabilities = await CapabilityEntity.FetchAllAsync().ConfigureAwait(false);
+            var solutions = (await SolutionEntity.FetchAllAsync().ConfigureAwait(false)).ToDictionary(s=>s.Name);
+            var capabilities = (await CapabilityEntity.FetchAllAsync().ConfigureAwait(false)).ToDictionary(c=>c.Name);
 
-            foreach (var solutionCapabilityTable in table.CreateSet<SolutionCapabilityTable>())
+            foreach (var solutionCapability in table.CreateSet<SolutionCapabilityTable>())
             {
-                if (solutionCapabilityTable.Capability.Any())
+                if (solutionCapability.Capability.Any())
                 {
-                    foreach (var capability in solutionCapabilityTable.Capability)
+                    foreach (var capability in solutionCapability.Capability)
                     {
                         await SolutionCapabilityEntityBuilder.Create()
-                        .WithSolutionId(solutions.First(s => s.Name == solutionCapabilityTable.Solution).Id)
-                        .WithCapabilityId(capabilities.First(s => s.Name == capability).Id)
+                        .WithSolutionId(solutions[solutionCapability.Solution].Id)
+                        .WithCapabilityId(capabilities[capability].Id)
+                        .WithStatusId(solutionCapability.Pass ? PassedSolutionCapabilityStatusId : FailedSolutionCapabilityStatusId)
                         .Build()
                         .InsertAsync()
                         .ConfigureAwait(false);
@@ -82,7 +88,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             var solutions = await SolutionEntity.FetchAllAsync().ConfigureAwait(false);
             solutions.Select(s => new
             {
-                SolutionID = s.Id,
+                SolutionId = s.Id,
                 SolutionName = s.Name,
             }).Should().BeEquivalentTo(expectedSolutions);
         }
@@ -105,7 +111,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
 
         private class SolutionTable
         {
-            public string SolutionID { get; set; }
+            public string SolutionId { get; set; }
 
             public string SolutionName { get; set; }
 
@@ -123,11 +129,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             public string Solution { get; set; }
 
             public List<string> Capability { get; set; }
+
+            public bool Pass { get; set; } = true;
         }
 
         private class SolutionUpdatedTable
         {
-            public string SolutionID { get; set; }
+            public string SolutionId { get; set; }
 
             public string SolutionName { get; set; }
         }

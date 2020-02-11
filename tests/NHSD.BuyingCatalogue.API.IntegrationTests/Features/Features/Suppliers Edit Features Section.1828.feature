@@ -9,7 +9,7 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionID | SolutionName   | SupplierStatusId | SupplierId |
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 2      |
         | Sln3       | PracticeMgr    | 1                | Sup 2      |
@@ -26,7 +26,7 @@ Scenario: 1. Marketing Data is updated against the solution
         | Dispensing,Referrals,Workflow |
     Then a successful response is returned
     And Solutions exist
-        | SolutionID | SolutionName   |
+        | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |
@@ -49,7 +49,7 @@ Scenario: 2. Marketing Data is updated against the solution with trimmed whitesp
         | "      Dispensing     ","      Referrals","Workflow        " |
     Then a successful response is returned
     And Solutions exist
-        | SolutionID | SolutionName   |
+        | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |

@@ -1,5 +1,6 @@
 using System;
 using Newtonsoft.Json;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Capabilities;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.ClientApplications;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Hostings;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers;
@@ -48,7 +49,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         public AboutSupplierSection AboutSupplier { get; }
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="Sections"/> class.
+        /// Initialises a new instance of the <see cref="Sections" /> class.
         /// </summary>
         public Sections(ISolution solution)
         {
@@ -61,15 +62,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
             Features = new FeaturesSection(solution.Features).IfPopulated();
             RoadMap = new RoadMapSection(solution.RoadMap).IfPopulated();
             Integrations = new IntegrationsSection(solution.Integrations).IfPopulated();
-            ImplementationTimescales = new ImplementationTimescalesSection(solution.ImplementationTimescales).IfPopulated();
+            ImplementationTimescales =
+                new ImplementationTimescalesSection(solution.ImplementationTimescales).IfPopulated();
             ClientApplicationTypes = new ClientApplicationTypesSection(solution.ClientApplication).IfPopulated();
             ContactDetails = new ContactDetailsSection(solution.Contacts).IfPopulated();
-            Capabilities = new CapabilitiesSection(solution.Capabilities);
+            Capabilities = new CapabilitiesSection(solution.Capabilities).IfPopulated();
             PublicCloud = new PublicCloudSection(solution.Hosting).IfPopulated();
             PrivateCloud = new PrivateCloudSection(solution.Hosting).IfPopulated();
             OnPremise = new OnPremiseSection(solution.Hosting).IfPopulated();
             HybridHostingType = new HybridHostingTypeSection(solution.Hosting).IfPopulated();
-            AboutSupplier = new AboutSupplierSection(solution?.Supplier).IfPopulated();
+            AboutSupplier = new AboutSupplierSection(solution.Supplier).IfPopulated();
         }
     }
 }
