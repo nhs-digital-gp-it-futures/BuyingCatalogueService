@@ -27,8 +27,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             _mockMediator = new Mock<IMediator>();
             _solutionsController = new SolutionsController(_mockMediator.Object);
-            _claimedCapabilityList = new List<IClaimedCapability>();
-            _claimedCapabilitySectionList = new List<ClaimedCapabilitySection>();
+           
+        }
+
+        private static List<(IClaimedCapability, ClaimedCapabilitySection)> GetClaimedCapabilityTestData()
+        {
+            var data = new List<(IClaimedCapability, ClaimedCapabilitySection)>();
             for (int i = 1; i <= 5; i++)
             {
                 var capabilityNumber = i;
@@ -37,9 +41,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                           cc.Version == $"Version {capabilityNumber}" &&
                           cc.Description == $"Description {capabilityNumber}" &&
                           cc.Link == $"http://Capability.Link/{capabilityNumber}");
-                _claimedCapabilityList.Add(ccMock);
-                _claimedCapabilitySectionList.Add(new ClaimedCapabilitySection(ccMock));
+                data.Add((ccMock,new ClaimedCapabilitySection(ccMock)));
             }
+
+            return data;
         }
 
         private Mock<IMediator> _mockMediator;
@@ -50,9 +55,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         private const string SolutionId2 = "Sln2";
 
         private readonly DateTime _lastUpdated = DateTime.Today;
-
-        private List<IClaimedCapability> _claimedCapabilityList;
-        private List<ClaimedCapabilitySection> _claimedCapabilitySectionList;
 
         [TestCase(null, null, null, false)]
         [TestCase("Sln2", null, null, false)]
@@ -283,7 +285,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase(true)]
         public async Task ShouldGetCapabilitiesOnlyForSolution(bool hasCapability)
         {
-            var capabilities = hasCapability ? _claimedCapabilityList.Take(2) : Array.Empty<IClaimedCapability>();
+            var capabilityData = GetClaimedCapabilityTestData().Take(2).ToArray();
+
+            var capabilities = hasCapability ? capabilityData.Select(c=>c.Item1) : Array.Empty<IClaimedCapability>();
 
             var publicResult = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.Id == SolutionId1 &&
@@ -293,7 +297,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             publicResult.Id.Should().Be(SolutionId1);
             if (hasCapability)
                 publicResult.Sections.Capabilities.Answers.CapabilitiesMet.Should()
-                    .BeEquivalentTo(_claimedCapabilityList.Take(2));
+                    .BeEquivalentTo(capabilityData.Select(c=>c.Item2));
             else
                 publicResult.Sections.Capabilities.Should().BeNull();
         }
@@ -994,23 +998,27 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task MultipleCapabilitiesForDifferentSolutions()
         {
+            var capabilityData = GetClaimedCapabilityTestData();
+            var solution1Capabilities = capabilityData.Take(2);
+            var solution2Capabilities = capabilityData.Skip(2).Take(3);
+
             var publicResult1 = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.Id == SolutionId1 &&
-                s.Capabilities == _claimedCapabilityList.Take(2) &&
+                s.Capabilities == solution1Capabilities.Select(c=>c.Item1) &&
                 s.PublishedStatus == PublishedStatus.Published), SolutionId1).ConfigureAwait(false);
 
             var publicResult2 = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
                 s.Id == SolutionId2 &&
-                s.Capabilities == _claimedCapabilityList.Skip(2).Take(3) &&
+                s.Capabilities == solution2Capabilities.Select(c => c.Item1) &&
                 s.PublishedStatus == PublishedStatus.Published), SolutionId2).ConfigureAwait(false);
 
             publicResult1.Id.Should().Be(SolutionId1);
             publicResult1.Sections.Capabilities.Answers.CapabilitiesMet.Should()
-                .BeEquivalentTo(_claimedCapabilitySectionList.Take(2));
+                .BeEquivalentTo(solution1Capabilities.Select(c=>c.Item2));
 
             publicResult2.Id.Should().Be(SolutionId2);
             publicResult2.Sections.Capabilities.Answers.CapabilitiesMet.Should()
-                .BeEquivalentTo(_claimedCapabilitySectionList.Skip(2).Take(3));
+                .BeEquivalentTo(solution2Capabilities.Select(c=>c.Item2));
         }
 
         [Test]

@@ -17,6 +17,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.AuthorityDashboard
     [TestFixture]
     public sealed class SolutionAuthorityDashboardResultTests
     {
+        private Mock<IMediator> _mockMediator;
+        private SolutionsController _solutionsController;
+
         [SetUp]
         public void SetUp()
         {
@@ -24,8 +27,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.AuthorityDashboard
             _solutionsController = new SolutionsController(_mockMediator.Object);
         }
 
-        private Mock<IMediator> _mockMediator;
-        private SolutionsController _solutionsController;
+        [Test]
+        public void NullSolutionShouldReturnEmptyAuthorityDashboardResult()
+        {
+            var dashboardAuthority = new SolutionAuthorityDashboardResult(null);
+            dashboardAuthority.Id.Should().BeNull();
+            dashboardAuthority.Name.Should().BeNull();
+            dashboardAuthority.SolutionAuthorityDashboardSections.Should().BeNull();
+        }
+
         private const string SolutionId = "Sln1";
 
         [TestCase(0, "INCOMPLETE")]
@@ -39,7 +49,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.AuthorityDashboard
                 claimedCapabilities.Add(ccMock.Object);
 
             var dashboardAuthorityResult =
-                await GetSolutionAuthorityDashboardSectionAsync(Mock.Of<ISolution>(s => s.Capabilities == claimedCapabilities))
+                await GetSolutionAuthorityDashboardSectionAsync(Mock.Of<ISolution>(s =>
+                        s.Capabilities == claimedCapabilities))
                     .ConfigureAwait(false);
 
             dashboardAuthorityResult.SolutionAuthorityDashboardSections.Should().NotBeNull();
@@ -77,15 +88,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.AuthorityDashboard
                 Times.Once);
 
             return result.Value as SolutionAuthorityDashboardResult;
-        }
-
-        [Test]
-        public void NullSolutionShouldReturnEmptyAuthorityDashboardResult()
-        {
-            var dashboardAuthority = new SolutionAuthorityDashboardResult(null);
-            dashboardAuthority.Id.Should().BeNull();
-            dashboardAuthority.Name.Should().BeNull();
-            dashboardAuthority.SolutionAuthorityDashboardSections.Should().BeNull();
         }
     }
 }

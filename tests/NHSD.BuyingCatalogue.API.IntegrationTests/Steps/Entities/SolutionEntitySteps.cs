@@ -14,6 +14,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
     [Binding]
     public sealed class SolutionEntitySteps
     {
+
+        //Constants from Integration Reference Data at /tests/NHSD.BuyingCatalogue.Testing.Data/SqlResources/ReferenceData.sql
+        private const int PassedSolutionCapabilityStatusId = 1;
+        private const int FailedSolutionCapabilityStatusId = 2;
+
         [Given(@"Solutions exist")]
         public static async Task GivenSolutionsExist(Table table)
         {
@@ -48,7 +53,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                         await SolutionCapabilityEntityBuilder.Create()
                         .WithSolutionId(solutions[solutionCapability.Solution].Id)
                         .WithCapabilityId(capabilities[capability].Id)
-                        .WithStatusId(solutionCapability.Pass ? 1 : 2)
+                        .WithStatusId(solutionCapability.Pass ? PassedSolutionCapabilityStatusId : FailedSolutionCapabilityStatusId)
                         .Build()
                         .InsertAsync()
                         .ConfigureAwait(false);

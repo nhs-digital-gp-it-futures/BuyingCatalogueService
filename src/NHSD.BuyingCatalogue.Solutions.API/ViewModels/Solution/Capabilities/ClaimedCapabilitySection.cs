@@ -3,7 +3,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Capabilities
 {
-    public class ClaimedCapabilitySection
+    public sealed class ClaimedCapabilitySection
     {
         public string Name { get; }
         public string Version { get; }
@@ -12,16 +12,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Capabilities
 
         public ClaimedCapabilitySection(IClaimedCapability capability)
         {
-            Name = capability?.Name.NullIfWhitespace();
-            Version = capability?.Version.NullIfWhitespace();
-            Description = capability?.Description.NullIfWhitespace();
-            Link = capability?.Link.NullIfWhitespace();
+            capability = capability.ThrowIfNull();
+            Name = capability.Name.NullIfWhitespace();
+            Version = capability.Version.NullIfWhitespace();
+            Description = capability.Description.NullIfWhitespace();
+            Link = capability.Link.NullIfWhitespace();
         }
 
-        public bool IsPopulated()
-            => Name != null
-               || Version != null
-               || Description != null
-               || Link != null;
     }
 }

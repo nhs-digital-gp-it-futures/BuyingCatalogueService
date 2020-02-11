@@ -4,7 +4,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Capabilities
 {
-    public class CapabilitiesSection
+    public sealed class CapabilitiesSection
     {
         [JsonProperty("answers")]
         public CapabilitiesSectionAnswers Answers { get; }
