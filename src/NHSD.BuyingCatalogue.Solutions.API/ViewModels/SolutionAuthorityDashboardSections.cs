@@ -10,11 +10,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         [JsonProperty("capabilities")]
         public DashboardSection Capabilities { get; }
 
+        [JsonProperty("epics")]
+        public DashboardSection Epics { get; }
+
         public SolutionAuthorityDashboardSections(ISolution solution)
         {
             solution = solution.ThrowIfNull(nameof(solution));
 
             Capabilities = DashboardSection.Mandatory(solution.Capabilities.Any());
+			Epics = DashboardSection.Mandatory(false);
         }
     }
 }
