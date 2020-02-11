@@ -14,3 +14,9 @@ INSERT INTO [dbo].[PublicationStatus] ([Id], [Name]) VALUES (2, 'Unpublished');
 INSERT INTO [dbo].[PublicationStatus] ([Id], [Name]) VALUES (3, 'Published');
 INSERT INTO [dbo].[PublicationStatus] ([Id], [Name]) VALUES (4, 'Withdrawn');
 INSERT INTO [dbo].[SolutionAuthorityStatus] ([Id], [Name]) VALUES(1, 'Giraffe');
+
+INSERT [dbo].[SolutionEpicStatus] ([Id], [Name], [IsMet]) VALUES (1, 'Passed', 1)
+INSERT [dbo].[SolutionEpicStatus] ([Id], [Name], [IsMet]) VALUES (2, 'Not Evidenced', 0)
+
+INSERT [dbo].[CompliancyLevel] ([Id], [Name]) VALUES (1, 'May')
+INSERT [dbo].[CompliancyLevel] ([Id], [Name]) VALUES (2, 'Must')

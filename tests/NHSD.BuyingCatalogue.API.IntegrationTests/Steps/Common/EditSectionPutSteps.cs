@@ -45,7 +45,9 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             { "about-supplier", typeof(SupplierPayload) },
             { "integrations", typeof(IntegrationsPayload) },
             { "implementation-timescales", typeof(ImplementationTimescalesPayload )},
-            { "capabilities", typeof(CapabilitiesPayload) }
+            { "capabilities", typeof(CapabilitiesPayload) },
+            { "epics", typeof(EpicsPayload) }
+
         };
 
         public EditSectionPutSteps(Response response)
@@ -327,6 +329,15 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
         {
             [JsonProperty("capabilities")]
             public List<string> CapabilityRefs { get; set; }
+        }
+
+        private class EpicsPayload
+        {
+            [JsonProperty("epic-id")]
+            public string EpicId { get; set; }
+
+            [JsonProperty("status-name")]
+            public string StatusName { get; set; }
         }
     }
 }

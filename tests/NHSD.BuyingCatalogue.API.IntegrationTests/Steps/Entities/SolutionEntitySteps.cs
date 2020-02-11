@@ -73,7 +73,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 capabilities.Should().BeEquivalentTo(row.CapabilityRefs);
             }
         }
-        
+
         [Given(@"a Solution (.*) does not exist")]
         public static async Task GivenASolutionSlnDoesNotExist(string solutionId)
         {
