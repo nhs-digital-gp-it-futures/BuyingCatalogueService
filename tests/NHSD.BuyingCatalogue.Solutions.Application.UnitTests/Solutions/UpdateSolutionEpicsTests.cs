@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -36,29 +37,23 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public async Task ShouldUpdateEpicsAsync()
         {
-            var epic = new ClaimedEpicViewModel() {EpicId = "Epic1", StatusName = "Passed"};
-
-            var claimedEpics = new HashSet<IClaimedEpic>()
+            var epic = new ClaimedEpicViewModel
+            {
+                EpicId = "Epic1",
+                StatusName = "Passed"
+            };
+            var claimedEpics = new HashSet<IClaimedEpic>
             {
                 Mock.Of<IClaimedEpic>(e => e.EpicId == epic.EpicId && e.StatusName == epic.StatusName)
             };
 
             var validationResult = await UpdateEpicsAsync(ValidSolutionId, claimedEpics).ConfigureAwait(false);
-
             validationResult.IsValid.Should().BeTrue();
-
             _context.MockSolutionRepository.Verify(s => s.CheckExists(ValidSolutionId, It.IsAny<CancellationToken>()),
                 Times.Once);
-
-            var claimedEpicResults = new List<IClaimedEpicResult>
-            {
-                Mock.Of<IClaimedEpicResult>(e => e.EpicId == epic.EpicId && e.StatusName == epic.StatusName)
-            };
-
             _context.MockSolutionEpicRepository.Verify(r => r.UpdateSolutionEpicAsync(ValidSolutionId,
-                It.Is<IUpdateClaimedRequest>(c => c.ClaimedEpics == claimedEpicResults), It.IsAny<CancellationToken>()), Times.Once);
+                It.IsAny<IUpdateClaimedRequest>(), It.IsAny<CancellationToken>()), Times.Once);
         }
-
 
         [Test]
         public void ShouldThrowNotFoundExceptionWhenSolutionIsNotFound()

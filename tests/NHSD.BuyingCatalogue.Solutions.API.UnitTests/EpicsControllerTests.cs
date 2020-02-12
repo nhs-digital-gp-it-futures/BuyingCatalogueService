@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using FluentAssertions.Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -49,14 +50,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             validationModel.Setup(s => s.IsValid).Returns(true);
 
             _mockMediator
-                .Setup(m => m.Send(It.Is<UpdateEpicsCommand>(e => e.SolutionId == SolutionId && e.Data == epicsViewModel),
+                .Setup(m => m.Send(It.Is<UpdateEpicsCommand>(e => e.SolutionId == SolutionId),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result = (await _controller.Update(SolutionId, viewModel).ConfigureAwait(false)) as NoContentResult;
             result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
 
             _mockMediator.Verify(
-                m => m.Send(It.Is<UpdateEpicsCommand>(e => e.SolutionId == SolutionId && e.Data == epicsViewModel),
+                m => m.Send(It.Is<UpdateEpicsCommand>(e => e.SolutionId == SolutionId),
                     It.IsAny<CancellationToken>()));
         }
     }
