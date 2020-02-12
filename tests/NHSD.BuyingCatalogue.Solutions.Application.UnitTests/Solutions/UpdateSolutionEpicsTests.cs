@@ -55,6 +55,19 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 It.IsAny<IUpdateClaimedRequest>(), It.IsAny<CancellationToken>()), Times.Once);
         }
 
+        [TestCase(null, null)]
+        [TestCase("Id", null)]
+        [TestCase(null, "StatusName")]
+        public void ShouldThrowNotFoundExceptionWhenEpicsInfoIsNull(string epicId, string statusName)
+        {
+            var claimedEpics = new HashSet<IClaimedEpic>
+            {
+                Mock.Of<IClaimedEpic>(e => e.EpicId == epicId && e.StatusName == statusName)
+            };
+
+            Assert.ThrowsAsync<NotFoundException>(() => UpdateEpicsAsync(InvalidSolutionId, claimedEpics));
+        }
+
         [Test]
         public void ShouldThrowNotFoundExceptionWhenSolutionIsNotFound()
         {
