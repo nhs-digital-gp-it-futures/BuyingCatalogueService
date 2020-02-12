@@ -9,14 +9,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence.Epics
 {
     internal sealed class SolutionEpicsUpdater
     {
-        private readonly ISolutionEpicRepository _solutionEpicRepository;
+        private readonly ISolutionEpicsRepository _solutionEpicsRepository;
 
-        public SolutionEpicsUpdater(ISolutionEpicRepository solutionEpicRepository) =>
-            _solutionEpicRepository = solutionEpicRepository;
+        public SolutionEpicsUpdater(ISolutionEpicsRepository solutionEpicsRepository) =>
+            _solutionEpicsRepository = solutionEpicsRepository;
 
         public async Task UpdateAsync(string solutionId, ISet<ClaimedEpic> epics, CancellationToken cancellationToken)
         {
-            await _solutionEpicRepository
+            await _solutionEpicsRepository
                 .UpdateSolutionEpicAsync(solutionId, new UpdateClaimedEpicRequest(epics.Select(x => new ClaimedEpicResult(x.EpicId, x.StatusName))), cancellationToken)
                 .ConfigureAwait(false);
         }

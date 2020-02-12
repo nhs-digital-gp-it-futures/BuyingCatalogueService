@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
 {
-    public interface ISolutionEpicRepository
+    public interface ISolutionEpicsRepository
     {
         Task UpdateSolutionEpicAsync(string solutionId, IUpdateClaimedRequest request,
             CancellationToken cancellationToken);
