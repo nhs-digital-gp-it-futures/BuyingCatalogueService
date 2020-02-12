@@ -21,7 +21,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         private const string InsertSolutionEpic = @"INSERT INTO dbo.SolutionEpic (SolutionId, CapabilityId, EpicId, StatusId, LastUpdated, LastUpdatedBy) VALUES (@solutionId, (SELECT Epic.CapabilityId FROM Epic WHERE Epic.Id = @epicId), @epicId, (SELECT SolutionEpicStatus.Id FROM SolutionEpicStatus WHERE SolutionEpicStatus.Name = @statusName), GETDATE(), @lastUpdatedBy)";
 
 
-        private const string Sql = @"SELECT TOP (1000) 
+        private const string Sql = @"SELECT
 		               Epic.[Id] as EpicId
                       ,Epic.[Name] as EpicName
                       ,Epic.[CapabilityId]  as CapabilityId              

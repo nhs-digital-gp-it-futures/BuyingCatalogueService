@@ -1,4 +1,5 @@
 using System.Linq;
+using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
@@ -11,6 +12,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Capabilities
         public string Description { get; }
         public string Link { get; }
 
+        [JsonProperty("epic")]
         public ClaimedCapabilityEpicSection EpicSection { get; }
 
         public ClaimedCapabilitySection(IClaimedCapability capability)
