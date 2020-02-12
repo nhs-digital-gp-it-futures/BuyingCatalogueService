@@ -73,7 +73,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             await InsertSolutionCapabilityAsync(Solution1Id, _capDetails[0].Id).ConfigureAwait(false);
 
             var solutionCapabilityRequest =
-                await _solutionCapabilityRepository.ListSolutionCapabilities(Solution1Id, CancellationToken.None)
+                await _solutionCapabilityRepository.ListSolutionCapabilitiesAsync(Solution1Id, CancellationToken.None)
                     .ConfigureAwait(false);
 
             var solutionCapability = solutionCapabilityRequest.Should().ContainSingle().Subject;
@@ -92,7 +92,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             }
 
             var solutionCapabilityResponse =
-                await _solutionCapabilityRepository.ListSolutionCapabilities(Solution1Id, CancellationToken.None)
+                await _solutionCapabilityRepository.ListSolutionCapabilitiesAsync(Solution1Id, CancellationToken.None)
                     .ConfigureAwait(false);
 
             solutionCapabilityResponse.Count().Should().Be(3);
@@ -116,11 +116,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
 
             var solutionCapabilityResponseSolution1 =
-                await _solutionCapabilityRepository.ListSolutionCapabilities(Solution1Id, CancellationToken.None)
+                await _solutionCapabilityRepository.ListSolutionCapabilitiesAsync(Solution1Id, CancellationToken.None)
                     .ConfigureAwait(false);
 
             var solutionCapabilityResponseSolution2 =
-                await _solutionCapabilityRepository.ListSolutionCapabilities(Solution2Id, CancellationToken.None)
+                await _solutionCapabilityRepository.ListSolutionCapabilitiesAsync(Solution2Id, CancellationToken.None)
                     .ConfigureAwait(false);
 
 
@@ -139,7 +139,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public async Task NoCapabilitiesAsync()
         {
             var solutionCapabilityResponse =
-                await _solutionCapabilityRepository.ListSolutionCapabilities(Solution1Id, CancellationToken.None)
+                await _solutionCapabilityRepository.ListSolutionCapabilitiesAsync(Solution1Id, CancellationToken.None)
                     .ConfigureAwait(false);
 
             solutionCapabilityResponse.Should().BeEmpty();
@@ -156,7 +156,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
 
             var solutionCapabilityResponseSolution1 =
-                await _solutionCapabilityRepository.ListSolutionCapabilities(Solution1Id, CancellationToken.None)
+                await _solutionCapabilityRepository.ListSolutionCapabilitiesAsync(Solution1Id, CancellationToken.None)
                     .ConfigureAwait(false);
 
             var solutionCapability1 = solutionCapabilityResponseSolution1.Should().ContainSingle().Subject;
@@ -169,7 +169,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public async Task NoSolutionsAsync()
         {
             var solutionCapabilityResponse =
-                await _solutionCapabilityRepository.ListSolutionCapabilities(Solution2Id, CancellationToken.None)
+                await _solutionCapabilityRepository.ListSolutionCapabilitiesAsync(Solution2Id, CancellationToken.None)
                     .ConfigureAwait(false);
 
             solutionCapabilityResponse.Should().BeEmpty();
@@ -192,7 +192,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                     new CancellationToken()).ConfigureAwait(false);
 
             var solutionCapabilities =
-                (await _solutionCapabilityRepository.ListSolutionCapabilities(Solution1Id, CancellationToken.None)
+                (await _solutionCapabilityRepository.ListSolutionCapabilitiesAsync(Solution1Id, CancellationToken.None)
                     .ConfigureAwait(false)).ToList();
 
             solutionCapabilities.Count().Should().Be(1);
@@ -220,7 +220,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                     new CancellationToken()).ConfigureAwait(false);
 
             var solutionCapabilities =
-                (await _solutionCapabilityRepository.ListSolutionCapabilities(Solution1Id, CancellationToken.None)
+                (await _solutionCapabilityRepository.ListSolutionCapabilitiesAsync(Solution1Id, CancellationToken.None)
                     .ConfigureAwait(false)).ToList();
 
             solutionCapabilities.Count().Should().Be(2);

@@ -8,6 +8,12 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
         private readonly EpicEntity _epicEntity;
         private readonly int _compliancyLevelId = 1;
 
+        public enum CompliancyLevel
+        {
+            May = 1,
+            Must= 2
+        }
+
         public static EpicEntityBuilder Create()
         {
             return new EpicEntityBuilder();
@@ -52,9 +58,9 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             return this;
         }
 
-        public EpicEntityBuilder WithCompliancyLevelId(int compliancyLevelId)
+        public EpicEntityBuilder WithCompliancyLevel(CompliancyLevel compliancyLevel)
         {
-            _epicEntity.CompliancyLevelId = compliancyLevelId;
+            _epicEntity.CompliancyLevelId = (int)compliancyLevel;
             return this;
         }
 

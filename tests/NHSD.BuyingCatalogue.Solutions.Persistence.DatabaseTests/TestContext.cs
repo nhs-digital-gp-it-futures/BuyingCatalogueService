@@ -14,6 +14,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public IMarketingContactRepository MarketingContactRepository => _scope.MarketingContactRepository;
 
         public ISolutionCapabilityRepository SolutionCapabilityRepository => _scope.SolutionCapabilityRepository;
+        public ISolutionEpicRepository SolutionEpicRepository => _scope.SolutionEpicRepository;
 
         public ISolutionDetailRepository SolutionDetailRepository => _scope.SolutionDetailRepository;
 
@@ -47,6 +48,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             public IMarketingContactRepository MarketingContactRepository { get; }
 
             public ISolutionCapabilityRepository SolutionCapabilityRepository { get; }
+            public ISolutionEpicRepository SolutionEpicRepository { get; }
 
             public ISolutionDetailRepository SolutionDetailRepository { get; }
 
@@ -58,6 +60,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             public Scope(IMarketingContactRepository marketingContactRepository,
                 ISolutionCapabilityRepository solutionCapabilityRepository,
+                ISolutionEpicRepository solutionEpicRepository,
                 ISolutionDetailRepository solutionDetailRepository,
                 ISolutionRepository solutionRepository,
                 ISupplierRepository supplierRepository,
@@ -65,6 +68,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             {
                 MarketingContactRepository = marketingContactRepository;
                 SolutionCapabilityRepository = solutionCapabilityRepository;
+                SolutionEpicRepository = solutionEpicRepository;
                 SolutionDetailRepository = solutionDetailRepository;
                 SolutionRepository = solutionRepository;
                 SupplierRepository = supplierRepository;

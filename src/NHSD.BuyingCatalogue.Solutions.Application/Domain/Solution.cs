@@ -110,9 +110,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
             IEnumerable<ISolutionCapabilityListResult> solutionCapabilityListResult,
             IEnumerable<IMarketingContactResult> contactResult,
             ISupplierResult supplierResult,
-            IDocumentResult documentResult)
+            IDocumentResult documentResult,
+            IEnumerable<ISolutionEpicListResult> solutionEpicListResults)
         {
             var contactResultList = contactResult.ToList();
+            var solutionEpicsByCapability = solutionEpicListResults?.ToLookup(e => e.CapabilityId);
             Id = solutionResult.Id;
             Name = solutionResult.Name;
             LastUpdated = GetLatestLastUpdated(solutionResult, contactResultList);
@@ -136,7 +138,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
                 ? new ClientApplication()
                 : JsonConvert.DeserializeObject<ClientApplication>(solutionResult.ClientApplication);
             IsFoundation = solutionResult.IsFoundation;
-            Capabilities = solutionCapabilityListResult.Select(c => new ClaimedCapability(c));
+            Capabilities = solutionCapabilityListResult.Select(c =>
+                new ClaimedCapability(c, solutionEpicsByCapability?[c.CapabilityId]));
             Contacts = contactResultList.Select(c => new Contact(c));
             PublishedStatus = solutionResult.PublishedStatus;
 

@@ -36,11 +36,41 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             for (int i = 1; i <= 5; i++)
             {
                 var capabilityNumber = i;
+                var claimedEpics = new []
+                {
+                    Mock.Of<IClaimedCapabilityEpic>(ce=>
+                        ce.EpicId == $"{capabilityNumber}E1" &&
+                        ce.EpicName == $"Cap {capabilityNumber} Epic 1 Name" &&
+                        ce.IsMet == true &&
+                        ce.EpicCompliancyLevel == "MUST"
+                    ),
+                    Mock.Of<IClaimedCapabilityEpic>(ce=>
+                        ce.EpicId == $"{capabilityNumber}E2" &&
+                        ce.EpicName == $"Cap {capabilityNumber} Epic 2 Name" &&
+                        ce.IsMet == true &&
+                        ce.EpicCompliancyLevel == "MAY"
+                    ),
+                    Mock.Of<IClaimedCapabilityEpic>(ce=>
+                        ce.EpicId == $"{capabilityNumber}E3" &&
+                        ce.EpicName == $"Cap {capabilityNumber} Epic 3 Name" &&
+                        ce.IsMet == false &&
+                        ce.EpicCompliancyLevel == "MUST"
+                    ),
+                    Mock.Of<IClaimedCapabilityEpic>(ce=>
+                        ce.EpicId == $"{capabilityNumber}E4" &&
+                        ce.EpicName == $"Cap {capabilityNumber} Epic 4 Name" &&
+                        ce.IsMet == false &&
+                        ce.EpicCompliancyLevel == "MAY"
+                    )
+
+                };
+
                 var ccMock = Mock.Of<IClaimedCapability>(
                     cc => cc.Name == $"Capability {capabilityNumber}" &&
                           cc.Version == $"Version {capabilityNumber}" &&
                           cc.Description == $"Description {capabilityNumber}" &&
-                          cc.Link == $"http://Capability.Link/{capabilityNumber}");
+                          cc.Link == $"http://Capability.Link/{capabilityNumber}" &&
+                          cc.ClaimedEpics == claimedEpics);
                 data.Add((ccMock,new ClaimedCapabilitySection(ccMock)));
             }
 
