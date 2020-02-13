@@ -1,11 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 {
-    internal class ClaimedCapability
+    internal sealed class ClaimedCapability
     {
         public string Name { get; }
         public string Version { get; }
@@ -14,7 +13,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 
         public IEnumerable<ClaimedCapabilityEpic> ClaimedEpics { get; }
 
-        public ClaimedCapability(ISolutionCapabilityListResult solutionCapabilityListResult, IEnumerable<ISolutionEpicListResult> capabilityEpics)
+        public ClaimedCapability(ISolutionCapabilityListResult solutionCapabilityListResult,
+            IEnumerable<ISolutionEpicListResult> capabilityEpics)
         {
             Name = solutionCapabilityListResult?.CapabilityName;
             Version = solutionCapabilityListResult?.CapabilityVersion;

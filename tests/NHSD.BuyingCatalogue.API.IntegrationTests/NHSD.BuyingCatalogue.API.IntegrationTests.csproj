@@ -26,6 +26,4 @@
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Testing.Tools\NHSD.BuyingCatalogue.Testing.Tools.csproj" />
   </ItemGroup>
 
-
-
 </Project>

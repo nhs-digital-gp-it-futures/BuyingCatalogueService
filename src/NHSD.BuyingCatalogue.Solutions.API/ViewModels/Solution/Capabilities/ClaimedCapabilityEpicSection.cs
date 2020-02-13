@@ -5,8 +5,11 @@ using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Capabilities
 {
-    public class ClaimedCapabilityEpicSection
+    public sealed class ClaimedCapabilityEpicSection
     {
+        public ClaimedEpicSubSection May { get; }
+        public ClaimedEpicSubSection Must { get; }
+
         public ClaimedCapabilityEpicSection(IEnumerable<IClaimedCapabilityEpic> claimedCapabilityEpics)
         {
             var mustEpics = claimedCapabilityEpics.Where(x =>
@@ -16,7 +19,5 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Capabilities
             Must = mustEpics.Any() ? new ClaimedEpicSubSection(mustEpics) : null;
             May = mayEpics.Any() ? new ClaimedEpicSubSection(mayEpics) : null;
         }
-        public ClaimedEpicSubSection Must { get; }
-        public ClaimedEpicSubSection May { get; }
     }
 }

@@ -3,7 +3,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
 {
-    public class SolutionEpicListResult : ISolutionEpicListResult
+    internal sealed class SolutionEpicListResult : ISolutionEpicListResult
     {
         public string EpicId { get; set; }
         public Guid CapabilityId { get; set; }
