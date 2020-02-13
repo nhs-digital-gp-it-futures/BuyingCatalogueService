@@ -32,8 +32,8 @@ namespace NHSD.BuyingCatalogue.Capabilities.API.UnitTests
         {
             var capabilities = new List<ICapability>
             {
-                Mock.Of<ICapability>(c => c.IsFoundation == true && c.Id == Guid.NewGuid() && c.Name == "Name1"),
-                Mock.Of<ICapability>(c => c.IsFoundation == false && c.Id == Guid.NewGuid() && c.Name == "Name2")
+                Mock.Of<ICapability>(c => c.IsFoundation == true && c.CapabilityReference == "C5" && c.Version == "1.0.1" && c.Name == "Name1"),
+                Mock.Of<ICapability>(c => c.IsFoundation == false && c.CapabilityReference == "C27" && c.Version == "1.0.1" && c.Name == "Name2")
             };
 
             _mockMediator.Setup(m => m.Send(It.IsAny<ListCapabilitiesQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(capabilities);
