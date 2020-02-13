@@ -25,8 +25,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         [Given("Solutions are linked to Epics")]
         public static async Task GivenSolutionsAreLinkedToEpics(Table table)
         {
-            var solutions = await SolutionEntity.FetchAllAsync().ConfigureAwait(false);
-            var capabilities = await CapabilityEntity.FetchAllAsync().ConfigureAwait(false);
             var epics = await EpicEntity.FetchAllAsync().ConfigureAwait(false);
 
             foreach (var solutionEpicTable in table.CreateSet<SolutionEpicReferenceTable>())
@@ -36,7 +34,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                     foreach (var epicId in solutionEpicTable.EpicIds)
                     {
                         await SolutionEpicEntityBuilder.Create()
-                            .WithSolutionId(solutions.First(s => s.Id == solutionEpicTable.SolutionId).Id)
+                            .WithSolutionId(solutionEpicTable.SolutionId)
                             .WithCapabilityId(epics.First(e => e.Id == epicId).CapabilityId)
                             .WithEpicId(epicId)
                             .Build()

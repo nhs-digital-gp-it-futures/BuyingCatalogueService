@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Epics;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateEpics;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateClaimedEpics.UpdateEpics;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Epics;
 using NUnit.Framework;
@@ -50,14 +50,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             validationModel.Setup(s => s.IsValid).Returns(true);
 
             _mockMediator
-                .Setup(m => m.Send(It.Is<UpdateEpicsCommand>(e => e.SolutionId == SolutionId),
+                .Setup(m => m.Send(It.Is<UpdateClaimedEpicsCommand>(e => e.SolutionId == SolutionId),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result = (await _controller.UpdateAsync(SolutionId, viewModel).ConfigureAwait(false)) as NoContentResult;
             result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
 
             _mockMediator.Verify(
-                m => m.Send(It.Is<UpdateEpicsCommand>(e => e.SolutionId == SolutionId),
+                m => m.Send(It.Is<UpdateClaimedEpicsCommand>(e => e.SolutionId == SolutionId),
                     It.IsAny<CancellationToken>()));
         }
     }

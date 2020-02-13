@@ -6,7 +6,7 @@ using FluentAssertions;
 using Moq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Epics;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateEpics;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateClaimedEpics.UpdateEpics;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Epics;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
@@ -76,8 +76,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
         private async Task<ISimpleResult> UpdateEpicsAsync(string solutionId, HashSet<IClaimedEpic> claimedEpics)
         {
-            return await _context.UpdateEpicsHandler
-                .Handle(new UpdateEpicsCommand(solutionId, claimedEpics), new CancellationToken())
+            return await _context.UpdateClaimedEpicsHandler
+                .Handle(new UpdateClaimedEpicsCommand(solutionId, claimedEpics), new CancellationToken())
                 .ConfigureAwait(false);
         }
     }

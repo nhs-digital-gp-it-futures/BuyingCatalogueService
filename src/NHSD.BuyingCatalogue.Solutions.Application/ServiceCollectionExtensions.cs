@@ -26,7 +26,8 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PublicCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PrivateCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateImplementationTimescales;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateCapabilities;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateEpics;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateClaimedEpics;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateClaimedEpics.UpdateEpics;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateIntegrations;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
@@ -176,8 +177,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
 
                 .AddTransient<IVerifier<UpdateCapabilitiesCommand, ISimpleResult>, CapabilityVerifier>()
                 
-                .AddTransient<IExecutor<UpdateEpicsCommand>, UpdateEpicsExecutor>()
-                .AddTransient<IValidator<UpdateEpicsCommand, ISimpleResult>, UpdateEpicsValidator>()
+                .AddTransient<IExecutor<UpdateClaimedEpicsCommand>, UpdateClaimedEpicsExecutor>()
+                .AddTransient<IValidator<UpdateClaimedEpicsCommand, ISimpleResult>, UpdateClaimedEpicsValidator>()
                 ;
         }
     }

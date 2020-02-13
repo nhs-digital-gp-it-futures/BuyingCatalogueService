@@ -31,7 +31,8 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PrivateCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateImplementationTimescales;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateCapabilities;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateEpics;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateClaimedEpics;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateClaimedEpics.UpdateEpics;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateIntegrations;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
@@ -180,7 +181,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
         public UpdateCapabilitiesHandler UpdateCapabilitiesHandler =>
             (UpdateCapabilitiesHandler)_scope.UpdateCapabilitiesHandler;
 
-        public UpdateEpicsHandler UpdateEpicsHandler => (UpdateEpicsHandler)_scope.UpdateEpicsHandler;
+        public UpdateClaimedEpicsHandler UpdateClaimedEpicsHandler => (UpdateClaimedEpicsHandler)_scope.UpdateEpicsHandler;
 
         private readonly Scope _scope;
 
@@ -303,7 +304,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             
             public IRequestHandler<UpdateCapabilitiesCommand, ISimpleResult> UpdateCapabilitiesHandler { get; }
 
-            public IRequestHandler<UpdateEpicsCommand, ISimpleResult> UpdateEpicsHandler { get; set; }
+            public IRequestHandler<UpdateClaimedEpicsCommand, ISimpleResult> UpdateEpicsHandler { get; set; }
 
             public Scope(IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
                 IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> getClientApplicationBySolutionIdHandler,
@@ -346,7 +347,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdateIntegrationsCommand, ISimpleResult> updateIntegrationsRequestHandler,
                 IRequestHandler<UpdateImplementationTimescalesCommand, ISimpleResult> updateImplementationTimescalesHandler,
                 IRequestHandler<UpdateCapabilitiesCommand, ISimpleResult> updateCapabilitiesHandler,
-                IRequestHandler<UpdateEpicsCommand, ISimpleResult> updateEpicsHandler)
+                IRequestHandler<UpdateClaimedEpicsCommand, ISimpleResult> updateEpicsHandler)
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;
                 GetClientApplicationBySolutionIdHandler = getClientApplicationBySolutionIdHandler;
