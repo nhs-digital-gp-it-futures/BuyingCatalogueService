@@ -27,11 +27,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         {
             var epics = await EpicEntity.FetchAllAsync().ConfigureAwait(false);
 
-            foreach (var solutionEpicTable in table.CreateSet<SolutionEpicReferenceTable>())
+            foreach (var solutionEpicTable in table.CreateSet<SolutionClaimedEpicTable>())
             {
-                if (solutionEpicTable.EpicIds.Any())
+                if (solutionEpicTable.EpicId.Any())
                 {
-                    foreach (var epicId in solutionEpicTable.EpicIds)
+                    foreach (var epicId in solutionEpicTable.EpicId)
                     {
                         await SolutionEpicEntityBuilder.Create()
                             .WithSolutionId(solutionEpicTable.SolutionId)
@@ -45,15 +45,15 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             }
         }
 
-        [Then(@"Solutions are linked to Epics")]
+        [Then(@"Solutions claim only these Epics")]
         public static async Task ThenSolutionsAreLinkedToEpics(Table table)
         {
-            foreach (var row in table.CreateSet<SolutionEpicReferenceTable>())
+            foreach (var row in table.CreateSet<SolutionClaimedEpicTable>())
             {
                 var epics = await SolutionEpicEntity.FetchForSolutionAsync(row.SolutionId)
                     .ConfigureAwait(false);
 
-                epics.Should().BeEquivalentTo(row.EpicIds);
+                epics.Should().BeEquivalentTo(row.EpicId);
             }
         }
 
@@ -79,11 +79,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             public string CapabilityRef { get; set; }
         }
 
-        private class SolutionEpicReferenceTable
+        private class SolutionClaimedEpicTable
         {
             public string SolutionId { get; set; }
 
-            public List<string> EpicIds { get; set; }
+            public List<string> EpicId { get; set; }
         }
     }
 }

@@ -16,8 +16,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Epics
         {
             _response = response;
         }
-
-
+        
         [When(@"a PUT request is made to update a epics section for solution (.*)")]
         public async Task WhenAPUTRequestIsMadeToUpdateEpicsSection(string solutionId, Table table)
         {
@@ -26,8 +25,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Epics
             _response.Result = await Client.PutAsJsonAsync($"http://localhost:8080/api/v1/solutions/{solutionId}/sections/epics", obj)
                 .ConfigureAwait(false);
         }
-
-
+        
         private class EpicsPayload
         {
             [JsonProperty("epic-id")]

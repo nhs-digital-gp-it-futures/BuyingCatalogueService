@@ -16,8 +16,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         public SolutionEpicRepository(IDbConnector dbConnector) =>
             _dbConnector = dbConnector;
 
-        private const string DeleteSolutionEpic = @"DELETE FROM dbo.SolutionEpic WHERE SolutionId = @solutionId";
-        private const string InsertSolutionEpic = @"INSERT INTO dbo.SolutionEpic (SolutionId, CapabilityId, EpicId, StatusId, LastUpdated, LastUpdatedBy) VALUES (@solutionId, (SELECT Epic.CapabilityId FROM Epic WHERE Epic.Id = @epicId), @epicId, (SELECT SolutionEpicStatus.Id FROM SolutionEpicStatus WHERE SolutionEpicStatus.Name = @statusName), GETDATE(), @lastUpdatedBy)";
+        private const string DeleteSolutionEpicSql = @"DELETE FROM dbo.SolutionEpic WHERE SolutionId = @solutionId";
+        private const string InsertSolutionEpicSql = @"INSERT INTO dbo.SolutionEpic (SolutionId, CapabilityId, EpicId, StatusId, LastUpdated, LastUpdatedBy) VALUES (@solutionId, (SELECT Epic.CapabilityId FROM Epic WHERE Epic.Id = @epicId), @epicId, (SELECT SolutionEpicStatus.Id FROM SolutionEpicStatus WHERE SolutionEpicStatus.Name = @statusName), GETDATE(), @lastUpdatedBy)";
 
         public async Task UpdateSolutionEpicAsync(string solutionId, IUpdateClaimedRequest request, CancellationToken cancellationToken)
         {
@@ -25,10 +25,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
             var lastUpdatedBy = new Guid();
 
-            var queries = new List<(string, object)> { (DeleteSolutionEpic, new { solutionId }) };
+            var queries = new List<(string, object)> { (DeleteSolutionEpicSql, new { solutionId }) };
 
             queries.AddRange(request.ClaimedEpics.Select(claimedEpic =>
-                (insertSolutionEpic: InsertSolutionEpic,
+                (insertSolutionEpic: InsertSolutionEpicSql,
                     (object)new
                     {
                         solutionId,
