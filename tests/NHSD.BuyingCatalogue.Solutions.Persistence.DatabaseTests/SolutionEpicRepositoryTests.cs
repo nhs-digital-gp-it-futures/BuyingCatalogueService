@@ -15,7 +15,7 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 {
     [TestFixture]
-    public sealed class SolutionEpicsRepositoryTests
+    public sealed class SolutionEpicRepositoryTests
     {
         private const string Solution1Id = "Sln1";
 
@@ -23,7 +23,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
         private const string StatusPassed = "Passed";
 
-        private ISolutionEpicsRepository _solutionEpicsRepository;
+        private ISolutionEpicRepository _solutionEpicRepository;
 
         private static readonly List<CapabilityDetails> _capDetails = new List<CapabilityDetails>()
         {
@@ -82,7 +82,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .ConfigureAwait(false);
 
             TestContext testContext = new TestContext();
-            _solutionEpicsRepository = testContext.SolutionEpicsRepository;
+            _solutionEpicRepository = testContext.SolutionEpicRepository;
         }
 
         [Test]
@@ -97,7 +97,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 Mock.Of<IClaimedEpicResult>(e => e.EpicId == _epicDetails[0].Id && e.StatusName == StatusPassed)
             };
 
-            await _solutionEpicsRepository
+            await _solutionEpicRepository
                 .UpdateSolutionEpicAsync(Solution1Id,
                     Mock.Of<IUpdateClaimedRequest>(c => c.ClaimedEpics == expectedEpic), new CancellationToken()).ConfigureAwait(false);
 
@@ -123,7 +123,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 Mock.Of<IClaimedEpicResult>(e => e.EpicId == _epicDetails[1].Id && e.StatusName == StatusPassed)
             };
 
-            await _solutionEpicsRepository
+            await _solutionEpicRepository
                 .UpdateSolutionEpicAsync(Solution1Id,
                     Mock.Of<IUpdateClaimedRequest>(c => c.ClaimedEpics == expectedEpic), new CancellationToken()).ConfigureAwait(false);
 
@@ -138,7 +138,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public void ShouldThrowIfEpicRequestIsNull()
         {
             Assert.ThrowsAsync<ArgumentNullException>(() =>
-                _solutionEpicsRepository.UpdateSolutionEpicAsync(Solution1Id, null, new CancellationToken()));
+                _solutionEpicRepository.UpdateSolutionEpicAsync(Solution1Id, null, new CancellationToken()));
         }
 
         private async Task InsertCapabilityAsync(CapabilityDetails capability)

@@ -9,11 +9,11 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 {
-    public sealed class SolutionEpicsRepository : ISolutionEpicsRepository
+    public sealed class SolutionEpicRepository : ISolutionEpicRepository
     {
         private readonly IDbConnector _dbConnector;
 
-        public SolutionEpicsRepository(IDbConnector dbConnector) =>
+        public SolutionEpicRepository(IDbConnector dbConnector) =>
             _dbConnector = dbConnector;
 
         private const string DeleteSolutionEpic = @"DELETE FROM dbo.SolutionEpic WHERE SolutionId = @solutionId";

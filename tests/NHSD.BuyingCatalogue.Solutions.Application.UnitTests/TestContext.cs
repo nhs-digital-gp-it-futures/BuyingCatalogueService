@@ -70,7 +70,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
         public Mock<IDocumentRepository> MockDocumentRepository { get; private set; }
 
-        public Mock<ISolutionEpicsRepository> MockSolutionEpicRepository { get; private set; }
+        public Mock<ISolutionEpicRepository> MockSolutionEpicRepository { get; private set; }
 
         public GetSolutionByIdHandler GetSolutionByIdHandler => (GetSolutionByIdHandler)_scope.GetSolutionByIdHandler;
 
@@ -216,7 +216,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             serviceCollection.AddSingleton(MockSupplierRepository.Object);
             MockDocumentRepository = new Mock<IDocumentRepository>();
             serviceCollection.AddSingleton(MockDocumentRepository.Object);
-            MockSolutionEpicRepository = new Mock<ISolutionEpicsRepository>();
+            MockSolutionEpicRepository = new Mock<ISolutionEpicRepository>();
             serviceCollection.AddSingleton(MockSolutionEpicRepository.Object);
         }
 
