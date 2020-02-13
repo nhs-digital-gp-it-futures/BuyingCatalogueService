@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -8,8 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Epics;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateEpics;
-using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateClaimedEpics;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Epics;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
@@ -50,9 +48,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
       [ProducesResponseType(StatusCodes.Status400BadRequest)]
       [ProducesResponseType(StatusCodes.Status204NoContent)]
       [ProducesResponseType(StatusCodes.Status404NotFound)]
-      public async Task<ActionResult> Update([FromRoute] [Required] string id,
+      public async Task<ActionResult> UpdateAsync([FromRoute] [Required] string id,
           [FromBody] [Required] UpdateEpicsViewModel viewModel) =>
-          (await _mediator.Send(new UpdateEpicsCommand(id, new HashSet<IClaimedEpic>(viewModel?.ClaimedEpics)))
+          (await _mediator.Send(new UpdateClaimedEpicsCommand(id, viewModel?.ClaimedEpics))
               .ConfigureAwait(false)).ToActionResult();
     }
 }

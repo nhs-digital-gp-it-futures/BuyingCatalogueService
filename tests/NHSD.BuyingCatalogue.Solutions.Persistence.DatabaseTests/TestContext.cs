@@ -11,6 +11,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 {
     internal class TestContext
     {
+        private readonly Scope _scope;
         public IMarketingContactRepository MarketingContactRepository => _scope.MarketingContactRepository;
 
         public ISolutionCapabilityRepository SolutionCapabilityRepository => _scope.SolutionCapabilityRepository;
@@ -23,8 +24,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public ISupplierRepository SupplierRepository => _scope.SupplierRepository;
 
         public IDbConnector DbConnector => _scope.DbConnector;
-
-        private readonly Scope _scope;
 
         public TestContext()
         {
@@ -42,7 +41,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             _scope = serviceCollection.BuildServiceProvider().GetService<Scope>();
         }
-        
+
         private class Scope
         {
             public IMarketingContactRepository MarketingContactRepository { get; }

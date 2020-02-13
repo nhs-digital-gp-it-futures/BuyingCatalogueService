@@ -623,7 +623,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             _context.MockSolutionCapabilityRepository
                 .Setup(r => r.ListSolutionCapabilitiesAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new[] { capabilities1, capabilities2 });
 
-            _context.MockEpicRepository
+            _context.MockSolutionEpicRepository
                 .Setup(r => r.ListSolutionEpicsAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new[] { epic1, epic2,epic3,epic4 });
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
