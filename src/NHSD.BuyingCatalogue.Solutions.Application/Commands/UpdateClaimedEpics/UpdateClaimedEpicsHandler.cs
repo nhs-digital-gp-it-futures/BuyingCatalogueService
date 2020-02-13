@@ -1,5 +1,4 @@
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateClaimedEpics.UpdateEpics;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateClaimedEpics

@@ -2,7 +2,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateClaimedEpics.UpdateEpics;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.Epics;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence.Epics;
