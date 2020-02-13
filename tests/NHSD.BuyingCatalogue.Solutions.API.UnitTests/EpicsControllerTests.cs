@@ -53,7 +53,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 .Setup(m => m.Send(It.Is<UpdateEpicsCommand>(e => e.SolutionId == SolutionId),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
-            var result = (await _controller.Update(SolutionId, viewModel).ConfigureAwait(false)) as NoContentResult;
+            var result = (await _controller.UpdateAsync(SolutionId, viewModel).ConfigureAwait(false)) as NoContentResult;
             result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
 
             _mockMediator.Verify(
