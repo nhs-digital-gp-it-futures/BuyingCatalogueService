@@ -1,4 +1,3 @@
-using System;
 using NHSD.BuyingCatalogue.Capabilities.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Capabilities.Application.Domain
@@ -15,10 +14,17 @@ namespace NHSD.BuyingCatalogue.Capabilities.Application.Domain
     /// </summary>
     internal class Capability
     {
+
         /// <summary>
-        /// Id of the capability.
+        /// Capability Reference
         /// </summary>
-        public Guid Id { get; set; }
+        public string CapabilityReference { get; set; }
+
+        /// <summary>
+        /// Version of the Capability
+        /// </summary>
+        public string Version { get; set; }
+
 
         /// <summary>
         /// Name of the capability.
@@ -35,7 +41,8 @@ namespace NHSD.BuyingCatalogue.Capabilities.Application.Domain
         /// </summary>
         internal Capability(ICapabilityListResult capabilityListResult)
         {
-            Id = capabilityListResult.Id;
+            CapabilityReference = capabilityListResult.CapabilityReference;
+            Version = capabilityListResult.Version;
             Name = capabilityListResult.Name;
             IsFoundation = capabilityListResult.IsFoundation;
         }

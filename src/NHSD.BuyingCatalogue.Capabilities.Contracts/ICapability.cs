@@ -1,13 +1,16 @@
-using System;
-
 namespace NHSD.BuyingCatalogue.Capabilities.Contracts
 {
     public interface ICapability
     {
         /// <summary>
-        /// Identifier of the capability.
+        /// Capability Reference
         /// </summary>
-        Guid Id { get; }
+        string CapabilityReference { get; }
+
+        /// <summary>
+        /// Version of the Capability
+        /// </summary>
+        string Version { get; }
 
         /// <summary>
         /// Name of the capability.

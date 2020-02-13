@@ -180,7 +180,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
         public UpdateCapabilitiesHandler UpdateCapabilitiesHandler =>
             (UpdateCapabilitiesHandler)_scope.UpdateCapabilitiesHandler;
 
-        public UpdateClaimedEpicsHandler UpdateClaimedEpicsHandler => (UpdateClaimedEpicsHandler)_scope.UpdateEpicsHandler;
+        public UpdateClaimedEpicsHandler UpdateClaimedEpicsHandler => (UpdateClaimedEpicsHandler)_scope.UpdateClaimedEpicsHandler;
 
         private readonly Scope _scope;
 
@@ -303,7 +303,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             
             public IRequestHandler<UpdateCapabilitiesCommand, ISimpleResult> UpdateCapabilitiesHandler { get; }
 
-            public IRequestHandler<UpdateClaimedEpicsCommand, ISimpleResult> UpdateEpicsHandler { get; set; }
+            public IRequestHandler<UpdateClaimedEpicsCommand, ISimpleResult> UpdateClaimedEpicsHandler { get; }
 
             public Scope(IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
                 IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> getClientApplicationBySolutionIdHandler,
@@ -346,7 +346,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdateIntegrationsCommand, ISimpleResult> updateIntegrationsRequestHandler,
                 IRequestHandler<UpdateImplementationTimescalesCommand, ISimpleResult> updateImplementationTimescalesHandler,
                 IRequestHandler<UpdateCapabilitiesCommand, ISimpleResult> updateCapabilitiesHandler,
-                IRequestHandler<UpdateClaimedEpicsCommand, ISimpleResult> updateEpicsHandler)
+                IRequestHandler<UpdateClaimedEpicsCommand, ISimpleResult> updateClaimedEpicsHandler)
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;
                 GetClientApplicationBySolutionIdHandler = getClientApplicationBySolutionIdHandler;
@@ -389,7 +389,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 UpdateIntegrationsHandler = updateIntegrationsRequestHandler;
                 UpdateImplementationTimescalesHandler = updateImplementationTimescalesHandler;
                 UpdateCapabilitiesHandler = updateCapabilitiesHandler;
-                UpdateEpicsHandler = updateEpicsHandler;
+                UpdateClaimedEpicsHandler = updateClaimedEpicsHandler;
             }
         }
     }

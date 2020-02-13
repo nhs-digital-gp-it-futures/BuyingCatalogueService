@@ -6,6 +6,8 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
     public sealed class SolutionEpicEntityBuilder
     {
         private readonly SolutionEpicEntity _solutionEpicEntity;
+        private const int PassedStatusId = 1;
+
         public static SolutionEpicEntityBuilder Create()
         {
             return new SolutionEpicEntityBuilder();
@@ -29,8 +31,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
                 SolutionId = "SolutionId",
                 CapabilityId = Guid.NewGuid(),
                 EpicId = "EpicId",
-                
-                StatusId = 1
+                StatusId = PassedStatusId
             };
         }
 

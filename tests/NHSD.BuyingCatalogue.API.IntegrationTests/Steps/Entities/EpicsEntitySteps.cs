@@ -27,7 +27,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         {
             var epics = (await EpicEntity.FetchAllAsync().ConfigureAwait(false)).ToDictionary(e=>e.Id);
 
-            foreach (var solutionEpicTable in table.CreateSet<SolutionEpicReferenceTable>().Where(set=>set.EpicIds.Any()))
+            foreach (var solutionEpicTable in table.CreateSet<SolutionClaimedEpicTable>().Where(set=>set.EpicIds.Any()))
             {
                 if (!Enum.TryParse(solutionEpicTable.Status, out SolutionEpicEntityBuilder.SolutionEpicStatus status))
                     status = SolutionEpicEntityBuilder.SolutionEpicStatus.Passed;
@@ -47,12 +47,12 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             }
         }
 
-        [Then(@"Solutions are linked to Epics")]
+        [Then(@"Solutions claim only these Epics")]
         public static async Task ThenSolutionsAreLinkedToEpics(Table table)
         {
-            foreach (var row in table.CreateSet<SolutionEpicReferenceTable>())
+            foreach (var row in table.CreateSet<SolutionClaimedEpicTable>())
             {
-                var epics = await SolutionEpicEntity.FetchForSolutionAsync(row.SolutionId)
+                var epics = await SolutionEpicEntity.FetchAllEpicIdsForSolutionAsync(row.SolutionId)
                     .ConfigureAwait(false);
 
                 epics.Should().BeEquivalentTo(row.EpicIds);
@@ -89,11 +89,9 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             public string Name { get; set; }
             public string CompliancyLevel { get; set; }
             public bool Active { get; set; } = true;
-
-
         }
 
-        private class SolutionEpicReferenceTable
+        private class SolutionClaimedEpicTable
         {
             public string SolutionId { get; set; }
 

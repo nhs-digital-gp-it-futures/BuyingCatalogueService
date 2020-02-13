@@ -1,10 +1,10 @@
-using System;
-
 namespace NHSD.BuyingCatalogue.Capabilities.Contracts.Persistence
 {
     public interface ICapabilityListResult
     {
-        Guid Id { get; }
+        string CapabilityReference { get; }
+
+        string Version { get; }
 
         string Name { get; }
 

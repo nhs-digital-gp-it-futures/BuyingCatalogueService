@@ -17,11 +17,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         public SolutionEpicRepository(IDbConnector dbConnector) =>
             _dbConnector = dbConnector;
 
-        private const string DeleteSolutionEpic = @"DELETE FROM dbo.SolutionEpic WHERE SolutionId = @solutionId";
-        private const string InsertSolutionEpic = @"INSERT INTO dbo.SolutionEpic (SolutionId, CapabilityId, EpicId, StatusId, LastUpdated, LastUpdatedBy) VALUES (@solutionId, (SELECT Epic.CapabilityId FROM Epic WHERE Epic.Id = @epicId), @epicId, (SELECT SolutionEpicStatus.Id FROM SolutionEpicStatus WHERE SolutionEpicStatus.Name = @statusName), GETDATE(), @lastUpdatedBy)";
+        private const string DeleteSolutionEpicSql = @"DELETE FROM dbo.SolutionEpic WHERE SolutionId = @solutionId";
+        private const string InsertSolutionEpicSql = @"INSERT INTO dbo.SolutionEpic (SolutionId, CapabilityId, EpicId, StatusId, LastUpdated, LastUpdatedBy) VALUES (@solutionId, (SELECT Epic.CapabilityId FROM Epic WHERE Epic.Id = @epicId), @epicId, (SELECT SolutionEpicStatus.Id FROM SolutionEpicStatus WHERE SolutionEpicStatus.Name = @statusName), GETDATE(), @lastUpdatedBy)";
 
 
-        private const string Sql = @"SELECT
+        private const string ListSolutionEpicsSql = @"SELECT
 		               Epic.[Id] as EpicId
                       ,Epic.[Name] as EpicName
                       ,Epic.[CapabilityId]  as CapabilityId              
@@ -36,19 +36,19 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         
         public async Task<IEnumerable<ISolutionEpicListResult>> ListSolutionEpicsAsync(string solutionId, CancellationToken cancellationToken)
-            => await _dbConnector.QueryAsync<SolutionEpicListResult>(Sql, cancellationToken, new { solutionId })
+            => await _dbConnector.QueryAsync<SolutionEpicListResult>(ListSolutionEpicsSql, cancellationToken, new { solutionId })
                 .ConfigureAwait(false);
 
-        public async Task UpdateSolutionEpicAsync(string solutionId, IUpdateClaimedRequest request, CancellationToken cancellationToken)
+        public async Task UpdateSolutionEpicAsync(string solutionId, IUpdateClaimedEpicListRequest request, CancellationToken cancellationToken)
         {
             request = request.ThrowIfNull(nameof(request));
 
             var lastUpdatedBy = new Guid();
 
-            var queries = new List<(string, object)> { (DeleteSolutionEpic, new { solutionId }) };
+            var queries = new List<(string, object)> { (DeleteSolutionEpicSql, new { solutionId }) };
 
             queries.AddRange(request.ClaimedEpics.Select(claimedEpic =>
-                (insertSolutionEpic: InsertSolutionEpic,
+                (insertSolutionEpic: InsertSolutionEpicSql,
                     (object)new
                     {
                         solutionId,

@@ -35,7 +35,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
            ,@LastUpdatedBy
         )";
 
-        public static async Task<IEnumerable<string>> FetchForSolutionAsync(string solutionId)
+        public static async Task<IEnumerable<string>> FetchAllEpicIdsForSolutionAsync(string solutionId)
         {
             return await SqlRunner.FetchAllAsync<string>($@"SELECT
                                    [EpicId]

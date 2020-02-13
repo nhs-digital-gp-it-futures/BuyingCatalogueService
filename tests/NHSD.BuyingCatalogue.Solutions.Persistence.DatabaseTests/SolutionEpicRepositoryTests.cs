@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
-using NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests.Models;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
@@ -167,10 +166,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await _solutionEpicRepository
                 .UpdateSolutionEpicAsync(Solution1Id,
-                    Mock.Of<IUpdateClaimedRequest>(c => c.ClaimedEpics == expectedResult), new CancellationToken())
+                    Mock.Of<IUpdateClaimedEpicListRequest>(c => c.ClaimedEpics == expectedResult), new CancellationToken())
                 .ConfigureAwait(false);
 
-            var solutionEpics = (await SolutionEpicEntity.FetchForSolutionAsync(Solution1Id).ConfigureAwait(false))
+            var solutionEpics = (await SolutionEpicEntity.FetchAllEpicIdsForSolutionAsync(Solution1Id).ConfigureAwait(false))
                 .ToList();
             solutionEpics.Count().Should().Be(2);
             solutionEpics.Should().BeEquivalentTo(epicDetails.Select(ed => ed.EpicId),
@@ -191,29 +190,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await _solutionEpicRepository
                 .UpdateSolutionEpicAsync(Solution1Id,
-                    Mock.Of<IUpdateClaimedRequest>(c => c.ClaimedEpics == expectedEpic), new CancellationToken())
+                    Mock.Of<IUpdateClaimedEpicListRequest>(c => c.ClaimedEpics == expectedEpic), new CancellationToken())
                 .ConfigureAwait(false);
 
-            var solutionEpics = (await SolutionEpicEntity.FetchForSolutionAsync(Solution1Id).ConfigureAwait(false))
+            var solutionEpics = (await SolutionEpicEntity.FetchAllEpicIdsForSolutionAsync(Solution1Id).ConfigureAwait(false))
                 .ToList();
             solutionEpics.Count().Should().Be(1);
             solutionEpics[0].Should().Be("C1E1");
         }
 
-        private static CapabilityDetails CreateCapability(string name, string desc, string reference, string version,
-            string sourceUrl)
-        {
-            return new CapabilityDetails
-            {
-                Id = Guid.NewGuid(),
-                Name = name,
-                Desc = desc,
-                Reference = reference,
-                Version = version,
-                SourceUrl = sourceUrl
-            };
-        }
-        
         private async Task InsertEpicAsync(string epicId, string epicName, Guid capId,
             EpicEntityBuilder.CompliancyLevel compliancyLevel)
         {

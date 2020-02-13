@@ -3,7 +3,6 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
-using FluentAssertions.Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -11,7 +10,6 @@ using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Epics;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateClaimedEpics;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
-using NHSD.BuyingCatalogue.Solutions.Contracts.Epics;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
@@ -41,16 +39,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 }
             };
 
-            var updateEpicsViewModel = new UpdateEpicsViewModel {ClaimedEpics = claimedEpics};
-
-            var epicsViewModel = new HashSet<IClaimedEpic>(updateEpicsViewModel.ClaimedEpics);
-
-            var viewModel = new UpdateEpicsViewModel {ClaimedEpics = claimedEpics};
+            var viewModel = new UpdateEpicsViewModel { ClaimedEpics = claimedEpics };
             var validationModel = new Mock<ISimpleResult>();
             validationModel.Setup(s => s.IsValid).Returns(true);
 
             _mockMediator
-                .Setup(m => m.Send(It.Is<UpdateClaimedEpicsCommand>(e => e.SolutionId == SolutionId),
+                .Setup(m => m.Send(It.IsAny<UpdateClaimedEpicsCommand>(),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result = (await _controller.UpdateAsync(SolutionId, viewModel).ConfigureAwait(false)) as NoContentResult;
@@ -58,7 +52,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             _mockMediator.Verify(
                 m => m.Send(It.Is<UpdateClaimedEpicsCommand>(e => e.SolutionId == SolutionId),
-                    It.IsAny<CancellationToken>()));
+                    It.IsAny<CancellationToken>()), Times.Once);
+
         }
     }
 }

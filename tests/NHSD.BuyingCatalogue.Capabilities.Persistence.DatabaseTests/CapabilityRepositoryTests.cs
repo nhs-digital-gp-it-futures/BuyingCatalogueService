@@ -51,7 +51,10 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
 
             capabilities.Should().BeEquivalentTo(capabilityEntities.Select(ce => new
             {
-                ce.Id, ce.Name, IsFoundation = false
+                CapabilityReference = ce.CapabilityRef,
+                ce.Version,
+                ce.Name,
+                IsFoundation = false
             }));
         }
 
@@ -70,7 +73,6 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
                 await capabilityEntity.InsertAsync().ConfigureAwait(false);
             }
 
-
             await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Cap1").Id).WithIsFoundation(false).Build().InsertAsync().ConfigureAwait(false);
             await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Cap2").Id).WithIsFoundation(true).Build().InsertAsync().ConfigureAwait(false);
 
@@ -78,7 +80,8 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
 
             capabilities.Should().BeEquivalentTo(capabilityEntities.Select(ce => new
             {
-                ce.Id,
+                CapabilityReference = ce.CapabilityRef,
+                ce.Version,
                 ce.Name,
                 IsFoundation = (ce.Name == "Cap2")
             }));
