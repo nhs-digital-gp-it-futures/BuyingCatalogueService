@@ -4,11 +4,11 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence.Epics
 {
-    internal sealed class UpdateClaimedEpicRequest : IUpdateClaimedEpicListRequest
+    internal sealed class UpdateClaimedEpicListRequest : IUpdateClaimedEpicListRequest
     {
         public IEnumerable<IClaimedEpicResult> ClaimedEpics { get; internal set; }
 
-        public UpdateClaimedEpicRequest(IEnumerable<IClaimedEpicResult> claimedEpics)
+        public UpdateClaimedEpicListRequest(IEnumerable<IClaimedEpicResult> claimedEpics)
         {
             ClaimedEpics = claimedEpics.ThrowIfNull(nameof(claimedEpics));
         }

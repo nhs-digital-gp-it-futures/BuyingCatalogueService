@@ -17,7 +17,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence.Epics
         public async Task UpdateAsync(string solutionId, ISet<ClaimedEpic> epics, CancellationToken cancellationToken)
         {
             await _solutionEpicRepository
-                .UpdateSolutionEpicAsync(solutionId, new UpdateClaimedEpicRequest(epics.Select(x => new ClaimedEpicResult(x.EpicId, x.StatusName))), cancellationToken)
+                .UpdateSolutionEpicAsync(solutionId, new UpdateClaimedEpicListRequest(epics.Select(x => new ClaimedEpicResult(x.EpicId, x.StatusName))), cancellationToken)
                 .ConfigureAwait(false);
         }
     }
