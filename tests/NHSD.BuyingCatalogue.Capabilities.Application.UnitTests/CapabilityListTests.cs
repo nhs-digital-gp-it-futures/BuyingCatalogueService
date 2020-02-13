@@ -30,7 +30,8 @@ namespace NHSD.BuyingCatalogue.Capabilities.Application.UnitTests
 
             var expectedCapabilities = capabilityData.Select(t => new
             {
-                t.Id,
+                t.CapabilityReference,
+                t.Version,
                 t.Name,
                 t.IsFoundation
             });
@@ -62,16 +63,17 @@ namespace NHSD.BuyingCatalogue.Capabilities.Application.UnitTests
         {
             return new List<ICapabilityListResult>
             {
-                GetCapability("Cap1", true),
-                GetCapability("Cap2", false),
-                GetCapability("Cap3", true),
+                GetCapability("C5", "1.0.1", "Cap1", true),
+                GetCapability("C10", "1.0.1", "Cap2", false),
+                GetCapability("C11", "1.0.1", "Cap3", true),
             };
         }
 
-        private static ICapabilityListResult GetCapability(string name, bool isFoundation)
+        private static ICapabilityListResult GetCapability(string capabilityReference, string version, string name, bool isFoundation)
         {
             var capability = new Mock<ICapabilityListResult>();
-            capability.Setup(c => c.Id).Returns(Guid.NewGuid());
+            capability.Setup(c => c.CapabilityReference).Returns(capabilityReference);
+            capability.Setup(c => c.Version).Returns(version);
             capability.Setup(c => c.Name).Returns(name);
             capability.Setup(c => c.IsFoundation).Returns(isFoundation);
             return capability.Object;
