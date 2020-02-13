@@ -31,8 +31,5 @@
         </AssemblyAttribute>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Commands\UpdateEpics\" />
-    </ItemGroup>
 
 </Project>
