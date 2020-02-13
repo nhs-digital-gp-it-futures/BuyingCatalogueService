@@ -21,6 +21,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
         public ISupplierRepository SupplierRepository => _scope.SupplierRepository;
 
+        public ISolutionEpicRepository SolutionEpicRepository => _scope.SolutionEpicRepository;
+
         public IDbConnector DbConnector => _scope.DbConnector;
 
         private readonly Scope _scope;
@@ -54,6 +56,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             public ISupplierRepository SupplierRepository { get; }
 
+            public ISolutionEpicRepository SolutionEpicRepository { get; }
+
             public IDbConnector DbConnector { get; }
 
             public Scope(IMarketingContactRepository marketingContactRepository,
@@ -61,6 +65,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 ISolutionDetailRepository solutionDetailRepository,
                 ISolutionRepository solutionRepository,
                 ISupplierRepository supplierRepository,
+                ISolutionEpicRepository solutionEpicRepository,
                 IDbConnector dbConnector)
             {
                 MarketingContactRepository = marketingContactRepository;
@@ -68,6 +73,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 SolutionDetailRepository = solutionDetailRepository;
                 SolutionRepository = solutionRepository;
                 SupplierRepository = supplierRepository;
+                SolutionEpicRepository = solutionEpicRepository;
                 DbConnector = dbConnector;
             }
         }

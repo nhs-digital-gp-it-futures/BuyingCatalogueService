@@ -41,7 +41,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         Task<IClientApplicationResult> GetClientApplicationBySolutionIdAsync(string solutionId, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Update the hosting details for a solution
+        /// UpdateAsync the hosting details for a solution
         /// </summary>
         /// <param name="updateSolutionHostingRequest">The updated details of solution hosting to save to the data store</param>
         /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
@@ -65,7 +65,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         Task<IRoadMapResult> GetRoadMapBySolutionIdAsync(string solutionId, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Update the roadmap details for a solution
+        /// UpdateAsync the roadmap details for a solution
         /// </summary>
         /// <param name="updateRoadmapRequest">The updated details of solution roadmap to save to the data store</param>
         /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
@@ -81,7 +81,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         Task<IIntegrationsResult> GetIntegrationsBySolutionIdAsync(string solutionId, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Update the integrations details for a solution
+        /// UpdateAsync the integrations details for a solution
         /// </summary>
         /// <param name="updateIntegrationsRequest">The updated details of solution integrations to save to the data store</param>
         /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
@@ -97,7 +97,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         Task<IImplementationTimescalesResult> GetImplementationTimescalesBySolutionIdAsync(string solutionId, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Update the implementation timescales details for a solution
+        /// UpdateAsync the implementation timescales details for a solution
         /// </summary>
         /// <param name="updateImplementationTimescalesRequest">The updated details of solution implementation timescales to save to the data store</param>
         /// <param name="cancellationToken">A token to notify if the task is cancelled</param>

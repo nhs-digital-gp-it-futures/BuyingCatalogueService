@@ -16,7 +16,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence
             serviceCollection.AddTransient<ISupplierRepository, SupplierRepository>();
             serviceCollection.AddHttpClient<IDocumentsAPIClient, DocumentsAPIClient>();
             serviceCollection.AddTransient<IDocumentRepository, DocumentRepository>();
-            
+            serviceCollection.AddTransient<ISolutionEpicRepository, SolutionEpicRepository>();
+
             return serviceCollection;
         }
     }
