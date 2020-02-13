@@ -4,7 +4,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence.Epics
 {
-    internal sealed class UpdateClaimedEpicRequest : IUpdateClaimedRequest
+    internal sealed class UpdateClaimedEpicRequest : IUpdateClaimedEpicListRequest
     {
         public IEnumerable<IClaimedEpicResult> ClaimedEpics { get; internal set; }
 

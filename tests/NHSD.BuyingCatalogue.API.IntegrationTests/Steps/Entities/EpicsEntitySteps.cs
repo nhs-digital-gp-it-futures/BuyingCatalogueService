@@ -50,7 +50,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         {
             foreach (var row in table.CreateSet<SolutionClaimedEpicTable>())
             {
-                var epics = await SolutionEpicEntity.FetchForSolutionAsync(row.SolutionId)
+                var epics = await SolutionEpicEntity.FetchAllEpicIdsForSolutionAsync(row.SolutionId)
                     .ConfigureAwait(false);
 
                 epics.Should().BeEquivalentTo(row.EpicId);

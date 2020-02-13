@@ -44,7 +44,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             validationModel.Setup(s => s.IsValid).Returns(true);
 
             _mockMediator
-                .Setup(m => m.Send(It.Is<UpdateClaimedEpicsCommand>(e => e.SolutionId == SolutionId),
+                .Setup(m => m.Send(It.IsAny<UpdateClaimedEpicsCommand>(),
                     It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result = (await _controller.UpdateAsync(SolutionId, viewModel).ConfigureAwait(false)) as NoContentResult;
@@ -52,7 +52,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             _mockMediator.Verify(
                 m => m.Send(It.Is<UpdateClaimedEpicsCommand>(e => e.SolutionId == SolutionId),
-                    It.IsAny<CancellationToken>()));
+                    It.IsAny<CancellationToken>()), Times.Once);
+
         }
     }
 }
