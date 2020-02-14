@@ -12,7 +12,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
 
         public ResponseValidationSteps(Response response) => _response = response;
 
-        [Then(@"the (.*) field value is the validation failure (required|maxLength|capabilityInvalid)")]
+        [Then(@"the (.*) field value is the validation failure (required|maxLength|capabilityInvalid|epicsInvalid)")]
         public async Task ThenTheFieldContainsValidationResult(string token, string validationError)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);

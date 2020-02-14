@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -21,8 +21,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         private const string SupplierId = "Sup 1";
 
         private const string StatusPassed = "Passed";
+        private const string InvalidStatus = "Unknown";
 
         private ISolutionEpicRepository _solutionEpicRepository;
+        private IEpicRepository _epicRepository;
+        private ISolutionEpicStatusRepository _solutionEpicStatusRepository;
 
         private static readonly List<CapabilityEntity> _capDetails = new List<CapabilityEntity>
         {
@@ -56,6 +59,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             TestContext testContext = new TestContext();
             _solutionEpicRepository = testContext.SolutionEpicRepository;
+            _epicRepository = testContext.EpicRepository;
+            _solutionEpicStatusRepository = testContext.SolutionEpicStatusRepository;
         }
 
         [Test]
@@ -109,6 +114,44 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             Assert.ThrowsAsync<ArgumentNullException>(() =>
                 _solutionEpicRepository.UpdateSolutionEpicAsync(Solution1Id, null, new CancellationToken()));
+        }
+
+        [Test]
+        public async Task ValidateIfNoEpicsExistAndStatusValidationThenCountIsZero()
+        {
+            var epics = new List<IClaimedEpicResult>
+            {
+                Mock.Of<IClaimedEpicResult>(e => e.EpicId == _epicDetails[0].Id && e.StatusName == StatusPassed)
+            };
+            var epicIdCount = await _epicRepository.GetMatchingEpicIdsAsync(epics.Select(x => x.EpicId), It.IsAny<CancellationToken>())
+                .ConfigureAwait(false);
+
+            var epicStatusNameCount = await _solutionEpicStatusRepository.GetMatchingEpicStatusAsync(epics.Select(x => x.StatusName), It.IsAny<CancellationToken>())
+                .ConfigureAwait(false);
+
+            epicIdCount.Should().Be(0);
+            epicStatusNameCount.Should().Be(1);
+        }
+
+        [Test]
+        public async Task ValidateIfEpicsExistButStatusDoesNotExist()
+        {
+            await InsertCapabilityAsync(_capDetails[0]).ConfigureAwait(false);
+            await InsertEpicAsync(_epicDetails[0]).ConfigureAwait(false);
+
+            var epics = new List<IClaimedEpicResult>
+            {
+                Mock.Of<IClaimedEpicResult>(e => e.EpicId == _epicDetails[0].Id && e.StatusName == InvalidStatus)
+            };
+
+            var epicIdCount = await _epicRepository.GetMatchingEpicIdsAsync(epics.Select(x => x.EpicId), It.IsAny<CancellationToken>())
+                .ConfigureAwait(false);
+
+            var epicStatusNameCount = await _solutionEpicStatusRepository.GetMatchingEpicStatusAsync(epics.Select(x => x.StatusName), It.IsAny<CancellationToken>())
+                .ConfigureAwait(false);
+
+            epicIdCount.Should().Be(1);
+            epicStatusNameCount.Should().Be(0);
         }
 
         private async Task InsertCapabilityAsync(CapabilityEntity capabilityEntity)

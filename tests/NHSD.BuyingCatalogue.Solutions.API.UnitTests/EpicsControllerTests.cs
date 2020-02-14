@@ -55,5 +55,38 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     It.IsAny<CancellationToken>()), Times.Once);
 
         }
+
+        [Test]
+        public async Task ShouldUpdateValidationInvalid()
+        {
+            HashSet<ClaimedEpicViewModel> claimedEpics = new HashSet<ClaimedEpicViewModel>()
+            {
+                new ClaimedEpicViewModel()
+                {
+                    EpicId = "Test",
+                    StatusName = "Unknown"
+                }
+            };
+
+            var viewModel = new UpdateEpicsViewModel { ClaimedEpics = claimedEpics };
+            var validationModel = new Mock<ISimpleResult>();
+            validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "epics", "epicsInvalid" } });
+            validationModel.Setup(s => s.IsValid).Returns(false);
+
+            _mockMediator
+                .Setup(m => m.Send(It.Is<UpdateClaimedEpicsCommand>(e => e.SolutionId == SolutionId),
+                    It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
+
+            var result = (await _controller.UpdateAsync(SolutionId, viewModel).ConfigureAwait(false)) as BadRequestObjectResult;
+            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+
+            var resultValue = result.Value as Dictionary<string, string>;
+            resultValue.Count.Should().Be(1);
+            resultValue["epics"].Should().Be("epicsInvalid");
+
+            _mockMediator.Verify(
+                m => m.Send(It.Is<UpdateClaimedEpicsCommand>(e => e.SolutionId == SolutionId),
+                    It.IsAny<CancellationToken>()), Times.Once);
+        }
     }
 }

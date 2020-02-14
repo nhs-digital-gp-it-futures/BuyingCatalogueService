@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using AutoMapper;
 using MediatR;
@@ -70,6 +70,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
         public Mock<IDocumentRepository> MockDocumentRepository { get; private set; }
 
         public Mock<ISolutionEpicRepository> MockSolutionEpicRepository { get; private set; }
+
+        public Mock<IEpicRepository> MockEpicRepository { get; private set; }
+
+        public Mock<ISolutionEpicStatusRepository> MockSolutionEpicStatusRepository { get; private set; }
 
         public GetSolutionByIdHandler GetSolutionByIdHandler => (GetSolutionByIdHandler)_scope.GetSolutionByIdHandler;
 
@@ -217,6 +221,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             serviceCollection.AddSingleton(MockDocumentRepository.Object);
             MockSolutionEpicRepository = new Mock<ISolutionEpicRepository>();
             serviceCollection.AddSingleton(MockSolutionEpicRepository.Object);
+            MockEpicRepository = new Mock<IEpicRepository>();
+            serviceCollection.AddSingleton(MockEpicRepository.Object); 
+            MockSolutionEpicStatusRepository = new Mock<ISolutionEpicStatusRepository>();
+            serviceCollection.AddSingleton(MockSolutionEpicStatusRepository.Object);
         }
 
         private class Scope
