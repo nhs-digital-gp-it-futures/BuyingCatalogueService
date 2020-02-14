@@ -99,9 +99,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             var solutionEpics = (await SolutionEpicEntity.FetchAllEpicIdsForSolutionAsync(Solution1Id).ConfigureAwait(false)).ToList();
             solutionEpics.Count().Should().Be(2);
-            solutionEpics.Should().BeEquivalentTo(_epicDetails.Select(ed=>ed.Id),
+            solutionEpics.Should().BeEquivalentTo(_epicDetails.Select(ed => ed.Id),
                 options => options.WithoutStrictOrdering());
-            
+
         }
 
         [Test]

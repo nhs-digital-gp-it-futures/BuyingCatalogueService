@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures

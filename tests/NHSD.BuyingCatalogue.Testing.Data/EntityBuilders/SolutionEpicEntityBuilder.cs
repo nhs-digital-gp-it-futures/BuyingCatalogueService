@@ -13,6 +13,16 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             return new SolutionEpicEntityBuilder();
         }
 
+        /// <summary>
+        /// Status Enum from Integration test reference data:
+        ///     tests\NHSD.BuyingCatalogue.Testing.Data\SqlResources\ReferenceData.sql
+        /// </summary>
+        public enum SolutionEpicStatus
+        {
+            Passed=1,
+            NotEvidenced=2
+        }
+
         public SolutionEpicEntityBuilder()
         {
             //Default
@@ -42,10 +52,10 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             _solutionEpicEntity.EpicId = epicId;
             return this;
         }
-
-        public SolutionEpicEntityBuilder WithStatusId(int statusId)
+        
+        public SolutionEpicEntityBuilder WithStatus(SolutionEpicStatus status)
         {
-            _solutionEpicEntity.StatusId = statusId;
+            _solutionEpicEntity.StatusId = (int)status;
             return this;
         }
 

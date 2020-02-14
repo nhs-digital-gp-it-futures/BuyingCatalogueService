@@ -10,9 +10,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateClaimedEpics
     {
         public string SolutionId { get; }
 
-        public HashSet<IClaimedEpic> Data { get; }
+        public IEnumerable<IClaimedEpic> Data { get; }
 
-        public UpdateClaimedEpicsCommand(string solutionId, HashSet<IClaimedEpic> data)
+        public UpdateClaimedEpicsCommand(string solutionId, IEnumerable<IClaimedEpic> data)
         {
             SolutionId = solutionId.ThrowIfNull(nameof(solutionId));
 

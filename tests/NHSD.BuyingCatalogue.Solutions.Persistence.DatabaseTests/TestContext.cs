@@ -11,9 +11,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 {
     internal class TestContext
     {
+        private readonly Scope _scope;
         public IMarketingContactRepository MarketingContactRepository => _scope.MarketingContactRepository;
 
         public ISolutionCapabilityRepository SolutionCapabilityRepository => _scope.SolutionCapabilityRepository;
+        public ISolutionEpicRepository SolutionEpicRepository => _scope.SolutionEpicRepository;
 
         public ISolutionDetailRepository SolutionDetailRepository => _scope.SolutionDetailRepository;
 
@@ -21,11 +23,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
         public ISupplierRepository SupplierRepository => _scope.SupplierRepository;
 
-        public ISolutionEpicRepository SolutionEpicRepository => _scope.SolutionEpicRepository;
-
         public IDbConnector DbConnector => _scope.DbConnector;
-
-        private readonly Scope _scope;
 
         public TestContext()
         {
@@ -43,12 +41,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             _scope = serviceCollection.BuildServiceProvider().GetService<Scope>();
         }
-        
+
         private class Scope
         {
             public IMarketingContactRepository MarketingContactRepository { get; }
 
             public ISolutionCapabilityRepository SolutionCapabilityRepository { get; }
+            public ISolutionEpicRepository SolutionEpicRepository { get; }
 
             public ISolutionDetailRepository SolutionDetailRepository { get; }
 
@@ -56,24 +55,22 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             public ISupplierRepository SupplierRepository { get; }
 
-            public ISolutionEpicRepository SolutionEpicRepository { get; }
-
             public IDbConnector DbConnector { get; }
 
             public Scope(IMarketingContactRepository marketingContactRepository,
                 ISolutionCapabilityRepository solutionCapabilityRepository,
+                ISolutionEpicRepository solutionEpicRepository,
                 ISolutionDetailRepository solutionDetailRepository,
                 ISolutionRepository solutionRepository,
                 ISupplierRepository supplierRepository,
-                ISolutionEpicRepository solutionEpicRepository,
                 IDbConnector dbConnector)
             {
                 MarketingContactRepository = marketingContactRepository;
                 SolutionCapabilityRepository = solutionCapabilityRepository;
+                SolutionEpicRepository = solutionEpicRepository;
                 SolutionDetailRepository = solutionDetailRepository;
                 SolutionRepository = solutionRepository;
                 SupplierRepository = supplierRepository;
-                SolutionEpicRepository = solutionEpicRepository;
                 DbConnector = dbConnector;
             }
         }

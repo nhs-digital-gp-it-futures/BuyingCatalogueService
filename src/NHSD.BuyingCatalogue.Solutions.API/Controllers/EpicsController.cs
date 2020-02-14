@@ -50,7 +50,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       public async Task<ActionResult> UpdateAsync([FromRoute] [Required] string id,
           [FromBody] [Required] UpdateEpicsViewModel viewModel) =>
-          (await _mediator.Send(new UpdateClaimedEpicsCommand(id, new HashSet<IClaimedEpic>(viewModel?.ClaimedEpics)))
+          (await _mediator.Send(new UpdateClaimedEpicsCommand(id, viewModel?.ClaimedEpics))
               .ConfigureAwait(false)).ToActionResult();
     }
 }

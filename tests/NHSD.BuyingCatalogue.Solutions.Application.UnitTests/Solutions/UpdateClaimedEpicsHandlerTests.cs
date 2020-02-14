@@ -15,10 +15,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
     [TestFixture]
     public sealed class UpdateClaimedEpicsHandlerTests
     {
-        private TestContext _context;
-
         private const string ValidSolutionId = "Sln1";
         private const string InvalidSolutionId = "Sln123";
+        private TestContext _context;
 
         [SetUp]
         public void Setup()
@@ -28,7 +27,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 .ReturnsAsync(true);
             _context.MockSolutionRepository.Setup(x => x.CheckExists(InvalidSolutionId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(false);
-
         }
 
         [Test]

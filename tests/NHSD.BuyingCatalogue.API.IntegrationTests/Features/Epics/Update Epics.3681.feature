@@ -22,7 +22,7 @@ Background:
 		| Epic2 | C2            |
 		| Epic3 | C3            |
 	And Solutions are linked to Epics
-		| SolutionId | EpicId       |
+		| SolutionId | EpicIds       |
 		| Sln2       | Epic2, Epic3 |
 
 @3681
@@ -32,7 +32,7 @@ Scenario: 1. An Epic is added to a solution which has no claimed epics
 		| Epic1  | Passed     |
 	Then a successful response is returned
 	Then Solutions claim only these Epics
-		| SolutionId | EpicId       |
+		| SolutionId | EpicIds      |
 		| Sln1       | Epic1        |
 		| Sln2       | Epic2, Epic3 |
 
@@ -43,8 +43,8 @@ Scenario: 2. A Epic is imported for a solution, which overrides the existing set
 		| Epic1  | Passed     |
 	Then a successful response is returned
 	Then Solutions claim only these Epics
-		| SolutionId | EpicId |
-		| Sln2       | Epic1  |
+		| SolutionId | EpicIds |
+		| Sln2       | Epic1   |
 
 Scenario: 3. A set of claimed epics are set for a solution
 	When a PUT request is made to update a epics section for solution Sln1
@@ -53,7 +53,7 @@ Scenario: 3. A set of claimed epics are set for a solution
 		| Epic2  | Not Evidenced |
 	Then a successful response is returned
 	Then Solutions claim only these Epics
-		| SolutionId | EpicId       |
+		| SolutionId | EpicIds      |
 		| Sln1       | Epic1, Epic2 |
 		| Sln2       | Epic2, Epic3 |
 
@@ -64,6 +64,6 @@ Scenario: 4. A set of claimed epics is set for a solution, which overrides the e
 		| Epic3  | Passed     |
 	Then a successful response is returned
 	Then Solutions claim only these Epics
-		| SolutionId | EpicId       |
+		| SolutionId | EpicIds      |
 		| Sln1       |              |
 		| Sln2       | Epic1, Epic3 |

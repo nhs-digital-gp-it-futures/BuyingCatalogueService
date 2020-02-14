@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -48,8 +48,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.Hosting).Returns("{ 'PublicCloud': { 'Summary': 'Some summary', 'Link': 'some link', 'RequiresHSCN': 'It is required' } }");
             existingSolution.Setup(s => s.IsFoundation).Returns(true);
 
-            var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
-            var capabilities2 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap2");
+            var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m =>
+                m.CapabilityId == Guid.NewGuid() &&
+                m.CapabilityName == "cap1" &&
+                m.CapabilityVersion == "1.0" &&
+                m.CapabilityDescription == "cap1 Description" &&
+                m.CapabilitySourceUrl == "http://a.url");
+            var capabilities2 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == Guid.NewGuid() && m.CapabilityName == "cap2");
 
             var mockSupplier = Mock.Of<ISupplierResult>(m =>
                 m.Name == "supplier name" && m.Summary == "supplier summary" && m.Url == "supplierUrl");
@@ -59,7 +64,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             mockDocument.Setup(s => s.IntegrationDocumentName).Returns("Integration.pdf");
 
             _context.MockSolutionCapabilityRepository
-                .Setup(r => r.ListSolutionCapabilities("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new []{capabilities1, capabilities2});
+                .Setup(r => r.ListSolutionCapabilitiesAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new []{capabilities1, capabilities2});
             var expectedContact = Mock.Of<IMarketingContactResult>(c =>
                 c.Id == 1 &&
                 c.SolutionId == "Sln1" &&
@@ -139,10 +144,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 .BeEquivalentTo(
                     new[]
                     {
-                        Mock.Of<IClaimedCapability>(cc => cc.Name == "cap1"),
+                        Mock.Of<IClaimedCapability>(cc => cc.Name == "cap1" &&
+                                                          cc.Version == "1.0" &&
+                                                          cc.Description == "cap1 Description" &&
+                                                          cc.Link == "http://a.url"),
                         Mock.Of<IClaimedCapability>(cc => cc.Name == "cap2")
-                    }, config => config.ComparingByMembers<IClaimedCapability>());
-
+                    }, config => config.ComparingByMembers<IClaimedCapability>().WithoutStrictOrdering());
 
             solution.Contacts.Count().Should().Be(1);
             var contact = solution.Contacts.Single();
@@ -237,10 +244,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.ImplementationTimescales).Returns((string)null);
             existingSolution.Setup(s => s.ClientApplication).Returns((string)null);
 
-            var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
+            var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == Guid.NewGuid() && m.CapabilityName == "cap1");
 
             _context.MockSolutionCapabilityRepository
-                .Setup(r => r.ListSolutionCapabilities("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new[] { capabilities1 });
+                .Setup(r => r.ListSolutionCapabilitiesAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new[] { capabilities1 });
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
@@ -305,12 +312,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.IntegrationsUrl).Returns((string)null);
             existingSolution.Setup(s => s.ImplementationTimescales).Returns((string)null);
 
-            var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
-            var capabilities2 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap2");
-            var capabilities3 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap3");
+            var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == Guid.NewGuid() && m.CapabilityName == "cap1");
+            var capabilities2 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == Guid.NewGuid() && m.CapabilityName == "cap2");
+            var capabilities3 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == Guid.NewGuid() && m.CapabilityName == "cap3");
 
             _context.MockSolutionCapabilityRepository
-                .Setup(r => r.ListSolutionCapabilities("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new[] { capabilities1, capabilities2, capabilities3 });
+                .Setup(r => r.ListSolutionCapabilitiesAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new[] { capabilities1, capabilities2, capabilities3 });
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
@@ -370,7 +377,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             };
 
             var solution = new Solution(existingSolution, new List<ISolutionCapabilityListResult>(),
-                existingMarketingContactResult, existingSupplier,null);
+                existingMarketingContactResult, existingSupplier,null,null);
 
             solution.LastUpdated.Should().Be(dateTimeExpected);
         }
@@ -386,7 +393,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var existingSupplier = Mock.Of<ISupplierResult>();
 
             var solution = new Solution(existingSolution, new List<ISolutionCapabilityListResult>(),
-                new List<IMarketingContactResult>(), existingSupplier, null);
+                new List<IMarketingContactResult>(), existingSupplier, null,null);
 
             solution.LastUpdated.Should().Be(dateTimeExpected);
         }
@@ -407,10 +414,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.ImplementationTimescales).Returns((string)null);
             existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Chrome', 'Edge' ], 'MobileResponsive': true, 'Plugins' : {'Required' : false, 'AdditionalInformation': null }, 'MobileFirstDesign': false, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows'], 'OperatingSystemsDescription': null }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileThirdParty': { 'ThirdPartyComponents': 'Component' }, 'NativeDesktopMinimumConnectionSpeed': '3 Mbps', 'NativeDesktopThirdParty': { 'ThirdPartyComponents': 'New Components' }, 'NativeDesktopMemoryAndStorage': { 'MinimumMemoryRequirement': '512MB', 'StorageRequirementsDescription': '1024GB', 'MinimumCpu': '3.4GHz' } }");
             existingSolution.Setup(s => s.IsFoundation).Returns(false);
-            var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
+            var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == Guid.NewGuid() && m.CapabilityName == "cap1");
 
             _context.MockSolutionCapabilityRepository
-                .Setup(r => r.ListSolutionCapabilities("Sln1", It.IsAny<CancellationToken>()))
+                .Setup(r => r.ListSolutionCapabilitiesAsync("Sln1", It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new[] {capabilities1});
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
@@ -499,13 +506,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             existingSolution.Setup(s => s.ImplementationTimescales).Returns((string)null);
             existingSolution.Setup(s => s.ClientApplication).Returns((string)null);
 
-            var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == new Guid() && m.CapabilityName == "cap1");
+            var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == Guid.NewGuid() && m.CapabilityName == "cap1");
 
             var mockSupplier = Mock.Of<ISupplierResult>(m =>
                 m.Name == "supplier name" && m.Summary == "supplier summary" && m.Url == "supplierUrl");
 
             _context.MockSolutionCapabilityRepository
-                .Setup(r => r.ListSolutionCapabilities("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new[] { capabilities1 });
+                .Setup(r => r.ListSolutionCapabilitiesAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new[] { capabilities1 });
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
             _context.MockSupplierRepository.Setup(r => r.GetSupplierBySolutionIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(mockSupplier);
@@ -568,6 +575,95 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             Assert.ThrowsAsync<NotFoundException>(() =>
                 _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken()));
+
+            _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+        }
+
+        [Test]
+        public async Task ShouldGetPartialSolutionWithCapabilitiesAndEpicsById()
+        {
+            var existingSolution = new Mock<ISolutionResult>();
+            existingSolution.Setup(s => s.Id).Returns("Sln1");
+            existingSolution.Setup(s => s.Name).Returns("Name");
+
+            var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == Guid.NewGuid() &&
+                                                                            m.CapabilityName == "cap1" &&
+                                                                            m.CapabilityVersion == "1.0" &&
+                                                                            m.CapabilityDescription == "cap1 desc" &&
+                                                                            m.CapabilitySourceUrl == "http://cap1.url");
+            var capabilities2 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == Guid.NewGuid() && m.CapabilityName == "cap2");
+
+            var epic1 = Mock.Of<ISolutionEpicListResult>(e =>
+                e.EpicId == "C1E1" &&
+                e.CapabilityId == capabilities1.CapabilityId &&
+                e.EpicName == "Epic 1" &&
+                e.EpicCompliancyLevel == "MUST" &&
+                e.IsMet == true);
+            var epic2 = Mock.Of<ISolutionEpicListResult>(e =>
+                e.EpicId == "C1E2" &&
+                e.CapabilityId == capabilities1.CapabilityId &&
+                e.EpicName == "Epic 2" &&
+                e.EpicCompliancyLevel == "MAY" &&
+                e.IsMet == true);
+            var epic3 = Mock.Of<ISolutionEpicListResult>(e =>
+                e.EpicId == "C1E3" &&
+                e.CapabilityId == capabilities1.CapabilityId &&
+                e.EpicName == "Epic 3" &&
+                e.EpicCompliancyLevel == "MUST" &&
+                e.IsMet == false);
+            var epic4 = Mock.Of<ISolutionEpicListResult>(e =>
+                e.EpicId == "C1E4" &&
+                e.CapabilityId == capabilities1.CapabilityId &&
+                e.EpicName == "Epic 4" &&
+                e.EpicCompliancyLevel == "MAY" &&
+                e.IsMet == false);
+
+            _context.MockSolutionCapabilityRepository
+                .Setup(r => r.ListSolutionCapabilitiesAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new[] { capabilities1, capabilities2 });
+
+            _context.MockSolutionEpicRepository
+                .Setup(r => r.ListSolutionEpicsAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new[] { epic1, epic2, epic3, epic4 });
+
+            _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
+
+            var solution = await _context.GetSolutionByIdHandler.Handle(new GetSolutionByIdQuery("Sln1"), new CancellationToken()).ConfigureAwait(false);
+
+            solution.Id.Should().Be("Sln1");
+            solution.Name.Should().Be("Name");
+            
+            solution.Capabilities.Should().HaveCount(2);
+            solution.Capabilities.Should()
+                .BeEquivalentTo(
+                    new[]
+                    {
+                        Mock.Of<IClaimedCapability>(cc => cc.Name == "cap1" &&
+                                                          cc.Version == "1.0" &&
+                                                          cc.Description == "cap1 desc" &&
+                                                          cc.Link == "http://cap1.url" &&
+                                                          cc.ClaimedEpics == new[]
+                                                          {
+                                                              Mock.Of<IClaimedCapabilityEpic>( e=> e.EpicId == "C1E1" &&
+                                                                                                   e.EpicName == "Epic 1" &&
+                                                                                                   e.IsMet == true &&
+                                                                                                   e.EpicCompliancyLevel == "MUST"),
+                                                              Mock.Of<IClaimedCapabilityEpic>( e=> e.EpicId == "C1E2" &&
+                                                                                                   e.EpicName == "Epic 2" &&
+                                                                                                   e.IsMet == true &&
+                                                                                                   e.EpicCompliancyLevel == "MAY"),
+                                                              Mock.Of<IClaimedCapabilityEpic>( e=> e.EpicId == "C1E3" &&
+                                                                                                   e.EpicName == "Epic 3" &&
+                                                                                                   e.IsMet == false &&
+                                                                                                   e.EpicCompliancyLevel == "MUST"),
+                                                              Mock.Of<IClaimedCapabilityEpic>( e=> e.EpicId == "C1E4" &&
+                                                                                                   e.EpicName == "Epic 4" &&
+                                                                                                   e.IsMet == false &&
+                                                                                                   e.EpicCompliancyLevel == "MAY")
+                                                          }),
+                        Mock.Of<IClaimedCapability>(cc => cc.Name == "cap2")
+                    }, config => config.ComparingByMembers<IClaimedCapability>());
+
+
+            solution.Contacts.Count().Should().Be(0);
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
