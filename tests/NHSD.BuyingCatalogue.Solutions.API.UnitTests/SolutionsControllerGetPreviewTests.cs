@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -1008,44 +1008,44 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         private static IEnumerable<(IClaimedCapability, ClaimedCapabilitySection)> GetClaimedCapabilityTestData()
         {
             var data = new List<(IClaimedCapability, ClaimedCapabilitySection)>();
-            for (int i = 1; i <= 5; i++)
+            for (int index = 1; index <= 5; index++)
             {
-                var capabilityNumber = i;
+                var capabilityNumber = index;
                 var claimedEpics = new[]
                 {
                     Mock.Of<IClaimedCapabilityEpic>(ce=>
-                        ce.EpicId == $"{capabilityNumber}E1" &&
-                        ce.EpicName == $"Cap {capabilityNumber} Epic 1 Name" &&
-                        ce.IsMet == true &&
-                        ce.EpicCompliancyLevel == "MUST"
+                        ce.EpicId == $"{capabilityNumber}E1" 
+                        && ce.EpicName == $"Cap {capabilityNumber} Epic 1 Name" 
+                        && ce.IsMet == true
+                        && ce.EpicCompliancyLevel == "MUST"
                     ),
                     Mock.Of<IClaimedCapabilityEpic>(ce=>
-                        ce.EpicId == $"{capabilityNumber}E2" &&
-                        ce.EpicName == $"Cap {capabilityNumber} Epic 2 Name" &&
-                        ce.IsMet == true &&
-                        ce.EpicCompliancyLevel == "MAY"
+                        ce.EpicId == $"{capabilityNumber}E2" 
+                        && ce.EpicName == $"Cap {capabilityNumber} Epic 2 Name" 
+                        && ce.IsMet == true 
+                        && ce.EpicCompliancyLevel == "MAY"
                     ),
                     Mock.Of<IClaimedCapabilityEpic>(ce=>
-                        ce.EpicId == $"{capabilityNumber}E3" &&
-                        ce.EpicName == $"Cap {capabilityNumber} Epic 3 Name" &&
-                        ce.IsMet == false &&
-                        ce.EpicCompliancyLevel == "MUST"
+                        ce.EpicId == $"{capabilityNumber}E3" 
+                        && ce.EpicName == $"Cap {capabilityNumber} Epic 3 Name" 
+                        && ce.IsMet == false 
+                        && ce.EpicCompliancyLevel == "MUST"
                     ),
                     Mock.Of<IClaimedCapabilityEpic>(ce=>
-                        ce.EpicId == $"{capabilityNumber}E4" &&
-                        ce.EpicName == $"Cap {capabilityNumber} Epic 4 Name" &&
-                        ce.IsMet == false &&
-                        ce.EpicCompliancyLevel == "MAY"
+                        ce.EpicId == $"{capabilityNumber}E4" 
+                        && ce.EpicName == $"Cap {capabilityNumber} Epic 4 Name" 
+                        && ce.IsMet == false 
+                        && ce.EpicCompliancyLevel == "MAY"
                     )
                 };
 
-                var ccMock = Mock.Of<IClaimedCapability>(
-                    cc => cc.Name == $"Capability {capabilityNumber}" &&
-                          cc.Version == $"Version {capabilityNumber}" &&
-                          cc.Description == $"Description {capabilityNumber}" &&
-                          cc.Link == $"http://Capability.Link/{capabilityNumber}" &&
-                          cc.ClaimedEpics == claimedEpics);
-                data.Add((ccMock, new ClaimedCapabilitySection(ccMock)));
+                var claimedCapabilityMock = Mock.Of<IClaimedCapability>(
+                    cc => cc.Name == $"Capability {capabilityNumber}" 
+                          && cc.Version == $"Version {capabilityNumber}" 
+                          && cc.Description == $"Description {capabilityNumber}" 
+                          && cc.Link == $"http://Capability.Link/{capabilityNumber}" 
+                          && cc.ClaimedEpics == claimedEpics);
+                data.Add((claimedCapabilityMock, new ClaimedCapabilitySection(claimedCapabilityMock)));
             }
 
             return data;
