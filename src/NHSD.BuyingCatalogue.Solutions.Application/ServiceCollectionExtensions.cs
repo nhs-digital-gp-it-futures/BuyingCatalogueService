@@ -179,7 +179,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<IExecutor<UpdateClaimedEpicsCommand>, UpdateClaimedEpicsExecutor>()
                 .AddTransient<IValidator<UpdateClaimedEpicsCommand, ISimpleResult>, UpdateClaimedEpicsValidator>()
 
-                .AddTransient<IVerifier<UpdateClaimedEpicsCommand, ISimpleResult>, EpicsVerifier>()
+                .AddTransient<IVerifier<UpdateClaimedEpicsCommand, ISimpleResult>, ClaimedEpicsVerifier>()
                 ;
         }
     }
