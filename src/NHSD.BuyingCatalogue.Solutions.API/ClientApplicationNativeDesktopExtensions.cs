@@ -1,4 +1,4 @@
-using NHSD.BuyingCatalogue.Solutions.Contracts;
+﻿using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API
 {
