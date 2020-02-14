@@ -62,7 +62,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                         ce.IsMet == false &&
                         ce.EpicCompliancyLevel == "MAY"
                     )
-
                 };
 
                 var ccMock = Mock.Of<IClaimedCapability>(
