@@ -52,10 +52,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
             var epicIdsCount = await _epicRepository
                 .GetMatchingEpicIdsAsync(epics.Select(x => x.EpicId), cancellationToken).ConfigureAwait(false);
 
-            var statusNameCount = await _solutionEpicStatusRepository
-                .GetMatchingEpicStatusAsync(epics.Select(x => x.StatusName), cancellationToken).ConfigureAwait(false);
+            IEnumerable<string> uniqueStatusNameList = epics.Select(x => x.StatusName).Distinct().ToList();
 
-            return epicIdsCount == epics.ToList().Count && statusNameCount == epics.ToList().Count;
+            var statusNameCount = await _solutionEpicStatusRepository
+                .GetMatchingEpicStatusAsync(uniqueStatusNameList, cancellationToken).ConfigureAwait(false);
+
+            return epicIdsCount == epics.ToList().Count && statusNameCount == uniqueStatusNameList.Count();
         }
 
         public bool CheckNoDuplicateEpicIds(IEnumerable<string> epicIds)
