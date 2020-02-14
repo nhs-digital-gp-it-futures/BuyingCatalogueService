@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -22,6 +22,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
     [TestFixture]
     public sealed class SolutionsControllerGetPublicTests
     {
+        private Mock<IMediator> _mockMediator;
+
+        private SolutionsController _solutionsController;
+
+        private const string SolutionId1 = "Sln1";
+        private const string SolutionId2 = "Sln2";
+
+        private readonly DateTime _lastUpdated = DateTime.Today;
+
         [SetUp]
         public void Setup()
         {
@@ -33,9 +42,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         private static List<(IClaimedCapability, ClaimedCapabilitySection)> GetClaimedCapabilityTestData()
         {
             var data = new List<(IClaimedCapability, ClaimedCapabilitySection)>();
-            for (int i = 1; i <= 5; i++)
+            for (int index = 1; index <= 5; index++)
             {
-                var capabilityNumber = i;
+                var capabilityNumber = index;
                 var claimedEpics = new []
                 {
                     Mock.Of<IClaimedCapabilityEpic>(ce=>
@@ -75,15 +84,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             return data;
         }
-
-        private Mock<IMediator> _mockMediator;
-
-        private SolutionsController _solutionsController;
-
-        private const string SolutionId1 = "Sln1";
-        private const string SolutionId2 = "Sln2";
-
-        private readonly DateTime _lastUpdated = DateTime.Today;
 
         [TestCase(null, null, null, false)]
         [TestCase("Sln2", null, null, false)]

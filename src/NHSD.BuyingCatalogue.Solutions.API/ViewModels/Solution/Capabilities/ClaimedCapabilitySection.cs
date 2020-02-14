@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
@@ -22,7 +22,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Capabilities
             Version = capability.Version.NullIfWhitespace();
             Description = capability.Description.NullIfWhitespace();
             Link = capability.Link.NullIfWhitespace();
-            if (capability?.ClaimedEpics.Any()==true)
+
+            if (capability?.ClaimedEpics.Any() == true)
             {
                 EpicSection = new ClaimedCapabilityEpicSection(capability.ClaimedEpics);
             }

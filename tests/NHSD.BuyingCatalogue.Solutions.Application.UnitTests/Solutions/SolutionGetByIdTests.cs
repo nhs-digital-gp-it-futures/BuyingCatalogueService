@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -150,7 +150,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                                                           cc.Link == "http://a.url"),
                         Mock.Of<IClaimedCapability>(cc => cc.Name == "cap2")
                     }, config => config.ComparingByMembers<IClaimedCapability>().WithoutStrictOrdering());
-
 
             solution.Contacts.Count().Should().Be(1);
             var contact = solution.Contacts.Single();
@@ -580,7 +579,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
         }
 
-
         [Test]
         public async Task ShouldGetPartialSolutionWithCapabilitiesAndEpicsById()
         {
@@ -624,7 +622,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 .Setup(r => r.ListSolutionCapabilitiesAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new[] { capabilities1, capabilities2 });
 
             _context.MockSolutionEpicRepository
-                .Setup(r => r.ListSolutionEpicsAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new[] { epic1, epic2,epic3,epic4 });
+                .Setup(r => r.ListSolutionEpicsAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new[] { epic1, epic2, epic3, epic4 });
 
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 

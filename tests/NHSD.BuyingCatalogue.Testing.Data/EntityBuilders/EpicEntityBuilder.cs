@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
@@ -6,12 +6,11 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
     public sealed class EpicEntityBuilder
     {
         private readonly EpicEntity _epicEntity;
-        private readonly int _compliancyLevelId = 1;
 
         public enum CompliancyLevel
         {
             May = 1,
-            Must= 2
+            Must = 2
         }
 
         public static EpicEntityBuilder Create()
@@ -21,15 +20,13 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 
         public EpicEntityBuilder()
         {
-            var random = new Random();
-
-            _epicEntity = new EpicEntity()
+            _epicEntity = new EpicEntity
             {
                 Id = "Default Epic",
                 Name = "Name",
                 CapabilityId = Guid.NewGuid(),
                 SourceUrl = "url",
-                CompliancyLevelId = _compliancyLevelId,
+                CompliancyLevelId = (int)CompliancyLevel.May,
                 Active = false
             };
         }
