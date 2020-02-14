@@ -31,7 +31,7 @@ Background:
         | Sln1       | C1E2,C1E4      | NotEvidenced |
         | Sln2       | C1E5           | NotEvidenced |
 
-@3507
+@3681
 Scenario: 1. Sections presented where Epics exist
 	When a GET request is made for solution preview Sln1
 	Then a successful response is returned
@@ -57,7 +57,7 @@ Scenario: 1. Sections presented where Epics exist
         | capabilities | capabilities-met[0].epic.may.met      | 1     |
         | capabilities | capabilities-met[0].epic.may.not-met  | 1     |
 
-@3507
+@3681
 Scenario: 2. Sections not presented where no Epics exist
 	When a GET request is made for solution preview Sln2
 	Then a successful response is returned

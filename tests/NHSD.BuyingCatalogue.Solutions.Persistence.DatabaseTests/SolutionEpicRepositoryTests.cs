@@ -23,14 +23,23 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         private const string StatusPassed = "Passed";
 
         private ISolutionEpicRepository _solutionEpicRepository;
-        private Guid _capabilityGuid;
-        
+
+        private static readonly List<CapabilityEntity> _capDetails = new List<CapabilityEntity>
+        {
+            CapabilityEntityBuilder.Create().WithId(Guid.NewGuid()).WithCapabilityRef("Ref1").Build(),
+            CapabilityEntityBuilder.Create().WithId(Guid.NewGuid()).WithCapabilityRef("Ref2").Build(),
+        };
+
+        private readonly List<EpicEntity> _epicDetails = new List<EpicEntity>()
+        {
+            EpicEntityBuilder.Create().WithId("Epic1").WithCapabilityId(_capDetails[0].Id).Build(),
+            EpicEntityBuilder.Create().WithId("Epic2").WithCapabilityId(_capDetails[1].Id).Build()
+        };
+
         [SetUp]
         public async Task Setup()
         {
             await Database.ClearAsync().ConfigureAwait(false);
-
-            _capabilityGuid = Guid.NewGuid();
 
             await SupplierEntityBuilder.Create()
                 .WithId(SupplierId)
@@ -45,84 +54,54 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .InsertAsync()
                 .ConfigureAwait(false);
 
-            await CapabilityEntityBuilder.Create()
-                .WithId(_capabilityGuid)
-                .WithName("Cap1")
-                .WithDescription("Desc1")
-                .WithVersion("1.0")
-                .WithSourceUrl("http://cap1.link")
-                .WithCapabilityRef("C1")
-                .Build()
-                .InsertAsync()
-                .ConfigureAwait(false);
-
-            await SolutionCapabilityEntityBuilder.Create()
-                .WithCapabilityId(_capabilityGuid)
-                .WithSolutionId(Solution1Id)
-                .Build()
-                .InsertAsync()
-                .ConfigureAwait(false);
-
             TestContext testContext = new TestContext();
             _solutionEpicRepository = testContext.SolutionEpicRepository;
         }
 
         [Test]
-        public async Task NoSolutionsAsync()
+        public async Task UpdateSolutionWithOneEpicAsync()
         {
-            var solutionCapabilityResponse =
-                await _solutionEpicRepository.ListSolutionEpicsAsync(Solution1Id, CancellationToken.None)
-                    .ConfigureAwait(false);
+            await InsertCapabilityAsync(_capDetails[0]).ConfigureAwait(false);
+            await InsertEpicAsync(_epicDetails[0]).ConfigureAwait(false);
 
-            solutionCapabilityResponse.Should().BeEmpty();
+            var expectedClaimedEpic = new List<IClaimedEpicResult>
+            {
+                Mock.Of<IClaimedEpicResult>(e => e.EpicId == _epicDetails[0].Id && e.StatusName == StatusPassed)
+            };
+
+            await _solutionEpicRepository
+                .UpdateSolutionEpicAsync(Solution1Id,
+                    Mock.Of<IUpdateClaimedEpicListRequest>(c => c.ClaimedEpics == expectedClaimedEpic), new CancellationToken()).ConfigureAwait(false);
+
+            var solutionEpics = (await SolutionEpicEntity.FetchAllEpicIdsForSolutionAsync(Solution1Id).ConfigureAwait(false)).ToList();
+            solutionEpics.Count().Should().Be(1);
+            solutionEpics[0].Should().Be(_epicDetails[0].Id);
         }
 
-
         [Test]
-        public async Task ShouldHaveMultipleEpicsAsync()
+        public async Task UpdateSolutionWithMultipleEpicsAsync()
         {
-            var epicDetails = new[]
-            {
-                new
-                {
-                    EpicId = "C1E1",
-                    EpicName = "Epic 1",
-                    EpicCompliancyLevel = EpicEntityBuilder.CompliancyLevel.Must,
-                    SolutionEpicStatus = SolutionEpicEntityBuilder.SolutionEpicStatus.Passed
-                },
-                new
-                {
-                    EpicId = "C1E2",
-                    EpicName = "Epic 2",
-                    EpicCompliancyLevel = EpicEntityBuilder.CompliancyLevel.May,
-                    SolutionEpicStatus = SolutionEpicEntityBuilder.SolutionEpicStatus.NotEvidenced
-                }
-            };
-            var expectedResult = new List<ISolutionEpicListResult>();
-            foreach (var epicDetail in epicDetails)
-            {
-                await InsertEpicAsync(epicDetail.EpicId, epicDetail.EpicName, _capabilityGuid,
-                    epicDetail.EpicCompliancyLevel).ConfigureAwait(false);
-                await InsertSolutionEpicAsync(Solution1Id, _capabilityGuid, epicDetail.EpicId,
-                    epicDetail.SolutionEpicStatus).ConfigureAwait(false);
-                expectedResult.Add(
-                    Mock.Of<ISolutionEpicListResult>(e => e.CapabilityId == _capabilityGuid &&
-                                                          e.EpicId == epicDetail.EpicId &&
-                                                          e.EpicName == epicDetail.EpicName &&
-                                                          e.EpicCompliancyLevel ==
-                                                          Enum.GetName(typeof(EpicEntityBuilder.CompliancyLevel),
-                                                              epicDetail.EpicCompliancyLevel) &&
-                                                          e.IsMet == (epicDetail.SolutionEpicStatus ==
-                                                                      SolutionEpicEntityBuilder.SolutionEpicStatus
-                                                                          .Passed)));
-            }
+            await InsertCapabilityAsync(_capDetails[0]).ConfigureAwait(false);
+            await InsertCapabilityAsync(_capDetails[1]).ConfigureAwait(false);
 
-            var solutionCapabilityResponse =
-                (await _solutionEpicRepository.ListSolutionEpicsAsync(Solution1Id, CancellationToken.None)
-                    .ConfigureAwait(false)).ToList();
-            solutionCapabilityResponse.Count().Should().Be(2);
-            solutionCapabilityResponse.Should().BeEquivalentTo(expectedResult,
-                options => options.WithoutStrictOrdering().ComparingByMembers<ISolutionEpicListResult>());
+            await InsertEpicAsync(_epicDetails[0]).ConfigureAwait(false);
+            await InsertEpicAsync(_epicDetails[1]).ConfigureAwait(false);
+
+            var expectedEpic = new List<IClaimedEpicResult>
+            {
+                Mock.Of<IClaimedEpicResult>(e => e.EpicId == _epicDetails[0].Id && e.StatusName == StatusPassed),
+                Mock.Of<IClaimedEpicResult>(e => e.EpicId == _epicDetails[1].Id && e.StatusName == StatusPassed)
+            };
+
+            await _solutionEpicRepository
+                .UpdateSolutionEpicAsync(Solution1Id,
+                    Mock.Of<IUpdateClaimedEpicListRequest>(c => c.ClaimedEpics == expectedEpic), new CancellationToken()).ConfigureAwait(false);
+
+            var solutionEpics = (await SolutionEpicEntity.FetchAllEpicIdsForSolutionAsync(Solution1Id).ConfigureAwait(false)).ToList();
+            solutionEpics.Count().Should().Be(2);
+            solutionEpics.Should().BeEquivalentTo(_epicDetails.Select(ed => ed.Id),
+                options => options.WithoutStrictOrdering());
+
         }
 
         [Test]
@@ -132,99 +111,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 _solutionEpicRepository.UpdateSolutionEpicAsync(Solution1Id, null, new CancellationToken()));
         }
 
-        [Test]
-        public async Task UpdateSolutionWithMultipleEpicsAsync()
+        private async Task InsertCapabilityAsync(CapabilityEntity capabilityEntity)
         {
-            var epicDetails = new[]
-            {
-                new
-                {
-                    EpicId = "C1E1",
-                    EpicName = "Epic 1",
-                    EpicCompliancyLevel = EpicEntityBuilder.CompliancyLevel.Must,
-                    SolutionEpicStatus = SolutionEpicEntityBuilder.SolutionEpicStatus.Passed
-                },
-                new
-                {
-                    EpicId = "C1E2",
-                    EpicName = "Epic 2",
-                    EpicCompliancyLevel = EpicEntityBuilder.CompliancyLevel.May,
-                    SolutionEpicStatus = SolutionEpicEntityBuilder.SolutionEpicStatus.NotEvidenced
-                }
-            };
-            var expectedResult = new List<IClaimedEpicResult>();
-            foreach (var epicDetail in epicDetails)
-            {
-                await InsertEpicAsync(epicDetail.EpicId, epicDetail.EpicName, _capabilityGuid,
-                    epicDetail.EpicCompliancyLevel).ConfigureAwait(false);
-                await InsertSolutionEpicAsync(Solution1Id, _capabilityGuid, epicDetail.EpicId,
-                    epicDetail.SolutionEpicStatus).ConfigureAwait(false);
-                expectedResult.Add(
-                    Mock.Of<IClaimedEpicResult>(e => e.EpicId == epicDetail.EpicId &&
-                                                         e.StatusName == StatusPassed));
-            }
-
-            await _solutionEpicRepository
-                .UpdateSolutionEpicAsync(Solution1Id,
-                    Mock.Of<IUpdateClaimedEpicListRequest>(c => c.ClaimedEpics == expectedResult), new CancellationToken())
-                .ConfigureAwait(false);
-
-            var solutionEpics = (await SolutionEpicEntity.FetchAllEpicIdsForSolutionAsync(Solution1Id).ConfigureAwait(false))
-                .ToList();
-            solutionEpics.Count().Should().Be(2);
-            solutionEpics.Should().BeEquivalentTo(epicDetails.Select(ed => ed.EpicId),
-                options => options.WithoutStrictOrdering());
+            await capabilityEntity.InsertAsync().ConfigureAwait(false);
         }
 
-        [Test]
-        public async Task UpdateSolutionWithOneEpicAsync()
+        private async Task InsertEpicAsync(EpicEntity epicEntity)
         {
-
-            await InsertEpicAsync("C1E1", "Epic 1", _capabilityGuid, EpicEntityBuilder.CompliancyLevel.Must).ConfigureAwait(false);
-            await InsertSolutionEpicAsync(Solution1Id, _capabilityGuid, "C1E1", SolutionEpicEntityBuilder.SolutionEpicStatus.Passed).ConfigureAwait(false);
-
-            var expectedEpic = new List<IClaimedEpicResult>
-            {
-                Mock.Of<IClaimedEpicResult>(e => e.EpicId == "C1E1" && e.StatusName == StatusPassed)
-            };
-
-            await _solutionEpicRepository
-                .UpdateSolutionEpicAsync(Solution1Id,
-                    Mock.Of<IUpdateClaimedEpicListRequest>(c => c.ClaimedEpics == expectedEpic), new CancellationToken())
-                .ConfigureAwait(false);
-
-            var solutionEpics = (await SolutionEpicEntity.FetchAllEpicIdsForSolutionAsync(Solution1Id).ConfigureAwait(false))
-                .ToList();
-            solutionEpics.Count().Should().Be(1);
-            solutionEpics[0].Should().Be("C1E1");
-        }
-
-        private async Task InsertEpicAsync(string epicId, string epicName, Guid capId,
-            EpicEntityBuilder.CompliancyLevel compliancyLevel)
-        {
-            await EpicEntityBuilder.Create()
-                .WithId(epicId)
-                .WithName(epicName)
-                .WithActive(true)
-                .WithCapabilityId(capId)
-                .WithCompliancyLevel(compliancyLevel)
-                .WithSourceUrl($"http://{epicId}.link")
-                .Build()
-                .InsertAsync()
-                .ConfigureAwait(false);
-        }
-
-        private async Task InsertSolutionEpicAsync(string solutionId, Guid capId, string epicId,
-            SolutionEpicEntityBuilder.SolutionEpicStatus status)
-        {
-            await SolutionEpicEntityBuilder.Create()
-                .WithSolutionId(solutionId)
-                .WithCapabilityId(capId)
-                .WithEpicId(epicId)
-                .WithStatus(status)
-                .Build()
-                .InsertAsync()
-                .ConfigureAwait(false);
+            await epicEntity.InsertAsync().ConfigureAwait(false);
         }
     }
 }

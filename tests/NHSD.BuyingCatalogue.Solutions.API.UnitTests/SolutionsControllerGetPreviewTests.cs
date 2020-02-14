@@ -64,7 +64,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             previewResult.SupplierName.Should().Be(supplier);
         }
 
-
         [TestCase(null, null, null, false)]
         [TestCase("summary", null, null, true)]
         [TestCase(null, "Desc", null, true)]
@@ -233,7 +232,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase(true, false, true, true)]
         [TestCase(true, true, false, true)]
         [TestCase(true, true, true, true)]
-
         public async Task ShouldGetPreviewCalculateClientApplication(bool isClientApplication, bool isBrowserSupported, bool? mobileResponsive, bool expectData)
         {
             var clientApplicationTypes = isClientApplication ? new HashSet<string> { "browser-based", "native-mobile" } : new HashSet<string>();
@@ -975,15 +973,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase(true)]
         public async Task ShouldGetCapabilitiesOnlyForSolution(bool hasCapability)
         {
-            
             var capabilityData = GetClaimedCapabilityTestData().Take(2).ToArray();
 
             var capabilities = hasCapability ? capabilityData.Select(c => c.Item1) : Array.Empty<IClaimedCapability>();
 
             var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
                 s.Id == SolutionId &&
-                s.Capabilities == capabilities &&
-                s.PublishedStatus == PublishedStatus.Published)).ConfigureAwait(false);
+                s.Capabilities == capabilities)).ConfigureAwait(false);
 
             previewResult.Id.Should().Be(SolutionId);
             if (hasCapability)

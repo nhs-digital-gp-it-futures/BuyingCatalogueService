@@ -43,7 +43,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                         .InsertAsync()
                         .ConfigureAwait(false);
                 }
-            
             }
         }
 

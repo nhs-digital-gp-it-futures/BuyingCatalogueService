@@ -171,8 +171,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             }
         }
 
-
-
         [Then(@"the string value of element (.*) is (.*)")]
         public async Task ThenTheStringIs(string token, string requirement)
         {

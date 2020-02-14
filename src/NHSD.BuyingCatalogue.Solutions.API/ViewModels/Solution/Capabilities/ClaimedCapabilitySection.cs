@@ -26,14 +26,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Capabilities
             {
                 EpicSection = new ClaimedCapabilityEpicSection(capability.ClaimedEpics);
             }
-            
-            
         }
-
-        public bool IsPopulated()
-            => Name != null
-               || Version != null
-               || Description != null
-               || Link != null;
     }
 }
