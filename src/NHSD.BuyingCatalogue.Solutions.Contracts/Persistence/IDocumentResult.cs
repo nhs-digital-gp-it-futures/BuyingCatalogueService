@@ -5,5 +5,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         string RoadMapDocumentName { get; }
 
         string IntegrationDocumentName { get; }
+
+        string SolutionDocumentName { get; }
     }
 }

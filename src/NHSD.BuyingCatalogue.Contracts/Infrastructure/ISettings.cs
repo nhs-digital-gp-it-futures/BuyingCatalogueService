@@ -9,5 +9,7 @@ namespace NHSD.BuyingCatalogue.Contracts.Infrastructure
         string DocumentRoadMapIdentifier { get; }
 
         string DocumentIntegrationIdentifier { get; }
+
+        string DocumentSolutionIdentifier { get; }
     }
 }

@@ -81,6 +81,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             yield return new KeyValuePair<Type, Type>(typeof(ImplementationTimescales), typeof(IImplementationTimescales));
             yield return new KeyValuePair<Type, Type>(typeof(ClaimedCapability), typeof(ClaimedCapabilityDto));
             yield return new KeyValuePair<Type, Type>(typeof(ClaimedCapability), typeof(IClaimedCapability));
+            yield return new KeyValuePair<Type, Type>(typeof(LearnMore), typeof(LearnMoreDto));
+            yield return new KeyValuePair<Type, Type>(typeof(LearnMore), typeof(ILearnMore));
         }
 
         [Test]

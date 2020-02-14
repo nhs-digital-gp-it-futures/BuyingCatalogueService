@@ -17,6 +17,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.UnitTests
         private const string SampleUrl = "http://localhost/";
         private const string RoadMapIdentifier = "RoadMap";
         private const string DocumentIntegrationIdentifier = "Integration";
+        private const string DocumentSolutionIdentifier = "Solution";
         private const string SolutionId = "Sln1";
 
         private Mock<IDocumentsAPIClient> _apiClientMock;
@@ -34,16 +35,22 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.UnitTests
             _settingsMock.SetupGet(s => s.DocumentApiBaseUrl).Returns(SampleUrl);
             _settingsMock.SetupGet(s => s.DocumentRoadMapIdentifier).Returns(RoadMapIdentifier);
             _settingsMock.SetupGet(s => s.DocumentIntegrationIdentifier).Returns(DocumentIntegrationIdentifier);
+            _settingsMock.SetupGet(s => s.DocumentSolutionIdentifier).Returns(DocumentSolutionIdentifier);
 
             _loggerMock = new Mock<ILogger<DocumentRepository>>();
             _cancellationToken = new CancellationToken();
         }
 
-        [TestCase(new[] {"RoadMap.pdf"}, "RoadMap.pdf", null)]
-        [TestCase(new[] {"NotMapped"}, null, null)]
-        [TestCase(new[] { "Integration" }, null, "Integration")]
-        [TestCase(new[] { "RoadMap", "Integration.pdf" }, "RoadMap", "Integration.pdf")]
-        public async Task ShouldGetDocumentsBySolutionId(string[] clientResult, string roadMapDocumentName, string integrationDocumentName)
+        [TestCase(new[] { "RoadMap.pdf" }, "RoadMap.pdf", null, null)]
+        [TestCase(new[] { "NotMapped" }, null, null, null)]
+        [TestCase(new[] { "Integration" }, null, "Integration", null)]
+        [TestCase(new[] { "Solution.pdf" }, null, null, "Solution.pdf")]
+        [TestCase(new[] { "RoadMap", "Integration.pdf", "Solution.pdf" }, "RoadMap", "Integration.pdf", "Solution.pdf")]
+        public async Task ShouldGetDocumentsBySolutionId(
+            string[] clientResult,
+            string roadMapDocumentName,
+            string integrationDocumentName,
+            string solutionDocumentName)
         {
             _apiClientMock.Setup(api => api.DocumentsAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(clientResult);
@@ -55,6 +62,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.UnitTests
 
             result.RoadMapDocumentName.Should().Be(roadMapDocumentName);
             result.IntegrationDocumentName.Should().Be(integrationDocumentName);
+            result.SolutionDocumentName.Should().Be(solutionDocumentName);
 
             _apiClientMock.Verify(api => api.DocumentsAsync(SolutionId, CancellationToken.None), Times.Once);
         }

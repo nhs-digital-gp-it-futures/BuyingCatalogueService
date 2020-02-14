@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
-using NUnit.Framework;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 
@@ -45,7 +43,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             { "features","sections.features.answers." },
             { "capabilities", "sections.capabilities.answers."},
             { "contact-details", "sections.contact-details.answers." },
-            { "about-supplier", "sections.about-supplier.answers."}
+            { "about-supplier", "sections.about-supplier.answers."},
+            { "learn-more", "sections.learn-more.answers."},
         };
 
         private readonly Response _response;
