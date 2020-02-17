@@ -1,3 +1,4 @@
+﻿using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Infrastructure;
@@ -10,11 +11,17 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         [JsonProperty("capabilities")]
         public DashboardSection Capabilities { get; }
 
+        [JsonProperty("epics")]
+        public DashboardSection Epics { get; }
+
         public SolutionAuthorityDashboardSections(ISolution solution)
         {
             solution = solution.ThrowIfNull(nameof(solution));
 
-            Capabilities = DashboardSection.Mandatory(solution.Capabilities.Any());
+            IEnumerable<IClaimedCapability> claimedCapabilityList = solution.Capabilities.ToList();
+
+            Capabilities = DashboardSection.Mandatory(claimedCapabilityList.Any());
+			Epics = DashboardSection.Mandatory(claimedCapabilityList.Any(capability => capability.ClaimedEpics.Any()));
         }
     }
 }
