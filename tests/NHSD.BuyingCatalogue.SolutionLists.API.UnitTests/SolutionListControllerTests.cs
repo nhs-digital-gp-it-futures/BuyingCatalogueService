@@ -63,7 +63,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.UnitTests
         [Test]
         public async Task ShouldListSolutionsByFilter()
         {
-            var filter = new ListSolutionsFilter {Capabilities = {Guid.Empty}};
+            var filter = new ListSolutionsFilterViewModel {Capabilities = {Guid.Empty}};
 
             var result = (await _solutionListController.ListByFilterAsync(filter).ConfigureAwait(false)).Result as ObjectResult;
 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
@@ -48,20 +48,20 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<ListSolutionsResult>> ListFoundationAsync()
         {
-            return Ok(new ListSolutionsResult(await _mediator.Send(new ListSolutionsQuery(ListSolutionsFilter.Foundation)).ConfigureAwait(false)));
+            return Ok(new ListSolutionsResult(await _mediator.Send(new ListSolutionsQuery(true)).ConfigureAwait(false)));
         }
 
         /// <summary>
         /// Find a list of Solutions that match the specified list of Capabilities.
         /// </summary>
-        /// <param name="filter">The filter criteria to apply to the list of Solutions.</param>
+        /// <param name="filterViewModel">The filterViewModel contains criteria to apply to the list of Solutions.</param>
         /// <returns>A task representing an operation to retrieve a list of Solutions that match a set of Capabilities.</returns>
         [HttpPost]
         [ProducesResponseType(typeof(ListSolutionsResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult<ListSolutionsResult>> ListByFilterAsync([FromBody][Required]ListSolutionsFilter filter)
+        public async Task<ActionResult<ListSolutionsResult>> ListByFilterAsync([FromBody][Required]ListSolutionsFilterViewModel filter)
         {
-            return Ok(new ListSolutionsResult(await _mediator.Send(new ListSolutionsQuery(filter)).ConfigureAwait(false)));
+            return Ok(new ListSolutionsResult(await _mediator.Send(new ListSolutionsQuery(filter?.Capabilities, filter != null && filter.IsFoundation)).ConfigureAwait(false)));
         }
     }
 }

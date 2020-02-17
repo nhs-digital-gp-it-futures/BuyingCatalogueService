@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -137,7 +137,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup1", false, 3, 4));
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(2)), new CancellationToken());
+            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(2).Capabilities, false), new CancellationToken());
 
             solutions.Result.Solutions.Should().HaveCount(2);
             solutions.Result.Solutions.Select(s => s.Id).Should().Contain("S1");
@@ -154,7 +154,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup2", false, 3, 4));
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(1)), new CancellationToken());
+            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(1).Capabilities, false), new CancellationToken());
 
             solutions.Result.Solutions.Should().HaveCount(2);
             solutions.Result.Solutions.Select(s => s.Id).Should().Contain("S1");
@@ -170,7 +170,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, 3, 4));
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(1)), new CancellationToken());
+            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(1).Capabilities, false), new CancellationToken());
 
             solutions.Result.Solutions.Should().HaveCount(1);
             solutions.Result.Solutions.Select(s => s.Id).Should().Contain("S1");
@@ -185,7 +185,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S3", "Sup1", false, 3, 4));
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(2)), new CancellationToken());
+            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(2).Capabilities, false), new CancellationToken());
 
             solutions.Result.Solutions.Should().HaveCount(2);
             solutions.Result.Solutions.Select(s => s.Id).Should().Contain("S1");
@@ -204,7 +204,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S6", "Sup2", false, 4, 3));
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(2)), new CancellationToken());
+            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(2).Capabilities, false), new CancellationToken());
 
             solutions.Result.Solutions.Should().HaveCount(4);
             solutions.Result.Solutions.Select(s => s.Id).Should().Contain("S1");
@@ -219,7 +219,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             var repositorySolutions = new List<ISolutionListResult>();
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(2)), new CancellationToken());
+            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(2).Capabilities, false), new CancellationToken());
 
             solutions.Result.Solutions.Should().HaveCount(0);
         }
@@ -241,7 +241,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S13", "Sup1", false, 1, 3));
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(filterCapabilityIds.ThrowIfNull())), new CancellationToken());
+            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(filterCapabilityIds.ThrowIfNull()).Capabilities, false), new CancellationToken());
 
             solutions.Result.Solutions.Select(s => s.Id).Should().BeEquivalentTo(expectedFilteredSolutions);
         }
@@ -263,7 +263,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S13", "Sup2", false, 1, 3));
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(filterCapabilityIds.ThrowIfNull())), new CancellationToken());
+            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(filterCapabilityIds.ThrowIfNull()).Capabilities, false), new CancellationToken());
 
             solutions.Result.Solutions.Select(s => s.Id).Should().BeEquivalentTo(expectedFilteredSolutions);
         }
@@ -312,7 +312,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             var repositorySolutions = new List<ISolutionListResult>();
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(true, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(ListSolutionsFilter.Foundation), new CancellationToken());
+            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(true), new CancellationToken());
 
             solutions.Result.Solutions.Should().HaveCount(0);
             _context.MockSolutionListRepository.Verify(r => r.ListAsync(true, It.IsAny<CancellationToken>()), Times.Once);
@@ -321,17 +321,18 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
         [Test]
         public void QueryShouldThrowNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new ListSolutionsQuery(null));
+            var data = new FilterData();
+            Assert.Throws<ArgumentNullException>(() => new ListSolutionsQuery(null, data.IsFoundation));
         }
 
-        private ListSolutionsFilter Filter(int capabilityId)
+        private FilterData Filter(int capabilityId)
         {
             return Filter(new int[] {capabilityId});
         }
 
-        private ListSolutionsFilter Filter(IEnumerable<int> capabilityIds)
+        private FilterData Filter(IEnumerable<int> capabilityIds)
         {
-            var filter = new ListSolutionsFilter();
+            var filter = new FilterData();
             foreach (var capabilityId in capabilityIds)
             {
                 filter.Capabilities.Add(Capabilities[capabilityId].Id);
@@ -362,6 +363,12 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             solution.Setup(c => c.CapabilityDescription).Returns(capability.Description);
             
             return solution.Object;
+        }
+
+        private class FilterData
+        {
+            public ISet<Guid> Capabilities { get; set; } = new HashSet<Guid>();
+            public bool IsFoundation { get; set; }
         }
     }
 }
