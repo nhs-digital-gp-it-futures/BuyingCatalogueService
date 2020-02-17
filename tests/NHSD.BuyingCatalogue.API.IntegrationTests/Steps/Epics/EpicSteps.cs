@@ -31,7 +31,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Epics
             [JsonProperty("epic-id")]
             public string EpicId { get; set; }
 
-            [JsonProperty("status-name")]
+            [JsonProperty("assessment-result")]
             public string StatusName { get; set; }
         }
     }
