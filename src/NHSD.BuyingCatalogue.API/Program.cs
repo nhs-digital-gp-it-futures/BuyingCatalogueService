@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Reflection;
 using Microsoft.AspNetCore.Hosting;
@@ -20,12 +20,9 @@ namespace NHSD.BuyingCatalogue.API
                 .Enrich.FromLogContext()
 #if DEBUG
                 .WriteTo.Debug()
-                .WriteTo.Console()
-#else
-                .WriteTo.Console()
 #endif
+                .WriteTo.Console()
                 .CreateLogger();
-
             try
             {
                 Log.Information("Starting host");
