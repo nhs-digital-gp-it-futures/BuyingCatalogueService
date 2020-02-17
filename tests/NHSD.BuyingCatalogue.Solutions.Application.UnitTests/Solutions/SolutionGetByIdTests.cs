@@ -100,7 +100,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.RoadMap.Summary.Should().Be("Some valid roadmap description");
             solution.RoadMap.DocumentName.Should().Be("RoadMap.pdf");
 
-            solution.LearnMore.DocumentName.Should().Be(solutionDocument);
+            solution.SolutionDocument.Name.Should().Be(solutionDocument);
 
             solution.ClientApplication.ClientApplicationTypes.Should().BeEquivalentTo("browser-based", "native-mobile");
             solution.ClientApplication.BrowsersSupported.Should().BeEquivalentTo("Chrome", "Edge");

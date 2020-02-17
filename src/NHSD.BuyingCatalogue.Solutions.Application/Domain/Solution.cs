@@ -106,7 +106,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         /// <summary>
         /// Gets or sets the learn more data for the solution.
         /// </summary>
-        public LearnMore LearnMore { get; set; }
+        public SolutionDocument SolutionDocument { get; set; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="Solution" /> class.
@@ -151,7 +151,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
                 : JsonConvert.DeserializeObject<Hosting>(solutionResult.Hosting);
             Supplier = supplierResult != null ? new Supplier(supplierResult) : new Supplier();
 
-            LearnMore = new LearnMore(documentResult?.SolutionDocumentName);
+            SolutionDocument = new SolutionDocument(documentResult?.SolutionDocumentName);
         }
 
         /// <summary>

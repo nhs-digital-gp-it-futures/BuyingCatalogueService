@@ -101,6 +101,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         /// </summary>
         IImplementationTimescales ImplementationTimescales { get; }
 
-        ILearnMore LearnMore { get; }
+        ISolutionDocument SolutionDocument { get; }
     }
 }

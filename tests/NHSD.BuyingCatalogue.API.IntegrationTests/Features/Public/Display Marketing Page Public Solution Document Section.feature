@@ -1,6 +1,6 @@
-Feature: Display Marketing Page Public Learn More Section
+Feature: Display Marketing Page Public Solution Document Section
     As a supplier
-    I want to manage marketing page information for the learn more section
+    I want to manage marketing page information for the solution document section
     So I can ensure that the information is correct
 
 Background:
@@ -11,7 +11,7 @@ Background:
 		| SolutionId | SolutionName   | SupplierStatusId | SupplierId |
 		| Sln1       | MedicOnline    | 1                | Sup 1      |
 
-Scenario: 1. Solution Learn More section is presented when the document exists
+Scenario: 1. Solution Document section is presented when the document exists
     Given a document named solution exists with solutionId Sln1
     When a GET request is made for solution public Sln1
 	Then a successful response is returned
@@ -19,12 +19,12 @@ Scenario: 1. Solution Learn More section is presented when the document exists
 		| Section    | Field         | Value            |
 		| learn-more | document-name | solution         |
 
-Scenario: 2. Solution Learn More section is not presented when no document exists
+Scenario: 2. Solution Document section is not presented when no document exists
     When a GET request is made for solution public Sln1
 	Then a successful response is returned
 	And the learn-more string does not exist
 
-Scenario: 3. Solution Learn More section is not presented when the document API fails
+Scenario: 3. Solution Document section is not presented when the document API fails
     Given the document api fails with solutionId Sln1
     When a GET request is made for solution public Sln1
 	Then a successful response is returned

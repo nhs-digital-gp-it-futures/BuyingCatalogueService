@@ -5,16 +5,16 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Domain
 {
     [TestFixture]
-    internal sealed class LearnMoreTests
+    internal sealed class SolutionDocumentTests
     {
         [Test]
         public void Constructor_String_InitializesDocumentName()
         {
             const string documentName = "TheDocument.pdf";
 
-            var learnMore = new LearnMore(documentName);
+            var solutionDocument = new SolutionDocument(documentName);
 
-            learnMore.DocumentName.Should().Be(documentName);
+            solutionDocument.Name.Should().Be(documentName);
         }
     }
 }

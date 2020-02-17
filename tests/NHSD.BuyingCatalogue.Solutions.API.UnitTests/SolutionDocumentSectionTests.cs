@@ -7,13 +7,13 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 {
     [TestFixture]
-    internal sealed class LearnMoreSectionTests
+    internal sealed class SolutionDocumentSectionTests
     {
         [Test]
         public void IfPopulated_AnswersHasDataIsFalse_ReturnsNull()
         {
-            var mockLearnMore = Mock.Of<ILearnMore>();
-            var section = new LearnMoreSection(mockLearnMore);
+            var mockSolutionDocument = Mock.Of<ISolutionDocument>();
+            var section = new SolutionDocumentSection(mockSolutionDocument);
 
             section.IfPopulated().Should().BeNull();
         }
@@ -21,8 +21,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public void IfPopulated_AnswersHasDataIsTrue_ReturnsSelf()
         {
-            var mockLearnMore = Mock.Of<ILearnMore>(l => l.DocumentName == "Document");
-            var section = new LearnMoreSection(mockLearnMore);
+            var mockSolutionDocument = Mock.Of<ISolutionDocument>(l => l.Name == "Document");
+            var section = new SolutionDocumentSection(mockSolutionDocument);
 
             section.IfPopulated().Should().Be(section);
         }

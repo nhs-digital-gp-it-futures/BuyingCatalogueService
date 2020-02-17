@@ -105,6 +105,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         /// <summary>
         /// Gets or sets the learn more data for the solution.
         /// </summary>
-        public ILearnMore LearnMore { get; set; }
+        public ISolutionDocument SolutionDocument { get; set; }
     }
 }

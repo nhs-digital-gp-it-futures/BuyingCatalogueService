@@ -2,8 +2,8 @@ using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
 {
-    internal sealed class LearnMoreDto : ILearnMore
+    internal sealed class SolutionDocumentDto : ISolutionDocument
     {
-        public string DocumentName { get; set; }
+        public string Name { get; set; }
     }
 }
