@@ -103,7 +103,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         public IImplementationTimescales ImplementationTimescales { get; set; }
 
         /// <summary>
-        /// Gets or sets the learn more data for the solution.
+        /// Gets or sets the solution document for the solution.
         /// </summary>
         public ISolutionDocument SolutionDocument { get; set; }
     }

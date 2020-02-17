@@ -34,7 +34,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         public CapabilitiesSection Capabilities { get; }
 
         [JsonProperty("learn-more")]
-        public SolutionDocumentSection SolutionDocument { get; }
+        public LearnMoreSection LearnMore { get; }
 
         [JsonProperty("hosting-type-public-cloud")]
         public PublicCloudSection PublicCloud { get; }
@@ -75,7 +75,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
             OnPremise = new OnPremiseSection(solution.Hosting).IfPopulated();
             HybridHostingType = new HybridHostingTypeSection(solution.Hosting).IfPopulated();
             AboutSupplier = new AboutSupplierSection(solution.Supplier).IfPopulated();
-            SolutionDocument = new SolutionDocumentSection(solution.SolutionDocument).IfPopulated();
+            LearnMore = new LearnMoreSection(solution.SolutionDocument).IfPopulated();
         }
     }
 }

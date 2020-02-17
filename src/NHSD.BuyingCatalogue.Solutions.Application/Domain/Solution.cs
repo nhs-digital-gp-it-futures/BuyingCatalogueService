@@ -104,7 +104,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public ImplementationTimescales ImplementationTimescales { get; set; }
 
         /// <summary>
-        /// Gets or sets the learn more data for the solution.
+        /// Gets or sets the solution document for the solution.
         /// </summary>
         public SolutionDocument SolutionDocument { get; set; }
 

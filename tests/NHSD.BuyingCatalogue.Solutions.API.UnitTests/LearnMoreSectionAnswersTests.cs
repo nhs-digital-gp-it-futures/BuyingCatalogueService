@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 {
     [TestFixture]
-    internal sealed class SolutionDocumentSectionAnswersTests
+    internal sealed class LearnMoreSectionAnswersTests
     {
         [Test]
         public void Constructor_ISolutionDocument_DocumentNameIsAssigned()
@@ -15,17 +15,17 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             const string documentName = "SomeSolution.pdf";
 
             var mockSolutionDocument = Mock.Of<ISolutionDocument>(l => l.Name == documentName);
-            var sectionAnswers = new SolutionDocumentSectionAnswers(mockSolutionDocument);
+            var sectionAnswers = new LearnMoreSectionAnswers(mockSolutionDocument);
 
-            sectionAnswers.Name.Should().Be(documentName);
+            sectionAnswers.DocumentName.Should().Be(documentName);
         }
 
         [Test]
         public void Constructor_ISolutionDocument_NullObject_DocumentNameIsNull()
         {
-            var sectionAnswers = new SolutionDocumentSectionAnswers(null);
+            var sectionAnswers = new LearnMoreSectionAnswers(null);
 
-            sectionAnswers.Name.Should().BeNull();
+            sectionAnswers.DocumentName.Should().BeNull();
         }
 
         [TestCase(null, false)]
@@ -35,7 +35,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         public void HasData_ReturnsExpectedValue(string name, bool expectedValue)
         {
             var mockSolutionDocument = Mock.Of<ISolutionDocument>(l => l.Name == name);
-            var sectionAnswers = new SolutionDocumentSectionAnswers(mockSolutionDocument);
+            var sectionAnswers = new LearnMoreSectionAnswers(mockSolutionDocument);
 
             sectionAnswers.HasData.Should().Be(expectedValue);
         }
