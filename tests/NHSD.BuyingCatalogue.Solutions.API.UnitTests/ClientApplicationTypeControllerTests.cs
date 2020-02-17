@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.ClientApplications;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.UpdateSolutionClientApplicationTypes;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
@@ -78,7 +79,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task ShouldUpdateValidationValid()
         {
-            var clientApplicationUpdateViewModel = new UpdateSolutionClientApplicationTypesViewModel();
+            var clientApplicationUpdateViewModel = new UpdateSolutionClientApplicationTypesViewModel(null);
 
             var validationModel = new Mock<ISimpleResult>();
             validationModel.Setup(s => s.IsValid).Returns(true);
@@ -97,7 +98,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task ShouldUpdateValidationInvalid()
         {
-            var clientApplicationUpdateViewModel = new UpdateSolutionClientApplicationTypesViewModel();
+            var clientApplicationUpdateViewModel = new UpdateSolutionClientApplicationTypesViewModel(null);
 
             var validationModel = new Mock<ISimpleResult>();
             validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "client-application-types", "required" } });

@@ -6,6 +6,7 @@ using FluentAssertions;
 using Moq;
 using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.UpdateSolutionClientApplicationTypes;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Tools;
@@ -173,11 +174,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
         private async Task<ISimpleResult> UpdateClientApplicationTypes(HashSet<string> clientApplicationTypes)
         {
-            return await Context.UpdateSolutionClientApplicationTypesHandler.Handle(new UpdateSolutionClientApplicationTypesCommand("Sln1",
-                new UpdateSolutionClientApplicationTypesViewModel
-                {
-                    ClientApplicationTypes = clientApplicationTypes
-                }), new CancellationToken())
+            return await Context.UpdateSolutionClientApplicationTypesHandler.Handle(
+                new UpdateSolutionClientApplicationTypesCommand("Sln1",
+                new UpdateSolutionClientApplicationTypesViewModel(clientApplicationTypes)),
+                new CancellationToken())
                 .ConfigureAwait(false);
         }
     }
