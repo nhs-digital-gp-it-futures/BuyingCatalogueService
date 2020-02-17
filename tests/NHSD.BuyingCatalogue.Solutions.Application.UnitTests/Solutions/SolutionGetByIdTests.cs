@@ -54,9 +54,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var mockSupplier = Mock.Of<ISupplierResult>(m =>
                 m.Name == "supplier name" && m.Summary == "supplier summary" && m.Url == "supplierUrl");
 
+            const string solutionDocument = "Solution.pdf";
+
             var mockDocument = new Mock<IDocumentResult>();
             mockDocument.Setup(s => s.RoadMapDocumentName).Returns("RoadMap.pdf");
             mockDocument.Setup(s => s.IntegrationDocumentName).Returns("Integration.pdf");
+            mockDocument.Setup(s => s.SolutionDocumentName).Returns(solutionDocument);
 
             _context.MockSolutionCapabilityRepository
                 .Setup(r => r.ListSolutionCapabilities("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(new []{capabilities1, capabilities2});
@@ -88,7 +91,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.Description.Should().Be("Description");
             solution.AboutUrl.Should().Be("AboutUrl");
 
-            solution.Features.Should().BeEquivalentTo(new [] {"Marmite", "Jam", "Marmelade"});
+            solution.Features.Should().BeEquivalentTo("Marmite", "Jam", "Marmelade");
 
             solution.ImplementationTimescales.Description.Should().Be("Some valid implementation timescales description");
             solution.Integrations.Url.Should().Be("Some valid integrations url");
@@ -97,8 +100,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.RoadMap.Summary.Should().Be("Some valid roadmap description");
             solution.RoadMap.DocumentName.Should().Be("RoadMap.pdf");
 
-            solution.ClientApplication.ClientApplicationTypes.Should().BeEquivalentTo(new[] { "browser-based", "native-mobile" });
-            solution.ClientApplication.BrowsersSupported.Should().BeEquivalentTo(new[] { "Chrome", "Edge" });
+            solution.LearnMore.DocumentName.Should().Be(solutionDocument);
+
+            solution.ClientApplication.ClientApplicationTypes.Should().BeEquivalentTo("browser-based", "native-mobile");
+            solution.ClientApplication.BrowsersSupported.Should().BeEquivalentTo("Chrome", "Edge");
             solution.ClientApplication.MobileResponsive.Should().BeTrue();
             solution.ClientApplication.Plugins.Required.Should().BeTrue();
             solution.ClientApplication.Plugins.AdditionalInformation.Should().Be("orem ipsum");
@@ -108,7 +113,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 .BeEquivalentTo(new[] {"Windows", "Linux"});
             solution.ClientApplication.MobileOperatingSystems.OperatingSystemsDescription.Should()
                 .Be("For windows only version 10");
-            solution.ClientApplication.MobileConnectionDetails.ConnectionType.Should().BeEquivalentTo(new[] { "3G", "4G" });
+            solution.ClientApplication.MobileConnectionDetails.ConnectionType.Should().BeEquivalentTo("3G", "4G");
             solution.ClientApplication.MobileConnectionDetails.Description.Should().Be("A description");
             solution.ClientApplication.MobileConnectionDetails.MinimumConnectionSpeed.Should().Be("1GBps");
             solution.ClientApplication.MobileThirdParty.ThirdPartyComponents.Should().Be("Component");
