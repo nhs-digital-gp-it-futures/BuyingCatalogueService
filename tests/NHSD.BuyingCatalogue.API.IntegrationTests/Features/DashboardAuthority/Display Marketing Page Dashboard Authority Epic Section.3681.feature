@@ -27,7 +27,7 @@ Scenario: 1. Epics section should be mandatory
     And the solution epics section requirement is Mandatory
     
 @3681
-Scenario Outline: 1. Epics section should be marked as complete when an active claimed epic exists and a claimed capability exists
+Scenario Outline: 2. Epics section should be marked as complete when an active claimed epic exists and a claimed capability exists
     Given Solutions are linked to Capabilities
 		| Solution       | Capability   |
 		| <SolutionName> | <Capability> |
