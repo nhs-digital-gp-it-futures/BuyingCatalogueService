@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
-using Serilog.Formatting.Compact;
 
 namespace NHSD.BuyingCatalogue.API
 {
@@ -21,9 +20,9 @@ namespace NHSD.BuyingCatalogue.API
                 .Enrich.FromLogContext()
 #if DEBUG
                 .WriteTo.Debug()
-                .WriteTo.Console(new RenderedCompactJsonFormatter())
+                .WriteTo.Console()
 #else
-                .WriteTo.Console(new CompactJsonFormatter())
+                .WriteTo.Console()
 #endif
                 .CreateLogger();
 
