@@ -1,5 +1,4 @@
-using System;
-using System.Threading.Tasks;
+﻿using System;
 using FluentAssertions;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
