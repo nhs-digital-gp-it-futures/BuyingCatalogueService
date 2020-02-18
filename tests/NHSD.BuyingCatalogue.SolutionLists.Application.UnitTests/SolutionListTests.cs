@@ -25,13 +25,13 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             { "Sup3", (name: "Supplier 3 Name", id: "Sup3")},
         };
 
-        private readonly Dictionary<int, (string Reference, string Name, string Description)> Capabilities = new Dictionary<int, (string Reference, string Name, string Description)>
+        private readonly Dictionary<string, (string Name, string Description)> Capabilities = new Dictionary<string, (string Name, string Description)>
         {
-            { 1, ("C1", "Cap1Name", "Cap1Desc")},
-            { 2, ("C2", "Cap2Name", "Cap2Desc")},
-            { 3, ("C3", "Cap3Name", "Cap3Desc")},
-            { 4, ("C4", "Cap4Name", "Cap4Desc")},
-            { 5, ("C5", "Cap5Name", "Cap5Desc")},
+            { "C1", ("Cap1Name", "Cap1Desc")},
+            { "C2", ("Cap2Name", "Cap2Desc")},
+            { "C3", ("Cap3Name", "Cap3Desc")},
+            { "C4", ("Cap4Name", "Cap4Desc")},
+            { "C5", ("Cap5Name", "Cap5Desc")},
         };
 
         [SetUp]
@@ -44,11 +44,11 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
         public void ShouldListSolutionsWithNoCapabilityFilter()
         {
             var repositorySolutions = new List<ISolutionListResult>();
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false,  1, 2));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup1", false, 2, 3));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false,  "C1", "C2"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup1", false, "C2", "C3"));
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = GetSolutionsWithEmptyCapabilityReferencesFilter();
+            var solutions = GetSolutionsWithEmptyCapabilityReferencesFilterAsync();
 
             solutions.Result.Solutions.Should().HaveCount(2);
             solutions.Result.Solutions.Select(s => s.Id).Should().Contain("S1");
@@ -59,11 +59,11 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
         public void ShouldListSolutionsWithNoCapabilityFilterReturnDistinctBySupplier()
         {
             var repositorySolutions = new List<ISolutionListResult>();
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, 1, 2));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup2", false, 1, 2));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, "C1", "C2"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup2", false, "C1", "C2"));
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = GetSolutionsWithEmptyCapabilityReferencesFilter();
+            var solutions = GetSolutionsWithEmptyCapabilityReferencesFilterAsync();
 
             solutions.Result.Solutions.Should().HaveCount(2);
             solutions.Result.Solutions.Select(s => s.Id).Should().Contain("S1");
@@ -74,11 +74,11 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
         public void ShouldListSolutionsWithNoCapabilityFilterReturnDistinctBySupplierAndCapability()
         {
             var repositorySolutions = new List<ISolutionListResult>();
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, 1, 2));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, 1, 2));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, "C1", "C2"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, "C1", "C2"));
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = GetSolutionsWithEmptyCapabilityReferencesFilter();
+            var solutions = GetSolutionsWithEmptyCapabilityReferencesFilterAsync();
 
             solutions.Result.Solutions.Should().HaveCount(1);
             solutions.Result.Solutions.Select(s => s.Id).Should().Contain("S1");
@@ -88,11 +88,11 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
         public void ShouldListSolutionsWithNoCapabilityFilterReturnDistinctByCapability()
         {
             var repositorySolutions = new List<ISolutionListResult>();
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, 1, 2));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup1", false, 2, 3));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, "C1", "C2"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup1", false, "C2", "C3"));
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = GetSolutionsWithEmptyCapabilityReferencesFilter();
+            var solutions = GetSolutionsWithEmptyCapabilityReferencesFilterAsync();
 
             solutions.Result.Solutions.Should().HaveCount(2);
             solutions.Result.Solutions.Select(s => s.Id).Should().Contain("S1");
@@ -103,14 +103,14 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
         public void ShouldListSolutionsWithNoCapabilityFilterReturnDistinctBySupplierAndCapabilityTwoSuppliers()
         {
             var repositorySolutions = new List<ISolutionListResult>();
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, 1, 2));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup1", false, 2, 3));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S3", "Sup2", false, 1, 2));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S4", "Sup2", false, 2, 3));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S4", "Sup2", false, 2, 3));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, "C1", "C2"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup1", false, "C2", "C3"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S3", "Sup2", false, "C1", "C2"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S4", "Sup2", false, "C2", "C3"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S4", "Sup2", false, "C2", "C3"));
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = GetSolutionsWithEmptyCapabilityReferencesFilter();
+            var solutions = GetSolutionsWithEmptyCapabilityReferencesFilterAsync();
 
             solutions.Result.Solutions.Should().HaveCount(4);
             solutions.Result.Solutions.Select(s => s.Id).Should().Contain("S1");
@@ -125,7 +125,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             var repositorySolutions = new List<ISolutionListResult>();
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = GetSolutionsWithEmptyCapabilityReferencesFilter();
+            var solutions = GetSolutionsWithEmptyCapabilityReferencesFilterAsync();
 
             solutions.Result.Solutions.Should().HaveCount(0);
         }
@@ -134,12 +134,12 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
         public void ShouldListSolutionsWithCapabilityFilter()
         {
             var repositorySolutions = new List<ISolutionListResult>();
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, 1, 2));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup1", false, 2, 3));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup1", false, 3, 4));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, "C1", "C2"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup1", false, "C2", "C3"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup1", false, "C3", "C4"));
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(2)), new CancellationToken());
+            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter("C2")), new CancellationToken());
 
             solutions.Result.Solutions.Should().HaveCount(2);
             solutions.Result.Solutions.Select(s => s.Id).Should().Contain("S1");
@@ -150,13 +150,13 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
         public void ShouldListSolutionsWithCapabilityFilterReturnDistinctBySupplier()
         {
             var repositorySolutions = new List<ISolutionListResult>();
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, 1, 2));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, 4, 5));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup2", false, 1, 2));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup2", false, 3, 4));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, "C1", "C2"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, "C4", "C5"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup2", false, "C1", "C2"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup2", false, "C3", "C4"));
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(1)), new CancellationToken());
+            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter("C1")), new CancellationToken());
 
             solutions.Result.Solutions.Should().HaveCount(2);
             solutions.Result.Solutions.Select(s => s.Id).Should().Contain("S1");
@@ -167,12 +167,12 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
         public void ShouldListSolutionsWithCapabilityFilterReturnDistinctBySupplierAndCapability()
         {
             var repositorySolutions = new List<ISolutionListResult>();
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, 1, 2));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, 1, 2));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, 3, 4));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, "C1", "C2"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, "C1", "C2"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, "C3", "C4"));
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(1)), new CancellationToken());
+            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter("C1")), new CancellationToken());
 
             solutions.Result.Solutions.Should().HaveCount(1);
             solutions.Result.Solutions.Select(s => s.Id).Should().Contain("S1");
@@ -182,12 +182,12 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
         public void ShouldListSolutionsWithCapabilityFilterReturnDistinctByCapability()
         {
             var repositorySolutions = new List<ISolutionListResult>();
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, 1, 2));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup1", false, 2, 3));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S3", "Sup1", false, 3, 4));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, "C1", "C2"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup1", false, "C2", "C3"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S3", "Sup1", false, "C3", "C4"));
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(2)), new CancellationToken());
+            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter("C2")), new CancellationToken());
 
             solutions.Result.Solutions.Should().HaveCount(2);
             solutions.Result.Solutions.Select(s => s.Id).Should().Contain("S1");
@@ -198,15 +198,15 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
         public void ShouldListSolutionsWithCapabilityFilterReturnDistinctBySupplierAndCapabilityTwoSuppliers()
         {
             var repositorySolutions = new List<ISolutionListResult>();
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, 1, 2));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup1", false, 2, 3));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S3", "Sup2", false, 1, 2));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S4", "Sup2", false, 2, 3));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S4", "Sup2", false, 2, 3));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S6", "Sup2", false, 4, 3));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, "C1", "C2"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup1", false, "C2", "C3"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S3", "Sup2", false, "C1", "C2"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S4", "Sup2", false, "C2", "C3"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S4", "Sup2", false, "C2", "C3"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S6", "Sup2", false, "C4", "C3"));
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(2)), new CancellationToken());
+            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter("C2")), new CancellationToken());
 
             solutions.Result.Solutions.Should().HaveCount(4);
             solutions.Result.Solutions.Select(s => s.Id).Should().Contain("S1");
@@ -221,51 +221,51 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             var repositorySolutions = new List<ISolutionListResult>();
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(2)), new CancellationToken());
+            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter("C2")), new CancellationToken());
 
             solutions.Result.Solutions.Should().HaveCount(0);
         }
 
-        [TestCase(new[] { 1, 2 }, new []{ "S123", "S124" })]
-        [TestCase(new[] { 1 }, new[] { "S123", "S124", "S1", "S145", "S15", "S13" })]
-        [TestCase(new[] { 1, 2, 3 }, new[] { "S123" })]
-        [TestCase(new[] { 3, 4 }, new string[0])]
-        [TestCase(new[] { 1, 5 }, new[] { "S145", "S15" })]
-        [TestCase(new[] { 1, 4 }, new[] { "S124", "S145" })]
-        public void ShouldFilterByCapability(int[] filterCapabilityIds, string[] expectedFilteredSolutions)
+        [TestCase(new[] { "C1", "C2" }, new []{ "S123", "S124" })]
+        [TestCase(new[] { "C1" }, new[] { "S123", "S124", "S1", "S145", "S15", "S13" })]
+        [TestCase(new[] { "C1", "C2", "C3" }, new[] { "S123" })]
+        [TestCase(new[] { "C3", "C4" }, new string[0])]
+        [TestCase(new[] { "C1", "C5" }, new[] { "S145", "S15" })]
+        [TestCase(new[] { "C1", "C4" }, new[] { "S124", "S145" })]
+        public void ShouldFilterByCapability(string[] filterCapabilityReferences, string[] expectedFilteredSolutions)
         {
             var repositorySolutions = new List<ISolutionListResult>();
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S123", "Sup1", false, 1, 2, 3));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S124", "Sup1", false, 1, 2, 4));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, 1));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S145", "Sup1", false, 1, 4, 5));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S15", "Sup1", false, 1, 5));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S13", "Sup1", false, 1, 3));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S123", "Sup1", false, "C1", "C2", "C3"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S124", "Sup1", false, "C1", "C2", "C4"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, "C1"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S145", "Sup1", false, "C1", "C4", "C5"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S15", "Sup1", false, "C1", "C5"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S13", "Sup1", false, "C1", "C3"));
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(filterCapabilityIds.ThrowIfNull())), new CancellationToken());
+            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(filterCapabilityReferences.ThrowIfNull())), new CancellationToken());
 
             solutions.Result.Solutions.Select(s => s.Id).Should().BeEquivalentTo(expectedFilteredSolutions);
         }
 
-        [TestCase(new[] { 1, 2 }, new[] { "S123", "S124" })]
-        [TestCase(new[] { 1 }, new[] { "S123", "S124", "S1", "S145", "S15", "S13" })]
-        [TestCase(new[] { 1, 2, 3 }, new[] { "S123" })]
-        [TestCase(new[] { 3, 4 }, new string[0])]
-        [TestCase(new[] { 1, 5 }, new[] { "S145", "S15" })]
-        [TestCase(new[] { 1, 4 }, new[] { "S124", "S145" })]
-        public void ShouldFilterByCapabilityMultipleOrgs(int[] filterCapabilityIds, string[] expectedFilteredSolutions)
+        [TestCase(new[] { "C1", "C2" }, new[] { "S123", "S124" })]
+        [TestCase(new[] { "C1" }, new[] { "S123", "S124", "S1", "S145", "S15", "S13" })]
+        [TestCase(new[] { "C1", "C2", "C3" }, new[] { "S123" })]
+        [TestCase(new[] { "C3", "C4" }, new string[0])]
+        [TestCase(new[] { "C1", "C5" }, new[] { "S145", "S15" })]
+        [TestCase(new[] { "C1", "C4" }, new[] { "S124", "S145" })]
+        public void ShouldFilterByCapabilityMultipleOrgs(string[] filterCapabilityReferences, string[] expectedFilteredSolutions)
         {
             var repositorySolutions = new List<ISolutionListResult>();
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S123", "Sup1", false, 1, 2, 3));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S124", "Sup2", false, 1, 2, 4));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, 1));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S145", "Sup2", false, 1, 4, 5));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S15", "Sup1", false, 1, 5));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S13", "Sup2", false, 1, 3));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S123", "Sup1", false, "C1", "C2", "C3"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S124", "Sup2", false, "C1", "C2", "C4"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, "C1"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S145", "Sup2", false, "C1", "C4", "C5"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S15", "Sup1", false, "C1", "C5"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S13", "Sup2", false, "C1", "C3"));
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(filterCapabilityIds.ThrowIfNull())), new CancellationToken());
+            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(filterCapabilityReferences.ThrowIfNull())), new CancellationToken());
 
             solutions.Result.Solutions.Select(s => s.Id).Should().BeEquivalentTo(expectedFilteredSolutions);
         }
@@ -274,38 +274,37 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
         public void ShouldListSolutionsDetail()
         {
             var repositorySolutions = new List<ISolutionListResult>();
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, 1, 2));
-            repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup2", true, 2));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, "C1", "C2"));
+            repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup2", true, "C2"));
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = GetSolutionsWithEmptyCapabilityReferencesFilter();
+            var solutions = GetSolutionsWithEmptyCapabilityReferencesFilterAsync();
 
             solutions.Result.Solutions.Should().HaveCount(2);
-            var solution = solutions.Result.Solutions.Should().ContainSingle(s => string.Equals(s.Id, "S1", StringComparison.InvariantCulture)).Subject;
+            var solution = solutions.Result.Solutions.Should().ContainSingle(s => string.Equals(s.Id, "S1", StringComparison.OrdinalIgnoreCase)).Subject;
             solution.Name.Should().Be("S1Name");
             solution.Summary.Should().Be("S1Summary");
             solution.IsFoundation.Should().BeFalse();
             solution.Supplier.Id.Should().Be(Suppliers["Sup1"].id);
             solution.Supplier.Name.Should().Be(Suppliers["Sup1"].name);
             solution.Capabilities.Should().HaveCount(2);
-            solution.Capabilities.Single(c => c.CapabilityReference.Equals(Capabilities[1].Reference, StringComparison.InvariantCulture));
 
-            var capability  = solution.Capabilities.Should().ContainSingle(c => c.CapabilityReference == Capabilities[1].Reference).Subject;
-            capability.Name.Should().Be(Capabilities[1].Name);
-            capability = solution.Capabilities.Should().ContainSingle(c => c.CapabilityReference == Capabilities[2].Reference).Subject;
-            capability.Name.Should().Be(Capabilities[2].Name);
+            var capability = solution.Capabilities.Should().ContainSingle(c => string.Equals(c.CapabilityReference, "C1", StringComparison.OrdinalIgnoreCase)).Subject;
+            capability.Name.Should().Be(Capabilities["C1"].Name); 
+            capability = solution.Capabilities.Should().ContainSingle(c => string.Equals(c.CapabilityReference, "C2", StringComparison.OrdinalIgnoreCase)).Subject;
+            capability.Name.Should().Be(Capabilities["C2"].Name);
 
-            solution = solutions.Result.Solutions.Should().ContainSingle(s => string.Equals(s.Id, "S2", StringComparison.InvariantCulture)).Subject;
+            solution = solutions.Result.Solutions.Should().ContainSingle(s => string.Equals(s.Id, "S2", StringComparison.OrdinalIgnoreCase)).Subject;
             solution.Name.Should().Be("S2Name");
             solution.Summary.Should().Be("S2Summary");
             solution.IsFoundation.Should().BeTrue();
             solution.Supplier.Id.Should().Be(Suppliers["Sup2"].id);
             solution.Supplier.Name.Should().Be(Suppliers["Sup2"].name);
             solution.Capabilities.Should().HaveCount(1);
-            solution.Capabilities.Single(c => c.CapabilityReference.Equals(Capabilities[2].Reference, StringComparison.InvariantCulture));
+            solution.Capabilities.Single(c => string.Equals(c.CapabilityReference, "C2", StringComparison.OrdinalIgnoreCase));
 
-            capability = solution.Capabilities.Should().ContainSingle(c => c.CapabilityReference == Capabilities[2].Reference).Subject;
-            capability.Name.Should().Be(Capabilities[2].Name);
+            capability = solution.Capabilities.Should().ContainSingle(c => string.Equals(c.CapabilityReference, "C2", StringComparison.OrdinalIgnoreCase)).Subject;
+            capability.Name.Should().Be(Capabilities["C2"].Name);
         }
 
         [Test]
@@ -314,7 +313,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             var repositorySolutions = new List<ISolutionListResult>();
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(true, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = GetSolutionsWithEmptyCapabilityReferencesFilter(isFoundation:true);
+            var solutions = GetSolutionsWithEmptyCapabilityReferencesFilterAsync(isFoundation:true);
 
             solutions.Result.Solutions.Should().HaveCount(0);
             _context.MockSolutionListRepository.Verify(r => r.ListAsync(true, It.IsAny<CancellationToken>()), Times.Once);
@@ -326,7 +325,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             Assert.Throws<ArgumentNullException>(() => new ListSolutionsQuery(null));
         }
 
-        private async Task <ISolutionList> GetSolutionsWithEmptyCapabilityReferencesFilter(bool isFoundation = false)
+        private async Task <ISolutionList> GetSolutionsWithEmptyCapabilityReferencesFilterAsync(bool isFoundation = false)
         {
             return await _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Mock.Of<IListSolutionsQueryData>(
                         data => data.CapabilityReferences == new HashSet<ICapabilityReference>() && 
@@ -334,31 +333,27 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
                 .ConfigureAwait(false);
         }
 
-        private IListSolutionsQueryData Filter(int capabilityId)
+        private static IListSolutionsQueryData Filter(string capabilityReference)
         {
-            return Filter(new int[] {capabilityId});
+            return Filter(new string[] {capabilityReference});
         }
 
-        private IListSolutionsQueryData Filter(IEnumerable<int> capabilityIds)
+        private static IListSolutionsQueryData Filter(IEnumerable<string> capabilityReferences)
         {
-            var filter = Mock.Of<IListSolutionsQueryData>(data => data.CapabilityReferences == new HashSet<ICapabilityReference>());
-
-            foreach (var capabilityId in capabilityIds)
-            {
-                filter.CapabilityReferences.Add(Mock.Of<ICapabilityReference>(cr => cr.Reference == Capabilities[capabilityId].Reference));
-            }
-
+            var filter = Mock.Of<IListSolutionsQueryData>(
+                data => data.CapabilityReferences == new List<ICapabilityReference>(
+                            capabilityReferences.Select(cr => Mock.Of<ICapabilityReference>(c => c.Reference == cr)).ToList()));
             return filter;
         }
 
-        private IEnumerable<ISolutionListResult> GetSolutionWithCapabilities(string solnId, string supplierId, bool isFoundation, params int[] capabilityIds)
+        private IEnumerable<ISolutionListResult> GetSolutionWithCapabilities(string solnId, string supplierId, bool isFoundation, params string[] capabilityReferences)
         {
-            return capabilityIds.Select(capabilityId => GetSolution(solnId, supplierId, capabilityId, isFoundation));
+            return capabilityReferences.Select(capabilityReference => GetSolution(solnId, supplierId, capabilityReference, isFoundation));
         }
 
-        private ISolutionListResult GetSolution(string solnId, string supplierId, int capabilityId, bool isFoundation)
+        private ISolutionListResult GetSolution(string solnId, string supplierId, string capabilityReference, bool isFoundation)
         {
-            var capability = Capabilities[capabilityId];
+            (string capabilityName, string capabilityDescription) = Capabilities[capabilityReference];
             var solution = new Mock<ISolutionListResult>();
             solution.Setup(c => c.SolutionId).Returns($"{solnId}");
             solution.Setup(c => c.SolutionName).Returns($"{solnId}Name");
@@ -368,9 +363,9 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             solution.Setup(c => c.SupplierId).Returns(Suppliers[supplierId].id);
             solution.Setup(c => c.SupplierName).Returns(Suppliers[supplierId].name);
 
-            solution.Setup(c => c.CapabilityReference).Returns(capability.Reference);
-            solution.Setup(c => c.CapabilityName).Returns(capability.Name);
-            solution.Setup(c => c.CapabilityDescription).Returns(capability.Description);
+            solution.Setup(c => c.CapabilityReference).Returns(capabilityReference);
+            solution.Setup(c => c.CapabilityName).Returns(capabilityName);
+            solution.Setup(c => c.CapabilityDescription).Returns(capabilityDescription);
             return solution.Object;
         }
     }

@@ -1,9 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using FluentAssertions.Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -71,8 +72,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.UnitTests
             (result.Value as ListSolutionsResult).Solutions.Should().BeEquivalentTo(_solutions);
             _mockMediator.Verify(
                 m => m.Send(
-                    It.Is<ListSolutionsQuery>(q =>
-                        q.Data.CapabilityReferences.SetEquals(filter.CapabilityReferences) && q.Data.IsFoundation == false),
+                    It.Is<ListSolutionsQuery>(q => q.Data.IsSameOrEqualTo(filter)),
                     It.IsAny<CancellationToken>()), Times.Once);
         }
 

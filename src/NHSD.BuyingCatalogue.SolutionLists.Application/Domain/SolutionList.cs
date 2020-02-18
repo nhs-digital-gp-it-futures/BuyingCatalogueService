@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
     {
         public List<SolutionListItem> Solutions { get; }
 
-        internal SolutionList(ISet<ICapabilityReference> capabilityReferences, IEnumerable<ISolutionListResult> solutionListResults)
+        internal SolutionList(IEnumerable<ICapabilityReference> capabilityReferences, IEnumerable<ISolutionListResult> solutionListResults)
         {
             var solutions = new Dictionary<string, SolutionListItem>();
             foreach (var result in solutionListResults)
@@ -24,7 +24,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
 
             Solutions = solutions.Values
                 .Where(s => s.Capabilities.Select(c => c.CapabilityReference).Intersect(capabilityReferences.Select(x => x.Reference).ToList()).Count() ==
-                            capabilityReferences.Count)
+                            capabilityReferences.Count())
                 .ToList();
         }
     }

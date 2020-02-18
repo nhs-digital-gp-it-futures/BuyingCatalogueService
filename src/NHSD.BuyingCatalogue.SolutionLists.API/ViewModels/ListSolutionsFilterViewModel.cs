@@ -10,14 +10,14 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.ViewModels
     /// </summary>
     public sealed class ListSolutionsFilterViewModel : IListSolutionsQueryData
     {
-        public ISet<CapabilityReferenceViewModel> Capabilities { get; } = new HashSet<CapabilityReferenceViewModel>();
+        public IEnumerable<CapabilityReferenceViewModel> Capabilities { get; } = new List<CapabilityReferenceViewModel>();
 
         [JsonIgnore]
-        public ISet<ICapabilityReference> CapabilityReferences
+        public IEnumerable<ICapabilityReference> CapabilityReferences
         {
             get
             {
-                return Capabilities.OfType<ICapabilityReference>().ToHashSet();
+                return Capabilities.OfType<ICapabilityReference>().ToList();
             }
         }
 

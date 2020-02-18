@@ -18,7 +18,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Persistence
         public SolutionListReader(ISolutionListRepository solutionListRepository)
             => _solutionListRepository = solutionListRepository;
 
-        public async Task<SolutionList> ListAsync(ISet<ICapabilityReference> capabilityReferences, bool foundationOnly, CancellationToken cancellationToken)
+        public async Task<SolutionList> ListAsync(IEnumerable<ICapabilityReference> capabilityReferences, bool foundationOnly, CancellationToken cancellationToken)
             => new SolutionList(capabilityReferences.ThrowIfNull(nameof(capabilityReferences)),
                 await _solutionListRepository.ListAsync(foundationOnly, cancellationToken).ConfigureAwait(false));
     }

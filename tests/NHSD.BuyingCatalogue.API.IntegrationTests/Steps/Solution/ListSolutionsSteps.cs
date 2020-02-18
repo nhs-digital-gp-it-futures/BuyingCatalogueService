@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -60,7 +60,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
         {
             var capabilities = await CapabilityEntity.FetchAllAsync().ConfigureAwait(false);
             var listOfReferences = capabilityNames.Select(cn => capabilities.First(c => c.Name == cn).CapabilityRef);
-            return new SolutionsRequest { Capabilities = listOfReferences.Select(r => new CapabilityReference(r)).ToHashSet()};
+            return new SolutionsRequest { Capabilities = listOfReferences.Select(r => new CapabilityReference(r)).ToList()};
         }
 
         [Then(@"the solutions (.*) are found in the response")]
@@ -100,7 +100,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
 
         private class SolutionsRequest
         {
-            public HashSet<CapabilityReference> Capabilities { get; set; }
+            public List<CapabilityReference> Capabilities { get; set; }
         }
 
         private class CapabilityReference
