@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -13,37 +13,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
     {
         private static readonly Dictionary<string, string> Tokens = new Dictionary<string, string>
         {
-            { "native-mobile-third-party", "sections.client-application-types.sections.native-mobile.sections.native-mobile-third-party.answers." },
-            { "native-mobile-connection-details", "sections.client-application-types.sections.native-mobile.sections.native-mobile-connection-details.answers." },
-            { "native-mobile-operating-systems", "sections.client-application-types.sections.native-mobile.sections.native-mobile-operating-systems.answers." },
-            { "native-mobile-first", "sections.client-application-types.sections.native-mobile.sections.native-mobile-first.answers." },
-            { "native-mobile-memory-and-storage", "sections.client-application-types.sections.native-mobile.sections.native-mobile-memory-and-storage.answers." },
-            { "native-mobile-hardware-requirements", "sections.client-application-types.sections.native-mobile.sections.native-mobile-hardware-requirements.answers." },
-            { "native-mobile-additional-information", "sections.client-application-types.sections.native-mobile.sections.native-mobile-additional-information.answers." },
-            { "native-desktop-hardware-requirements", "sections.client-application-types.sections.native-desktop.sections.native-desktop-hardware-requirements.answers." },
-            { "native-desktop-connection-details", "sections.client-application-types.sections.native-desktop.sections.native-desktop-connection-details.answers." },
-            { "native-desktop-operating-systems", "sections.client-application-types.sections.native-desktop.sections.native-desktop-operating-systems.answers." },
-            { "native-desktop-third-party", "sections.client-application-types.sections.native-desktop.sections.native-desktop-third-party.answers." },
-            { "native-desktop-memory-and-storage", "sections.client-application-types.sections.native-desktop.sections.native-desktop-memory-and-storage.answers." },
-            { "native-desktop-additional-information", "sections.client-application-types.sections.native-desktop.sections.native-desktop-additional-information.answers." },
-            { "browser-browsers-supported","sections.client-application-types.sections.browser-based.sections.browser-browsers-supported.answers." },
-            { "browser-plug-ins-or-extensions","sections.client-application-types.sections.browser-based.sections.browser-plug-ins-or-extensions.answers." },
-            { "browser-hardware-requirements","sections.client-application-types.sections.browser-based.sections.browser-hardware-requirements.answers." },
-            { "browser-connectivity-and-resolution","sections.client-application-types.sections.browser-based.sections.browser-connectivity-and-resolution.answers." },
-            { "browser-additional-information","sections.client-application-types.sections.browser-based.sections.browser-additional-information.answers." },
-            { "browser-mobile-first","sections.client-application-types.sections.browser-based.sections.browser-mobile-first.answers." },
-            { "hosting-type-public-cloud","sections.hosting-type-public-cloud.answers." },
-            { "hosting-type-private-cloud","sections.hosting-type-private-cloud.answers." },
-            { "hosting-type-hybrid","sections.hosting-type-hybrid.answers." },
-            { "hosting-type-on-premise","sections.hosting-type-on-premise.answers." },
-            { "solution-description","sections.solution-description.answers." },
-            { "roadmap","sections.roadmap.answers." },
-            { "integrations","sections.integrations.answers." },
-            { "implementation-timescales","sections.implementation-timescales.answers." },
-            { "features","sections.features.answers." },
-            { "capabilities", "sections.capabilities.answers."},
-            { "contact-details", "sections.contact-details.answers." },
-            { "about-supplier", "sections.about-supplier.answers."},
             { "learn-more", "sections.learn-more.answers."},
             {
                 "native-mobile-third-party",
