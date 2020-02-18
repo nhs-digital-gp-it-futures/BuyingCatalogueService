@@ -1,5 +1,4 @@
-using System;
-using NHSD.BuyingCatalogue.SolutionLists.Contracts.Persistence;
+﻿using NHSD.BuyingCatalogue.SolutionLists.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.Models
 {
@@ -15,7 +14,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.Models
 
         public string SupplierName { get; set; }
 
-        public Guid CapabilityId { get; set; }
+        public string CapabilityReference { get; set; }
 
         public string CapabilityName { get; set; }
 

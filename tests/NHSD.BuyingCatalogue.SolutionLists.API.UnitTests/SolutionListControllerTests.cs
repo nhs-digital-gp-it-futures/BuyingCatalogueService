@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.SolutionLists.API.ViewModels;
+using NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.SolutionLists.Contracts;
 using NUnit.Framework;
 
@@ -45,7 +46,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.UnitTests
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
             (result.Value as ListSolutionsResult).Solutions.Should().BeEquivalentTo(_solutions);
             _mockMediator.Verify(
-                m => m.Send(It.Is<ListSolutionsQuery>(q => q.IsFoundation), It.IsAny<CancellationToken>()), Times.Once);
+                m => m.Send(It.Is<ListSolutionsQuery>(q => q.Data.IsFoundation), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
@@ -56,15 +57,14 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.UnitTests
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
             (result.Value as ListSolutionsResult).Solutions.Should().BeEquivalentTo(_solutions);
             _mockMediator.Verify(
-                m => m.Send(It.Is<ListSolutionsQuery>(q => q.IsFoundation == false), It.IsAny<CancellationToken>()),
+                m => m.Send(It.Is<ListSolutionsQuery>(q => q.Data.IsFoundation == false), It.IsAny<CancellationToken>()),
                 Times.Once);
         }
 
         [Test]
         public async Task ShouldListSolutionsByFilter()
         {
-            var filter = new ListSolutionsFilter {Capabilities = {Guid.Empty}};
-
+            var filter = new ListSolutionsFilterViewModel();
             var result = (await _solutionListController.ListByFilterAsync(filter).ConfigureAwait(false)).Result as ObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
@@ -72,7 +72,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.UnitTests
             _mockMediator.Verify(
                 m => m.Send(
                     It.Is<ListSolutionsQuery>(q =>
-                        q.CapabilityIdList == filter.Capabilities && q.IsFoundation == false),
+                        q.Data.CapabilityReferences.SetEquals(filter.CapabilityReferences) && q.Data.IsFoundation == false),
                     It.IsAny<CancellationToken>()), Times.Once);
         }
 

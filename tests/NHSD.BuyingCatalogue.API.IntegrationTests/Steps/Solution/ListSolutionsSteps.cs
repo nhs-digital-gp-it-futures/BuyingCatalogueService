@@ -59,7 +59,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
         private static async Task<SolutionsRequest> BuildRequestAsync(IEnumerable<string> capabilityNames)
         {
             var capabilities = await CapabilityEntity.FetchAllAsync().ConfigureAwait(false);
-            return new SolutionsRequest { Capabilities = new HashSet<string>(capabilityNames.Select(cn => capabilities.First(c => c.Name == cn).Id.ToString())) };
+            var listOfReferences = capabilityNames.Select(cn => capabilities.First(c => c.Name == cn).CapabilityRef);
+            return new SolutionsRequest { Capabilities = listOfReferences.Select(r => new CapabilityReference(r)).ToHashSet()};
         }
 
         [Then(@"the solutions (.*) are found in the response")]
@@ -99,7 +100,17 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
 
         private class SolutionsRequest
         {
-            public HashSet<string> Capabilities { get; set; }
+            public HashSet<CapabilityReference> Capabilities { get; set; }
+        }
+
+        private class CapabilityReference
+        {
+            public string Reference { get; }
+
+            public CapabilityReference(string reference)
+            {
+                Reference = reference;
+            }
         }
 
         private class SolutionDetailsTable

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,6 +21,9 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
         private readonly Guid _cap1Id = Guid.NewGuid();
         private readonly Guid _cap2Id = Guid.NewGuid();
 
+        private const string CapabilityReference1 = "C1";
+        private const string CapabilityReference2 = "C2";
+
         private readonly string _supplierId = "Sup 1";
         private readonly string _supplierName = "Supplier 1";
 
@@ -37,8 +40,8 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .Build()
                 .InsertAsync().ConfigureAwait(false);
 
-            await CapabilityEntityBuilder.Create().WithName("Cap1").WithId(_cap1Id).WithDescription("Cap1Desc").Build().InsertAsync().ConfigureAwait(false);
-            await CapabilityEntityBuilder.Create().WithName("Cap2").WithId(_cap2Id).WithDescription("Cap2Desc").Build().InsertAsync().ConfigureAwait(false);
+            await CapabilityEntityBuilder.Create().WithName("Cap1").WithId(_cap1Id).WithCapabilityRef(CapabilityReference1).WithDescription("Cap1Desc").Build().InsertAsync().ConfigureAwait(false);
+            await CapabilityEntityBuilder.Create().WithName("Cap2").WithId(_cap2Id).WithCapabilityRef(CapabilityReference2).WithDescription("Cap2Desc").Build().InsertAsync().ConfigureAwait(false);
             
             TestContext testContext = new TestContext();
             _solutionListRepository = testContext.SolutionListRepository;
@@ -91,7 +94,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
             solution.SolutionSummary.Should().Be("Sln1Summary");
             solution.SupplierId.Should().Be(_supplierId);
             solution.SupplierName.Should().Be(_supplierName);
-            solution.CapabilityId.Should().Be(_cap1Id);
+            solution.CapabilityReference.Should().Be(CapabilityReference1);
             solution.CapabilityName.Should().Be("Cap1");
             solution.CapabilityDescription.Should().Be("Cap1Desc");
             solution.IsFoundation.Should().BeFalse();
@@ -166,23 +169,23 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 (await _solutionListRepository.ListAsync(false, new CancellationToken()).ConfigureAwait(false)).ToList();
             solutions.Should().HaveCount(2);
 
-            var solution = solutions.Should().ContainSingle(s => s.CapabilityId == _cap1Id).Subject;
+            var solution = solutions.Should().ContainSingle(s => s.CapabilityReference == CapabilityReference1).Subject;
             solution.SolutionId.Should().Be(Solution1Id);
             solution.SolutionName.Should().Be("Solution1");
             solution.SolutionSummary.Should().Be("Sln1Summary");
             solution.SupplierId.Should().Be(_supplierId);
             solution.SupplierName.Should().Be(_supplierName);
-            solution.CapabilityId.Should().Be(_cap1Id);
+            solution.CapabilityReference.Should().Be(CapabilityReference1);
             solution.CapabilityName.Should().Be("Cap1");
             solution.CapabilityDescription.Should().Be("Cap1Desc");
 
-            solution = solutions.Should().ContainSingle(s => s.CapabilityId == _cap2Id).Subject;
+            solution = solutions.Should().ContainSingle(s => s.CapabilityReference == CapabilityReference2).Subject;
             solution.SolutionId.Should().Be(Solution1Id);
             solution.SolutionName.Should().Be("Solution1");
             solution.SolutionSummary.Should().Be("Sln1Summary");
             solution.SupplierId.Should().Be(_supplierId);
             solution.SupplierName.Should().Be(_supplierName);
-            solution.CapabilityId.Should().Be(_cap2Id);
+            solution.CapabilityReference.Should().Be(CapabilityReference2);
             solution.CapabilityName.Should().Be("Cap2");
             solution.CapabilityDescription.Should().Be("Cap2Desc");
         }
@@ -255,33 +258,33 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
 
             solutions.Should().HaveCount(3);
 
-            var solution = solutions.Should().ContainSingle(s => s.SolutionId == Solution1Id && s.CapabilityId == _cap1Id).Subject;
+            var solution = solutions.Should().ContainSingle(s => s.SolutionId == Solution1Id && s.CapabilityReference == CapabilityReference1).Subject;
             solution.SolutionId.Should().Be(Solution1Id);
             solution.SolutionName.Should().Be("Solution1");
             solution.SolutionSummary.Should().Be("Sln1Summary");
             solution.SupplierId.Should().Be(_supplierId);
             solution.SupplierName.Should().Be(_supplierName);
-            solution.CapabilityId.Should().Be(_cap1Id);
+            solution.CapabilityReference.Should().Be(CapabilityReference1);
             solution.CapabilityName.Should().Be("Cap1");
             solution.CapabilityDescription.Should().Be("Cap1Desc");
 
-            solution = solutions.Should().ContainSingle(s => s.SolutionId == Solution1Id && s.CapabilityId == _cap2Id).Subject;
+            solution = solutions.Should().ContainSingle(s => s.SolutionId == Solution1Id && s.CapabilityReference == CapabilityReference2).Subject;
             solution.SolutionId.Should().Be(Solution1Id);
             solution.SolutionName.Should().Be("Solution1");
             solution.SolutionSummary.Should().Be("Sln1Summary");
             solution.SupplierId.Should().Be(_supplierId);
             solution.SupplierName.Should().Be(_supplierName);
-            solution.CapabilityId.Should().Be(_cap2Id);
+            solution.CapabilityReference.Should().Be(CapabilityReference2);
             solution.CapabilityName.Should().Be("Cap2");
             solution.CapabilityDescription.Should().Be("Cap2Desc");
 
-            solution = solutions.Should().ContainSingle(s => s.SolutionId == Solution2Id && s.CapabilityId == _cap2Id).Subject;
+            solution = solutions.Should().ContainSingle(s => s.SolutionId == Solution2Id && s.CapabilityReference == CapabilityReference2).Subject;
             solution.SolutionId.Should().Be(Solution2Id);
             solution.SolutionName.Should().Be("Solution2");
             solution.SolutionSummary.Should().Be("Sln2Summary");
             solution.SupplierId.Should().Be(_supplierId);
             solution.SupplierName.Should().Be(_supplierName);
-            solution.CapabilityId.Should().Be(_cap2Id);
+            solution.CapabilityReference.Should().Be(CapabilityReference2);
             solution.CapabilityName.Should().Be("Cap2");
             solution.CapabilityDescription.Should().Be("Cap2Desc");
         }

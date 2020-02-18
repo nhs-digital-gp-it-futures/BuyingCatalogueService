@@ -1,5 +1,4 @@
-using System;
-using NHSD.BuyingCatalogue.Infrastructure;
+﻿using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.SolutionLists.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
@@ -8,14 +7,14 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
     {
         public SolutionListItemCapability(ISolutionListResult item)
         {
-            Id = item.ThrowIfNull("Capability").CapabilityId;
+            CapabilityReference = item.ThrowIfNull("Capability").CapabilityReference;
             Name = item.CapabilityName;
         }
 
         /// <summary>
         /// Identifier of the capability.
         /// </summary>
-        public Guid Id { get; }
+        public string CapabilityReference { get; }
 
         /// <summary>
         /// Name of the capability.

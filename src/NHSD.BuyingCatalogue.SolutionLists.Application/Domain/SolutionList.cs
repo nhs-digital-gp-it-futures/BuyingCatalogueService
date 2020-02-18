@@ -1,6 +1,6 @@
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using NHSD.BuyingCatalogue.SolutionLists.Contracts;
 using NHSD.BuyingCatalogue.SolutionLists.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
     {
         public List<SolutionListItem> Solutions { get; }
 
-        internal SolutionList(ISet<Guid> capabilityIdList, IEnumerable<ISolutionListResult> solutionListResults)
+        internal SolutionList(ISet<ICapabilityReference> capabilityReferences, IEnumerable<ISolutionListResult> solutionListResults)
         {
             var solutions = new Dictionary<string, SolutionListItem>();
             foreach (var result in solutionListResults)
@@ -23,8 +23,8 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
             }
 
             Solutions = solutions.Values
-                .Where(s => s.Capabilities.Select(c => c.Id).Intersect(capabilityIdList).Count() ==
-                            capabilityIdList.Count)
+                .Where(s => s.Capabilities.Select(c => c.CapabilityReference).Intersect(capabilityReferences.Select(x => x.Reference).ToList()).Count() ==
+                            capabilityReferences.Count)
                 .ToList();
         }
     }

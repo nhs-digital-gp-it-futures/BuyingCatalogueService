@@ -1,4 +1,4 @@
-using System;
+﻿using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.SolutionLists.Contracts;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions
@@ -11,7 +11,8 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions
         /// <summary>
         /// Identifier of the capability.
         /// </summary>
-        public Guid Id { get; set; }
+        [JsonProperty("reference")]
+        public string CapabilityReference { get; set; }
 
         /// <summary>
         /// Name of the capability.
