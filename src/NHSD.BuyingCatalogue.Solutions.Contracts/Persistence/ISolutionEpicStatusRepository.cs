@@ -6,6 +6,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
 {
     public interface ISolutionEpicStatusRepository
     {
-        Task<int> GetMatchingEpicStatusAsync(IEnumerable<string> statusNames, CancellationToken cancellationToken);
+        Task<int> CountMatchingEpicStatusAsync(IEnumerable<string> statusNames, CancellationToken cancellationToken);
     }
 }

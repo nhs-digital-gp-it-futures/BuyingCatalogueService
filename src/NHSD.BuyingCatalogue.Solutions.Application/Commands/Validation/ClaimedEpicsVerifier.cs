@@ -30,7 +30,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
 
             if (CheckNoDuplicateEpicIds(epics.Select(x => x.EpicId)))
             {
-                _verifyEpicsResult.ValidEpicsList.Add("epics");
+                _verifyEpicsResult.InvalidEpicsList.Add("epics");
                 return _verifyEpicsResult;
             }
 
@@ -41,7 +41,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
 
             if (!result)
             {
-                _verifyEpicsResult.ValidEpicsList.Add("epics");
+                _verifyEpicsResult.InvalidEpicsList.Add("epics");
             }
 
             return _verifyEpicsResult;
@@ -61,14 +61,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
 
         private async Task<int> CheckEpicIdsExist(ISet<string> epicIds, CancellationToken cancellationToken) =>
             await _epicRepository
-                .GetMatchingEpicIdsAsync(epicIds, cancellationToken).ConfigureAwait(false);
+                .CountMatchingEpicIdsAsync(epicIds, cancellationToken).ConfigureAwait(false);
 
         private async Task<bool> CheckStatusNamesExist(ISet<string> statusNames, CancellationToken cancellationToken)
         {
             IEnumerable<string> uniqueStatusNameList = statusNames.Distinct().ToList();
 
             var statusNameCount = await _solutionEpicStatusRepository
-                .GetMatchingEpicStatusAsync(uniqueStatusNameList, cancellationToken).ConfigureAwait(false);
+                .CountMatchingEpicStatusAsync(uniqueStatusNameList, cancellationToken).ConfigureAwait(false);
 
             return statusNameCount == uniqueStatusNameList.Count();
         }

@@ -9,17 +9,18 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 {
     public sealed class EpicRepository : IEpicRepository
     {
+        private const string CheckIdsExistSql = @"SELECT COUNT(Id)
+                                               FROM Epic
+                                               WHERE Id in @epicIds";
+
         private readonly IDbConnector _dbConnector;
 
         public EpicRepository(IDbConnector dbConnector) =>
             _dbConnector = dbConnector;
 
-        private const string CheckIdsExist = @"SELECT COUNT(Id)
-                                               FROM Epic
-                                               WHERE Id in @epicIds";
-
-        public async Task<int> GetMatchingEpicIdsAsync(IEnumerable<string> epicIds, CancellationToken cancellationToken) =>
-            (await _dbConnector.QueryAsync<int>(CheckIdsExist, cancellationToken, new { epicIds })
+        public async Task<int> CountMatchingEpicIdsAsync(IEnumerable<string> epicIds,
+            CancellationToken cancellationToken) =>
+            (await _dbConnector.QueryAsync<int>(CheckIdsExistSql, cancellationToken, new {epicIds})
                 .ConfigureAwait(false)).FirstOrDefault();
     }
 }

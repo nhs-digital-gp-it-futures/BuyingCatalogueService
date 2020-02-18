@@ -9,17 +9,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 {
     public sealed class SolutionEpicStatusRepository : ISolutionEpicStatusRepository
     {
+        private const string CheckStatusExistSql = @"SELECT COUNT(Id)
+                                                  FROM SolutionEpicStatus
+                                                  WHERE Name in @statusNames";
         private readonly IDbConnector _dbConnector;
 
         public SolutionEpicStatusRepository(IDbConnector dbConnector) =>
             _dbConnector = dbConnector;
-        
-        private const string CheckStatusExist = @"SELECT COUNT(Id)
-                                                  FROM SolutionEpicStatus
-                                                  WHERE Name in @statusNames";
 
-        public async Task<int> GetMatchingEpicStatusAsync(IEnumerable<string> statusNames, CancellationToken cancellationToken) =>
-            (await _dbConnector.QueryAsync<int>(CheckStatusExist, cancellationToken, new {statusNames})
+        public async Task<int> CountMatchingEpicStatusAsync(IEnumerable<string> statusNames, CancellationToken cancellationToken) =>
+            (await _dbConnector.QueryAsync<int>(CheckStatusExistSql, cancellationToken, new {statusNames})
                 .ConfigureAwait(false)).FirstOrDefault();
     }
 }

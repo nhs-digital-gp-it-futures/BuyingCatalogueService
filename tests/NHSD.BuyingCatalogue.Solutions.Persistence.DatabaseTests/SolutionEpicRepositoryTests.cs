@@ -123,10 +123,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             {
                 Mock.Of<IClaimedEpicResult>(e => e.EpicId == _epicDetails[0].Id && e.StatusName == StatusPassed)
             };
-            var epicIdCount = await _epicRepository.GetMatchingEpicIdsAsync(epics.Select(x => x.EpicId), It.IsAny<CancellationToken>())
+            var epicIdCount = await _epicRepository.CountMatchingEpicIdsAsync(epics.Select(x => x.EpicId), It.IsAny<CancellationToken>())
                 .ConfigureAwait(false);
 
-            var epicStatusNameCount = await _solutionEpicStatusRepository.GetMatchingEpicStatusAsync(epics.Select(x => x.StatusName), It.IsAny<CancellationToken>())
+            var epicStatusNameCount = await _solutionEpicStatusRepository.CountMatchingEpicStatusAsync(epics.Select(x => x.StatusName), It.IsAny<CancellationToken>())
                 .ConfigureAwait(false);
 
             epicIdCount.Should().Be(0);
@@ -144,10 +144,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 Mock.Of<IClaimedEpicResult>(e => e.EpicId == _epicDetails[0].Id && e.StatusName == InvalidStatus)
             };
 
-            var epicIdCount = await _epicRepository.GetMatchingEpicIdsAsync(epics.Select(x => x.EpicId), It.IsAny<CancellationToken>())
+            var epicIdCount = await _epicRepository.CountMatchingEpicIdsAsync(epics.Select(x => x.EpicId), It.IsAny<CancellationToken>())
                 .ConfigureAwait(false);
 
-            var epicStatusNameCount = await _solutionEpicStatusRepository.GetMatchingEpicStatusAsync(epics.Select(x => x.StatusName), It.IsAny<CancellationToken>())
+            var epicStatusNameCount = await _solutionEpicStatusRepository.CountMatchingEpicStatusAsync(epics.Select(x => x.StatusName), It.IsAny<CancellationToken>())
                 .ConfigureAwait(false);
 
             epicIdCount.Should().Be(1);

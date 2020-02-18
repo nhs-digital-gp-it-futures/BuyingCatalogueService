@@ -12,18 +12,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 {
     public sealed class SolutionEpicRepository : ISolutionEpicRepository
     {
-        private readonly IDbConnector _dbConnector;
-
-        public SolutionEpicRepository(IDbConnector dbConnector) =>
-            _dbConnector = dbConnector;
-
         private const string DeleteSolutionEpicSql = @"DELETE FROM dbo.SolutionEpic WHERE SolutionId = @solutionId";
         private const string InsertSolutionEpicSql = @"INSERT INTO dbo.SolutionEpic (SolutionId, CapabilityId, EpicId, StatusId, LastUpdated, LastUpdatedBy) VALUES (@solutionId, (SELECT Epic.CapabilityId FROM Epic WHERE Epic.Id = @epicId), @epicId, (SELECT SolutionEpicStatus.Id FROM SolutionEpicStatus WHERE SolutionEpicStatus.Name = @statusName), GETDATE(), @lastUpdatedBy)";
-        
+
         private const string ListSolutionEpicsSql = @"SELECT
 		                                               Epic.[Id] as EpicId
                                                       ,Epic.[Name] as EpicName
-                                                      ,Epic.[CapabilityId]  as CapabilityId              
+                                                      ,Epic.[CapabilityId] as CapabilityId              
 	                                                  ,CompliancyLevel.Name as EpicCompliancyLevel
 	                                                  ,SolutionEpicStatus.IsMet as IsMet
                                                   FROM [Epic] 
@@ -32,6 +27,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                                                       inner join [SolutionEpicStatus] on SolutionEpicStatus.Id = SolutionEpic.StatusId
                                                   Where [Epic].Active = 1 and [SolutionEpic].SolutionId = @solutionId
                                                   Order By EpicId";
+
+        private readonly IDbConnector _dbConnector;
+
+        public SolutionEpicRepository(IDbConnector dbConnector) =>
+            _dbConnector = dbConnector;
 
         public async Task<IEnumerable<ISolutionEpicListResult>> ListSolutionEpicsAsync(string solutionId, CancellationToken cancellationToken)
             => await _dbConnector.QueryAsync<SolutionEpicListResult>(ListSolutionEpicsSql, cancellationToken, new { solutionId })

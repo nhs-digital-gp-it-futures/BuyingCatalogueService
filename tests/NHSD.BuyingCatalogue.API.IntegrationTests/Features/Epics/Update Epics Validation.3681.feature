@@ -1,7 +1,7 @@
 Feature: Update Epics Validation
 	As a Public User
-    I want to update the Epics for a Solution to check it is valid
-    So that I can modify who the Solution Epics are
+    I want to update the Claimed Epics for a Solution
+    So that I can modify what claimed epics a solution has
 
 Background:
 	Given Capabilities exist
@@ -26,7 +26,7 @@ Background:
 		| Sln2       | Epic2, Epic3 |
 
 @3681
-Scenario: 1. A Epic that does not exist is added
+Scenario: 1. A Claimed Epic that does not exist is added
 	When a PUT request is made to update a epics section for solution Sln1
 		| EpicId | StatusName |
 		| Test   | Passed     |
@@ -50,7 +50,7 @@ Scenario: 2. A Status that does not exist is added
 		| Sln2       | Epic2, Epic3 |
 
 @3681
-Scenario: 3. An Epic and Status that doesnt exist is added
+Scenario: 3. A Claimed Epic and Status that doesnt exist is added
 	When a PUT request is made to update a epics section for solution Sln2
 		| EpicId | StatusName |
 		| Test   | Unknown    |
