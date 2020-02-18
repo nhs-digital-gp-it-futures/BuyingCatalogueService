@@ -78,3 +78,18 @@ Scenario Outline: 3. Multiple Capabilities are selected, solutions that do not d
 		| Clinical Safety,Prescribing                 | MedicOnline,TakeTheRedPill             |
 		| Prescribing,Workflow,Resource Management    | MedicOnline,PracticeMgr,TakeTheRedPill |
 		| Prescribing,Resource Management             | MedicOnline,PracticeMgr                |
+
+@2048
+Scenario Outline: 4. Duplicate Capabilities are selected, all solutions that deliver ALL unique requested capabilities are returned
+	When a POST request is made containing the capabilities <Capabilities>
+	Then a successful response is returned
+	And the solutions <Solutions> are found in the response
+
+	Examples:
+		| Capabilities                                            | Solutions               |
+		| Workflow,Workflow,Appointments Management               | MedicOnline             |
+		| Appointments Management,Resource Management             |                         |
+		| Clinical Safety,Workflow,Clinical Safety                | MedicOnline,PracticeMgr |
+		| Clinical Safety,Prescribing                             | PracticeMgr             |
+		| Prescribing,Workflow,Resource Management                |                         |
+		| Prescribing,Resource Management,Prescribing,Prescribing | TakeTheRedPill          |

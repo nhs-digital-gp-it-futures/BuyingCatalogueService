@@ -17,13 +17,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
     {
         private const string ListSolutionsUrl = "http://localhost:8080/api/v1/Solutions";
 
-        private readonly ScenarioContext _context;
-
         private readonly Response _response;
 
-        public ListSolutionsSteps(ScenarioContext context, Response response)
+        public ListSolutionsSteps(Response response)
         {
-            _context = context;
             _response = response;
         }
 

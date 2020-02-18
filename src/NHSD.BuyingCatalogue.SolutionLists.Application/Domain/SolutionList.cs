@@ -11,6 +11,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
 
         internal SolutionList(IEnumerable<ICapabilityReference> capabilityReferences, IEnumerable<ISolutionListResult> solutionListResults)
         {
+            var uniqueCapabilityReferences = new HashSet<string>(capabilityReferences.Select(x => x.Reference));
             var solutions = new Dictionary<string, SolutionListItem>();
             foreach (var result in solutionListResults)
             {
@@ -23,8 +24,8 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
             }
 
             Solutions = solutions.Values
-                .Where(s => s.Capabilities.Select(c => c.CapabilityReference).Intersect(capabilityReferences.Select(x => x.Reference).ToList()).Count() ==
-                            capabilityReferences.Count())
+                .Where(s => s.Capabilities.Select(c => c.CapabilityReference).Intersect(uniqueCapabilityReferences).Count() ==
+                            uniqueCapabilityReferences.Count())
                 .ToList();
         }
     }
