@@ -5,10 +5,10 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
 {
     internal sealed class SolutionListItemCapability
     {
-        public SolutionListItemCapability(ISolutionListResult item)
+        public SolutionListItemCapability(ISolutionListResult solutionList)
         {
-            CapabilityReference = item.ThrowIfNull("Capability").CapabilityReference;
-            Name = item.CapabilityName;
+            CapabilityReference = solutionList.ThrowIfNull(nameof(solutionList)).CapabilityReference;
+            Name = solutionList.CapabilityName;
         }
 
         /// <summary>
