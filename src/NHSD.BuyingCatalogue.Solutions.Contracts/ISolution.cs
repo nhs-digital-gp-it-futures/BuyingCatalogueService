@@ -100,5 +100,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         /// Gets or sets the implementation timescales.
         /// </summary>
         IImplementationTimescales ImplementationTimescales { get; }
+
+        ISolutionDocument SolutionDocument { get; }
     }
 }

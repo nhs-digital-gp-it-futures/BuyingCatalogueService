@@ -11,7 +11,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
     /// <summary>
     /// A product and/or service provided by a supplier.
     /// </summary>
-    internal class Solution
+    internal sealed class Solution
     {
         /// <summary>
         /// Id of the solution.
@@ -104,9 +104,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public ImplementationTimescales ImplementationTimescales { get; set; }
 
         /// <summary>
+        /// Gets or sets the solution document for the solution.
+        /// </summary>
+        public SolutionDocument SolutionDocument { get; set; }
+
+        /// <summary>
         /// Initialises a new instance of the <see cref="Solution" /> class.
         /// </summary>
-        internal Solution(ISolutionResult solutionResult,
+        internal Solution(
+            ISolutionResult solutionResult,
             IEnumerable<ISolutionCapabilityListResult> solutionCapabilityListResult,
             IEnumerable<IMarketingContactResult> contactResult,
             ISupplierResult supplierResult,
@@ -147,6 +153,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
                 ? new Hosting()
                 : JsonConvert.DeserializeObject<Hosting>(solutionResult.Hosting);
             Supplier = supplierResult != null ? new Supplier(supplierResult) : new Supplier();
+
+            SolutionDocument = new SolutionDocument(documentResult?.SolutionDocumentName);
         }
 
         /// <summary>

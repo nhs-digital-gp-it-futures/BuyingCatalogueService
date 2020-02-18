@@ -14,7 +14,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Documents
     internal sealed class DocumentsApiSteps
     {
         private readonly ScenarioContext _context;
-
+        
         public DocumentsApiSteps(ScenarioContext context)
         {
             _context = context;
@@ -26,8 +26,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Documents
         public async Task GivenANamedDocumentForAGivenSolutionIdExists(string documentName,
             string solutionId)
         {
-            MappingModel model = new MappingModel {Response = new ResponseModel {Body = $"[\"{documentName}\"]"} };
-            
+            MappingModel model = new MappingModel { Response = new ResponseModel { Body = $"[\"{documentName}\"]" } };
+
             model.Request = new RequestModel
             {
                 Path = new PathModel
@@ -42,7 +42,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Documents
                         }
                     }
                 },
-                Methods = new[] {"GET"}
+                Methods = new[] { "GET" }
             };
             await SendModel(model, _context).ConfigureAwait(false);
         }
@@ -52,7 +52,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Documents
         {
             MappingModel model = new MappingModel
             {
-                Response = new ResponseModel {StatusCode = 500, Body = "Demo Error"}
+                Response = new ResponseModel { StatusCode = 500, Body = "Demo Error" }
             };
 
             model.Request = new RequestModel
@@ -69,7 +69,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Documents
                         }
                     }
                 },
-                Methods = new[] {"GET"}
+                Methods = new[] { "GET" }
             };
 
             await SendModel(model, _context).ConfigureAwait(false);
@@ -89,7 +89,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Documents
                 guidList.Add(model.Guid.Value);
         }
 
-        [AfterScenario()]
+        [AfterScenario]
         public async Task ClearMappings()
         {
             if (_context.ContainsKey("DocumentApiMappingGuids") && _context["DocumentApiMappingGuids"] is List<Guid> guidList)

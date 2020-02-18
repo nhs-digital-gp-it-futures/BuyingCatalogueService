@@ -13,6 +13,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
     {
         private static readonly Dictionary<string, string> Tokens = new Dictionary<string, string>
         {
+            { "learn-more", "sections.learn-more.answers."},
             {
                 "native-mobile-third-party",
                 "sections.client-application-types.sections.native-mobile.sections.native-mobile-third-party.answers."
