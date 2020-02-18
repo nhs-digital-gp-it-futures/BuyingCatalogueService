@@ -1,4 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
@@ -22,6 +22,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public ISolutionRepository SolutionRepository => _scope.SolutionRepository;
 
         public ISupplierRepository SupplierRepository => _scope.SupplierRepository;
+
+        public IEpicRepository EpicRepository => _scope.EpicRepository;
+
+        public ISolutionEpicStatusRepository SolutionEpicStatusRepository => _scope.SolutionEpicStatusRepository;
 
         public IDbConnector DbConnector => _scope.DbConnector;
 
@@ -55,6 +59,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             public ISupplierRepository SupplierRepository { get; }
 
+            public IEpicRepository EpicRepository { get; }
+
+            public ISolutionEpicStatusRepository SolutionEpicStatusRepository { get; }
+
             public IDbConnector DbConnector { get; }
 
             public Scope(IMarketingContactRepository marketingContactRepository,
@@ -63,6 +71,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 ISolutionDetailRepository solutionDetailRepository,
                 ISolutionRepository solutionRepository,
                 ISupplierRepository supplierRepository,
+                IEpicRepository epicRepository,
+                ISolutionEpicStatusRepository solutionEpicStatusRepository,
                 IDbConnector dbConnector)
             {
                 MarketingContactRepository = marketingContactRepository;
@@ -71,6 +81,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 SolutionDetailRepository = solutionDetailRepository;
                 SolutionRepository = solutionRepository;
                 SupplierRepository = supplierRepository;
+                EpicRepository = epicRepository;
+                SolutionEpicStatusRepository = solutionEpicStatusRepository;
                 DbConnector = dbConnector;
             }
         }

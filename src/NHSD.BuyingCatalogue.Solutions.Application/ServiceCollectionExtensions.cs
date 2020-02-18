@@ -1,4 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.BrowserBased.UpdateBrowserBasedAdditionalInformation;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.BrowserBased.UpdateSolutionBrowserHardwareRequirements;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.BrowserBased.UpdateSolutionBrowserMobileFirst;
@@ -178,6 +178,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 
                 .AddTransient<IExecutor<UpdateClaimedEpicsCommand>, UpdateClaimedEpicsExecutor>()
                 .AddTransient<IValidator<UpdateClaimedEpicsCommand, ISimpleResult>, UpdateClaimedEpicsValidator>()
+
+                .AddTransient<IVerifier<UpdateClaimedEpicsCommand, ISimpleResult>, ClaimedEpicsVerifier>()
                 ;
         }
     }
