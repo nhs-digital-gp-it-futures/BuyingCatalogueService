@@ -4,39 +4,50 @@
 # Core EditorConfig Options   #
 ###############################
 
+# top-most EditorConfig file
 root = true
 
-# All files
+# Don't use tabs for indentation.
 [*]
-charset = utf-8
 indent_style = space
+
+# Code files
+[*.{cs,csx,vb,vbx}]
 indent_size = 4
 insert_final_newline = true
-trim_trailing_whitespace = true
+charset = utf-8-bom
 
-# Various XML Configuration Files
-[*.{xml,config,props,targets,nuspec,resx,ruleset,vsixmanifest,vsct}]
+# XML project files
+[*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
+indent_size = 2
+
+# XML config files
+[*.{props,targets,ruleset,config,nuspec,resx,vsixmanifest,vsct}]
 indent_size = 2
 
 # JSON Files
 [*.{json,json5}]
 indent_size = 2
 
-# YAML Files
-[*.{yml,yaml}]
+# Powershell files
+[*.ps1]
 indent_size = 2
 
-# Markdown Files
-[*.md]
-trim_trailing_whitespace = false
+# Shell script files
+[*.sh]
+end_of_line = lf
 
 # Visual Studio Solution Files
 [*.sln]
 indent_style = tab
 
-# Bash Files
-[*.sh]
-end_of_line = lf
+# Markdown Files
+[*.md]
+trim_trailing_whitespace = false
+
+# YAML Files
+[*.{yml,yaml}]
+indent_size = 2
 
 ###############################
 # .NET Coding Conventions     #

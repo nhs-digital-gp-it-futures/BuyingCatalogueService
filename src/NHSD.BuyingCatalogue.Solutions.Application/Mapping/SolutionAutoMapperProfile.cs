@@ -75,6 +75,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
             CreateMap<ClaimedCapability, IClaimedCapability>().As<ClaimedCapabilityDto>();
             CreateMap<SolutionDocument, SolutionDocumentDto>();
             CreateMap<SolutionDocument, ISolutionDocument>().As<SolutionDocumentDto>();
+            CreateMap<ClaimedCapabilityEpic, ClaimedCapabilityEpicDto>();
+            CreateMap<ClaimedCapabilityEpic, IClaimedCapabilityEpic>().As<ClaimedCapabilityEpicDto>();
         }
     }
 }

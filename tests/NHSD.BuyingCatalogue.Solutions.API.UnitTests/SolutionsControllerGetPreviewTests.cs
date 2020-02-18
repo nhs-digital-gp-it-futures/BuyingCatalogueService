@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Capabilities;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
@@ -61,7 +63,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             previewResult.Name.Should().Be(name);
             previewResult.SupplierName.Should().Be(supplier);
         }
-
 
         [TestCase(null, null, null, false)]
         [TestCase("summary", null, null, true)]
@@ -231,7 +232,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [TestCase(true, false, true, true)]
         [TestCase(true, true, false, true)]
         [TestCase(true, true, true, true)]
-
         public async Task ShouldGetPreviewCalculateClientApplication(bool isClientApplication, bool isBrowserSupported, bool? mobileResponsive, bool expectData)
         {
             var clientApplicationTypes = isClientApplication ? new HashSet<string> { "browser-based", "native-mobile" } : new HashSet<string>();
@@ -969,6 +969,26 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             previewResult.Sections.ClientApplicationTypes.Should().BeNull();
         }
 
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task ShouldGetCapabilitiesOnlyForSolution(bool hasCapability)
+        {
+            var capabilityData = GetClaimedCapabilityTestData().Take(2).ToArray();
+
+            var capabilities = hasCapability ? capabilityData.Select(c => c.Item1) : Array.Empty<IClaimedCapability>();
+
+            var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of<ISolution>(s =>
+                s.Id == SolutionId &&
+                s.Capabilities == capabilities)).ConfigureAwait(false);
+
+            previewResult.Id.Should().Be(SolutionId);
+            if (hasCapability)
+                previewResult.Sections.Capabilities.Answers.CapabilitiesMet.Should()
+                    .BeEquivalentTo(capabilityData.Select(c => c.Item2));
+            else
+                previewResult.Sections.Capabilities.Should().BeNull();
+        }
+
         private async Task<SolutionResult> GetSolutionPreviewSectionAsync(ISolution solution)
         {
             _mockMediator.Setup(m =>
@@ -983,6 +1003,52 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 Times.Once);
 
             return result.Value as SolutionResult;
+        }
+
+        private static IEnumerable<(IClaimedCapability, ClaimedCapabilitySection)> GetClaimedCapabilityTestData()
+        {
+            var data = new List<(IClaimedCapability, ClaimedCapabilitySection)>();
+            for (int index = 1; index <= 5; index++)
+            {
+                var capabilityNumber = index;
+                var claimedEpics = new[]
+                {
+                    Mock.Of<IClaimedCapabilityEpic>(ce=>
+                        ce.EpicId == $"{capabilityNumber}E1" 
+                        && ce.EpicName == $"Cap {capabilityNumber} Epic 1 Name" 
+                        && ce.IsMet == true
+                        && ce.EpicCompliancyLevel == "MUST"
+                    ),
+                    Mock.Of<IClaimedCapabilityEpic>(ce=>
+                        ce.EpicId == $"{capabilityNumber}E2" 
+                        && ce.EpicName == $"Cap {capabilityNumber} Epic 2 Name" 
+                        && ce.IsMet == true 
+                        && ce.EpicCompliancyLevel == "MAY"
+                    ),
+                    Mock.Of<IClaimedCapabilityEpic>(ce=>
+                        ce.EpicId == $"{capabilityNumber}E3" 
+                        && ce.EpicName == $"Cap {capabilityNumber} Epic 3 Name" 
+                        && ce.IsMet == false 
+                        && ce.EpicCompliancyLevel == "MUST"
+                    ),
+                    Mock.Of<IClaimedCapabilityEpic>(ce=>
+                        ce.EpicId == $"{capabilityNumber}E4" 
+                        && ce.EpicName == $"Cap {capabilityNumber} Epic 4 Name" 
+                        && ce.IsMet == false 
+                        && ce.EpicCompliancyLevel == "MAY"
+                    )
+                };
+
+                var claimedCapabilityMock = Mock.Of<IClaimedCapability>(
+                    cc => cc.Name == $"Capability {capabilityNumber}" 
+                          && cc.Version == $"Version {capabilityNumber}" 
+                          && cc.Description == $"Description {capabilityNumber}" 
+                          && cc.Link == $"http://Capability.Link/{capabilityNumber}" 
+                          && cc.ClaimedEpics == claimedEpics);
+                data.Add((claimedCapabilityMock, new ClaimedCapabilitySection(claimedCapabilityMock)));
+            }
+
+            return data;
         }
     }
 }

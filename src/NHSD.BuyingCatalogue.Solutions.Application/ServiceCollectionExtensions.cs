@@ -1,4 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.BrowserBased.UpdateBrowserBasedAdditionalInformation;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.BrowserBased.UpdateSolutionBrowserHardwareRequirements;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.BrowserBased.UpdateSolutionBrowserMobileFirst;
@@ -26,6 +26,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PublicCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PrivateCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateImplementationTimescales;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateCapabilities;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateClaimedEpics;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateIntegrations;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
@@ -34,6 +35,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSuppliers;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
+using NHSD.BuyingCatalogue.Solutions.Application.Persistence.Epics;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence.Suppliers;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application
@@ -65,6 +67,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<SupplierUpdater>()
                 .AddTransient<SupplierPartialUpdater>()
                 .AddTransient<SolutionCapabilitiesUpdater>()
+                .AddTransient<SolutionEpicsUpdater>()
                 .AddTransient<UpdateSolutionFeaturesValidator>()
                 .AddTransient<UpdateSolutionClientApplicationTypesValidator>()
                 .AddTransient<UpdateSolutionBrowsersSupportedValidator>()
@@ -172,6 +175,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<IValidator<UpdateCapabilitiesCommand, ISimpleResult>, UpdateCapabilitiesValidator>()
 
                 .AddTransient<IVerifier<UpdateCapabilitiesCommand, ISimpleResult>, CapabilityVerifier>()
+                
+                .AddTransient<IExecutor<UpdateClaimedEpicsCommand>, UpdateClaimedEpicsExecutor>()
+                .AddTransient<IValidator<UpdateClaimedEpicsCommand, ISimpleResult>, UpdateClaimedEpicsValidator>()
+
+                .AddTransient<IVerifier<UpdateClaimedEpicsCommand, ISimpleResult>, ClaimedEpicsVerifier>()
                 ;
         }
     }

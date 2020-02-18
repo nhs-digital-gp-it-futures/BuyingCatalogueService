@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Reflection;
 using Microsoft.AspNetCore.Hosting;
@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
-using Serilog.Formatting.Compact;
 
 namespace NHSD.BuyingCatalogue.API
 {
@@ -21,12 +20,9 @@ namespace NHSD.BuyingCatalogue.API
                 .Enrich.FromLogContext()
 #if DEBUG
                 .WriteTo.Debug()
-                .WriteTo.Console(new RenderedCompactJsonFormatter())
-#else
-                .WriteTo.Console(new CompactJsonFormatter())
 #endif
+                .WriteTo.Console()
                 .CreateLogger();
-
             try
             {
                 Log.Information("Starting host");

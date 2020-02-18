@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -22,6 +22,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
     [TestFixture]
     public sealed class SolutionsControllerGetPublicTests
     {
+        private Mock<IMediator> _mockMediator;
+
+        private SolutionsController _solutionsController;
+
+        private const string SolutionId1 = "Sln1";
+        private const string SolutionId2 = "Sln2";
+
+        private readonly DateTime _lastUpdated = DateTime.Today;
+
         [SetUp]
         public void Setup()
         {
@@ -33,28 +42,48 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         private static List<(IClaimedCapability, ClaimedCapabilitySection)> GetClaimedCapabilityTestData()
         {
             var data = new List<(IClaimedCapability, ClaimedCapabilitySection)>();
-            for (int i = 1; i <= 5; i++)
+            for (int index = 1; index <= 5; index++)
             {
-                var capabilityNumber = i;
+                var capabilityNumber = index;
+                var claimedEpics = new []
+                {
+                    Mock.Of<IClaimedCapabilityEpic>(ce=>
+                        ce.EpicId == $"{capabilityNumber}E1" &&
+                        ce.EpicName == $"Cap {capabilityNumber} Epic 1 Name" &&
+                        ce.IsMet == true &&
+                        ce.EpicCompliancyLevel == "MUST"
+                    ),
+                    Mock.Of<IClaimedCapabilityEpic>(ce=>
+                        ce.EpicId == $"{capabilityNumber}E2" &&
+                        ce.EpicName == $"Cap {capabilityNumber} Epic 2 Name" &&
+                        ce.IsMet == true &&
+                        ce.EpicCompliancyLevel == "MAY"
+                    ),
+                    Mock.Of<IClaimedCapabilityEpic>(ce=>
+                        ce.EpicId == $"{capabilityNumber}E3" &&
+                        ce.EpicName == $"Cap {capabilityNumber} Epic 3 Name" &&
+                        ce.IsMet == false &&
+                        ce.EpicCompliancyLevel == "MUST"
+                    ),
+                    Mock.Of<IClaimedCapabilityEpic>(ce=>
+                        ce.EpicId == $"{capabilityNumber}E4" &&
+                        ce.EpicName == $"Cap {capabilityNumber} Epic 4 Name" &&
+                        ce.IsMet == false &&
+                        ce.EpicCompliancyLevel == "MAY"
+                    )
+                };
+
                 var ccMock = Mock.Of<IClaimedCapability>(
                     cc => cc.Name == $"Capability {capabilityNumber}" &&
                           cc.Version == $"Version {capabilityNumber}" &&
                           cc.Description == $"Description {capabilityNumber}" &&
-                          cc.Link == $"http://Capability.Link/{capabilityNumber}");
+                          cc.Link == $"http://Capability.Link/{capabilityNumber}" &&
+                          cc.ClaimedEpics == claimedEpics);
                 data.Add((ccMock,new ClaimedCapabilitySection(ccMock)));
             }
 
             return data;
         }
-
-        private Mock<IMediator> _mockMediator;
-
-        private SolutionsController _solutionsController;
-
-        private const string SolutionId1 = "Sln1";
-        private const string SolutionId2 = "Sln2";
-
-        private readonly DateTime _lastUpdated = DateTime.Today;
 
         [TestCase(null, null, null, false)]
         [TestCase("Sln2", null, null, false)]

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using AutoMapper;
 using MediatR;
@@ -31,6 +31,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PrivateCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateImplementationTimescales;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateCapabilities;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateClaimedEpics;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateIntegrations;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
@@ -67,6 +68,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
         public Mock<ISupplierRepository> MockSupplierRepository { get; private set; }
 
         public Mock<IDocumentRepository> MockDocumentRepository { get; private set; }
+
+        public Mock<ISolutionEpicRepository> MockSolutionEpicRepository { get; private set; }
+
+        public Mock<IEpicRepository> MockEpicRepository { get; private set; }
+
+        public Mock<ISolutionEpicStatusRepository> MockSolutionEpicStatusRepository { get; private set; }
 
         public GetSolutionByIdHandler GetSolutionByIdHandler => (GetSolutionByIdHandler)_scope.GetSolutionByIdHandler;
 
@@ -177,6 +184,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
         public UpdateCapabilitiesHandler UpdateCapabilitiesHandler =>
             (UpdateCapabilitiesHandler)_scope.UpdateCapabilitiesHandler;
 
+        public UpdateClaimedEpicsHandler UpdateClaimedEpicsHandler => (UpdateClaimedEpicsHandler)_scope.UpdateClaimedEpicsHandler;
+
         private readonly Scope _scope;
 
         public TestContext()
@@ -210,6 +219,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             serviceCollection.AddSingleton(MockSupplierRepository.Object);
             MockDocumentRepository = new Mock<IDocumentRepository>();
             serviceCollection.AddSingleton(MockDocumentRepository.Object);
+            MockSolutionEpicRepository = new Mock<ISolutionEpicRepository>();
+            serviceCollection.AddSingleton(MockSolutionEpicRepository.Object);
+            MockEpicRepository = new Mock<IEpicRepository>();
+            serviceCollection.AddSingleton(MockEpicRepository.Object); 
+            MockSolutionEpicStatusRepository = new Mock<ISolutionEpicStatusRepository>();
+            serviceCollection.AddSingleton(MockSolutionEpicStatusRepository.Object);
         }
 
         private class Scope
@@ -296,6 +311,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             
             public IRequestHandler<UpdateCapabilitiesCommand, ISimpleResult> UpdateCapabilitiesHandler { get; }
 
+            public IRequestHandler<UpdateClaimedEpicsCommand, ISimpleResult> UpdateClaimedEpicsHandler { get; }
+
             public Scope(IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
                 IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> getClientApplicationBySolutionIdHandler,
                 IRequestHandler<GetHostingBySolutionIdQuery, IHosting> getHostingBySolutionIdHandler,
@@ -336,7 +353,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdateSupplierCommand, ISimpleResult> updateSupplierRequestHandler,
                 IRequestHandler<UpdateIntegrationsCommand, ISimpleResult> updateIntegrationsRequestHandler,
                 IRequestHandler<UpdateImplementationTimescalesCommand, ISimpleResult> updateImplementationTimescalesHandler,
-                IRequestHandler<UpdateCapabilitiesCommand, ISimpleResult> updateCapabilitiesHandler)
+                IRequestHandler<UpdateCapabilitiesCommand, ISimpleResult> updateCapabilitiesHandler,
+                IRequestHandler<UpdateClaimedEpicsCommand, ISimpleResult> updateClaimedEpicsHandler)
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;
                 GetClientApplicationBySolutionIdHandler = getClientApplicationBySolutionIdHandler;
@@ -379,6 +397,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 UpdateIntegrationsHandler = updateIntegrationsRequestHandler;
                 UpdateImplementationTimescalesHandler = updateImplementationTimescalesHandler;
                 UpdateCapabilitiesHandler = updateCapabilitiesHandler;
+                UpdateClaimedEpicsHandler = updateClaimedEpicsHandler;
             }
         }
     }

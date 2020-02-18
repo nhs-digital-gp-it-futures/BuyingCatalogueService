@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
@@ -24,6 +25,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
         public async Task ThenTheSolutionSectionStatusIs(string section, string status)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
+            content.Should().NotBeNull();
+            content.ToString().Should().Contain($"\"{section}\"");
             content.SelectToken($"sections.{section}.status").ToString().Should().Be(status);
         }
 
@@ -31,6 +34,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
         public async Task ThenTheSolutionSectionRequirementIsMandatory(string section, string requirement)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
+            content.Should().NotBeNull();
+            content.ToString().Should().Contain($"\"{section}\"");
             content.SelectToken($"sections.{section}.requirement").ToString().Should().Be(requirement);
         }
 

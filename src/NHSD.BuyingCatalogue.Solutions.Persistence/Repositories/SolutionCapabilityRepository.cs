@@ -44,7 +44,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         public SolutionCapabilityRepository(IDbConnector dbConnector) =>
             _dbConnector = dbConnector.ThrowIfNull(nameof(dbConnector));
 
-        public async Task<IEnumerable<ISolutionCapabilityListResult>> ListSolutionCapabilities(string solutionId,
+        public async Task<IEnumerable<ISolutionCapabilityListResult>> ListSolutionCapabilitiesAsync(string solutionId,
             CancellationToken cancellationToken)
             => await _dbConnector.QueryAsync<SolutionCapabilityListResult>(Sql, cancellationToken, new {solutionId})
                 .ConfigureAwait(false);
@@ -68,7 +68,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                         solutionId = updateCapabilityRequest.SolutionId,
                         newCapabilitiesReference = updateCapabilityRequest.NewCapabilitiesReference,
                         statusId = PassedFullCapabilityStatus,
-                        lastUpdatedBy = new Guid()
+                        lastUpdatedBy = Guid.NewGuid()
                     })
                 .ConfigureAwait(false);
         }
