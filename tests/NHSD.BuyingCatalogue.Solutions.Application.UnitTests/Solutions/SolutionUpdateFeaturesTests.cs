@@ -1,10 +1,11 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
@@ -79,12 +80,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             var listing = new List<string> { "sheep", "cow", "donkey" };
 
-            var exception = Assert.ThrowsAsync<NotFoundException>(() =>
-                _context.UpdateSolutionFeaturesHandler.Handle(new UpdateSolutionFeaturesCommand(SolutionId,
-                    new UpdateSolutionFeaturesViewModel
-                    {
-                        Listing = listing
-                    }), new CancellationToken()));
+            Task UpdateFeatures()
+            {
+                return _context.UpdateSolutionFeaturesHandler.Handle(
+                    new UpdateSolutionFeaturesCommand(SolutionId, new UpdateSolutionFeaturesViewModel { Listing = listing }),
+                    new CancellationToken());
+            }
+
+            Assert.ThrowsAsync<NotFoundException>(UpdateFeatures);
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
 
@@ -93,7 +96,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 Times.Never());
         }
 
-        private async Task<ISimpleResult> UpdateSolutionFeaturesAsync(List<string> listing)
+        private async Task<ISimpleResult> UpdateSolutionFeaturesAsync(IEnumerable<string> listing)
         {
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns(SolutionId);
@@ -101,9 +104,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             _context.MockSolutionRepository.Setup(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
             var validationResult = await _context.UpdateSolutionFeaturesHandler.Handle(
-                new UpdateSolutionFeaturesCommand(SolutionId,
-                    new UpdateSolutionFeaturesViewModel() { Listing = listing }), new CancellationToken())
+                new UpdateSolutionFeaturesCommand(SolutionId, new UpdateSolutionFeaturesViewModel { Listing = listing }),
+                new CancellationToken())
                 .ConfigureAwait(false);
+
             return validationResult;
         }
     }
