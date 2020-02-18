@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NUnit.Framework;
@@ -24,8 +25,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         private UpdateSolutionContactViewModel _contact1;
         private UpdateSolutionContactViewModel _contact2;
 
-        private string _existingSolutionId = "Sln1";
-        private string _invalidSolutionId = "Sln2";
+        private const string ExistingSolutionId = "Sln1";
+        private const string InvalidSolutionId = "Sln2";
 
         [SetUp]
         public void SetUpFixture()
@@ -47,20 +48,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 Email = "betty@betty.betty",
                 PhoneNumber = "321"
             };
-            _context.MockSolutionRepository.Setup(x => x.CheckExists(_existingSolutionId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
-            _context.MockSolutionRepository.Setup(x => x.CheckExists(_invalidSolutionId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
+            _context.MockSolutionRepository.Setup(x => x.CheckExists(ExistingSolutionId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
+            _context.MockSolutionRepository.Setup(x => x.CheckExists(InvalidSolutionId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
         }
 
         [Test]
         public async Task ShouldUpdateContactDetails()
         {
-            var result = await CallHandle(_existingSolutionId)
+            var result = await CallHandle(ExistingSolutionId)
                 .ConfigureAwait(false);
             result.IsValid.Should().BeTrue();
             result.Contact1Result.ToDictionary().Should().BeEmpty();
             result.Contact2Result.ToDictionary().Should().BeEmpty();
 
-            _context.MockMarketingContactRepository.Verify(x => x.ReplaceContactsForSolution(_existingSolutionId, It.Is<IEnumerable<IContact>>(c => VerifyContacts(c)), It.IsAny<CancellationToken>()), Times.Once);
+            _context.MockMarketingContactRepository.Verify(x => x.ReplaceContactsForSolution(ExistingSolutionId, It.Is<IEnumerable<IContact>>(c => VerifyContacts(c)), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
@@ -78,7 +79,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             _contact2.PhoneNumber = _36CharacterString;
             _contact2.Email = _256CharacterString;
 
-            var result = await CallHandle(_existingSolutionId).ConfigureAwait(false);
+            var result = await CallHandle(ExistingSolutionId).ConfigureAwait(false);
             result.IsValid.Should().BeFalse();
 
             result.Contact1Result.IsValid.Should().BeFalse();
@@ -99,7 +100,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             contact2Result["department-name"].Should().Be("maxLength");
             contact2Result["phone-number"].Should().Be("maxLength");
 
-            _context.MockMarketingContactRepository.Verify(x => x.ReplaceContactsForSolution(_existingSolutionId, It.IsAny<IEnumerable<IContact>>(), It.IsAny<CancellationToken>()), Times.Never);
+            _context.MockMarketingContactRepository.Verify(x => x.ReplaceContactsForSolution(ExistingSolutionId, It.IsAny<IEnumerable<IContact>>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Test]
@@ -117,13 +118,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             _contact2.PhoneNumber = null;
             _contact2.Email = null;
 
-            var result = await CallHandle(_existingSolutionId)
+            var result = await CallHandle(ExistingSolutionId)
                 .ConfigureAwait(false);
             result.IsValid.Should().BeTrue();
             result.Contact1Result.ToDictionary().Should().BeEmpty();
             result.Contact2Result.ToDictionary().Should().BeEmpty();
 
-            _context.MockMarketingContactRepository.Verify(x => x.ReplaceContactsForSolution(_existingSolutionId, It.Is<IEnumerable<IContact>>(c => !c.Any()), It.IsAny<CancellationToken>()), Times.Once);
+            _context.MockMarketingContactRepository.Verify(x => x.ReplaceContactsForSolution(ExistingSolutionId, It.Is<IEnumerable<IContact>>(c => !c.Any()), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
@@ -132,19 +133,19 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             _contact1 = null;
             _contact2 = null;
 
-            var result = await CallHandle(_existingSolutionId)
+            var result = await CallHandle(ExistingSolutionId)
                 .ConfigureAwait(false);
             result.IsValid.Should().BeTrue();
             result.Contact1Result.ToDictionary().Should().BeEmpty();
             result.Contact2Result.ToDictionary().Should().BeEmpty();
 
-            _context.MockMarketingContactRepository.Verify(x => x.ReplaceContactsForSolution(_existingSolutionId, It.Is<IEnumerable<IContact>>(c => !c.Any()), It.IsAny<CancellationToken>()), Times.Once);
+            _context.MockMarketingContactRepository.Verify(x => x.ReplaceContactsForSolution(ExistingSolutionId, It.Is<IEnumerable<IContact>>(c => !c.Any()), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
         public void InvalidSolutionIdShouldThrowException()
         {
-            Assert.ThrowsAsync<NotFoundException>(() => CallHandle(_invalidSolutionId));
+            Assert.ThrowsAsync<NotFoundException>(() => CallHandle(InvalidSolutionId));
         }
 
         [Test]
