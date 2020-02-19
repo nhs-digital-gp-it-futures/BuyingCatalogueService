@@ -21,7 +21,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.Repositories
                                         SolutionDetail.Summary as SolutionSummary,
                                         Supplier.Id as SupplierId,
                                         Supplier.Name as SupplierName,
-                                        Capability.Id as CapabilityId,
+                                        Capability.CapabilityRef as CapabilityReference,
                                         Capability.Name as CapabilityName,
                                         Capability.Description as CapabilityDescription,
                                         FrameworkSolutions.IsFoundation as IsFoundation

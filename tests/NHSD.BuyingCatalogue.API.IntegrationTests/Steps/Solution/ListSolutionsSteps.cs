@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -17,13 +17,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
     {
         private const string ListSolutionsUrl = "http://localhost:8080/api/v1/Solutions";
 
-        private readonly ScenarioContext _context;
-
         private readonly Response _response;
 
-        public ListSolutionsSteps(ScenarioContext context, Response response)
+        public ListSolutionsSteps(Response response)
         {
-            _context = context;
             _response = response;
         }
 
@@ -59,7 +56,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
         private static async Task<SolutionsRequest> BuildRequestAsync(IEnumerable<string> capabilityNames)
         {
             var capabilities = await CapabilityEntity.FetchAllAsync().ConfigureAwait(false);
-            return new SolutionsRequest { Capabilities = new HashSet<string>(capabilityNames.Select(cn => capabilities.First(c => c.Name == cn).Id.ToString())) };
+            var listOfReferences = capabilityNames.Select(cn => capabilities.First(c => c.Name == cn).CapabilityRef);
+            return new SolutionsRequest { Capabilities = listOfReferences.Select(r => new CapabilityReference(r)).ToList()};
         }
 
         [Then(@"the solutions (.*) are found in the response")]
@@ -99,7 +97,17 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
 
         private class SolutionsRequest
         {
-            public HashSet<string> Capabilities { get; set; }
+            public List<CapabilityReference> Capabilities { get; set; }
+        }
+
+        private class CapabilityReference
+        {
+            public string Reference { get; }
+
+            public CapabilityReference(string reference)
+            {
+                Reference = reference;
+            }
         }
 
         private class SolutionDetailsTable
