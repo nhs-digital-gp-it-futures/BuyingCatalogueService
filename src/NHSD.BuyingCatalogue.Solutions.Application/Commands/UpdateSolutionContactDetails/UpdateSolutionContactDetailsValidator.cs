@@ -1,4 +1,5 @@
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
+﻿using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Commands;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails
 {
@@ -18,7 +19,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
         private const int PhoneMaxLength = 35;
         private const int DepartmentMaxLength = 50;
 
-        internal static MaxLengthValidator ValidateContact(this MaxLengthValidator validator, UpdateSolutionContactViewModel contact)
+        internal static MaxLengthValidator ValidateContact(this MaxLengthValidator validator, IUpdateSolutionContact contact)
             => validator
                     .Validate(contact?.FirstName, FirstNameMaxLength, "first-name")
                     .Validate(contact?.LastName, LastNameMaxLength, "last-name")

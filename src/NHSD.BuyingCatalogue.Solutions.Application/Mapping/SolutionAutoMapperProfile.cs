@@ -1,6 +1,4 @@
-using AutoMapper;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
+﻿using AutoMapper;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.NativeDesktop;
@@ -14,6 +12,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetRoadMapBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Commands;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
@@ -27,9 +26,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
         /// </summary>
         public SolutionAutoMapperProfile()
         {
-            CreateMap<UpdateSolutionSummaryViewModel, Solution>()
+            CreateMap<IUpdateSolutionSummary, Solution>()
                 .ForMember(destination => destination.AboutUrl, options => options.MapFrom(source => source.Link));
-            CreateMap<UpdateSolutionFeaturesViewModel, Solution>()
+            CreateMap<IUpdateSolutionFeatures, Solution>()
                 .ForMember(destination => destination.Features, options => options.MapFrom(source => source.Listing));
 
             CreateMap<Solution, SolutionDto>();

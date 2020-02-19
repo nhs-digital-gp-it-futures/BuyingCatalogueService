@@ -1,6 +1,7 @@
-using MediatR;
+﻿using MediatR;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Commands;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.UpdateSolutionClientApplicationTypes
 {
@@ -14,12 +15,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
         /// <summary>
         /// Updated details of a solution.
         /// </summary>
-        public UpdateSolutionClientApplicationTypesViewModel Data { get; }
+        public IUpdateSolutionClientApplicationTypes Data { get; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="UpdateSolutionClientApplicationTypesCommand"/> class.
         /// </summary>
-        public UpdateSolutionClientApplicationTypesCommand(string solutionId, UpdateSolutionClientApplicationTypesViewModel data)
+        public UpdateSolutionClientApplicationTypesCommand(string solutionId, IUpdateSolutionClientApplicationTypes data)
         {
             SolutionId = solutionId.ThrowIfNull();
             Data = data.ThrowIfNull();
