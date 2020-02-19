@@ -3,7 +3,7 @@ using NHSD.BuyingCatalogue.SolutionLists.Contracts;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.API.ViewModels
 {
-    public sealed class SolutionCapabilityResult : ISolutionCapability
+    public sealed class SolutionCapabilityResult
     {
         [JsonProperty("reference")]
         public string CapabilityReference { get; }

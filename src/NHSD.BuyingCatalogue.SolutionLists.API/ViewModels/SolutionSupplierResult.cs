@@ -2,7 +2,7 @@
 
 namespace NHSD.BuyingCatalogue.SolutionLists.API.ViewModels
 {
-    public sealed class SolutionSupplierResult : ISolutionSupplier
+    public sealed class SolutionSupplierResult
     {
         public string Id { get; }
 

@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.SolutionLists.Contracts;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.API.ViewModels
 {
-    public sealed class SolutionSummaryResult : ISolutionSummary
+    public sealed class SolutionSummaryResult
     {
         public string Id { get; }
 
@@ -16,17 +15,9 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.ViewModels
 
         public bool IsFoundation { get; }
 
-        [JsonProperty("supplier")]
-        public SolutionSupplierResult SupplierResult { get; }
+        public SolutionSupplierResult Supplier { get; }
 
-        [JsonIgnore]
-        public ISolutionSupplier Supplier { get => SupplierResult; }
-
-        [JsonProperty("capabilities")]
-        public IEnumerable<SolutionCapabilityResult> CapabilitiesResult { get; }
-
-        [JsonIgnore]
-        public IEnumerable<ISolutionCapability> Capabilities { get => CapabilitiesResult; }
+        public IEnumerable<SolutionCapabilityResult> Capabilities { get; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="SolutionSummaryResult"/> class.
@@ -37,8 +28,8 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.ViewModels
             Name = summary?.Name;
             Summary = summary?.Summary;
             IsFoundation = summary.ThrowIfNull(nameof(IsFoundation)).IsFoundation;
-            SupplierResult = new SolutionSupplierResult(summary?.Supplier);
-            CapabilitiesResult = summary?.Capabilities.Select(cap => new SolutionCapabilityResult(cap)).ToList();
+            Supplier = summary?.Supplier != null ? new SolutionSupplierResult(summary?.Supplier) : null;
+            Capabilities = summary?.Capabilities.Select(cap => new SolutionCapabilityResult(cap)).ToList();
         }
     }
 }
