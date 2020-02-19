@@ -13,23 +13,11 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.ViewModels
         public IEnumerable<CapabilityReferenceViewModel> Capabilities { get; } = new List<CapabilityReferenceViewModel>();
 
         [JsonIgnore]
-        public IEnumerable<ICapabilityReference> CapabilityReferences
-        {
-            get
-            {
-                return Capabilities.OfType<ICapabilityReference>().ToList();
-            }
-        }
+        public IEnumerable<ICapabilityReference> CapabilityReferences { get => Capabilities; }
 
         /// <summary>
         /// Filters to only foundation solutions
         /// </summary>
         public bool IsFoundation { get; set; } = false;
-
-        public ListSolutionsFilterViewModel()
-        {
-
-        }
-
     }
 }
