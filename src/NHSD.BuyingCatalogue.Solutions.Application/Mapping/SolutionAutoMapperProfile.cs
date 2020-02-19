@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.NativeDesktop;
@@ -27,7 +26,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
         /// </summary>
         public SolutionAutoMapperProfile()
         {
-            CreateMap<UpdateSolutionSummaryViewModel, Solution>()
+            CreateMap<IUpdateSolutionSummary, Solution>()
                 .ForMember(destination => destination.AboutUrl, options => options.MapFrom(source => source.Link));
             CreateMap<IUpdateSolutionFeatures, Solution>()
                 .ForMember(destination => destination.Features, options => options.MapFrom(source => source.Listing));

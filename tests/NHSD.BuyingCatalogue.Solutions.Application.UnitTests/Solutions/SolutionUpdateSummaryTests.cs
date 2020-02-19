@@ -1,8 +1,9 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
@@ -129,18 +130,28 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public void ShouldThrowWhenSolutionNotPresent()
         {
-            var exception = Assert.ThrowsAsync<NotFoundException>(() =>
-             _context.UpdateSolutionSummaryHandler.Handle(new UpdateSolutionSummaryCommand("Sln1",
-                new UpdateSolutionSummaryViewModel
+            Task UpdateSummary()
+            {
+                var summaryModel = new UpdateSolutionSummaryViewModel
                 {
                     Description = "Description",
                     Link = "Link",
                     Summary = "Summary"
-                }), new CancellationToken()));
+                };
+
+                return _context.UpdateSolutionSummaryHandler.Handle(
+                    new UpdateSolutionSummaryCommand("Sln1", summaryModel),
+                    new CancellationToken());
+            }
+
+            Assert.ThrowsAsync<NotFoundException>(UpdateSummary);
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
 
-            _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+            _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(
+                It.IsAny<IUpdateSolutionSummaryRequest>(),
+                It.IsAny<CancellationToken>()),
+                Times.Never());
         }
 
         private async Task<ISimpleResult> UpdateSolutionDescriptionAsync(string summary = "Summary", string description = "Description", string link = "Link")
