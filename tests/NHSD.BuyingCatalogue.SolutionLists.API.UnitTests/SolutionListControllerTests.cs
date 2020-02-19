@@ -32,7 +32,23 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.UnitTests
 
             _solutions = new[]
             {
-                Mock.Of<ISolutionSummary>(s => s.Id == "Sln1"), Mock.Of<ISolutionSummary>(s => s.Id == "Sln2")
+                Mock.Of<ISolutionSummary>(s => s.Id == "Sln1" && 
+                                               s.Capabilities == new List<ISolutionCapability>
+                                               {
+                                                   Mock.Of<ISolutionCapability>(cap => cap.CapabilityReference == "C1" && 
+                                                                                       cap.Name== "Capable Capability")
+                                               } &&
+                                               s.Supplier == Mock.Of<ISolutionSupplier>(
+                                                   sup => sup.Id == Guid.NewGuid().ToString() &&
+                                                          sup.Name == "Sir Vywin")),
+                Mock.Of<ISolutionSummary>(s => s.Id == "Sln2" && 
+                                               s.Capabilities == new List<ISolutionCapability>
+                                               {
+                                                   Mock.Of<ISolutionCapability>(cap => cap.CapabilityReference == "C1" 
+                                                                                       && cap.Name== "Capable Capability")
+                                               } && s.Supplier == Mock.Of<ISolutionSupplier>(
+                                                   sup => sup.Id == Guid.NewGuid().ToString() &&
+                                                          sup.Name == "Sir Vywin")),
             };
             var solutionList = Mock.Of<ISolutionList>(s => s.Solutions == _solutions);
             _mockMediator.Setup(m => m.Send(It.IsAny<ListSolutionsQuery>(), It.IsAny<CancellationToken>()))
