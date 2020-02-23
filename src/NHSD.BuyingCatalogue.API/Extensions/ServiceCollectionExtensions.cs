@@ -1,10 +1,12 @@
-using System;
+﻿using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using NHSD.BuyingCatalogue.API.Infrastructure;
 using NHSD.BuyingCatalogue.API.Infrastructure.Filters;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
 using NHSD.BuyingCatalogue.Capabilities.API;
@@ -65,20 +67,37 @@ namespace NHSD.BuyingCatalogue.API.Extensions
                 .RegisterSolutionListController(op, controllerAction)
                 .RegisterSolutionController(op, controllerAction);
 
-			return services;
-		}
+            return services;
+        }
 
         /// <summary>
-        /// Adds the custom health check middleware to provide feedback on the state of this application.
+        /// Adds the health check middleware to provide feedback on the state of this application.
         /// </summary>
         /// <param name="services">The collection of service descriptors.</param>
         /// <param name="configuration">The provider of application settings.</param>
         /// <returns>The extended service collection instance.</returns>
-        public static IServiceCollection AddCustomHealthCheck(this IServiceCollection services)
+        public static IServiceCollection RegisterHealthChecks(this IServiceCollection services, IConfiguration configuration)
         {
+            var config = new Settings(configuration);
+
             services.AddHealthChecks()
-                .AddCheck("self", () => HealthCheckResult.Healthy(), tags: new[] { HealthCheckTags.Live })
-                .AddCheck<PersistenceLayerHealthCheck>("persistence", tags: new [] { HealthCheckTags.Dependencies });
+                  .AddCheck(
+                      name: "self", 
+                      check: () => HealthCheckResult.Healthy(),
+                      tags: new[] { HealthCheckTags.Live })
+                  .AddUrlGroup(
+                      uri: new Uri($"{config.DocumentApiBaseUrl}/health/live"),
+                      name: "DocumentAPI",
+                      failureStatus: HealthStatus.Degraded,
+                      tags: new[] { HealthCheckTags.Ready },
+                      timeout: TimeSpan.FromSeconds(5))
+                  .AddSqlServer(
+                      connectionString: config.ConnectionString,
+                      name: "db",
+                      healthQuery: "SELECT 1;",
+                      failureStatus: HealthStatus.Unhealthy,
+                      tags: new[] { HealthCheckTags.Ready },
+                      timeout: TimeSpan.FromSeconds(10));
 
             return services;
         }

@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FluentAssertions;
-using RestEase;
+﻿using System.Threading.Tasks;
+using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using TechTalk.SpecFlow;
 using WireMock.Admin.Mappings;
-using WireMock.Client;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Documents
 {
@@ -14,13 +9,12 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Documents
     internal sealed class DocumentsApiSteps
     {
         private readonly ScenarioContext _context;
-        
+        private const string ScenarioContextMappingKey = "DocumentApiMappingGuids";
+
         public DocumentsApiSteps(ScenarioContext context)
         {
             _context = context;
         }
-
-        private const string BaseWireMockUrl = "http://localhost:9090";
 
         [Given(@"a document named ([\w-]*) exists with solutionId ([\w-]*)")]
         public async Task GivenANamedDocumentForAGivenSolutionIdExists(string documentName,
@@ -44,7 +38,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Documents
                 },
                 Methods = new[] { "GET" }
             };
-            await SendModel(model, _context).ConfigureAwait(false);
+            await DocumentApiSetup.SendModel(model, _context, ScenarioContextMappingKey).ConfigureAwait(false);
         }
 
         [Given(@"the document api fails with solutionId ([\w-]*)")]
@@ -71,32 +65,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Documents
                 },
                 Methods = new[] { "GET" }
             };
-
-            await SendModel(model, _context).ConfigureAwait(false);
-        }
-
-        private static async Task SendModel(MappingModel model, ScenarioContext context)
-        {
-            model.Guid = Guid.NewGuid();
-            model.Priority = 10;
-            var api = RestClient.For<IWireMockAdminApi>(new Uri(BaseWireMockUrl));
-            var result = await api.PostMappingAsync(model).ConfigureAwait(false);
-            result.Status.Should().Be("Mapping added");
-            if (!context.ContainsKey("DocumentApiMappingGuids"))
-                context["DocumentApiMappingGuids"] = new List<Guid>();
-
-            if (context["DocumentApiMappingGuids"] is List<Guid> guidList)
-                guidList.Add(model.Guid.Value);
+            await DocumentApiSetup.SendModel(model, _context, ScenarioContextMappingKey).ConfigureAwait(false);
         }
 
         [AfterScenario]
         public async Task ClearMappings()
         {
-            if (_context.ContainsKey("DocumentApiMappingGuids") && _context["DocumentApiMappingGuids"] is List<Guid> guidList)
-            {
-                var api = RestClient.For<IWireMockAdminApi>(new Uri(BaseWireMockUrl));
-                await Task.WhenAll(guidList.Select(g => api.DeleteMappingAsync(g)).ToArray()).ConfigureAwait(false);
-            }
+            await DocumentApiSetup.ClearMappings(_context, ScenarioContextMappingKey).ConfigureAwait(false);
         }
     }
 }
