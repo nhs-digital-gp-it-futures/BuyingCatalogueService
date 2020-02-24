@@ -67,6 +67,17 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             dashboardResult.Id.Should().Be(id);
             dashboardResult.Name.Should().Be(name);
         }
+        
+        [TestCase(null, null)]
+        [TestCase("Sln2", null)]
+        [TestCase(null, "Supplier A")]
+        [TestCase("Sln2", "Supplier A")]
+        public async Task ShouldReturnSupplierName(string id, string supplierName)
+        {
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s => s.Id == id && s.SupplierName == supplierName)).ConfigureAwait(false);
+            dashboardResult.Id.Should().Be(id);
+            dashboardResult.SupplierName.Should().Be(supplierName);
+        }
 
         [Test]
         public async Task ShouldReturnSolutionDashboardStaticData()
