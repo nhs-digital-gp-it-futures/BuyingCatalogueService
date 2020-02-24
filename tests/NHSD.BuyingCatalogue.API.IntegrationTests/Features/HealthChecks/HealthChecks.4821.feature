@@ -17,14 +17,14 @@ Scenario: 2. Document API is not healthy but Database is available
 	When the dependency health-check endpoint is hit
 	Then the response will be Degraded
 
-@4821d
+@4821
 Scenario: 3. Document API is healthy but Database is not available
 	Given The document api is up
 	And The Database server is not available
 	When the dependency health-check endpoint is hit
 	Then the response will be Unhealthy
 
-@4821d
+@4821
 Scenario: 4. Document API is not healthy and Database is not available
 	Given The document api is down
 	And The Database server is not available

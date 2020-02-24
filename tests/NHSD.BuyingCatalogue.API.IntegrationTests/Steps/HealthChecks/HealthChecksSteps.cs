@@ -12,11 +12,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.HealthChecks
     internal sealed class HealthChecksSteps
     {
         private readonly Response _response;
+        private readonly ScenarioContext _context;
         private const string BaseUrl = "http://localhost:8080";
 
-        public HealthChecksSteps(Response response)
+        public HealthChecksSteps(Response response, ScenarioContext context)
         {
             _response = response;
+            _context = context;
         }
 
         [Given(@"The Database server is available")]
@@ -29,6 +31,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.HealthChecks
         public async Task GivenTheDatabaseIsDown()
         {
             await Database.DropUserAsync().ConfigureAwait(false);
+            _context["IsUserDropped"] = true;
         }
 
         [When(@"the dependency health-check endpoint is hit")]
@@ -44,10 +47,15 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.HealthChecks
             healthStatus.Should().Be(status);
         }
 
-        [AfterScenario("4821d")]
+        [AfterScenario]
         public async Task RestoreDbState()
         {
-            await Database.AddUserAsync().ConfigureAwait(false);
+            _context.TryGetValue("IsUserDropped", out bool isUserDropped);
+            if (isUserDropped)
+            {
+                await Database.AddUserAsync().ConfigureAwait(false);
+                _context["IsUserDropped"] = false;
+            }
         }
     }
 }

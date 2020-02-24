@@ -79,7 +79,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Documents
                 context[mappingKey] = new List<Guid>();
 
             if (context[mappingKey] is List<Guid> guidList)
-                guidList.Add(model.Guid.Value);
+                if (model.Guid != null)
+                {
+                    guidList.Add(model.Guid.Value);
+                }
         }
 
         private static async Task AddMapping(MappingModel model)
