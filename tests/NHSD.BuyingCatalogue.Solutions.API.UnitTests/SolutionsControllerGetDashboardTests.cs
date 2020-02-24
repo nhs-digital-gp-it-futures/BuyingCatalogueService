@@ -57,25 +57,17 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             dashboard.SolutionDashboardSections.Should().BeNull();
         }
 
-        [TestCase(null, null)]
-        [TestCase("Sln2", null)]
-        [TestCase(null, "Bob")]
-        [TestCase("Sln2", "Bob")]
-        public async Task ShouldReturnNameId(string id, string name)
+        [TestCase(null, null, null)]
+        [TestCase(null, "Bob", "Supplier A")]
+        [TestCase("Sln2", null, null)]
+        [TestCase("Sln2", "Bob", null)]
+        [TestCase("Sln2", null, "Supplier A")]
+        [TestCase("Sln2", "Bob", "Supplier A")]
+        public async Task ShouldReturnNameIdSupplierName(string id, string name, string supplierName)
         {
-            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s => s.Id == id && s.Name == name)).ConfigureAwait(false);
+            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s => s.Id == id && s.Name == name && s.SupplierName == supplierName)).ConfigureAwait(false);
             dashboardResult.Id.Should().Be(id);
             dashboardResult.Name.Should().Be(name);
-        }
-        
-        [TestCase(null, null)]
-        [TestCase("Sln2", null)]
-        [TestCase(null, "Supplier A")]
-        [TestCase("Sln2", "Supplier A")]
-        public async Task ShouldReturnSupplierName(string id, string supplierName)
-        {
-            var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s => s.Id == id && s.SupplierName == supplierName)).ConfigureAwait(false);
-            dashboardResult.Id.Should().Be(id);
             dashboardResult.SupplierName.Should().Be(supplierName);
         }
 
