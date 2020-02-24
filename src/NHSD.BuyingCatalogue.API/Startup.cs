@@ -56,8 +56,10 @@ namespace NHSD.BuyingCatalogue.API
                 Assembly.GetAssembly(typeof(ICapability)),
             };
 
+            var settings = new Settings(_config);
+
             services
-                .AddTransient<ISettings, Settings>()
+                .AddSingleton<ISettings>(settings)
                 .AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>))
                 .AddAutoMapper(assemblies)
                 .AddMediatR(assemblies)
@@ -68,7 +70,7 @@ namespace NHSD.BuyingCatalogue.API
                 .RegisterSolutionsPersistence()
                 .RegisterCapabilityPersistence()
                 .RegisterSolutionListPersistence()
-                .RegisterHealthChecks(_config)
+                .RegisterHealthChecks(settings)
                 .AddCustomSwagger()
                 .AddCustomMvc();
         }

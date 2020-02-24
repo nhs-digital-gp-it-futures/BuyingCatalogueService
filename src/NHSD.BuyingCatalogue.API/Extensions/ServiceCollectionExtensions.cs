@@ -1,15 +1,14 @@
 ﻿using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using NHSD.BuyingCatalogue.API.Infrastructure;
 using NHSD.BuyingCatalogue.API.Infrastructure.Filters;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
 using NHSD.BuyingCatalogue.Capabilities.API;
+using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.SolutionLists.API;
 using NHSD.BuyingCatalogue.Solutions.API;
 
@@ -74,25 +73,23 @@ namespace NHSD.BuyingCatalogue.API.Extensions
         /// Adds the health check middleware to provide feedback on the state of this application.
         /// </summary>
         /// <param name="services">The collection of service descriptors.</param>
-        /// <param name="configuration">The provider of application settings.</param>
+        /// <param name="settings">The provider of application settings.</param>
         /// <returns>The extended service collection instance.</returns>
-        public static IServiceCollection RegisterHealthChecks(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection RegisterHealthChecks(this IServiceCollection services, ISettings settings)
         {
-            var config = new Settings(configuration);
-
             services.AddHealthChecks()
                   .AddCheck(
-                      name: "self", 
+                      name: "self",
                       check: () => HealthCheckResult.Healthy(),
                       tags: new[] { HealthCheckTags.Live })
                   .AddUrlGroup(
-                      uri: new Uri($"{config.DocumentApiBaseUrl}/health/live"),
+                      uri: new Uri($"{settings?.DocumentApiBaseUrl}/health/live"),
                       name: "DocumentAPI",
                       failureStatus: HealthStatus.Degraded,
                       tags: new[] { HealthCheckTags.Ready },
                       timeout: TimeSpan.FromSeconds(5))
                   .AddSqlServer(
-                      connectionString: config.ConnectionString,
+                      connectionString: settings?.ConnectionString,
                       name: "db",
                       healthQuery: "SELECT 1;",
                       failureStatus: HealthStatus.Unhealthy,
