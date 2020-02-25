@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Testing.Tools;
 
@@ -8,7 +8,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
     {
         private const string WaitServerUrl = "http://localhost:8080/health/live";
 
-        private const string WaitServerUrlDependencies = "http://localhost:8080/health/dependencies";
+        private const string WaitServerUrlDependencies = "http://localhost:8080/health/ready";
 
         private static readonly TimeSpan TestTimeout = TimeSpan.FromSeconds(60);
 

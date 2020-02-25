@@ -1,6 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
-using NHSD.BuyingCatalogue.Contracts.Infrastructure.HealthChecks;
-using NHSD.BuyingCatalogue.Data.HealthChecks;
+﻿using Microsoft.Extensions.DependencyInjection;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Data
@@ -11,8 +9,7 @@ namespace NHSD.BuyingCatalogue.Data
         {
             return serviceCollection
                 .AddSingleton<IDbConnectionFactory, DbConnectionFactory>()
-                .AddSingleton<IDbConnector, DbConnector>()
-                .AddSingleton<IRepositoryHealthCheck, RepositoryHealthCheck>();
+                .AddSingleton<IDbConnector, DbConnector>();
         }
     }
 }

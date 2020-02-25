@@ -41,16 +41,24 @@ namespace NHSD.BuyingCatalogue.Testing.Data
             await DropDatabaseAsync().ConfigureAwait(false);
         }
 
-        private static async Task DropUserAsync()
+        public static async Task DropUserAsync()
         {
+            await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, $"ALTER DATABASE [{DataConstants.DatabaseName}]  SET SINGLE_USER WITH ROLLBACK IMMEDIATE").ConfigureAwait(false);
             await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, "DROP USER NHSD").ConfigureAwait(false);
-            await SqlRunner.ExecuteAsync(ConnectionStrings.Master, "DROP LOGIN NHSD").ConfigureAwait(false);
+            await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, "DROP LOGIN NHSD").ConfigureAwait(false);
         }
 
         private static async Task DropDatabaseAsync()
         {
             await SqlRunner.ExecuteAsync(ConnectionStrings.Master, $"ALTER DATABASE [{DataConstants.DatabaseName}]  SET SINGLE_USER WITH ROLLBACK IMMEDIATE").ConfigureAwait(false);
             await SqlRunner.ExecuteAsync(ConnectionStrings.Master, $"DROP DATABASE [{DataConstants.DatabaseName}]").ConfigureAwait(false);
+        }
+
+        public static async Task AddUserAsync()
+        {
+            await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, $"ALTER DATABASE [{DataConstants.DatabaseName}] SET MULTI_USER;").ConfigureAwait(false);
+            await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, Properties.Resources.User).ConfigureAwait(false);
+
         }
     }
 }

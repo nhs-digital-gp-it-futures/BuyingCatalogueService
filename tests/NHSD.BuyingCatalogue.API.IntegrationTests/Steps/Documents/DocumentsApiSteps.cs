@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,87 +14,92 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Documents
     internal sealed class DocumentsApiSteps
     {
         private readonly ScenarioContext _context;
-        
+        private const string ScenarioContextMappingKey = "DocumentApiMappingGuids";
+        private const string WireMockBaseUrl = "http://localhost:9090";
+
         public DocumentsApiSteps(ScenarioContext context)
         {
             _context = context;
         }
 
-        private const string BaseWireMockUrl = "http://localhost:9090";
-
         [Given(@"a document named ([\w-]*) exists with solutionId ([\w-]*)")]
         public async Task GivenANamedDocumentForAGivenSolutionIdExists(string documentName,
             string solutionId)
         {
-            MappingModel model = new MappingModel { Response = new ResponseModel { Body = $"[\"{documentName}\"]" } };
+            var model = CreateMappingModel($"/api/v1/solutions/{solutionId}/documents", 200, $"[\"{documentName}\"]");
 
-            model.Request = new RequestModel
-            {
-                Path = new PathModel
-                {
-                    Matchers = new[]
-                    {
-                        new MatcherModel
-                        {
-                            Name = "WildcardMatcher",
-                            Pattern = $"/api/v1/solutions/{solutionId}/documents",
-                            IgnoreCase = true
-                        }
-                    }
-                },
-                Methods = new[] { "GET" }
-            };
-            await SendModel(model, _context).ConfigureAwait(false);
+            await SendModel(model, _context, ScenarioContextMappingKey).ConfigureAwait(false);
         }
 
         [Given(@"the document api fails with solutionId ([\w-]*)")]
         public async Task GivenTheDocumentApiFailsWithSolutionId(string solutionId)
         {
-            MappingModel model = new MappingModel
-            {
-                Response = new ResponseModel { StatusCode = 500, Body = "Demo Error" }
-            };
+            var model = CreateMappingModel($"/api/v1/solutions/{solutionId}/documents", 500, "Demo Error");
 
-            model.Request = new RequestModel
-            {
-                Path = new PathModel
-                {
-                    Matchers = new[]
-                    {
-                        new MatcherModel
-                        {
-                            Name = "WildcardMatcher",
-                            Pattern = $"/api/v1/solutions/{solutionId}/documents",
-                            IgnoreCase = true
-                        }
-                    }
-                },
-                Methods = new[] { "GET" }
-            };
-
-            await SendModel(model, _context).ConfigureAwait(false);
+            await SendModel(model, _context, ScenarioContextMappingKey).ConfigureAwait(false);
         }
 
-        private static async Task SendModel(MappingModel model, ScenarioContext context)
+        [Given(@"The document api is (up|down)")]
+        public async Task GivenTheDocumentApiIs(string state)
+        {
+            var model = CreateMappingModel("/health/live", state == "up" ? 200 : 404);
+
+            await SendModel(model, _context, ScenarioContextMappingKey).ConfigureAwait(false);
+        }
+
+        private static MappingModel CreateMappingModel(string path, int responseStatusCode, string responseBody = null)
+        {
+            return new MappingModel
+            {
+                Response = new ResponseModel { StatusCode = responseStatusCode, Body = responseBody },
+                Request = new RequestModel
+                {
+                    Path = new PathModel
+                    {
+                        Matchers = new[]
+                            {
+                                new MatcherModel
+                                {
+                                    Name = "WildcardMatcher",
+                                    Pattern = path,
+                                    IgnoreCase = true
+                                }
+                            }
+                    },
+                    Methods = new[] { "GET" }
+                }
+            };
+        }
+
+        private static async Task SendModel(MappingModel model, ScenarioContext context, string mappingKey)
+        {
+            await AddMapping(model).ConfigureAwait(false);
+
+            if (!context.ContainsKey(mappingKey))
+                context[mappingKey] = new List<Guid>();
+
+            if (context[mappingKey] is List<Guid> guidList)
+                if (model.Guid != null)
+                {
+                    guidList.Add(model.Guid.Value);
+                }
+        }
+
+        private static async Task AddMapping(MappingModel model)
         {
             model.Guid = Guid.NewGuid();
             model.Priority = 10;
-            var api = RestClient.For<IWireMockAdminApi>(new Uri(BaseWireMockUrl));
+            var api = RestClient.For<IWireMockAdminApi>(new Uri(WireMockBaseUrl));
             var result = await api.PostMappingAsync(model).ConfigureAwait(false);
             result.Status.Should().Be("Mapping added");
-            if (!context.ContainsKey("DocumentApiMappingGuids"))
-                context["DocumentApiMappingGuids"] = new List<Guid>();
-
-            if (context["DocumentApiMappingGuids"] is List<Guid> guidList)
-                guidList.Add(model.Guid.Value);
         }
 
         [AfterScenario]
-        public async Task ClearMappings()
+        public async Task CleanMappings()
         {
-            if (_context.ContainsKey("DocumentApiMappingGuids") && _context["DocumentApiMappingGuids"] is List<Guid> guidList)
+            if (_context.ContainsKey(ScenarioContextMappingKey) && _context[ScenarioContextMappingKey] is List<Guid> guidList)
             {
-                var api = RestClient.For<IWireMockAdminApi>(new Uri(BaseWireMockUrl));
+                var api = RestClient.For<IWireMockAdminApi>(new Uri(WireMockBaseUrl));
                 await Task.WhenAll(guidList.Select(g => api.DeleteMappingAsync(g)).ToArray()).ConfigureAwait(false);
             }
         }

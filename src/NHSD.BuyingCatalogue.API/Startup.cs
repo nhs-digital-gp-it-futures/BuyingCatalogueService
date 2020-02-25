@@ -1,10 +1,11 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NHSD.BuyingCatalogue.API.Extensions;
@@ -33,6 +34,13 @@ namespace NHSD.BuyingCatalogue.API
     [SuppressMessage("Design", "CA1822", Justification = "ASP.Net needs this to not be static")]
     public sealed class Startup
     {
+        private readonly IConfiguration _config;
+
+        public Startup(IConfiguration config)
+        {
+            _config = config;
+        }
+
         /// <summary>
         /// Configures the services for the application.
         /// </summary>
@@ -48,8 +56,10 @@ namespace NHSD.BuyingCatalogue.API
                 Assembly.GetAssembly(typeof(ICapability)),
             };
 
+            var settings = new Settings(_config);
+
             services
-                .AddTransient<ISettings, Settings>()
+                .AddSingleton<ISettings>(settings)
                 .AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>))
                 .AddAutoMapper(assemblies)
                 .AddMediatR(assemblies)
@@ -60,7 +70,7 @@ namespace NHSD.BuyingCatalogue.API
                 .RegisterSolutionsPersistence()
                 .RegisterCapabilityPersistence()
                 .RegisterSolutionListPersistence()
-                .AddCustomHealthCheck()
+                .RegisterHealthChecks(settings)
                 .AddCustomSwagger()
                 .AddCustomMvc();
         }
@@ -97,9 +107,9 @@ namespace NHSD.BuyingCatalogue.API
                     Predicate = (healthCheckRegistration) => healthCheckRegistration.Tags.Contains(HealthCheckTags.Live)
                 });
 
-                endpoints.MapHealthChecks("/health/dependencies", new HealthCheckOptions
+                endpoints.MapHealthChecks("/health/ready", new HealthCheckOptions
                 {
-                    Predicate = (healthCheckRegistration) => healthCheckRegistration.Tags.Contains(HealthCheckTags.Dependencies)
+                    Predicate = (healthCheckRegistration) => healthCheckRegistration.Tags.Contains(HealthCheckTags.Ready)
                 });
 
                 endpoints.MapControllers();
