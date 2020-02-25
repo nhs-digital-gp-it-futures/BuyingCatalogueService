@@ -1,8 +1,8 @@
-namespace NHSD.BuyingCatalogue.Testing.Data
+﻿namespace NHSD.BuyingCatalogue.Testing.Data
 {
     public static class DataConstants
     {
-        internal const string ServerNameForTests = "localhost,1433";
+        internal const string ServerNameForTests = "localhost,1430";
 
         public const string SAPassword = "Your_password456";
 

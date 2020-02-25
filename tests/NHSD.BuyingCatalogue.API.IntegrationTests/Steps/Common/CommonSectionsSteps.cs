@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -11,8 +11,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
     [Binding]
     internal sealed class CommonSectionsSteps
     {
-        private const string RootSectionsUrl = "http://localhost:8080/api/v1/Solutions/{0}/sections/{1}";
-        private const string RootDashboardUrl = "http://localhost:8080/api/v1/Solutions/{0}/dashboards/{1}";
+        private const string RootSectionsUrl = "http://localhost:5200/api/v1/Solutions/{0}/sections/{1}";
+        private const string RootDashboardUrl = "http://localhost:5200/api/v1/Solutions/{0}/dashboards/{1}";
 
         private readonly Response _response;
 

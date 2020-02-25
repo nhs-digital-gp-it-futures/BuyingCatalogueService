@@ -8,7 +8,7 @@ services:
     networks:
       - integration_network
     ports:
-      - "1433:1433"
+      - "1430:1433"
 
   nhsd.buyingcatalogue.api:
     container_name: nhsd_bc_integration_api
@@ -22,7 +22,7 @@ services:
     depends_on:
       - db
     ports:
-      - "8080:80"
+      - "5200:80"
 
   nhsd.buyingcatalogue.documents.api.wiremock:
     container_name: documents_api_wiremock
@@ -33,7 +33,7 @@ services:
     networks:
       - integration_network    
     ports:
-      - "9090:80"
+      - "5201:80"
 
 networks: 
   integration_network:

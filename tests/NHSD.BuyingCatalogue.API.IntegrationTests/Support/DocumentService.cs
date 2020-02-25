@@ -6,7 +6,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
 {
     internal static class DocumentService
     {
-        private const string WaitServerUrl = "http://localhost:9090/";
+        private const string WaitServerUrl = "http://localhost:5201/";
 
         private static readonly TimeSpan TestTimeout = TimeSpan.FromSeconds(60);
 

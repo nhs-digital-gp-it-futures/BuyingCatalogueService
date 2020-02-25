@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Globalization;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -11,7 +11,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
     [Binding]
     internal sealed class GetSolutionsByIdSteps
     {
-        private const string ByIdSolutionsUrl = "http://localhost:8080/api/v1/Solutions/{0}/{1}";
+        private const string ByIdSolutionsUrl = "http://localhost:5200/api/v1/Solutions/{0}/{1}";
 
         private readonly Response _response;
 

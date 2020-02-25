@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,7 +13,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Features
     [Binding]
     internal sealed class FeaturesSectionSteps
     {
-        private const string FeaturesUrl = "http://localhost:8080/api/v1/Solutions/{0}/sections/features";
+        private const string FeaturesUrl = "http://localhost:5200/api/v1/Solutions/{0}/sections/features";
 
         private readonly ScenarioContext _context;
 

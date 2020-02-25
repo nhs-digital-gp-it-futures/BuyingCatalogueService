@@ -15,7 +15,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Documents
     {
         private readonly ScenarioContext _context;
         private const string ScenarioContextMappingKey = "DocumentApiMappingGuids";
-        private const string WireMockBaseUrl = "http://localhost:9090";
+        private const string WireMockBaseUrl = "http://localhost:5201";
 
         public DocumentsApiSteps(ScenarioContext context)
         {
