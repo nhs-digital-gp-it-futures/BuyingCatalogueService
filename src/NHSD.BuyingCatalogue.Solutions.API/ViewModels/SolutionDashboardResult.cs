@@ -12,6 +12,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         public string Id { get; }
 
         public string Name { get; }
+        
+        [JsonProperty("supplier-name")]
+        public string SupplierName { get; }
 
         [JsonProperty("sections")]
         public SolutionDashboardSections SolutionDashboardSections { get; }
@@ -25,6 +28,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
             {
                 Id = solution.Id;
                 Name = solution.Name;
+                SupplierName = solution.SupplierName;
                 SolutionDashboardSections = new SolutionDashboardSections(solution);
             }
         }
