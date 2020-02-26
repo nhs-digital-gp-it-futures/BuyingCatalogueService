@@ -15,7 +15,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
     [Binding]
     internal sealed class ListSolutionsSteps
     {
-        private const string ListSolutionsUrl = "http://localhost:8080/api/v1/Solutions";
+        private const string ListSolutionsUrl = "http://localhost:5200/api/v1/Solutions";
 
         private readonly Response _response;
 

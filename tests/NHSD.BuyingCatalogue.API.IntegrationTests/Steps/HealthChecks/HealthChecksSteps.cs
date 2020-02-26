@@ -13,7 +13,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.HealthChecks
     {
         private readonly Response _response;
         private readonly ScenarioContext _context;
-        private const string BaseUrl = "http://localhost:8080";
+        private const string BaseUrl = "http://localhost:5200";
 
         public HealthChecksSteps(Response response, ScenarioContext context)
         {

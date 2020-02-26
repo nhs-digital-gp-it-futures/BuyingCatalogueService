@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
@@ -22,7 +22,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Epics
         {
             var obj = new { epics = table.CreateSet<EpicsPayload>() };
 
-            _response.Result = await Client.PutAsJsonAsync($"http://localhost:8080/api/v1/solutions/{solutionId}/sections/epics", obj)
+            _response.Result = await Client.PutAsJsonAsync($"http://localhost:5200/api/v1/solutions/{solutionId}/sections/epics", obj)
                 .ConfigureAwait(false);
         }
         

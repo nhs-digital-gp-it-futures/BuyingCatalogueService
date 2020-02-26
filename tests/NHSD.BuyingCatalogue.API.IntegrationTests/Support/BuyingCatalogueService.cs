@@ -6,9 +6,9 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
 {
     internal static class BuyingCatalogueService
     {
-        private const string WaitServerUrl = "http://localhost:8080/health/live";
+        private const string WaitServerUrl = "http://localhost:5200/health/live";
 
-        private const string WaitServerUrlDependencies = "http://localhost:8080/health/ready";
+        private const string WaitServerUrlDependencies = "http://localhost:5200/health/ready";
 
         private static readonly TimeSpan TestTimeout = TimeSpan.FromSeconds(60);
 

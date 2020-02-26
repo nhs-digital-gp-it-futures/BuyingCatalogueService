@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -63,7 +63,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
 
             var obj = Activator.CreateInstance(PayloadTypes[section]);
             table.FillInstance(obj);
-            _response.Result = await Client.PutAsJsonAsync($"http://localhost:8080/api/v1/solutions/{solutionId}/sections/{section}", obj)
+            _response.Result = await Client.PutAsJsonAsync($"http://localhost:5200/api/v1/solutions/{solutionId}/sections/{section}", obj)
                 .ConfigureAwait(false);
         }
 

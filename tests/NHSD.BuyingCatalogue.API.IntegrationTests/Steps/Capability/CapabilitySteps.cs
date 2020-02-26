@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,7 +13,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Capability
     [Binding]
     internal sealed class CapabilitySteps
     {
-        private const string ListCapabilitiesUrl = "http://localhost:8080/api/v1/Capabilities";
+        private const string ListCapabilitiesUrl = "http://localhost:5200/api/v1/Capabilities";
 
         private readonly Response _response;
 

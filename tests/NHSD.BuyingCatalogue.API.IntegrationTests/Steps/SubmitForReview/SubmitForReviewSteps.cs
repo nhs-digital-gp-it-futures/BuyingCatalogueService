@@ -13,7 +13,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.SubmitForReview
     [Binding]
     internal sealed class SubmitForReviewSteps
     {
-        private const string SubmitForReviewSolutionsUrl = "http://localhost:8080/api/v1/Solutions/{0}/SubmitForReview";
+        private const string SubmitForReviewSolutionsUrl = "http://localhost:5200/api/v1/Solutions/{0}/SubmitForReview";
 
         private readonly ScenarioContext _context;
 
