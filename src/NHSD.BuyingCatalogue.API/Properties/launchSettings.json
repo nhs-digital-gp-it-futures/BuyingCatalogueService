@@ -19,5 +19,6 @@
         "APICLIENTSETTINGS__DOCUMENTAPI__BASEURL": "http://localhost:5201",
         "applicationUrl": "http://localhost:5100"
       }
+    }
   }
 }
