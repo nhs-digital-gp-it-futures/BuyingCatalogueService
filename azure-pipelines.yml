@@ -112,7 +112,9 @@ steps:
     azureContainerRegistry: '{"loginServer":"gpitfuturesprodacr.azurecr.io", "id" : "/subscriptions/d1be8dbc-1a9f-4b7b-ba51-037116110e00/resourceGroups/gpitfutures-prod-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturesprodacr"}'
     dockerComposeFile: 'docker/docker-compose.yml'
     action: 'Build services'
-
+    additionalImageTags: '$(Build.BuildNumber)'
+    includeSourceTags: true
+    
 - task: DockerCompose@0
   displayName: 'Docker Push: Dev'
   condition: and(succeeded(), ne(variables['build.reason'], 'PullRequest'))
