@@ -51,7 +51,7 @@ steps:
 
 - script: |
     docker-compose build --no-cache
-    docker-compose -f "docker/docker-compose-build.yml" -f "docker/docker-compose.integration.yml" up -d
+    docker-compose -f "docker/docker-compose.yml" -f "docker/docker-compose.integration.yml" up -d
     docker ps -a
 
   displayName: 'Docker up'
@@ -77,7 +77,7 @@ steps:
   inputs:
     azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
     azureContainerRegistry: '{"loginServer":"gpitfuturesdevacr.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-dev-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturesdevacr"}'
-    dockerComposeFile: 'docker/docker-compose-build.yml'
+    dockerComposeFile: 'docker/docker-compose.yml'
     action: 'Build services'
     additionalImageTags: '$(Build.BuildNumber)'
     includeSourceTags: true
@@ -88,7 +88,7 @@ steps:
   inputs:
     azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
     azureContainerRegistry: '{"loginServer":"gpitfuturesdevacr.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-dev-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturesdevacr"}'
-    dockerComposeFile: 'docker/docker-compose-build.yml'
+    dockerComposeFile: 'docker/docker-compose.yml'
     action: 'Push services'
     additionalImageTags: '$(Build.BuildNumber)'
     includeSourceTags: true
@@ -99,7 +99,7 @@ steps:
   inputs:
     azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
     azureContainerRegistry: '{"loginServer":"gpitfuturestestacr.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-test-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturestestacr"}'
-    dockerComposeFile: 'docker/docker-compose-build.yml'
+    dockerComposeFile: 'docker/docker-compose.yml'
     action: 'Push services'
     additionalImageTags: '$(Build.BuildNumber)'
     includeSourceTags: true
@@ -110,7 +110,7 @@ steps:
   inputs:
     azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
     azureContainerRegistry: '{"loginServer":"gpitfuturestestacr.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-test-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturestestacr"}'
-    dockerComposeFile: 'docker/docker-compose-build.yml'
+    dockerComposeFile: 'docker/docker-compose.yml'
     action: 'Build services'
     additionalImageTags: '$(Build.BuildNumber)'
     includeSourceTags: true
@@ -121,7 +121,7 @@ steps:
   inputs:
     azureSubscription: 'NHSAPP-BuyingCatalogue (Prod)'
     azureContainerRegistry: '{"loginServer":"gpitfuturesprodacr.azurecr.io", "id" : "/subscriptions/d1be8dbc-1a9f-4b7b-ba51-037116110e00/resourceGroups/gpitfutures-prod-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturesprodacr"}'
-    dockerComposeFile: 'docker/docker-compose-build.yml'
+    dockerComposeFile: 'docker/docker-compose.yml'
     action: 'Build services'
     additionalImageTags: '$(Build.BuildNumber)'
     includeSourceTags: true
@@ -132,7 +132,7 @@ steps:
   inputs:
     azureSubscription: 'NHSAPP-BuyingCatalogue (Prod)'
     azureContainerRegistry: '{"loginServer":"gpitfuturesprodacr.azurecr.io", "id" : "/subscriptions/d1be8dbc-1a9f-4b7b-ba51-037116110e00/resourceGroups/gpitfutures-prod-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturesprodacr"}'
-    dockerComposeFile: 'docker/docker-compose-build.yml'
+    dockerComposeFile: 'docker/docker-compose.yml'
     action: 'Push services'
     additionalImageTags: '$(Build.BuildNumber)'
     includeSourceTags: true
