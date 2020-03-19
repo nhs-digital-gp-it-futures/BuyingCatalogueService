@@ -94,17 +94,6 @@ steps:
     includeSourceTags: true
 
 - task: DockerCompose@0
-  displayName: 'Docker Push: Test'
-  condition: and(succeeded(), ne(variables['build.reason'], 'PullRequest'))
-  inputs:
-    azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
-    azureContainerRegistry: '{"loginServer":"gpitfuturestestacr.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-test-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturestestacr"}'
-    dockerComposeFile: 'docker/docker-compose.yml'
-    action: 'Push services'
-    additionalImageTags: '$(Build.BuildNumber)'
-    includeSourceTags: true
-
-- task: DockerCompose@0
   displayName: 'Docker Build: Test'
   condition: and(succeeded(), ne(variables['build.reason'], 'PullRequest'))
   inputs:
@@ -112,6 +101,17 @@ steps:
     azureContainerRegistry: '{"loginServer":"gpitfuturestestacr.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-test-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturestestacr"}'
     dockerComposeFile: 'docker/docker-compose.yml'
     action: 'Build services'
+    additionalImageTags: '$(Build.BuildNumber)'
+    includeSourceTags: true
+
+- task: DockerCompose@0
+  displayName: 'Docker Push: Test'
+  condition: and(succeeded(), ne(variables['build.reason'], 'PullRequest'))
+  inputs:
+    azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
+    azureContainerRegistry: '{"loginServer":"gpitfuturestestacr.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-test-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturestestacr"}'
+    dockerComposeFile: 'docker/docker-compose.yml'
+    action: 'Push services'
     additionalImageTags: '$(Build.BuildNumber)'
     includeSourceTags: true
 
