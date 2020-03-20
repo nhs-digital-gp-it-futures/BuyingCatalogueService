@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
@@ -32,7 +32,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions
         /// <returns>The result of the query.</returns>
         public async Task<ISolutionList> Handle(ListSolutionsQuery request, CancellationToken cancellationToken)
         {
-            var solutionList = await _solutionListReader.ListAsync(request.CapabilityIdList, request.IsFoundation, cancellationToken).ConfigureAwait(false);
+            var solutionList = await _solutionListReader.ListAsync(request.Data.CapabilityReferences, request.Data.IsFoundation, cancellationToken).ConfigureAwait(false);
 
             return _mapper.Map<SolutionListDto>(solutionList);
         }

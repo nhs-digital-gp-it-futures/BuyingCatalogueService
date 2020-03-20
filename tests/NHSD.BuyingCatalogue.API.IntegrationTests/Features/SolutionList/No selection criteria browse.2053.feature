@@ -11,20 +11,16 @@ Background:
         | Workflow                | true         |
         | Clinical Safety         | false        |
         | Resource Management     | false        |
-    And Organisations exist
-        | Name     |
-        | GPs-R-Us |
-        | Drs. Inc |
     And Suppliers exist
-        | Id    | OrganisationName |
-        | Sup 1 | GPs-R-Us         |
-        | Sup 2 | Drs. Inc         |
+        | Id    | SupplierName |
+        | Sup 1 | Supplier 1   |
+        | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId | PublicationStatus |
-        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      | 3                 |
-        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                | Sup 2      | 3                 |
-        | Sln3       | PracticeMgr    | Drs. Inc         | 1                | Sup 2      | 3                 |
-        | Sln4       | Unpublished    | Drs. Inc         | 1                | Sup 2      | 1                 |
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId | PublicationStatus |
+        | Sln1       | MedicOnline    | 1                | Sup 1      | 3                 |
+        | Sln2       | TakeTheRedPill | 1                | Sup 2      | 3                 |
+        | Sln3       | PracticeMgr    | 1                | Sup 2      | 3                 |
+        | Sln4       | Unpublished    | 1                | Sup 2      | 1                 |
     And Solutions are linked to Capabilities
         | Solution       | Capability              |
         | MedicOnline    | Appointments Management |
@@ -56,10 +52,10 @@ Scenario: 2. Card Content
     When a GET request is made containing no selection criteria
     Then a successful response is returned
     And the details of the solutions returned are as follows
-        | SolutionID | SolutionName   | SummaryDescription     | OrganisationName | Capabilities                                       | IsFoundation |
-        | Sln1       | MedicOnline    |                        | GPs-R-Us         | Appointments Management, Clinical Safety, Workflow | true         |
-        | Sln2       | TakeTheRedPill | Eye opening experience | Drs. Inc         | Prescribing, Resource Management                   | false        |
-        | Sln3       | PracticeMgr    |                        | Drs. Inc         | Clinical Safety, Prescribing, Workflow             | false        |
+        | SolutionId | SolutionName   | SummaryDescription     | SupplierName | Capabilities                                       | IsFoundation |
+        | Sln1       | MedicOnline    |                        | Supplier 1   | Appointments Management, Clinical Safety, Workflow | true         |
+        | Sln2       | TakeTheRedPill | Eye opening experience | Supplier 2   | Prescribing, Resource Management                   | false        |
+        | Sln3       | PracticeMgr    |                        | Supplier 2   | Clinical Safety, Prescribing, Workflow             | false        |
 
 Scenario: 3. List all Solutions with no marketing data
 	Given a SolutionDetail Sln1 does not exist

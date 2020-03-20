@@ -1,28 +1,26 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 
-namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
+namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
 {
     [Binding]
     internal sealed class ListSolutionsSteps
     {
-        private const string ListSolutionsUrl = "http://localhost:8080/api/v1/Solutions";
-
-        private readonly ScenarioContext _context;
+        private const string ListSolutionsUrl = "http://localhost:5200/api/v1/Solutions";
 
         private readonly Response _response;
 
-        public ListSolutionsSteps(ScenarioContext context, Response response)
+        public ListSolutionsSteps(Response response)
         {
-            _context = context;
             _response = response;
         }
 
@@ -58,7 +56,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         private static async Task<SolutionsRequest> BuildRequestAsync(IEnumerable<string> capabilityNames)
         {
             var capabilities = await CapabilityEntity.FetchAllAsync().ConfigureAwait(false);
-            return new SolutionsRequest { Capabilities = new HashSet<string>(capabilityNames.Select(cn => capabilities.First(c => c.Name == cn).Id.ToString())) };
+            var listOfReferences = capabilityNames.Select(cn => capabilities.First(c => c.Name == cn).CapabilityRef);
+            return new SolutionsRequest { Capabilities = listOfReferences.Select(r => new CapabilityReference(r)).ToList()};
         }
 
         [Then(@"the solutions (.*) are found in the response")]
@@ -87,10 +86,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
 
             foreach (var expectedSolution in expectedSolutions)
             {
-                var solution = solutions.First(t => t.SelectToken("id").ToString() == expectedSolution.SolutionID);
+                var solution = solutions.First(t => t.SelectToken("id").ToString() == expectedSolution.SolutionId);
                 solution.SelectToken("name").ToString().Should().Be(expectedSolution.SolutionName);
                 solution.SelectToken("summary")?.ToString().Should().Be(expectedSolution.SummaryDescription);
-                solution.SelectToken("organisation.name").ToString().Should().Be(expectedSolution.OrganisationName);
+                solution.SelectToken("supplier.name").ToString().Should().Be(expectedSolution.SupplierName);
                 solution.SelectToken("capabilities").Select(t => t.SelectToken("name").ToString()).Should().BeEquivalentTo(expectedSolution.Capabilities.Split(",").Select(t => t.Trim()));
                 solution.SelectToken("isFoundation").ToString().Should().Be(expectedSolution.IsFoundation.ToString(CultureInfo.InvariantCulture));
             }
@@ -98,18 +97,28 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
 
         private class SolutionsRequest
         {
-            public HashSet<string> Capabilities { get; set; }
+            public List<CapabilityReference> Capabilities { get; set; }
+        }
+
+        private class CapabilityReference
+        {
+            public string Reference { get; }
+
+            public CapabilityReference(string reference)
+            {
+                Reference = reference;
+            }
         }
 
         private class SolutionDetailsTable
         {
-            public string SolutionID { get; set; }
+            public string SolutionId { get; set; }
 
             public string SolutionName { get; set; }
 
             public string SummaryDescription { get; set; }
 
-            public string OrganisationName { get; set; }
+            public string SupplierName { get; set; }
 
             public string Capabilities { get; set; }
 

@@ -13,11 +13,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solutions Items", "Solution
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.env = .env
-		docker-compose.development.yml = docker-compose.development.yml
-		docker-compose.integration.yml = docker-compose.integration.yml
-		docker-compose.production.yml = docker-compose.production.yml
-		docker-compose.yml = docker-compose.yml
-		Dockerfile = Dockerfile
+		docker\docker-compose.development.yml = docker\docker-compose.development.yml
+		docker\docker-compose.integration.yml = docker\docker-compose.integration.yml
+		docker\docker-compose.pipeline.yaml = docker\docker-compose.pipeline.yaml
+		docker\docker-compose.production.yml = docker\docker-compose.production.yml
+		docker\docker-compose.yml = docker\docker-compose.yml
+		docker\Dockerfile = docker\Dockerfile
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.API.UnitTests", "tests\NHSD.BuyingCatalogue.API.UnitTests\NHSD.BuyingCatalogue.API.UnitTests.csproj", "{F6E3EE51-7F18-440B-A882-3F6148068384}"
@@ -98,7 +99,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Soluti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.API.IntegrationTests", "tests\NHSD.BuyingCatalogue.API.IntegrationTests\NHSD.BuyingCatalogue.API.IntegrationTests.csproj", "{53C18484-E8B3-4F63-9FAB-638F90893B2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests", "tests\NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests\NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests.csproj", "{F95382FC-C42E-4942-AD2F-A8E09C7041CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests", "tests\NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests\NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests.csproj", "{F95382FC-C42E-4942-AD2F-A8E09C7041CB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Solutions.Persistence.UnitTests", "tests\NHSD.BuyingCatalogue.Solutions.Persistence.UnitTests\NHSD.BuyingCatalogue.Solutions.Persistence.UnitTests.csproj", "{C8186EE1-3FB5-49C4-A030-9B1F29FB93E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -234,6 +237,10 @@ Global
 		{F95382FC-C42E-4942-AD2F-A8E09C7041CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F95382FC-C42E-4942-AD2F-A8E09C7041CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F95382FC-C42E-4942-AD2F-A8E09C7041CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8186EE1-3FB5-49C4-A030-9B1F29FB93E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8186EE1-3FB5-49C4-A030-9B1F29FB93E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8186EE1-3FB5-49C4-A030-9B1F29FB93E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8186EE1-3FB5-49C4-A030-9B1F29FB93E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -280,6 +287,7 @@ Global
 		{8638969F-E3FA-4FF5-BC35-C39390A9C1E9} = {83AEF4B0-58A2-4A1E-9D4D-194CA10B3121}
 		{53C18484-E8B3-4F63-9FAB-638F90893B2C} = {BF4E3ADF-9CB3-45D6-ABCA-8CC6258761AC}
 		{F95382FC-C42E-4942-AD2F-A8E09C7041CB} = {D12341EB-693A-437E-A192-A146F14DBAD7}
+		{C8186EE1-3FB5-49C4-A030-9B1F29FB93E6} = {D12341EB-693A-437E-A192-A146F14DBAD7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B5E5ECC8-5558-45B1-83AC-F557B4DC8C57}

@@ -1,0 +1,24 @@
+{
+  "profiles": {
+    "NHSD.BuyingCatalogue.API Dev": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:5100/swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:5100"
+    },
+    "NHSD.BuyingCatalogue.API Integration": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:5100/swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "CONNECTIONSTRINGS__BUYINGCATALOGUE": "Data Source=127.0.0.1,1430;Initial Catalog=buyingcataloguegpit;MultipleActiveResultSets=True;User Id=NHSD;Password=DisruptTheMarket1!",
+        "APICLIENTSETTINGS__DOCUMENTAPI__BASEURL": "http://localhost:5201",
+        "applicationUrl": "http://localhost:5100"
+      }
+    }
+  }
+}

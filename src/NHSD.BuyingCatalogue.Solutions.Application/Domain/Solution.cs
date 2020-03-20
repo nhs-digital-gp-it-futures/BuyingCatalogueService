@@ -2,47 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using NHSD.BuyingCatalogue.Solutions.Application.Domain.Suppliers;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 {
     /// <summary>
-    /// A product and/or service provided by an ‘organisation’.
+    /// A product and/or service provided by a supplier.
     /// </summary>
-    internal class Solution
+    internal sealed class Solution
     {
-        internal Solution(ISolutionResult solutionResult,
-            IEnumerable<ISolutionCapabilityListResult> solutionCapabilityListResult,
-            IEnumerable<IMarketingContactResult> contactResult)
-        {
-            Id = solutionResult.Id;
-            Name = solutionResult.Name; 
-            LastUpdated = GetLatestLastUpdated(solutionResult, contactResult);
-            Summary = solutionResult.Summary;
-            OrganisationName = solutionResult.OrganisationName;
-            Description = solutionResult.Description;
-            Features = string.IsNullOrWhiteSpace(solutionResult.Features)
-                ? new List<string>()
-                : JsonConvert.DeserializeObject<IEnumerable<string>>(solutionResult.Features);
-            AboutUrl = solutionResult.AboutUrl;
-            ClientApplication = string.IsNullOrWhiteSpace(solutionResult.ClientApplication)
-                ? new ClientApplication()
-                : JsonConvert.DeserializeObject<ClientApplication>(solutionResult.ClientApplication);
-            IsFoundation = solutionResult.IsFoundation;
-            Capabilities = new HashSet<string>(solutionCapabilityListResult.Select(c => c.CapabilityName));
-            Contacts = contactResult.Select(c => new Contact(c));
-            PublishedStatus = solutionResult.PublishedStatus;
-        }
-
-        private DateTime GetLatestLastUpdated(ISolutionResult solutionResult, IEnumerable<IMarketingContactResult> contactResult) =>
-            new List<DateTime>
-            {
-                solutionResult.LastUpdated,
-                solutionResult.SolutionDetailLastUpdated,
-                contactResult?.Any() == false ? DateTime.MinValue : contactResult.Max(x => x.LastUpdated)
-            }.Max();
-
         /// <summary>
         /// Id of the solution.
         /// </summary>
@@ -68,15 +38,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         /// </summary>
         public string Summary { get; set; }
 
- 		/// <summary>
-        /// Name of the organisation, as displayed to a user.
-        /// </summary>
-        public string OrganisationName { get; set; }
-
         /// <summary>
         /// Gets or sets a list of features.
         /// </summary>
         public IEnumerable<string> Features { get; set; }
+
+        /// <summary>
+        /// Gets or sets a road map description.
+        /// </summary>
+        public RoadMap RoadMap { get; set; }
+
+        /// <summary>
+        /// Gets or sets an integration.
+        /// </summary>
+        public Integrations Integrations { get; set; }
 
         /// <summary>
         /// A link to provide more information about a solution.
@@ -101,7 +76,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         /// <summary>
         /// Capabilities claimed by the solution
         /// </summary>
-        public HashSet<string> Capabilities { get; set; }
+        public IEnumerable<ClaimedCapability> Capabilities { get; set; }
 
         /// <summary>
         /// The contacts for the solution
@@ -114,12 +89,90 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public PublishedStatus PublishedStatus { get; set; }
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="Solution"/> class.
+        /// The hosting of the solution
+        /// </summary>
+        public Hosting Hosting { get; set; }
+
+        /// <summary>
+        /// The supplier of the solution
+        /// </summary>
+        public Supplier Supplier { get; set; }
+
+        /// <summary>
+        /// Gets or sets an implementation timescales.
+        /// </summary>
+        public ImplementationTimescales ImplementationTimescales { get; set; }
+
+        /// <summary>
+        /// Gets or sets the solution document for the solution.
+        /// </summary>
+        public SolutionDocument SolutionDocument { get; set; }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="Solution" /> class.
+        /// </summary>
+        internal Solution(
+            ISolutionResult solutionResult,
+            IEnumerable<ISolutionCapabilityListResult> solutionCapabilityListResult,
+            IEnumerable<IMarketingContactResult> contactResult,
+            ISupplierResult supplierResult,
+            IDocumentResult documentResult,
+            IEnumerable<ISolutionEpicListResult> solutionEpicListResults)
+        {
+            var contactResultList = contactResult.ToList();
+            var solutionEpicsByCapability = solutionEpicListResults?.ToLookup(e => e.CapabilityId);
+            Id = solutionResult.Id;
+            Name = solutionResult.Name;
+            LastUpdated = GetLatestLastUpdated(solutionResult, contactResultList);
+            Summary = solutionResult.Summary;
+            Description = solutionResult.Description;
+            Features = string.IsNullOrWhiteSpace(solutionResult.Features)
+                ? new List<string>()
+                : JsonConvert.DeserializeObject<IEnumerable<string>>(solutionResult.Features);
+            Integrations = new Integrations
+            {
+                Url = solutionResult.IntegrationsUrl, DocumentName = documentResult?.IntegrationDocumentName
+            };
+            ImplementationTimescales =
+                new ImplementationTimescales {Description = solutionResult.ImplementationTimescales};
+            AboutUrl = solutionResult.AboutUrl;
+            RoadMap = new RoadMap
+            {
+                Summary = solutionResult.RoadMap, DocumentName = documentResult?.RoadMapDocumentName
+            };
+            ClientApplication = string.IsNullOrWhiteSpace(solutionResult.ClientApplication)
+                ? new ClientApplication()
+                : JsonConvert.DeserializeObject<ClientApplication>(solutionResult.ClientApplication);
+            IsFoundation = solutionResult.IsFoundation;
+            Capabilities = solutionCapabilityListResult.Select(c =>
+                new ClaimedCapability(c, solutionEpicsByCapability?[c.CapabilityId]));
+            Contacts = contactResultList.Select(c => new Contact(c));
+            PublishedStatus = solutionResult.PublishedStatus;
+
+            Hosting = string.IsNullOrWhiteSpace(solutionResult.Hosting)
+                ? new Hosting()
+                : JsonConvert.DeserializeObject<Hosting>(solutionResult.Hosting);
+            Supplier = supplierResult != null ? new Supplier(supplierResult) : new Supplier();
+
+            SolutionDocument = new SolutionDocument(documentResult?.SolutionDocumentName);
+        }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="Solution" /> class.
         /// </summary>
         public Solution()
         {
             SupplierStatus = SupplierStatus.Draft;
             PublishedStatus = PublishedStatus.Draft;
         }
+
+        private DateTime GetLatestLastUpdated(ISolutionResult solutionResult,
+            IList<IMarketingContactResult> contactResult) =>
+            new List<DateTime>
+            {
+                solutionResult.LastUpdated,
+                solutionResult.SolutionDetailLastUpdated,
+                contactResult?.Any() == true ? contactResult.Max(x => x.LastUpdated) : DateTime.MinValue
+            }.Max();
     }
 }

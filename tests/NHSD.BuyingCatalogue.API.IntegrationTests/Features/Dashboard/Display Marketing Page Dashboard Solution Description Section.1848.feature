@@ -4,19 +4,15 @@ Feature: Display Marketing Page Dashboard Solution Description Section
     So that I can ensure the information is correct
 
 Background:
-    Given Organisations exist
-        | Name     |
-        | GPs-R-Us |
-        | Drs. Inc |
-    And Suppliers exist
-        | Id    | OrganisationName |
-        | Sup 1 | GPs-R-Us         |
-        | Sup 2 | Drs. Inc         |
+    Given Suppliers exist
+        | Id    | SupplierName |
+        | Sup 1 | Supplier 1   |
+        | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                | Sup 2      |
-        | Sln3       | PracticeMgr    | Drs. Inc         | 1                | Sup 2      |
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill | 1                | Sup 2      |
+        | Sln3       | PracticeMgr    | 1                | Sup 2      |
     And SolutionDetail exist
         | Solution | AboutUrl| SummaryDescription      | FullDescription      | Features                          |
         | Sln1     | UrlSln1 |                         | Online medicine 1    | [ "Appointments", "Prescribing" ] |
@@ -29,7 +25,7 @@ Scenario Outline: 3. Solution description section is mandatory and is reported c
     And the solution solution-description section status is <Status>
     And the solution solution-description section requirement is Mandatory
 Examples:
-    | Solution | Status     | SummaryDescription      |
-    | Sln1     | INCOMPLETE |                         |
-    | Sln2     | INCOMPLETE |                         |
-    | Sln3     | COMPLETE   | Fully fledged GP system |
+    | Solution | Status     |
+    | Sln1     | INCOMPLETE |
+    | Sln2     | INCOMPLETE |
+    | Sln3     | COMPLETE   |

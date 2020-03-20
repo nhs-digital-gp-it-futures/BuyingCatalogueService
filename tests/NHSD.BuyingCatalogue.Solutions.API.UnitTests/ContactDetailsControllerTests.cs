@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +12,7 @@ using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NUnit.Framework;
 
@@ -23,7 +25,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
         private ContactDetailsController _contactDetailsController;
 
-        private MaxLengthResult _validationResult;
+        private ContactsMaxLengthResult _validationResult;
 
         private const string SolutionId = "Sln1";
         private List<IContact> _returnedContacts;
@@ -62,7 +64,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 m.Send(It.Is<UpdateSolutionContactDetailsCommand>(q => q.SolutionId == SolutionId),
                     It.IsAny<CancellationToken>())).ReturnsAsync(() => _validationResult);
 
-            _validationResult = new MaxLengthResult();
+            _validationResult = GetContactsMaxLengthResult(Array.Empty<string>(), Array.Empty<string>());
             _returnedContacts = new List<IContact>();
         }
 
@@ -118,14 +120,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         }
 
         [Test]
-        public async Task ContactDetailsNotFoundWhenContactsIsNull()
+        public async Task ContactDetailsReturnEmptyWhenContactsIsNull()
         {
             _returnedContacts = null;
-            var result = (await _contactDetailsController.GetContactDetailsAsync(SolutionId).ConfigureAwait(false)) as NotFoundResult;
+            var result = (await _contactDetailsController.GetContactDetailsAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
-
-            _mockMediator.Verify(m => m.Send(It.Is<GetContactDetailBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            (result.Value as GetContactDetailsResult).Contact1.Should().BeNull();
+            (result.Value as GetContactDetailsResult).Contact2.Should().BeNull();
         }
 
         [Test]
@@ -150,29 +152,72 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var result = await _contactDetailsController.UpdateContactDetailsAsync(SolutionId, sentModel).ConfigureAwait(false) as NoContentResult;
             result.Should().NotBeNull();
             result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
-            _mockMediator.Verify(x => x.Send(It.Is<UpdateSolutionContactDetailsCommand>(x => x.SolutionId == SolutionId && x.Details == sentModel), It.IsAny<CancellationToken>()));
+            _mockMediator.Verify(x => x.Send(It.Is<UpdateSolutionContactDetailsCommand>(x => x.SolutionId == SolutionId && x.Data == sentModel), It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task SubmitForReviewResultFailure()
         {
-            _validationResult = new MaxLengthResult { MaxLength = { "This update was too cool for school" } };
-            var expectedResponse = new UpdateFormMaxLengthResult(_validationResult);
+            _validationResult = GetContactsMaxLengthResult(new[] { "first-name", "last-name" }, new[] { "email-address", "last-name", "phone-number" });
 
             var result = await _contactDetailsController.UpdateContactDetailsAsync(SolutionId, new UpdateSolutionContactDetailsViewModel()).ConfigureAwait(false) as BadRequestObjectResult;
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(400);
 
-            var actual = result.Value as UpdateFormMaxLengthResult;
+            var actual = result.Value as Dictionary<string, Dictionary<string, string>>;
             actual.Should().NotBeNull();
-            actual.Should().BeEquivalentTo(expectedResponse);
+            actual.Count.Should().Be(2);
+            actual["contact-1"].Count.Should().Be(2);
+            actual["contact-1"]["first-name"].Should().Be("maxLength");
+            actual["contact-1"]["last-name"].Should().Be("maxLength");
+
+            actual["contact-2"].Count.Should().Be(3);
+            actual["contact-2"]["email-address"].Should().Be("maxLength");
+            actual["contact-2"]["last-name"].Should().Be("maxLength");
+            actual["contact-2"]["phone-number"].Should().Be("maxLength");
         }
 
         [Test]
-        public void UpdateResultSetsValidationCorrectly()
+        public async Task ShouldNotReportAsInvalidValidContact1()
         {
-            var response = new UpdateFormMaxLengthResult(_validationResult);
-            response.MaxLength.Should().BeEquivalentTo(_validationResult.MaxLength);
+            _validationResult = GetContactsMaxLengthResult(Array.Empty<string>(), new[] { "email-address", "last-name", "phone-number" } );
+ 
+            var result = await _contactDetailsController.UpdateContactDetailsAsync(SolutionId, new UpdateSolutionContactDetailsViewModel()).ConfigureAwait(false) as BadRequestObjectResult;
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(400);
+
+            var actual = result.Value as Dictionary<string, Dictionary<string, string>>;
+            actual.Should().NotBeNull();
+            actual.Count.Should().Be(1);
+
+            actual["contact-2"].Count.Should().Be(3);
+            actual["contact-2"]["email-address"].Should().Be("maxLength");
+            actual["contact-2"]["last-name"].Should().Be("maxLength");
+            actual["contact-2"]["phone-number"].Should().Be("maxLength");
+        }
+
+        [Test]
+        public async Task ShouldNotReportAsInvalidValidContact2()
+        {
+            _validationResult = GetContactsMaxLengthResult(new []{ "first-name", "last-name" }, Array.Empty<string>());
+
+            var result = await _contactDetailsController.UpdateContactDetailsAsync(SolutionId, new UpdateSolutionContactDetailsViewModel()).ConfigureAwait(false) as BadRequestObjectResult;
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(400);
+
+            var actual = result.Value as Dictionary<string, Dictionary<string, string>>;
+            actual.Should().NotBeNull();
+            actual.Count.Should().Be(1);
+            actual["contact-1"].Count.Should().Be(2);
+            actual["contact-1"]["first-name"].Should().Be("maxLength");
+            actual["contact-1"]["last-name"].Should().Be("maxLength");
+        }
+
+        private ContactsMaxLengthResult GetContactsMaxLengthResult(string[] contact1Errors, string[] contact2Errors)
+        {
+            var contact1Dict = contact1Errors.ToDictionary(k => k, v => "maxLength");
+            var contact2Dict = contact2Errors.ToDictionary(k => k, v => "maxLength");
+            return new ContactsMaxLengthResult(Mock.Of<ISimpleResult>(s => s.ToDictionary() == contact1Dict && s.IsValid == (contact1Dict.Count == 0)), Mock.Of<ISimpleResult>(s => s.ToDictionary() == contact2Dict && s.IsValid == (contact2Dict.Count == 0)));
         }
     }
 }

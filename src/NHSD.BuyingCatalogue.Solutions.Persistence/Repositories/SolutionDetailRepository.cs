@@ -19,7 +19,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         public SolutionDetailRepository(IDbConnector dbConnector) => _dbConnector = dbConnector;
 
         private const string updateTemplate = @"
-                                UPDATE  SolutionDetail                                   
+                                UPDATE  SolutionDetail
                                 SET     [Setters],
 								SolutionDetail.LastUpdated = GETDATE()
                                 FROM SolutionDetail
@@ -32,6 +32,34 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         const string getClientApplicationBySolutionIdSql = @"SELECT
                                     Solution.Id
                                     ,SolutionDetail.ClientApplication as ClientApplication
+                                 FROM   Solution
+                                        LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
+                                 WHERE  Solution.Id = @solutionId";
+
+        const string getHostingBySolutionIdSql = @"SELECT
+                                    Solution.Id
+                                    ,SolutionDetail.Hosting as Hosting
+                                 FROM   Solution
+                                        LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
+                                 WHERE  Solution.Id = @solutionId";
+
+        const string GetRoadMapBySolutionIdSql = @"SELECT
+                                    Solution.Id,
+                                    SolutionDetail.RoadMap as Summary
+                                 FROM   Solution
+                                        LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
+                                 WHERE  Solution.Id = @solutionId";
+
+        const string GetIntegrationsBySolutionIdSql = @"SELECT
+                                    Solution.Id,
+                                    SolutionDetail.IntegrationsUrl as IntegrationsUrl
+                                 FROM   Solution
+                                        LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
+                                 WHERE  Solution.Id = @solutionId";
+
+        const string GetImplementationTimescalesBySolutionIdSql = @"SELECT
+                                    Solution.Id,
+                                    SolutionDetail.ImplementationDetail as Description
                                  FROM   Solution
                                         LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
                                  WHERE  Solution.Id = @solutionId";
@@ -74,5 +102,47 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         public async Task<IClientApplicationResult> GetClientApplicationBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
             => (await _dbConnector.QueryAsync<ClientApplicationResult>(getClientApplicationBySolutionIdSql, cancellationToken,new {solutionId}).ConfigureAwait(false)).SingleOrDefault();
+
+        /// <summary>
+        /// Adds or updates the hosting details of a solution.
+        /// </summary>
+        /// <param name="updateSolutionHostingRequest">The updated hosting details of a solution to commit to the data store.</param>
+        /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
+        /// <returns>A task representing an operation to save the specified <paramref name="updateSolutionHostingRequest"/> details to the data store.</returns>
+        public async Task UpdateHostingAsync(IUpdateSolutionHostingRequest updateSolutionHostingRequest, CancellationToken cancellationToken)
+            => await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
+                    @"SolutionDetail.Hosting = @hosting", StringComparison.InvariantCulture),
+                cancellationToken,
+                updateSolutionHostingRequest.ThrowIfNull(nameof(updateSolutionHostingRequest))).ConfigureAwait(false);
+
+        public async Task<IHostingResult> GetHostingBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
+            => (await _dbConnector.QueryAsync<HostingResult>(getHostingBySolutionIdSql, cancellationToken, new { solutionId }).ConfigureAwait(false)).SingleOrDefault();
+
+        public async Task UpdateRoadmapAsync(IUpdateRoadmapRequest updateRoadmapRequest, CancellationToken cancellationToken)
+            => await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
+                    @"SolutionDetail.RoadMap = @description", StringComparison.InvariantCulture),
+                cancellationToken,
+                updateRoadmapRequest.ThrowIfNull(nameof(updateRoadmapRequest))).ConfigureAwait(false);
+
+        public async Task<IRoadMapResult> GetRoadMapBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
+            => (await _dbConnector.QueryAsync<RoadMapResult>(GetRoadMapBySolutionIdSql, cancellationToken, new { solutionId }).ConfigureAwait(false)).SingleOrDefault();
+
+        public async Task<IIntegrationsResult> GetIntegrationsBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
+            => (await _dbConnector.QueryAsync<IntegrationsResult>(GetIntegrationsBySolutionIdSql, cancellationToken, new { solutionId }).ConfigureAwait(false)).SingleOrDefault();
+
+        public async Task UpdateIntegrationsAsync(IUpdateIntegrationsRequest updateIntegrationsRequest, CancellationToken cancellationToken)
+            => await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
+                    @"SolutionDetail.IntegrationsUrl = @url", StringComparison.InvariantCulture),
+                cancellationToken,
+                updateIntegrationsRequest.ThrowIfNull(nameof(updateIntegrationsRequest))).ConfigureAwait(false);
+
+        public async Task<IImplementationTimescalesResult> GetImplementationTimescalesBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
+            => (await _dbConnector.QueryAsync<ImplementationTimescalesResult>(GetImplementationTimescalesBySolutionIdSql, cancellationToken, new { solutionId }).ConfigureAwait(false)).SingleOrDefault();
+
+        public async Task UpdateImplementationTimescalesAsync(IUpdateImplementationTimescalesRequest updateImplementationTimescalesRequest, CancellationToken cancellationToken)
+            => await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
+                    @"SolutionDetail.ImplementationDetail = @description", StringComparison.InvariantCulture),
+                cancellationToken,
+                updateImplementationTimescalesRequest.ThrowIfNull(nameof(updateImplementationTimescalesRequest))).ConfigureAwait(false);
     }
 }

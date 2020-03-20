@@ -4,15 +4,12 @@ Feature: Display Marketing Page Public Contact Details
     So that I can understand who the Solution Contacts are
 
 Background:
-    Given Organisations exist
-        | Name     |
-        | GPs-R-Us |
-    And Suppliers exist
-        | Id    | OrganisationName |
-        | Sup 1 |  GPs-R-Us        |
+    Given Suppliers exist
+        | Id    | SupplierName |
+        | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
+        | SolutionId | SolutionName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline  | 1                | Sup 1      |
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription | Features                          |
         | Sln1     | UrlSln1  | The best solution  | [ "Appointments", "Prescribing" ] |
@@ -23,7 +20,7 @@ Scenario: 1. Both contacts are presented when two exist
         | SolutionId | FirstName | LastName   | Email         | PhoneNumber  | DepartmentName |
         | Sln1       | Bob       | Bobbington | bob@bob.bob   | 66666 666666 | Sales          |
         | Sln1       | Betty     | Bobbington | betty@bob.bob | 99999 999999 | Complaints     |
-    When a GET request is made for contact-details for solution Sln1
+    When a GET request is made for contact-details section for solution Sln1
     Then a successful response is returned
     And the contact-detail contact-1 has details
         | FirstName | LastName   | PhoneNumber  | EmailAddress | DepartmentName |
@@ -38,7 +35,7 @@ Given MarketingContacts exist
         | SolutionId | FirstName | LastName   | Email         | PhoneNumber  | DepartmentName |
         | Sln1       | Bob       |            | bob@bob.bob   | 66666 666666 | Sales          |
         | Sln1       |           | Bobbington | betty@bob.bob | 99999 999999 |                |
-    When a GET request is made for contact-details for solution Sln1
+    When a GET request is made for contact-details section for solution Sln1
     Then a successful response is returned
     And the contact-detail contact-1 has details
         | FirstName | LastName | EmailAddress | PhoneNumber  | DepartmentName |
@@ -52,7 +49,7 @@ Scenario: 3. A single contact is presented when there is only one available
     Given MarketingContacts exist
         | SolutionId | FirstName | LastName   | EmailAddress  | PhoneNumber  | DepartmentName |
         | Sln1       | Bob       | Bobbington | bob@bob.bob   | 66666 666666 | Sales          |
-    When a GET request is made for contact-details for solution Sln1
+    When a GET request is made for contact-details section for solution Sln1
     Then a successful response is returned
     And the contact-detail contact-1 has details
         | FirstName | LastName   | EmailAddress | PhoneNumber  | DepartmentName |
@@ -62,7 +59,7 @@ Scenario: 3. A single contact is presented when there is only one available
 @3655
 Scenario: 4. No contacts are presented when there aren't any available
     Given No contacts exist for solution Sln1
-    When a GET request is made for contact-details for solution Sln1
+    When a GET request is made for contact-details section for solution Sln1
     Then a successful response is returned
     And there is no contact-1 for the contact-detail
     And there is no contact-2 for the contact-detail
@@ -74,7 +71,7 @@ Scenario: 5. Two contacts are presented when more than two are available
         | Sln1       | Bob       | Bobbington | bob@bob.bob   | 66666 666666 | Sales          |
         | Sln1       | Betty     | Bobbington | betty@bob.bob | 99999 999999 | Complaints     |
         | Sln1       | Bart      | Simpson    | bart@s.com    | 11111 111111 | GP             |
-    When a GET request is made for contact-details for solution Sln1
+    When a GET request is made for contact-details section for solution Sln1
     Then a successful response is returned
     And the contact-detail contact-1 has details
         | SolutionId | FirstName | LastName   | EmailAddress | PhoneNumber  | DepartmentName |
@@ -87,17 +84,17 @@ Scenario: 5. Two contacts are presented when more than two are available
 @3655
 Scenario: 6. Solution not found
     Given a Solution Sln2 does not exist
-    When a GET request is made for contact-details for solution Sln2
+    When a GET request is made for contact-details section for solution Sln2
     Then a response status of 404 is returned
 
 @3655
 Scenario: 7. Service failure
     Given the call to the database to set the field will fail
-    When a GET request is made for contact-details for solution Sln2
+    When a GET request is made for contact-details section for solution Sln2
     Then a response status of 500 is returned
 
 @3655
 Scenario: 8. Solution id not present in request
-    When a GET request is made for contact-details with no solution id
+    When a GET request is made for contact-details section with no solution id
     Then a response status of 400 is returned
 

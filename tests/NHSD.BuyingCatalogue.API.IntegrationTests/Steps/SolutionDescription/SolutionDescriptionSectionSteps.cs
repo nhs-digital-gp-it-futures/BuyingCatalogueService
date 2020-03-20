@@ -1,11 +1,9 @@
-using System.Globalization;
 using System.Threading.Tasks;
 using FluentAssertions;
-using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
+using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using TechTalk.SpecFlow;
-using TechTalk.SpecFlow.Assist;
 
-namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
+namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.SolutionDescription
 {
     [Binding]
     internal sealed class SolutionDescriptionSectionSteps
@@ -15,13 +13,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         public SolutionDescriptionSectionSteps(Response response)
         {
             _response = response;
-        }
-
-        [Then(@"the solution solution-description section contains (link|summary|description) of (.*)")]
-        public async Task ThenTheSolutionContains(string field, string value)
-        {
-            var content = await _response.ReadBody().ConfigureAwait(false);
-            content.SelectToken($"sections.solution-description.answers.{field}").ToString().Should().Be(value);
         }
 
         [Then(@"the solution solution-description section does not contain (link|summary|description)")]

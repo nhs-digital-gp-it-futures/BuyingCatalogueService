@@ -1,14 +1,14 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Testing.Tools;
 
-namespace NHSD.BuyingCatalogue.API.IntegrationTests.Drivers
+namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
 {
     internal static class BuyingCatalogueService
     {
-        private const string WaitServerUrl = "http://localhost:8080/health/live";
+        private const string WaitServerUrl = "http://localhost:5200/health/live";
 
-        private const string WaitServerUrlDependencies = "http://localhost:8080/health/dependencies";
+        private const string WaitServerUrlDependencies = "http://localhost:5200/health/ready";
 
         private static readonly TimeSpan TestTimeout = TimeSpan.FromSeconds(60);
 

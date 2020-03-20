@@ -25,9 +25,9 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Contracts
         bool IsFoundation { get; }
 
         /// <summary>
-        /// Details of the organisation associated with the solution.
+        /// Details of the supplier associated with the solution.
         /// </summary>
-        ISolutionOrganisation Organisation { get; }
+        ISolutionSupplier Supplier { get; }
 
         /// <summary>
         /// List of capabilities linked with the solution.

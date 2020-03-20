@@ -58,18 +58,21 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 Listing = new List<string>() { new string('a', 200) }
             };
 
-            var validationModel = new MaxLengthResult()
-            {
-                MaxLength = { "listing-1" }
-            };
-            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionFeaturesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionFeaturesViewModel == featuresUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
+            var validationModel = new Mock<ISimpleResult>();
+            validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "listing-1", "maxLength" } });
+            validationModel.Setup(s => s.IsValid).Returns(false);
+
+            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionFeaturesCommand>(q => q.SolutionId == SolutionId && q.Data == featuresUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
             var result =
                 (await _featuresController.UpdateFeaturesAsync(SolutionId, featuresUpdateViewModel).ConfigureAwait(false)) as
                     BadRequestObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            (result.Value as UpdateFormMaxLengthResult).MaxLength.Should().BeEquivalentTo("listing-1");
-            _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionFeaturesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionFeaturesViewModel == featuresUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
+            var resultValue = result.Value as Dictionary<string, string>;
+            resultValue.Count.Should().Be(1);
+            resultValue["listing-1"].Should().Be("maxLength");
+
+            _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionFeaturesCommand>(q => q.SolutionId == SolutionId && q.Data == featuresUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
@@ -80,14 +83,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 Listing = new List<string>() { "test", "test2" }
             };
 
-            var validationModel = new MaxLengthResult();
+            var validationModel = new Mock<ISimpleResult>();
+            validationModel.Setup(s => s.IsValid).Returns(true);
 
-            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionFeaturesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionFeaturesViewModel == featuresUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
+            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionFeaturesCommand>(q => q.SolutionId == SolutionId && q.Data == featuresUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
             var result =
                 (await _featuresController.UpdateFeaturesAsync(SolutionId, featuresUpdateViewModel).ConfigureAwait(false)) as NoContentResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
-            _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionFeaturesCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionFeaturesViewModel == featuresUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
+            _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionFeaturesCommand>(q => q.SolutionId == SolutionId && q.Data == featuresUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]

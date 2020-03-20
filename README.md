@@ -53,17 +53,24 @@ To stop the application running in a container and to delete the associated imag
 ```
 & '.\Tear Down Environment.ps1'
 ```
-To stop the application running in a container and to remove all images, resources and networks associated with it, run the command
-
-```
-& '.\Tear Down Environment.ps1' -c
-```
 
 ### Extra flags
-To run the application in a container in development environment, in attached mode run the following script:
-```
-& '.\Launch Environment.ps1' -a
-```
+- Attached mode - directs docker-compose output to your CLI
+    ```
+    & '.\Launch Environment.ps1' -a
+    ```
+- Clean mode - removes all images, resources and networks
+    ```
+    & '.\Tear Down Environment.ps1' -c
+    ```
+- Quiet mode - doesn't do a `docker ps -a ` after finishing
+    ```
+    & '.\Launch Environment.ps1' -q
+    ```
+    or 
+    ```
+    & '.\Tear Down Environment.ps1' -q
+    ```
 
 ## On a Linux/Mac Box
 *All scripts are meant to be run in bash from within this directory*
@@ -78,17 +85,73 @@ To stop the application running in a container and to delete the associated imag
 ```
 bash tear_down_environment.sh
 ```
-To stop the application running in a container and to remove all images, resources and networks associated with it:
-
-```
-bash tear_down_environment.sh -c
-```
+### Extra flags
+- Attached mode - directs docker-compose output to your CLI
+    ```
+    bash launch_environment.sh -a
+    ```
+- Clean mode - removes all images, resources and networks
+    ```
+    bash tear_down_environment.sh -c
+    ```
+- Quiet mode - doesn't do a `docker ps -a ` after finishing
+    ```
+    bash launch_environment.sh -q
+    ```
+    or 
+    ```
+    bash tear_down_environment.sh -q
+    ```
 </p>
+
+## Local Debugging
+
+Firstly, run 'Create Local Db' script
+
+### On a Windows box
+```
+& '.\Create Local Db.ps1'
+```
+
+### On Linux/Mac box
+```
+bash create_local_db.sh
+```
+
+Secondly, copy and paste the connection string into your [User Secrets file](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-3.1&tabs=windows#how-the-secret-manager-tool-works). Your file should have this format:
+```
+{
+  "ConnectionStrings": {
+    "BuyingCatalogue": "Data Source=127.0.0.1,$port;Initial Catalog=$db_name;MultipleActiveResultSets=True;User Id=$username;Password=$password"
+  }
+}
+```
+Lastly, run the API - either through your favourite IDE or using your favourite shell - from root of the directory run
+```
+dotnet run --project ./src/NHSD.BuyingCatalogue.API
+```
+
+### Flags
+The scripts have default values for the port that your database listens on, username and password, but they can be specified by passing them when calling the script like so:
+
+### Windows:
+```
+& '.\Create Local Db.ps1' 1420 MyTestUser MyT3stP@ssword!
+```
+
+### Bash:
+```
+bash create_local_db.sh 1420 MyTestUser MyT3stP@ssword!
+```
+
+This would run the database on port 1420, create an user with the id 'MyTestUser' and set its password to 'MyT3stP@ssword!'
+
 
 # Integration Tests
 
-Integration Tests and Persistence Tests run against Docker containers of service and database.
-These tests rely on a docker image 'integration_db', this image must be created before running any tests. [How to is listed below.](#integration_db_setup_id)
+Integration Tests and Persistence Tests run against Docker containers of service, a [mock of the document api](tests/NHSD.BuyingCatalogue.Documents.API.WireMock/README.md), and the database.
+These tests rely on a docker image 'integration_db', this image must be created before running any tests. [How to is listed below.](#integration_db_setup_id).
+
 <br/>
 
 ## On a Windows Box
@@ -102,7 +165,6 @@ These tests rely on a docker image 'integration_db', this image must be created 
 & '.\Run Component Tests.ps1'
 ```
 or
-
 Test Explorer in your favourite IDE
 
 ### After running tests
@@ -111,10 +173,18 @@ Test Explorer in your favourite IDE
 ```
 
 ### Extra flags
-To run the application in a container in integration environment, in attached mode run the following script:
-```
-& '.\Launch Environment.ps1' i -a
-```
+- Attached mode - directs docker-compose output to your CLI
+    ```
+    & '.\Launch Environment.ps1' i -a
+    ```
+- Quiet mode - doesn't do a `docker ps -a ` after finishing
+    ```
+    & '.\Launch Environment.ps1' i -q
+    ```
+    or 
+    ```
+    & '.\Tear Down Environment.ps1' i -q
+    ```
 
 ## On a Linux/Mac Box
 
@@ -127,24 +197,36 @@ bash launch_environment.sh i
 bash run_component_tests.sh
 ```
 or
-
 Test Explorer in your favourite IDE
 
 ### After running tests
 ```
 bash tear_down_environment.sh i
 ```
+### Extra flags
+- Attached mode - directs docker-compose output to your CLI
+    ```
+    bash launch_environment.sh i -a
+    ```
+- Quiet mode - doesn't do a `docker ps -a ` after finishing
+    ```
+    bash launch_environment.sh i -q
+    ```
+    or 
+    ```
+    bash tear_down_environment.sh i -q
+    ```
 
 ## <a name="integration_db_setup_id"></a> Integration db setup
 In order to speed up the API Integration test execution, a docker image which contains all the data needed has been build.
 This docker image needs to be built locally before running the API Integration tests. It only needs to be built once, and then updated every time the DataModel changes.
-To build / update the image run `setup-integration-db` script either in PowerShell or Bash
+To build / update the image run the 'setup integration db' script either in PowerShell or Bash
 
 ### Running the Script
 | CLI | Command |
 |---------------|--------------------|
-|`bash` | `bash setup-integration-db.sh` |
-| `PowerShell` | `.\setup-integration-db.ps1` |
+|`bash` | `bash setup_integration_db.sh` |
+| `PowerShell` | `& '.\Setup Integration Db.ps1'` |
 
 ## Troubleshooting
 - `./integration-entrypoint.sh: line 2: $'\r': command not found` during the image build

@@ -10,5 +10,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
         public string CapabilityName { get; set; }
 
         public string CapabilityDescription { get; set; }
+
+        public string CapabilityVersion { get; set; }
+        public string CapabilitySourceUrl { get; set; }
     }
 }

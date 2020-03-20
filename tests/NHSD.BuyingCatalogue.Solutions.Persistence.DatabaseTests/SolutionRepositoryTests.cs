@@ -19,10 +19,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         private readonly Guid _cap1Id = Guid.NewGuid();
         private readonly Guid _cap2Id = Guid.NewGuid();
 
-        private readonly Guid _org1Id = Guid.NewGuid();
-        private readonly string _orgName = "Org1";
-
         private readonly string _supplierId = "Sup 1";
+        private readonly string _supplierName = "Supplier1";
+
         private readonly DateTime _lastUpdated = DateTime.Today;
 
         private readonly string _solution1Id = "Sln1";
@@ -34,16 +33,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             await Database.ClearAsync().ConfigureAwait(false);
 
-            await OrganisationEntityBuilder.Create()
-                .WithName(_orgName)
-                .WithId(_org1Id)
-                .Build()
-                .InsertAsync()
-                .ConfigureAwait(false);
-
             await SupplierEntityBuilder.Create()
                 .WithId(_supplierId)
-                .WithOrganisation(_org1Id)
+                .WithName(_supplierName)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
@@ -64,7 +56,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithName("Solution1")
                 .WithId(_solution1Id)
                 .WithOnLastUpdated(_lastUpdated)
-                .WithOrganisationId(_org1Id)
                 .WithSupplierId(_supplierId)
                 .WithPublishedStatusId((int)PublishedStatus.Published)
                 .Build()
@@ -78,6 +69,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithAboutUrl("AboutUrl")
                 .WithFeatures("Features")
                 .WithClientApplication("Browser-based")
+                .WithHosting("Hosting")
                 .Build()
                 .InsertAndSetCurrentForSolutionAsync()
                 .ConfigureAwait(false);
@@ -92,7 +84,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             solution.AboutUrl.Should().Be("AboutUrl");
             solution.Features.Should().Be("Features");
             solution.ClientApplication.Should().Be("Browser-based");
-            solution.OrganisationName.Should().Be(_orgName);
+            solution.Hosting.Should().Be("Hosting");
             solution.IsFoundation.Should().BeFalse();
             solution.PublishedStatus.Should().Be(PublishedStatus.Published);
         }
@@ -104,7 +96,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithName("Solution1")
                 .WithId(_solution1Id)
-                .WithOrganisationId(_org1Id)
                 .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
@@ -142,7 +133,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithName("Solution1")
                 .WithId(_solution1Id)
                 .WithOnLastUpdated(_lastUpdated)
-                .WithOrganisationId(_org1Id)
                 .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
@@ -155,7 +145,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             solution.LastUpdated.Should().Be(_lastUpdated);
             solution.Summary.Should().BeNull();
             solution.Description.Should().BeNull();
-            solution.OrganisationName.Should().Be(_orgName);
             solution.AboutUrl.Should().BeNull();
             solution.Features.Should().BeNull();
             solution.ClientApplication.Should().BeNull();
@@ -168,7 +157,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithName("Solution1")
                 .WithId(_solution1Id)
                 .WithOnLastUpdated(_lastUpdated)
-                .WithOrganisationId(_org1Id)
                 .WithSupplierId(_supplierId)
                 .WithSupplierStatusId(1)
                 .Build()

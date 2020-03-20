@@ -1,8 +1,9 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
@@ -46,8 +47,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var validationResult = await UpdateSolutionDescriptionAsync(summary: summary).ConfigureAwait(false);
 
             validationResult.IsValid.Should().BeFalse();
-            validationResult.Required.Should().BeEquivalentTo(new[] { "summary" });
-            validationResult.MaxLength.Should().BeEmpty();
+            var results = validationResult.ToDictionary();
+            results.Count.Should().Be(1);
+            results["summary"].Should().Be("required");
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
             _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
@@ -59,8 +61,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var validationResult = await UpdateSolutionDescriptionAsync(description: new string('a', 1001)).ConfigureAwait(false);
 
             validationResult.IsValid.Should().BeFalse();
-            validationResult.Required.Should().BeEmpty();
-            validationResult.MaxLength.Should().BeEquivalentTo(new[] { "description" });
+            var results = validationResult.ToDictionary();
+            results.Count.Should().Be(1);
+            results["description"].Should().Be("maxLength");
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
             _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
@@ -72,8 +75,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var validationResult = await UpdateSolutionDescriptionAsync(link: new string('a', 1001)).ConfigureAwait(false);
 
             validationResult.IsValid.Should().BeFalse();
-            validationResult.Required.Should().BeEmpty();
-            validationResult.MaxLength.Should().BeEquivalentTo(new[] { "link" });
+            var results = validationResult.ToDictionary();
+            results.Count.Should().Be(1);
+            results["link"].Should().Be("maxLength");
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
             _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
@@ -85,8 +89,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var validationResult = await UpdateSolutionDescriptionAsync(summary: new string('a', 301)).ConfigureAwait(false);
 
             validationResult.IsValid.Should().BeFalse();
-            validationResult.Required.Should().BeEmpty();
-            validationResult.MaxLength.Should().BeEquivalentTo(new[] { "summary" });
+            var results = validationResult.ToDictionary();
+            results.Count.Should().Be(1);
+            results["summary"].Should().Be("maxLength");
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
             _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
@@ -99,8 +104,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var validationResult = await UpdateSolutionDescriptionAsync(summary: "", description: new string('a', 1001), link: new string('a', 1001)).ConfigureAwait(false);
 
             validationResult.IsValid.Should().BeFalse();
-            validationResult.Required.Should().BeEquivalentTo(new[] { "summary" });
-            validationResult.MaxLength.Should().BeEquivalentTo(new[] { "description", "link" });
+            var results = validationResult.ToDictionary();
+            results.Count.Should().Be(3);
+            results["summary"].Should().Be("required");
+            results["description"].Should().Be("maxLength");
+            results["link"].Should().Be("maxLength");
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
             _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
@@ -112,32 +120,41 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var validationResult = await UpdateSolutionDescriptionAsync(summary: "Summary", description: null, link: null).ConfigureAwait(false);
 
             validationResult.IsValid.Should().BeTrue();
-            validationResult.Required.Should().BeEmpty();
-            validationResult.MaxLength.Should().BeEmpty();
+            var results = validationResult.ToDictionary();
+            results.Count.Should().Be(0);
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
             _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Once());
-
         }
 
         [Test]
         public void ShouldThrowWhenSolutionNotPresent()
         {
-            var exception = Assert.ThrowsAsync<NotFoundException>(() =>
-             _context.UpdateSolutionSummaryHandler.Handle(new UpdateSolutionSummaryCommand("Sln1",
-                new UpdateSolutionSummaryViewModel
+            Task UpdateSummary()
+            {
+                var summaryModel = new UpdateSolutionSummaryViewModel
                 {
                     Description = "Description",
                     Link = "Link",
                     Summary = "Summary"
-                }), new CancellationToken()));
+                };
+
+                return _context.UpdateSolutionSummaryHandler.Handle(
+                    new UpdateSolutionSummaryCommand("Sln1", summaryModel),
+                    new CancellationToken());
+            }
+
+            Assert.ThrowsAsync<NotFoundException>(UpdateSummary);
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
 
-            _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+            _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(
+                It.IsAny<IUpdateSolutionSummaryRequest>(),
+                It.IsAny<CancellationToken>()),
+                Times.Never());
         }
 
-        private async Task<RequiredMaxLengthResult> UpdateSolutionDescriptionAsync(string summary = "Summary", string description = "Description", string link = "Link")
+        private async Task<ISimpleResult> UpdateSolutionDescriptionAsync(string summary = "Summary", string description = "Description", string link = "Link")
         {
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");

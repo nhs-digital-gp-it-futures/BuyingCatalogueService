@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -53,16 +54,17 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         public async Task ShouldUpdateValidationValid()
         {
             var solutionSummaryUpdateViewModel = new UpdateSolutionSummaryViewModel { Summary = "Summary" };
-            var validationModel = new RequiredMaxLengthResult();
+            var validationModel = new Mock<ISimpleResult>();
+            validationModel.Setup(s => s.IsValid).Returns(true);
 
-            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionSummaryViewModel == solutionSummaryUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
+            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.Data == solutionSummaryUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result =
                 (await _solutionDescriptionController.UpdateAsync(SolutionId, solutionSummaryUpdateViewModel).ConfigureAwait(false)) as
                     NoContentResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
-            _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionSummaryViewModel == solutionSummaryUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
+            _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.Data == solutionSummaryUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
@@ -73,23 +75,23 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 Summary = string.Empty
             };
 
-            var validationModel = new RequiredMaxLengthResult()
-            {
-                Required = { "summary" },
-                MaxLength = { "summary", "description", "link" }
-            };
+            var validationModel = new Mock<ISimpleResult>();
+            validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "description", "maxLength" }, { "link", "maxLength" }, { "summary", "required" } });
+            validationModel.Setup(s => s.IsValid).Returns(false);
 
-            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionSummaryViewModel == solutionSummaryUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel);
+            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.Data == solutionSummaryUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result =
                 (await _solutionDescriptionController.UpdateAsync(SolutionId, solutionSummaryUpdateViewModel).ConfigureAwait(false)) as BadRequestObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-            var resultValue = result.Value as UpdateFormRequiredMaxLengthResult;
-            resultValue.Required.Should().BeEquivalentTo(new[] { "summary" });
-            resultValue.MaxLength.Should().BeEquivalentTo(new[] { "summary", "description", "link" });
+            var resultValue = result.Value as Dictionary<string, string>;
+            resultValue.Count.Should().Be(3);
+            resultValue["summary"].Should().Be("required");
+            resultValue["description"].Should().Be("maxLength");
+            resultValue["link"].Should().Be("maxLength");
 
-            _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.UpdateSolutionSummaryViewModel == solutionSummaryUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
+            _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.Data == solutionSummaryUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }

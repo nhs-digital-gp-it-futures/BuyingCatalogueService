@@ -27,7 +27,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
                 return new string('a', Int32.Parse(value, NumberStyles.Integer, new NumberFormatInfo()));
             }
 
-            return keyValuePair.Value;
+            return keyValuePair.Value.Trim('"');
         }
     }
 

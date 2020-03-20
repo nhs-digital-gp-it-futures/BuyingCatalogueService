@@ -1,12 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
+using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
 {
-    public class MaxLengthResult : IResult
+    internal class MaxLengthResult : ISimpleResult
     {
         public HashSet<string> MaxLength { get; } = new HashSet<string>();
 
         public bool IsValid => !MaxLength.Any();
+
+        public Dictionary<string, string> ToDictionary() => MaxLength.ToConstantValueDictionary(ValidationConstants.MaxLength);
     }
 }

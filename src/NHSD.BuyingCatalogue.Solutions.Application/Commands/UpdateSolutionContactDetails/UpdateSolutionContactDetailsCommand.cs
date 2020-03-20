@@ -1,9 +1,10 @@
-using MediatR;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
+﻿using MediatR;
+using NHSD.BuyingCatalogue.Infrastructure;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Commands;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails
 {
-    public class UpdateSolutionContactDetailsCommand : IRequest<MaxLengthResult>
+    public class UpdateSolutionContactDetailsCommand : IRequest<ContactsMaxLengthResult>
     {
         /// <summary>
         /// A value to uniquely identify a solution.
@@ -13,15 +14,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
         /// <summary>
         /// Updated contact details for a solution
         /// </summary>
-        public UpdateSolutionContactDetailsViewModel Details { get; }
+        public IUpdateSolutionContactDetails Data { get; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="UpdateSolutionContactDetailsCommand"/> class.
         /// </summary>
-        public UpdateSolutionContactDetailsCommand(string solutionId, UpdateSolutionContactDetailsViewModel commandDetails)
+        public UpdateSolutionContactDetailsCommand(string solutionId, IUpdateSolutionContactDetails data)
         {
-            SolutionId = solutionId ?? throw new System.ArgumentNullException(nameof(solutionId));
-            Details = commandDetails ?? throw new System.ArgumentNullException(nameof(commandDetails));
+            SolutionId = solutionId.ThrowIfNull();
+            Data = data.ThrowIfNull();
         }
     }
 }

@@ -4,18 +4,15 @@ Feature: Supplier Submit for Moderation
     So that my Marketing Page can be approved and published
 
 Background:
-    Given Organisations exist
-        | Name     |
-        | GPs-R-Us |
-    And Suppliers exist
-        | Id    | OrganisationName |
-        | Sup 1 | GPs-R-Us         |
+    Given Suppliers exist
+        | Id    | SupplierName |
+        | Sup 1 | Supplier 1   |
 
 @2836
 Scenario: 1. Solution successfully submitted for review
     Given Solutions exist
-        | SolutionID | SolutionName | OrganisationName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline  | GPs-R-Us         | 1                | Sup 1      |
+        | SolutionId | SolutionName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline  | 1                | Sup 1      |
     And SolutionDetail exist
         | Solution | SummaryDescription             | ClientApplication                                                                                          |
         | Sln1     | An full online medicine system | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true, "Plugins": { "Required": false } } |
@@ -32,8 +29,8 @@ Scenario: 2. Solution not found
 @2836
 Scenario: 3. Service failure
     Given Solutions exist
-        | SolutionID | SolutionName | OrganisationName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline  | GPs-R-Us         | 1                | Sup 1      |
+        | SolutionId | SolutionName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline  | 1                | Sup 1      |
     And the call to the database to set the field will fail
     When a request is made to submit Solution Sln1 for review
     Then a response status of 500 is returned
@@ -45,8 +42,8 @@ Scenario: 4. Solution id not present in request
 
 Scenario: 5. Solution failed on submit for review due to missing Solution summary
     Given Solutions exist
-        | SolutionID | SolutionName | OrganisationName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline  | GPs-R-Us         | 1                | Sup 1      |
+        | SolutionId | SolutionName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline  | 1                | Sup 1      |
     And SolutionDetail exist
         | Solution | SummaryDescription | ClientApplication                                                                                                                             |
         | Sln1     |                    | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true, "Plugins": { "Required": false } } |
@@ -58,8 +55,8 @@ Scenario: 5. Solution failed on submit for review due to missing Solution summar
 
 Scenario: 6. Solution failed on submit for review due to missing client application type
     Given Solutions exist
-        | SolutionID | SolutionName | OrganisationName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline  | GPs-R-Us         | 1                | Sup 1      |
+        | SolutionId | SolutionName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline  | 1                | Sup 1      |
     And SolutionDetail exist
         | Solution | SummaryDescription             | ClientApplication |
         | Sln1     | An full online medicine system |                   |
@@ -71,8 +68,8 @@ Scenario: 6. Solution failed on submit for review due to missing client applicat
 
 Scenario: 7. Solution failed on submit for review due to missing browsers supported
     Given Solutions exist
-        | SolutionID | SolutionName | OrganisationName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline  | GPs-R-Us         | 1                | Sup 1      |
+        | SolutionId | SolutionName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline  | 1                | Sup 1      |
     And SolutionDetail exist
         | Solution | SummaryDescription             | ClientApplication                                                                                  |
         | Sln1     | An full online medicine system | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [], "MobileResponsive": true, "Plugins": { "Required": false } } |
@@ -84,8 +81,8 @@ Scenario: 7. Solution failed on submit for review due to missing browsers suppor
 
 Scenario: 8. Solution failed on submit for review due to missing mobile responsive
     Given Solutions exist
-        | SolutionID | SolutionName | OrganisationName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline  | GPs-R-Us         | 1                | Sup 1      |
+        | SolutionId | SolutionName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline  | 1                | Sup 1      |
     And SolutionDetail exist
          | Solution | SummaryDescription             | ClientApplication                                                                                                   |
          | Sln1     | An full online medicine system | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "Plugins": { "Required": false } } |
@@ -97,8 +94,8 @@ Scenario: 8. Solution failed on submit for review due to missing mobile responsi
 
 Scenario: 9. Solution failed on submit for review due to missing plugin requirement
     Given Solutions exist
-        | SolutionID | SolutionName | OrganisationName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline  | GPs-R-Us         | 1                | Sup 1      |
+        | SolutionId | SolutionName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline  | 1                | Sup 1      |
     And SolutionDetail exist
          | Solution | SummaryDescription             | ClientApplication                                                                                           |
          | Sln1     | An full online medicine system | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true } |

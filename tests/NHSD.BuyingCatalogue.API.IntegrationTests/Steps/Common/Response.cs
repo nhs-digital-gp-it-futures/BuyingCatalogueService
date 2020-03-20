@@ -2,7 +2,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
-namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
+namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
 {
     internal sealed class Response
     {

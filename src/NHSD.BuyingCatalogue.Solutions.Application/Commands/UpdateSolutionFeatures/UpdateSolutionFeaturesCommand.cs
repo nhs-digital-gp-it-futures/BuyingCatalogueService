@@ -1,9 +1,11 @@
-using MediatR;
+﻿using MediatR;
+using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Commands;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures
 {
-    public sealed class UpdateSolutionFeaturesCommand : IRequest<MaxLengthResult>
+    public sealed class UpdateSolutionFeaturesCommand : IRequest<ISimpleResult>
     {
         /// <summary>
         /// A value to uniquely identify a solution.
@@ -13,15 +15,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeat
         /// <summary>
         /// Updated details of a solution.
         /// </summary>
-        public UpdateSolutionFeaturesViewModel UpdateSolutionFeaturesViewModel { get; }
+        public IUpdateSolutionFeatures Data { get; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="UpdateSolutionFeaturesCommand"/> class.
         /// </summary>
-        public UpdateSolutionFeaturesCommand(string solutionId, UpdateSolutionFeaturesViewModel updateSolutionFeaturesViewModel)
+        public UpdateSolutionFeaturesCommand(string solutionId, IUpdateSolutionFeatures data)
         {
-            SolutionId = solutionId ?? throw new System.ArgumentNullException(nameof(solutionId));
-            UpdateSolutionFeaturesViewModel = updateSolutionFeaturesViewModel ?? throw new System.ArgumentNullException(nameof(updateSolutionFeaturesViewModel));
+            SolutionId = solutionId.ThrowIfNull();
+            Data = data.ThrowIfNull();
         }
     }
 }

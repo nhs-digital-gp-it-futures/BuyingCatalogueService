@@ -2,6 +2,7 @@
 
 clearAll="false"
 env="development"
+quiet="false"
 
 while test $# -gt 0; do
 	case "$1" in
@@ -15,6 +16,10 @@ while test $# -gt 0; do
 		  ;;
 		-i|--int|--integration)
 		  env="integration"
+		  shift
+		  ;;
+		-q|--quiet)
+		  quiet="true"
 		  shift
 		  ;;
 		*)
@@ -36,15 +41,8 @@ determine_environment () {
 	echo $env
 }
 
-remove_integration () {
-	docker rm integration_api -f
-	docker rm integration_db -f
-	docker image rm nhsd/buying-catalogue-api:test 
-    docker image rm nhsd/buying-catalogue/api:latest
-}
-
-remove_development () {
-	docker_compose_down='docker-compose -f "docker/docker-compose.yml" -f "docker/docker-compose.development.yml" down'
+remove_environment () {
+	docker_compose_down="docker-compose -f \"docker/docker-compose.yml\" -f \"docker/docker-compose.$env.yml\" down"
 	if [ "$clearAll" == "true" ]; then
 		docker_args='-v --rmi "all"'
 	fi
@@ -52,9 +50,9 @@ remove_development () {
     }
 
 env=$(determine_environment)
-if [ $env = "development" ]; then
-	remove_development
-else
-	remove_integration
+
+remove_environment
+
+if [ "$quiet" == "false" ]; then
+	docker ps -a
 fi
-docker ps

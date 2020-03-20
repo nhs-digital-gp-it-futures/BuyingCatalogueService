@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders

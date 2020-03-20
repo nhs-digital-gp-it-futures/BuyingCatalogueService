@@ -21,16 +21,18 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                                         Solution.Name,
                                         Solution.LastUpdated,
                                         Solution.PublishedStatusId AS PublishedStatus,
-                                        Organisation.Name as OrganisationName,
                                         SolutionDetail.Summary AS Summary,
                                         SolutionDetail.FullDescription AS Description,
                                         SolutionDetail.AboutUrl AS AboutUrl,
                                         SolutionDetail.Features As Features,
+                                        SolutionDetail.RoadMap As RoadMap,
+                                        SolutionDetail.IntegrationsUrl As IntegrationsUrl,
+                                        SolutionDetail.ImplementationDetail As ImplementationTimescales,
                                         SolutionDetail.ClientApplication as ClientApplication,
-                                        SolutionDetail.LastUpdated as SolutionDetailLastUpdated,                                     
+                                        SolutionDetail.Hosting as Hosting,
+                                        SolutionDetail.LastUpdated as SolutionDetailLastUpdated,
                                         FrameworkSolutions.IsFoundation as IsFoundation
                                  FROM   Solution
-                                        INNER JOIN Organisation ON Organisation.Id = Solution.OrganisationId
                                         LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
                                         LEFT JOIN FrameworkSolutions ON Solution.Id = FrameworkSolutions.SolutionId
                                  WHERE  Solution.Id = @id";
@@ -80,6 +82,5 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
             return solutionCount.Sum() == 1;
         }
-        
     }
 }

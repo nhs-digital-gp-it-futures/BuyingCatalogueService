@@ -19,14 +19,14 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.Repositories
         private const string sql = @"SELECT Solution.Id as SolutionId, 
                                         Solution.Name as SolutionName,
                                         SolutionDetail.Summary as SolutionSummary,
-                                        Organisation.Id as OrganisationId,
-                                        Organisation.Name as OrganisationName,
-                                        Capability.Id as CapabilityId,
+                                        Supplier.Id as SupplierId,
+                                        Supplier.Name as SupplierName,
+                                        Capability.CapabilityRef as CapabilityReference,
                                         Capability.Name as CapabilityName,
                                         Capability.Description as CapabilityDescription,
                                         FrameworkSolutions.IsFoundation as IsFoundation
                                 FROM    Solution 
-                                        INNER JOIN Organisation ON Organisation.Id = Solution.OrganisationId
+                                        INNER JOIN Supplier ON Supplier.Id = Solution.SupplierId
                                         INNER JOIN SolutionCapability ON Solution.Id = SolutionCapability.SolutionId
                                         INNER JOIN Capability ON Capability.Id = SolutionCapability.CapabilityId
                                         LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId

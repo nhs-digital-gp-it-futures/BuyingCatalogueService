@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -46,8 +47,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         {
             var expected = table.CreateSet<MarketingContactEntity>().ToList();
             var contacts = await MarketingContactEntity.FetchForSolutionAsync(solutionId).ConfigureAwait(false);
-            contacts.Count().Should().Be(expected.Count());
-            contacts.Should().BeEquivalentTo(expected, config => config.Excluding(c => c.LastUpdated).Excluding(c => c.LastUpdatedBy).Excluding(c => c.SolutionId));
+
+            IEnumerable<MarketingContactEntity> contactList = contacts.ToList();
+            contactList.Count().Should().Be(expected.Count);
+            contactList.Should().BeEquivalentTo(expected, config => config.Excluding(c => c.LastUpdated).Excluding(c => c.LastUpdatedBy).Excluding(c => c.SolutionId));
         }
     }
 }

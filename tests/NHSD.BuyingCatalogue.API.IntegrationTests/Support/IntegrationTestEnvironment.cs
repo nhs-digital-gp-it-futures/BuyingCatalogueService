@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using NHSD.BuyingCatalogue.API.IntegrationTests.Drivers;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
 {
@@ -7,7 +6,9 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
     {
         public static async Task StartAsync()
         {
-            await BuyingCatalogueService.AwaitApiRunningAsync().ConfigureAwait(false);
+            await Task.WhenAll(BuyingCatalogueService.AwaitApiRunningAsync(),
+                               DocumentService.AwaitApiRunningAsync())
+                .ConfigureAwait(false);
         }
     }
 }

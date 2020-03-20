@@ -1,27 +1,24 @@
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
-using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 
-namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
+namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Capability
 {
     [Binding]
     internal sealed class CapabilitySteps
     {
-        private const string ListCapabilitiesUrl = "http://localhost:8080/api/v1/Capabilities";
-
-        private readonly ScenarioContext _context;
+        private const string ListCapabilitiesUrl = "http://localhost:5200/api/v1/Capabilities";
 
         private readonly Response _response;
 
-        public CapabilitySteps(ScenarioContext context, Response response)
+        public CapabilitySteps(Response response)
         {
-            _context = context;
             _response = response;
         }
 
@@ -31,14 +28,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
             _response.Result = await Client.GetAsync(ListCapabilitiesUrl).ConfigureAwait(false);
         }
 
-        [Then(@"the capabilities are returned ordered by IsFoundation then Capability Name")]
+        [Then(@"the capabilities are returned ordered by IsFoundation then Capability Name containing the values")]
         public async Task ThenTheCapabilitiesAreReturnedOrderedByIsFoundationThenCapabilityName(Table table)
         {
-            var storedCapabilities = await CapabilityEntity.FetchAllAsync().ConfigureAwait(false);
-
             var expectedCapabilities = table.CreateSet<CapabilityTable>().Select(t => new
             {
-                Id = storedCapabilities.First(c => c.Name == t.CapabilityName).Id,
+                CapabilityRef = t.CapabilityRef,
+                Version = t.Version,
                 Name = t.CapabilityName,
                 IsFoundation = t.IsFoundation
             });
@@ -47,7 +43,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
                 .SelectToken("capabilities")
                 .Select(t => new
                 {
-                    Id = Guid.Parse(t.SelectToken("id").ToString()),
+                    CapabilityRef = t.SelectToken("reference").ToString(),
+                    Version = t.SelectToken("version").ToString(),
                     Name = t.SelectToken("name").ToString(),
                     IsFoundation = Convert.ToBoolean(t.SelectToken("isFoundation").ToString(), CultureInfo.InvariantCulture)
                 });
@@ -57,6 +54,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
 
         private class CapabilityTable
         {
+            public string CapabilityRef { get; set; }
+
+            public string Version { get; set; }
+
             public string CapabilityName { get; set; }
 
             public bool IsFoundation { get; set; }

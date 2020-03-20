@@ -4,15 +4,12 @@ Feature: Suppliers Edit Solution Description Section Validation
     So that I can make sure the information is validated
 
 Background:
-    Given Organisations exist
-        | Name     |
-        | GPs-R-Us |
-    And Suppliers exist
-        | Id    | OrganisationName |
-        | Sup 1 | GPs-R-Us         |
+    Given Suppliers exist
+        | Id    | SupplierName |
+        | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | 1                | Sup 1      |
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
@@ -23,11 +20,11 @@ Scenario: 1. No features are filled out
     When the update features request is made for Sln1
     Then a successful response is returned
     And Solutions exist
-        | SolutionID | SolutionName   |
+        | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
     And SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                        |
-        | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1   | ["","","","","","","","","",""] |
+        | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                                  |
+        | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | ["0","1","2","3","4","5","6","7","8","9"] |
 
 @3319
 Scenario: 2. listing-1 exceeds the character limit
@@ -35,9 +32,9 @@ Scenario: 2. listing-1 exceeds the character limit
     And feature at position 1 is a string of 101 characters
     When the update features request is made for Sln1
     Then a response status of 400 is returned
-    And the maxLength field contains listing-1
+    And the listing-1 field value is the validation failure maxLength
     And Solutions exist
-        | SolutionID | SolutionName   |
+        | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
@@ -52,9 +49,10 @@ Scenario: 3. listing-1 & listing-3 are within the character limit. listing-5 & l
     And feature at position 8 is a string of 101 characters
     When the update features request is made for Sln1
     Then a response status of 400 is returned
-    And the maxLength field only contains listing-5,listing-8
+    And the listing-5 field value is the validation failure maxLength
+    And the listing-8 field value is the validation failure maxLength
     And Solutions exist
-        | SolutionID | SolutionName   |
+        | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
     And SolutionDetail exist
         | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                          |

@@ -12,6 +12,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         public string Id { get; }
 
         public string Name { get; }
+        
+        [JsonProperty("supplier-name")]
+        public string SupplierName { get; }
 
         [JsonProperty("sections")]
         public SolutionDashboardSections SolutionDashboardSections { get; }
@@ -21,14 +24,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         /// </summary>
         public SolutionDashboardResult(ISolution solution)
         {
-            if (solution is null)
+            if (solution != null)
             {
-                throw new ArgumentNullException(nameof(solution));
+                Id = solution.Id;
+                Name = solution.Name;
+                SupplierName = solution.SupplierName;
+                SolutionDashboardSections = new SolutionDashboardSections(solution);
             }
-
-            Id = solution.Id;
-            Name = solution.Name;
-            SolutionDashboardSections = new SolutionDashboardSections(solution);
         }
     }
 
@@ -46,6 +48,30 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         [JsonProperty("contact-details")]
         public DashboardSection ContactDetailsSection { get; }
 
+        [JsonProperty("hosting-type-public-cloud")]
+        public DashboardSection HostingTypePublicCloudSection { get; }
+
+        [JsonProperty("hosting-type-private-cloud")]
+        public DashboardSection HostingTypePrivateCloudSection { get; }
+
+        [JsonProperty("hosting-type-hybrid")]
+        public DashboardSection HostingTypeHybridSection { get; }
+
+        [JsonProperty("hosting-type-on-premise")]
+        public DashboardSection HostingTypeOnPremiseSection { get; }
+
+        [JsonProperty("about-supplier")]
+        public DashboardSection AboutSupplierSection { get; }
+
+        [JsonProperty("roadmap")]
+        public DashboardSection RoadMapSection { get; }
+
+        [JsonProperty("integrations")]
+        public DashboardSection IntegrationsSection { get; }
+
+        [JsonProperty("implementation-timescales")]
+        public DashboardSection ImplementationTimescalesSection { get; }
+
         /// <summary>
         /// Initialises a new instance of the <see cref="SolutionDashboardSections"/> class.
         /// </summary>
@@ -62,6 +88,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
                 solution.ClientApplication?.ClientApplicationTypes?.Any() == true,
                 new ClientApplicationTypesSubSections(solution.ClientApplication));
             ContactDetailsSection = DashboardSection.Optional(new ContactAnswerSection(solution.Contacts).HasData());
+            HostingTypePublicCloudSection = DashboardSection.Optional(solution.Hosting.IsPublicCloudComplete());
+            HostingTypePrivateCloudSection = DashboardSection.Optional(solution.Hosting.IsPrivateCloudComplete());
+            HostingTypeHybridSection = DashboardSection.Optional(solution.Hosting.IsHybridHostingTypeComplete());
+            HostingTypeOnPremiseSection = DashboardSection.Optional(solution.Hosting.IsOnPremiseComplete());
+            AboutSupplierSection = DashboardSection.Optional(solution.Supplier.IsSupplierComplete());
+            RoadMapSection = DashboardSection.Optional(solution.IsRoadMapComplete());
+            IntegrationsSection = DashboardSection.Optional(solution.IsIntegrationsComplete());
+            ImplementationTimescalesSection = DashboardSection.Optional(solution.IsImplementationTimescalesComplete());
         }
     }
 
@@ -86,8 +120,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 
             SetIfSelected("browser-based", clientApplicationTypes,
                 () => BrowserBasedSection = DashboardSection.Mandatory(clientApplication.IsBrowserBasedComplete()));
-            SetIfSelected("native-mobile", clientApplicationTypes, () => NativeMobileSection = DashboardSection.Mandatory(false));
-            SetIfSelected("native-desktop", clientApplicationTypes, () => NativeDesktopSection = DashboardSection.Mandatory(false));
+            SetIfSelected("native-mobile", clientApplicationTypes,
+                () => NativeMobileSection = DashboardSection.Mandatory(clientApplication.IsNativeMobileComplete()));
+            SetIfSelected("native-desktop", clientApplicationTypes,
+                () => NativeDesktopSection = DashboardSection.Mandatory(clientApplication.IsNativeDesktopComplete()));
         }
 
         private void SetIfSelected(string sectionName, HashSet<string> sections, Action setDashboardAction)

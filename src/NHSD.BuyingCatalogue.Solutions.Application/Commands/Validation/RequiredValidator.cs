@@ -20,7 +20,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
 
         internal RequiredValidator Validate(IEnumerable<string> fields, string fieldLabel)
         {
-            if (!fields.Any())
+            if (fields.All(string.IsNullOrWhiteSpace))
             {
                 _requiredResult.Required.Add(fieldLabel);
             }

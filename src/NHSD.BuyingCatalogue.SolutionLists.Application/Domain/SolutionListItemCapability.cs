@@ -1,21 +1,20 @@
-using System;
-using NHSD.BuyingCatalogue.Infrastructure;
+﻿using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.SolutionLists.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
 {
     internal sealed class SolutionListItemCapability
     {
-        public SolutionListItemCapability(ISolutionListResult item)
+        public SolutionListItemCapability(ISolutionListResult solutionList)
         {
-            Id = item.ThrowIfNull("Capability").CapabilityId;
-            Name = item.CapabilityName;
+            CapabilityReference = solutionList.ThrowIfNull(nameof(solutionList)).CapabilityReference;
+            Name = solutionList.CapabilityName;
         }
 
         /// <summary>
         /// Identifier of the capability.
         /// </summary>
-        public Guid Id { get; }
+        public string CapabilityReference { get; }
 
         /// <summary>
         /// Name of the capability.

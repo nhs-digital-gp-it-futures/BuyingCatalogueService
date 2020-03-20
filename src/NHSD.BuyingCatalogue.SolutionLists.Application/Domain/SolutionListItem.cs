@@ -26,9 +26,9 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
         public bool IsFoundation { get; }
 
         /// <summary>
-        /// Associated organisation.
+        /// Associated supplier.
         /// </summary>
-        public SolutionListItemOrganisation Organisation { get; }
+        public SolutionListItemSupplier Supplier { get; }
 
         /// <summary>
         /// A list of capabilities associated with the solution.
@@ -41,7 +41,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
             Name = item.SolutionName;
             Summary = item.SolutionSummary;
             IsFoundation = item.IsFoundation;
-            Organisation = new SolutionListItemOrganisation(item);
+            Supplier = new SolutionListItemSupplier(item);
             Capabilities = new HashSet<SolutionListItemCapability>();
         }
     }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
 
 namespace NHSD.BuyingCatalogue.Solutions.Contracts
 {
@@ -31,14 +32,19 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         string Summary { get; }
 
         /// <summary>
-        /// Name of the organisation, as displayed to a user.
+        /// Name of the supplier, as displayed to a user.
         /// </summary>
-        string OrganisationName { get; }
+        string SupplierName { get; }
 
         /// <summary>
         /// Gets or sets a list of features.
         /// </summary>
         IEnumerable<string> Features { get; }
+
+        /// <summary>
+        /// Gets or sets the Road Map.
+        /// </summary>
+        IRoadMap RoadMap { get; }
 
         /// <summary>
         /// A link to provide more information about a solution.
@@ -56,6 +62,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         IClientApplication ClientApplication { get; }
 
         /// <summary>
+        /// Marketing information related to the hosting
+        /// </summary>
+        IHosting Hosting { get; }
+
+        /// <summary>
         /// Is this a foundation solution?
         /// </summary>
         bool IsFoundation { get; }
@@ -63,7 +74,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         /// <summary>
         /// Capabilities claimed by the solution
         /// </summary>
-        IEnumerable<string> Capabilities { get; }
+        IEnumerable<IClaimedCapability> Capabilities { get; }
 
         /// <summary>
         /// The contacts for the solution
@@ -74,5 +85,22 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         /// The publish status of the solution
         /// </summary>
         PublishedStatus PublishedStatus { get;  }
+
+        /// <summary>
+        /// Marketing information related to the supplier
+        /// </summary>
+        ISupplier Supplier { get; }
+
+        /// <summary>
+        /// Gets or sets the integrations.
+        /// </summary>
+        IIntegrations Integrations { get; }
+
+        /// <summary>
+        /// Gets or sets the implementation timescales.
+        /// </summary>
+        IImplementationTimescales ImplementationTimescales { get; }
+
+        ISolutionDocument SolutionDocument { get; }
     }
 }

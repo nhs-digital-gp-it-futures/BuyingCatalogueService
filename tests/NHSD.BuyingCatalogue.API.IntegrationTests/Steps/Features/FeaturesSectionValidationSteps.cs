@@ -1,18 +1,17 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FluentAssertions;
+using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using TechTalk.SpecFlow;
 
-namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
+namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Features
 {
     [Binding]
     internal sealed class FeaturesSectionValidationSteps
     {
-        private const string FeaturesUrl = "http://localhost:8080/api/v1/Solutions/{0}/sections/features";
+        private const string FeaturesUrl = "http://localhost:5200/api/v1/Solutions/{0}/sections/features";
 
         private List<string> _features = new List<string>();
 
@@ -31,7 +30,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps
         {
             for (int i = 0; i < 10; i++)
             {
-                _features.Add("");
+                _features.Add($"{i}");
             }
         }
 

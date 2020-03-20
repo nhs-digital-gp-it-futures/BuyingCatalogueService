@@ -5,7 +5,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 {
     public abstract class EntityBase
     {
-        public EntityBase()
+        protected EntityBase()
         {
             LastUpdated = DateTime.UtcNow;
             LastUpdatedBy = Guid.Empty;

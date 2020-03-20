@@ -1,6 +1,4 @@
-using System;
-
-namespace NHSD.BuyingCatalogue.SolutionLists.Contracts.Persistence
+﻿namespace NHSD.BuyingCatalogue.SolutionLists.Contracts.Persistence
 {
     public interface ISolutionListResult
     {
@@ -10,11 +8,11 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Contracts.Persistence
 
         string SolutionSummary { get; }
 
-        Guid OrganisationId { get; }
+        string SupplierId { get; }
 
-        string OrganisationName { get; }
+        string SupplierName { get; }
 
-        Guid CapabilityId { get; }
+        string CapabilityReference { get; }
 
         string CapabilityName { get; }
 

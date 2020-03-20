@@ -1,4 +1,5 @@
-using System.Globalization;
+﻿using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
@@ -10,7 +11,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
     [Binding]
     internal sealed class CommonSectionsSteps
     {
-        private const string RootSectionsUrl = "http://localhost:8080/api/v1/Solutions/{0}/sections/{1}";
+        private const string RootSectionsUrl = "http://localhost:5200/api/v1/Solutions/{0}/sections/{1}";
+        private const string RootDashboardUrl = "http://localhost:5200/api/v1/Solutions/{0}/dashboards/{1}";
 
         private readonly Response _response;
 
@@ -19,37 +21,60 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             _response = response;
         }
 
-        [Then(@"the solution (features|solution-description|client-application-types|contact-details) section status is (COMPLETE|INCOMPLETE)")]
+        [Then(@"the solution ([^\s]+) section status is (COMPLETE|INCOMPLETE)")]
         public async Task ThenTheSolutionSectionStatusIs(string section, string status)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
+            content.Should().NotBeNull();
+            content.ToString().Should().Contain($"\"{section}\"");
             content.SelectToken($"sections.{section}.status").ToString().Should().Be(status);
         }
 
-        [Then(@"the solution (features|solution-description|client-application-types|contact-details) section requirement is (Mandatory|Optional)")]
+        [Then(@"the solution ([^\s]+) section requirement is (Mandatory|Optional)")]
         public async Task ThenTheSolutionSectionRequirementIsMandatory(string section, string requirement)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
+            content.Should().NotBeNull();
+            content.ToString().Should().Contain($"\"{section}\"");
             content.SelectToken($"sections.{section}.requirement").ToString().Should().Be(requirement);
         }
 
-        [Then(@"the solution (browser-based|native-desktop|native-mobile) section requirement is (Mandatory|Optional)")]
-        public async Task ThenTheSolutionSubSectionRequirementIsMandatory(string section, string requirement)
+        [Then(@"the solution ([^\s]+) section ([^\s]+) subsection status is (INCOMPLETE|COMPLETE)")]
+        public async Task ThenTheSolutionSubSectionStatusIs(string section, string subsection, string status)
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
-            content.SelectToken($"sections.client-application-types.sections.{section}.requirement").ToString().Should().Be(requirement);
+            content.SelectToken($"sections.{section}.sections.{subsection}.status").ToString().Should().Be(status);
         }
 
-        [When(@"a GET request is made for (client-application-types|features|solution-description|browsers-supported|plug-ins-or-extensions|contact-details|browser-hardware-requirements|connectivity-and-resolution|browser-additional-information|browser-mobile-first|browser-based|mobile-operating-systems|native-mobile|mobile-connection-details|mobile-memory-and-storage|mobile-first) with no solution id")]
+        [Then(@"the solution ([^\s]+) section ([^\s]+) subsection requirement is (Mandatory|Optional)")]
+        public async Task ThenTheSolutionSubSectionRequirementIs(string section, string subsection, string requirement)
+        {
+            var content = await _response.ReadBody().ConfigureAwait(false);
+            content.SelectToken($"sections.{section}.sections.{subsection}.requirement").ToString().Should().Be(requirement);
+        }
+
+        [When(@"a GET request is made for ([^\s]+) section with no solution id")]
         public async Task GetRequestSectionNoSolutionId(string section)
         {
             await GetSectionRequest(section, " ").ConfigureAwait(false);
         }
 
-        [When(@"a GET request is made for (client-application-types|features|solution-description|browsers-supported|plug-ins-or-extensions|contact-details|browser-hardware-requirements|connectivity-and-resolution|browser-additional-information|browser-mobile-first|browser-based|mobile-operating-systems|native-mobile|mobile-connection-details|mobile-memory-and-storage|mobile-first) for solution (.*)")]
+        [When(@"a GET request is made for ([^\s]+) section dashboard with no solution id")]
+        public async Task GetRequestDashboardNoSolutionId(string section)
+        {
+            await GetDashboardRequest(section, " ").ConfigureAwait(false);
+        }
+
+        [When(@"a GET request is made for ([^\s]+) section for solution (.*)")]
         public async Task GetSectionRequest(string section, string solutionId)
         {
             _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, RootSectionsUrl, solutionId, section)).ConfigureAwait(false);
+        }
+
+        [When(@"a GET request is made for ([^\s]+) section dashboard for solution (.*)")]
+        public async Task GetDashboardRequest(string section, string solutionId)
+        {
+            _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, RootDashboardUrl, solutionId, section)).ConfigureAwait(false);
         }
 
         [Then(@"Solutions section contains all items")]
@@ -62,13 +87,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
                 content.SelectToken($"sections.{section.Id}.requirement").ToString().Should().Be(section.Requirement);
                 content.SelectToken($"sections.{section.Id}.status").ToString().Should().Be(section.Status);
             }
-        }
-
-        [Then(@"the status of the (browsers-supported|plug-ins-or-extensions|browser-hardware-requirements|connectivity-and-resolution|browser-additional-information|browser-mobile-first|mobile-first|mobile-operating-systems|mobile-connection-details|mobile-memory-and-storage) section is (COMPLETE|INCOMPLETE)")]
-        public async Task StatusOfSectionIs(string section, string status)
-        {
-            var content = await _response.ReadBody().ConfigureAwait(false);
-            content.SelectToken("sections." + section + ".status").ToString().Should().BeEquivalentTo(status);
         }
 
         private class SectionItems

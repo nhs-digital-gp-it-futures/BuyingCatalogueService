@@ -18,14 +18,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
 
         string Features { get; }
 
+        string RoadMap { get; }
+
+        string IntegrationsUrl { get; }
+
+        string ImplementationTimescales { get; }
+
         string ClientApplication { get; }
 
-        string OrganisationName { get; }
+        string Hosting { get; set; }
 
         bool IsFoundation { get; }
 
         DateTime SolutionDetailLastUpdated { get; }
-        
+
         PublishedStatus PublishedStatus { get; }
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NHSD.BuyingCatalogue.Solutions.Application.Domain.NativeDesktop;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 {
@@ -18,6 +19,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 
         public string HardwareRequirements { get; set; }
 
+        public string NativeMobileHardwareRequirements { get; set; }
+
+        public string NativeDesktopHardwareRequirements { get; set; }
+
         public string AdditionalInformation { get; set; }
 
         public bool? MobileFirstDesign { get; set; }
@@ -29,5 +34,19 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public MobileConnectionDetails MobileConnectionDetails { get; set; }
 
         public MobileMemoryAndStorage MobileMemoryAndStorage { get; set; }
+
+        public MobileThirdParty MobileThirdParty { get; set; }
+
+        public string NativeMobileAdditionalInformation { get; set; }
+
+        public string NativeDesktopOperatingSystemsDescription { get; set; }
+
+        public string NativeDesktopMinimumConnectionSpeed { get; set; }
+
+        public NativeDesktopThirdParty NativeDesktopThirdParty { get; set; }
+
+        public NativeDesktopMemoryAndStorage NativeDesktopMemoryAndStorage { get; set; }
+
+        public string NativeDesktopAdditionalInformation { get; set; }
     }
 }

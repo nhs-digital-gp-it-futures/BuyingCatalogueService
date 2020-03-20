@@ -3,28 +3,37 @@ version: '3.5'
 services:
 
   db:
-    image: integration_db:test
-    container_name: integration_db
+    image: nhsd/buying-catalogue-integration-db:test
+    container_name: nhsd_bc_integration_db
     networks:
       - integration_network
     ports:
-      - "1433:1433"
+      - "1430:1433"
 
   nhsd.buyingcatalogue.api:
-    container_name: integration_api
-    build: 
-      context: .
-      dockerfile: Dockerfile
+    container_name: nhsd_bc_integration_api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      - ConnectionStrings__BuyingCatalogue=Server=db;Initial Catalog=gpitfuture-db-dev;Persist Security Info=False;User Id=NHSD;Password=DisruptTheMarket1!
+      - CONNECTIONSTRINGS__BUYINGCATALOGUE=Server=db;Initial Catalog=gpitfuture-db-dev;Persist Security Info=False;User Id=NHSD;Password=DisruptTheMarket1!
+      - APICLIENTSETTINGS__DOCUMENTAPI__BASEURL=http://nhsd.buyingcatalogue.documents.api.wiremock:80
     networks:
       - integration_network
     depends_on:
       - db
     ports:
-      - "8080:80"
+      - "5200:80"
+
+  nhsd.buyingcatalogue.documents.api.wiremock:
+    container_name: documents_api_wiremock
+    image: ${REGISTRY:-nhsd}/buying-catalogue/documents-api-wiremock:${TAG:-latest}
+    build: 
+      context: ../tests/NHSD.BuyingCatalogue.Documents.API.WireMock/
+      dockerfile: Dockerfile    
+    networks:
+      - integration_network    
+    ports:
+      - "5201:80"
 
 networks: 
   integration_network:

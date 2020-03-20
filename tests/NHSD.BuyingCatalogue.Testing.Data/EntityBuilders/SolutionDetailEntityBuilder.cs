@@ -59,9 +59,9 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             return this;
         }
 
-        public SolutionDetailEntityBuilder WithImplementationDetail(string implementationDetail)
+        public SolutionDetailEntityBuilder WithImplementationTimescales(string implementationTimescales)
         {
-            _solutionDetailEntity.ImplementationDetail = implementationDetail;
+            _solutionDetailEntity.ImplementationDetail = implementationTimescales;
             return this;
         }
 
@@ -71,11 +71,12 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             return this;
         }
 
-        public SolutionDetailEntityBuilder WithRoadMapImageUrl(string roadMapImageUrl)
+        public SolutionDetailEntityBuilder WithIntegrationsUrl(string integrationsUrl)
         {
-            _solutionDetailEntity.RoadMapImageUrl = roadMapImageUrl;
+            _solutionDetailEntity.IntegrationsUrl = integrationsUrl;
             return this;
         }
+
 
         public SolutionDetailEntityBuilder WithAboutUrl(string aboutUrl)
         {

@@ -16,11 +16,12 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.Repositories
 
 		public CapabilityRepository(IDbConnector dbConnector) => _dbConnector = dbConnector;
 
-        private const string sql = @"SELECT Capability.Id, 
-											 Name, 
-											 ISNULL(IsFoundation, 0) AS IsFoundation
-									FROM	 Capability 
-											 LEFT OUTER JOIN FrameworkCapabilities ON Capability.Id = FrameworkCapabilities.CapabilityId
+        private const string sql = @"SELECT CapabilityRef AS CapabilityReference,
+                                            Version,
+											Name, 
+											ISNULL(IsFoundation, 0) AS IsFoundation
+									FROM	Capability 
+											LEFT OUTER JOIN FrameworkCapabilities ON Capability.Id = FrameworkCapabilities.CapabilityId
                                     ORDER BY IsFoundation DESC, UPPER(Name) ASC";
 
         /// <summary>

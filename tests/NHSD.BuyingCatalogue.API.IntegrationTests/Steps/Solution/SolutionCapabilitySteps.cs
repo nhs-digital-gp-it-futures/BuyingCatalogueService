@@ -1,8 +1,7 @@
-using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using TechTalk.SpecFlow;
-using TechTalk.SpecFlow.Assist;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
 {
@@ -16,26 +15,12 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
             _response = response;
         }
 
-        [Then(@"the solution capabilities section contains Capabilities")]
-        public async Task ThenTheSolutionCapabilitiesSectionContainsCapabilities(Table table)
-        {
-            var content = await _response.ReadBody().ConfigureAwait(false);
-
-            content.SelectToken("sections.capabilities.answers.capabilities-met")
-                .Select(s => s.ToString()).Should().BeEquivalentTo(table.CreateSet<CapabilitiesTable>().Select(s => s.Capability));
-        }
-
         [Then(@"the solution capabilities section contains no Capabilities")]
         public async Task ThenTheSolutionContainsNoCapabilities()
         {
             var content = await _response.ReadBody().ConfigureAwait(false);
             content.SelectToken("sections.capabilities.answers.capabilities-met")
                 .Should().BeNullOrEmpty();
-        }
-
-        private class CapabilitiesTable
-        {
-            public string Capability { get; set; }
         }
     }
 }

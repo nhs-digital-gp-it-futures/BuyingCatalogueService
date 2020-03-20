@@ -1,7 +1,8 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
@@ -11,7 +12,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ContactDetails
     [Binding]
     internal class ContactDetailsUpdateSteps
     {
-        private const string ContactDetailsUrl = "http://localhost:8080/api/v1/solutions/{0}/sections/contact-details";
+        private const string ContactDetailsUrl = "http://localhost:5200/api/v1/solutions/{0}/sections/contact-details";
 
         private readonly Response _response;
 

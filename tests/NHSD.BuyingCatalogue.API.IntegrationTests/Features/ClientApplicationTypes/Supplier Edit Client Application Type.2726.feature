@@ -4,19 +4,15 @@ Feature: Supplier Edit Client Application Type
     So that I can make sure the information is correct
 
 Background:
-    Given Organisations exist
-        | Name     |
-        | GPs-R-Us |
-        | Drs. Inc |
-    And Suppliers exist
-        | Id    | OrganisationName |
-        | Sup 1 | GPs-R-Us         |
-        | Sup 2 | Drs. Inc         |
+    Given Suppliers exist
+        | Id    | SupplierName |
+        | Sup 1 | Supplier 1   |
+        | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionID | SolutionName   | OrganisationName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | GPs-R-Us         | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill | Drs. Inc         | 1                | Sup 2      |
-        | Sln3       | PracticeMgr    | Drs. Inc         | 1                | Sup 2      |
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill | 1                | Sup 2      |
+        | Sln3       | PracticeMgr    | 1                | Sup 2      |
 
 @2726
 Scenario: 1. Client Application Types are updated for the solution
@@ -30,19 +26,42 @@ Scenario: 1. Client Application Types are updated for the solution
         | browser-based,native-mobile |
     Then a successful response is returned
     And Solutions exist
-        | SolutionID | SolutionName   |
+        | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                                                                                                                                                                                                                             |
-        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null, "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null, "HardwareRequirements": null, "AdditionalInformation": null, "MobileFirstDesign": null, "NativeMobileFirstDesign": null, "MobileOperatingSystems": null, "MobileConnectionDetails": null, "MobileMemoryAndStorage": null } |
-        | Sln2     | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                                                                                                                                                                                                                                                                                                                          |
-        | Sln3     | Thrills                        | Bellyaches          | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] }                                                                                                                                                                                                                                                                                                         |
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                            |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [] } |
+        | Sln2     | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                         |
+        | Sln3     | Thrills                        | Bellyaches          | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] }        |
+    And Last Updated has updated on the SolutionDetail for solution Sln1
+    
+@2726
+Scenario: 2. Client Application Types are updated for the solution with trimmed whitespace
+    Given SolutionDetail exist
+        | Solution | SummaryDescription             | FullDescription     |  ClientApplication                                                                     |
+        | Sln1     | An full online medicine system | Online medicine 1   |  { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
+        | Sln2     | Fully fledged GP system        | Fully fledged GP 12 |  {  }                                                                                  |
+        | Sln3     | Thrills                        | Bellyaches          |  { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] } |
+    When a PUT request is made to update the client-application-types section for solution Sln1
+        | ClientApplicationTypes                              |
+        | "      browser-based     ", "    native-mobile    " |
+    Then a successful response is returned
+    And Solutions exist
+        | SolutionId | SolutionName   |
+        | Sln1       | MedicOnline    |
+        | Sln2       | TakeTheRedPill |
+        | Sln3       | PracticeMgr    |
+    And SolutionDetail exist
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                            |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [] } |
+        | Sln2     | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                         |
+        | Sln3     | Thrills                        | Bellyaches          | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] }        |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @2726
-Scenario: 2. If SolutionDetail is missing for the solution, thats an error case
+Scenario: 3. If SolutionDetail is missing for the solution, thats an error case
 	Given a SolutionDetail Sln1 does not exist
     When a PUT request is made to update the client-application-types section for solution Sln1
         | ClientApplicationTypes      |
@@ -50,7 +69,7 @@ Scenario: 2. If SolutionDetail is missing for the solution, thats an error case
     Then a response status of 500 is returned
 
 @2726
-Scenario: 3. Client Application Types that we do not understand are ignored
+Scenario: 4. Client Application Types that we do not understand are ignored
     Given SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                     |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
@@ -61,19 +80,19 @@ Scenario: 3. Client Application Types that we do not understand are ignored
         | browser-based,native-mobile,elephant,cheese |
     Then a successful response is returned
     And Solutions exist
-        | SolutionID | SolutionName   |
+        | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                    |
-        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [],  "MobileResponsive": null, "Plugins": null, "MinimumConnectionSpeed": null, "MinimumDesktopResolution": null, "HardwareRequirements": null, "AdditionalInformation": null, "MobileFirstDesign": null, "NativeMobileFirstDesign": null, "MobileOperatingSystems": null, "MobileConnectionDetails": null, "MobileMemoryAndStorage": null } |
-        | Sln2     | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-        | Sln3     | Thrills                        | Bellyaches          | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] }                                                                                                                                                                                                                                                                                                                                                |
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                            |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [] } |
+        | Sln2     | Fully fledged GP system        | Fully fledged GP 12 | { }                                                                                          |
+        | Sln3     | Thrills                        | Bellyaches          | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] }        |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @2726
-Scenario: 4. Client Application Types cannot be completely cleared
+Scenario: 5. Client Application Types cannot be completely cleared
     Given SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                     |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
@@ -83,9 +102,9 @@ Scenario: 4. Client Application Types cannot be completely cleared
         | ClientApplicationTypes |
         |                        |
     Then a response status of 400 is returned
-    Then the required field contains client-application-types
+    Then the client-application-types field value is the validation failure required
     And Solutions exist
-        | SolutionID | SolutionName   |
+        | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |

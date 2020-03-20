@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
 {
     /// <summary>
-    /// A product and/or service provided by an ‘organisation’.
+    /// A product and/or service provided by a supplier.
     /// </summary>
     internal class SolutionDto : ISolution
     {
@@ -32,14 +33,19 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         public string Summary { get; set; }
 
  		/// <summary>
-        /// Name of the organisation, as displayed to a user.
+        /// Name of the supplier, as displayed to a user.
         /// </summary>
-        public string OrganisationName { get; set; }
+        public string SupplierName { get; set; }
 
         /// <summary>
         /// Gets or sets a list of features.
         /// </summary>
         public IEnumerable<string> Features { get; set; }
+
+        /// <summary>
+        /// Gets or sets a road map.
+        /// </summary>
+        public IRoadMap RoadMap { get; set; }
 
         /// <summary>
         /// A link to provide more information about a solution.
@@ -57,6 +63,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         public IClientApplication ClientApplication { get; set; }
 
         /// <summary>
+        /// Marketing information related to the hosting.
+        /// </summary>
+        public IHosting Hosting { get; set; }
+
+        /// <summary>
         /// Is this a foundation solution?
         /// </summary>
         public bool IsFoundation { get; set; }
@@ -64,7 +75,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         /// <summary>
         /// Capabilities claimed by the solution
         /// </summary>
-        public IEnumerable<string> Capabilities { get; set; }
+        public IEnumerable<IClaimedCapability> Capabilities { get; set; }
 
         /// <summary>
         /// The contacts for the solution
@@ -75,5 +86,25 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         /// The publishing status of the solution
         /// </summary>
         public PublishedStatus PublishedStatus { get; set; }
+
+        /// <summary>
+        /// The supplier info for the solution
+        /// </summary>
+        public ISupplier Supplier { get; set; }
+
+        /// <summary>
+        /// Gets or sets an integration.
+        /// </summary>
+        public IIntegrations Integrations { get; set; }
+
+        /// <summary>
+        /// Gets or sets an implementation timescales.
+        /// </summary>
+        public IImplementationTimescales ImplementationTimescales { get; set; }
+
+        /// <summary>
+        /// Gets or sets the solution document for the solution.
+        /// </summary>
+        public ISolutionDocument SolutionDocument { get; set; }
     }
 }

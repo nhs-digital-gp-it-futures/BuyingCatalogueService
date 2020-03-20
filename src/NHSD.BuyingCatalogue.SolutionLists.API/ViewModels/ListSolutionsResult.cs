@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.SolutionLists.Contracts;
 
@@ -12,11 +13,14 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.ViewModels
         /// <summary>
         /// A list of solution summaries.
         /// </summary>
-        public IEnumerable<ISolutionSummary> Solutions { get; }
+        public IEnumerable<SolutionSummaryResult> Solutions { get; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="ListSolutionsResult"/> class.
         /// </summary>
-        public ListSolutionsResult(ISolutionList solutionList) => Solutions = solutionList.ThrowIfNull().Solutions;
+        public ListSolutionsResult(ISolutionList solutionList)
+        {
+            Solutions = solutionList.ThrowIfNull(nameof(solutionList)).Solutions.Select(summary => new SolutionSummaryResult(summary)).ToList();
+        }
     }
 }

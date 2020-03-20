@@ -1,13 +1,11 @@
-using System;
-
-namespace NHSD.BuyingCatalogue.SolutionLists.Contracts
+﻿namespace NHSD.BuyingCatalogue.SolutionLists.Contracts
 {
     public interface ISolutionCapability
     {
         /// <summary>
         /// Identifier of the capability.
         /// </summary>
-        Guid Id { get; }
+        string CapabilityReference { get; }
 
         /// <summary>
         /// Name of the capability.

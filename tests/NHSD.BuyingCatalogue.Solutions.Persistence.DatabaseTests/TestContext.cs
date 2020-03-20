@@ -1,4 +1,5 @@
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.Data;
@@ -10,17 +11,23 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 {
     internal class TestContext
     {
+        private readonly Scope _scope;
         public IMarketingContactRepository MarketingContactRepository => _scope.MarketingContactRepository;
 
         public ISolutionCapabilityRepository SolutionCapabilityRepository => _scope.SolutionCapabilityRepository;
+        public ISolutionEpicRepository SolutionEpicRepository => _scope.SolutionEpicRepository;
 
         public ISolutionDetailRepository SolutionDetailRepository => _scope.SolutionDetailRepository;
 
         public ISolutionRepository SolutionRepository => _scope.SolutionRepository;
 
-        public IDbConnector DbConnector => _scope.DbConnector;
+        public ISupplierRepository SupplierRepository => _scope.SupplierRepository;
 
-        private readonly Scope _scope;
+        public IEpicRepository EpicRepository => _scope.EpicRepository;
+
+        public ISolutionEpicStatusRepository SolutionEpicStatusRepository => _scope.SolutionEpicStatusRepository;
+
+        public IDbConnector DbConnector => _scope.DbConnector;
 
         public TestContext()
         {
@@ -31,34 +38,51 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             serviceCollection.RegisterData();
             serviceCollection.RegisterSolutionsPersistence();
+            var logger = new Mock<ILogger<DbConnector>>();
 
+            serviceCollection.AddSingleton(logger.Object);
             serviceCollection.AddSingleton<Scope>();
 
             _scope = serviceCollection.BuildServiceProvider().GetService<Scope>();
         }
-        
+
         private class Scope
         {
             public IMarketingContactRepository MarketingContactRepository { get; }
 
             public ISolutionCapabilityRepository SolutionCapabilityRepository { get; }
+            public ISolutionEpicRepository SolutionEpicRepository { get; }
 
             public ISolutionDetailRepository SolutionDetailRepository { get; }
 
             public ISolutionRepository SolutionRepository { get; }
 
+            public ISupplierRepository SupplierRepository { get; }
+
+            public IEpicRepository EpicRepository { get; }
+
+            public ISolutionEpicStatusRepository SolutionEpicStatusRepository { get; }
+
             public IDbConnector DbConnector { get; }
 
             public Scope(IMarketingContactRepository marketingContactRepository,
                 ISolutionCapabilityRepository solutionCapabilityRepository,
+                ISolutionEpicRepository solutionEpicRepository,
                 ISolutionDetailRepository solutionDetailRepository,
                 ISolutionRepository solutionRepository,
+                ISupplierRepository supplierRepository,
+                IEpicRepository epicRepository,
+                ISolutionEpicStatusRepository solutionEpicStatusRepository,
                 IDbConnector dbConnector)
             {
                 MarketingContactRepository = marketingContactRepository;
                 SolutionCapabilityRepository = solutionCapabilityRepository;
+                SolutionEpicRepository = solutionEpicRepository;
                 SolutionDetailRepository = solutionDetailRepository;
                 SolutionRepository = solutionRepository;
+                SupplierRepository = supplierRepository;
+                EpicRepository = epicRepository;
+                SolutionEpicStatusRepository = solutionEpicStatusRepository;
                 DbConnector = dbConnector;
             }
         }

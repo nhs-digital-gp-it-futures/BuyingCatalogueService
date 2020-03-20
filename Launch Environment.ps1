@@ -1,6 +1,7 @@
 ﻿param (
     [string]$env = "development",
-    [switch]$a
+    [switch]$a,
+    [switch]$q
 )
 [string]$out_directory="docker/out"
 
@@ -27,16 +28,18 @@ function build_api_locally() {
 }
 
 function spin_containers_up {
-    $DockerComposeUp = "docker-compose -f `"docker-compose.yml`" -f `"docker-compose.$($env).yml`" up"
+    $DockerComposeUp = "docker-compose -f `"docker/docker-compose.yml`" -f `"docker/docker-compose.$($env).yml`" up"
     $Args="-d"
     if ($a) {
         $Args=""
     }
     cd docker
     docker-compose build --no-cache
-    Invoke-Expression "$DockerComposeUp $Args"
-    docker ps -a
     cd ..
+    Invoke-Expression "$DockerComposeUp $Args"
+    if (!$q) {
+        docker ps -a
+    }
 }
 
 function launch_environment(){

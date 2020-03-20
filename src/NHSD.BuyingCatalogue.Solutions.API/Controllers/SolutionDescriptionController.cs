@@ -42,7 +42,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         public async Task<ActionResult> GetSolutionDescriptionAsync([FromRoute][Required]string id)
         {
             var solution = await _mediator.Send(new GetSolutionByIdQuery(id)).ConfigureAwait(false);
-            return solution == null ? (ActionResult)new NotFoundResult() : Ok(new SolutionDescriptionResult(solution.Summary, solution.Description, solution.AboutUrl));
+            return Ok(new SolutionDescriptionResult(solution.Summary, solution.Description, solution.AboutUrl));
         }
 
         /// <summary>
