@@ -48,7 +48,7 @@ function launch_environment(){
 }
 
 
-
+$env:MSBUILDSINGLELOADCONTEXT = '1'
 $env=determine_environment
 launch_environment
 
