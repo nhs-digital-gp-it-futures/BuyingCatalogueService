@@ -69,6 +69,7 @@
     <Folder Include="Security\" />
     <Folder Include="Security\Users" />
     <Folder Include="Security\Logins" />
+    <Folder Include="Deployment" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\AdditionalServiceDetail.sql" />
@@ -119,5 +120,11 @@
       <DefaultValue>DisruptTheMarket1!</DefaultValue>
       <Value>$(SqlCmdVar__1)</Value>
     </SqlCmdVariable>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Deployment\InsertCommonValues.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Deployment\PostDeployment.sql" />
   </ItemGroup>
 </Project>
