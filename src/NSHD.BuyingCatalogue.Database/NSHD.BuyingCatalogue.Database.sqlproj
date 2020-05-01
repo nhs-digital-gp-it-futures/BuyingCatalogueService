@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>NSHD.BuyingCatalogue.Database</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{dc57361e-2e49-4b5f-893d-3912169726b3}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.SqlAzureV12DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>NSHD.BuyingCatalogue.Database</RootNamespace>
+    <AssemblyName>NSHD.BuyingCatalogue.Database</AssemblyName>
+    <ModelCollation>1033,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <EnableFullTextSearch>False</EnableFullTextSearch>
+    <TargetFrameworkProfile />
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatTSqlWarningsAsErrors>False</TreatTSqlWarningsAsErrors>
+    <RunSqlCodeAnalysis>True</RunSqlCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <TreatTSqlWarningsAsErrors>False</TreatTSqlWarningsAsErrors>
+    <RunSqlCodeAnalysis>True</RunSqlCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Tables\" />
+    <Folder Include="Security\" />
+    <Folder Include="Security\Users" />
+    <Folder Include="Security\Logins" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\AdditionalServiceDetail.sql" />
+    <Build Include="Tables\SolutionCapabilityStatus.sql" />
+    <Build Include="Tables\SolutionCapability.sql" />
+    <Build Include="Tables\SolutionEpicStatus.sql" />
+    <Build Include="Tables\SolutionEpic.sql" />
+    <Build Include="Tables\SolutionStandardStatus.sql" />
+    <Build Include="Tables\SolutionStandard.sql" />
+    <Build Include="Tables\SolutionDefinedCapability.sql" />
+    <Build Include="Tables\SolutionDefinedEpic.sql" />
+    <Build Include="Tables\SolutionDefinedEpicAcceptanceCriteria.sql" />
+    <Build Include="Tables\PricingUnit.sql" />
+    <Build Include="Tables\PriceType.sql" />
+    <Build Include="Tables\PurchasingModel.sql" />
+    <Build Include="Tables\SolutionPrice.sql" />
+    <Build Include="Tables\CompliancyLevel.sql" />
+    <Build Include="Tables\CapabilityCategory.sql" />
+    <Build Include="Tables\AdditionalServicePrice.sql" />
+    <Build Include="Tables\CapabilityStatus.sql" />
+    <Build Include="Tables\Capability.sql" />
+    <Build Include="Tables\AssociatedService.sql" />
+    <Build Include="Tables\Epic.sql" />
+    <Build Include="Tables\AssociatedServicePrice.sql" />
+    <Build Include="Tables\StandardStatus.sql" />
+    <Build Include="Tables\StandardCategory.sql" />
+    <Build Include="Tables\MarketingContact.sql" />
+    <Build Include="Tables\Standard.sql" />
+    <Build Include="Tables\FrameworkSolutions.sql" />
+    <Build Include="Tables\CapabilityStandards.sql" />
+    <Build Include="Tables\Audit.sql" />
+    <Build Include="Tables\Framework.sql" />
+    <Build Include="Tables\FrameworkCapabilities.sql" />
+    <Build Include="Tables\FrameworkStandards.sql" />
+    <Build Include="Tables\Organisation.sql" />
+    <Build Include="Tables\Supplier.sql" />
+    <Build Include="Tables\SupplierContact.sql" />
+    <Build Include="Tables\PublicationStatus.sql" />
+    <Build Include="Tables\SolutionAuthorityStatus.sql" />
+    <Build Include="Tables\SolutionSupplierStatus.sql" />
+    <Build Include="Tables\Solution.sql" />
+    <Build Include="Tables\SolutionDetail.sql" />
+    <Build Include="Security\Users\NHSD.sql" />
+    <Build Include="Security\Logins\NHSD.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="NHSD_PASSWORD">
+      <DefaultValue>DisruptTheMarket1!</DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
+    </SqlCmdVariable>
+  </ItemGroup>
+</Project>
