@@ -103,7 +103,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Soluti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Solutions.Persistence.UnitTests", "tests\NHSD.BuyingCatalogue.Solutions.Persistence.UnitTests\NHSD.BuyingCatalogue.Solutions.Persistence.UnitTests.csproj", "{C8186EE1-3FB5-49C4-A030-9B1F29FB93E6}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "NSHD.BuyingCatalogue.Database", "src\NSHD.BuyingCatalogue.Database\NSHD.BuyingCatalogue.Database.sqlproj", "{DC57361E-2E49-4B5F-893D-3912169726B3}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "NHSD.BuyingCatalogue.Database", "src\NSHD.BuyingCatalogue.Database\NHSD.BuyingCatalogue.Database.sqlproj", "{DC57361E-2E49-4B5F-893D-3912169726B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

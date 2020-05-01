@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <Name>NSHD.BuyingCatalogue.Database</Name>
+    <Name>NHSD.BuyingCatalogue.Database</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{dc57361e-2e49-4b5f-893d-3912169726b3}</ProjectGuid>
