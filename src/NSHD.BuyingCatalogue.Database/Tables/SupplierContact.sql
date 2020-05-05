@@ -10,5 +10,5 @@
      LastUpdatedBy uniqueidentifier NOT NULL,
      CONSTRAINT PK_SupplierContact PRIMARY KEY NONCLUSTERED (Id),
      CONSTRAINT FK_SupplierContact_Supplier FOREIGN KEY (SupplierId) REFERENCES dbo.Supplier(Id) ON DELETE CASCADE,
-     INDEX IX_SupplierContactSupplierId (SupplierId)
+     INDEX IX_SupplierContactSupplierId CLUSTERED (SupplierId)
 );
