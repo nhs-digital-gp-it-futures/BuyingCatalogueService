@@ -5,7 +5,7 @@
      AssociatedServiceId varchar(18) NOT NULL,
      UnitId int NOT NULL,
      PriceTypeId int NOT NULL,
-     ConsumptionPrice bit DEFAULT 0 NOT NULL,
+     ConsumptionPrice bit CONSTRAINT DF_AssociatedService_ConsumptionPrice DEFAULT 0 NOT NULL,
      [Description] varchar(30) NULL,
      Price decimal(18, 4) NOT NULL,
      BandStart int NOT NULL,
