@@ -1,5 +1,5 @@
 ﻿IF NOT EXISTS(SELECT * FROM dbo.StandardCategory)
-    INSERT INTO dbo.StandardCategory (Id, [Name])
+    INSERT INTO dbo.StandardCategory(Id, [Name])
     VALUES
     (1, 'Overarching'),
     (2, 'Interoperability'),
