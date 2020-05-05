@@ -1,7 +1,7 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
-using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Tools
 {
@@ -9,7 +9,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Tools
     {
         public static IEnumerable<string> ReadStringArray(this JToken token, string fieldName)
         {
-            return token.ThrowIfNull().SelectToken(fieldName).Select(s => s.Value<string>()).ToList();
+            if (token is null)
+            {
+                throw new ArgumentNullException(nameof(token));
+            }
+
+            return token.SelectToken(fieldName).Select(s => s.Value<string>()).ToList();
         }
     }
 }

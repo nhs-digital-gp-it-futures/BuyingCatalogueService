@@ -1,10 +1,9 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.API.Infrastructure.Logging
 {
@@ -19,7 +18,10 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.Logging
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            next = next.ThrowIfNull();
+            if (next is null)
+            {
+                throw new ArgumentNullException(nameof(next));
+            }
 
             try
             {

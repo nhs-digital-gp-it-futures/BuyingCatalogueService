@@ -1,4 +1,4 @@
-using NHSD.BuyingCatalogue.Infrastructure;
+﻿using System;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence.Epics
@@ -10,8 +10,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence.Epics
 
         public ClaimedEpicResult(string epicId, string statusName)
         {
-            EpicId = epicId.ThrowIfNull(nameof(epicId));
-            StatusName = statusName.ThrowIfNull(nameof(statusName));
+            EpicId = epicId ?? throw new ArgumentNullException(nameof(epicId));
+            StatusName = statusName ?? throw new ArgumentNullException(nameof(statusName));
         }
     }
 }

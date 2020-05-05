@@ -1,5 +1,5 @@
+﻿using System;
 using MediatR;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateIntegrations
@@ -12,7 +12,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateIntegrations
 
         public UpdateIntegrationsCommand(string solutionId, string url)
         {
-            SolutionId = solutionId.ThrowIfNull();
+            SolutionId = solutionId ?? throw new ArgumentNullException(nameof(solutionId));
             Url = url;
         }
     }

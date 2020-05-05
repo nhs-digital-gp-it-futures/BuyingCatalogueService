@@ -1,8 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview
 {
@@ -38,13 +37,23 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview
 
         internal ValidationResult Add(ValidationError validationError)
         {
-            _errors.Add(validationError.ThrowIfNull(nameof(validationError)));
+            if (validationError is null)
+            {
+                throw new ArgumentNullException(nameof(validationError));
+            }
+
+            _errors.Add(validationError);
             return this;
         }
 
         internal ValidationResult Add(ValidationResult validationResult)
         {
-            return Add(new[] {validationResult.ThrowIfNull(nameof(validationResult)) });
+            if (validationResult is null)
+            {
+                throw new ArgumentNullException(nameof(validationResult));
+            }
+
+            return Add(new[] { validationResult });
         }
 
         internal ValidationResult Add(params ValidationResult[] validationResults)

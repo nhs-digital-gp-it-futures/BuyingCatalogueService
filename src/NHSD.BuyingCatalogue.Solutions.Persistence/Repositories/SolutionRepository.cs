@@ -1,8 +1,8 @@
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Persistence.Models;
 
@@ -66,7 +66,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
         /// <returns>A task representing an operation to update the supplier status of the specified updateSolutionRequest in the data store.</returns>
         public async Task UpdateSupplierStatusAsync(IUpdateSolutionSupplierStatusRequest updateSolutionSupplierStatusRequest, CancellationToken cancellationToken)
-            => await _dbConnector.ExecuteAsync(updateSolutionSupplierStatusSql, cancellationToken, updateSolutionSupplierStatusRequest.ThrowIfNull(nameof(updateSolutionSupplierStatusRequest))).ConfigureAwait(false);
+        {
+            if (updateSolutionSupplierStatusRequest is null)
+            {
+                throw new ArgumentNullException(nameof(updateSolutionSupplierStatusRequest));
+            }
+
+            await _dbConnector.ExecuteAsync(updateSolutionSupplierStatusSql, cancellationToken,
+                    updateSolutionSupplierStatusRequest)
+                .ConfigureAwait(false);
+        }
 
         /// <summary>
         /// Checks if the solution exists
@@ -76,7 +85,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         /// <returns>True if it exists</returns>
         public async Task<bool> CheckExists(string id, CancellationToken cancellationToken)
         {
-            var solutionCount = await _dbConnector.QueryAsync<int>(doesSolutionExist, cancellationToken, new {
+            var solutionCount = await _dbConnector.QueryAsync<int>(doesSolutionExist, cancellationToken, new
+            {
                 id
             }).ConfigureAwait(false);
 

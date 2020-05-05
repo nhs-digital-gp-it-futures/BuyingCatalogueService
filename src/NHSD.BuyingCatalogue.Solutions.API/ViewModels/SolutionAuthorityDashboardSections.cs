@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
@@ -16,8 +16,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 
         public SolutionAuthorityDashboardSections(ISolution solution)
         {
-            solution = solution.ThrowIfNull(nameof(solution));
-
+            if (solution is null)
+            {
+                throw new ArgumentNullException(nameof(solution));
+            }
+            
             IEnumerable<IClaimedCapability> claimedCapabilityList = solution.Capabilities.ToList();
 
             Capabilities = DashboardSection.Mandatory(claimedCapabilityList.Any());

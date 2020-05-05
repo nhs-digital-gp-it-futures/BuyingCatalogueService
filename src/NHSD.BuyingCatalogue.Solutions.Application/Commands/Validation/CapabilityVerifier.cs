@@ -1,9 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateCapabilities;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
@@ -22,7 +21,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
 
         public async Task<ISimpleResult> VerifyAsync(UpdateCapabilitiesCommand command)
         {
-            command = command.ThrowIfNull(nameof(command));
+            if (command is null)
+            {
+                throw new ArgumentNullException(nameof(command));
+            }
 
             var result = await CheckCapabilityReferenceExists(command.NewCapabilitiesReferences, new CancellationToken()).ConfigureAwait(false);
             if (!result)

@@ -1,6 +1,6 @@
+﻿using System;
 using Microsoft.Extensions.Configuration;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
-using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.API.Infrastructure
 {
@@ -8,8 +8,11 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure
     {
         private readonly IConfiguration _configuration;
 
-        public Settings(IConfiguration configuration) => _configuration = configuration.ThrowIfNull();
-        
+        public Settings(IConfiguration configuration)
+        {
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+        }
+
         public string ConnectionString => _configuration.GetConnectionString("BuyingCatalogue");
 
         public string DocumentApiBaseUrl => _configuration["ApiClientSettings:DocumentApi:BaseUrl"];

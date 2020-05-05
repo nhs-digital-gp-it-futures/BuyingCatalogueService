@@ -1,10 +1,10 @@
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.ClientApplications.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeDesktop.UpdateNativeDesktopMemoryAndStorage;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
@@ -21,8 +21,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Nativ
 
         public NativeDesktopMemoryAndStorageController(IMediator mediator)
         {
-            mediator.ThrowIfNull();
-            _mediator = mediator;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         [HttpGet]

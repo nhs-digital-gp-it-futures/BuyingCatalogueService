@@ -1,10 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Persistence.Models;
 
@@ -41,8 +40,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         private readonly IDbConnector _dbConnector;
 
-        public SolutionCapabilityRepository(IDbConnector dbConnector) =>
-            _dbConnector = dbConnector.ThrowIfNull(nameof(dbConnector));
+        public SolutionCapabilityRepository(IDbConnector dbConnector) => _dbConnector = dbConnector ?? throw new ArgumentNullException(nameof(dbConnector));
 
         public async Task<IEnumerable<ISolutionCapabilityListResult>> ListSolutionCapabilitiesAsync(string solutionId,
             CancellationToken cancellationToken)
@@ -60,7 +58,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         public async Task UpdateCapabilitiesAsync(IUpdateCapabilityRequest updateCapabilityRequest,
             CancellationToken cancellationToken)
         {
-            updateCapabilityRequest = updateCapabilityRequest.ThrowIfNull(nameof(updateCapabilityRequest));
+            if (updateCapabilityRequest is null)
+            {
+                throw new ArgumentNullException(nameof(updateCapabilityRequest));
+            }
 
             await _dbConnector.ExecuteAsync(UpdateCapabilities, cancellationToken,
                     new

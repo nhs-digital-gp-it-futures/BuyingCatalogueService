@@ -1,7 +1,7 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
-using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Tools
 {
@@ -9,7 +9,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Tools
     {
         public static IEnumerable<string> ShouldContainAll(this IEnumerable<string> list, IEnumerable<string> values)
         {
-            foreach (string value in values.ThrowIfNull())
+            if (values is null)
+            {
+                throw new ArgumentNullException(nameof(values));
+            }
+
+            foreach (string value in values)
             {
                 list.Should().Contain(value);
             }
@@ -19,7 +24,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Tools
 
         public static IEnumerable<string> ShouldContainOnly(this IEnumerable<string> list, IEnumerable<string> values)
         {
-            foreach (string value in values.ThrowIfNull())
+            if (values is null)
+            {
+                throw new ArgumentNullException(nameof(values));
+            }
+
+            foreach (string value in values)
             {
                 list.Should().Contain(value);
             }
@@ -38,7 +48,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Tools
 
         public static IEnumerable<string> ShouldNotContainAnyOf(this IEnumerable<string> list, IEnumerable<string> values)
         {
-            foreach (string value in values.ThrowIfNull())
+            if (values is null)
+            {
+                throw new ArgumentNullException(nameof(values));
+            }
+
+            foreach (string value in values)
             {
                 list.Should().NotContain(value);
             }

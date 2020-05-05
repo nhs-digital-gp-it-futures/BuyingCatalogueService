@@ -1,9 +1,8 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Persistence.Models;
 
@@ -71,10 +70,18 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
         /// <returns>A task representing an operation to save the specified updateSolutionRequest to the data store.</returns>
         public async Task UpdateSummaryAsync(IUpdateSolutionSummaryRequest updateSolutionSummaryRequest, CancellationToken cancellationToken)
-            => await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
-                        @"SolutionDetail.FullDescription = @description,
+        {
+            if (updateSolutionSummaryRequest is null)
+            {
+                throw new ArgumentNullException(nameof(updateSolutionSummaryRequest));
+            }
+
+            await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
+                    @"SolutionDetail.FullDescription = @description,
                         SolutionDetail.Summary = @summary,
-                        SolutionDetail.AboutUrl = @aboutUrl", StringComparison.InvariantCulture), cancellationToken,updateSolutionSummaryRequest.ThrowIfNull(nameof(updateSolutionSummaryRequest))).ConfigureAwait(false);
+                        SolutionDetail.AboutUrl = @aboutUrl", StringComparison.InvariantCulture), cancellationToken,
+                updateSolutionSummaryRequest).ConfigureAwait(false);
+        }
 
         /// <summary>
         /// Updates or inserts the features of the solution.
@@ -83,10 +90,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
         /// <returns>A task representing an operation to save the specified updateSolutionRequest to the data store.</returns>
         public async Task UpdateFeaturesAsync(IUpdateSolutionFeaturesRequest updateSolutionFeaturesRequest, CancellationToken cancellationToken)
-            => await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
+        {
+            if (updateSolutionFeaturesRequest is null)
+            {
+                throw new ArgumentNullException(nameof(updateSolutionFeaturesRequest));
+            }
+
+            await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
                     @"SolutionDetail.Features = @features", StringComparison.InvariantCulture),
                 cancellationToken,
-                updateSolutionFeaturesRequest.ThrowIfNull(nameof(updateSolutionFeaturesRequest))).ConfigureAwait(false);
+                updateSolutionFeaturesRequest).ConfigureAwait(false);
+        }
 
         /// <summary>
         /// Adds or updates the client application details of a solution.
@@ -95,13 +109,21 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
         /// <returns>A task representing an operation to save the specified <paramref name="updateSolutionClientApplicationRequest"/> details to the data store.</returns>
         public async Task UpdateClientApplicationAsync(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken cancellationToken)
-            => await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
-                    @"SolutionDetail.ClientApplication = @clientApplication", StringComparison.InvariantCulture),
-                cancellationToken,
-                updateSolutionClientApplicationRequest.ThrowIfNull(nameof(updateSolutionClientApplicationRequest))).ConfigureAwait(false);
+        {
+            if (updateSolutionClientApplicationRequest is null)
+            {
+                throw new ArgumentNullException(nameof(updateSolutionClientApplicationRequest));
+            }
+
+            await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
+                        @"SolutionDetail.ClientApplication = @clientApplication", StringComparison.InvariantCulture),
+                    cancellationToken,
+                    updateSolutionClientApplicationRequest)
+                .ConfigureAwait(false);
+        }
 
         public async Task<IClientApplicationResult> GetClientApplicationBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
-            => (await _dbConnector.QueryAsync<ClientApplicationResult>(getClientApplicationBySolutionIdSql, cancellationToken,new {solutionId}).ConfigureAwait(false)).SingleOrDefault();
+            => (await _dbConnector.QueryAsync<ClientApplicationResult>(getClientApplicationBySolutionIdSql, cancellationToken, new { solutionId }).ConfigureAwait(false)).SingleOrDefault();
 
         /// <summary>
         /// Adds or updates the hosting details of a solution.
@@ -110,19 +132,33 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
         /// <returns>A task representing an operation to save the specified <paramref name="updateSolutionHostingRequest"/> details to the data store.</returns>
         public async Task UpdateHostingAsync(IUpdateSolutionHostingRequest updateSolutionHostingRequest, CancellationToken cancellationToken)
-            => await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
+        {
+            if (updateSolutionHostingRequest is null)
+            {
+                throw new ArgumentNullException(nameof(updateSolutionHostingRequest));
+            }
+
+            await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
                     @"SolutionDetail.Hosting = @hosting", StringComparison.InvariantCulture),
                 cancellationToken,
-                updateSolutionHostingRequest.ThrowIfNull(nameof(updateSolutionHostingRequest))).ConfigureAwait(false);
+                updateSolutionHostingRequest).ConfigureAwait(false);
+        }
 
         public async Task<IHostingResult> GetHostingBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
             => (await _dbConnector.QueryAsync<HostingResult>(getHostingBySolutionIdSql, cancellationToken, new { solutionId }).ConfigureAwait(false)).SingleOrDefault();
 
         public async Task UpdateRoadmapAsync(IUpdateRoadmapRequest updateRoadmapRequest, CancellationToken cancellationToken)
-            => await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
+        {
+            if (updateRoadmapRequest is null)
+            {
+                throw new ArgumentNullException(nameof(updateRoadmapRequest));
+            }
+
+            await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
                     @"SolutionDetail.RoadMap = @description", StringComparison.InvariantCulture),
                 cancellationToken,
-                updateRoadmapRequest.ThrowIfNull(nameof(updateRoadmapRequest))).ConfigureAwait(false);
+                updateRoadmapRequest).ConfigureAwait(false);
+        }
 
         public async Task<IRoadMapResult> GetRoadMapBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
             => (await _dbConnector.QueryAsync<RoadMapResult>(GetRoadMapBySolutionIdSql, cancellationToken, new { solutionId }).ConfigureAwait(false)).SingleOrDefault();
@@ -131,18 +167,33 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
             => (await _dbConnector.QueryAsync<IntegrationsResult>(GetIntegrationsBySolutionIdSql, cancellationToken, new { solutionId }).ConfigureAwait(false)).SingleOrDefault();
 
         public async Task UpdateIntegrationsAsync(IUpdateIntegrationsRequest updateIntegrationsRequest, CancellationToken cancellationToken)
-            => await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
+        {
+            if (updateIntegrationsRequest is null)
+            {
+                throw new ArgumentNullException(nameof(updateIntegrationsRequest));
+            }
+
+            await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
                     @"SolutionDetail.IntegrationsUrl = @url", StringComparison.InvariantCulture),
                 cancellationToken,
-                updateIntegrationsRequest.ThrowIfNull(nameof(updateIntegrationsRequest))).ConfigureAwait(false);
+                updateIntegrationsRequest).ConfigureAwait(false);
+        }
 
         public async Task<IImplementationTimescalesResult> GetImplementationTimescalesBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
             => (await _dbConnector.QueryAsync<ImplementationTimescalesResult>(GetImplementationTimescalesBySolutionIdSql, cancellationToken, new { solutionId }).ConfigureAwait(false)).SingleOrDefault();
 
         public async Task UpdateImplementationTimescalesAsync(IUpdateImplementationTimescalesRequest updateImplementationTimescalesRequest, CancellationToken cancellationToken)
-            => await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
-                    @"SolutionDetail.ImplementationDetail = @description", StringComparison.InvariantCulture),
-                cancellationToken,
-                updateImplementationTimescalesRequest.ThrowIfNull(nameof(updateImplementationTimescalesRequest))).ConfigureAwait(false);
+        {
+            if (updateImplementationTimescalesRequest is null)
+            {
+                throw new ArgumentNullException(nameof(updateImplementationTimescalesRequest));
+            }
+
+            await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
+                        @"SolutionDetail.ImplementationDetail = @description", StringComparison.InvariantCulture),
+                    cancellationToken,
+                    updateImplementationTimescalesRequest)
+                .ConfigureAwait(false);
+        }
     }
 }

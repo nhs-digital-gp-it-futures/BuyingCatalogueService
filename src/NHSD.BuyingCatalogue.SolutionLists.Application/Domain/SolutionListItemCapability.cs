@@ -1,4 +1,4 @@
-﻿using NHSD.BuyingCatalogue.Infrastructure;
+﻿using System;
 using NHSD.BuyingCatalogue.SolutionLists.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
@@ -7,7 +7,12 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
     {
         public SolutionListItemCapability(ISolutionListResult solutionList)
         {
-            CapabilityReference = solutionList.ThrowIfNull(nameof(solutionList)).CapabilityReference;
+            if (solutionList is null)
+            {
+                throw new ArgumentNullException(nameof(solutionList));
+            }
+
+            CapabilityReference = solutionList.CapabilityReference;
             Name = solutionList.CapabilityName;
         }
 
