@@ -69,7 +69,7 @@
     <Folder Include="Security\" />
     <Folder Include="Security\Users" />
     <Folder Include="Security\Logins" />
-    <Folder Include="Deployment" />
+    <Folder Include="PostDeployment" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\AdditionalServiceDetail.sql" />
@@ -122,9 +122,9 @@
     </SqlCmdVariable>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Deployment\InsertCommonValues.sql" />
+    <None Include="PostDeployment\InsertCommonValues.sql" />
   </ItemGroup>
   <ItemGroup>
-    <PostDeploy Include="Deployment\PostDeployment.sql" />
+    <PostDeploy Include="PostDeployment\PostDeployment.sql" />
   </ItemGroup>
 </Project>
