@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.SolutionLists.Contracts;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.API.ViewModels
@@ -24,10 +24,15 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.ViewModels
         /// </summary>
         public SolutionSummaryResult(ISolutionSummary summary)
         {
-            Id = summary?.Id;
-            Name = summary?.Name;
-            Summary = summary?.Summary;
-            IsFoundation = summary.ThrowIfNull(nameof(IsFoundation)).IsFoundation;
+            if (summary is null)
+            {
+                throw new ArgumentNullException(nameof(summary));
+            }
+
+            Id = summary.Id;
+            Name = summary.Name;
+            Summary = summary.Summary;
+            IsFoundation = summary.IsFoundation;
             Supplier = summary?.Supplier != null ? new SolutionSupplierResult(summary?.Supplier) : null;
             Capabilities = summary?.Capabilities.Select(cap => new SolutionCapabilityResult(cap)).ToList();
         }

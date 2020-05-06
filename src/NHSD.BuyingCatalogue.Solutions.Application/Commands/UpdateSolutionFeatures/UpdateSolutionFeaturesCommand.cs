@@ -1,5 +1,5 @@
-﻿using MediatR;
-using NHSD.BuyingCatalogue.Infrastructure;
+﻿using System;
+using MediatR;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Commands;
 
@@ -22,8 +22,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeat
         /// </summary>
         public UpdateSolutionFeaturesCommand(string solutionId, IUpdateSolutionFeatures data)
         {
-            SolutionId = solutionId.ThrowIfNull();
-            Data = data.ThrowIfNull();
+            SolutionId = solutionId ?? throw new ArgumentNullException(nameof(solutionId));
+            Data = data ?? throw new ArgumentNullException(nameof(data));
         }
     }
 }

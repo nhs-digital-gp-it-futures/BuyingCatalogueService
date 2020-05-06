@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +25,10 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Exceptions
 
         public static JsonResult ToJsonMessage(this Exception exception, bool verbose)
         {
-            exception.ThrowIfNull();
+            if (exception is null)
+            {
+                throw new ArgumentNullException(nameof(exception));
+            }
 
             return new JsonResult(new
             {

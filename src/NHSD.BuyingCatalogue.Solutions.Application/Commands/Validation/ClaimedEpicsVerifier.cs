@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateClaimedEpics;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.Epics;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
@@ -24,7 +24,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
 
         public async Task<ISimpleResult> VerifyAsync(UpdateClaimedEpicsCommand command)
         {
-            command = command.ThrowIfNull(nameof(command));
+            if (command is null)
+            {
+                throw new ArgumentNullException(nameof(command));
+            }
 
             var epics = command.Data.Select(x => new ClaimedEpic(x.EpicId, x.StatusName)).ToHashSet();
 
