@@ -17,7 +17,8 @@ namespace NHSD.BuyingCatalogue.Data.Infrastructure
         /// <summary>
         /// Initialises a new instance of the <see cref="DbConnectionFactory"/> class.
         /// </summary>
-        public DbConnectionFactory(ISettings settings) => _settings = settings ?? throw new ArgumentNullException(nameof(settings));
+        public DbConnectionFactory(ISettings settings) =>
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
 
         /// <summary>
         /// Gets a new database connection.

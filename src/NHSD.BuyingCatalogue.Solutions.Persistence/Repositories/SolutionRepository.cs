@@ -85,7 +85,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         /// <returns>True if it exists</returns>
         public async Task<bool> CheckExists(string id, CancellationToken cancellationToken)
         {
-            var solutionCount = await _dbConnector.QueryAsync<int>(doesSolutionExist, cancellationToken, new
+            var solutionCount = await _dbConnector.QueryAsync<int>(
+                doesSolutionExist, 
+                cancellationToken, 
+                new
             {
                 id
             }).ConfigureAwait(false);
