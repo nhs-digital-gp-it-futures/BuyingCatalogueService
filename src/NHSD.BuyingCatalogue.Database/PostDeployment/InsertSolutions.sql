@@ -152,7 +152,7 @@ BEGIN
     WHERE Id = @solutionId;
 
     INSERT INTO dbo.MarketingContact(SolutionId, FirstName, LastName, PhoneNumber, Email, Department, LastUpdated, LastUpdatedBy)
-    VALUES (@solutionId, 'Virginia', 'Wilson', '07810401180', 'Sales@Zen.com', 'Sales', @now, @emptyGuid)
+    VALUES (@solutionId, 'Virginia', 'Wilson', '07810401180', 'Sales@Zen.com', 'Sales', @now, @emptyGuid);
 
     INSERT INTO dbo.SolutionCapability (SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
     SELECT @solutionId, Id, 1, @now, @emptyGuid

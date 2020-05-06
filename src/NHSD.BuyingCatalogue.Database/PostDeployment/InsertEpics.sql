@@ -1,7 +1,7 @@
 ﻿DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C1');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C1E1', 'Manage Appointments', @capabilityId, 1, 1),
     ('C1E2', 'Manage Appointments by Proxy', @capabilityId, 3, 1);
@@ -10,7 +10,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C2');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C2E1', 'Manage communications - Patient', @capabilityId, 1, 1),
     ('C2E2', 'Manage communications - Proxy', @capabilityId, 3, 1);
@@ -19,7 +19,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C3');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C3E1', 'Manage Repeat Medications - Patient', @capabilityId, 1, 1),
     ('C3E2', 'Manage my nominated EPS pharmacy', @capabilityId, 1, 1),
@@ -36,7 +36,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C4');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C4E1', 'View Patient Record - Patient', @capabilityId, 1, 1),
     ('C4E2', 'View Patient Record - Proxy', @capabilityId, 3, 1);
@@ -45,7 +45,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C5');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C5E1', 'Manage Session templates', @capabilityId, 1, 1),
     ('C5E2', 'Manage Sessions', @capabilityId, 1, 1),
@@ -59,7 +59,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C6');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C6E1', 'Access to Clinical Decision Support', @capabilityId, 1, 1),
     ('C6E2', 'Local configuration for Clinical Decision Support triggering', @capabilityId, 1, 1),
@@ -70,7 +70,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C7');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C7E1', 'Manage communication consents for a Patient', @capabilityId, 1, 1),
     ('C7E2', 'Manage communication preferences for a Patient', @capabilityId, 1, 1),
@@ -87,7 +87,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C8');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C8E1', 'Manage Requests for Investigations', @capabilityId, 1, 1),
     ('C8E2', 'View Requests for Investigations reports', @capabilityId, 1, 1),
@@ -98,7 +98,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C9');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C9E1', 'Manage document classifications', @capabilityId, 1, 1),
     ('C9E2', 'Manage document properties', @capabilityId, 1, 1),
@@ -122,7 +122,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C10');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C10E1', 'View GPES payment extract reports', @capabilityId, 1, 1),
     ('C10E2', 'View national GPES non-payment extract reports', @capabilityId, 3, 1);
@@ -131,7 +131,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C11');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C11E1', 'Manage Referrals', @capabilityId, 1, 1),
     ('C11E2', 'View Referral reports', @capabilityId, 1, 1);
@@ -140,7 +140,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C12');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C12E1', 'Manage General Practice and Branch site informatio', @capabilityId, 1, 1),
     ('C12E2', 'Manage General Practice Staff Members', @capabilityId, 1, 1),
@@ -154,7 +154,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C13');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C13E1', 'Manage Patients ', @capabilityId, 1, 1),
     ('C13E2', 'Access Patient Record', @capabilityId, 1, 1),
@@ -182,7 +182,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C14');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C14E1', 'Access prescribable items', @capabilityId, 1, 1),
     ('C14E2', 'Manage Formularies', @capabilityId, 1, 1),
@@ -205,7 +205,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C15');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C15E1', 'Record Consultation informatio', @capabilityId, 1, 1),
     ('C15E2', 'View report on calls and recalls', @capabilityId, 1, 1),
@@ -220,7 +220,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C16');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C16E1', 'Report data from other Capabilities', @capabilityId, 1, 1);
 GO
@@ -228,7 +228,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C17');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C17E1', 'Scan documents', @capabilityId, 1, 1),
     ('C17E2', 'Image enhancement', @capabilityId, 3, 1);
@@ -237,7 +237,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C18');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C18E1', 'Share monitoring data with my General Practice', @capabilityId, 1, 1),
     ('C18E2', 'Configure Telehealth for the Practice', @capabilityId, 1, 1),
@@ -248,7 +248,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C19');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C19E1', 'Document classificatio', @capabilityId, 1, 1),
     ('C19E2', 'Manage Document Classification rules', @capabilityId, 1, 1),
@@ -258,7 +258,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C20');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C20E1', 'Manage Task templates', @capabilityId, 1, 1),
     ('C20E2', 'Manage Workflow templates', @capabilityId, 1, 1),
@@ -278,7 +278,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C21');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C21E1', 'Maintain Resident''s Care Home Record', @capabilityId, 1, 1),
     ('C21E2', 'Maintain Resident Proxy preferences', @capabilityId, 3, 1),
@@ -293,7 +293,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C22');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C22E1', 'Manage Cases', @capabilityId, 1, 1),
     ('C22E2', 'Maintain Caseloads', @capabilityId, 1, 1),
@@ -309,7 +309,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C23');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C23E1', 'Make Appointments available to external organisations', @capabilityId, 1, 1),
     ('C23E2', 'Search externally bookable Appointment slots', @capabilityId, 1, 1),
@@ -325,7 +325,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C24');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C24E1', 'Use Workflow to run a Cross-organisational Process', @capabilityId, 1, 1),
     ('C24E2', 'Maintain cross-organisational workflows', @capabilityId, 1, 1),
@@ -339,7 +339,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C25');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C25E1', 'Maintain service schedule', @capabilityId, 1, 1),
     ('C25E2', 'Share service schedule', @capabilityId, 1, 1),
@@ -349,7 +349,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C26');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C26E1', 'Analyse data across multiple organisations within the Integrated/Federated Care Setting (Federation)', @capabilityId, 1, 1),
     ('C26E2', 'Analyse data across different datasets', @capabilityId, 1, 1),
@@ -366,7 +366,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C27');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C27E1', 'Maintain Domiciliary Care schedules', @capabilityId, 1, 1),
     ('C27E2', 'Share Domiciliary Care schedules', @capabilityId, 1, 1),
@@ -382,7 +382,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C28');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C28E1', 'Patient/Service User requests support', @capabilityId, 1, 1),
     ('C28E2', 'Respond to request for support from Patient/Service User', @capabilityId, 1, 1),
@@ -397,7 +397,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C29');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C29E1', 'Health or Care Professional requests support', @capabilityId, 1, 1),
     ('C29E2', 'Respond to request for support from another Health or Care Professional', @capabilityId, 1, 1),
@@ -410,7 +410,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C30');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C30E1', 'Single unified medication view', @capabilityId, 1, 1),
     ('C30E2', 'Request medication changes', @capabilityId, 1, 1),
@@ -431,7 +431,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C32');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C32E1', 'Manage Personal Health Budget', @capabilityId, 1, 1),
     ('C32E2', 'Record Personal Health Budget purchases', @capabilityId, 1, 1),
@@ -453,7 +453,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C33');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C33E1', 'Maintain Personal Health Record content', @capabilityId, 1, 1),
     ('C33E2', 'Organise Personal Health Record ', @capabilityId, 3, 1),
@@ -464,7 +464,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C34');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C34E1', 'Access healthcare data', @capabilityId, 1, 1),
     ('C34E2', 'Maintain cohorts', @capabilityId, 1, 1),
@@ -477,7 +477,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C35');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C35E1', 'Run Risk Stratification algorithms', @capabilityId, 1, 1);
 GO
@@ -485,7 +485,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C36');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C36E1', 'Create Shared Care Pla', @capabilityId, 1, 1),
     ('C36E2', 'View Shared Care Pla', @capabilityId, 1, 1),
@@ -504,7 +504,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C37');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C37E1', 'Assess wellness or well-being of the Patient or Service User', @capabilityId, 1, 1),
     ('C37E2', 'Search the directory', @capabilityId, 1, 1),
@@ -527,7 +527,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C38');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C38E1', 'Define response to event', @capabilityId, 1, 1),
     ('C38E2', 'Monitor and alert', @capabilityId, 1, 1),
@@ -545,7 +545,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C39');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C39E1', 'View Unified Care Record', @capabilityId, 1, 1),
     ('C39E2', 'Patient/Service User views the Unified Care Record', @capabilityId, 3, 1),
@@ -555,7 +555,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C40');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C40E1', 'Verify Medicinal Product Unique Identifiers', @capabilityId, 1, 1),
     ('C40E2', 'Decommission Medicinal Products', @capabilityId, 1, 1),
@@ -565,7 +565,7 @@ GO
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C42');
 
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
-    INSERT dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
     ('C42E1', 'Manage Stock in a Dispensary', @capabilityId, 1, 1),
     ('C42E2', 'Manage Stock Orders', @capabilityId, 1, 1),
