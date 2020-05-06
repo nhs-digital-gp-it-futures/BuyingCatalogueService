@@ -70,6 +70,7 @@
     <Folder Include="Security\Users" />
     <Folder Include="Security\Logins" />
     <Folder Include="PostDeployment" />
+    <Folder Include="Security\Roles" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\AdditionalServiceDetail.sql" />
@@ -114,6 +115,7 @@
     <Build Include="Tables\SolutionDetail.sql" />
     <Build Include="Security\Users\NHSD.sql" />
     <Build Include="Security\Logins\NHSD.sql" />
+    <Build Include="Security\Roles\Api.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="INSERT_TEST_DATA">
