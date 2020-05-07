@@ -11,10 +11,17 @@ while [[ $STATUS -ne 0 ]] && [[ $i -lt 30 ]]; do
     STATUS=$?
 done
 
-if [ $STATUS -ne 0 ]; then 
+if [ $STATUS -ne 0 ]; then
     echo "Error: MSSQL SERVER took more than thirty seconds to start up."
     exit 1
 fi
 
 /sqlpackage/sqlpackage /Action:publish /SourceFile:NHSD.BuyingCatalogue.Database.Deployment.dacpac /TargetServerName:$DB_SERVER /TargetDatabaseName:$DB_NAME /TargetUser:sa /TargetPassword:$SA_PASSWORD
 /opt/mssql-tools/bin/sqlcmd -S $DB_SERVER,1433 -U sa -P $SA_PASSWORD -d $DB_NAME -I -i "PostDeployment.sql"
+
+if [ "${INTEGRATION_TEST^^}" = "TRUE" ]; then
+    cd IntegrationTests
+    /opt/mssql-tools/bin/sqlcmd -S $DB_SERVER,1433 -U sa -P $SA_PASSWORD -d $DB_NAME -I -i "PostDeployment.sql"
+fi
+
+printf "\nDatabase setup complete"

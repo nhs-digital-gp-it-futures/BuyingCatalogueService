@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,10 +14,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
     [Binding]
     public sealed class SolutionEntitySteps
     {
-
-        //Constants from Integration Reference Data at /tests/NHSD.BuyingCatalogue.Testing.Data/SqlResources/ReferenceData.sql
         private const int PassedSolutionCapabilityStatusId = 1;
-        private const int FailedSolutionCapabilityStatusId = 2;
+        private const int FailedSolutionCapabilityStatusId = 3;
 
         [Given(@"Solutions exist")]
         public static async Task GivenSolutionsExist(Table table)
@@ -33,16 +31,15 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                     .WithPublishedStatusId(solutionTable.PublishedStatusId)
                     .WithOnLastUpdated(solutionTable.LastUpdated != DateTime.MinValue ? solutionTable.LastUpdated : DateTime.UtcNow)
                     .Build()
-                    .InsertAsync()
-                    .ConfigureAwait(false);
+                    .InsertAsync();
             }
         }
 
         [Given(@"Solutions are linked to Capabilities")]
         public static async Task GivenSolutionsAreLinkedToCapabilities(Table table)
         {
-            var solutions = (await SolutionEntity.FetchAllAsync().ConfigureAwait(false)).ToDictionary(s=>s.Name);
-            var capabilities = (await CapabilityEntity.FetchAllAsync().ConfigureAwait(false)).ToDictionary(c=>c.Name);
+            var solutions = (await SolutionEntity.FetchAllAsync()).ToDictionary(s => s.Name);
+            var capabilities = (await CapabilityEntity.FetchAllAsync()).ToDictionary(c => c.Name);
 
             foreach (var solutionCapability in table.CreateSet<SolutionCapabilityTable>())
             {
@@ -55,8 +52,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                         .WithCapabilityId(capabilities[capability].Id)
                         .WithStatusId(solutionCapability.Pass ? PassedSolutionCapabilityStatusId : FailedSolutionCapabilityStatusId)
                         .Build()
-                        .InsertAsync()
-                        .ConfigureAwait(false);
+                        .InsertAsync();
                     }
                 }
             }
@@ -67,9 +63,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         {
             foreach (var row in table.CreateSet<SolutionCapabilityReferenceTable>())
             {
-                var capabilities = await SolutionCapabilityEntity.FetchForSolutionAsync(row.SolutionId)
-                    .ConfigureAwait(false);
-
+                var capabilities = await SolutionCapabilityEntity.FetchForSolutionAsync(row.SolutionId);
                 capabilities.Should().BeEquivalentTo(row.CapabilityRefs);
             }
         }
@@ -77,7 +71,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         [Given(@"a Solution (.*) does not exist")]
         public static async Task GivenASolutionSlnDoesNotExist(string solutionId)
         {
-            var solutionList = await SolutionEntity.FetchAllAsync().ConfigureAwait(false);
+            var solutionList = await SolutionEntity.FetchAllAsync();
             solutionList.Select(x => x.Id).Should().NotContain(solutionId);
         }
 
@@ -85,7 +79,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         public static async Task ThenSolutionsExist(Table table)
         {
             var expectedSolutions = table.CreateSet<SolutionUpdatedTable>();
-            var solutions = await SolutionEntity.FetchAllAsync().ConfigureAwait(false);
+            var solutions = await SolutionEntity.FetchAllAsync();
             solutions.Select(s => new
             {
                 SolutionId = s.Id,
@@ -96,8 +90,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         [Then(@"the field \[SupplierStatusId] for Solution (.*) should correspond to '(.*)'")]
         public static async Task ThenFieldSolutionSupplierStatusIdShouldCorrespondTo(string solutionId, string supplierStatusName)
         {
-            var status = await SolutionSupplierStatusEntity.GetByNameAsync(supplierStatusName).ConfigureAwait(false);
-            var solution = await SolutionEntity.GetByIdAsync(solutionId).ConfigureAwait(false);
+            var status = await SolutionSupplierStatusEntity.GetByNameAsync(supplierStatusName);
+            var solution = await SolutionEntity.GetByIdAsync(solutionId);
 
             solution.SupplierStatusId.Should().Be(status.Id);
         }
@@ -105,8 +99,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         [Then(@"Last Updated has updated on the SolutionEntity for solution (.*)")]
         public static async Task LastUpdatedHasUpdatedOnMarketingContact(string solutionId)
         {
-            var contact = await SolutionEntity.GetByIdAsync(solutionId).ConfigureAwait(false);
-            (await contact.LastUpdated.SecondsFromNow().ConfigureAwait(false)).Should().BeLessOrEqualTo(5);
+            var contact = await SolutionEntity.GetByIdAsync(solutionId);
+            (await contact.LastUpdated.SecondsFromNow()).Should().BeLessOrEqualTo(5);
         }
 
         private class SolutionTable

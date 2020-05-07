@@ -31,7 +31,6 @@ while test $# -gt 0; do
 	esac
 done
 
-
 determine_environment () {
 	if [[ "integration" == $env* ]]; then
 	  echo "integration"
@@ -44,7 +43,6 @@ determine_environment () {
 	echo $env
 }
 
-
 clean_out_directory () {
 	if [ -d $out_directory ]; then
 		rm -rf $out_directory
@@ -52,7 +50,7 @@ clean_out_directory () {
 }
 
 build_api_locally () {
-	dotnet build ./NHSD.BuyingCatalogue.sln --configuration Release
+	dotnet build src/NHSD.BuyingCatalogue.API/NHSD.BuyingCatalogue.API.csproj --configuration Release
     clean_out_directory
     dotnet publish "src/NHSD.BuyingCatalogue.API/NHSD.BuyingCatalogue.API.csproj" --configuration Release --output "$out_directory"
 }
@@ -77,5 +75,6 @@ launch_environment () {
 	build_api_locally
 	spin_containers_up
 }
+
 environment=$(determine_environment)
 launch_environment

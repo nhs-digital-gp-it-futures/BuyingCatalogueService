@@ -184,6 +184,9 @@ dotnet_diagnostic.CA1303.severity = suggestion
 # CA1031: Do not catch general exception types
 dotnet_diagnostic.CA1031.severity = none
 
+# CA2007: Consider calling ConfigureAwait on the awaited task
+dotnet_diagnostic.CA2007.severity = none
+
 [NUnit.AssemblyHooks.cs]
 # CA1707: Classes should not contain names with underscores
 dotnet_diagnostic.CA1707.severity = none

@@ -71,6 +71,7 @@
     <Folder Include="Security\Logins" />
     <Folder Include="PostDeployment" />
     <Folder Include="Security\Roles" />
+    <Folder Include="PostDeployment\IntegrationTests" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\AdditionalServiceDetail.sql" />
@@ -116,6 +117,11 @@
     <Build Include="Security\Users\NHSD.sql" />
     <Build Include="Security\Logins\NHSD.sql" />
     <Build Include="Security\Roles\Api.sql" />
+    <None Include="PostDeployment\IntegrationTests\ClearData.sql" />
+    <None Include="PostDeployment\IntegrationTests\DropRole.sql" />
+    <None Include="PostDeployment\IntegrationTests\DropUserAndLogin.sql" />
+    <None Include="PostDeployment\IntegrationTests\PostDeployment.sql" />
+    <None Include="PostDeployment\IntegrationTests\RestoreUserAndLogin.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="INSERT_TEST_DATA">

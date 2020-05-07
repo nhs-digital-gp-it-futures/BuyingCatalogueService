@@ -15,8 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solutions Items", "Solution
 		.env = .env
 		docker\docker-compose.development.yml = docker\docker-compose.development.yml
 		docker\docker-compose.integration.yml = docker\docker-compose.integration.yml
-		docker\docker-compose.pipeline.yaml = docker\docker-compose.pipeline.yaml
-		docker\docker-compose.production.yml = docker\docker-compose.production.yml
 		docker\docker-compose.yml = docker\docker-compose.yml
 		docker\Dockerfile = docker\Dockerfile
 	EndProjectSection
