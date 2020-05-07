@@ -1,18 +1,4 @@
-﻿IF NOT EXISTS (SELECT * FROM dbo.StandardCategory)
-    INSERT INTO dbo.StandardCategory(Id, [Name])
-    VALUES
-    (1, 'Overarching'),
-    (2, 'Interoperability'),
-    (3, 'Context'),
-    (4, 'Capability');
-GO
-
-IF NOT EXISTS (SELECT * FROM dbo.StandardStatus)
-    INSERT INTO dbo.StandardStatus(Id, [Name])
-    VALUES (1, 'Effective');
-GO
-
-IF NOT EXISTS (SELECT * FROM dbo.CapabilityStatus)
+﻿IF NOT EXISTS (SELECT * FROM dbo.CapabilityStatus)
     INSERT INTO dbo.CapabilityStatus(Id, [Name])
     VALUES (1, 'Effective');
 GO
@@ -60,24 +46,6 @@ IF NOT EXISTS (SELECT * FROM dbo.SolutionCapabilityStatus)
     (1, 'Passed - Full', 1),
     (2, 'Passed - Partial', 1),
     (3, 'Failed', 0);
-GO
-
-IF NOT EXISTS (SELECT * FROM dbo.SolutionStandardStatus)
-    INSERT INTO dbo.SolutionStandardStatus(Id, [Name])
-    VALUES (1, 'Passed');
-GO
-
-IF NOT EXISTS (SELECT * FROM dbo.PricingUnit)
-    INSERT INTO dbo.PricingUnit(Id, [Name], [Description])
-    VALUES (1, N'Patient', 'Per Registered Patient')
-GO
-
-IF NOT EXISTS (SELECT * FROM dbo.PriceType)
-    INSERT INTO dbo.PriceType(Id, [Name])
-    VALUES
-    (1, N'Flat List Price'),
-    (2, N'Bundle Price'),
-    (3, N'Cumlative Tiered Price');
 GO
 
 IF NOT EXISTS (SELECT * FROM dbo.SolutionEpicStatus)

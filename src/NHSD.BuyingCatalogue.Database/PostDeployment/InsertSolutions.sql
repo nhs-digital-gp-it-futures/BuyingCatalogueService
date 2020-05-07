@@ -65,24 +65,6 @@ BEGIN
     FROM dbo.Capability
     WHERE CapabilityRef = 'C1';
 
-    INSERT INTO dbo.AssociatedService(Id, SolutionId, [Name], [Description], OrderGuidance, LastUpdated, LastUpdatedBy)
-    VALUES
-    ('100000-001-001', @solutionId, 'Training', 'The Training Package', 'Guidance text for purchasing', @now, @emptyGuid),
-    ('100000-001-002', @solutionId, 'Support', '24/7 Support', 'Optional', @now, @emptyGuid);
-
-    SET @purchaseModelId = '60123d1b-7995-470a-baeb-baa94f95bf0a';
-
-    INSERT INTO dbo.PurchasingModel(Id, FrameworkId, SolutionId, StatusId, AuthorityStatusId, LastUpdated, LastUpdatedBy)
-    VALUES (@purchaseModelId, @frameworkId, @solutionId, 4, 2, @now, @emptyGuid);
-
-    INSERT INTO dbo.SolutionPrice(Id, PurchasingModelId, UnitId, PriceTypeId, Price, BandStart, BandEnd, Created)
-    VALUES ('d89a6e83-4e1c-4c0b-a5cc-e56b0830aff6', @purchaseModelId, 1, 1, CAST(1.230 AS decimal(18, 4)), 1, NULL, @now);
-
-    INSERT INTO dbo.AssociatedServicePrice(Id, PurchasingModelId, AssociatedServiceId, UnitId, PriceTypeId, Price, BandStart, BandEnd, Created)
-    VALUES
-    ('123af44e-6b05-4be7-b8b4-8ffd6439d5ec', @purchaseModelId, '10000000-001-001', 1, 3, CAST(0.660 AS decimal(18, 4)), 1, NULL, @now),
-    ('7fe3b549-2f1b-43d5-b1d2-97c855e10fbb', @purchaseModelId, '10000000-001-002', 1, 3, CAST(1.500 AS Decimal(18, 4)), 1, NULL, @now);
-
     INSERT INTO dbo.FrameworkSolutions(FrameworkId ,SolutionId ,IsFoundation, LastUpdated, LastUpdatedBy)
     VALUES (@frameworkId, @solutionId , 1, @now, @emptyGuid);
 
