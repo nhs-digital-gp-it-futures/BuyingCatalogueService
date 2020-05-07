@@ -74,39 +74,19 @@
     <Folder Include="PostDeployment\IntegrationTests" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Tables\AdditionalServiceDetail.sql" />
     <Build Include="Tables\SolutionCapabilityStatus.sql" />
     <Build Include="Tables\SolutionCapability.sql" />
     <Build Include="Tables\SolutionEpicStatus.sql" />
     <Build Include="Tables\SolutionEpic.sql" />
-    <Build Include="Tables\SolutionStandardStatus.sql" />
-    <Build Include="Tables\SolutionStandard.sql" />
-    <Build Include="Tables\SolutionDefinedCapability.sql" />
-    <Build Include="Tables\SolutionDefinedEpic.sql" />
-    <Build Include="Tables\SolutionDefinedEpicAcceptanceCriteria.sql" />
-    <Build Include="Tables\PricingUnit.sql" />
-    <Build Include="Tables\PriceType.sql" />
-    <Build Include="Tables\PurchasingModel.sql" />
-    <Build Include="Tables\SolutionPrice.sql" />
     <Build Include="Tables\CompliancyLevel.sql" />
     <Build Include="Tables\CapabilityCategory.sql" />
-    <Build Include="Tables\AdditionalServicePrice.sql" />
     <Build Include="Tables\CapabilityStatus.sql" />
     <Build Include="Tables\Capability.sql" />
-    <Build Include="Tables\AssociatedService.sql" />
     <Build Include="Tables\Epic.sql" />
-    <Build Include="Tables\AssociatedServicePrice.sql" />
-    <Build Include="Tables\StandardStatus.sql" />
-    <Build Include="Tables\StandardCategory.sql" />
     <Build Include="Tables\MarketingContact.sql" />
-    <Build Include="Tables\Standard.sql" />
     <Build Include="Tables\FrameworkSolutions.sql" />
-    <Build Include="Tables\CapabilityStandards.sql" />
-    <Build Include="Tables\Audit.sql" />
     <Build Include="Tables\Framework.sql" />
     <Build Include="Tables\FrameworkCapabilities.sql" />
-    <Build Include="Tables\FrameworkStandards.sql" />
-    <Build Include="Tables\Organisation.sql" />
     <Build Include="Tables\Supplier.sql" />
     <Build Include="Tables\SupplierContact.sql" />
     <Build Include="Tables\PublicationStatus.sql" />
@@ -140,7 +120,6 @@
     <None Include="PostDeployment\InsertFrameworks.sql" />
     <None Include="PostDeployment\InsertSolutions.sql" />
     <None Include="PostDeployment\InsertSuppliers.sql" />
-    <None Include="PostDeployment\InsertOrganisations.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="PostDeployment\PostDeployment.sql" />

@@ -10,7 +10,6 @@
     DELETE FROM dbo.SolutionDetail;
     TRUNCATE TABLE dbo.SolutionEpic;
     TRUNCATE TABLE dbo.SolutionCapability;
-    DELETE FROM dbo.PurchasingModel;
     DELETE FROM dbo.Solution;
     DELETE FROM dbo.Epic;
     DELETE FROM dbo.Capability;
