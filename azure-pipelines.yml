@@ -30,7 +30,7 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
-    projects: NHSD.BuyingCatalogue.sln
+    projects: src/NHSD.BuyingCatalogue.API/NHSD.BuyingCatalogue.API.csproj
 
 - task: DotNetCoreCLI@2
   displayName: Publish
