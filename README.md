@@ -234,13 +234,14 @@ bash tear_down_environment.sh i
 
 ## Troubleshooting
 
-### Error
+### Problem
 
-`./entrypoint.sh: line 2: $'\r': command not found` when launcing the environment
+SQL Server is running but the database is not deployed.
 
 #### Solution
 
-Run `dos2unix` on the src/NHSD.BuyingCatalogue.Database.Deployment/entrypoint.sh script.
+1. View the logs of the db_deploy container.
+2. If the logs contain `standard_init_linux.go:211: exec user process caused "no such file or directory"`, then run `dos2unix` on the src/NHSD.BuyingCatalogue.Database.Deployment/entrypoint.sh script.
 
 ### Error
 
