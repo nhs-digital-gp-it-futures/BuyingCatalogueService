@@ -234,19 +234,15 @@ bash tear_down_environment.sh i
 
 ## Troubleshooting
 
-### Problem
+### SQL Server is running but there is no database
 
-SQL Server is running but the database is not deployed.
+The `dacpac` deployment takes a few seconds to initialize and complete so it is not unusual for there to be a slight delay between SQL server initializing and the database being ready for use; upon completion `Database setup complete` is logged to the console.
 
-#### Solution
+### SQL Server is running but the database is not deployed after a couple of minutes
 
 1. View the logs of the db_deploy container.
 2. If the logs contain `standard_init_linux.go:211: exec user process caused "no such file or directory"`, then run `dos2unix` on the src/NHSD.BuyingCatalogue.Database.Deployment/entrypoint.sh script.
 
-### Error
-
- "Start Buying Catalogue API failed, could not get a successful health status from 'http://localhost:8080/health/live' after trying for '01:00'"
-
-#### Solution
+### "Start Buying Catalogue API failed, could not get a successful health status from 'http://localhost:8080/health/live' after trying for '01:00'"
 
 Have you remembered to run `Launch Environment.ps1 i` :) ?
