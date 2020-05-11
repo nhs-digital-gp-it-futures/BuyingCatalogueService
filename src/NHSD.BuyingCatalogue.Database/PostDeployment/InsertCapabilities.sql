@@ -17,6 +17,9 @@
     When adding, editing or removing a capability only the next statement should need
     to be edited unless one of the consistent values listed above above differs
     when adding or editing.
+
+    If the ID of an existing capability changes please check the InsertSolutions.sql
+    script for any references and update as necessary.
 */
 
 INSERT INTO @capabilities(Id, CapabilityRef, [Name], [Description], PageUrl, IsFoundation)
