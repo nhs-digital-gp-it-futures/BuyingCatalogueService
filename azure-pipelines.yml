@@ -1,6 +1,7 @@
 variables:
   dockerVersion: '19.03.5'
-  dotnetVersion: '3.1.101'
+  dotnetVersion: '3.x'
+  MSBUILDSINGLELOADCONTEXT: '1'
 
 trigger:
 - master
@@ -74,6 +75,7 @@ steps:
 
 - task: DockerCompose@0
   displayName: 'Docker Build: Dev'
+  condition: and(succeeded(), ne(variables['build.reason'], 'PullRequest'))
   inputs:
     azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
     azureContainerRegistry: '{"loginServer":"gpitfuturesdevacr.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-dev-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturesdevacr"}'
