@@ -15,4 +15,5 @@ RUN wget https://go.microsoft.com/fwlink/?linkid=2128144 -O sqlpackage.zip \
 COPY --from=dacpacbuild ~/dacpac/build/*.dacpac .
 COPY NHSD.BuyingCatalogue.Database.Deployment/entrypoint.sh .
 COPY NHSD.BuyingCatalogue.Database/PostDeployment .
+RUN chmod a+x entrypoint.sh
 ENTRYPOINT ["./entrypoint.sh"]
