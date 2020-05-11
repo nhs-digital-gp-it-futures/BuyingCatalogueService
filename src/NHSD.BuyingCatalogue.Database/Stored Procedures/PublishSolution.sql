@@ -6,13 +6,13 @@ AS
     BEGIN TRANSACTION;
 
     BEGIN TRY
-        DECLARE @emptyGuid AS uniqueidentifier = 0x0;
+        DECLARE @emptyGuid AS uniqueidentifier = CAST(0x0 AS uniqueidentifier);
         DECLARE @solutionDetailId AS uniqueidentifier;
 
         UPDATE dbo.Solution
            SET PublishedStatusId = 3,
                AuthorityStatusId = 2,
-               Supplierstatusid = 3
+               SupplierStatusId = 3
          WHERE Id = @SolutionId;
 
         SELECT @solutionDetailId = SolutionDetailId

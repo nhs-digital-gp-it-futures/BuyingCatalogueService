@@ -2,7 +2,7 @@
      @SolutionId varchar(14),
      @SolutionName varchar(255),
      @IsFoundation bit,
-     @Capabilities solutionimportcapability READONLY
+     @Capabilities dbo.SolutionImportCapability READONLY
 AS
     SET NOCOUNT ON;
 
@@ -10,7 +10,7 @@ AS
 
     BEGIN TRY
         DECLARE @draft AS int = 1;
-        DECLARE @emptyGuid AS uniqueidentifier = 0x0;
+        DECLARE @emptyGuid AS uniqueidentifier = CAST(0x0 AS uniqueidentifier);
         DECLARE @frameworkId AS varchar(10) = 'NHSDGP001';
         DECLARE @passedFull AS int = 1;
         DECLARE @solutionDetailId AS uniqueidentifier;

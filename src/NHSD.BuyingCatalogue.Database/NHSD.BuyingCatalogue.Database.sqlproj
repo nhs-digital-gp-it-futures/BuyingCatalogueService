@@ -107,6 +107,8 @@
     <Build Include="Types\SolutionImportCapability.sql" />
     <Build Include="Stored Procedures\SolutionImport.sql" />
     <Build Include="Stored Procedures\PublishSolution.sql" />
+    <Build Include="Stored Procedures\AdditionalServiceImport.sql" />
+    <Build Include="Types\AdditionalServiceImportCapability.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="INSERT_TEST_DATA">
