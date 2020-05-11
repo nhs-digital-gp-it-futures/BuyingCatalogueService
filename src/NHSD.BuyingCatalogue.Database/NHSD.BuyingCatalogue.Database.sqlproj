@@ -72,6 +72,8 @@
     <Folder Include="PostDeployment" />
     <Folder Include="Security\Roles" />
     <Folder Include="PostDeployment\IntegrationTests" />
+    <Folder Include="Types" />
+    <Folder Include="Stored Procedures" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\SolutionCapabilityStatus.sql" />
@@ -102,6 +104,9 @@
     <None Include="PostDeployment\IntegrationTests\DropUserAndLogin.sql" />
     <None Include="PostDeployment\IntegrationTests\PostDeployment.sql" />
     <None Include="PostDeployment\IntegrationTests\RestoreUserAndLogin.sql" />
+    <Build Include="Types\SolutionImportCapability.sql" />
+    <Build Include="Stored Procedures\SolutionImport.sql" />
+    <Build Include="Stored Procedures\PublishSolution.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="INSERT_TEST_DATA">
