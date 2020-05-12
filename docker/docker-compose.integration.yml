@@ -32,8 +32,8 @@ services:
     image: ${REGISTRY:-nhsd}/buying-catalogue/db-deploy:${TAG:-latest}
     container_name: nhsd_bc_integration_db_deploy
     build:
-      context: "../src"
-      dockerfile: "NHSD.BuyingCatalogue.Database.Deployment/Dockerfile"
+      context: ".."
+      dockerfile: "src/NHSD.BuyingCatalogue.Database.Deployment/Dockerfile"
     environment:
       <<: *saPassword
       DB_NAME: "buyingcatalogue-integration"
