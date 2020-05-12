@@ -1,5 +1,40 @@
-<Project Sdk="MSBuild.Sdk.SqlProj/1.0.1">
+<Project Sdk="MSBuild.Sdk.SqlProj/1.1.0">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Security\Logins\NHSD.sql" Link="Security\Logins\NHSD.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Security\Roles\Api.sql" Link="Security\Roles\Api.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Security\Roles\Importer.sql" Link="Security\Roles\Importer.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Security\Roles\Publisher.sql" Link="Security\Roles\Publisher.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Security\Schemas\import.sql" Link="Security\Schemas\import.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Security\Schemas\publish.sql" Link="Security\Schemas\publish.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Security\Users\NHSD.sql" Link="Security\Users\NHSD.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Stored Procedures\ImportAdditionalService.sql" Link="Stored Procedures\ImportAdditionalService.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Stored Procedures\ImportSolution.sql" Link="Stored Procedures\ImportSolution.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Stored Procedures\PublishSolution.sql" Link="Stored Procedures\PublishSolution.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Tables\Capability.sql" Link="Tables\Capability.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Tables\CapabilityCategory.sql" Link="Tables\CapabilityCategory.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Tables\CapabilityStatus.sql" Link="Tables\CapabilityStatus.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Tables\CompliancyLevel.sql" Link="Tables\CompliancyLevel.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Tables\Epic.sql" Link="Tables\Epic.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Tables\Framework.sql" Link="Tables\Framework.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Tables\FrameworkCapabilities.sql" Link="Tables\FrameworkCapabilities.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Tables\FrameworkSolutions.sql" Link="Tables\FrameworkSolutions.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Tables\MarketingContact.sql" Link="Tables\MarketingContact.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Tables\PublicationStatus.sql" Link="Tables\PublicationStatus.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Tables\Solution.sql" Link="Tables\Solution.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Tables\SolutionAuthorityStatus.sql" Link="Tables\SolutionAuthorityStatus.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Tables\SolutionCapability.sql" Link="Tables\SolutionCapability.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Tables\SolutionCapabilityStatus.sql" Link="Tables\SolutionCapabilityStatus.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Tables\SolutionDetail.sql" Link="Tables\SolutionDetail.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Tables\SolutionEpic.sql" Link="Tables\SolutionEpic.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Tables\SolutionEpicStatus.sql" Link="Tables\SolutionEpicStatus.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Tables\SolutionSupplierStatus.sql" Link="Tables\SolutionSupplierStatus.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Tables\Supplier.sql" Link="Tables\Supplier.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Tables\SupplierContact.sql" Link="Tables\SupplierContact.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Types\AdditionalServiceCapability.sql" Link="Types\AdditionalServiceCapability.sql" />
+    <Content Include="..\NHSD.BuyingCatalogue.Database\Types\SolutionCapability.sql" Link="Types\SolutionCapability.sql" />
+  </ItemGroup>
 </Project>
