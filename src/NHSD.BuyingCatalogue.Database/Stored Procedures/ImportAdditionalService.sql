@@ -1,9 +1,9 @@
-﻿CREATE PROCEDURE dbo.AdditionalServiceImport
+﻿CREATE PROCEDURE import.ImportAdditionalService
      @AdditionalServiceId varchar(14),
      @ServiceName varchar(255),
      @ServiceSummary varchar(300),
      @ServiceDescription varchar(3000),
-     @Capabilities dbo.AdditionalServiceImportCapability READONLY
+     @Capabilities import.AdditionalServiceCapability READONLY
 AS
     SET NOCOUNT ON;
 

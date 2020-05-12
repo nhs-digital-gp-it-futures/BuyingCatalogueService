@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE dbo.PublishSolution
+﻿CREATE PROCEDURE publish.PublishSolution
      @SolutionId varchar(16)
 AS
     SET NOCOUNT ON;

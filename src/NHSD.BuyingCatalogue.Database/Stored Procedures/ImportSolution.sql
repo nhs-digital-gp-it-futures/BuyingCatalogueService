@@ -1,8 +1,8 @@
-﻿CREATE PROCEDURE dbo.SolutionImport
+﻿CREATE PROCEDURE import.ImportSolution
      @SolutionId varchar(14),
      @SolutionName varchar(255),
      @IsFoundation bit,
-     @Capabilities dbo.SolutionImportCapability READONLY
+     @Capabilities import.SolutionCapability READONLY
 AS
     SET NOCOUNT ON;
 

@@ -74,6 +74,7 @@
     <Folder Include="PostDeployment\IntegrationTests" />
     <Folder Include="Types" />
     <Folder Include="Stored Procedures" />
+    <Folder Include="Security\Schemas" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\SolutionCapabilityStatus.sql" />
@@ -105,12 +106,24 @@
     <None Include="PostDeployment\IntegrationTests\PostDeployment.sql" />
     <None Include="PostDeployment\IntegrationTests\RestoreUserAndLogin.sql" />
     <Build Include="Types\SolutionImportCapability.sql" />
-    <Build Include="Stored Procedures\SolutionImport.sql" />
+    <Build Include="Stored Procedures\ImportSolution.sql" />
     <Build Include="Stored Procedures\PublishSolution.sql" />
-    <Build Include="Stored Procedures\AdditionalServiceImport.sql" />
+    <Build Include="Stored Procedures\ImportAdditionalService.sql" />
     <Build Include="Types\AdditionalServiceImportCapability.sql" />
+    <Build Include="Security\Schemas\import.sql" />
+    <Build Include="Security\Schemas\publish.sql" />
+    <Build Include="Security\Roles\Importer.sql" />
+    <Build Include="Security\Roles\Publisher.sql" />
   </ItemGroup>
   <ItemGroup>
+    <SqlCmdVariable Include="INCLUDE_IMPORT">
+      <DefaultValue>True</DefaultValue>
+      <Value>$(SqlCmdVar__3)</Value>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="INCLUDE_PUBLISH">
+      <DefaultValue>True</DefaultValue>
+      <Value>$(SqlCmdVar__4)</Value>
+    </SqlCmdVariable>
     <SqlCmdVariable Include="INSERT_TEST_DATA">
       <DefaultValue>True</DefaultValue>
       <Value>$(SqlCmdVar__2)</Value>
@@ -127,6 +140,8 @@
     <None Include="PostDeployment\InsertFrameworks.sql" />
     <None Include="PostDeployment\InsertSolutions.sql" />
     <None Include="PostDeployment\InsertSuppliers.sql" />
+    <None Include="PostDeployment\DropImport.sql" />
+    <None Include="PostDeployment\DropPublish.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="PostDeployment\PostDeployment.sql" />
