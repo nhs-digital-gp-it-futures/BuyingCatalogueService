@@ -105,11 +105,11 @@
     <None Include="PostDeployment\IntegrationTests\DropUserAndLogin.sql" />
     <None Include="PostDeployment\IntegrationTests\PostDeployment.sql" />
     <None Include="PostDeployment\IntegrationTests\RestoreUserAndLogin.sql" />
-    <Build Include="Types\SolutionImportCapability.sql" />
+    <Build Include="Types\SolutionCapability.sql" />
     <Build Include="Stored Procedures\ImportSolution.sql" />
     <Build Include="Stored Procedures\PublishSolution.sql" />
     <Build Include="Stored Procedures\ImportAdditionalService.sql" />
-    <Build Include="Types\AdditionalServiceImportCapability.sql" />
+    <Build Include="Types\AdditionalServiceCapability.sql" />
     <Build Include="Security\Schemas\import.sql" />
     <Build Include="Security\Schemas\publish.sql" />
     <Build Include="Security\Roles\Importer.sql" />
