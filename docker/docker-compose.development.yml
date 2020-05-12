@@ -24,7 +24,9 @@ services:
       ACCEPT_EULA: "Y"
     healthcheck:
       test: '/opt/mssql-tools/bin/sqlcmd -b -d buyingcatalogue -U sa -P $${SA_PASSWORD} -Q "IF NOT EXISTS (SELECT * FROM dbo.Epic) THROW 50000, ''Not ready'', 0;"'
-      interval: 30s
+      interval: 20s
+      retries: 4
+      start_period: 40s
       timeout: 10s
     ports:
       - "1433:1433"
