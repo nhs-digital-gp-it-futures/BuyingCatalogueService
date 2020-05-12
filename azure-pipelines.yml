@@ -21,13 +21,6 @@ steps:
     dockerVersion: $(dockerVersion)
   displayName: 'Docker: Install - $(dockerVersion)'
 
-- task: AzurePowerShell@4
-  displayName: 'Setup Test Database'
-  inputs:
-    azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
-    ScriptPath: 'Setup Integration Db.ps1'
-    azurePowerShellVersion: LatestVersion
-
 - task: UseDotNet@2
   displayName: 'Use DotNet Core $(dotnetVersion)'
   inputs:
@@ -38,7 +31,7 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
-    projects: NHSD.BuyingCatalogue.sln
+    projects: src/NHSD.BuyingCatalogue.API/NHSD.BuyingCatalogue.API.csproj
 
 - task: DotNetCoreCLI@2
   displayName: Publish
@@ -51,7 +44,7 @@ steps:
     modifyOutputPath: false
 
 - script: |
-    docker-compose build --no-cache
+    docker-compose -f "docker/docker-compose.yml" -f "docker/docker-compose.integration.yml" build --no-cache
     docker-compose -f "docker/docker-compose.yml" -f "docker/docker-compose.integration.yml" up -d
     docker ps -a
 

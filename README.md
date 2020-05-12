@@ -1,236 +1,248 @@
-
-
 # BuyingCatalogueService - Service architecture for the NHS Digital Buying Catalogue
+
 .Net Core application, based on a service architecture.
 
-## IMPORTANT NOTES!
+## IMPORTANT NOTES
+
 **You can use either the latest version of Visual Studio or .NET CLI for Windows, Mac and Linux**.
 
 ### Architecture overview
-This application uses <b>.NET core</b> to provide an API capable of running on Linux or Windows.
 
-> For the frontend web application see <a>https://github.com/nhs-digital-gp-it-futures/public-browse</a>.
+This application uses **.NET core** to provide an API capable of running on Linux or Windows.
+
+> For the frontend web application see <https://github.com/nhs-digital-gp-it-futures/public-browse>
 >
-> For the data model see <a>https://github.com/nhs-digital-gp-it-futures/DataModel</a>
+> For the data model see <https://github.com/nhs-digital-gp-it-futures/DataModel>
 
 ### Overview of the application code
-This repo consists of one service to provide multiple resource endpoints for the NHS Digitial Buying Catalogue application using <b>.NET Core</b> and <b>Docker</a>.
+
+This repo consists of one service to provide multiple resource endpoints for the NHS Digitial Buying Catalogue application using **.NET Core** and **Docker**.
 
 The application is broken down into the following project libraries:
 
-- API - Defines and exposes the available Buying Catalogue resources to the frontend
-- Application - Provides the different use cases and functionality for the Buying Catalogue
-- Domain - Defines the entities and business logic for the application
-- Persistence Layer - Provides access and storage for the Buying Catalogue data
+- API – defines and exposes the available Buying Catalogue resources to the frontend
+- Application – provides the different use cases and functionality for the Buying Catalogue
+- Domain – defines the entities and business logic for the application
+- Persistence Layer – provides access and storage for the Buying Catalogue data
 
 ## Setting up your development environment for the Buying Catalogue
 
 ### Requirements
+
 - .NET Core Version 3.0
 - Docker
-- Data Model repository
 
-> Before you begin please install <b>.NET Core 3.0</b> & <b>Docker</b> on your machine.
-> Also download and store the Buying Catalogue Data Model repository along side this repository.
+> Before you begin please install **.NET Core 3.0** & **Docker** on your machine.
 
+## Running the API
 
-# Running the API
+### On a Windows Box
 
-
-## On a Windows Box
-*All scripts are meant to be run in PowerShell from within this directory*
+*All scripts are meant to be run in PowerShell from within this directory.*
 
 To run the application in a container in development environment, run the following script:
 
-```
+```powershell
  & '.\Launch Environment.ps1'
 ```
 
-You can now access the API in your browser at 'http://localhost:8080/swagger/index.html'
+You can now access the API in your browser at <http://localhost:8080/swagger/index.html>.
 
-To stop the application running in a container and to delete the associated images, run the command: 
+To stop the application running in a container and to delete the associated images, run the command:
 
-```
+```powershell
 & '.\Tear Down Environment.ps1'
 ```
 
-### Extra flags
-- Attached mode - directs docker-compose output to your CLI
-    ```
+#### Extra flags
+
+- Attached mode – directs docker-compose output to your CLI
+
+    ```powershell
     & '.\Launch Environment.ps1' -a
     ```
-- Clean mode - removes all images, resources and networks
-    ```
+
+- Clean mode – removes all images, resources and networks
+
+    ```powershell
     & '.\Tear Down Environment.ps1' -c
     ```
-- Quiet mode - doesn't do a `docker ps -a ` after finishing
-    ```
+
+- Quiet mode – doesn't do a `docker ps -a` after finishing
+
+    ```powershell
     & '.\Launch Environment.ps1' -q
     ```
-    or 
-    ```
+
+    or
+
+    ```powershell
     & '.\Tear Down Environment.ps1' -q
     ```
 
-## On a Linux/Mac Box
-*All scripts are meant to be run in bash from within this directory*
+### On a Linux/Mac Box
+
+*All scripts are meant to be run in bash from within this directory.*
 
 To run the application in a container in development environment, run the following script:
-```
+
+```bash
 bash launch_environment.sh
 ```
-You can now access the API in your browser at 'http://localhost:8080/swagger/index.html'
+
+You can now access the API in your browser at <http://localhost:8080/swagger/index.html>.
 
 To stop the application running in a container and to delete the associated images:
-```
+
+```bash
 bash tear_down_environment.sh
 ```
-### Extra flags
-- Attached mode - directs docker-compose output to your CLI
-    ```
+
+#### Extra flags
+
+- Attached mode – directs docker-compose output to your CLI
+
+    ```bash
     bash launch_environment.sh -a
     ```
-- Clean mode - removes all images, resources and networks
-    ```
+
+- Clean mode – removes all images, resources and networks
+
+    ```bash
     bash tear_down_environment.sh -c
     ```
-- Quiet mode - doesn't do a `docker ps -a ` after finishing
-    ```
+
+- Quiet mode – doesn't do a `docker ps -a` after finishing
+
+    ```bash
     bash launch_environment.sh -q
     ```
-    or 
-    ```
+
+    or
+
+    ```bash
     bash tear_down_environment.sh -q
     ```
-</p>
 
 ## Local Debugging
 
-Firstly, run 'Create Local Db' script
-
-### On a Windows box
-```
-& '.\Create Local Db.ps1'
-```
-
-### On Linux/Mac box
-```
-bash create_local_db.sh
-```
+Launch the environment as described above in [Running the API](#running-the-api).
 
 Secondly, copy and paste the connection string into your [User Secrets file](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-3.1&tabs=windows#how-the-secret-manager-tool-works). Your file should have this format:
-```
+
+```json
 {
   "ConnectionStrings": {
-    "BuyingCatalogue": "Data Source=127.0.0.1,$port;Initial Catalog=$db_name;MultipleActiveResultSets=True;User Id=$username;Password=$password"
+    "BuyingCatalogue": "Data Source=.,1433;Initial Catalog=buyingcatalogue;MultipleActiveResultSets=True;User Id=NHSD;Password=DisruptTheMarket1!"
   }
 }
 ```
-Lastly, run the API - either through your favourite IDE or using your favourite shell - from root of the directory run
-```
+
+Lastly, run the API – either through your favourite IDE or using your favourite shell. From the solution root directory run
+
+```shell
 dotnet run --project ./src/NHSD.BuyingCatalogue.API
 ```
 
-### Flags
-The scripts have default values for the port that your database listens on, username and password, but they can be specified by passing them when calling the script like so:
+## Integration Tests
 
-### Windows:
-```
-& '.\Create Local Db.ps1' 1420 MyTestUser MyT3stP@ssword!
-```
+Integration tests and persistence Tests run against Docker containers of the service, a [mock of the document API](tests/NHSD.BuyingCatalogue.Documents.API.WireMock/README.md), and the database.
 
-### Bash:
-```
-bash create_local_db.sh 1420 MyTestUser MyT3stP@ssword!
-```
+### On a Windows Box
 
-This would run the database on port 1420, create an user with the id 'MyTestUser' and set its password to 'MyT3stP@ssword!'
+#### Before running tests
 
-
-# Integration Tests
-
-Integration Tests and Persistence Tests run against Docker containers of service, a [mock of the document api](tests/NHSD.BuyingCatalogue.Documents.API.WireMock/README.md), and the database.
-These tests rely on a docker image 'integration_db', this image must be created before running any tests. [How to is listed below.](#integration_db_setup_id).
-
-<br/>
-
-## On a Windows Box
-
-### Before running tests
-```
+```powershell
 '.\Launch Environment.ps1' i
 ```
-### Running tests
-```
+
+#### Running tests
+
+```powershell
 & '.\Run Component Tests.ps1'
 ```
-or
-Test Explorer in your favourite IDE
 
-### After running tests
-```
+or via the test runner in your favourite IDE.
+
+#### After running tests
+
+```powershell
 & '.\Tear Down Environment.ps1' i
 ```
 
-### Extra flags
-- Attached mode - directs docker-compose output to your CLI
-    ```
+#### Extra flags
+
+- Attached mode – directs docker-compose output to your CLI
+
+    ```powershell
     & '.\Launch Environment.ps1' i -a
     ```
-- Quiet mode - doesn't do a `docker ps -a ` after finishing
-    ```
+
+- Quiet mode – doesn't do a `docker ps -a` after finishing
+
+    ```powershell
     & '.\Launch Environment.ps1' i -q
     ```
+
     or 
-    ```
+
+    ```powershell
     & '.\Tear Down Environment.ps1' i -q
     ```
 
-## On a Linux/Mac Box
+### On a Linux/Mac Box
 
-### Before running tests
-```
+#### Before running tests
+
+```bash
 bash launch_environment.sh i
 ```
-### Running tests
-```
+
+#### Running tests
+
+```bash
 bash run_component_tests.sh
 ```
-or
-Test Explorer in your favourite IDE
 
-### After running tests
-```
+or via the test runner in your favourite IDE.
+
+#### After running tests
+
+```bash
 bash tear_down_environment.sh i
 ```
-### Extra flags
-- Attached mode - directs docker-compose output to your CLI
-    ```
+
+#### Extra flags
+
+- Attached mode – directs docker-compose output to your CLI
+
+    ```bash
     bash launch_environment.sh i -a
     ```
-- Quiet mode - doesn't do a `docker ps -a ` after finishing
-    ```
+
+- Quiet mode – doesn't do a `docker ps -a` after finishing
+
+    ```bash
     bash launch_environment.sh i -q
     ```
-    or 
-    ```
+
+    or
+
+    ```bash
     bash tear_down_environment.sh i -q
     ```
 
-## <a name="integration_db_setup_id"></a> Integration db setup
-In order to speed up the API Integration test execution, a docker image which contains all the data needed has been build.
-This docker image needs to be built locally before running the API Integration tests. It only needs to be built once, and then updated every time the DataModel changes.
-To build / update the image run the 'setup integration db' script either in PowerShell or Bash
-
-### Running the Script
-| CLI | Command |
-|---------------|--------------------|
-|`bash` | `bash setup_integration_db.sh` |
-| `PowerShell` | `& '.\Setup Integration Db.ps1'` |
-
 ## Troubleshooting
-- `./integration-entrypoint.sh: line 2: $'\r': command not found` during the image build
- run `dos2unix` on the integration-entrypoint.sh script
 
- - Error: "Start Buying Catalogue API failed, could not get a successful health status from 'http://localhost:8080/health/live' after trying for '01:00'"
+### SQL Server is running but there is no database
+
+The `dacpac` deployment takes a few seconds to initialize and complete so it is not unusual for there to be a slight delay between SQL server initializing and the database being ready for use; upon completion `Database setup complete` is logged to the console.
+
+### SQL Server is running but the database is not deployed after a couple of minutes
+
+1. View the logs of the db_deploy container.
+2. If the logs contain `standard_init_linux.go:211: exec user process caused "no such file or directory"`, then run `dos2unix` on the src/NHSD.BuyingCatalogue.Database.Deployment/entrypoint.sh script.
+
+### "Start Buying Catalogue API failed, could not get a successful health status from 'http://localhost:8080/health/live' after trying for '01:00'"
+
 Have you remembered to run `Launch Environment.ps1 i` :) ?

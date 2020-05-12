@@ -17,12 +17,12 @@ function determine_environment() {
 
 function clean_out_directory() {
     if (Test-Path -Path "$out_directory"){
-        rm -Force -Recurse "$out_directory"
+        Remove-Item -Force -Recurse "$out_directory"
     }
 }
 
 function build_api_locally() {
-    dotnet build .\NHSD.BuyingCatalogue.sln --configuration Release
+    dotnet build src\NHSD.BuyingCatalogue.API\NHSD.BuyingCatalogue.API.csproj --configuration Release
     clean_out_directory
     dotnet publish "src\NHSD.BuyingCatalogue.API\NHSD.BuyingCatalogue.API.csproj" --configuration Release --output "$out_directory"
 }
@@ -33,10 +33,12 @@ function spin_containers_up {
     if ($a) {
         $Args=""
     }
-    cd docker
+    
+    Set-Location docker
     docker-compose build --no-cache
-    cd ..
+    Set-Location ..
     Invoke-Expression "$DockerComposeUp $Args"
+
     if (!$q) {
         docker ps -a
     }
@@ -47,8 +49,6 @@ function launch_environment(){
     spin_containers_up
 }
 
-
 $env:MSBUILDSINGLELOADCONTEXT = '1'
 $env=determine_environment
 launch_environment
-
