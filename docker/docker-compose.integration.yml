@@ -41,6 +41,8 @@ services:
       DB_NAME: "buyingcatalogue-integration"
       DB_SERVER: db
       NHSD_PASSWORD: "DisruptTheMarket1!"
+      INCLUDE_IMPORT: "NO"
+      INCLUDE_PUBLISH: "NO"
       INSERT_TEST_DATA: "NO"
       INTEGRATION_TEST: "TRUE"
 
