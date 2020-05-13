@@ -41,7 +41,6 @@ jobs:
     displayName: 'Copy PostDeployment Scripts to: $(build.artifactstagingdirectory)/database'
     inputs:
       SourceFolder: 'src/NHSD.BuyingCatalogue.Database'
-      Contents: '**/PostDeployment/**/*'
       Contents: |
         **/PostDeployment/**/*
         !**/PostDeployment/IntegrationTests/**/*
