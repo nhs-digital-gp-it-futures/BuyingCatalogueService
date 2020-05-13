@@ -2,17 +2,45 @@
 
 ## Background
 
-The SQL Server Database Project format (`*.sqlproj`) has not been ported to .NET Core yet, so it is only possible to build the `NHSD.BuyingCatalogue.Database` project on a Windows machine.
+The SQL Server Database Project format (`*.sqlproj`) has not been ported to .NET Core yet, so it is only possible to build the [`NHSD.BuyingCatalogue.Database`](../NHSD.BuyingCatalogue.Database) project on a Windows machine.
 
-The `NHSD.BuyingCatalogue.Database.Deployment` project exists to generate the `.dacpac` file used to deploy the database to the containerized SQL Server instance and as a container for database deployment artefacts, currently only the Dockerfile and the entrypoint script for the deployment container.
+The `NHSD.BuyingCatalogue.Database.Deployment` project exists to generate the `.dacpac` file used to deploy the database to the containerized SQL Server instance and as a container for database deployment artefacts, currently the Dockerfile and the [entrypoint](#entrypoint.sh) script for the deployment container.
+
+The deployment project contains links to the SQL files defined in the [`NHSD.BuyingCatalogue.Database`](../NHSD.BuyingCatalogue.Database) project. These links ensure that the `.dacpac` file is built correctly in the DevOps pipelines. Please see the section below for any notes related to [making changes](#making-changes).
 
 ## Limitations
 
-The SDK used to generate the `.dacpac` does not currently support post-deployment scripts. Post-deployment actions are currently initiated by the [entrypoint.sh](#entrypoint.sh) script.
+The SDK used to generate the `.dacpac` does not currently support include files (`:r` command) in post-deployment scripts, so post-deployment actions are currently initiated by the [entrypoint](#entrypoint.sh) script.
 
 ## Making Changes
 
-Changes to the contents of this project should only be required when making changes to the database deployment process for the development and test environments. All database schema changes need to be made in the `NHSD.BuyingCatalogue.Database` project.
+Changes to the contents of this project will be required when adding new database artefacts (anything other than pre- or post-deployment scripts) or when making changes to the database deployment process for the development and test environments.
+
+No changes to the deployment project should be required when amending existing scripts.
+
+All database schema changes need to be made in the `NHSD.BuyingCatalogue.Database` project.
+
+### Adding new database artefacts
+
+When adding a new database artefact (other than a pre- or post-deployment script) to the database, you will need to add a link to the deployment project to ensure that the `.dacpac` generated in the DevOps pipelines remains correct.
+
+#### Adding a linked file to the deployment project
+
+There are two ways to add a linked file to the database deployment project.
+
+1. Edit the project file directly. An existing link can be used as a template.
+2. Using the UI in Visual Studio.
+    1. Right-click on the deployment project and select `Add->Existing Item...` or hit Shift+Alt+A.
+    2. Select the file(s) you've just added to the database project.
+    3. Click the drop-down arrow next to `Add` and select `Add As Link`.
+
+##### Build Action
+
+The build action for the linked files **must** be set to `Content.`
+
+##### Logical Directories
+
+It is possible to reflect the directory structure of the database project in the deployment project by editing the value of the `Link` attribute of the relevant file element(s) (in the project file).
 
 ## Deployment Artefacts
 
