@@ -34,7 +34,7 @@ jobs:
     displayName: Build
     inputs:
       command: 'build'
-      projects: src/NHSD.BuyingCatalogue.Database.Deployment.csproj
+      projects: src/NHSD.BuyingCatalogue.Database.Deployment/NHSD.BuyingCatalogue.Database.Deployment.csproj
       arguments: '-o $(build.artifactstagingdirectory)/build'
   
   - task: CopyFiles@2
