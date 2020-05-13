@@ -16,7 +16,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 jobs:
-- job: build db
+- job: buildDb
   displayName: 'Build database project & publish dacpac'
 
   steps:
