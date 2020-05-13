@@ -42,6 +42,9 @@ jobs:
     inputs:
       SourceFolder: 'src/NHSD.BuyingCatalogue.Database'
       Contents: '**/PostDeployment/**/*'
+      Contents: |
+        **/PostDeployment/**/*
+        !**/PostDeployment/IntegrationTests/**/*
       TargetFolder: '$(build.artifactstagingdirectory)/database'
       CleanTargetFolder: true
   
