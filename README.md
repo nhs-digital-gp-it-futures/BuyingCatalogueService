@@ -11,8 +11,6 @@
 This application uses **.NET core** to provide an API capable of running on Linux or Windows.
 
 > For the frontend web application see <https://github.com/nhs-digital-gp-it-futures/public-browse>
->
-> For the data model see <https://github.com/nhs-digital-gp-it-futures/DataModel>
 
 ### Overview of the application code
 
