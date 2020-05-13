@@ -142,6 +142,7 @@
     <None Include="PostDeployment\InsertSuppliers.sql" />
     <None Include="PostDeployment\DropImport.sql" />
     <None Include="PostDeployment\DropPublish.sql" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="PostDeployment\PostDeployment.sql" />
