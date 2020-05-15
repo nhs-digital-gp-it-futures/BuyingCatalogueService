@@ -31,6 +31,7 @@ jobs:
       SourceFolder: src
       Contents: '**\*.dacpac'
       TargetFolder: '$(build.artifactstagingdirectory)/database'
+      FlattenFolders: true
       CleanTargetFolder: true
 
   - task: PublishBuildArtifacts@1
