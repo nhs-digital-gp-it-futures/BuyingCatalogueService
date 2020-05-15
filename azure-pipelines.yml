@@ -12,48 +12,28 @@ pr:
 - master
 - development
 
-pool:
-  vmImage: 'ubuntu-latest'
-
 jobs:
 - job: buildDb
   displayName: 'Build database project & publish dacpac'
 
+  pool:
+    vmImage: windows-2019
+
   steps:
+
+  - task: VSBuild@1
+    displayName: 'Build sqlproj' 
+    inputs:
+      solution: src/NHSD.BuyingCatalogue.Database/NHSD.BuyingCatalogue.Database.sqlproj
+
   - task: CopyFiles@2
-    displayName: 'Copy SQL Files to deployment project'
+    displayName: 'Copy Files to: $(build.artifactstagingdirectory)/database'
     inputs:
-      SourceFolder: 'src/NHSD.BuyingCatalogue.Database'
-      Contents: |
-        **/*.sql
-        !**/PostDeployment/**/*
-      TargetFolder: 'src/NHSD.BuyingCatalogue.Database.Deployment'
-      OverWrite: true
-  
-  - task: DotNetCoreCLI@2
-    displayName: Build
-    inputs:
-      command: 'build'
-      projects: src/NHSD.BuyingCatalogue.Database.Deployment/NHSD.BuyingCatalogue.Database.Deployment.csproj
-      arguments: '-o $(build.artifactstagingdirectory)/build'
-  
-  - task: CopyFiles@2
-    displayName: 'Copy PostDeployment Scripts to: $(build.artifactstagingdirectory)/database'
-    inputs:
-      SourceFolder: 'src/NHSD.BuyingCatalogue.Database'
-      Contents: |
-        **/PostDeployment/**/*
-        !**/PostDeployment/IntegrationTests/**/*
+      SourceFolder: src
+      Contents: '**\*.dacpac'
       TargetFolder: '$(build.artifactstagingdirectory)/database'
       CleanTargetFolder: true
-  
-  - task: CopyFiles@2
-    displayName: 'Copy Dacpac to: $(build.artifactstagingdirectory)/database'
-    inputs:
-      SourceFolder: $(build.artifactstagingdirectory)/build
-      Contents: '**/*.dacpac'
-      TargetFolder: '$(build.artifactstagingdirectory)/database'
-  
+
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: database'
     inputs:
@@ -62,6 +42,9 @@ jobs:
 
 - job: dockerBuildAndPush
   displayName: 'Run Unit & Integration tests and build & push docker containers to the acr'
+ 
+  pool:
+    vmImage: 'ubuntu-latest'
 
   steps:
   - task: DockerInstaller@0
