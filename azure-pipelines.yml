@@ -20,7 +20,6 @@ jobs:
     vmImage: windows-2019
 
   steps:
-
   - task: VSBuild@1
     displayName: 'Build sqlproj' 
     inputs:
