@@ -21,5 +21,37 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers
 
             return Ok(result);
         }
+        
+        [HttpGet]
+        [Route("{supplierId}")]
+        public ActionResult Get(string supplierId)
+        {
+            var result = new GetSuppliersResult
+            {
+                SupplierId = $"SupplierId {supplierId}",
+                Name = "Some name",
+                Address = new AddressModel
+                {
+                    Line1 = "Some address",
+                    Line2 = "Some Road",
+                    Line3 = "Line 3 address",
+                    Line4 = "Another line of address",
+                    Line5 = "5th line of address",
+                    Town = "A Town",
+                    County = "Some county",
+                    Postcode = "Some postcode",
+                    Country = "A country"
+                },
+                PrimaryContact = new PrimaryContactModel
+                {
+                    FirstName = "bob",
+                    LastName = "smith",
+                    EmailAddress = "bob.smith@email.com",
+                    TelephoneNumber = "4342345223  3434324"
+                }
+            };
+
+            return Ok(result);
+        }
     }
 }
