@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
@@ -8,8 +9,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
     {
         public ContactsMaxLengthResult(ISimpleResult contact1Result, ISimpleResult contact2Result)
         {
-            Contact1Result = contact1Result.ThrowIfNull();
-            Contact2Result = contact2Result.ThrowIfNull();
+            Contact1Result = contact1Result ?? throw new ArgumentNullException(nameof(contact1Result));
+            Contact2Result = contact2Result ?? throw new ArgumentNullException(nameof(contact2Result));
         }
 
         internal ISimpleResult Contact1Result { get; }

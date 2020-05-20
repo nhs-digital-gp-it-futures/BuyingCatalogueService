@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.SolutionLists.Contracts;
 using NHSD.BuyingCatalogue.SolutionLists.Contracts.Persistence;
@@ -243,7 +242,12 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S13", "Sup1", false, "C1", "C3"));
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(filterCapabilityReferences.ThrowIfNull())), new CancellationToken());
+            if (filterCapabilityReferences is null)
+            {
+                throw new ArgumentNullException(nameof(filterCapabilityReferences));
+            }
+
+            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(filterCapabilityReferences)), new CancellationToken());
 
             solutions.Result.Solutions.Select(s => s.Id).Should().BeEquivalentTo(expectedFilteredSolutions);
         }
@@ -265,7 +269,12 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S13", "Sup2", false, "C1", "C3"));
             _context.MockSolutionListRepository.Setup(r => r.ListAsync(false, It.IsAny<CancellationToken>())).ReturnsAsync(repositorySolutions);
 
-            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(filterCapabilityReferences.ThrowIfNull())), new CancellationToken());
+            if (filterCapabilityReferences is null)
+            {
+                throw new ArgumentNullException(nameof(filterCapabilityReferences));
+            }
+
+            var solutions = _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Filter(filterCapabilityReferences)), new CancellationToken());
 
             solutions.Result.Solutions.Select(s => s.Id).Should().BeEquivalentTo(expectedFilteredSolutions);
         }

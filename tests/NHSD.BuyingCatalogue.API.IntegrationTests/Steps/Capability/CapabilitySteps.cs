@@ -28,7 +28,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Capability
             _response.Result = await Client.GetAsync(ListCapabilitiesUrl).ConfigureAwait(false);
         }
 
-        [Then(@"the capabilities are returned ordered by IsFoundation then Capability Name containing the values")]
+        [Then(@"the capabilities are returned ordered by Capability Name containing the values")]
         public async Task ThenTheCapabilitiesAreReturnedOrderedByIsFoundationThenCapabilityName(Table table)
         {
             var expectedCapabilities = table.CreateSet<CapabilityTable>().Select(t => new

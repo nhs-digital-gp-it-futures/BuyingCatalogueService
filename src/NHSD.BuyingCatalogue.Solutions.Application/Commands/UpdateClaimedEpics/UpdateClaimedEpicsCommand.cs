@@ -1,6 +1,6 @@
+﻿using System;
 using System.Collections.Generic;
 using MediatR;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Epics;
 
@@ -14,8 +14,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateClaimedEpics
 
         public UpdateClaimedEpicsCommand(string solutionId, IEnumerable<IClaimedEpic> data)
         {
-            SolutionId = solutionId.ThrowIfNull(nameof(solutionId));
-
+            SolutionId = solutionId ?? throw new ArgumentNullException(nameof(solutionId));
             Data = data ?? new HashSet<IClaimedEpic>();
         }
     }

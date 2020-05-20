@@ -9,8 +9,11 @@ docker-compose.yml
 docker-compose.*.yml
 Dockerfile
 
-bin
-obj
-*.*proj.user
+**/bin
+**/obj
+**/*.dbmdl
+**/*.jfm
+**/*.sqlproj*
+**/*.*proj.user
 
 NHSD.BuyingCatalogue.ComponentTests.sln

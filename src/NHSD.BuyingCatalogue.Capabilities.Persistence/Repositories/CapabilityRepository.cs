@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Capabilities.Contracts.Persistence;
@@ -22,7 +22,7 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.Repositories
 											ISNULL(IsFoundation, 0) AS IsFoundation
 									FROM	Capability 
 											LEFT OUTER JOIN FrameworkCapabilities ON Capability.Id = FrameworkCapabilities.CapabilityId
-                                    ORDER BY IsFoundation DESC, UPPER(Name) ASC";
+                                    ORDER BY UPPER(Name) ASC";
 
         /// <summary>
         /// Gets a list of <see cref="ICapabilityListResult"/> objects.

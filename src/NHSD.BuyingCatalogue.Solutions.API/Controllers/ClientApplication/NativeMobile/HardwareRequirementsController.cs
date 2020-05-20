@@ -1,10 +1,10 @@
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.ClientApplications.NativeMobile;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionNativeMobileHardwareRequirements;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
@@ -40,7 +40,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Nativ
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> UpdateHardwareRequirements([FromRoute] [Required] string id, [FromBody] [Required] UpdateHardwareRequirementsRequest viewModel) =>
-            (await _mediator.Send(new UpdateSolutionNativeMobileHardwareRequirementsCommand(id, viewModel.ThrowIfNull().HardwareRequirements)).ConfigureAwait(false)).ToActionResult();
+        public async Task<ActionResult> UpdateHardwareRequirements([FromRoute] [Required] string id, [FromBody] [Required] UpdateHardwareRequirementsRequest viewModel)
+        {
+            if (viewModel is null)
+            {
+                throw new ArgumentNullException(nameof(viewModel));
+            }
+
+            return (await _mediator
+                .Send(new UpdateSolutionNativeMobileHardwareRequirementsCommand(id,
+                    viewModel.HardwareRequirements)).ConfigureAwait(false)).ToActionResult();
+        }
     }
 }

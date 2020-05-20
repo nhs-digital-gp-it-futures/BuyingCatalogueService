@@ -1,10 +1,10 @@
+﻿using System;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
-using NHSD.BuyingCatalogue.Infrastructure;
 namespace NHSD.BuyingCatalogue.Data.Infrastructure
 {
     /// <summary>
@@ -17,8 +17,8 @@ namespace NHSD.BuyingCatalogue.Data.Infrastructure
         /// <summary>
         /// Initialises a new instance of the <see cref="DbConnectionFactory"/> class.
         /// </summary>
-        public DbConnectionFactory(ISettings settings)
-            => _settings = settings.ThrowIfNull(nameof(settings));
+        public DbConnectionFactory(ISettings settings) =>
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
 
         /// <summary>
         /// Gets a new database connection.
@@ -34,7 +34,13 @@ namespace NHSD.BuyingCatalogue.Data.Infrastructure
         public async Task<IDbConnection> GetAsync(DbConnectionStringBuilder connectionStringBuilder, CancellationToken cancellationToken)
         {
             var connection = SqlClientFactory.Instance.CreateConnection();
-            connection.ConnectionString = connectionStringBuilder.ThrowIfNull().ConnectionString;
+
+            if (connectionStringBuilder is null)
+            {
+                throw new ArgumentNullException(nameof(connectionStringBuilder));
+            }
+
+            connection.ConnectionString = connectionStringBuilder.ConnectionString;
 
             if (connection is SqlConnection sqlConnection)
             {

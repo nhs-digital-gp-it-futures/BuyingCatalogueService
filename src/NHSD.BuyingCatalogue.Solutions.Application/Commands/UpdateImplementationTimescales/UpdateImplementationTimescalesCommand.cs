@@ -1,5 +1,5 @@
+﻿using System;
 using MediatR;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateImplementationTimescales
@@ -11,7 +11,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateImplementati
 
         public UpdateImplementationTimescalesCommand(string solutionId, string description)
         {
-            SolutionId = solutionId.ThrowIfNull();
+            SolutionId = solutionId ?? throw new ArgumentNullException(nameof(solutionId));
             Description = description;
         }
     }

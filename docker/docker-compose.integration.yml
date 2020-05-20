@@ -1,41 +1,73 @@
 version: '3.5'
 
-services:
+x-networked: &networked
+  networks:
+    - integration_network
 
+x-depends-on-db: &dependsOnDb
+  <<: *networked
+  depends_on:
+    - db
+
+x-sa-password: &saPassword
+  - SA_PASSWORD: "MyTestPassword123!"
+
+services:
   db:
-    image: nhsd/buying-catalogue-integration-db:test
+    <<: *networked
+    image: mcr.microsoft.com/mssql/server:2019-latest
     container_name: nhsd_bc_integration_db
-    networks:
-      - integration_network
+    environment:
+      <<: *saPassword
+      ACCEPT_EULA: "Y"
+    healthcheck:
+      test: '/opt/mssql-tools/bin/sqlcmd -b -d buyingcatalogue-integration -U sa -P $${SA_PASSWORD} -Q "IF NOT EXISTS (SELECT * FROM dbo.Epic) THROW 50000, ''Not ready'', 0;"'
+      interval: 20s
+      retries: 4
+      start_period: 40s
+      timeout: 10s
     ports:
       - "1430:1433"
 
+  dacpac.deploy:
+    <<: *dependsOnDb
+    image: ${REGISTRY:-nhsd}/buying-catalogue/db-deploy:${TAG:-latest}
+    container_name: nhsd_bc_integration_db_deploy
+    build:
+      context: ".."
+      dockerfile: "src/NHSD.BuyingCatalogue.Database.Deployment/Dockerfile"
+    environment:
+      <<: *saPassword
+      DB_NAME: "buyingcatalogue-integration"
+      DB_SERVER: db
+      NHSD_PASSWORD: "DisruptTheMarket1!"
+      INCLUDE_IMPORT: "NO"
+      INCLUDE_PUBLISH: "NO"
+      INSERT_TEST_DATA: "NO"
+      INTEGRATION_TEST: "TRUE"
+
   nhsd.buyingcatalogue.api:
+    <<: *dependsOnDb
     container_name: nhsd_bc_integration_api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      - CONNECTIONSTRINGS__BUYINGCATALOGUE=Server=db;Initial Catalog=gpitfuture-db-dev;Persist Security Info=False;User Id=NHSD;Password=DisruptTheMarket1!
+      - CONNECTIONSTRINGS__BUYINGCATALOGUE=Server=db;Initial Catalog=buyingcatalogue-integration;Persist Security Info=False;User Id=NHSD;Password=DisruptTheMarket1!
       - APICLIENTSETTINGS__DOCUMENTAPI__BASEURL=http://nhsd.buyingcatalogue.documents.api.wiremock:80
-    networks:
-      - integration_network
-    depends_on:
-      - db
     ports:
       - "5200:80"
 
   nhsd.buyingcatalogue.documents.api.wiremock:
-    container_name: documents_api_wiremock
+    <<: *networked
+    container_name: documents_api_integration_wiremock
     image: ${REGISTRY:-nhsd}/buying-catalogue/documents-api-wiremock:${TAG:-latest}
-    build: 
+    build:
       context: ../tests/NHSD.BuyingCatalogue.Documents.API.WireMock/
-      dockerfile: Dockerfile    
-    networks:
-      - integration_network    
+      dockerfile: Dockerfile
     ports:
       - "5201:80"
 
-networks: 
+networks:
   integration_network:
     name: integration_network
     driver: bridge
