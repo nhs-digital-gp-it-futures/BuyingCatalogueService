@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Persistence.Models;
 
@@ -39,7 +38,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         public async Task UpdateSolutionEpicAsync(string solutionId, IUpdateClaimedEpicListRequest request, CancellationToken cancellationToken)
         {
-            request = request.ThrowIfNull(nameof(request));
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
 
             var lastUpdatedBy = new Guid();
 

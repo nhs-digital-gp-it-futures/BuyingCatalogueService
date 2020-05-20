@@ -1,5 +1,5 @@
-﻿using MediatR;
-using NHSD.BuyingCatalogue.Infrastructure;
+﻿using System;
+using MediatR;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Commands;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails
@@ -21,8 +21,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
         /// </summary>
         public UpdateSolutionContactDetailsCommand(string solutionId, IUpdateSolutionContactDetails data)
         {
-            SolutionId = solutionId.ThrowIfNull();
-            Data = data.ThrowIfNull();
+            SolutionId = solutionId ?? throw new ArgumentNullException(nameof(solutionId));
+            Data = data ?? throw new ArgumentNullException(nameof(data));
         }
     }
 }

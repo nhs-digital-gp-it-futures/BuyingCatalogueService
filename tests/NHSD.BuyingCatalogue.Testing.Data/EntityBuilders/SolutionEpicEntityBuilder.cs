@@ -1,38 +1,33 @@
-using System;
+﻿using System;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 {
     public sealed class SolutionEpicEntityBuilder
     {
-        private readonly SolutionEpicEntity _solutionEpicEntity;
         private const int PassedStatusId = 1;
-
-        public static SolutionEpicEntityBuilder Create()
-        {
-            return new SolutionEpicEntityBuilder();
-        }
-
-        /// <summary>
-        /// Status Enum from Integration test reference data:
-        ///     tests\NHSD.BuyingCatalogue.Testing.Data\SqlResources\ReferenceData.sql
-        /// </summary>
-        public enum SolutionEpicStatus
-        {
-            Passed=1,
-            NotEvidenced=2
-        }
+        private readonly SolutionEpicEntity _solutionEpicEntity;
 
         public SolutionEpicEntityBuilder()
         {
-            //Default
-            _solutionEpicEntity = new SolutionEpicEntity()
+            _solutionEpicEntity = new SolutionEpicEntity
             {
                 SolutionId = "SolutionId",
                 CapabilityId = Guid.NewGuid(),
                 EpicId = "EpicId",
                 StatusId = PassedStatusId
             };
+        }
+
+        public enum SolutionEpicStatus
+        {
+            Passed = 1,
+            NotEvidenced = 3
+        }
+
+        public static SolutionEpicEntityBuilder Create()
+        {
+            return new SolutionEpicEntityBuilder();
         }
 
         public SolutionEpicEntityBuilder WithSolutionId(string solutionId)
@@ -52,7 +47,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             _solutionEpicEntity.EpicId = epicId;
             return this;
         }
-        
+
         public SolutionEpicEntityBuilder WithStatus(SolutionEpicStatus status)
         {
             _solutionEpicEntity.StatusId = (int)status;

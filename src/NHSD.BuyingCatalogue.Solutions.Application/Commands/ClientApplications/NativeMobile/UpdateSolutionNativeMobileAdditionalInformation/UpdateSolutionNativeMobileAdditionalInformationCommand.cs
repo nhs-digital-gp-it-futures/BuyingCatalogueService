@@ -1,5 +1,5 @@
+﻿using System;
 using MediatR;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionNativeMobileAdditionalInformation
@@ -12,7 +12,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
 
         public UpdateSolutionNativeMobileAdditionalInformationCommand(string solutionId, string additionalInformation)
         {
-            SolutionId = solutionId.ThrowIfNull();
+            SolutionId = solutionId ?? throw new ArgumentNullException(nameof(solutionId));
             AdditionalInformation = additionalInformation;
         }
     }

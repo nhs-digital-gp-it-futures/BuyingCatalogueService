@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
@@ -17,7 +18,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Capabilities
 
         public ClaimedCapabilitySection(IClaimedCapability capability)
         {
-            capability = capability.ThrowIfNull();
+            if (capability is null)
+            {
+                throw new ArgumentNullException(nameof(capability));
+            }
+
             Name = capability.Name.NullIfWhitespace();
             Version = capability.Version.NullIfWhitespace();
             Description = capability.Description.NullIfWhitespace();

@@ -1,5 +1,5 @@
+﻿using System;
 using MediatR;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionMobileMemoryAndStorage
@@ -12,7 +12,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
 
         public UpdateSolutionMobileMemoryStorageCommand(string id, string minimumMemoryRequirement, string description)
         {
-            Id = id.ThrowIfNull();
+            Id = id ?? throw new ArgumentNullException(nameof(id));
             MinimumMemoryRequirement = minimumMemoryRequirement;
             Description = description;
         }

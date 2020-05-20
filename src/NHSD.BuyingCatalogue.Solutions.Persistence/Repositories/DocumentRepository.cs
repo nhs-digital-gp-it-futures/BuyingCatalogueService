@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using NHSD.BuyingCatalogue.Contracts.Infrastructure;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Persistence.Clients;
 using NHSD.BuyingCatalogue.Solutions.Persistence.Models;
@@ -25,10 +24,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         public DocumentRepository(IDocumentsAPIClient client, ISettings settings, ILogger<DocumentRepository> logger)
         {
-            _settings = settings.ThrowIfNull();
-            _logger = logger.ThrowIfNull();
-            _client = client.ThrowIfNull();
-            _client.BaseAddress = new Uri(settings.ThrowIfNull().DocumentApiBaseUrl);
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _client = client ?? throw new ArgumentNullException(nameof(client));
+            _client.BaseAddress = new Uri(settings.DocumentApiBaseUrl);
         }
 
         public async Task<IDocumentResult> GetDocumentResultBySolutionIdAsync(

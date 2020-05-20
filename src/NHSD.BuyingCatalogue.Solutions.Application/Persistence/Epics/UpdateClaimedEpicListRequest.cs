@@ -1,5 +1,5 @@
+﻿using System;
 using System.Collections.Generic;
-using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence.Epics
@@ -10,7 +10,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence.Epics
 
         public UpdateClaimedEpicListRequest(IEnumerable<IClaimedEpicResult> claimedEpics)
         {
-            ClaimedEpics = claimedEpics.ThrowIfNull(nameof(claimedEpics));
+            ClaimedEpics = claimedEpics ?? throw new ArgumentNullException(nameof(claimedEpics));
         }
     }
 }

@@ -1,4 +1,3 @@
-using System.Reflection.Metadata;
 using MediatR;
 
 namespace NHSD.BuyingCatalogue.Solutions.Contracts.Queries

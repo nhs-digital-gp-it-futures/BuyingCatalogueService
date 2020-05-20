@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -88,14 +88,14 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
         }
 
         [Test]
-        public async Task ShouldReadCapabilitiesWithFrameworksCorrectlyOrderedByIsFoundationAndName()
+        public async Task ShouldReadCapabilitiesWithFrameworksCorrectlyOrderedByName()
         {
             var capabilityEntities = new List<CapabilityEntity>
             {
-                CapabilityEntityBuilder.Create().WithName("Alpha").Build(),
                 CapabilityEntityBuilder.Create().WithName("Bravo").Build(),
-                CapabilityEntityBuilder.Create().WithName("Charlie").Build(),
-                CapabilityEntityBuilder.Create().WithName("Delta").Build()
+                CapabilityEntityBuilder.Create().WithName("Alpha").Build(),
+                CapabilityEntityBuilder.Create().WithName("Delta").Build(),
+                CapabilityEntityBuilder.Create().WithName("Charlie").Build()
             };
 
             foreach (var capabilityEntity in capabilityEntities)
@@ -108,10 +108,10 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
 
             var capabilities = (await _capabilityRepository.ListAsync(new CancellationToken()).ConfigureAwait(false)).ToList();
 
-            Assert.That(capabilities[0].Name, Is.EqualTo("Charlie"));
-            Assert.That(capabilities[1].Name, Is.EqualTo("Delta"));
-            Assert.That(capabilities[2].Name, Is.EqualTo("Alpha"));
-            Assert.That(capabilities[3].Name, Is.EqualTo("Bravo"));
+            Assert.That(capabilities[0].Name, Is.EqualTo("Alpha"));
+            Assert.That(capabilities[1].Name, Is.EqualTo("Bravo"));
+            Assert.That(capabilities[2].Name, Is.EqualTo("Charlie"));
+            Assert.That(capabilities[3].Name, Is.EqualTo("Delta"));
         }
     }
 }

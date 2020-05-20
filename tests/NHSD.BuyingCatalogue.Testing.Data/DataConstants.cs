@@ -3,9 +3,7 @@
     public static class DataConstants
     {
         internal const string ServerNameForTests = "localhost,1430";
-
-        public const string SAPassword = "Your_password456";
-
-        internal const string DatabaseName = "gpitfuture-db-dev";
+        internal const string DatabaseName = "buyingcatalogue-integration";
+        internal const string SaPassword = "MyTestPassword123!";
     }
 }

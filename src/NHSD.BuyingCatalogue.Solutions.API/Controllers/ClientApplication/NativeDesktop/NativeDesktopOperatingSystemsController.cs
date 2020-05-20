@@ -1,3 +1,4 @@
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
@@ -39,9 +40,17 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Nativ
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> UpdatedSupportedOperatingSystems([FromRoute][Required] string id, [FromBody] [Required] UpdateNativeDesktopOperatingSystemsViewModel viewModel) =>
-            (await _mediator
-                .Send(new UpdateSolutionNativeDesktopOperatingSystemsCommand(id, viewModel.ThrowIfNull().NativeDesktopOperatingSystemsDescription))
+        public async Task<ActionResult> UpdatedSupportedOperatingSystems([FromRoute][Required] string id, [FromBody] [Required] UpdateNativeDesktopOperatingSystemsViewModel viewModel)
+        {
+            if (viewModel is null)
+            {
+                throw new ArgumentNullException(nameof(viewModel));
+            }
+
+            return (await _mediator
+                .Send(new UpdateSolutionNativeDesktopOperatingSystemsCommand(id,
+                    viewModel.NativeDesktopOperatingSystemsDescription))
                 .ConfigureAwait(false)).ToActionResult();
+        }
     }
 }

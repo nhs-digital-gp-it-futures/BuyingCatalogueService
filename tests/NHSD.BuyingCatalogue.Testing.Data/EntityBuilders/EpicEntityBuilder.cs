@@ -7,17 +7,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
     {
         private readonly EpicEntity _epicEntity;
 
-        public enum CompliancyLevel
-        {
-            May = 1,
-            Must = 2
-        }
-
-        public static EpicEntityBuilder Create()
-        {
-            return new EpicEntityBuilder();
-        }
-
         public EpicEntityBuilder()
         {
             _epicEntity = new EpicEntity
@@ -29,6 +18,18 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
                 CompliancyLevelId = (int)CompliancyLevel.May,
                 Active = false
             };
+        }
+
+        public enum CompliancyLevel
+        {
+            Must = 1,
+            Should = 2,
+            May = 3
+        }
+
+        public static EpicEntityBuilder Create()
+        {
+            return new EpicEntityBuilder();
         }
 
         public EpicEntityBuilder WithId(string id)
@@ -46,12 +47,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
         public EpicEntityBuilder WithCapabilityId(Guid capabilityId)
         {
             _epicEntity.CapabilityId = capabilityId;
-            return this;
-        }
-
-        public EpicEntityBuilder WithSourceUrl(string url)
-        {
-            _epicEntity.SourceUrl = url;
             return this;
         }
 

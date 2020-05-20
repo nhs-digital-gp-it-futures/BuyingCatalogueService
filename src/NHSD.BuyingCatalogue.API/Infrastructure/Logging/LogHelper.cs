@@ -1,6 +1,5 @@
-using System;
+﻿using System;
 using Microsoft.AspNetCore.Http;
-using NHSD.BuyingCatalogue.Infrastructure;
 using Serilog;
 using Serilog.Events;
 
@@ -10,9 +9,15 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.Logging
     {
         public static void EnrichFromRequest(IDiagnosticContext diagnosticContext, HttpContext httpContext)
         {
-            diagnosticContext = diagnosticContext.ThrowIfNull();
+            if (diagnosticContext is null)
+            {
+                throw new ArgumentNullException(nameof(diagnosticContext));
+            }
 
-            httpContext = httpContext.ThrowIfNull();
+            if (httpContext is null)
+            {
+                throw new ArgumentNullException(nameof(httpContext));
+            }
 
             var request = httpContext.Request;
             
