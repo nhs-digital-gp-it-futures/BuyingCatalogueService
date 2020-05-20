@@ -303,7 +303,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public IRequestHandler<UpdateRoadmapCommand, ISimpleResult> UpdateRoadmapHandler { get; }
 
-            public IRequestHandler<UpdateSupplierCommand, ISimpleResult> UpdateSupplierHandler { get; }
+            public IRequestHandler<UpdateSolutionSupplierCommand, ISimpleResult> UpdateSupplierHandler { get; }
 
             public IRequestHandler<UpdateIntegrationsCommand, ISimpleResult> UpdateIntegrationsHandler { get; }
 
@@ -350,7 +350,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<GetRoadMapBySolutionIdQuery, IRoadMap> getRoadMapBySolutionIdHandler,
                 IRequestHandler<GetIntegrationsBySolutionIdQuery, IIntegrations> getIntegrationsBySolutionIdHandler,
                 IRequestHandler<GetImplementationTimescalesBySolutionIdQuery, IImplementationTimescales> getImplementationTimescalesBySolutionIdHandler,
-                IRequestHandler<UpdateSupplierCommand, ISimpleResult> updateSupplierRequestHandler,
+                IRequestHandler<UpdateSolutionSupplierCommand, ISimpleResult> updateSupplierRequestHandler,
                 IRequestHandler<UpdateIntegrationsCommand, ISimpleResult> updateIntegrationsRequestHandler,
                 IRequestHandler<UpdateImplementationTimescalesCommand, ISimpleResult> updateImplementationTimescalesHandler,
                 IRequestHandler<UpdateCapabilitiesCommand, ISimpleResult> updateCapabilitiesHandler,

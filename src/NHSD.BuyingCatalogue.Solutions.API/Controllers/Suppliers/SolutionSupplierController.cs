@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
 using MediatR;
@@ -14,11 +14,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers
     [ApiController]
     [Produces("application/json")]
     [AllowAnonymous]
-    public sealed class SupplierController : ControllerBase
+    public sealed class SolutionSupplierController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public SupplierController(IMediator mediator) =>
+        public SolutionSupplierController(IMediator mediator) =>
             _mediator = mediator;
 
         [HttpGet]
@@ -30,7 +30,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers
         {
             var aboutSupplier = await _mediator.Send(new GetSupplierBySolutionIdQuery(id)).ConfigureAwait(false);
 
-            return Ok(new GetSupplierResult(aboutSupplier));
+            return Ok(new GetSolutionSupplierResult(aboutSupplier));
         }
 
         [HttpPut]
@@ -38,7 +38,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> Update([FromRoute] [Required] string id, [FromBody] [Required] UpdateSupplierViewModel viewModel) =>
-            (await _mediator.Send(new UpdateSupplierCommand(id, viewModel)).ConfigureAwait(false)).ToActionResult();
+        public async Task<ActionResult> Update([FromRoute] [Required] string id, [FromBody] [Required] UpdateSolutionSupplierViewModel viewModel) =>
+            (await _mediator.Send(new UpdateSolutionSupplierCommand(id, viewModel)).ConfigureAwait(false)).ToActionResult();
     }
 }
