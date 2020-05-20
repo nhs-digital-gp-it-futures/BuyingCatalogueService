@@ -5,7 +5,7 @@ using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers
 {
-    [Route("api/v1/suppliers")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     [Produces("application/json")]
     [AllowAnonymous]

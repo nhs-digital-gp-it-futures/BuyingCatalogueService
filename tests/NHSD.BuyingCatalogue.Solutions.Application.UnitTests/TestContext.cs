@@ -172,8 +172,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
         public UpdateRoadmapHandler UpdateRoadmapHandler =>
             (UpdateRoadmapHandler)_scope.UpdateRoadmapHandler;
 
-        public UpdateSupplierHandler UpdateSupplierHandler =>
-            (UpdateSupplierHandler)_scope.UpdateSupplierHandler;
+        public UpdateSolutionSupplierHandler UpdateSolutionSupplierHandler =>
+            (UpdateSolutionSupplierHandler)_scope.UpdateSupplierHandler;
 
         public UpdateIntegrationsHandler UpdateIntegrationsHandler =>
             (UpdateIntegrationsHandler)_scope.UpdateIntegrationsHandler;
