@@ -106,7 +106,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
 
         private async Task<ISimpleResult> UpdateSupplier()
         {
-            return await _context.UpdateSupplierHandler.Handle(new UpdateSolutionSupplierCommand(SolutionId, _dataMock.Object),
+            return await _context.UpdateSolutionSupplierHandler.Handle(new UpdateSolutionSupplierCommand(SolutionId, _dataMock.Object),
                 new CancellationToken()).ConfigureAwait(false);
         }
 
