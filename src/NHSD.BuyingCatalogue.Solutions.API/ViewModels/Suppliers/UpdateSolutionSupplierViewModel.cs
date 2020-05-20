@@ -3,7 +3,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Commands.Suppliers;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers
 {
-    public sealed class UpdateSupplierViewModel : IUpdateSupplierData
+    public sealed class UpdateSolutionSupplierViewModel : IUpdateSupplierData
     {
         [JsonProperty("description")]
         public string Description { get; set; }

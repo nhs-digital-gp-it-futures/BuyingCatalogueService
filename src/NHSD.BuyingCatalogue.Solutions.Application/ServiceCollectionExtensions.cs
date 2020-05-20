@@ -162,8 +162,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<IExecutor<UpdateRoadmapCommand>, UpdateRoadmapExecutor>()
                 .AddTransient<IValidator<UpdateRoadmapCommand, ISimpleResult>, UpdateRoadmapValidator>()
 
-                .AddTransient<IExecutor<UpdateSupplierCommand>, UpdateSupplierExecutor>()
-                .AddTransient<IValidator<UpdateSupplierCommand, ISimpleResult>, UpdateSupplierValidator>()
+                .AddTransient<IExecutor<UpdateSolutionSupplierCommand>, UpdateSupplierExecutor>()
+                .AddTransient<IValidator<UpdateSolutionSupplierCommand, ISimpleResult>, UpdateSupplierValidator>()
 
                 .AddTransient<IExecutor<UpdateIntegrationsCommand>, UpdateIntegrationsExecutor>()
                 .AddTransient<IValidator<UpdateIntegrationsCommand, ISimpleResult>, UpdateIntegrationsValidator>()

@@ -1,13 +1,12 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution;
-using NHSD.BuyingCatalogue.Solutions.Application.Domain.Suppliers;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence.Suppliers;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSuppliers
 {
-    internal sealed class UpdateSupplierExecutor : IExecutor<UpdateSupplierCommand>
+    internal sealed class UpdateSupplierExecutor : IExecutor<UpdateSolutionSupplierCommand>
     {
         private readonly SolutionVerifier _verifier;
         private readonly SupplierPartialUpdater _updater;
@@ -18,7 +17,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSuppliers
             _updater = updater;
         }
 
-        public async Task UpdateAsync(UpdateSupplierCommand request, CancellationToken cancellationToken)
+        public async Task UpdateAsync(UpdateSolutionSupplierCommand request, CancellationToken cancellationToken)
         {
 
             await _verifier.ThrowWhenMissingAsync(request.SolutionId, cancellationToken).ConfigureAwait(false);

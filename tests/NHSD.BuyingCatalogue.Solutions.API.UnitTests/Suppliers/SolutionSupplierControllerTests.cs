@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -18,10 +18,10 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
 {
     [TestFixture]
-    public sealed class SupplierControllerTests
+    public sealed class SolutionSupplierControllerTests
     {
         private Mock<IMediator> _mediatorMock;
-        private SupplierController _supplierController;
+        private SolutionSupplierController _solutionSupplierController;
         private readonly string _solutionId = "Sln1";
         private Mock<ISimpleResult> _simpleResultMock;
         private Dictionary<string, string> _resultDictionary;
@@ -30,13 +30,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
         public void Setup()
         {
             _mediatorMock = new Mock<IMediator>();
-            _supplierController = new SupplierController(_mediatorMock.Object);
+            _solutionSupplierController = new SolutionSupplierController(_mediatorMock.Object);
             _simpleResultMock = new Mock<ISimpleResult>();
             _simpleResultMock.Setup(x => x.IsValid).Returns(() => !_resultDictionary.Any());
             _simpleResultMock.Setup(x => x.ToDictionary()).Returns(() => _resultDictionary);
             _resultDictionary = new Dictionary<string, string>();
             _mediatorMock.Setup(x =>
-                    x.Send(It.IsAny<UpdateSupplierCommand>(),
+                    x.Send(It.IsAny<UpdateSolutionSupplierCommand>(),
                         It.IsAny<CancellationToken>()))
                 .ReturnsAsync(() => _simpleResultMock.Object);
         }
@@ -50,12 +50,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
             _mediatorMock.Setup(m => m.Send(It.Is<GetSupplierBySolutionIdQuery>(q => q.SolutionId == _solutionId),
                     It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Mock.Of<ISupplier>(s => s.Summary == summary && s.Url == url));
-            var result = await _supplierController.Get(_solutionId).ConfigureAwait(false) as ObjectResult;
+            var result = await _solutionSupplierController.Get(_solutionId).ConfigureAwait(false) as ObjectResult;
             result.Should().NotBeNull();
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            result.Value.Should().BeOfType<GetSupplierResult>();
+            result.Value.Should().BeOfType<GetSolutionSupplierResult>();
 
-            var aboutSupplierResult = result.Value as GetSupplierResult;
+            var aboutSupplierResult = result.Value as GetSolutionSupplierResult;
             aboutSupplierResult.Description.Should().Be(summary);
             aboutSupplierResult.Link.Should().Be(url);
         }
@@ -67,11 +67,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
                     It.IsAny<CancellationToken>()))
                 .ReturnsAsync(null as ISupplier);
 
-            var result = await _supplierController.Get(_solutionId).ConfigureAwait(false) as ObjectResult;
+            var result = await _solutionSupplierController.Get(_solutionId).ConfigureAwait(false) as ObjectResult;
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            result.Value.Should().BeOfType<GetSupplierResult>();
+            result.Value.Should().BeOfType<GetSolutionSupplierResult>();
 
-            var aboutSupplierResult = result.Value as GetSupplierResult;
+            var aboutSupplierResult = result.Value as GetSolutionSupplierResult;
             aboutSupplierResult.Description.Should().BeNull();
             aboutSupplierResult.Link.Should().BeNull();
         }
@@ -79,15 +79,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
         [Test]
         public async Task UpdateSupplier()
         {
-            var request = new UpdateSupplierViewModel();
+            var request = new UpdateSolutionSupplierViewModel();
 
             var result =
-                (await _supplierController.Update(_solutionId, request)
+                (await _solutionSupplierController.Update(_solutionId, request)
                     .ConfigureAwait(false)) as NoContentResult;
             result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
             _mediatorMock.Verify(
                 x => x.Send(
-                    It.Is<UpdateSupplierCommand>(c =>
+                    It.Is<UpdateSolutionSupplierCommand>(c =>
                         c.SolutionId == _solutionId &&
                         c.Data == request
                     ),
@@ -100,10 +100,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
             _resultDictionary.Add("description", "maxLength");
             _resultDictionary.Add("link", "maxLength");
 
-            var request = new UpdateSupplierViewModel();
+            var request = new UpdateSolutionSupplierViewModel();
 
             var result =
-                (await _supplierController.Update(_solutionId, request)
+                (await _solutionSupplierController.Update(_solutionId, request)
                     .ConfigureAwait(false)) as BadRequestObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
@@ -114,7 +114,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
 
             _mediatorMock.Verify(
                 x => x.Send(
-                    It.Is<UpdateSupplierCommand>(c =>
+                    It.Is<UpdateSolutionSupplierCommand>(c =>
                         c.SolutionId == _solutionId &&
                         c.Data == request
                     ),

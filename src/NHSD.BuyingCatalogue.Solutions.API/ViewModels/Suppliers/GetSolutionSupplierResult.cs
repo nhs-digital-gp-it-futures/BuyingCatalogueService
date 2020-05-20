@@ -3,7 +3,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers
 {
-    public sealed class GetSupplierResult
+    public sealed class GetSolutionSupplierResult
     {
         [JsonProperty("description")]
         public string Description { get; set; }
@@ -11,7 +11,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers
         [JsonProperty("link")]
         public string Link { get; set; }
 
-        public GetSupplierResult(ISupplier supplier)
+        public GetSolutionSupplierResult(ISupplier supplier)
         {
             Description = supplier?.Summary;
             Link = supplier?.Url;
