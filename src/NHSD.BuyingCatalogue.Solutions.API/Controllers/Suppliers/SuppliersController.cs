@@ -12,7 +12,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers
     public sealed class SuppliersController : Controller
     {
         [HttpGet]
-        public ActionResult Get(string name)
+        public ActionResult GetList(string name)
         {
             var result = new List<GetSuppliersResult>
             {
