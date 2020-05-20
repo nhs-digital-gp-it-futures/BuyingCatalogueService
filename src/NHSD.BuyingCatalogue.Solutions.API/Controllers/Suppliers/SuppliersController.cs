@@ -14,9 +14,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers
         [HttpGet]
         public ActionResult GetList(string name)
         {
-            var result = new List<GetSuppliersResult>
+            var result = new List<GetSuppliersNameResult>
             {
-                new GetSuppliersResult() {SupplierId = "id", Name = name}
+                new GetSuppliersNameResult() {SupplierId = "id", Name = name}
             };
 
             return Ok(result);
