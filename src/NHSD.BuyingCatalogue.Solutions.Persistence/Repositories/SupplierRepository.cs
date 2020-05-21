@@ -31,7 +31,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                                         ON Supplier.Id = Solution.SupplierId
                                         WHERE Solution.Id = @solutionId";
 
-        private const string GetSuppliersByNameSql = @"SELECT Id, [Name] FROM dbo.Supplier WHERE [Name] LIKE @name + '%' ORDER BY [Name];";
+        // A full-text index is typically a better way of implementing this kind of search. For example, the LIKE search below will
+        // always perform an index scan. Given the expected number of suppliers I doubt this will be a problem, however.
+        private const string GetSuppliersByNameSql = @"SELECT Id, [Name] FROM dbo.Supplier WHERE [Name] LIKE '%' + @name + '%' ORDER BY [Name];";
 
         private readonly IDbConnector _dbConnector;
 
