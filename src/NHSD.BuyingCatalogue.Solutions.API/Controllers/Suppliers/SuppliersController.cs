@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers
 {
@@ -11,17 +15,19 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers
     [AllowAnonymous]
     public sealed class SuppliersController : Controller
     {
-        [HttpGet]
-        public ActionResult GetList(string name)
-        {
-            var result = new List<GetSuppliersNameResult>
-            {
-                new GetSuppliersNameResult() {SupplierId = "id", Name = name}
-            };
+        private readonly IMediator _mediator;
 
-            return Ok(result);
+        public SuppliersController(IMediator mediator) =>
+            _mediator = mediator;
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<GetSuppliersNameResult>>> GetList(string name)
+        {
+            var suppliers = await _mediator.Send(new GetSuppliersByNameQuery(name));
+
+            return Ok(suppliers.Select(s => new GetSuppliersNameResult(s)));
         }
-        
+
         [HttpGet]
         [Route("{supplierId}")]
         public ActionResult Get(string supplierId)

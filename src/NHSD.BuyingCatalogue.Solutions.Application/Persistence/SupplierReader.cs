@@ -1,3 +1,5 @@
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.Suppliers;
@@ -12,6 +14,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
         public SupplierReader(ISupplierRepository supplierRepository)
         {
             _supplierRepository = supplierRepository;
+        }
+
+        public async Task<IEnumerable<SupplierName>> ByNameAsync(string name, CancellationToken cancellationToken)
+        {
+            var suppliers = await _supplierRepository.GetSuppliersByName(name, cancellationToken);
+
+            return suppliers.Select(s => new SupplierName(s));
         }
 
         public async Task<Supplier> BySolutionIdAsync(string solutionId, CancellationToken cancellationToken)

@@ -1,3 +1,4 @@
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,5 +21,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         /// <param name="cancellationToken"></param>
         /// <returns>A task containing the supplier data</returns>
         Task UpdateSupplierAsync(IUpdateSupplierRequest updateSupplierRequest, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Retrieves a list of suppliers matching the given <paramref name="name"/>.
+        /// </summary>
+        /// <param name="name">The name of the supplier to search for.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>An asynchronous task context containing a list of suppliers.</returns>
+        Task<IEnumerable<ISupplierNameResult>> GetSuppliersByName(string name, CancellationToken cancellationToken);
     }
 }
