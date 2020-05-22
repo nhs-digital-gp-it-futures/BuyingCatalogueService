@@ -33,14 +33,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Persistence
 
             var mockRepo = new Mock<ISupplierRepository>();
             mockRepo.Setup(
-                r => r.GetSuppliersByName(It.Is<string>(n => n == supplierName), It.IsAny<CancellationToken>()))
+                r => r.GetSuppliersByName(supplierName, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(expectedSuppliers);
 
             var reader = new SupplierReader(mockRepo.Object);
 
             var actualSuppliers = await reader.ByNameAsync(supplierName, new CancellationToken());
 
-            actualSuppliers.Should().BeEquivalentTo(expectedSuppliers);
+            actualSuppliers.Should().BeEquivalentTo(expectedSuppliers, c => c.IncludingAllDeclaredProperties());
         }
     }
 }
