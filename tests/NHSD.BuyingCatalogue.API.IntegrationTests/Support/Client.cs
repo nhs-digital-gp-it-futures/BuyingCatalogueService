@@ -1,9 +1,8 @@
-using System;
+﻿using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
 {
@@ -13,6 +12,15 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
         {
             using HttpClient client = new HttpClient();
             return await client.GetAsync(new Uri(requestUrl)).ConfigureAwait(false);
+        }
+
+        internal static async Task<HttpResponseMessage> GetAsync(string requestUrl, string field, string value)
+        {
+            var builder = new UriBuilder(requestUrl) { Query = $"{field}={value}" };
+
+            using HttpClient client = new HttpClient();
+
+            return await client.GetAsync(builder.Uri);
         }
 
         internal static async Task<HttpResponseMessage> PostAsJsonAsync(string requestUrl, object content)
@@ -25,18 +33,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
             using HttpClient client = new HttpClient();
             using var stringContent = new StringContent(content, Encoding.UTF8, contentType);
             return await client.PostAsync(new Uri(requestUrl), stringContent).ConfigureAwait(false);
-        }
-
-        internal static async Task<HttpResponseMessage> PutAsJsonAsync(string requestUrl, JObject content)
-        {
-            return await PutAsync(requestUrl, content).ConfigureAwait(false);
-        }
-
-        internal static async Task<HttpResponseMessage> PutAsync(string requestUrl, JObject content, string contentType = "application/json")
-        {
-            using HttpClient client = new HttpClient();
-            using var stringContent = new StringContent(content.ToString(), Encoding.UTF8, contentType);
-            return await client.PutAsync(new Uri(requestUrl), stringContent).ConfigureAwait(false);
         }
 
         internal static async Task<HttpResponseMessage> PutAsJsonAsync(string requestUrl, object content)
