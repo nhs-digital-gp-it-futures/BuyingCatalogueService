@@ -13,7 +13,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers
     [ApiController]
     [Produces("application/json")]
     [AllowAnonymous]
-    public sealed class SuppliersController : Controller
+    public sealed class SuppliersController : ControllerBase
     {
         private readonly IMediator _mediator;
 
