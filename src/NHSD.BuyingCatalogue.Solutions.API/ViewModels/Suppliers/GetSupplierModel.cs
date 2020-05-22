@@ -1,6 +1,6 @@
 ﻿namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers
 {
-    public sealed class GetSupplierResult
+    public sealed class GetSupplierModel
     {
         public string SupplierId { get; set; }
 

@@ -30,9 +30,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers
 
         [HttpGet]
         [Route("{supplierId}")]
-        public ActionResult<GetSupplierResult> Get(string supplierId)
+        public ActionResult<GetSupplierModel> Get(string supplierId)
         {
-            var result = new GetSupplierResult
+            var result = new GetSupplierModel
             {
                 SupplierId = $"SupplierId {supplierId}",
                 Name = "Some name",
