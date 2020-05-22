@@ -2,7 +2,7 @@
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSuppliersByName
 {
-    internal sealed class SupplierNameDto : ISupplierName
+    internal sealed class SupplierDto : ISupplier
     {
         public string Id { get; set; }
 

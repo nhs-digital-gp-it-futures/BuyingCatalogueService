@@ -2,9 +2,9 @@
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers
 {
-    public sealed class GetSuppliersNameResult
+    public sealed class GetSuppliersModel
     {
-        internal GetSuppliersNameResult(ISupplierName supplier)
+        internal GetSuppliersModel(ISupplier supplier)
         {
             SupplierId = supplier.Id;
             Name = supplier.Name;

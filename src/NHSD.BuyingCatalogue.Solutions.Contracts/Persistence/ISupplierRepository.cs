@@ -28,6 +28,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         /// <param name="name">The name of the supplier to search for.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>An asynchronous task context containing a list of suppliers.</returns>
-        Task<IEnumerable<ISupplierNameResult>> GetSuppliersByName(string name, CancellationToken cancellationToken);
+        Task<IEnumerable<ISupplierResult>> GetSuppliersByName(string name, CancellationToken cancellationToken);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Domain.Suppliers
 {
-    internal sealed class SupplierName
+    internal sealed class Supplier
     {
-        internal SupplierName(ISupplierNameResult name)
+        internal Supplier(ISupplierResult name)
         {
             Id = name.Id;
             Name = name.Name;

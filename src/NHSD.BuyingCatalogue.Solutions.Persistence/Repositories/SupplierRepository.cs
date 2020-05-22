@@ -44,8 +44,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 .QueryAsync<SolutionSupplierResult>(GetSupplierBySolutionIdSql, cancellationToken, new { solutionId })
                 .ConfigureAwait(false)).SingleOrDefault();
 
-        public async Task<IEnumerable<ISupplierNameResult>> GetSuppliersByName(string name, CancellationToken cancellationToken) =>
-            await _dbConnector.QueryAsync<SupplierNameResult>(GetSuppliersByNameSql, cancellationToken, new { Name = name ?? string.Empty });
+        public async Task<IEnumerable<ISupplierResult>> GetSuppliersByName(string name, CancellationToken cancellationToken) =>
+            await _dbConnector.QueryAsync<SupplierResult>(GetSuppliersByNameSql, cancellationToken, new { Name = name ?? string.Empty });
 
         public async Task UpdateSupplierAsync(IUpdateSupplierRequest updateSupplierRequest, CancellationToken cancellationToken)
         {

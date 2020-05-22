@@ -21,11 +21,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers
             _mediator = mediator;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetSuppliersNameResult>>> GetList(string name)
+        public async Task<ActionResult<IEnumerable<GetSuppliersModel>>> GetList(string name)
         {
             var suppliers = await _mediator.Send(new GetSuppliersByNameQuery(name));
 
-            return Ok(suppliers.Select(s => new GetSuppliersNameResult(s)));
+            return Ok(suppliers.Select(s => new GetSuppliersModel(s)));
         }
 
         [HttpGet]

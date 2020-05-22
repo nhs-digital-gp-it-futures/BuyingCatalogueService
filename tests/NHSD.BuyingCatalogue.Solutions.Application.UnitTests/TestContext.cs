@@ -239,7 +239,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> getClientApplicationBySolutionIdHandler,
                 IRequestHandler<GetHostingBySolutionIdQuery, IHosting> getHostingBySolutionIdHandler,
                 IRequestHandler<GetSupplierBySolutionIdQuery, ISolutionSupplier> getSupplierBySolutionIdHandler,
-                IRequestHandler<GetSuppliersByNameQuery, IEnumerable<ISupplierName>> getSuppliersByNameHandler,
+                IRequestHandler<GetSuppliersByNameQuery, IEnumerable<ISupplier>> getSuppliersByNameHandler,
                 IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> submitSolutionForReviewHandler,
                 IRequestHandler<UpdateSolutionSummaryCommand, ISimpleResult> updateSolutionSummaryHandler,
                 IRequestHandler<UpdateSolutionFeaturesCommand, ISimpleResult> updateSolutionFeaturesHandler,
@@ -332,7 +332,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public IRequestHandler<GetSupplierBySolutionIdQuery, ISolutionSupplier> GetSupplierBySolutionIdHandler { get; }
 
-            public IRequestHandler<GetSuppliersByNameQuery, IEnumerable<ISupplierName>> GetSuppliersByNameHandler { get; }
+            public IRequestHandler<GetSuppliersByNameQuery, IEnumerable<ISupplier>> GetSuppliersByNameHandler { get; }
 
             public IRequestHandler<GetRoadMapBySolutionIdQuery, IRoadMap> GetRoadMapBySolutionIdHandler { get; }
 

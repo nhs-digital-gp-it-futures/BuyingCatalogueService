@@ -1,6 +1,6 @@
 ﻿namespace NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers
 {
-    public interface ISupplierName
+    public interface ISupplier
     {
         string Id { get; set; }
 

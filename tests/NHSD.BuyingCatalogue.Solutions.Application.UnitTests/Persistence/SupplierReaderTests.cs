@@ -16,9 +16,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Persistence
         {
             const string supplierName = "Supplier";
 
-            static ISupplierNameResult MockSupplierNameResult(string id, string name)
+            static ISupplierResult MockSupplierNameResult(string id, string name)
             {
-                var mockResult = new Mock<ISupplierNameResult>();
+                var mockResult = new Mock<ISupplierResult>();
                 mockResult.Setup(r => r.Id).Returns(id);
                 mockResult.Setup(r => r.Name).Returns(name);
 

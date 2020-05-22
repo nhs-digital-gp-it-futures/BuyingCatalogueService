@@ -2,7 +2,7 @@
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
 {
-    internal sealed class SupplierNameResult : ISupplierNameResult
+    internal sealed class SupplierResult : ISupplierResult
     {
         public string Id { get; set; }
 
