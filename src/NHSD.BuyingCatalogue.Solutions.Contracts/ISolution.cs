@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
 
@@ -89,7 +89,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         /// <summary>
         /// Marketing information related to the supplier
         /// </summary>
-        ISupplier Supplier { get; }
+        ISolutionSupplier Supplier { get; }
 
         /// <summary>
         /// Gets or sets the integrations.

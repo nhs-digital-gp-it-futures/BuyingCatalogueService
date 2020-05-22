@@ -63,8 +63,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
             CreateMap<HybridHostingType, IHybridHostingType>().As<HybridHostingTypeDto>();
             CreateMap<OnPremise, OnPremiseDto>();
             CreateMap<OnPremise, IOnPremise>().As<OnPremiseDto>();
-            CreateMap<Supplier, SupplierDto>();
-            CreateMap<Supplier, ISupplier>().As<SupplierDto>();
+            CreateMap<SolutionSupplier, SolutionSupplierDto>();
+            CreateMap<SolutionSupplier, ISolutionSupplier>().As<SolutionSupplierDto>();
             CreateMap<SupplierName, SupplierNameDto>();
             CreateMap<SupplierName, ISupplierName>().As<SupplierNameDto>();
             CreateMap<RoadMap, RoadMapDto>();

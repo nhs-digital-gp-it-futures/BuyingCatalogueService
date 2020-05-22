@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
@@ -96,7 +96,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         /// <summary>
         /// The supplier of the solution
         /// </summary>
-        public Supplier Supplier { get; set; }
+        public SolutionSupplier Supplier { get; set; }
 
         /// <summary>
         /// Gets or sets an implementation timescales.
@@ -115,7 +115,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
             ISolutionResult solutionResult,
             IEnumerable<ISolutionCapabilityListResult> solutionCapabilityListResult,
             IEnumerable<IMarketingContactResult> contactResult,
-            ISupplierResult supplierResult,
+            ISolutionSupplierResult solutionSupplierResult,
             IDocumentResult documentResult,
             IEnumerable<ISolutionEpicListResult> solutionEpicListResults)
         {
@@ -152,7 +152,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
             Hosting = string.IsNullOrWhiteSpace(solutionResult.Hosting)
                 ? new Hosting()
                 : JsonConvert.DeserializeObject<Hosting>(solutionResult.Hosting);
-            Supplier = supplierResult != null ? new Supplier(supplierResult) : new Supplier();
+            Supplier = solutionSupplierResult != null ? new SolutionSupplier(solutionSupplierResult) : new SolutionSupplier();
 
             SolutionDocument = new SolutionDocument(documentResult?.SolutionDocumentName);
         }
@@ -166,7 +166,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
             PublishedStatus = PublishedStatus.Draft;
         }
 
-        private DateTime GetLatestLastUpdated(ISolutionResult solutionResult,
+        private static DateTime GetLatestLastUpdated(ISolutionResult solutionResult,
             IList<IMarketingContactResult> contactResult) =>
             new List<DateTime>
             {

@@ -49,7 +49,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
         {
             _mediatorMock.Setup(m => m.Send(It.Is<GetSupplierBySolutionIdQuery>(q => q.SolutionId == _solutionId),
                     It.IsAny<CancellationToken>()))
-                .ReturnsAsync(Mock.Of<ISupplier>(s => s.Summary == summary && s.Url == url));
+                .ReturnsAsync(Mock.Of<ISolutionSupplier>(s => s.Summary == summary && s.Url == url));
             var result = await _solutionSupplierController.Get(_solutionId).ConfigureAwait(false) as ObjectResult;
             result.Should().NotBeNull();
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
@@ -65,7 +65,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
         {
             _mediatorMock.Setup(m => m.Send(It.Is<GetSupplierBySolutionIdQuery>(q => q.SolutionId == _solutionId),
                     It.IsAny<CancellationToken>()))
-                .ReturnsAsync(null as ISupplier);
+                .ReturnsAsync(null as ISolutionSupplier);
 
             var result = await _solutionSupplierController.Get(_solutionId).ConfigureAwait(false) as ObjectResult;
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);

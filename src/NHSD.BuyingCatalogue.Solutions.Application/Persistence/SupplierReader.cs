@@ -23,9 +23,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
             return suppliers.Select(s => new SupplierName(s));
         }
 
-        public async Task<Supplier> BySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
+        public async Task<SolutionSupplier> BySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
         {
-            return new Supplier(await _supplierRepository.GetSupplierBySolutionIdAsync(solutionId, cancellationToken)
+            return new SolutionSupplier(await _supplierRepository.GetSupplierBySolutionIdAsync(solutionId, cancellationToken)
                 .ConfigureAwait(false));
         }
     }

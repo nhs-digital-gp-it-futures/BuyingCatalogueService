@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
@@ -16,7 +16,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
         private TestContext _context;
         private string _solutionId;
         private CancellationToken _cancellationToken;
-        private ISupplierResult _supplierResult;
+        private ISolutionSupplierResult solutionSupplierResult;
 
         [SetUp]
         public void SetUpFixture()
@@ -26,19 +26,19 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
             _cancellationToken = new CancellationToken();
             _context.MockSupplierRepository
                 .Setup(r => r.GetSupplierBySolutionIdAsync(_solutionId, _cancellationToken))
-                .ReturnsAsync(() => _supplierResult);
+                .ReturnsAsync(() => solutionSupplierResult);
         }
         [Test]
         public async Task ShouldGetAboutSupplierById()
         {
-            var originalSupplier = new Supplier
+            var originalSupplier = new SolutionSupplier
             {
                 Name = "Some name",
                 Summary = "Some Summary",
                 Url = "Some Url"
             };
 
-            _supplierResult = Mock.Of<ISupplierResult>(r =>
+            solutionSupplierResult = Mock.Of<ISolutionSupplierResult>(r =>
                 r.SolutionId == _solutionId &&
                 r.Name == originalSupplier.Name &&
                 r.Summary == originalSupplier.Summary &&
@@ -54,7 +54,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
         [Test]
         public async Task EmptySupplierResultReturnsDefaultSupplier()
         {
-            _supplierResult = Mock.Of<ISupplierResult>(r =>
+            solutionSupplierResult = Mock.Of<ISolutionSupplierResult>(r =>
                 r.SolutionId == _solutionId &&
                 r.Name == null &&
                 r.Summary == null &&
@@ -64,7 +64,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
             var supplier = await _context.GetSupplierBySolutionIdHandler.Handle(
                 new GetSupplierBySolutionIdQuery(_solutionId), _cancellationToken).ConfigureAwait(false);
             supplier.Should().NotBeNull();
-            supplier.Should().BeEquivalentTo(new SupplierDto());
+            supplier.Should().BeEquivalentTo(new SolutionSupplierDto());
         }
     }
 }

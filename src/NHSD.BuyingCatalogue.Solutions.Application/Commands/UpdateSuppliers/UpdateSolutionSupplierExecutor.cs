@@ -6,12 +6,12 @@ using NHSD.BuyingCatalogue.Solutions.Application.Persistence.Suppliers;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSuppliers
 {
-    internal sealed class UpdateSupplierExecutor : IExecutor<UpdateSolutionSupplierCommand>
+    internal sealed class UpdateSolutionSupplierExecutor : IExecutor<UpdateSolutionSupplierCommand>
     {
         private readonly SolutionVerifier _verifier;
-        private readonly SupplierPartialUpdater _updater;
+        private readonly SolutionSupplierPartialUpdater _updater;
 
-        public UpdateSupplierExecutor(SolutionVerifier verifier, SupplierPartialUpdater updater)
+        public UpdateSolutionSupplierExecutor(SolutionVerifier verifier, SolutionSupplierPartialUpdater updater)
         {
             _verifier = verifier;
             _updater = updater;
@@ -19,7 +19,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSuppliers
 
         public async Task UpdateAsync(UpdateSolutionSupplierCommand request, CancellationToken cancellationToken)
         {
-
             await _verifier.ThrowWhenMissingAsync(request.SolutionId, cancellationToken).ConfigureAwait(false);
 
             await _updater.UpdateAsync(request.SolutionId, supplier =>

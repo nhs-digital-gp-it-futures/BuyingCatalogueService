@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Capabilities;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.ClientApplications;

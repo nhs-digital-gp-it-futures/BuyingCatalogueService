@@ -1,8 +1,8 @@
-using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
+﻿using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
 {
-    internal sealed class SupplierResult : ISupplierResult
+    internal sealed class SolutionSupplierResult : ISolutionSupplierResult
     {
         public string SolutionId { get; set; }
 

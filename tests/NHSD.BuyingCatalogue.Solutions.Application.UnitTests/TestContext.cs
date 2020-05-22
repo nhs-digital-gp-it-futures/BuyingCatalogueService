@@ -238,7 +238,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             public Scope(IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
                 IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> getClientApplicationBySolutionIdHandler,
                 IRequestHandler<GetHostingBySolutionIdQuery, IHosting> getHostingBySolutionIdHandler,
-                IRequestHandler<GetSupplierBySolutionIdQuery, ISupplier> getSupplierBySolutionIdHandler,
+                IRequestHandler<GetSupplierBySolutionIdQuery, ISolutionSupplier> getSupplierBySolutionIdHandler,
                 IRequestHandler<GetSuppliersByNameQuery, IEnumerable<ISupplierName>> getSuppliersByNameHandler,
                 IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> submitSolutionForReviewHandler,
                 IRequestHandler<UpdateSolutionSummaryCommand, ISimpleResult> updateSolutionSummaryHandler,
@@ -330,7 +330,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public IRequestHandler<GetHostingBySolutionIdQuery, IHosting> GetHostingBySolutionIdHandler { get; }
 
-            public IRequestHandler<GetSupplierBySolutionIdQuery, ISupplier> GetSupplierBySolutionIdHandler { get; }
+            public IRequestHandler<GetSupplierBySolutionIdQuery, ISolutionSupplier> GetSupplierBySolutionIdHandler { get; }
 
             public IRequestHandler<GetSuppliersByNameQuery, IEnumerable<ISupplierName>> GetSuppliersByNameHandler { get; }
 

@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers
@@ -11,10 +11,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers
         [JsonProperty("link")]
         public string Link { get; set; }
 
-        public GetSolutionSupplierResult(ISupplier supplier)
+        public GetSolutionSupplierResult(ISolutionSupplier solutionSupplier)
         {
-            Description = supplier?.Summary;
-            Link = supplier?.Url;
+            Description = solutionSupplier?.Summary;
+            Link = solutionSupplier?.Url;
         }
     }
 }
