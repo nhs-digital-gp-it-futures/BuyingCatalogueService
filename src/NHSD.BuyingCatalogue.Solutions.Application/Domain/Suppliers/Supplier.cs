@@ -4,10 +4,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain.Suppliers
 {
     internal sealed class Supplier
     {
-        internal Supplier(ISupplierResult name)
+        internal Supplier(ISupplierResult supplierResult)
         {
-            Id = name.Id;
-            Name = name.Name;
+            Id = supplierResult.Id;
+            Name = supplierResult.Name;
         }
 
         public string Id { get; }
