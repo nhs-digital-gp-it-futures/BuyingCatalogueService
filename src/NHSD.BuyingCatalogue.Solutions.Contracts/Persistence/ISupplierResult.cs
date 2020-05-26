@@ -1,13 +1,9 @@
-namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
+﻿namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
 {
     public interface ISupplierResult
     {
-        string SolutionId { get; }
+        string Id { get; }
 
         string Name { get; }
-
-        string Summary { get; }
-
-        string Url { get; }
     }
 }

@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,11 +11,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 {
     public sealed class SupplierRepository : ISupplierRepository
     {
-        private readonly IDbConnector _dbConnector;
-
-        public SupplierRepository(IDbConnector dbConnector) => _dbConnector = dbConnector;
-
-        private const string getSupplierBySolutionIdSql = @"SELECT
+        private const string GetSupplierBySolutionIdSql = @"SELECT
                                     Solution.Id as SolutionId,
                                     Supplier.Name as Name,
                                     Supplier.Summary as Summary,
@@ -23,7 +20,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                                       LEFT JOIN Solution ON Supplier.Id = Solution.SupplierId
                                  WHERE  Solution.Id = @solutionId";
 
-        private const string updateSupplierBySolutionId = @"UPDATE
+        private const string UpdateSupplierBySolutionIdSql = @"UPDATE
                                     Supplier
                                     SET
                                     Supplier.Summary = @Summary,
@@ -34,12 +31,21 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                                         ON Supplier.Id = Solution.SupplierId
                                         WHERE Solution.Id = @solutionId";
 
+        // A full-text index is typically a better way of implementing this kind of search. For example, the LIKE search below will
+        // always perform an index scan. Given the expected number of suppliers I doubt this will be a problem, however.
+        private const string GetSuppliersByNameSql = @"SELECT Id, [Name] FROM dbo.Supplier WHERE [Name] LIKE '%' + @name + '%' ORDER BY [Name];";
 
-        public async Task<ISupplierResult> GetSupplierBySolutionIdAsync(string solutionId,
-            CancellationToken cancellationToken) =>
+        private readonly IDbConnector _dbConnector;
+
+        public SupplierRepository(IDbConnector dbConnector) => _dbConnector = dbConnector;
+
+        public async Task<ISolutionSupplierResult> GetSupplierBySolutionIdAsync(string solutionId, CancellationToken cancellationToken) =>
             (await _dbConnector
-                .QueryAsync<SupplierResult>(getSupplierBySolutionIdSql, cancellationToken, new {solutionId})
+                .QueryAsync<SolutionSupplierResult>(GetSupplierBySolutionIdSql, cancellationToken, new { solutionId })
                 .ConfigureAwait(false)).SingleOrDefault();
+
+        public async Task<IEnumerable<ISupplierResult>> GetSuppliersByName(string name, CancellationToken cancellationToken) =>
+            await _dbConnector.QueryAsync<SupplierResult>(GetSuppliersByNameSql, cancellationToken, new { Name = name ?? string.Empty });
 
         public async Task UpdateSupplierAsync(IUpdateSupplierRequest updateSupplierRequest, CancellationToken cancellationToken)
         {
@@ -48,12 +54,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 throw new ArgumentNullException(nameof(updateSupplierRequest));
             }
 
-            await _dbConnector.ExecuteAsync(updateSupplierBySolutionId, cancellationToken,
+            await _dbConnector.ExecuteAsync(UpdateSupplierBySolutionIdSql, cancellationToken,
                 new
                 {
                     solutionId = updateSupplierRequest.SolutionId,
-                    summary = updateSupplierRequest?.Description,
-                    supplierUrl = updateSupplierRequest?.Link
+                    summary = updateSupplierRequest.Description,
+                    supplierUrl = updateSupplierRequest.Link
                 }).ConfigureAwait(false);
         }
     }

@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
@@ -8,7 +8,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierBySolutionId
 {
-    internal sealed class GetSupplierBySolutionIdHandler : IRequestHandler<GetSupplierBySolutionIdQuery, ISupplier>
+    internal sealed class GetSupplierBySolutionIdHandler : IRequestHandler<GetSupplierBySolutionIdQuery, ISolutionSupplier>
     {
         private readonly SupplierReader _reader;
         private readonly IMapper _mapper;
@@ -19,9 +19,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierBySoluti
             _mapper = mapper;
         }
 
-        public async Task<ISupplier> Handle(GetSupplierBySolutionIdQuery request,
+        public async Task<ISolutionSupplier> Handle(GetSupplierBySolutionIdQuery request,
             CancellationToken cancellationToken) =>
-            _mapper.Map<ISupplier>(await _reader.BySolutionIdAsync(request.SolutionId, cancellationToken)
+            _mapper.Map<ISolutionSupplier>(await _reader.BySolutionIdAsync(request.SolutionId, cancellationToken)
                 .ConfigureAwait(false));
     }
 }

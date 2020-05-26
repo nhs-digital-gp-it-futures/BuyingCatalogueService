@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
@@ -90,7 +90,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         /// <summary>
         /// The supplier info for the solution
         /// </summary>
-        public ISupplier Supplier { get; set; }
+        public ISolutionSupplier Supplier { get; set; }
 
         /// <summary>
         /// Gets or sets an integration.

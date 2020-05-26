@@ -26,12 +26,12 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.Nat
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.UpdateSolutionClientApplicationTypes;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.HybridHostingType;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.OnPremise;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PublicCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PrivateCloud;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PublicCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateImplementationTimescales;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateCapabilities;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateClaimedEpics;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateImplementationTimescales;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateIntegrations;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
@@ -40,14 +40,15 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSuppliers;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Mapping;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicationBySolutionId;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetImplementationTimescalesBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetIntegrationsBySolutionId;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetRoadMapBySolutionId;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierBySolutionId;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSuppliersByName;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
@@ -57,6 +58,25 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 {
     internal class TestContext
     {
+        private readonly Scope _scope;
+
+        public TestContext()
+        {
+            var serviceCollection = new ServiceCollection();
+            RegisterDependencies(serviceCollection);
+
+            var myAssemblies = new[]
+            {
+                Assembly.GetAssembly(typeof(SolutionAutoMapperProfile))
+            };
+            _scope = serviceCollection
+                .AddAutoMapper(myAssemblies)
+                .AddMediatR(myAssemblies)
+                .RegisterSolutionApplication()
+                .AddSingleton<Scope>()
+                .BuildServiceProvider().GetService<Scope>();
+        }
+
         public Mock<ISolutionRepository> MockSolutionRepository { get; private set; }
 
         public Mock<ISolutionDetailRepository> MockSolutionDetailRepository { get; private set; }
@@ -89,6 +109,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
         public GetSupplierBySolutionIdHandler GetSupplierBySolutionIdHandler => (GetSupplierBySolutionIdHandler)_scope.GetSupplierBySolutionIdHandler;
 
+        public GetSuppliersByNameHandler GetSuppliersByNameHandler => (GetSuppliersByNameHandler)_scope.GetSuppliersByNameHandler;
+
         public UpdateSolutionSummaryHandler UpdateSolutionSummaryHandler => (UpdateSolutionSummaryHandler)_scope.UpdateSolutionSummaryHandler;
 
         public UpdateSolutionFeaturesHandler UpdateSolutionFeaturesHandler => (UpdateSolutionFeaturesHandler)_scope.UpdateSolutionFeaturesHandler;
@@ -112,6 +134,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
         public UpdateSolutionConnectivityAndResolutionHandler UpdateSolutionConnectivityAndResolutionHandler =>
             (UpdateSolutionConnectivityAndResolutionHandler)_scope.UpdateSolutionConnectivityAndResolutionHandler;
+
         public UpdateBrowserBasedAdditionalInformationHandler UpdateSolutionBrowserAdditionalInformationHandler =>
             (UpdateBrowserBasedAdditionalInformationHandler)_scope.UpdateSolutionBrowserAdditionalInformationHandler;
 
@@ -135,11 +158,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
         public UpdateSolutionNativeMobileHardwareRequirementsHandler UpdateSolutionNativeMobileHardwareRequirementsHandler =>
             (UpdateSolutionNativeMobileHardwareRequirementsHandler)_scope.UpdateSolutionNativeMobileHardwareRequirementsHandler;
+
         public UpdateSolutionNativeMobileAdditionalInformationHandler UpdateSolutionNativeMobileAdditionalInformationHandler =>
         (UpdateSolutionNativeMobileAdditionalInformationHandler)_scope.UpdateSolutionNativeMobileAdditionalInformationHandler;
 
         public UpdateNativeDesktopHardwareRequirementsHandler UpdateNativeDesktopHardwareRequirementsHandler =>
             (UpdateNativeDesktopHardwareRequirementsHandler)_scope.UpdateNativeDesktopHardwareRequirementsHandler;
+
         public UpdateSolutionNativeDesktopOperatingSystemsHandler UpdateSolutionNativeDesktopOperatingSystemsHandler =>
             (UpdateSolutionNativeDesktopOperatingSystemsHandler)_scope.UpdateSolutionNativeDesktopOperatingSystemsHandler;
 
@@ -180,32 +205,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
         public UpdateImplementationTimescalesHandler UpdateImplementationTimescalesHandler =>
             (UpdateImplementationTimescalesHandler)_scope.UpdateImplementationTimescalesHandler;
-            
+
         public UpdateCapabilitiesHandler UpdateCapabilitiesHandler =>
             (UpdateCapabilitiesHandler)_scope.UpdateCapabilitiesHandler;
 
         public UpdateClaimedEpicsHandler UpdateClaimedEpicsHandler => (UpdateClaimedEpicsHandler)_scope.UpdateClaimedEpicsHandler;
 
-        private readonly Scope _scope;
-
-        public TestContext()
-        {
-            var serviceCollection = new ServiceCollection();
-            RegisterDependencies(serviceCollection);
-
-            var myAssemblies = new[]
-            {
-                Assembly.GetAssembly(typeof(SolutionAutoMapperProfile))
-            };
-            _scope = serviceCollection
-                .AddAutoMapper(myAssemblies)
-                .AddMediatR(myAssemblies)
-                .RegisterSolutionApplication()
-                .AddSingleton<Scope>()
-                .BuildServiceProvider().GetService<Scope>();
-        }
-
-        private void RegisterDependencies(ServiceCollection serviceCollection)
+        private void RegisterDependencies(IServiceCollection serviceCollection)
         {
             MockSolutionRepository = new Mock<ISolutionRepository>();
             serviceCollection.AddSingleton(MockSolutionRepository.Object);
@@ -222,101 +228,18 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             MockSolutionEpicRepository = new Mock<ISolutionEpicRepository>();
             serviceCollection.AddSingleton(MockSolutionEpicRepository.Object);
             MockEpicRepository = new Mock<IEpicRepository>();
-            serviceCollection.AddSingleton(MockEpicRepository.Object); 
+            serviceCollection.AddSingleton(MockEpicRepository.Object);
             MockSolutionEpicStatusRepository = new Mock<ISolutionEpicStatusRepository>();
             serviceCollection.AddSingleton(MockSolutionEpicStatusRepository.Object);
         }
 
         private class Scope
         {
-            public IRequestHandler<GetSolutionByIdQuery, ISolution> GetSolutionByIdHandler { get; }
-
-            public IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> GetClientApplicationBySolutionIdHandler { get; }
-
-            public IRequestHandler<GetHostingBySolutionIdQuery, IHosting> GetHostingBySolutionIdHandler { get; }
-
-            public IRequestHandler<GetSupplierBySolutionIdQuery, ISupplier> GetSupplierBySolutionIdHandler { get; }
-
-            public IRequestHandler<GetRoadMapBySolutionIdQuery, IRoadMap> GetRoadMapBySolutionIdHandler { get; }
-
-            public IRequestHandler<GetIntegrationsBySolutionIdQuery, IIntegrations> GetIntegrationsBySolutionIdHandler { get; }
-
-            public IRequestHandler<GetImplementationTimescalesBySolutionIdQuery, IImplementationTimescales> GetImplementationTimescalesBySolutionIdHandler { get; }
-
-            public IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> SubmitSolutionForReviewHandler { get; }
-
-            public IRequestHandler<UpdateSolutionSummaryCommand, ISimpleResult> UpdateSolutionSummaryHandler { get; }
-
-            public IRequestHandler<UpdateSolutionFeaturesCommand, ISimpleResult> UpdateSolutionFeaturesHandler { get; }
-
-            public IRequestHandler<UpdateSolutionClientApplicationTypesCommand, ISimpleResult> UpdateSolutionClientApplicationTypesHandler { get; }
-
-            public IRequestHandler<UpdateSolutionBrowsersSupportedCommand, ISimpleResult> UpdateSolutionBrowsersSupportedHandler { get; }
-
-            public IRequestHandler<UpdateSolutionContactDetailsCommand, ContactsMaxLengthResult> UpdateSolutionContactDetailsHandler { get; }
-
-            public IRequestHandler<UpdateSolutionPluginsCommand, ISimpleResult> UpdateSolutionPluginsHandler { get; }
-
-            public IRequestHandler<GetContactDetailBySolutionIdQuery, IEnumerable<IContact>> GetContactDetailBySolutionIdHandler { get; }
-
-            public IRequestHandler<UpdateSolutionBrowserHardwareRequirementsCommand, ISimpleResult> UpdateSolutionBrowserHardwareRequirementsHandler { get; }
-
-            public IRequestHandler<UpdateSolutionConnectivityAndResolutionCommand, ISimpleResult> UpdateSolutionConnectivityAndResolutionHandler { get; }
-
-            public IRequestHandler<UpdateBrowserBasedAdditionalInformationCommand, ISimpleResult> UpdateSolutionBrowserAdditionalInformationHandler { get; }
-
-            public IRequestHandler<UpdateSolutionBrowserMobileFirstCommand, ISimpleResult> UpdateSolutionBrowserMobileFirstHandler { get; }
-
-            public IRequestHandler<UpdateSolutionMobileOperatingSystemsCommand, ISimpleResult> UpdateSolutionMobileOperatingSystemsHandler {get;}
-
-            public IRequestHandler<UpdateSolutionMobileConnectionDetailsCommand, ISimpleResult> UpdateSolutionMobileConnectionDetailsHandler {get;}
-
-            public IRequestHandler<UpdateSolutionNativeMobileFirstCommand, ISimpleResult> UpdateSolutionNativeMobileFirstHandler { get; }
-
-            public IRequestHandler<UpdateSolutionMobileMemoryStorageCommand, ISimpleResult> UpdateSolutionMobileMemoryStorageHandler { get; }
-
-            public IRequestHandler<UpdateSolutionMobileThirdPartyCommand, ISimpleResult> UpdateSolutionMobileThirdHandler { get; }
-
-            public IRequestHandler<UpdateSolutionNativeMobileAdditionalInformationCommand, ISimpleResult> UpdateSolutionNativeMobileAdditionalInformationHandler { get; }
-
-            public IRequestHandler<UpdateSolutionNativeMobileHardwareRequirementsCommand, ISimpleResult> UpdateSolutionNativeMobileHardwareRequirementsHandler { get; }
-
-            public IRequestHandler<UpdateNativeDesktopHardwareRequirementsCommand, ISimpleResult> UpdateNativeDesktopHardwareRequirementsHandler { get; }
-
-            public IRequestHandler<UpdateSolutionNativeDesktopConnectivityDetailsCommand, ISimpleResult> UpdateSolutionNativeDesktopConnectivityDetailsHandler { get; }
-
-            public IRequestHandler<UpdateSolutionNativeDesktopOperatingSystemsCommand, ISimpleResult> UpdateSolutionNativeDesktopOperatingSystemsHandler { get; }
-
-            public IRequestHandler<UpdateSolutionNativeDesktopThirdPartyCommand, ISimpleResult> UpdateSolutionNativeDesktopThirdPartyHandler { get; }
-
-            public IRequestHandler<UpdateNativeDesktopMemoryAndStorageCommand, ISimpleResult> UpdateNativeDesktopMemoryAndStorageHandler { get; }
-
-            public IRequestHandler<UpdateNativeDesktopAdditionalInformationCommand, ISimpleResult> UpdateNativeDesktopAdditionalInformationHandler { get; }
-
-            public IRequestHandler<UpdatePublicCloudCommand, ISimpleResult> UpdatePublicCloudHandler { get; }
-
-            public IRequestHandler<UpdatePrivateCloudCommand, ISimpleResult> UpdatePrivateCloudHandler { get; }
-
-            public IRequestHandler<UpdateOnPremiseCommand, ISimpleResult> UpdateOnPremiseHandler { get; }
-
-            public IRequestHandler<UpdateHybridHostingTypeCommand, ISimpleResult> UpdateHybridHostingTypeHandler { get; }
-
-            public IRequestHandler<UpdateRoadmapCommand, ISimpleResult> UpdateRoadmapHandler { get; }
-
-            public IRequestHandler<UpdateSolutionSupplierCommand, ISimpleResult> UpdateSupplierHandler { get; }
-
-            public IRequestHandler<UpdateIntegrationsCommand, ISimpleResult> UpdateIntegrationsHandler { get; }
-
-            public IRequestHandler<UpdateImplementationTimescalesCommand, ISimpleResult> UpdateImplementationTimescalesHandler { get; }
-            
-            public IRequestHandler<UpdateCapabilitiesCommand, ISimpleResult> UpdateCapabilitiesHandler { get; }
-
-            public IRequestHandler<UpdateClaimedEpicsCommand, ISimpleResult> UpdateClaimedEpicsHandler { get; }
-
             public Scope(IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
                 IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> getClientApplicationBySolutionIdHandler,
                 IRequestHandler<GetHostingBySolutionIdQuery, IHosting> getHostingBySolutionIdHandler,
-                IRequestHandler<GetSupplierBySolutionIdQuery, ISupplier> getSupplierBySolutionIdHandler,
+                IRequestHandler<GetSupplierBySolutionIdQuery, ISolutionSupplier> getSupplierBySolutionIdHandler,
+                IRequestHandler<GetSuppliersByNameQuery, IEnumerable<ISupplier>> getSuppliersByNameHandler,
                 IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> submitSolutionForReviewHandler,
                 IRequestHandler<UpdateSolutionSummaryCommand, ISimpleResult> updateSolutionSummaryHandler,
                 IRequestHandler<UpdateSolutionFeaturesCommand, ISimpleResult> updateSolutionFeaturesHandler,
@@ -360,6 +283,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 GetClientApplicationBySolutionIdHandler = getClientApplicationBySolutionIdHandler;
                 GetHostingBySolutionIdHandler = getHostingBySolutionIdHandler;
                 GetSupplierBySolutionIdHandler = getSupplierBySolutionIdHandler;
+                GetSuppliersByNameHandler = getSuppliersByNameHandler;
                 SubmitSolutionForReviewHandler = submitSolutionForReviewHandler;
                 UpdateSolutionSummaryHandler = updateSolutionSummaryHandler;
                 UpdateSolutionFeaturesHandler = updateSolutionFeaturesHandler;
@@ -399,6 +323,92 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 UpdateCapabilitiesHandler = updateCapabilitiesHandler;
                 UpdateClaimedEpicsHandler = updateClaimedEpicsHandler;
             }
+
+            public IRequestHandler<GetSolutionByIdQuery, ISolution> GetSolutionByIdHandler { get; }
+
+            public IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> GetClientApplicationBySolutionIdHandler { get; }
+
+            public IRequestHandler<GetHostingBySolutionIdQuery, IHosting> GetHostingBySolutionIdHandler { get; }
+
+            public IRequestHandler<GetSupplierBySolutionIdQuery, ISolutionSupplier> GetSupplierBySolutionIdHandler { get; }
+
+            public IRequestHandler<GetSuppliersByNameQuery, IEnumerable<ISupplier>> GetSuppliersByNameHandler { get; }
+
+            public IRequestHandler<GetRoadMapBySolutionIdQuery, IRoadMap> GetRoadMapBySolutionIdHandler { get; }
+
+            public IRequestHandler<GetIntegrationsBySolutionIdQuery, IIntegrations> GetIntegrationsBySolutionIdHandler { get; }
+
+            public IRequestHandler<GetImplementationTimescalesBySolutionIdQuery, IImplementationTimescales> GetImplementationTimescalesBySolutionIdHandler { get; }
+
+            public IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> SubmitSolutionForReviewHandler { get; }
+
+            public IRequestHandler<UpdateSolutionSummaryCommand, ISimpleResult> UpdateSolutionSummaryHandler { get; }
+
+            public IRequestHandler<UpdateSolutionFeaturesCommand, ISimpleResult> UpdateSolutionFeaturesHandler { get; }
+
+            public IRequestHandler<UpdateSolutionClientApplicationTypesCommand, ISimpleResult> UpdateSolutionClientApplicationTypesHandler { get; }
+
+            public IRequestHandler<UpdateSolutionBrowsersSupportedCommand, ISimpleResult> UpdateSolutionBrowsersSupportedHandler { get; }
+
+            public IRequestHandler<UpdateSolutionContactDetailsCommand, ContactsMaxLengthResult> UpdateSolutionContactDetailsHandler { get; }
+
+            public IRequestHandler<UpdateSolutionPluginsCommand, ISimpleResult> UpdateSolutionPluginsHandler { get; }
+
+            public IRequestHandler<GetContactDetailBySolutionIdQuery, IEnumerable<IContact>> GetContactDetailBySolutionIdHandler { get; }
+
+            public IRequestHandler<UpdateSolutionBrowserHardwareRequirementsCommand, ISimpleResult> UpdateSolutionBrowserHardwareRequirementsHandler { get; }
+
+            public IRequestHandler<UpdateSolutionConnectivityAndResolutionCommand, ISimpleResult> UpdateSolutionConnectivityAndResolutionHandler { get; }
+
+            public IRequestHandler<UpdateBrowserBasedAdditionalInformationCommand, ISimpleResult> UpdateSolutionBrowserAdditionalInformationHandler { get; }
+
+            public IRequestHandler<UpdateSolutionBrowserMobileFirstCommand, ISimpleResult> UpdateSolutionBrowserMobileFirstHandler { get; }
+
+            public IRequestHandler<UpdateSolutionMobileOperatingSystemsCommand, ISimpleResult> UpdateSolutionMobileOperatingSystemsHandler { get; }
+
+            public IRequestHandler<UpdateSolutionMobileConnectionDetailsCommand, ISimpleResult> UpdateSolutionMobileConnectionDetailsHandler { get; }
+
+            public IRequestHandler<UpdateSolutionNativeMobileFirstCommand, ISimpleResult> UpdateSolutionNativeMobileFirstHandler { get; }
+
+            public IRequestHandler<UpdateSolutionMobileMemoryStorageCommand, ISimpleResult> UpdateSolutionMobileMemoryStorageHandler { get; }
+
+            public IRequestHandler<UpdateSolutionMobileThirdPartyCommand, ISimpleResult> UpdateSolutionMobileThirdHandler { get; }
+
+            public IRequestHandler<UpdateSolutionNativeMobileAdditionalInformationCommand, ISimpleResult> UpdateSolutionNativeMobileAdditionalInformationHandler { get; }
+
+            public IRequestHandler<UpdateSolutionNativeMobileHardwareRequirementsCommand, ISimpleResult> UpdateSolutionNativeMobileHardwareRequirementsHandler { get; }
+
+            public IRequestHandler<UpdateNativeDesktopHardwareRequirementsCommand, ISimpleResult> UpdateNativeDesktopHardwareRequirementsHandler { get; }
+
+            public IRequestHandler<UpdateSolutionNativeDesktopConnectivityDetailsCommand, ISimpleResult> UpdateSolutionNativeDesktopConnectivityDetailsHandler { get; }
+
+            public IRequestHandler<UpdateSolutionNativeDesktopOperatingSystemsCommand, ISimpleResult> UpdateSolutionNativeDesktopOperatingSystemsHandler { get; }
+
+            public IRequestHandler<UpdateSolutionNativeDesktopThirdPartyCommand, ISimpleResult> UpdateSolutionNativeDesktopThirdPartyHandler { get; }
+
+            public IRequestHandler<UpdateNativeDesktopMemoryAndStorageCommand, ISimpleResult> UpdateNativeDesktopMemoryAndStorageHandler { get; }
+
+            public IRequestHandler<UpdateNativeDesktopAdditionalInformationCommand, ISimpleResult> UpdateNativeDesktopAdditionalInformationHandler { get; }
+
+            public IRequestHandler<UpdatePublicCloudCommand, ISimpleResult> UpdatePublicCloudHandler { get; }
+
+            public IRequestHandler<UpdatePrivateCloudCommand, ISimpleResult> UpdatePrivateCloudHandler { get; }
+
+            public IRequestHandler<UpdateOnPremiseCommand, ISimpleResult> UpdateOnPremiseHandler { get; }
+
+            public IRequestHandler<UpdateHybridHostingTypeCommand, ISimpleResult> UpdateHybridHostingTypeHandler { get; }
+
+            public IRequestHandler<UpdateRoadmapCommand, ISimpleResult> UpdateRoadmapHandler { get; }
+
+            public IRequestHandler<UpdateSolutionSupplierCommand, ISimpleResult> UpdateSupplierHandler { get; }
+
+            public IRequestHandler<UpdateIntegrationsCommand, ISimpleResult> UpdateIntegrationsHandler { get; }
+
+            public IRequestHandler<UpdateImplementationTimescalesCommand, ISimpleResult> UpdateImplementationTimescalesHandler { get; }
+
+            public IRequestHandler<UpdateCapabilitiesCommand, ISimpleResult> UpdateCapabilitiesHandler { get; }
+
+            public IRequestHandler<UpdateClaimedEpicsCommand, ISimpleResult> UpdateClaimedEpicsHandler { get; }
         }
     }
 }

@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers
@@ -15,10 +15,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers
         public bool HasData => !string.IsNullOrWhiteSpace(Description) ||
                                !string.IsNullOrWhiteSpace(Link);
 
-        public AboutSupplierSectionAnswers(ISupplier supplier)
+        public AboutSupplierSectionAnswers(ISolutionSupplier solutionSupplier)
         {
-            Description = supplier?.Summary;
-            Link = supplier?.Url;
+            Description = solutionSupplier?.Summary;
+            Link = solutionSupplier?.Url;
         }
     }
 }

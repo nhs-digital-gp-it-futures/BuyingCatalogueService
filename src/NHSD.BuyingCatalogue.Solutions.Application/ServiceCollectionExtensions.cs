@@ -64,8 +64,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<SolutionContactDetailsUpdater>()
                 .AddTransient<ClientApplicationPartialUpdater>()
                 .AddTransient<HostingPartialUpdater>()
-                .AddTransient<SupplierUpdater>()
-                .AddTransient<SupplierPartialUpdater>()
+                .AddTransient<SolutionSupplierUpdater>()
+                .AddTransient<SolutionSupplierPartialUpdater>()
                 .AddTransient<SolutionCapabilitiesUpdater>()
                 .AddTransient<SolutionEpicsUpdater>()
                 .AddTransient<UpdateSolutionFeaturesValidator>()
@@ -162,7 +162,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<IExecutor<UpdateRoadmapCommand>, UpdateRoadmapExecutor>()
                 .AddTransient<IValidator<UpdateRoadmapCommand, ISimpleResult>, UpdateRoadmapValidator>()
 
-                .AddTransient<IExecutor<UpdateSolutionSupplierCommand>, UpdateSupplierExecutor>()
+                .AddTransient<IExecutor<UpdateSolutionSupplierCommand>, UpdateSolutionSupplierExecutor>()
                 .AddTransient<IValidator<UpdateSolutionSupplierCommand, ISimpleResult>, UpdateSupplierValidator>()
 
                 .AddTransient<IExecutor<UpdateIntegrationsCommand>, UpdateIntegrationsExecutor>()

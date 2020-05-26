@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
@@ -11,7 +11,7 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Suppliers
 {
     [TestFixture]
-    internal sealed class UpdateSupplierTests
+    internal sealed class UpdateSolutionSupplierTests
     {
         private const string SolutionId = "Sln1";
 
@@ -127,7 +127,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
 
         private void SetupMockSupplierRepositoryGetByIdAsync()
         {
-            var existingSupplier = new Mock<ISupplierResult>();
+            var existingSupplier = new Mock<ISolutionSupplierResult>();
 
             existingSupplier.Setup(s => s.SolutionId).Returns(SolutionId);
 
