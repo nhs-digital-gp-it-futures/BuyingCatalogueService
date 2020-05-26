@@ -2,8 +2,8 @@
 {
     public interface ISupplier
     {
-        string Id { get; set; }
+        string Id { get; }
 
-        string Name { get; set; }
+        string Name { get; }
     }
 }
