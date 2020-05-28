@@ -47,6 +47,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetImplementationTimesc
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetIntegrationsBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetRoadMapBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierById;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSuppliersByName;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
@@ -108,6 +109,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
         public GetHostingBySolutionIdHandler GetHostingBySolutionIdHandler => (GetHostingBySolutionIdHandler)_scope.GetHostingBySolutionIdHandler;
 
         public GetSupplierBySolutionIdHandler GetSupplierBySolutionIdHandler => (GetSupplierBySolutionIdHandler)_scope.GetSupplierBySolutionIdHandler;
+
+        public GetSupplierByIdHandler GetSupplierByIdHandler => (GetSupplierByIdHandler)_scope.GetSupplierByIdHandler;
 
         public GetSuppliersByNameHandler GetSuppliersByNameHandler => (GetSuppliersByNameHandler)_scope.GetSuppliersByNameHandler;
 
@@ -239,6 +242,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> getClientApplicationBySolutionIdHandler,
                 IRequestHandler<GetHostingBySolutionIdQuery, IHosting> getHostingBySolutionIdHandler,
                 IRequestHandler<GetSupplierBySolutionIdQuery, ISolutionSupplier> getSupplierBySolutionIdHandler,
+                IRequestHandler<GetSupplierByIdQuery, ISupplier> getSupplierByIdHandler,
                 IRequestHandler<GetSuppliersByNameQuery, IEnumerable<ISupplier>> getSuppliersByNameHandler,
                 IRequestHandler<SubmitSolutionForReviewCommand, SubmitSolutionForReviewCommandResult> submitSolutionForReviewHandler,
                 IRequestHandler<UpdateSolutionSummaryCommand, ISimpleResult> updateSolutionSummaryHandler,
@@ -283,6 +287,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 GetClientApplicationBySolutionIdHandler = getClientApplicationBySolutionIdHandler;
                 GetHostingBySolutionIdHandler = getHostingBySolutionIdHandler;
                 GetSupplierBySolutionIdHandler = getSupplierBySolutionIdHandler;
+                GetSupplierByIdHandler = getSupplierByIdHandler;
                 GetSuppliersByNameHandler = getSuppliersByNameHandler;
                 SubmitSolutionForReviewHandler = submitSolutionForReviewHandler;
                 UpdateSolutionSummaryHandler = updateSolutionSummaryHandler;
@@ -331,6 +336,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             public IRequestHandler<GetHostingBySolutionIdQuery, IHosting> GetHostingBySolutionIdHandler { get; }
 
             public IRequestHandler<GetSupplierBySolutionIdQuery, ISolutionSupplier> GetSupplierBySolutionIdHandler { get; }
+
+            public IRequestHandler<GetSupplierByIdQuery, ISupplier> GetSupplierByIdHandler { get; }
 
             public IRequestHandler<GetSuppliersByNameQuery, IEnumerable<ISupplier>> GetSuppliersByNameHandler { get; }
 
