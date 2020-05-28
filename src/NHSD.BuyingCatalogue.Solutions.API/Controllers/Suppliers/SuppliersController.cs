@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
@@ -11,7 +13,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    [Produces("application/json")]
+    [Produces(MediaTypeNames.Application.Json)]
     [AllowAnonymous]
     public sealed class SuppliersController : ControllerBase
     {
@@ -28,36 +30,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers
             return Ok(suppliers.Select(s => new GetSuppliersModel(s)));
         }
 
-        [HttpGet]
-        [Route("{supplierId}")]
-        public ActionResult<GetSupplierModel> Get(string supplierId)
+        [HttpGet("{supplierId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<GetSupplierModel>> Get(string supplierId)
         {
-            var result = new GetSupplierModel
-            {
-                SupplierId = $"SupplierId {supplierId}",
-                Name = "Some name",
-                Address = new AddressModel
-                {
-                    Line1 = "Some address",
-                    Line2 = "Some Road",
-                    Line3 = "Line 3 address",
-                    Line4 = "Another line of address",
-                    Line5 = "5th line of address",
-                    Town = "A Town",
-                    County = "Some county",
-                    Postcode = "Some postcode",
-                    Country = "A country"
-                },
-                PrimaryContact = new PrimaryContactModel
-                {
-                    FirstName = "bob",
-                    LastName = "smith",
-                    EmailAddress = "bob.smith@email.com",
-                    TelephoneNumber = "4342345223  3434324"
-                }
-            };
+            var supplier = await _mediator.Send(new GetSupplierByIdQuery(supplierId));
+            if (supplier is null)
+                return NotFound(supplierId);
 
-            return Ok(result);
+            return new GetSupplierModel(supplier);
         }
     }
 }

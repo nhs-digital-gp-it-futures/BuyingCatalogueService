@@ -1,4 +1,6 @@
-﻿using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
+﻿using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSuppliersByName
 {
@@ -7,5 +9,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSuppliersByName
         public string Id { get; set; }
 
         public string Name { get; set; }
+
+        public ISupplierAddress Address { get; set; }
+
+        public IContact PrimaryContact { get; set; }
     }
 }

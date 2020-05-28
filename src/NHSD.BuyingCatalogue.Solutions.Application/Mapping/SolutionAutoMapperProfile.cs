@@ -16,6 +16,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Commands;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
@@ -67,6 +68,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
             CreateMap<SolutionSupplier, ISolutionSupplier>().As<SolutionSupplierDto>();
             CreateMap<Supplier, SupplierDto>();
             CreateMap<Supplier, ISupplier>().As<SupplierDto>();
+            CreateMap<SupplierAddress, ISupplierAddress>().As<SupplierAddressDto>();
             CreateMap<RoadMap, RoadMapDto>();
             CreateMap<RoadMap, IRoadMap>().As<RoadMapDto>();
             CreateMap<Integrations, IntegrationsDto>();

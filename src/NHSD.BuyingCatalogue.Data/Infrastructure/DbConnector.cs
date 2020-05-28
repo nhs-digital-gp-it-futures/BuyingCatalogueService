@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -16,11 +16,33 @@ namespace NHSD.BuyingCatalogue.Data.Infrastructure
         private readonly IDbConnectionFactory _dbConnectionFactory;
         private readonly ILogger<DbConnector> _logger;
 
-
         public DbConnector(IDbConnectionFactory dbConnectionFactory, ILogger<DbConnector> logger)
         {
             _dbConnectionFactory = dbConnectionFactory;
             _logger = logger;
+        }
+
+        public async Task<T> QueryFirstOrDefaultAsync<T>(string sql, CancellationToken cancellationToken, object param = null)
+        {
+            try
+            {
+                using var databaseConnection = await _dbConnectionFactory.GetAsync(cancellationToken);
+                var result = await databaseConnection.QueryFirstOrDefaultAsync<T>(sql, param);
+
+                LogDatabaseWithStatistics(
+                    databaseConnection,
+                    LoggingEvents.GetItem,
+                    "Query {sql} with params: {@param} with ConnectionTime {ConnectionTime}ms, ExecutionTime is {ExecutionTime}",
+                    sql,
+                    param);
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "ERROR - Query First Async or Default {@sql}", sql);
+                throw;
+            }
         }
 
         public async Task<IEnumerable<T>> QueryAsync<T>(string sql, CancellationToken cancellationToken, object args = null)
@@ -84,7 +106,7 @@ namespace NHSD.BuyingCatalogue.Data.Infrastructure
             }
         }
 
-        private void LogDatabaseWithStatistics(IDbConnection databaseConnection, int logId, string messageTemplate, string sql ,object args)
+        private void LogDatabaseWithStatistics(IDbConnection databaseConnection, int logId, string messageTemplate, string sql, object args)
         {
             IDictionary stats = null;
             if (databaseConnection is SqlConnection sqlConnection)

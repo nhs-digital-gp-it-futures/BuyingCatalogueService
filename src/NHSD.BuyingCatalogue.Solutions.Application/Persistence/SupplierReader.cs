@@ -16,6 +16,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
             _supplierRepository = supplierRepository;
         }
 
+        public async Task<Supplier> ByIdAsync(string id, CancellationToken cancellationToken)
+        {
+            var supplier = await _supplierRepository.GetSupplierById(id, cancellationToken);
+
+            return supplier is null ? null : new Supplier(supplier);
+        }
+
         public async Task<IEnumerable<Supplier>> ByNameAsync(string name, CancellationToken cancellationToken)
         {
             var suppliers = await _supplierRepository.GetSuppliersByName(name, cancellationToken);

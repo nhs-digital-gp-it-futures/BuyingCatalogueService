@@ -7,6 +7,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
     public interface ISupplierRepository
     {
         /// <summary>
+        /// Retrieves the supplier matching the given <paramref name="id"/>.
+        /// </summary>
+        /// <param name="id">The ID of the supplier to return.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>An asynchronous task context containing the requested supplier.</returns>
+        Task<ISupplierResult> GetSupplierById(string id, CancellationToken cancellationToken);
+
+        /// <summary>
         /// Retrieve the Suppliers for a solution
         /// </summary>
         /// <param name="solutionId"></param>

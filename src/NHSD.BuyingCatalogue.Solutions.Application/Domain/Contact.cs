@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
@@ -14,26 +14,39 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
             Department = contact.Department;
         }
 
+        internal Contact(ISupplierResult supplier)
+        {
+            FirstName = supplier.PrimaryContactFirstName;
+            LastName = supplier.PrimaryContactLastName;
+            Email = supplier.PrimaryContactEmailAddress;
+            PhoneNumber = supplier.PrimaryContactTelephone;
+        }
+
         /// <summary>
         /// The full name of the contact
         /// </summary>
         public string FirstName { get; set; }
+
         /// <summary>
         /// The full name of the contact
         /// </summary>
         public string LastName { get; set; }
+
         /// <summary>
         /// The full name of the contact
         /// </summary>
         public string Name => GetName();
+
         /// <summary>
         /// The phone number of the contact
         /// </summary>
         public string PhoneNumber { get; set; }
+
         /// <summary>
         /// The email address of the contact
         /// </summary>
         public string Email { get; set; }
+
         /// <summary>
         /// The department of the contact
         /// </summary>
