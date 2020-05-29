@@ -55,10 +55,13 @@ jobs:
       PathtoPublish: '$(build.artifactstagingdirectory)/database'
       ArtifactName: database
 
-- job: buildAndTest
-  displayName: Run Unit & Integration tests
+- job: dockerBuildAndPush
+  displayName: Run Unit & Integration tests and build & push docker containers to the acr
+  variables:
+    semVer: $[ dependencies.version.outputs['setVersionStep.semVer'] ]
   pool:
     vmImage: 'ubuntu-latest'
+  dependsOn: version
   steps:
   - task: DockerInstaller@0
     displayName: 'Docker: Install - $(dockerVersion)'
@@ -109,34 +112,9 @@ jobs:
       projects: '**/*IntegrationTests.csproj'
       arguments: '  -v n'
 
-  - task: CopyFiles@2
-    displayName: 'Copy output of Dotnet build to: $(build.artifactstagingdirectory)/build'
-    inputs:
-      SourceFolder: docker/out
-      Contents: '*'
-      TargetFolder: '$(build.artifactstagingdirectory)/build'
-      CleanTargetFolder: true
-
-- job: dockerBuildAndPush
-  displayName: Build and push docker containers to the acr
-  pool:
-    vmImage: 'ubuntu-latest'
-  variables:
-    semVer: $[ dependencies.version.outputs['setVersionStep.semVer'] ]
-  condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')))
-  dependsOn: 
-    - version
-    - buildAndTest
-  steps:
-  - task: CopyFiles@2
-    displayName: 'Bring the output of Dotnet build from: $(build.artifactstagingdirectory)/build to: docker/out'
-    inputs:
-      SourceFolder: $(build.artifactstagingdirectory)/build
-      Contents: '*'
-      TargetFolder: 'docker/out'
-
   - task: DockerCompose@0
     displayName: 'Docker Build: Dev'
+    condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')))
     inputs:
       azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
       azureContainerRegistry: '{"loginServer":"gpitfuturesdevacr.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-dev-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturesdevacr"}'
@@ -147,6 +125,7 @@ jobs:
   
   - task: DockerCompose@0
     displayName: 'Docker Push: Dev'
+    condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')))
     inputs:
       azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
       azureContainerRegistry: '{"loginServer":"gpitfuturesdevacr.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-dev-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturesdevacr"}'
@@ -157,6 +136,7 @@ jobs:
 
   - task: HelmInstaller@1
     displayName: 'Install helm'
+    condition: and(succeeded(), ne(variables['build.reason'], 'PullRequest'))
     inputs:
       helmVersionToInstall: 'latest'
   - bash: |
@@ -169,6 +149,7 @@ jobs:
       done;
     failOnStderr: true
     displayName: 'Helm package'
+    condition: and(succeeded(), ne(variables['build.reason'], 'PullRequest'))
   - bash: |
       cd charts  
       for chartPackage in *.tgz; do
@@ -181,10 +162,11 @@ jobs:
     failOnStderr: true
     name: helmPush
     displayName: 'Push helm to az acr'
+    condition: and(succeeded(), ne(variables['build.reason'], 'PullRequest'))
   
   - task: DockerCompose@0
     displayName: 'Docker Build: Test'
-    condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/development')))
+    condition: and(succeeded(), ne(variables['build.reason'], 'PullRequest'), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/development')))
     inputs:
       azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
       azureContainerRegistry: '{"loginServer":"gpitfuturestestacr.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-test-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturestestacr"}'
@@ -195,7 +177,7 @@ jobs:
   
   - task: DockerCompose@0
     displayName: 'Docker Push: Test'
-    condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/development')))
+    condition: and(succeeded(), ne(variables['build.reason'], 'PullRequest'), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/development')))
     inputs:
       azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
       azureContainerRegistry: '{"loginServer":"gpitfuturestestacr.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-test-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturestestacr"}'
@@ -206,7 +188,7 @@ jobs:
   
   - task: DockerCompose@0
     displayName: 'Docker Build: Prod'
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    condition: and(succeeded(), ne(variables['build.reason'], 'PullRequest'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     inputs:
       azureSubscription: 'NHSAPP-BuyingCatalogue (Prod)'
       azureContainerRegistry: '{"loginServer":"gpitfuturesprodacr.azurecr.io", "id" : "/subscriptions/d1be8dbc-1a9f-4b7b-ba51-037116110e00/resourceGroups/gpitfutures-prod-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturesprodacr"}'
@@ -217,7 +199,7 @@ jobs:
   
   - task: DockerCompose@0
     displayName: 'Docker Push: Prod'
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    condition: and(succeeded(), ne(variables['build.reason'], 'PullRequest'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     inputs:
       azureSubscription: 'NHSAPP-BuyingCatalogue (Prod)'
       azureContainerRegistry: '{"loginServer":"gpitfuturesprodacr.azurecr.io", "id" : "/subscriptions/d1be8dbc-1a9f-4b7b-ba51-037116110e00/resourceGroups/gpitfutures-prod-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturesprodacr"}'
