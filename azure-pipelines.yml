@@ -91,7 +91,6 @@ jobs:
       docker-compose -f "docker/docker-compose.yml" -f "docker/docker-compose.integration.yml" build --no-cache
       docker-compose -f "docker/docker-compose.yml" -f "docker/docker-compose.integration.yml" up -d
       docker ps -a
-  
     displayName: 'Docker up'
   
   - task: DotNetCoreCLI@2
