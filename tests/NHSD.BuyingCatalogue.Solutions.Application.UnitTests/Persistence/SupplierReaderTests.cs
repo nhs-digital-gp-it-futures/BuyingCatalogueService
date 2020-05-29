@@ -69,7 +69,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Persistence
 
             var actualSuppliers = await reader.ByNameAsync(supplierName, new CancellationToken());
 
-            actualSuppliers.Should().BeEquivalentTo(expectedSuppliers, c => c.IncludingAllDeclaredProperties());
+            actualSuppliers.Should().BeEquivalentTo(expectedSuppliers, config => config.ExcludingMissingMembers());
         }
     }
 }
