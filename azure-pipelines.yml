@@ -109,6 +109,14 @@ jobs:
       projects: '**/*IntegrationTests.csproj'
       arguments: '  -v n'
 
+  - task: CopyFiles@2
+    displayName: 'Copy output of Dotnet build to: $(build.artifactstagingdirectory)/build'
+    inputs:
+      SourceFolder: docker/out
+      Contents: '*'
+      TargetFolder: '$(build.artifactstagingdirectory)/build'
+      CleanTargetFolder: true
+
 - job: dockerBuildAndPush
   displayName: Build and push docker containers to the acr
   pool:
@@ -120,6 +128,13 @@ jobs:
     - version
     - buildAndTest
   steps:
+  - task: CopyFiles@2
+    displayName: 'Bring the output of Dotnet build from: $(build.artifactstagingdirectory)/build to: docker/out'
+    inputs:
+      SourceFolder: $(build.artifactstagingdirectory)/build
+      Contents: '*'
+      TargetFolder: 'docker/out'
+
   - task: DockerCompose@0
     displayName: 'Docker Build: Dev'
     inputs:
