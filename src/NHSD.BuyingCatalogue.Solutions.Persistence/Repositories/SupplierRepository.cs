@@ -37,7 +37,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         // This query is non-deterministic as there is currently no way to identify a primary contact
         // TODO: define means of identifying a primary contact
-        private const string GetSupplyByIdSql = @"WITH SupplierDetails AS
+        private const string GetSupplierByIdSql = @"WITH SupplierDetails AS
 (
     SELECT TOP (1) s.Id, s.[Name],
            JSON_VALUE(s.[Address], '$.line1') AS AddressLine1,
@@ -83,7 +83,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 .ConfigureAwait(false)).SingleOrDefault();
 
         public async Task<ISupplierResult> GetSupplierById(string id, CancellationToken cancellationToken) =>
-            await _dbConnector.QueryFirstOrDefaultAsync<SupplierResult>(GetSupplyByIdSql, cancellationToken, new { id });
+            await _dbConnector.QueryFirstOrDefaultAsync<SupplierResult>(GetSupplierByIdSql, cancellationToken, new { id });
 
         public async Task<IEnumerable<ISupplierResult>> GetSuppliersByName(string name, CancellationToken cancellationToken) =>
             await _dbConnector.QueryAsync<SupplierResult>(GetSuppliersByNameSql, cancellationToken, new { Name = name ?? string.Empty });

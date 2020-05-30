@@ -26,10 +26,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
             var controller = new SuppliersController(mockMediator.Object);
 
             var response = await controller.Get(id);
-            var result = response.Result as NotFoundObjectResult;
 
-            Assert.NotNull(result);
-            result.Value.Should().BeEquivalentTo(id);
+            response.Should().BeEquivalentTo(new ActionResult<GetSupplierModel>(new NotFoundResult()));
         }
 
         [Test]
@@ -49,10 +47,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
 
             var controller = new SuppliersController(mockMediator.Object);
 
-            var result = await controller.Get(id);
+            var response = await controller.Get(id);
 
-            Assert.NotNull(result);
-            result.Value.Should().BeEquivalentTo(expectedSupplier);
+            response.Should().BeEquivalentTo(new ActionResult<GetSupplierModel>(new OkObjectResult(expectedSupplier)));
         }
     }
 }

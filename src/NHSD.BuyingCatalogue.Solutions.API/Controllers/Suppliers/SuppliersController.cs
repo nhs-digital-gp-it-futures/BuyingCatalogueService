@@ -37,9 +37,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers
         {
             var supplier = await _mediator.Send(new GetSupplierByIdQuery(supplierId));
             if (supplier is null)
-                return NotFound(supplierId);
+                return NotFound();
 
-            return new GetSupplierModel(supplier);
+            return Ok(new GetSupplierModel(supplier));
         }
     }
 }
