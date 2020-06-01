@@ -21,6 +21,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Commands;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
 using NUnit.Framework;
 
@@ -69,6 +70,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             yield return new KeyValuePair<Type, Type>(typeof(SolutionSupplier), typeof(ISolutionSupplier));
             yield return new KeyValuePair<Type, Type>(typeof(Supplier), typeof(SupplierDto));
             yield return new KeyValuePair<Type, Type>(typeof(Supplier), typeof(ISupplier));
+            yield return new KeyValuePair<Type, Type>(typeof(SupplierAddress), typeof(ISupplierAddress));
             yield return new KeyValuePair<Type, Type>(typeof(RoadMap), typeof(RoadMapDto));
             yield return new KeyValuePair<Type, Type>(typeof(RoadMap), typeof(IRoadMap));
             yield return new KeyValuePair<Type, Type>(typeof(Integrations), typeof(IntegrationsDto));

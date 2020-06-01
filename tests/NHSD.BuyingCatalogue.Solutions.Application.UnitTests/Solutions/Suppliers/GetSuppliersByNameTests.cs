@@ -42,7 +42,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
                 new GetSuppliersByNameQuery(supplier),
                 _cancellationToken);
 
-            actualResult.Should().BeEquivalentTo(expectedResult, c => c.IncludingAllDeclaredProperties());
+            actualResult.Should().BeEquivalentTo(expectedResult, c => c.ExcludingMissingMembers());
         }
     }
 }

@@ -35,6 +35,44 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         // always perform an index scan. Given the expected number of suppliers I doubt this will be a problem, however.
         private const string GetSuppliersByNameSql = @"SELECT Id, [Name] FROM dbo.Supplier WHERE [Name] LIKE '%' + @name + '%' ORDER BY [Name];";
 
+        // This query is non-deterministic as there is currently no way to identify a primary contact
+        // TODO: define means of identifying a primary contact
+        private const string GetSupplierByIdSql = @"WITH SupplierDetails AS
+(
+    SELECT TOP (1) s.Id, s.[Name],
+           JSON_VALUE(s.[Address], '$.line1') AS AddressLine1,
+           JSON_VALUE(s.[Address], '$.line2') AS AddressLine2,
+           JSON_VALUE(s.[Address], '$.line3') AS AddressLine3,
+           JSON_VALUE(s.[Address], '$.line4') AS AddressLine4,
+           JSON_VALUE(s.[Address], '$.line5') AS AddressLine5,
+           JSON_VALUE(s.[Address], '$.city') AS Town,
+           JSON_VALUE(s.[Address], '$.county') AS County,
+           JSON_VALUE(s.[Address], '$.postcode') AS Postcode,
+           JSON_VALUE(s.[Address], '$.country') AS Country,
+           c.FirstName AS PrimaryContactFirstName,
+           c.LastName AS PrimaryContactLastName,
+           c.Email AS PrimaryContactEmailAddress,
+           c.PhoneNumber AS PrimaryContactTelephone
+      FROM dbo.Supplier AS s
+           LEFT OUTER JOIN dbo.SupplierContact AS c
+           ON c.SupplierId = s.Id
+     WHERE s.Id = @id
+ )
+ SELECT Id, [Name],
+        AddressLine1, AddressLine2, AddressLine3, AddressLine4, AddressLine5,
+        Town, County, Postcode, Country,
+        PrimaryContactFirstName, PrimaryContactLastName,
+        PrimaryContactEmailAddress, PrimaryContactTelephone,
+        CASE
+        WHEN NULLIF(COALESCE(AddressLine1, AddressLine2, AddressLine3, AddressLine4, AddressLine5,
+             Town, County, Postcode, Country), '') IS NULL THEN 0
+        ELSE 1 END AS HasAddress,
+        CASE
+        WHEN NULLIF(COALESCE(PrimaryContactFirstName, PrimaryContactFirstName,
+             PrimaryContactEmailAddress, PrimaryContactTelephone), '') IS NULL THEN 0
+        ELSE 1 END AS HasContact
+   FROM SupplierDetails;";
+
         private readonly IDbConnector _dbConnector;
 
         public SupplierRepository(IDbConnector dbConnector) => _dbConnector = dbConnector;
@@ -43,6 +81,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
             (await _dbConnector
                 .QueryAsync<SolutionSupplierResult>(GetSupplierBySolutionIdSql, cancellationToken, new { solutionId })
                 .ConfigureAwait(false)).SingleOrDefault();
+
+        public async Task<ISupplierResult> GetSupplierById(string id, CancellationToken cancellationToken) =>
+            await _dbConnector.QueryFirstOrDefaultAsync<SupplierResult>(GetSupplierByIdSql, cancellationToken, new { id });
 
         public async Task<IEnumerable<ISupplierResult>> GetSuppliersByName(string name, CancellationToken cancellationToken) =>
             await _dbConnector.QueryAsync<SupplierResult>(GetSuppliersByNameSql, cancellationToken, new { Name = name ?? string.Empty });
