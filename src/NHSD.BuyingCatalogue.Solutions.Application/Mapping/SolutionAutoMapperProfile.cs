@@ -11,10 +11,12 @@ using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetIntegrationsBySoluti
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetRoadMapBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierBySolutionId;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSuppliersByName;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Commands;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
@@ -62,8 +64,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
             CreateMap<HybridHostingType, IHybridHostingType>().As<HybridHostingTypeDto>();
             CreateMap<OnPremise, OnPremiseDto>();
             CreateMap<OnPremise, IOnPremise>().As<OnPremiseDto>();
+            CreateMap<SolutionSupplier, SolutionSupplierDto>();
+            CreateMap<SolutionSupplier, ISolutionSupplier>().As<SolutionSupplierDto>();
             CreateMap<Supplier, SupplierDto>();
             CreateMap<Supplier, ISupplier>().As<SupplierDto>();
+            CreateMap<SupplierAddress, ISupplierAddress>().As<SupplierAddressDto>();
             CreateMap<RoadMap, RoadMapDto>();
             CreateMap<RoadMap, IRoadMap>().As<RoadMapDto>();
             CreateMap<Integrations, IntegrationsDto>();

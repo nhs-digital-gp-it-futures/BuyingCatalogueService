@@ -1,9 +1,9 @@
-using MediatR;
+﻿using MediatR;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
 
 namespace NHSD.BuyingCatalogue.Solutions.Contracts.Queries
 {
-    public sealed class GetSupplierBySolutionIdQuery : IRequest<ISupplier>
+    public sealed class GetSupplierBySolutionIdQuery : IRequest<ISolutionSupplier>
     {
         /// <summary>
         /// The Id of the <see cref="Solution"/> to retrieve Supplier for

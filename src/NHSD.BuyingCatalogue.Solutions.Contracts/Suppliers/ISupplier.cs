@@ -1,9 +1,15 @@
+﻿using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
+
 namespace NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers
 {
     public interface ISupplier
     {
-        string Summary { get; }
+        string Id { get; }
 
-        string Url { get; }
+        string Name { get; }
+
+        ISupplierAddress Address { get; }
+
+        IContact PrimaryContact { get; }
     }
 }

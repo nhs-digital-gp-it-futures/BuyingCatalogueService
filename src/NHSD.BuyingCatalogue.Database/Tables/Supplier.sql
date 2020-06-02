@@ -11,5 +11,6 @@
      Deleted bit CONSTRAINT DF_Supplier_Deleted DEFAULT 0 NOT NULL,
      LastUpdated datetime2(7) NOT NULL,
      LastUpdatedBy uniqueidentifier NOT NULL,
-     CONSTRAINT PK_Supplier PRIMARY KEY CLUSTERED (Id)
+     CONSTRAINT PK_Supplier PRIMARY KEY CLUSTERED (Id),
+     INDEX IX_SupplierName NONCLUSTERED ([Name])
 );

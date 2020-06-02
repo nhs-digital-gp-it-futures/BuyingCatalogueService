@@ -8,18 +8,20 @@ using NHSD.BuyingCatalogue.Solutions.Application.Domain.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.Suppliers;
 using NHSD.BuyingCatalogue.Solutions.Application.Mapping;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutionId;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicationBySolutionId;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetImplementationTimescalesBySolutionId;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetRoadMapBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetIntegrationsBySolutionId;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetRoadMapBySolutionId;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierBySolutionId;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSuppliersByName;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Commands;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
 using NUnit.Framework;
 
@@ -29,12 +31,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
     public sealed class SolutionAutoMapperProfileTests
     {
         private SolutionAutoMapperProfile _solutionAutoMapperProfile;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _solutionAutoMapperProfile = new SolutionAutoMapperProfile();
-        }
 
         public static IEnumerable<KeyValuePair<Type, Type>> SupportedMappings()
         {
@@ -70,8 +66,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             yield return new KeyValuePair<Type, Type>(typeof(HybridHostingType), typeof(IHybridHostingType));
             yield return new KeyValuePair<Type, Type>(typeof(OnPremise), typeof(OnPremiseDto));
             yield return new KeyValuePair<Type, Type>(typeof(OnPremise), typeof(IOnPremise));
+            yield return new KeyValuePair<Type, Type>(typeof(SolutionSupplier), typeof(SolutionSupplierDto));
+            yield return new KeyValuePair<Type, Type>(typeof(SolutionSupplier), typeof(ISolutionSupplier));
             yield return new KeyValuePair<Type, Type>(typeof(Supplier), typeof(SupplierDto));
             yield return new KeyValuePair<Type, Type>(typeof(Supplier), typeof(ISupplier));
+            yield return new KeyValuePair<Type, Type>(typeof(SupplierAddress), typeof(ISupplierAddress));
             yield return new KeyValuePair<Type, Type>(typeof(RoadMap), typeof(RoadMapDto));
             yield return new KeyValuePair<Type, Type>(typeof(RoadMap), typeof(IRoadMap));
             yield return new KeyValuePair<Type, Type>(typeof(Integrations), typeof(IntegrationsDto));
@@ -84,6 +83,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             yield return new KeyValuePair<Type, Type>(typeof(SolutionDocument), typeof(ISolutionDocument));
             yield return new KeyValuePair<Type, Type>(typeof(ClaimedCapabilityEpic), typeof(ClaimedCapabilityEpicDto));
             yield return new KeyValuePair<Type, Type>(typeof(ClaimedCapabilityEpic), typeof(IClaimedCapabilityEpic));
+        }
+
+        [SetUp]
+        public void SetUp()
+        {
+            _solutionAutoMapperProfile = new SolutionAutoMapperProfile();
         }
 
         [Test]

@@ -1,4 +1,4 @@
-using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
+﻿using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers
 {
@@ -6,9 +6,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers
     {
         public AboutSupplierSectionAnswers Answers { get; }
 
-        public AboutSupplierSection(ISupplier supplier)
+        public AboutSupplierSection(ISolutionSupplier solutionSupplier)
         {
-            Answers = new AboutSupplierSectionAnswers(supplier);
+            Answers = new AboutSupplierSectionAnswers(solutionSupplier);
         }
 
         public AboutSupplierSection IfPopulated()

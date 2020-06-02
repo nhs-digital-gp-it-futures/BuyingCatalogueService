@@ -56,7 +56,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 m.CapabilitySourceUrl == "http://a.url");
             var capabilities2 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == Guid.NewGuid() && m.CapabilityName == "cap2");
 
-            var mockSupplier = Mock.Of<ISupplierResult>(m =>
+            var mockSupplier = Mock.Of<ISolutionSupplierResult>(m =>
                 m.Name == "supplier name" && m.Summary == "supplier summary" && m.Url == "supplierUrl");
 
             const string solutionDocument = "Solution.pdf";
@@ -370,7 +370,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             var dateTimeExpected = DateTime.ParseExact(expectedDate, DateFormat, CultureInfo.InvariantCulture);
             var existingSolution = Mock.Of<ISolutionResult>(s => s.LastUpdated == (DateTime.ParseExact(existingSolutionDate, DateFormat, CultureInfo.InvariantCulture)));
-            var existingSupplier = Mock.Of<ISupplierResult>();
+            var existingSupplier = Mock.Of<ISolutionSupplierResult>();
 
             var contact1Date = DateTime.ParseExact(marketingContact1Date, DateFormat, CultureInfo.InvariantCulture);
             var contact2Date = DateTime.ParseExact(marketingContact2Date, DateFormat, CultureInfo.InvariantCulture);
@@ -395,7 +395,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             var dateTimeExpected = DateTime.ParseExact(expectedDate, DateFormat, CultureInfo.InvariantCulture);
             var existingSolution = Mock.Of<ISolutionResult>(s => s.LastUpdated == (DateTime.ParseExact(existingSolutionDate, DateFormat, CultureInfo.InvariantCulture)));
-            var existingSupplier = Mock.Of<ISupplierResult>();
+            var existingSupplier = Mock.Of<ISolutionSupplierResult>();
 
             var solution = new Solution(existingSolution, new List<ISolutionCapabilityListResult>(),
                 new List<IMarketingContactResult>(), existingSupplier, null,null);
@@ -513,7 +513,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             var capabilities1 = Mock.Of<ISolutionCapabilityListResult>(m => m.CapabilityId == Guid.NewGuid() && m.CapabilityName == "cap1");
 
-            var mockSupplier = Mock.Of<ISupplierResult>(m =>
+            var mockSupplier = Mock.Of<ISolutionSupplierResult>(m =>
                 m.Name == "supplier name" && m.Summary == "supplier summary" && m.Url == "supplierUrl");
 
             _context.MockSolutionCapabilityRepository

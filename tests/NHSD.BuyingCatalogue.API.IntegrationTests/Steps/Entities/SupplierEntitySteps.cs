@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NHSD.BuyingCatalogue.Testing.Data;
@@ -10,7 +10,7 @@ using TechTalk.SpecFlow.Assist;
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
 {
     [Binding]
-    public sealed class SupplierEntitySteps
+    internal sealed class SupplierEntitySteps
     {
         [Given(@"Suppliers exist")]
         public static async Task GivenSuppliersExist(Table table)
@@ -47,6 +47,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             (await supplier.LastUpdated.SecondsFromNow().ConfigureAwait(false)).Should().BeLessOrEqualTo(5);
         }
 
+        [Given(@"a Supplier (.*) does not exist")]
+        public static async Task GivenASolutionSlnDoesNotExist(string supplierId)
+        {
+            var supplierList = await SupplierEntity.FetchAllAsync();
+            supplierList.Select(x => x.Id).Should().NotContain(supplierId);
+        }
+
         private static async Task InsertSupplierAsync(SupplierTable supplierTable)
         {
             await SupplierEntityBuilder.Create()
@@ -54,12 +61,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 .WithName(supplierTable.SupplierName)
                 .WithSummary(supplierTable.Summary)
                 .WithSupplierUrl(supplierTable.SupplierUrl)
+                .WithAddress(supplierTable.Address)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
         }
 
-        private class SupplierTable
+        private sealed class SupplierTable
         {
             public string Id { get; set; }
 
@@ -68,6 +76,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             public string Summary { get; set; }
 
             public string SupplierUrl { get; set; }
+            
+            public string Address { get; set; }
         }
     }
 }
