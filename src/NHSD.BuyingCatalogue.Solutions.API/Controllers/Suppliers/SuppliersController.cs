@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NHSD.BuyingCatalogue.Solutions.API.QueryModels;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
@@ -23,9 +24,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers
             _mediator = mediator;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetSuppliersModel>>> GetList(string name, string solutionPublicationStatus)
+        public async Task<ActionResult<IEnumerable<GetSuppliersModel>>> GetList([FromQuery] SupplierSearchQuery query)
         {
-            var suppliers = await _mediator.Send(new GetSuppliersByNameQuery(name, solutionPublicationStatus));
+            var suppliers = await _mediator.Send(new GetSuppliersByNameQuery(query?.Name, query?.SolutionPublicationStatus));
 
             return Ok(suppliers.Select(s => new GetSuppliersModel(s)));
         }

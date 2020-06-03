@@ -100,7 +100,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 new
                 {
                     Name = name ?? string.Empty,
-                    Status = solutionPublicationStatus?.Trim()
+                    Status = solutionPublicationStatus
                 });
 
         public async Task UpdateSupplierAsync(IUpdateSupplierRequest updateSupplierRequest, CancellationToken cancellationToken)

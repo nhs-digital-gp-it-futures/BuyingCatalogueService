@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Flurl;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using TechTalk.SpecFlow;
@@ -13,32 +15,40 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Suppliers
     {
         private const string RootSuppliersUrl = "http://localhost:5200/api/v1/suppliers";
 
+        private readonly ScenarioContext _context;
         private readonly Response _response;
 
-        public ListSupplierSteps(Response response)
+        public ListSupplierSteps(ScenarioContext context, Response response)
         {
+            _context = context;
             _response = response;
+
+            _context.Set(new Url(RootSuppliersUrl));
+        }
+
+        [Given(@"the user has searched for suppliers matching '([\w\s]*)'")]
+        public void GivenTheSupplierName(string name)
+        {
+            GivenTheQueryParameter(nameof(name), name);
+        }
+
+        [Given(@"the user has searched for suppliers with solutions matching the publication status '([\w]*)'")]
+        public void GivenThePublicationStatus(string solutionPublicationStatus)
+        {
+            GivenTheQueryParameter(nameof(solutionPublicationStatus), solutionPublicationStatus);
+        }
+
+        [Given(@"the user (has|has not) limited the search to suppliers with published solutions")]
+        public void GivenTheSolutionStatusIsLimitedToPublished(string hasOrHasNot)
+        {
+            GivenTheQueryParameter("limitToPublishedSolutions", hasOrHasNot.Equals("has", StringComparison.Ordinal));
         }
 
         [When(@"a GET request is made for suppliers")]
         public async Task GetSuppliers()
         {
-            _response.Result = await Client.GetAsync(RootSuppliersUrl);
-        }
-
-        [When(@"^a GET request is made for suppliers with (\S+) '([\w\s]*)'$")]
-        public async Task GetSuppliersWithQueryParameter(string field, string value)
-        {
-            _response.Result = await Client.GetAsync(RootSuppliersUrl, field, value);
-        }
-
-        [When(@"a GET request is made for suppliers with name ?(?:'([\w\s]*)')? and solution publication status ?(?:'(\w*)')?")]
-        public async Task GetSuppliersWithNameAndSolutionPublicationStatus(string name, string solutionPublicationStatus)
-        {
-            _response.Result = await Client.GetAsync(
-                RootSuppliersUrl,
-                ("name", name),
-                ("solutionPublicationStatus", solutionPublicationStatus));
+            var url = _context.Get<Url>();
+            _response.Result = await Client.GetAsync(url.ToString());
         }
 
         [Then(@"a list of suppliers is returned with the following values")]
@@ -54,6 +64,12 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Suppliers
                 });
 
             actualSuppliers.Should().BeEquivalentTo(expectedSuppliers);
+        }
+
+        private void GivenTheQueryParameter<T>(string name, T value)
+        {
+            var url = _context.Get<Url>();
+            url.SetQueryParam(name, value);
         }
 
         private sealed class ListSuppliersTable
