@@ -31,7 +31,7 @@ services:
 
   dacpac.deploy:
     <<: *dependsOnDb
-    image: ${REGISTRY:-nhsd}/buying-catalogue/db-deploy:${TAG:-latest}
+    image: ${REGISTRY:-nhsd}/buying-catalogue/bapi-db-deploy:${TAG:-latest}
     container_name: nhsd_bc_integration_db_deploy
     build:
       context: ".."
@@ -47,6 +47,11 @@ services:
       INTEGRATION_TEST: "TRUE"
 
   nhsd.buyingcatalogue.api:
+    image: ${REGISTRY:-nhsd}/buying-catalogue/bapi:${TAG:-latest}
+    container_name: nhsd_bcapi
+    build:
+      context: .
+      dockerfile: Dockerfile
     <<: *dependsOnDb
     container_name: nhsd_bc_integration_api
     environment:
