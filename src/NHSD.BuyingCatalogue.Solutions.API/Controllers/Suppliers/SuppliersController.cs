@@ -23,9 +23,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers
             _mediator = mediator;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetSuppliersModel>>> GetList(string name)
+        public async Task<ActionResult<IEnumerable<GetSuppliersModel>>> GetList(string name, string solutionPublicationStatus)
         {
-            var suppliers = await _mediator.Send(new GetSuppliersByNameQuery(name));
+            var suppliers = await _mediator.Send(new GetSuppliersByNameQuery(name, solutionPublicationStatus));
 
             return Ok(suppliers.Select(s => new GetSuppliersModel(s)));
         }

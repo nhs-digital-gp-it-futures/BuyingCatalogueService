@@ -26,10 +26,19 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Suppliers
             _response.Result = await Client.GetAsync(RootSuppliersUrl);
         }
 
-        [When(@"a GET request is made for suppliers with (\S+) ?(.*)")]
-        public async Task GetSuppliersWithName(string field, string value)
+        [When(@"^a GET request is made for suppliers with (\S+) '([\w\s]*)'$")]
+        public async Task GetSuppliersWithQueryParameter(string field, string value)
         {
             _response.Result = await Client.GetAsync(RootSuppliersUrl, field, value);
+        }
+
+        [When(@"a GET request is made for suppliers with name ?(?:'([\w\s]*)')? and solution publication status ?(?:'(\w*)')?")]
+        public async Task GetSuppliersWithNameAndSolutionPublicationStatus(string name, string solutionPublicationStatus)
+        {
+            _response.Result = await Client.GetAsync(
+                RootSuppliersUrl,
+                ("name", name),
+                ("solutionPublicationStatus", solutionPublicationStatus));
         }
 
         [Then(@"a list of suppliers is returned with the following values")]

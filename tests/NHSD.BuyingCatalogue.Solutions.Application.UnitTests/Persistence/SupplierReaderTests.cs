@@ -44,6 +44,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Persistence
         public async Task ByNameAsync_ReturnsExpectedValues()
         {
             const string supplierName = "Supplier";
+            const string solutionStatus = "Published";
 
             static ISupplierResult MockSupplierNameResult(string id, string name)
             {
@@ -62,12 +63,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Persistence
 
             var mockRepo = new Mock<ISupplierRepository>();
             mockRepo.Setup(
-                r => r.GetSuppliersByName(supplierName, It.IsAny<CancellationToken>()))
+                r => r.GetSuppliersByName(supplierName, solutionStatus, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(expectedSuppliers);
 
             var reader = new SupplierReader(mockRepo.Object);
 
-            var actualSuppliers = await reader.ByNameAsync(supplierName, new CancellationToken());
+            var actualSuppliers = await reader.ByNameAsync(supplierName, solutionStatus, new CancellationToken());
 
             actualSuppliers.Should().BeEquivalentTo(expectedSuppliers, config => config.ExcludingMissingMembers());
         }

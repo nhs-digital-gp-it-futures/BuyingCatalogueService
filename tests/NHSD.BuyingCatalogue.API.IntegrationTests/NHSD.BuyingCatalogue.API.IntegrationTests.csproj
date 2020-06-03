@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Flurl" Version="2.8.2" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="nunit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
@@ -22,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\NHSD.BuyingCatalogue.Solutions.Contracts\NHSD.BuyingCatalogue.Solutions.Contracts.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Testing.Data\NHSD.BuyingCatalogue.Testing.Data.csproj" />
     <ProjectReference Include="..\NHSD.BuyingCatalogue.Testing.Tools\NHSD.BuyingCatalogue.Testing.Tools.csproj" />
   </ItemGroup>

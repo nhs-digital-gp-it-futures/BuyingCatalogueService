@@ -18,6 +18,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
         public async Task Handle_ReturnsExpectedResults()
         {
             const string supplier = "Supplier";
+            const string solutionStatus = "Published";
 
             static ISupplierResult MockSupplierNameResult(string id, string name)
             {
@@ -35,11 +36,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
             };
 
             _context.MockSupplierRepository
-                .Setup(r => r.GetSuppliersByName(supplier, _cancellationToken))
+                .Setup(r => r.GetSuppliersByName(supplier, solutionStatus, _cancellationToken))
                 .ReturnsAsync(expectedResult);
 
             var actualResult = await _context.GetSuppliersByNameHandler.Handle(
-                new GetSuppliersByNameQuery(supplier),
+                new GetSuppliersByNameQuery(supplier, solutionStatus),
                 _cancellationToken);
 
             actualResult.Should().BeEquivalentTo(expectedResult, c => c.ExcludingMissingMembers());

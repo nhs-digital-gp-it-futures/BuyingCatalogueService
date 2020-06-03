@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Flurl;
 using Newtonsoft.Json;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
@@ -16,11 +17,24 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
 
         internal static async Task<HttpResponseMessage> GetAsync(string requestUrl, string field, string value)
         {
-            var builder = new UriBuilder(requestUrl) { Query = $"{field}={value}" };
+            var url = new Url(requestUrl);
+            url.SetQueryParam(field, value);
 
             using HttpClient client = new HttpClient();
 
-            return await client.GetAsync(builder.Uri);
+            return await client.GetAsync(url.ToUri());
+        }
+
+        internal static async Task<HttpResponseMessage> GetAsync(string requestUrl, params (string Name, string Value)[] queries)
+        {
+            var url = new Url(requestUrl);
+
+            foreach ((string name, string value) in queries)
+                url.SetQueryParam(name, value);
+
+            using HttpClient client = new HttpClient();
+
+            return await client.GetAsync(url.ToUri());
         }
 
         internal static async Task<HttpResponseMessage> PostAsJsonAsync(string requestUrl, object content)
