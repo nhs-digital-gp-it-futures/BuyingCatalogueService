@@ -1,5 +1,5 @@
 apiVersion: v2
-name: bapi-dacpac-applier
+name: bapi-db-deploy
 description: A Helm chart for Kubernetes
 
 type: application

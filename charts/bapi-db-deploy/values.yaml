@@ -1,4 +1,4 @@
-# Default values for bapi-dacpac-applier.
+# Default values for bapi-db-deploy.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -11,8 +11,8 @@ image:
   pullPolicy: Always
 
 imagePullSecrets: 
-nameOverride: "bapi-dacpac-applier"
-fullnameOverride: "gpitfutures-bc-bapi-dacpac-applier"
+nameOverride: "bapi-db-deploy"
+fullnameOverride: "gpitfutures-bc-bapi-db-deploy"
 
 serviceAccount:
   # Specifies whether a service account should be created

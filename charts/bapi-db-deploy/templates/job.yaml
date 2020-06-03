@@ -1,24 +1,24 @@
-{{- $name := include "bapi-dacpac-applier.fullname" . -}}
+{{- $name := include "bapi-db-deploy.fullname" . -}}
 {{- $cfgname := printf "%s-%s" "cfg" $name -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "bapi-dacpac-applier.fullname" . }}
+  name: {{ include "bapi-db-deploy.fullname" . }}
   labels:
-    {{- include "bapi-dacpac-applier.labels" . | nindent 4 }}
+    {{- include "bapi-db-deploy.labels" . | nindent 4 }}
 spec:
   template:
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets: {{- toYaml . | nindent 8 }}
     {{- end }}
-      serviceAccountName: {{ include "bapi-dacpac-applier.serviceAccountName" . }}
+      serviceAccountName: {{ include "bapi-db-deploy.serviceAccountName" . }}
       securityContext: {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
       - name: {{ .Chart.Name }}
         securityContext:
           {{- toYaml .Values.securityContext | nindent 12 }}
-        {{- include "bapi-dacpac-applier.image.properties" . | nindent 8 }}
+        {{- include "bapi-db-deploy.image.properties" . | nindent 8 }}
         resources:
             {{- toYaml .Values.resources | nindent 12 }}
         env:

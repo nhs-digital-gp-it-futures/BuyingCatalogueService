@@ -2,7 +2,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "bapi-dacpac-applier.name" -}}
+{{- define "bapi-db-deploy.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
@@ -11,7 +11,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "bapi-dacpac-applier.fullname" -}}
+{{- define "bapi-db-deploy.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -27,16 +27,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "bapi-dacpac-applier.chart" -}}
+{{- define "bapi-db-deploy.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Common labels
 */}}
-{{- define "bapi-dacpac-applier.labels" -}}
-helm.sh/chart: {{ include "bapi-dacpac-applier.chart" . }}
-{{ include "bapi-dacpac-applier.selectorLabels" . }}
+{{- define "bapi-db-deploy.labels" -}}
+helm.sh/chart: {{ include "bapi-db-deploy.chart" . }}
+{{ include "bapi-db-deploy.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -46,17 +46,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "bapi-dacpac-applier.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "bapi-dacpac-applier.name" . }}
+{{- define "bapi-db-deploy.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "bapi-db-deploy.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "bapi-dacpac-applier.serviceAccountName" -}}
+{{- define "bapi-db-deploy.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create -}}
-    {{ default (include "bapi-dacpac-applier.fullname" .) .Values.serviceAccount.name }}
+    {{ default (include "bapi-db-deploy.fullname" .) .Values.serviceAccount.name }}
 {{- else -}}
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
@@ -65,7 +65,7 @@ Create the name of the service account to use
 {{/*
 Defines which image:tag and what pull policy to use
 */}}
-{{- define "bapi-dacpac-applier.image.properties" -}}
+{{- define "bapi-db-deploy.image.properties" -}}
 {{- $localImageName := .Values.image.repository | replace "gpitfuturesdevacr.azurecr.io/" "" -}}
 {{- $imageName := ternary $localImageName (printf "%s:%s" .Values.image.repository .Chart.AppVersion) .Values.useLocalImage -}}
 {{- $imagePullPolicy := ternary "IfNotPresent" "Always" .Values.useLocalImage -}}
