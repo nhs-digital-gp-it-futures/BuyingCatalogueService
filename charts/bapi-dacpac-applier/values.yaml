@@ -7,7 +7,7 @@ replicaCount: 1
 useLocalImage: false
 
 image:
-  repository: gpitfuturesdevacr.azurecr.io/nhsd/buying-catalogue/db-deploy
+  repository: gpitfuturesdevacr.azurecr.io/nhsd/buying-catalogue/bapi-db-deploy
   pullPolicy: Always
 
 imagePullSecrets: 
