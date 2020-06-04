@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.Suppliers;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
@@ -25,7 +26,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 
         public async Task<IEnumerable<Supplier>> ByNameAsync(
             string name,
-            string solutionPublicationStatus,
+            PublishedStatus? solutionPublicationStatus,
             CancellationToken cancellationToken)
         {
             var suppliers = await _supplierRepository.GetSuppliersByName(name, solutionPublicationStatus, cancellationToken);

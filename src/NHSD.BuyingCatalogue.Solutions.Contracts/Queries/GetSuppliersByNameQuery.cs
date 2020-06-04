@@ -6,7 +6,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Queries
 {
     public sealed class GetSuppliersByNameQuery : IRequest<IEnumerable<ISupplier>>
     {
-        public GetSuppliersByNameQuery(string name, string solutionPublicationStatus)
+        public GetSuppliersByNameQuery(string name, PublishedStatus? solutionPublicationStatus)
         {
             Name = name;
             SolutionPublicationStatus = solutionPublicationStatus;
@@ -14,6 +14,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Queries
 
         public string Name { get; }
 
-        public string SolutionPublicationStatus { get; }
+        public PublishedStatus? SolutionPublicationStatus { get; }
     }
 }

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
 
@@ -44,7 +45,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Persistence
         public async Task ByNameAsync_ReturnsExpectedValues()
         {
             const string supplierName = "Supplier";
-            const string solutionStatus = "Published";
+            const PublishedStatus solutionStatus = PublishedStatus.Published;
 
             static ISupplierResult MockSupplierNameResult(string id, string name)
             {

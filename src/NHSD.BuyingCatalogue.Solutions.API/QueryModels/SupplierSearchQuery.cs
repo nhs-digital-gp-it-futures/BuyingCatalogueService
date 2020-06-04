@@ -4,17 +4,17 @@ namespace NHSD.BuyingCatalogue.Solutions.API.QueryModels
 {
     public sealed class SupplierSearchQuery
     {
-        private string _solutionPublicationStatus;
+        private PublishedStatus? _solutionPublicationStatus;
 
         public string Name { get; set; }
 
-        public string SolutionPublicationStatus
+        public PublishedStatus? SolutionPublicationStatus
         {
             get
             {
                 return LimitToPublishedSolutions.GetValueOrDefault()
-                    ? PublishedStatus.Published.ToString()
-                    : _solutionPublicationStatus?.Trim();
+                    ? PublishedStatus.Published
+                    : _solutionPublicationStatus;
             }
             set
             {

@@ -19,20 +19,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.QueryModels
             var model = new SupplierSearchQuery
             {
                 LimitToPublishedSolutions = hasPublishedItems,
-                SolutionPublicationStatus = assignedStatus.ToString()
+                SolutionPublicationStatus = assignedStatus
             };
 
             model.SolutionPublicationStatus.Should().Be(expectedStatus.ToString());
-        }
-
-        [Test]
-        public void SolutionPublicationStatus_SolutionPublicationStatus_ReturnsTrimmedStatus()
-        {
-            var expectedPublicationStatus = PublishedStatus.Withdrawn.ToString();
-
-            var model = new SupplierSearchQuery { SolutionPublicationStatus = $" {expectedPublicationStatus}\t" };
-
-            model.SolutionPublicationStatus.Should().Be(expectedPublicationStatus);
         }
     }
 }
