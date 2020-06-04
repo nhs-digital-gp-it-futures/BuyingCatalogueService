@@ -1,0 +1,16 @@
+version: '3.5'
+
+services:
+  nhsd.buyingcatalogue.api:
+    image: ${REGISTRY:-nhsd}/buying-catalogue/bapi:${TAG:-latest}
+    container_name: nhsd_bcapi
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+  dacpac.deploy:
+    image: ${REGISTRY:-nhsd}/buying-catalogue/bapi-db-deploy:${TAG:-latest}
+    container_name: nhsd_bcdb_deploy
+    build:
+      context: ".."
+      dockerfile: "src/NHSD.BuyingCatalogue.Database.Deployment/Dockerfile"

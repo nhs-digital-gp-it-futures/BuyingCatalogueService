@@ -56,13 +56,12 @@ build_api_locally () {
 }
 
 spin_containers_up () {
-	docker_compose_up="docker-compose -f \"docker-compose.yml\" -f \"docker-compose.$environment.yml\" up"
+	docker_compose_up="docker-compose -f \"docker-compose.$environment.yml\" up --build"
 	if [ "$attached" == "false" ]; then
 		docker_args="-d"
 	fi
 
 	cd docker
-    docker-compose build --no-cache
     eval $docker_compose_up $docker_args
 
 	if [ "$quiet" == "false" ]; then
