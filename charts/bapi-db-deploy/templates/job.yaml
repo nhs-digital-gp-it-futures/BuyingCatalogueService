@@ -46,6 +46,11 @@ spec:
               configMapKeyRef:
                 name: {{ .serverConfig.name }}
                 key: {{ .serverConfig.key }}
+          - name: "PORT"
+            valueFrom:
+              configMapKeyRef:
+                name: {{ .serverPortConfig.name }}
+                key: {{ .serverPortConfig.key }}
           {{- end }}
           {{- if .Values.env.values -}}
           {{- range .Values.env.values }}
