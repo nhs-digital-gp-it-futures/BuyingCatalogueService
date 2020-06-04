@@ -2,7 +2,7 @@
 
 namespace NHSD.BuyingCatalogue.Solutions.API.QueryModels
 {
-    public sealed class SupplierSearchQuery
+    public sealed class SupplierSearchQueryModel
     {
         private PublishedStatus? _solutionPublicationStatus;
 

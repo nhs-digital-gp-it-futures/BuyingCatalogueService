@@ -116,53 +116,7 @@ Scenario: 10. Only suppliers matching the name and solution publication status s
         | Sup 1 | Supplier B   |
 
 @4840
-Scenario: 11. All suppliers with published solutions are returned when limited to published solutions
-    Given the user has limited the search to suppliers with published solutions
-    When a GET request is made for suppliers
-    Then a successful response is returned
-    And a list of suppliers is returned with the following values
-        | Id    | SupplierName |
-        | Sup 2 | Supplier A   |
-        | Sup 1 | Supplier B   |
-
-@4840
-Scenario: 12. All suppliers are returned when not limited to published solutions and no name and solution publication status are supplied
-    Given the user has searched for suppliers matching ''
-    And the user has searched for suppliers with solutions matching the publication status ''
-    And the user has not limited the search to suppliers with published solutions
-    When a GET request is made for suppliers
-    Then a successful response is returned
-    And a list of suppliers is returned with the following values
-        | Id    | SupplierName |
-        | Sup 3 | Superb       |
-        | Sup 2 | Supplier A   |
-        | Sup 1 | Supplier B   |
-
-@4840
-Scenario: 13. Only matching suppliers with published solutions are returned when limited to published solutions and solution publication status is supplied
-    Given the user has searched for suppliers matching 'Sup'
-    And the user has searched for suppliers with solutions matching the publication status 'Withdrawn'
-    And the user has limited the search to suppliers with published solutions
-    When a GET request is made for suppliers
-    Then a successful response is returned
-    And a list of suppliers is returned with the following values
-        | Id    | SupplierName |
-        | Sup 2 | Supplier A   |
-        | Sup 1 | Supplier B   |
-
-@4840
-Scenario: 14. Only matching suppliers with published solutions are returned when limited to published solutions
-    Given the user has searched for suppliers matching 'Sup'
-    And the user has limited the search to suppliers with published solutions
-    When a GET request is made for suppliers
-    Then a successful response is returned
-    And a list of suppliers is returned with the following values
-        | Id    | SupplierName |
-        | Sup 2 | Supplier A   |
-        | Sup 1 | Supplier B   |
-
-@4840
-Scenario: 15. A bad response is returned when an invalid publication status is supplied
+Scenario: 11. A bad response is returned when an invalid publication status is supplied
     Given the user has searched for suppliers with solutions matching the publication status 'Incorrect'
     When a GET request is made for suppliers
     Then a response status of 400 is returned

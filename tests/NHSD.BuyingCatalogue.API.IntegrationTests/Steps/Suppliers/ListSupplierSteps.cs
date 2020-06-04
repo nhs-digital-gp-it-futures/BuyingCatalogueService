@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Flurl;
@@ -36,12 +35,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Suppliers
         public void GivenThePublicationStatus(string solutionPublicationStatus)
         {
             GivenTheQueryParameter(nameof(solutionPublicationStatus), solutionPublicationStatus);
-        }
-
-        [Given(@"the user (has|has not) limited the search to suppliers with published solutions")]
-        public void GivenTheSolutionStatusIsLimitedToPublished(string hasOrHasNot)
-        {
-            GivenTheQueryParameter("limitToPublishedSolutions", hasOrHasNot.Equals("has", StringComparison.Ordinal));
         }
 
         [When(@"a GET request is made for suppliers")]
