@@ -22,7 +22,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.QueryModels
                 SolutionPublicationStatus = assignedStatus
             };
 
-            model.SolutionPublicationStatus.Should().Be(expectedStatus.ToString());
+            model.SolutionPublicationStatus.Should().Be(expectedStatus);
         }
     }
 }
