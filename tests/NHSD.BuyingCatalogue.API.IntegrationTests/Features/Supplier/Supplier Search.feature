@@ -160,3 +160,9 @@ Scenario: 14. Only matching suppliers with published solutions are returned when
         | Id    | SupplierName |
         | Sup 2 | Supplier A   |
         | Sup 1 | Supplier B   |
+
+@4840
+Scenario: 15. A bad response is returned when an invalid publication status is supplied
+    Given the user has searched for suppliers with solutions matching the publication status 'Incorrect'
+    When a GET request is made for suppliers
+    Then a response status of 400 is returned
