@@ -37,7 +37,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         private const string GetSuppliersByNameSql = @"SELECT sup.Id, sup.[Name]
      FROM dbo.Supplier AS sup
 		  INNER JOIN dbo.Solution AS sol
-		  ON sol.SupplierId = sup.Id
+		  ON sup.Id = sol.SupplierId
     WHERE sup.[Name] LIKE '%' + @name + '%'
 	  AND sol.PublishedStatusId = COALESCE(NULLIF(@statusId, ''), sol.PublishedStatusId)
  ORDER BY sup.[Name];";
