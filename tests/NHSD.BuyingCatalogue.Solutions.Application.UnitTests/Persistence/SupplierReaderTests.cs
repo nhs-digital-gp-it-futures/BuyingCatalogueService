@@ -64,7 +64,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Persistence
 
             var mockRepo = new Mock<ISupplierRepository>();
             mockRepo.Setup(
-                r => r.GetSuppliersByName(supplierName, solutionStatus, It.IsAny<CancellationToken>()))
+                r => r.GetSuppliersByNameAsync(supplierName, solutionStatus, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(expectedSuppliers);
 
             var reader = new SupplierReader(mockRepo.Object);

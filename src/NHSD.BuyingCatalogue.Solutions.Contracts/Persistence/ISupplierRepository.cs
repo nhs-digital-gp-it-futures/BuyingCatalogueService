@@ -40,6 +40,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         /// <remarks>When <paramref name="solutionPublicationStatus"/> is specified only suppliers that have one or more
         /// solutions matching the specified status will be returned. When the parameter is null all suppliers matching
         /// the specified <paramref name="name"/> will be returned.</remarks>
-        Task<IEnumerable<ISupplierResult>> GetSuppliersByName(string name, PublishedStatus? solutionPublicationStatus, CancellationToken cancellationToken);
+        Task<IEnumerable<ISupplierResult>> GetSuppliersByNameAsync(string name, PublishedStatus? solutionPublicationStatus, CancellationToken cancellationToken);
     }
 }

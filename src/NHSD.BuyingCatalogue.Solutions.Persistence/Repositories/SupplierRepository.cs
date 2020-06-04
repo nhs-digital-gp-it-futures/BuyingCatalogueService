@@ -92,7 +92,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         public async Task<ISupplierResult> GetSupplierById(string id, CancellationToken cancellationToken) =>
             await _dbConnector.QueryFirstOrDefaultAsync<SupplierResult>(GetSupplierByIdSql, cancellationToken, new { id });
 
-        public async Task<IEnumerable<ISupplierResult>> GetSuppliersByName(string name, PublishedStatus? solutionPublicationStatus, CancellationToken cancellationToken) =>
+        public async Task<IEnumerable<ISupplierResult>> GetSuppliersByNameAsync(string name, PublishedStatus? solutionPublicationStatus, CancellationToken cancellationToken) =>
             await _dbConnector.QueryAsync<SupplierResult>(
                 GetSuppliersByNameSql,
                 cancellationToken,

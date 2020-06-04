@@ -29,7 +29,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
             PublishedStatus? solutionPublicationStatus,
             CancellationToken cancellationToken)
         {
-            var suppliers = await _supplierRepository.GetSuppliersByName(name, solutionPublicationStatus, cancellationToken);
+            var suppliers = await _supplierRepository.GetSuppliersByNameAsync(name, solutionPublicationStatus, cancellationToken);
 
             return suppliers.Select(s => new Supplier(s));
         }

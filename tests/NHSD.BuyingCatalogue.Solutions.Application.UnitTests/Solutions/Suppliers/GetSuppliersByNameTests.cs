@@ -37,7 +37,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
             };
 
             _context.MockSupplierRepository
-                .Setup(r => r.GetSuppliersByName(supplier, solutionStatus, _cancellationToken))
+                .Setup(r => r.GetSuppliersByNameAsync(supplier, solutionStatus, _cancellationToken))
                 .ReturnsAsync(expectedResult);
 
             var actualResult = await _context.GetSuppliersByNameHandler.Handle(
