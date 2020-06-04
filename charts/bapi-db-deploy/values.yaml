@@ -53,6 +53,9 @@ db:
   serverConfig:
     name:
     key:
+  serverPortConfig:
+    name:
+    key:
   saPasswordSecret: 
     name:
     key:
