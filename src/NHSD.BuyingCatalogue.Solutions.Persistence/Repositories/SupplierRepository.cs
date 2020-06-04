@@ -43,7 +43,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
  ORDER BY sup.[Name];";
 
         // This query is non-deterministic as there is currently no way to identify a primary contact
-        // TODO: define means of identifying a primary contact
+        // TODO: define means of identifying a primary contact (task 7581)
         private const string GetSupplierByIdSql = @"WITH SupplierDetails AS
 (
     SELECT TOP (1) s.Id, s.[Name],
