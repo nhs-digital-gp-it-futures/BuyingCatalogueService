@@ -31,6 +31,11 @@ spec:
             value: {{ .includePublish | quote }} 
           - name: INSERT_TEST_DATA
             value: {{ .insertTestData | quote }} 
+          - name: SA_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: {{ .saUserNameSecret.name }}
+                key: {{ .saUserNameSecret.key }}
           - name: SA_PASSWORD
             valueFrom:
               secretKeyRef:
