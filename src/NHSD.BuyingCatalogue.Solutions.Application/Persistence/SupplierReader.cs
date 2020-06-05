@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.Suppliers;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
@@ -23,9 +24,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
             return supplier is null ? null : new Supplier(supplier);
         }
 
-        public async Task<IEnumerable<Supplier>> ByNameAsync(string name, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Supplier>> ByNameAsync(
+            string name,
+            PublishedStatus? solutionPublicationStatus,
+            CancellationToken cancellationToken)
         {
-            var suppliers = await _supplierRepository.GetSuppliersByName(name, cancellationToken);
+            var suppliers = await _supplierRepository.GetSuppliersByNameAsync(name, solutionPublicationStatus, cancellationToken);
 
             return suppliers.Select(s => new Supplier(s));
         }

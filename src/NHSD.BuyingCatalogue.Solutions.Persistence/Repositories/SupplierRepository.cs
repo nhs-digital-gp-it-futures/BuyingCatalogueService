@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Persistence.Models;
 
@@ -33,10 +34,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         // A full-text index is typically a better way of implementing this kind of search. For example, the LIKE search below will
         // always perform an index scan. Given the expected number of suppliers I doubt this will be a problem, however.
-        private const string GetSuppliersByNameSql = @"SELECT Id, [Name] FROM dbo.Supplier WHERE [Name] LIKE '%' + @name + '%' ORDER BY [Name];";
+        private const string GetSuppliersByNameSql = @"SELECT sup.Id, sup.[Name]
+     FROM dbo.Supplier AS sup
+		  INNER JOIN dbo.Solution AS sol
+		  ON sup.Id = sol.SupplierId
+    WHERE sup.[Name] LIKE '%' + @name + '%'
+	  AND sol.PublishedStatusId = COALESCE(NULLIF(@statusId, ''), sol.PublishedStatusId)
+ ORDER BY sup.[Name];";
 
         // This query is non-deterministic as there is currently no way to identify a primary contact
-        // TODO: define means of identifying a primary contact
+        // TODO: define means of identifying a primary contact (task 7581)
         private const string GetSupplierByIdSql = @"WITH SupplierDetails AS
 (
     SELECT TOP (1) s.Id, s.[Name],
@@ -85,8 +92,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         public async Task<ISupplierResult> GetSupplierById(string id, CancellationToken cancellationToken) =>
             await _dbConnector.QueryFirstOrDefaultAsync<SupplierResult>(GetSupplierByIdSql, cancellationToken, new { id });
 
-        public async Task<IEnumerable<ISupplierResult>> GetSuppliersByName(string name, CancellationToken cancellationToken) =>
-            await _dbConnector.QueryAsync<SupplierResult>(GetSuppliersByNameSql, cancellationToken, new { Name = name ?? string.Empty });
+        public async Task<IEnumerable<ISupplierResult>> GetSuppliersByNameAsync(string name, PublishedStatus? solutionPublicationStatus, CancellationToken cancellationToken) =>
+            await _dbConnector.QueryAsync<SupplierResult>(
+                GetSuppliersByNameSql,
+                cancellationToken,
+                new
+                {
+                    Name = name ?? string.Empty,
+                    StatusId = (int?)solutionPublicationStatus
+                });
 
         public async Task UpdateSupplierAsync(IUpdateSupplierRequest updateSupplierRequest, CancellationToken cancellationToken)
         {

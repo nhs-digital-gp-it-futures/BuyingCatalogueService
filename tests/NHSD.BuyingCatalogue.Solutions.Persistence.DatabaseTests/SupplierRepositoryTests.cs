@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
@@ -121,7 +122,55 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             result.Should().BeEquivalentTo(expected);
         }
 
-        private async Task InsertSupplier()
+        [Test]
+        public async Task ByNameAsync_NoMatchingName_ReturnsEmptySet()
+        {
+            await InsertSupplier();
+
+            var suppliers = await _supplierRepository.GetSuppliersByNameAsync(
+                "Invisible",
+                null,
+                CancellationToken.None);
+
+            suppliers.Should().BeEmpty();
+        }
+
+        [TestCase(null, null)]
+        [TestCase("Supplier", null)]
+        [TestCase("Supplier", PublishedStatus.Published)]
+        public async Task GetSuppliersByNameAsync_PositiveMatch_ReturnsExpectedSupplier(
+            string supplierName,
+            PublishedStatus? solutionPublicationStatus)
+        {
+            await InsertSupplier();
+
+            var suppliers = await _supplierRepository.GetSuppliersByNameAsync(
+                supplierName,
+                solutionPublicationStatus,
+                CancellationToken.None);
+
+            suppliers.Should().BeEquivalentTo(new { Id = _supplierId, Name = _supplierName });
+        }
+
+        [TestCase("Supplier", PublishedStatus.Draft)]
+        [TestCase("Invisible", PublishedStatus.Published)]
+        [TestCase("Invisible", null)]
+        [TestCase(null, PublishedStatus.Withdrawn)]
+        public async Task GetSuppliersByNameAsync_NoMatchingSuppliers_ReturnsEmptySet(
+            string supplierName,
+            PublishedStatus? solutionPublicationStatus)
+        {
+            await InsertSupplier();
+
+            var suppliers = await _supplierRepository.GetSuppliersByNameAsync(
+                supplierName,
+                solutionPublicationStatus,
+                CancellationToken.None);
+
+            suppliers.Should().BeEmpty();
+        }
+
+        private async Task InsertSupplier(PublishedStatus solutionPublicationStatus = PublishedStatus.Published)
         {
             await SupplierEntityBuilder.Create()
                 .WithId(_supplierId)
@@ -145,6 +194,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithId(_solutionId)
                 .WithSupplierId(_supplierId)
+                .WithPublishedStatusId((int)solutionPublicationStatus)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
