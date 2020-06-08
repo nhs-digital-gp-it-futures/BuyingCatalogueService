@@ -12,7 +12,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
     {
         [HttpGet]
         [Route("{solutionId}/pricing")]
-        public ActionResult<PricingResult> Get(string solutionId)
+        public static ActionResult<PricingResult> Get(string solutionId)
         {
             var result = new PricingResult
             {
