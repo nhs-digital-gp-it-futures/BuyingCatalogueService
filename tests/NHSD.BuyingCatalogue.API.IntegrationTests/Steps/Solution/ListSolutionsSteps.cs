@@ -90,7 +90,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
             var expectedSolutions = table.CreateSet<SolutionDetailsTable>().ToList();
             var solutions = (await _response.ReadBody()).SelectToken("solutions");
 
-            solutions.Count().Should().Be(expectedSolutions.Count());
+            solutions.Count().Should().Be(expectedSolutions.Count);
 
             foreach (var expectedSolution in expectedSolutions)
             {
