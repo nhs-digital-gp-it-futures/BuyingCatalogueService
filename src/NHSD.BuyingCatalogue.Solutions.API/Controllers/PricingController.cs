@@ -12,7 +12,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
     {
         [HttpGet]
         [Route("{solutionId}/pricing")]
-        public ActionResult<TimeUnitResult> Get(string solutionId)
+        public ActionResult<PricingResult> Get(string solutionId)
         {
             var result = new PricingResult
             {
@@ -82,7 +82,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
                 }
             };
 
-            return Ok(result);
+            return result;
         }
     }
 }
