@@ -32,29 +32,22 @@ IF UPPER('$(INSERT_TEST_DATA)') = 'TRUE' AND NOT EXISTS (SELECT * FROM dbo.Solut
 BEGIN
     SET @solutionId = '100000-001';
 
-    INSERT INTO dbo.Solution(Id, SupplierId, [Name], [Version], PublishedStatusId, AuthorityStatusId, SupplierStatusId, OnCatalogueVersion, LastUpdated, LastUpdatedBy)
-    VALUES (@solutionId, '100000', 'Write on Time', '1.0.0', 3, 1, 1, 0, @now, @emptyGuid);
+    INSERT INTO dbo.Solution(Id, SupplierId, [Name], [Version], PublishedStatusId, AuthorityStatusId, SupplierStatusId, OnCatalogueVersion, LastUpdated, LastUpdatedBy, Summary, FullDescription, Features, ClientApplication, Hosting, AboutUrl)
+    VALUES (@solutionId, '100000', 'Write on Time', '1.0.0', 3, 1, 1, 0, @now, @emptyGuid,
+    'Write on Time is a Citizen-facing Appointments Management system specifically designed to reduce the number of DNAs in your practice.',
+    'FULL [Description] - Write on Time is a Citizen-facing Appointments Management system specifically designed to reduce the number of DNAs in your practice.',
+    '"Flexible Pricing", "Lightweight interface designed for maximum usability", "DNA tracking and automatic improvement suggestions", "Web-based", "Remotely accessible"',
+    NULL,
+    '{"hosting":{"publicCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"privateCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"hybrid":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"onPremise":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"}}}',
+    'http://www.writeontime.com/about');
 
-    SET @solutionDetailId = 'b0b981ca-b4db-4bdc-ab05-89780cc750ec';
+    SET @catalogueItemId = 'Cat1';
 
-    INSERT INTO dbo.SolutionDetail(Id, SolutionId, PublishedStatusId, Features, ClientApplication, Hosting, AboutUrl, Summary, FullDescription, LastUpdated, LastUpdatedBy)
-    VALUES (
-        @solutionDetailId,
-        @solutionId,
-        1,
-        '"Flexible Pricing", "Lightweight interface designed for maximum usability", "DNA tracking and automatic improvement suggestions", "Web-based", "Remotely accessible"',
-        NULL,
-        '{"hosting":{"publicCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"privateCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"hybrid":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"onPremise":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"}}}',
-        'http://www.writeontime.com/about',
-        'Write on Time is a Citizen-facing Appointments Management system specifically designed to reduce the number of DNAs in your practice.',
-        'FULL [Description] - Write on Time is a Citizen-facing Appointments Management system specifically designed to reduce the number of DNAs in your practice.',
-        @now,
-        @emptyGuid);
-
-    SET @solutionDetailId = 'b0b981ca-b4db-4bdc-ab05-89780cc750ec';
+    INSERT INTO dbo.CatalogueItem(CatalogueItemTypeId, Name, PublishedStatusId, Created)
+    VALUES (@catalogueItemId, 'Catalogue1', 1, @now);
 
     UPDATE dbo.Solution
-    SET SolutionDetailId = @solutionDetailId
+    SET CatalougeItemId = @catalogueItemId
     WHERE Id = @solutionId;
 
     INSERT INTO dbo.MarketingContact(SolutionId, FirstName, LastName, PhoneNumber, Email, Department, LastUpdated, LastUpdatedBy)
@@ -72,27 +65,23 @@ BEGIN
 
     SET @solutionId = '100001-001';
 
-    INSERT INTO dbo.Solution(Id, SupplierId, [Name], [Version], PublishedStatusId, AuthorityStatusId, SupplierStatusId, OnCatalogueVersion, LastUpdated, LastUpdatedBy)
-    VALUES (@solutionId, '100001', 'Appointment Gateway', '1.0.0', 3, 1, 1, 0, @now, @emptyGuid);
+    INSERT INTO dbo.Solution(Id, SupplierId, [Name], [Version], PublishedStatusId, AuthorityStatusId, SupplierStatusId, OnCatalogueVersion, LastUpdated, LastUpdatedBy, Summary, FullDescription, Features, ClientApplication, Hosting, AboutUrl)
+    VALUES (@solutionId, '100001', 'Appointment Gateway', '1.0.0', 3, 1, 1, 0, @now, @emptyGuid,
+    'Appointment Gateway is a complete appointment management suite that has been fully integrated with all major clinical systems throughout both the UK and Europe.',
+    'FULL [Description] - Appointment Gateway is a complete appointment management suite that has been fully integrated with all major clinical systems throughout both the UK and Europe.',
+    1,
+    '"Tested and approved by hundred''s of GPs", "99.9% service availability guaranteed", "Appointment forwarding & referral integration", "Fully interopable with all major GP IT solutions", "Compliant with all relevant ISO standards"',
+    NULL,
+    '{"hosting":{"publicCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"privateCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"hybrid":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"onPremise":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"}}}',
+    'http://www.appointmentgateway.com/about');
 
-    SET @solutionDetailId = '26b7f5d8-69d9-40b3-a450-73f714ebab5c';
+    SET @catalogueItemId = 'Cat2';
 
-    INSERT INTO dbo.SolutionDetail(Id, SolutionId, PublishedStatusId, Features, ClientApplication, Hosting, AboutUrl, Summary, FullDescription, LastUpdated, LastUpdatedBy)
-    VALUES (
-        @solutionDetailId,
-        @solutionId,
-        1,
-        '"Tested and approved by hundred''s of GPs", "99.9% service availability guaranteed", "Appointment forwarding & referral integration", "Fully interopable with all major GP IT solutions", "Compliant with all relevant ISO standards"',
-        NULL,
-        '{"hosting":{"publicCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"privateCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"hybrid":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"onPremise":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"}}}',
-        'http://www.appointmentgateway.com/about',
-        'Appointment Gateway is a complete appointment management suite that has been fully integrated with all major clinical systems throughout both the UK and Europe.',
-        'FULL [Description] - Appointment Gateway is a complete appointment management suite that has been fully integrated with all major clinical systems throughout both the UK and Europe.',
-        @now,
-        @emptyGuid);
+    INSERT INTO dbo.CatalogueItem(CatalogueItemTypeId, Name, PublishedStatusId, Created)
+    VALUES (@catalogueItemId, 'Catalogue2', 1, @now);
 
     UPDATE dbo.Solution
-    SET SolutionDetailId = @solutionDetailId
+    SET CatalougeItemId = @catalogueItemId
     WHERE Id = @solutionId;
 
     INSERT INTO dbo.MarketingContact(SolutionId, FirstName, LastName, PhoneNumber, Email, Department, LastUpdated, LastUpdatedBy)
@@ -110,27 +99,22 @@ BEGIN
 
     SET @solutionId = '100002-001';
 
-    INSERT INTO dbo.Solution(Id, SupplierId, [Name], [Version], PublishedStatusId, AuthorityStatusId, SupplierStatusId, OnCatalogueVersion, LastUpdated, LastUpdatedBy)
-    VALUES (@solutionId, '100002', 'Zen Guidance', '1.0.0', 3, 1, 1, 0, @now, @emptyGuid);
+    INSERT INTO dbo.Solution(Id, SupplierId, [Name], [Version], PublishedStatusId, AuthorityStatusId, SupplierStatusId, OnCatalogueVersion, LastUpdated, LastUpdatedBy, Summary, FullDescription, Features, ClientApplication, Hosting, AboutUrl)
+    VALUES (@solutionId, '100002', 'Zen Guidance', '1.0.0', 3, 1, 1, 0, @now, @emptyGuid,
+    'Zen Guidance utilizes an advanced AI framework to provide clinicians with highly accurate data to support sound decision-making.',
+    'FULL [Description] - Zen Guidance utilizes an advanced AI framework to provide clinicians with highly accurate data to support sound decision-making.',
+    '"Advanced AI functionality", "MESH & FHIR compliant", "Remotely accessible ", "Cloud-hosted", "24/7 customer support"',
+    NULL,
+    '{"hosting":{"publicCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"privateCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"hybrid":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"onPremise":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"}}}',
+     'http://www.zenguidance.com/about');
 
-    SET @solutionDetailId = 'de9adcc1-4b16-4052-a2e4-7b36f82fa7d8';
+    SET @catalogueItemId = 'Cat3';
 
-    INSERT INTO dbo.SolutionDetail(Id, SolutionId, PublishedStatusId, Features, ClientApplication, Hosting, AboutUrl, Summary, FullDescription, LastUpdated, LastUpdatedBy)
-    VALUES (
-        @solutionDetailId,
-        @solutionId,
-        3,
-        '"Advanced AI functionality", "MESH & FHIR compliant", "Remotely accessible ", "Cloud-hosted", "24/7 customer support"',
-        NULL,
-        '{"hosting":{"publicCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"privateCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"hybrid":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"onPremise":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"}}}',
-        'http://www.zenguidance.com/about',
-        'Zen Guidance utilizes an advanced AI framework to provide clinicians with highly accurate data to support sound decision-making.',
-        'FULL [Description] - Zen Guidance utilizes an advanced AI framework to provide clinicians with highly accurate data to support sound decision-making.',
-        @now,
-        @emptyGuid);
+    INSERT INTO dbo.CatalogueItem(CatalogueItemTypeId, Name, PublishedStatusId, Created)
+    VALUES (@catalogueItemId, 'Catalogue3', 3, @now);
 
     UPDATE dbo.Solution
-    SET SolutionDetailId = @solutionDetailId
+    SET CatalougeItemId = @catalogueItemId
     WHERE Id = @solutionId;
 
     INSERT INTO dbo.MarketingContact(SolutionId, FirstName, LastName, PhoneNumber, Email, Department, LastUpdated, LastUpdatedBy)
@@ -145,27 +129,22 @@ BEGIN
 
     SET @solutionId = '100003-001';
 
-    INSERT INTO dbo.Solution(Id, SupplierId, [Name], [Version], PublishedStatusId, AuthorityStatusId, SupplierStatusId, OnCatalogueVersion, LastUpdated, LastUpdatedBy)
-    VALUES (@solutionId, '100003', 'Intellidoc Comms', '1.0.0', 3, 1, 1, 0, @now, @emptyGuid);
+    INSERT INTO dbo.Solution(Id, SupplierId, [Name], [Version], PublishedStatusId, AuthorityStatusId, SupplierStatusId, OnCatalogueVersion, LastUpdated, LastUpdatedBy, Summary, FullDescription, Features, ClientApplication, Hosting, AboutUrl)
+    VALUES (@solutionId, '100003', 'Intellidoc Comms', '1.0.0', 3, 1, 1, 0, @now, @emptyGuid,
+    'Intellidoc Comms empowers all practice staff to record & send communications in an extremely streamlined and time-efficient manner.',
+    'FULL [Description] - Intellidoc Comms empowers all practice staff to record & send communications in an extremely streamlined and time-efficient manner.',
+    '"Efficient instant & scheduled messaging", "Web-based interface", "Compliant with all relevant ISO standards", "Wide range of add-ons available", "Cloud-hosted"',
+    NULL,
+    '{"hosting":{"publicCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"privateCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"hybrid":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"onPremise":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"}}}',
+    'http://www.intellidoc.com/about');
 
-    SET @solutionDetailId = '4b0e4a4f-2327-44ac-8988-7317a59c110d';
+    SET @catalogueItemId = 'Cat3';
 
-    INSERT INTO dbo.SolutionDetail(Id, SolutionId, PublishedStatusId, Features, ClientApplication, Hosting, AboutUrl, Summary, FullDescription, LastUpdated, LastUpdatedBy)
-    VALUES (
-        @solutionDetailId,
-        @solutionId,
-        3,
-        '"Efficient instant & scheduled messaging", "Web-based interface", "Compliant with all relevant ISO standards", "Wide range of add-ons available", "Cloud-hosted"',
-        NULL,
-        '{"hosting":{"publicCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"privateCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"hybrid":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"onPremise":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"}}}',
-        'http://www.intellidoc.com/about',
-        'Intellidoc Comms empowers all practice staff to record & send communications in an extremely streamlined and time-efficient manner.',
-        'FULL [Description] - Intellidoc Comms empowers all practice staff to record & send communications in an extremely streamlined and time-efficient manner.',
-        @now,
-        @emptyGuid);
+    INSERT INTO dbo.CatalogueItem(CatalogueItemTypeId, Name, PublishedStatusId, Created)
+    VALUES (@catalogueItemId, 'Catalogue3', 3, @now);
 
     UPDATE dbo.Solution
-    SET SolutionDetailId = @solutionDetailId
+    SET CatalougeItemId = @catalogueItemId
     WHERE Id = @solutionId;
 
     INSERT INTO dbo.MarketingContact(SolutionId, FirstName, LastName, PhoneNumber, Email, Department, LastUpdated, LastUpdatedBy)
@@ -180,27 +159,22 @@ BEGIN
 
     SET @solutionId = '100004-001';
 
-    INSERT INTO dbo.Solution(Id, SupplierId, [Name], [Version], PublishedStatusId, AuthorityStatusId, SupplierStatusId, OnCatalogueVersion, LastUpdated, LastUpdatedBy)
-    VALUES (@solutionId, '100004', 'Diagnostics XYZ', '1.0.0', 3, 1, 1, 0, @now, @emptyGuid);
+    INSERT INTO dbo.Solution(Id, SupplierId, [Name], [Version], PublishedStatusId, AuthorityStatusId, SupplierStatusId, OnCatalogueVersion, LastUpdated, LastUpdatedBy, Summary, FullDescription, Features, ClientApplication, Hosting, AboutUrl)
+    VALUES (@solutionId, '100004', 'Diagnostics XYZ', '1.0.0', 3, 1, 1, 0, @now, @emptyGuid,
+    'Diagnostics XYZ introduces new diagnostic tools not currently provided by the leading clinical software suppliers.',
+    'FULL [Description] - Diagnostics XYZ introduces new diagnostic tools not currently provided by the leading clinical software suppliers.',
+    '"Seamless integration with a wide range of diagnostic hardware", "Demo & free trial available", "FHIR compliant", "Plug and play - minimal deployment activity required", "Optimized for touchscreen & desktop use"',
+    NULL,
+    '{"hosting":{"publicCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"privateCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"hybrid":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"onPremise":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"}}}',
+    'http://www.diagnostics.xyz/about');
 
-    SET @solutionDetailId = 'fcd89564-bce6-45fb-8d18-3e97b6ad416b';
+    SET @catalogueItemId = 'Cat3';
 
-    INSERT INTO dbo.SolutionDetail(Id, SolutionId, PublishedStatusId, Features, ClientApplication, Hosting, AboutUrl, Summary, FullDescription, LastUpdated, LastUpdatedBy)
-    VALUES (
-        @solutionDetailId,
-        @solutionId,
-        3,
-        '"Seamless integration with a wide range of diagnostic hardware", "Demo & free trial available", "FHIR compliant", "Plug and play - minimal deployment activity required", "Optimized for touchscreen & desktop use"',
-        NULL,
-        '{"hosting":{"publicCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"privateCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"hybrid":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"onPremise":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"}}}',
-        'http://www.diagnostics.xyz/about',
-        'Diagnostics XYZ introduces new diagnostic tools not currently provided by the leading clinical software suppliers.',
-        'FULL [Description] - Diagnostics XYZ introduces new diagnostic tools not currently provided by the leading clinical software suppliers.',
-        @now,
-        @emptyGuid);
+    INSERT INTO dbo.CatalogueItem(CatalogueItemTypeId, Name, PublishedStatusId, Created)
+    VALUES (@catalogueItemId, 'Catalogue3', 3, @now);
 
     UPDATE dbo.Solution
-    SET SolutionDetailId = @solutionDetailId
+    SET CatalougeItemId = @catalogueItemId
     WHERE Id = @solutionId;
 
     INSERT INTO dbo.MarketingContact(SolutionId, FirstName, LastName, PhoneNumber, Email, Department, LastUpdated, LastUpdatedBy)
@@ -218,18 +192,15 @@ BEGIN
 
     SET @solutionId = '100005-001';
 
-    INSERT INTO dbo.Solution(Id, SupplierId, [Name], [Version], PublishedStatusId, AuthorityStatusId, SupplierStatusId, OnCatalogueVersion, LastUpdated, LastUpdatedBy)
-    VALUES (@solutionId, '100005', 'Document Wizard', '1.0.0', 3, 1, 1, 0, @now, @emptyGuid);
+                INSERT INTO dbo.CatalogueItem(CatalogueItemId, CatalogueTypeId, [Name], SupplierId, PublishedStatusId, Created)
+                VALUES (@solutionId, @solutionItemType, 'Document Wizard', '100005', @publishedStatus, @now);
 
-    SET @solutionDetailId = '9fe7980f-0a0b-44b3-bd19-0786dd6e1f4e';
-
-    INSERT INTO dbo.SolutionDetail(Id, SolutionId, PublishedStatusId, Features, ClientApplication, Hosting, AboutUrl, Summary, FullDescription, LastUpdated, LastUpdatedBy)
+    INSERT INTO dbo.Solution(Id, PublishedStatusId, [Version], Features, Hosting, AboutUrl, Summary, FullDescription, LastUpdated, LastUpdatedBy)
     VALUES (
-        @solutionDetailId,
         @solutionId,
-        3,
+        @publishedStatus,
+                                '1.0.0',
         '"Industry-leading data extraction & scanning accuracy", "Fully interopable with all major GP IT solutions", "24/7 customer support", "Fully Compliant with all relevant ISO standards", "Modular architecture to enhance compatibility and customisation"',
-        NULL,
         '{"hosting":{"publicCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"privateCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"hybrid":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"onPremise":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"}}}',
         'http://www.documentwizard.com/about',
         'Document Wizard is the UK industry-leader for clinical document management software due to our patented lightweight interface and interoperability.',
@@ -253,28 +224,21 @@ BEGIN
 
     SET @solutionId = '100006-001';
 
-    INSERT INTO dbo.Solution(Id, SupplierId, [Name], [Version], PublishedStatusId, AuthorityStatusId, SupplierStatusId, OnCatalogueVersion, LastUpdated, LastUpdatedBy)
-    VALUES ('100006-001', '100006', 'Paperlite', '1.0.0', 3, 1, 1, 0, @now, @emptyGuid);
+                INSERT INTO dbo.CatalogueItem(CatalogueItemId, CatalogueTypeId, [Name], SupplierId, PublishedStatusId, Created)
+                VALUES (@solutionId, @solutionItemType, 'Paperlite', '100006', @publishedStatus, @now);
 
-    SET @solutionDetailId = 'b6dcb30f-613d-43d7-9039-2ce4cf8508ce';
-
-    INSERT INTO dbo.SolutionDetail(Id, SolutionId, PublishedStatusId, Features, ClientApplication, Hosting, AboutUrl, Summary, FullDescription, LastUpdated, LastUpdatedBy)
+    INSERT INTO dbo.Solution(Id, PublishedStatusId, [Version], Features, Hosting, AboutUrl, Summary, FullDescription, LastUpdated, LastUpdatedBy)
     VALUES (
         @solutionDetailId,
-        '100006-001',
-        3,
+        @publishedStatus,
+                                '1.0.0',
         '"Revolutionary optical character recognition technology", "Can be deployed quickly at low-cost", "Web-based interface", "Cloud-hosted", "Wide range of add-ons available"',
-        NULL,
         '{"hosting":{"publicCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"privateCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"hybrid":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"onPremise":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"}}}',
         'http://www.paperlite.com/about',
         'Paperlite utilises new OCR technology to seamlessly transfer written notes to digital patient records.',
         'FULL [Description] - Paperlite utilises new OCR technology to seamlessly transfer written notes to digital patient records.',
         @now,
         @emptyGuid);
-
-    UPDATE dbo.Solution
-    SET SolutionDetailId = @solutionDetailId
-    WHERE Id = '100006-001';
 
     INSERT INTO dbo.MarketingContact(SolutionId, FirstName, LastName, PhoneNumber, Email, Department, LastUpdated, LastUpdatedBy)
     VALUES ('100006-001', 'Timothy', 'Campbell', '07107924358', 'Sales@DocLightning.com', 'Sales', @now, @emptyGuid);
@@ -288,28 +252,21 @@ BEGIN
 
     SET @solutionId = '100007-001';
 
-    INSERT INTO dbo.Solution(Id, SupplierId, [Name], [Version], PublishedStatusId, AuthorityStatusId, SupplierStatusId, OnCatalogueVersion, LastUpdated, LastUpdatedBy)
-    VALUES (@solutionId, '100007', 'Medsort', '1.0.0', 3, 1, 1, 0, @now, @emptyGuid);
+                INSERT INTO dbo.CatalogueItem(CatalogueItemId, CatalogueTypeId, [Name], SupplierId, PublishedStatusId, Created)
+                VALUES (@solutionId, @solutionItemType, 'Medsort', '100007', @publishedStatus, @now);
 
-    SET @solutionDetailId = 'bf543a9e-50d4-4d44-af10-59ee753915b5';
-
-    INSERT INTO dbo.SolutionDetail(Id, SolutionId, PublishedStatusId, Features, ClientApplication, Hosting, AboutUrl, Summary, FullDescription, LastUpdated, LastUpdatedBy)
+    INSERT INTO dbo.Solution(Id, PublishedStatusId, [Version], Features, Hosting, AboutUrl, Summary, FullDescription, LastUpdated, LastUpdatedBy)
     VALUES (
-        @solutionDetailId,
         @solutionId,
-        3,
+        @publishedStatus,
+                                '1.0.0',
         '"Fully adaptable to suit your practice''s needs", "Integrates with Spine", "FHIR compliant", "Flexible Pricing", "24/7 customer support"',
-        NULL,
         '{"hosting":{"publicCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"privateCloud":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"hybrid":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"},"onPremise":{"summary":"Summary [Description]","urlLink":"External URL link","hostinverview":"Hosting environment [Description]","hscnN3AccessRequired":"Link to HSCN or N3 network required to access service"}}}',
         'http://www.medsort.com/about',
         'Medsort enhances your medicine optimisation process and introduces new, more customisable tools that can be adapted to your local environment.',
         'FULL [Description] - Medsort enhances your medicine optimisation process and introduces new, more customisable tools that can be adapted to your local environment.',
         @now,
         @emptyGuid);
-
-    UPDATE dbo.Solution
-    SET SolutionDetailId = @solutionDetailId
-    WHERE Id = @solutionId;
 
     INSERT INTO dbo.MarketingContact(SolutionId, FirstName, LastName, PhoneNumber, Email, Department, LastUpdated, LastUpdatedBy)
     VALUES (@solutionId, 'Cheryl', 'White', '07295044295', 'Sales@DocabilitySoftware.com', 'Sales', @now, @emptyGuid);
@@ -323,19 +280,20 @@ BEGIN
 
     SET @solutionId = '99999-89';
 
-    INSERT INTO dbo.Solution(Id, ParentId, SupplierId, [Name], [Version], PublishedStatusId, AuthorityStatusId, SupplierStatusId, OnCatalogueVersion, ServiceLevelAgreement, WorkOfPlan, LastUpdated, LastUpdatedBy)
-    VALUES (@solutionId, NULL, '99999', 'NotEmis Web GP', '1.0.0', 3, 1, 1, 0, NULL, NULL, @now, @emptyGuid);
+    INSERT INTO dbo.CatalogueItem(CatalogueItemId, CatalogueTypeId, [Name], SupplierId, PublishedStatusId, Created)
+                VALUES (@solutionId, @solutionItemType, 'NotEmis Web GP', '99999', @publishedStatus, @now);
 
     INSERT INTO dbo.MarketingContact(SolutionId, FirstName, LastName, Email, PhoneNumber, Department, LastUpdated, LastUpdatedBy)
     VALUES (@solutionId, '', '', 'info@egton.net', '0845 1245 245 and select Option 1', 'Internal Sales Team', @now, @emptyGuid);
 
-    SET @solutionDetailId = '0d5f88ef-b2ed-4e8d-966c-52e7ca3e841b';
-
-    INSERT INTO dbo.SolutionDetail (Id, SolutionId, PublishedStatusId, Features, ClientApplication, Hosting, ImplementationDetail, RoadMap, IntegrationsUrl, AboutUrl, Summary, FullDescription, LastUpdated, LastUpdatedBy)
-    VALUES (
-        @solutionDetailId,
+    INSERT INTO dbo.Solution(Id, [Version],
+                                                                Features, ClientApplication, Hosting, ImplementationDetail, RoadMap,
+                                                                IntegrationsUrl, AboutUrl, Summary, FullDescription,
+                                                                LastUpdated, LastUpdatedBy)
+    VALUES
+                (
         @solutionId,
-        3,
+                                '1.0.0',
         '"Access to real-time patient data that can be shared between locations and healthcare organisations","One-click access to patient summary information","Quick data entry using protocols, templates and concepts tailored to your practice requirements","Integrated clinical safety alerts graded to highlight severity","Automatic notification of linked pre-existing conditions when recording a new acute problem","Integrated patient recall system to target specific lists of patients for specific clinics","Intelligent alerts and auto-templates to capture outstanding QOF information","Integrated QOF-finder to identify patients where you are losing QOF points","Seamless data exchange with over 100 partners including Graphnet, Cerner and Optum","Integration with Patient Access enables patients to book appointments and order prescriptions"',
         '{"ClientApplicationTypes":"browser-based","native-mobile","native-desktop","BrowsersSupported":"ogle Chrome","Chromium","Internet Explorer 11","Internet Explorer 10","MobileResponsive":true,"Plugins":{"Required":false,"AdditionalInformation":""},"MinimumConnectionSpeed":"2Mbps","MinimumDesktopResolution":"16:9 - 1366 x 768","HardwareRequirements":"The browser activities are only supported in relation the native desktop client therefore mirror the native desktop client hardware requirements detailed below.","NativeMobileHardwareRequirements":"Any device capable of supporting the listed supported operating systems is compliant.","NativeDesktopHardwareRequirements":"The spoke server is an important part of the solution. It provides a patch distribution system for client updates and acts as a local cache. \r\nEMIS Health recommends that your spoke is a dedicated device; however, if you use your spoke to perform other functions, such as act as a domain controller, store business documents or host other applications, then a Windows server class operating system will be required, along with an appropriate specification of server hardware.","AdditionalInformation":"","MobileFirstDesign":false,"NativeMobileFirstDesign":false,"MobileOperatingSystems":{"OperatingSystems":"Apple IOS","Android","Other","OperatingSystemsDescription":"•\tiOS v 10.3.3.3 and above\r\n•\tAndroid v 6 and above\r\n•\tWindows 10 (Build 14393)"},"MobileConnectionDetails":{"MinimumConnectionSpeed":"","ConnectionType":"GPRS","3G","LTE","4G","5G","Wifi","[Description]":"The mobile application only requires internet connectivity to synchronize therefore there is no minimum connection speed required."},"MobileMemoryAndStorage":{"MinimumMemoryRequirement":"2GB","[Description]":"All compliant devices have a minimum 16GB storage"},"MobileThirdParty":{"ThirdPartyComponents":"","DeviceCapabilities":"The device should have access to the relevant App Store to enable the installation of the respective application although deployment via mobile device management solutions is supported."},"NativeMobileAdditionalInformation":"Apple have recently announced that a new operating system, designed specifically for iPad devices.\r\nWe have tested this and can confirm that EMIS Mobile is fully compatible.","NativeDesktopOperatingSystemsDescription":"Microsoft Windows 7 (x86 x64)\r\nMicrosoft Windows 8.1 (x86 x64)\r\nMicrosoft Windows 10 (x86 x64)","NativeDesktopMinimumConnectionSpeed":"2Mbps","NativeDesktopThirdParty":{"ThirdPartyComponents":".NET framework 4","DeviceCapabilities":"The application requires connectivity to the EMIS Data Centre."},"NativeDesktopMemoryAndStorage":{"MinimumMemoryRequirement":"4GB","StorageRequirementsDescription":"10GB free disk space","MinimumCpu":"Intel Core i3 equivalent or higher","RecommendedResolution":"16:9 - 1366 x 768"},"NativeDesktopAdditionalInformation":"The minimum connection speed is dependent on the number of clients that need to be supported.\r\n\r\nEMISHealth do not support the use of on-screen keyboards for 2 in 1 devices."}',
         '{"PublicCloud":{"Summary":"This service is not available on public cloud","Link":""},"PrivateCloud":{"Summary":"EMIS Web is hosted in EMIS’ own data centres and the solution is provided as Software as a Service","Link":"","HostingModel":"Model complies with GPIT Futures requirements for hosting","RequiresHSCN":"End user devices must be connected to HSCN/N3"}}',
@@ -345,23 +303,23 @@ An implementation plan is provided and agreed at the beginning of the process ou
 
 Key activities:
 
-•	Customer supplied with high level implementation plan and welcome pack
+•             Customer supplied with high level implementation plan and welcome pack
 
-•	Engineer visit to perform install of client software and check connectivity
+•             Engineer visit to perform install of client software and check connectivity
 
-•	Customer supplied test data loaded into a test system and made available
+•             Customer supplied test data loaded into a test system and made available
 
-•	Learning needs analysis performed & agreed training plan for  live
+•             Learning needs analysis performed & agreed training plan for  live
 
-•	On site visit to train the customer how to check and cleanse their data
+•             On site visit to train the customer how to check and cleanse their data
 
-•	Any defects and corrections completed on migrated data
+•             Any defects and corrections completed on migrated data
 
-•	Practice sign off of test data
+•             Practice sign off of test data
 
-•	Agreed training provide pre and post  live in line with results from LNA
+•             Agreed training provide pre and post  live in line with results from LNA
 
-•	 live day, trainers and engineer onsite to support a smooth transition',
+•             live day, trainers and engineer onsite to support a smooth transition',
 'The following roadmap details all IT Futures managed capacity items. EMIS Health is committed to delivering against the effective date. The roadmap provides visibility on which items have been completed, are scheduled and are in the pipeline to be scheduled.',
 'https://www.emishealth.com/products/partner-products/',
         '',
@@ -373,10 +331,6 @@ Key activities:
     Using EMIS Web, healthcare professionals can provide the best possible patient care with patient safety at its core. We safely and securely hold more patient records than any other supplier and work with clinicians and pharmacists to ensure the highest possible standards of patient safety are upheld. The system provides secure access to all the information they need to make the right decisions for their patients.',
         @now,
         @emptyGuid);
-
-    UPDATE dbo.Solution
-    SET SolutionDetailId = @solutionDetailId
-    WHERE Id = @solutionId;
 
     INSERT INTO dbo.SolutionCapability (SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
     VALUES
@@ -501,15 +455,17 @@ Key activities:
 
     SET @solutionId = '99998-98';
 
-    INSERT INTO dbo.Solution(Id, SupplierId, [Name], [Version], PublishedStatusId, AuthorityStatusId, SupplierStatusId, OnCatalogueVersion, LastUpdated, LastUpdatedBy)
-    VALUES (@solutionId, '99998', 'NotSystmOne', '1.0.0', 3, 1, 1, 0, @now, @emptyGuid);
+                INSERT INTO dbo.CatalogueItem(CatalogueItemId, CatalogueTypeId, [Name], SupplierId, PublishedStatusId, Created)
+                VALUES (@solutionId, @solutionItemType, 'NotSystmOne', '99998', @publishedStatus, @now);
 
-    INSERT INTO dbo.SolutionDetail (Id, SolutionId, PublishedStatusId, Features, ClientApplication, Hosting, ImplementationDetail, RoadMap, IntegrationsUrl, AboutUrl, Summary, FullDescription, LastUpdated, LastUpdatedBy)
+    INSERT INTO dbo.Solution(Id, [Version],
+                                                                Features, ClientApplication, Hosting, ImplementationDetail, RoadMap,
+                                                                IntegrationsUrl, AboutUrl, Summary, FullDescription,
+                                                                LastUpdated, LastUpdatedBy)
     VALUES
-    (
-        'c9945761-4209-49fd-abef-f6f5b14f0a78',
-        @solutionId,
-        3,
+                (
+                                @solutionId,
+                                '1.0.0',
         '"Full Spine Compliance - EPS, PDS, SCR, eRS, GP2GP","Standards - SNOMED CT, HL7 V2, V3, FHIR, GP Connect","Appointments - Configurable Clinics, Dedicated Appointments, Visits Screens, SMS Integration","Prescribing - Acute, Repeat, Formularies, Action Groups, Decision Support","Complete Electronic Health Record (EHR)","Comprehensive consultations – Recalls, Referrals, Structured Data","Clinical Development Kit - Data Entry Templates, Views, Questionnaires, Integrated Word Letters","Full Workflow Support including Automatic Consultations","Analytics - Customisable Reports, Batch Reports, Bulk Actions, QOF Tools, Automatic Submissions","Patient Online Services - Appointment Booking, Medication Requests, Record Access, Proxy Access"',
         '{"ClientApplicationTypes":"native-desktop","BrowsersSupported":,"NativeMobileHardwareRequirements":"The OS system drive must have a drive letter of C.","NativeDesktopHardwareRequirements":"The OS system drive must have a drive letter of C.","NativeMobileFirstDesign":false,"MobileOperatingSystems":{"OperatingSystems":"Other","OperatingSystemsDescription":"Windows"},"MobileConnectionDetails":{"MinimumConnectionSpeed":"1Mbps","ConnectionType":"3G","4G","Wifi","[Description]":"CPU of 1 GHz or faster 32-bit or 64-bit processor"},"MobileMemoryAndStorage":{"MinimumMemoryRequirement":"1GB","[Description]":"4GB of free space on the C drive"},"MobileThirdParty":{"ThirdPartyComponents":"","DeviceCapabilities":"Minimum screen resolution of 1024 x 720 pixels."},"NativeDesktopOperatingSystemsDescription":"TPP supports all versions of Windows for desktops that are currently supported by Microsoft. Following verification of the configuration by TPP, installation of Windows to a virtual environment is supported to the products and versions including Virtual VMware View 5+, Citrix Xen Desktop 6+ and Microsoft Server 2012+.\r\nInstallation of the SystmOne client to any Server Operating System is not licensed by TPP. It should also be noted that both 32-bit and 64-bit versions of Microsoft Windows are supported unless otherwise stated. Windows RT is not supported.","NativeDesktopMinimumConnectionSpeed":"0.5Mbps","NativeDesktopThirdParty":{"ThirdPartyComponents":"Windows 7 requires 1GB and Office 2010 requires 256 MB. Other third party applications, shared graphics or peripherals (such as attached printers) should also be taken into account. These will all increase the amount of memory required for the computer to run smoothly.","DeviceCapabilities":"A minimum screen resolution of 1024 x 768 pixels with 16-bit colours is required. TPP recommends a minimum of a 17” TFT flat screen monitor with a resolution of 1280 x 1024 and 32-bit colours."},"NativeDesktopMemoryAndStorage":{"MinimumMemoryRequirement":"512MB","StorageRequirementsDescription":"4GB of free space on the C drive. Where a SystmOne Gateway client is used, 100GB of free space on the C drive is recommended.","MinimumCpu":"A minimum of a 2.0 GHz Pentium 4 series CPI is required.","RecommendedResolution":"5:4 - 1280 x 1024"},"NativeDesktopAdditionalInformation":"Applications that can open/view rich text file (.rtf) and comma separated (.csv) documents are required. To perform letter writing, Microsoft Word is also required. TPP only supports versions of Office that are supported by Microsoft which currently includes Office 2010, 2013, 2016 and 2019."}',
         '{"PrivateCloud":{"Summary":"The SystmOne Solution requires the following key items to be in place for smooth operation:\r\n-UDP Ports 2120-2130 and TCP Ports 2130-2140 should be opened to 20.146.120.128/25 and 20.146.248.128/25. TCP port 443 is also required for SystmOnline and Mobile Working to systmonline.tpp-uk.com. TPP also recommend allowing ICMP traffic for diagnostic purposes.\r\n\r\nA full list of requirements can be found in the SystmOne WES.","Link":"","HostingModel":"TPP provide a centralised solution with all server hardware hosted in TPP''s private cloud infrastructure. All server patching, security updates and feature releases are managed by TPP. The solution is hosted within 2 geographically separated private cloud instances with data replicated between the sites in real time in order to provide a high level of resiliency.\r\n\r\nTPP use a number of tools to monitor capacity, analyse usage trends and log the utilisation of the system. This ensures the solution scales to demand and new functionality / business requirements.","RequiresHSCN":"End user devices must be connected to HSCN/N3"}}',
@@ -519,12 +475,12 @@ TPP will assess the request and set up the unit as specified in the order detail
 When transitioning from a previous system that has a mature adapter in place (EMIS Web, Vision, Microtest), implementation is a quick rollout of 8 weeks, including data migration of any existing patient records.
 
 The main phases for this implementation are:
-•	Initial data production
-•	Data checking
-•	Training
-•	Data reload & sign-off
-•	Final data production
-•	 Live
+•             Initial data production
+•             Data checking
+•             Training
+•             Data reload & sign-off
+•             Final data production
+•             Live
 
 If transitioning from any other system, an additional 8-week adapter build period would be required.
 
@@ -537,10 +493,6 @@ TPP maintain close contact with staff at the unit throughout these phases to ens
         It enables true integrated care between GP, hospital, mental health and social care settings. TPP GP is Spine-accredited, providing access to the latest versions of GP2GP, EPS, and eRS. The system is fully compliant with SNOMED CT. SystmOne GP is leading on national interoperability programmes, compliant with national open FHIR standards for access to GP data and for transfer of care documentation.',
         @now,
         @emptyGuid);
-
-    UPDATE dbo.Solution
-    SET SolutionDetailId = 'c9945761-4209-49fd-abef-f6f5b14f0a78'
-    WHERE Id = @solutionId;
 
     INSERT INTO dbo.SolutionCapability (SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
     VALUES

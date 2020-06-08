@@ -1,4 +1,5 @@
 ﻿:r ./InsertCommonValues.sql
+:r ./InsertCalaogueItemTypes.sql
 :r ./InsertFrameworks.sql
 :r ./InsertCapabilities.sql
 :r ./InsertEpics.sql

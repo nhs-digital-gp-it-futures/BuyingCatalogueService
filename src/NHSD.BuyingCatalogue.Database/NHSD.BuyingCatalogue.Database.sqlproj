@@ -96,7 +96,6 @@
     <Build Include="Tables\SolutionAuthorityStatus.sql" />
     <Build Include="Tables\SolutionSupplierStatus.sql" />
     <Build Include="Tables\Solution.sql" />
-    <Build Include="Tables\SolutionDetail.sql" />
     <None Include="Security\Users\NHSD.sql" />
     <None Include="Security\Logins\NHSD.sql" />
     <Build Include="Security\Roles\Api.sql" />
@@ -114,6 +113,8 @@
     <Build Include="Security\Schemas\publish.sql" />
     <Build Include="Security\Roles\Importer.sql" />
     <Build Include="Security\Roles\Publisher.sql" />
+    <Build Include="Tables\CatalogueItemType.sql" />
+    <Build Include="Tables\CatalogueItem.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="INCLUDE_IMPORT">
@@ -142,6 +143,7 @@
     <None Include="PostDeployment\InsertSuppliers.sql" />
     <None Include="PostDeployment\DropImport.sql" />
     <None Include="PostDeployment\DropPublish.sql" />
+    <None Include="PostDeployment\InsertCatalogueItemTypes.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="PostDeployment\PostDeployment.sql" />
