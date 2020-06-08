@@ -42,11 +42,12 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.Repositories
             var queryString = foundationOnly ? sql + " AND COALESCE(FrameworkSolutions.IsFoundation, 0) = 1" : sql;
 
             if (supplierId != null)
-                queryString += $" AND Solution.SupplierId = '{supplierId}';";
+                queryString += " AND dbo.Solution.SupplierId = @supplierId;";
 
             return await _dbConnector.QueryAsync<SolutionListResult>(
                     queryString,
-                    cancellationToken);
+                    cancellationToken,
+                    new { supplierId });
         }
     }
 }
