@@ -30,6 +30,12 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
             _response.Result = await Client.GetAsync(ListSolutionsUrl).ConfigureAwait(false);
         }
 
+        [When(@"a GET request is made containing a filter on supplierID (.*)")]
+        public async Task WhenAGETRequestIsMadeContainingNoSelectionCriteriaWithFilterOnSupplierId(string supplierID)
+        {
+            _response.Result = await Client.GetAsync($"{ListSolutionsUrl}?supplierId={supplierID}").ConfigureAwait(false);
+        }
+
         [When(@"a POST request is made containing no selection criteria")]
         public async Task WhenAPOSTRequestIsMadeContainingNoSelectionCriteria()
         {
@@ -84,6 +90,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
             var expectedSolutions = table.CreateSet<SolutionDetailsTable>();
             var solutions = (await _response.ReadBody().ConfigureAwait(false)).SelectToken("solutions");
 
+            solutions.Count().Should().Be(expectedSolutions.Count());
+
             foreach (var expectedSolution in expectedSolutions)
             {
                 var solution = solutions.First(t => t.SelectToken("id").ToString() == expectedSolution.SolutionId);
@@ -93,6 +101,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
                 solution.SelectToken("capabilities").Select(t => t.SelectToken("name").ToString()).Should().BeEquivalentTo(expectedSolution.Capabilities.Split(",").Select(t => t.Trim()));
                 solution.SelectToken("isFoundation").ToString().Should().Be(expectedSolution.IsFoundation.ToString(CultureInfo.InvariantCulture));
             }
+        }
+
+        [Then(@"an empty solution is returned")]
+        public async Task ThenAnEmptySolutionIsReturned()
+        {
+            var solutions = (await _response.ReadBody().ConfigureAwait(false)).SelectToken("solutions");
+            solutions.Should().BeEmpty();
         }
 
         private class SolutionsRequest

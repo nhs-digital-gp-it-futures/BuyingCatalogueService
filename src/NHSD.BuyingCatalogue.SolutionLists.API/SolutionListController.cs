@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using MediatR;
@@ -33,9 +33,11 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ListSolutionsResult>> ListAsync()
+        public async Task<ActionResult<ListSolutionsResult>> ListAsync(string supplierId)
         {
-            return Ok(new ListSolutionsResult(await _mediator.Send(new ListSolutionsQuery(new ListSolutionsFilterViewModel())).ConfigureAwait(false)));
+            return Ok(new ListSolutionsResult(await _mediator
+                .Send(new ListSolutionsQuery(new ListSolutionsFilterViewModel { SupplierId = supplierId }))
+                .ConfigureAwait(false)));
         }
 
         /// <summary>

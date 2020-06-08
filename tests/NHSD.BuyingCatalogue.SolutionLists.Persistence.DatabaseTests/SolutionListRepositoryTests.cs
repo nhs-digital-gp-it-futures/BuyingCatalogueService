@@ -24,7 +24,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
         private const string CapabilityReference1 = "C1";
         private const string CapabilityReference2 = "C2";
 
-        private readonly string _supplierId = "Sup 1";
+        private const string _supplierId = "Sup 1";
         private readonly string _supplierName = "Supplier 1";
 
         private ISolutionListRepository _solutionListRepository;
@@ -58,7 +58,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .Build()
                 .InsertAsync().ConfigureAwait(false);
 
-            var solutions = await _solutionListRepository.ListAsync(false, new CancellationToken()).ConfigureAwait(false);
+            var solutions = await _solutionListRepository.ListAsync(false, null, new CancellationToken()).ConfigureAwait(false);
 
             solutions.Should().BeEmpty();
         }
@@ -86,7 +86,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .Build()
                 .InsertAsync().ConfigureAwait(false);
 
-            var solutions = await _solutionListRepository.ListAsync(false, new CancellationToken()).ConfigureAwait(false);
+            var solutions = await _solutionListRepository.ListAsync(false, null, new CancellationToken()).ConfigureAwait(false);
 
             var solution = solutions.Should().ContainSingle().Subject;
             solution.SolutionId.Should().Be(Solution1Id);
@@ -129,7 +129,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .WithFoundation(isFoundation)
                 .Build().InsertAsync().ConfigureAwait(false);
 
-            var solutions = await _solutionListRepository.ListAsync(false, new CancellationToken()).ConfigureAwait(false);
+            var solutions = await _solutionListRepository.ListAsync(false, null, new CancellationToken()).ConfigureAwait(false);
 
             var solution = solutions.Should().ContainSingle().Subject;
             solution.SolutionId.Should().Be(Solution1Id);
@@ -166,7 +166,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .InsertAsync().ConfigureAwait(false);
 
             var solutions =
-                (await _solutionListRepository.ListAsync(false, new CancellationToken()).ConfigureAwait(false)).ToList();
+                (await _solutionListRepository.ListAsync(false, null, new CancellationToken()).ConfigureAwait(false)).ToList();
             solutions.Should().HaveCount(2);
 
             var solution = solutions.Should().ContainSingle(s => s.CapabilityReference == CapabilityReference1).Subject;
@@ -254,7 +254,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .InsertAsync().ConfigureAwait(false);
 
             var solutions =
-                (await _solutionListRepository.ListAsync(false, new CancellationToken()).ConfigureAwait(false)).ToList();
+                (await _solutionListRepository.ListAsync(false, null, new CancellationToken()).ConfigureAwait(false)).ToList();
 
             solutions.Should().HaveCount(3);
 
@@ -315,7 +315,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .Build()
                 .InsertAsync().ConfigureAwait(false);
 
-            var solutions = await _solutionListRepository.ListAsync(true, new CancellationToken()).ConfigureAwait(false);
+            var solutions = await _solutionListRepository.ListAsync(true, null, new CancellationToken()).ConfigureAwait(false);
 
             solutions.Should().HaveCount(2);
             var solution = solutions.Should().ContainSingle(s => s.SolutionId == Solution1Id).Subject;
@@ -324,12 +324,43 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
             solution.IsFoundation.Should().Be(true);
         }
 
-        private async Task CreateSimpleSolutionWithOneCap(string solutionId)
+        [Test]
+        public async Task ListAsync_FilterBySupplierId_ReturnsFilteredResult()
+        {
+            var supId2 = "Sup2";
+
+            await SupplierEntityBuilder.Create()
+                .WithId(supId2)
+                .Build()
+                .InsertAsync().ConfigureAwait(false);
+
+            await CreateSimpleSolutionWithOneCap(Solution1Id).ConfigureAwait(false);
+            await CreateSimpleSolutionWithOneCap(Solution2Id, supId2).ConfigureAwait(false);
+            await CreateSimpleSolutionWithOneCap(Solution3Id).ConfigureAwait(false);
+            await CreateSimpleSolutionWithOneCap(Solution4Id, supId2).ConfigureAwait(false);
+
+            var solutions = await _solutionListRepository.ListAsync(false, _supplierId, new CancellationToken()).ConfigureAwait(false);
+
+            solutions.Count().Should().Be(2);
+            solutions.Should().Contain(x => x.SupplierId == _supplierId);
+        }
+        
+        [Test]
+        public async Task ListAsync_FilterByInvalidSupplierId_ReturnsEmptyList()
+        {
+            await CreateSimpleSolutionWithOneCap(Solution1Id).ConfigureAwait(false);
+
+            var solutions = await _solutionListRepository.ListAsync(false, "INVALID", new CancellationToken()).ConfigureAwait(false);
+
+            solutions.Should().BeEmpty();
+        }
+
+        private async Task CreateSimpleSolutionWithOneCap(string solutionId, string supplierId = _supplierId)
         {
             await SolutionEntityBuilder.Create()
                 .WithName(solutionId)
                 .WithId(solutionId)
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(supplierId)
                 .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync().ConfigureAwait(false);

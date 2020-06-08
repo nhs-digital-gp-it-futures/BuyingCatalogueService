@@ -53,12 +53,28 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.UnitTests
         [Test]
         public async Task ShouldListSolutions()
         {
-            var result = (await _solutionListController.ListAsync().ConfigureAwait(false)).Result as ObjectResult;
+            var result = (await _solutionListController.ListAsync(null).ConfigureAwait(false)).Result as ObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
             (result.Value as ListSolutionsResult).Solutions.Should().BeEquivalentTo(_solutions);
             _mockMediator.Verify(
                 m => m.Send(It.Is<ListSolutionsQuery>(q => q.Data.IsFoundation == false), It.IsAny<CancellationToken>()),
+                Times.Once);
+        }
+
+        [Test]
+        public async Task ListAsync_HasSupplierId_ReturnsSolutionsByFilteredSupplierId()
+        {
+            var supplierId = "sup1";
+
+            var result = (await _solutionListController.ListAsync(supplierId).ConfigureAwait(false)).Result as ObjectResult;
+
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            (result.Value as ListSolutionsResult).Solutions.Should().BeEquivalentTo(_solutions);
+            _mockMediator.Verify(
+                m => m.Send(
+                    It.Is<ListSolutionsQuery>(q => q.Data.SupplierId == supplierId && q.Data.IsFoundation == false),
+                    It.IsAny<CancellationToken>()),
                 Times.Once);
         }
 
