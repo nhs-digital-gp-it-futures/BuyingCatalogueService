@@ -97,7 +97,7 @@
     <Build Include="Tables\SolutionSupplierStatus.sql" />
     <Build Include="Tables\Solution.sql" />
     <Build Include="Tables\SolutionDetail.sql" />
-    <Build Include="Security\Users\NHSD.sql" />
+    <None Include="Security\Users\NHSD.sql" />
     <None Include="Security\Logins\NHSD.sql" />
     <Build Include="Security\Roles\Api.sql" />
     <None Include="PostDeployment\IntegrationTests\ClearData.sql" />
