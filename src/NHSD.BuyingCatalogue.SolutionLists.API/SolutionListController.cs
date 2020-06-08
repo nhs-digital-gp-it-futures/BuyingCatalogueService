@@ -35,9 +35,9 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<ListSolutionsResult>> ListAsync(string supplierId)
         {
-            return Ok(new ListSolutionsResult(await _mediator
-                .Send(new ListSolutionsQuery(new ListSolutionsFilterViewModel { SupplierId = supplierId }))
-                .ConfigureAwait(false)));
+            return Ok(new ListSolutionsResult(
+                await _mediator.Send(
+                    new ListSolutionsQuery(new ListSolutionsFilterViewModel { SupplierId = supplierId }))));
         }
 
         /// <summary>
@@ -50,7 +50,8 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<ListSolutionsResult>> ListFoundationAsync()
         {
-            return Ok(new ListSolutionsResult(await _mediator.Send(new ListSolutionsQuery(new ListSolutionsFilterViewModel { IsFoundation = true })).ConfigureAwait(false)));
+            return Ok(new ListSolutionsResult(
+                await _mediator.Send(new ListSolutionsQuery(new ListSolutionsFilterViewModel { IsFoundation = true }))));
         }
 
         /// <summary>
@@ -63,7 +64,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<ListSolutionsResult>> ListByFilterAsync([FromBody][Required]ListSolutionsFilterViewModel filter)
         {
-            return Ok(new ListSolutionsResult(await _mediator.Send(new ListSolutionsQuery(filter)).ConfigureAwait(false)));
+            return Ok(new ListSolutionsResult(await _mediator.Send(new ListSolutionsQuery(filter))));
         }
     }
 }

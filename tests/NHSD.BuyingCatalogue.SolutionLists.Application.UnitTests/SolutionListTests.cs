@@ -57,7 +57,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
         [Test]
         public void ShouldListSolutionsWithSupplierIdFilter()
         {
-            var supplierId = "Sup1";
+            const string supplierId = "Sup1";
 
             var repositorySolutions = new List<ISolutionListResult>();
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", supplierId, false, "C1", "C2"));
@@ -358,8 +358,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             return await _context.ListSolutionsHandler.Handle(new ListSolutionsQuery(Mock.Of<IListSolutionsQueryData>(
                         data => data.CapabilityReferences == new HashSet<ICapabilityReference>() && 
                                 data.IsFoundation == isFoundation &&
-                                data.SupplierId == supplierId)), new CancellationToken())
-                .ConfigureAwait(false);
+                                data.SupplierId == supplierId)), new CancellationToken());
         }
 
         private static IListSolutionsQueryData Filter(string capabilityReference)

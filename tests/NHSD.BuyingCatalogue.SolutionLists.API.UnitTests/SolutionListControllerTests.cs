@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using FluentAssertions.Common;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.SolutionLists.API.ViewModels;
@@ -42,7 +43,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.UnitTests
         [Test]
         public async Task ShouldListFoundationSolutions()
         {
-            var result = (await _solutionListController.ListFoundationAsync().ConfigureAwait(false)).Result as ObjectResult;
+            var result = (await _solutionListController.ListFoundationAsync()).Result as ObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
             (result.Value as ListSolutionsResult).Solutions.Should().BeEquivalentTo(_solutions);
@@ -53,7 +54,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.UnitTests
         [Test]
         public async Task ShouldListSolutions()
         {
-            var result = (await _solutionListController.ListAsync(null).ConfigureAwait(false)).Result as ObjectResult;
+            var result = (await _solutionListController.ListAsync(null)).Result as ObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
             (result.Value as ListSolutionsResult).Solutions.Should().BeEquivalentTo(_solutions);
@@ -65,11 +66,11 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.UnitTests
         [Test]
         public async Task ListAsync_HasSupplierId_ReturnsSolutionsByFilteredSupplierId()
         {
-            var supplierId = "sup1";
+            const string supplierId = "sup1";
 
-            var result = (await _solutionListController.ListAsync(supplierId).ConfigureAwait(false)).Result as ObjectResult;
+            var result = (await _solutionListController.ListAsync(supplierId)).Result as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
             (result.Value as ListSolutionsResult).Solutions.Should().BeEquivalentTo(_solutions);
             _mockMediator.Verify(
                 m => m.Send(
@@ -82,7 +83,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.UnitTests
         public async Task ShouldListSolutionsByFilter()
         {
             var filter = new ListSolutionsFilterViewModel();
-            var result = (await _solutionListController.ListByFilterAsync(filter).ConfigureAwait(false)).Result as ObjectResult;
+            var result = (await _solutionListController.ListByFilterAsync(filter)).Result as ObjectResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
             (result.Value as ListSolutionsResult).Solutions.Should().BeEquivalentTo(_solutions);

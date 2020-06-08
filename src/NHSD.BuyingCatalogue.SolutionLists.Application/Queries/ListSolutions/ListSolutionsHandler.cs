@@ -32,7 +32,11 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions
         /// <returns>The result of the query.</returns>
         public async Task<ISolutionList> Handle(ListSolutionsQuery request, CancellationToken cancellationToken)
         {
-            var solutionList = await _solutionListReader.ListAsync(request.Data.CapabilityReferences, request.Data.IsFoundation, request.Data.SupplierId, cancellationToken).ConfigureAwait(false);
+            var solutionList = await _solutionListReader.ListAsync(
+                request.Data.CapabilityReferences,
+                request.Data.IsFoundation,
+                request.Data.SupplierId,
+                cancellationToken);
 
             return _mapper.Map<SolutionListDto>(solutionList);
         }
