@@ -17,5 +17,5 @@
     TRUNCATE TABLE dbo.SupplierContact;
 
     ALTER ROLE Api
-    ADD MEMBER NHSD;
+    ADD MEMBER [NHSD-BAPI];
 GO
