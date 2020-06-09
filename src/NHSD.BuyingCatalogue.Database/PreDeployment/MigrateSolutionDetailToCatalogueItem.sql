@@ -15,7 +15,7 @@ IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE' AND EXISTS(SELECT * FROM migra
 GO
 
 /*-----------------------------------------------------------------------
-    Copy Solution ID and Names to CatatlogueItem Table	
+    Copy Solution ID and Names to migration CatalogueItem Table
 ------------------------------------------------------------------------*/
 DECLARE @solutionCatalogueItemType int = 1;
 
@@ -26,7 +26,7 @@ IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
 GO
 
 /*-----------------------------------------------------------------------
-    Copy Solution Detail information to Solution Table	
+    Copy Solution Detail information to migration Solution Detail Table
 ------------------------------------------------------------------------*/
 
 IF OBJECT_ID('migration.SolutionDetail', 'U') IS NULL AND UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
