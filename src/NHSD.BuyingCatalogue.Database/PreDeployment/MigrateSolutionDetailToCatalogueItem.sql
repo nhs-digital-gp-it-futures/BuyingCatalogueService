@@ -1,4 +1,4 @@
-﻿IF OBJECT_ID('migration.CatalogueItem', 'U') IS NOT NULL AND UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
+﻿IF OBJECT_ID('migration.CatalogueItem', 'U') IS NULL AND UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
     CREATE TABLE migration.CatalogueItem
     (
         CatalogueItemId varchar(14) NOT NULL PRIMARY KEY,
@@ -21,7 +21,7 @@ DECLARE @solutionCatalougeItemType int = 1;
 
 IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
     INSERT INTO migration.CatalogueItem(CatalogueItemId, [Name], Created, CatalogueItemTypeId, SupplierId, PublishedStatusId)
-         SELECT CatalogueItemId, [Name], LastUpdated, @solutionCatalougeItemType, SupplierId, PublishedStatusId
+         SELECT Id, [Name], LastUpdated, @solutionCatalougeItemType, SupplierId, PublishedStatusId
            FROM dbo.Solution;
 GO
 
@@ -29,7 +29,7 @@ GO
     Copy Solution Detail information to Solution Table	
 ------------------------------------------------------------------------*/
 
-IF OBJECT_ID('migration.SolutionDetail', 'U') IS NOT NULL AND UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
+IF OBJECT_ID('migration.SolutionDetail', 'U') IS NULL AND UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
     CREATE TABLE migration.SolutionDetail
     (
          SolutionId varchar(14) NOT NULL PRIMARY KEY,
