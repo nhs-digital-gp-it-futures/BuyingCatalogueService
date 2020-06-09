@@ -75,6 +75,7 @@
     <Folder Include="Types" />
     <Folder Include="Stored Procedures" />
     <Folder Include="Security\Schemas" />
+    <Folder Include="PreDeployment" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\SolutionCapabilityStatus.sql" />
@@ -144,8 +145,12 @@
     <None Include="PostDeployment\DropImport.sql" />
     <None Include="PostDeployment\DropPublish.sql" />
     <None Include="PostDeployment\InsertCatalogueItemTypes.sql" />
+    <None Include="PreDeployment\MigrateSolutionDetailToCatalogueItem.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="PostDeployment\PostDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PreDeploy Include="PreDeployment\PreDeployment.sql" />
   </ItemGroup>
 </Project>
