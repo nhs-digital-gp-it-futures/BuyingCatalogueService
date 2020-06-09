@@ -25,7 +25,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Suppliers
             _context.Set(new Url(RootSuppliersUrl));
         }
 
-        [Given(@"the user has searched for suppliers matching '([\w\s]*)'")]
+        [Given(@"the user has searched for suppliers matching '([\w\W\s]*)'")]
         public void GivenTheSupplierName(string name)
         {
             GivenTheQueryParameter(nameof(name), name);
