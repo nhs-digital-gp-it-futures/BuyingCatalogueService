@@ -116,6 +116,7 @@
     <Build Include="Security\Roles\Publisher.sql" />
     <Build Include="Tables\CatalogueItemType.sql" />
     <Build Include="Tables\CatalogueItem.sql" />
+    <None Include="PostDeployment\MigrateSolutionDetailToCatalogueItem.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="INCLUDE_IMPORT">

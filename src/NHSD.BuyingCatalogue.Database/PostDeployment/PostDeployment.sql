@@ -7,3 +7,4 @@
 :r ./InsertSolutions.sql
 :r ./DropImport.sql
 :r ./DropPublish.sql
+:r ./MigrateSolutionDetailToCatalogueItem.sql
