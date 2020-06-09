@@ -8,8 +8,5 @@ GO
 GRANT UPDATE ON dbo.CatalogueItem TO Publisher;
 GO
 
-GRANT UPDATE ON dbo.Solution TO Publisher;
-GO
-
 GRANT EXEC ON SCHEMA::publish TO Publisher;
 GO
