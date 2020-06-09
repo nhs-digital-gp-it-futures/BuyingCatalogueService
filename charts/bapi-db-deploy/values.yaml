@@ -68,6 +68,7 @@ db:
   includeImport: "FALSE"
   includePublish: "FALSE"
   insertTestData: "FALSE"
+  sqlPackageArgs: ""
 
 env:
   configmap:
