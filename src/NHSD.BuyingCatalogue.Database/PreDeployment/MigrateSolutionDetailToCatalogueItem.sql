@@ -17,11 +17,11 @@ GO
 /*-----------------------------------------------------------------------
     Copy Solution ID and Names to CatatlogueItem Table	
 ------------------------------------------------------------------------*/
-DECLARE @solutionCatalougeItemType int = 1;
+DECLARE @solutionCatalogueItemType int = 1;
 
 IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
     INSERT INTO migration.CatalogueItem(CatalogueItemId, [Name], Created, CatalogueItemTypeId, SupplierId, PublishedStatusId)
-         SELECT Id, [Name], LastUpdated, @solutionCatalougeItemType, SupplierId, PublishedStatusId
+         SELECT Id, [Name], LastUpdated, @solutionCatalogueItemType, SupplierId, PublishedStatusId
            FROM dbo.Solution;
 GO
 
