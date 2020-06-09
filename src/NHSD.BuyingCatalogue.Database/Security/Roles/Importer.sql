@@ -8,13 +8,13 @@ GO
 GRANT INSERT, UPDATE ON dbo.FrameworkSolutions TO Importer;
 GO
 
+GRANT INSERT, UPDATE ON dbo.CatalogueItem TO Importer;
+GO
+
 GRANT INSERT, UPDATE ON dbo.Solution TO Importer;
 GO
 
 GRANT DELETE, INSERT ON dbo.SolutionCapability TO Importer;
-GO
-
-GRANT INSERT, UPDATE ON dbo.SolutionDetail TO Importer;
 GO
 
 GRANT EXEC ON SCHEMA::import TO Importer;
