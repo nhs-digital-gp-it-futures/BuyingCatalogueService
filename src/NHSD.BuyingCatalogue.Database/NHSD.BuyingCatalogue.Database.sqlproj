@@ -117,6 +117,9 @@
     <Build Include="Tables\CatalogueItemType.sql" />
     <Build Include="Tables\CatalogueItem.sql" />
     <None Include="PostDeployment\MigrateSolutionDetailToCatalogueItem.sql" />
+    <Build Include="Tables\AdditionalService.sql" />
+    <Build Include="Tables\AssociatedService.sql" />
+    <Build Include="Tables\SupplierServiceAssociation.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="INCLUDE_IMPORT">
