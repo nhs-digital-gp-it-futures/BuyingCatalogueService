@@ -2,6 +2,6 @@
 (
 	CatalogueItemTypeId int NOT NULL,
     [Name] nvarchar(20),
-
-    CONSTRAINT PK_CatalogueItemType PRIMARY KEY (CatalogueItemTypeId)
+    CONSTRAINT PK_CatalogueItemType PRIMARY KEY (CatalogueItemTypeId),
+    CONSTRAINT IX_CatalogueItemTypeName UNIQUE NONCLUSTERED ([Name])
 );

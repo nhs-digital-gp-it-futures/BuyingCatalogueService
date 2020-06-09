@@ -15,7 +15,6 @@
      WorkOfPlan nvarchar(max) NULL,
      LastUpdated datetime2(7) NOT NULL,
      LastUpdatedBy uniqueidentifier NOT NULL,
-
      CONSTRAINT PK_Solution PRIMARY KEY CLUSTERED (Id),
-     CONSTRAINT FK_Solution_CatalougeItem FOREIGN KEY (Id) REFERENCES CatalogueItem (CatalogueItemId)
+     CONSTRAINT FK_Solution_CatalougeItem FOREIGN KEY (Id) REFERENCES CatalogueItem(CatalogueItemId) ON DELETE CASCADE
 );

@@ -6,12 +6,8 @@
     CatalogueItemTypeId int,
     SupplierId varchar(6),
     PublishedStatusId int,
-
     CONSTRAINT PK_CatalogueItem PRIMARY KEY (CatalogueItemId),
-    CONSTRAINT FK_CatalogueItem_CatalogueItemType FOREIGN KEY (CatalogueItemTypeId) REFERENCES CatalogueItemType (CatalogueItemTypeId),
-    CONSTRAINT FK_CatalogueItem_Supplier FOREIGN KEY (SupplierId) REFERENCES Supplier (Id),
-    CONSTRAINT FK_CatalogueItem_PublishedStatus FOREIGN KEY (PublishedStatusId) REFERENCES PublicationStatus (Id)
-
-
-
-)
+    CONSTRAINT FK_CatalogueItem_CatalogueItemType FOREIGN KEY (CatalogueItemTypeId) REFERENCES CatalogueItemType(CatalogueItemTypeId),
+    CONSTRAINT FK_CatalogueItem_Supplier FOREIGN KEY (SupplierId) REFERENCES Supplier(Id),
+    CONSTRAINT FK_CatalogueItem_PublishedStatus FOREIGN KEY (PublishedStatusId) REFERENCES PublicationStatus(Id)
+);
