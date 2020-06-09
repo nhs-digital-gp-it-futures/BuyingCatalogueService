@@ -1,7 +1,7 @@
 ﻿/*-----------------------------------------------------------------------
     Copy Solution ID and Names to CatatlogueItem Table	
 ------------------------------------------------------------------------*/
-IF UPPER('$(MIGRATE_TO_CATALOGUEITEM)') = 'TRUE'
+IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
     INSERT INTO dbo.CatalogueItem(CatalogueItemId, [Name], Created, CatalogueItemTypeId, SupplierId, PublishedStatusId)
          SELECT CatalogueItemId, [Name], LastUpdated, @solutionCatalougeItemType, SupplierId, PublishedStatusId
            FROM migration.CatalogueItem;
@@ -11,7 +11,7 @@ GO
     Copy Solution Detail information to Solution Table	
 ------------------------------------------------------------------------*/
 
-IF UPPER('$(MIGRATE_TO_CATALOGUEITEM)') = 'TRUE'
+IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
     UPDATE s
        SET s.Summary = d.Summary,
            s.FullDescription = d.FullDescription,

@@ -131,6 +131,10 @@
       <DefaultValue>True</DefaultValue>
       <Value>$(SqlCmdVar__2)</Value>
     </SqlCmdVariable>
+    <SqlCmdVariable Include="MIGRATE_TO_CATALOGUE_ITEM">
+      <DefaultValue>False</DefaultValue>
+      <Value>$(SqlCmdVar__5)</Value>
+    </SqlCmdVariable>
     <SqlCmdVariable Include="NHSD_PASSWORD">
       <DefaultValue>DisruptTheMarket1!</DefaultValue>
       <Value>$(SqlCmdVar__1)</Value>
