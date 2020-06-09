@@ -5,25 +5,28 @@
 
 Background:
     Given Suppliers exist
-        | Id    | SupplierName |
-        | Sup 1 | Supplier B   |
-        | Sup 2 | Supplier A   |
-        | Sup 3 | Superb       |
+        | Id    | SupplierName     |
+        | Sup 1 | Supplier B       |
+        | Sup 2 | Supplier A       |
+        | Sup 3 | Superb           |
+        | Sup 4 | % Su_p[p&l=ie+r- |
     And Solutions exist
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId | PublishedStatus |
         | Sln1       | MedicOnline    | 3                | Sup 1      | Published       |
         | Sln2       | TakeTheRedPill | 3                | Sup 2      | Published       |
         | Sln3       | PracticeMgr    | 3                | Sup 3      | Withdrawn       |
+        | Sln4       | PracticeMg2    | 3                | Sup 4      | Withdrawn       |
 
 @4840
 Scenario: 1. All suppliers are returned when there are no query parameters
     When a GET request is made for suppliers
     Then a successful response is returned
     And a list of suppliers is returned with the following values
-        | Id    | SupplierName |
-        | Sup 3 | Superb       |
-        | Sup 2 | Supplier A   |
-        | Sup 1 | Supplier B   |
+        | Id    | SupplierName     |
+        | Sup 3 | Superb           |
+        | Sup 2 | Supplier A       |
+        | Sup 1 | Supplier B       |
+        | Sup 4 | % Su_p[p&l=ie+r- |
 
 @4840
 Scenario: 2. All suppliers are returned when no name is supplied
@@ -31,10 +34,11 @@ Scenario: 2. All suppliers are returned when no name is supplied
     When a GET request is made for suppliers
     Then a successful response is returned
     And a list of suppliers is returned with the following values
-        | Id    | SupplierName |
-        | Sup 3 | Superb       |
-        | Sup 2 | Supplier A   |
-        | Sup 1 | Supplier B   |
+        | Id    | SupplierName     |
+        | Sup 3 | Superb           |
+        | Sup 2 | Supplier A       |
+        | Sup 1 | Supplier B       |
+        | Sup 4 | % Su_p[p&l=ie+r- |
 
 @4840
 Scenario: 3. All suppliers are returned when no solution publication status is supplied
@@ -42,10 +46,11 @@ Scenario: 3. All suppliers are returned when no solution publication status is s
     When a GET request is made for suppliers
     Then a successful response is returned
     And a list of suppliers is returned with the following values
-        | Id    | SupplierName |
-        | Sup 3 | Superb       |
-        | Sup 2 | Supplier A   |
-        | Sup 1 | Supplier B   |
+        | Id    | SupplierName     |
+        | Sup 3 | Superb           |
+        | Sup 2 | Supplier A       |
+        | Sup 1 | Supplier B       |
+        | Sup 4 | % Su_p[p&l=ie+r- |
 
 @4840
 Scenario: 4. All suppliers are returned when no name and solution publication status are supplied
@@ -54,10 +59,11 @@ Scenario: 4. All suppliers are returned when no name and solution publication st
     When a GET request is made for suppliers
     Then a successful response is returned
     And a list of suppliers is returned with the following values
-        | Id    | SupplierName |
-        | Sup 3 | Superb       |
-        | Sup 2 | Supplier A   |
-        | Sup 1 | Supplier B   |
+        | Id    | SupplierName     |
+        | Sup 3 | Superb           |
+        | Sup 2 | Supplier A       |
+        | Sup 1 | Supplier B       |
+        | Sup 4 | % Su_p[p&l=ie+r- |
 
 @4840
 Scenario: 5. No suppliers are returned when none match the name supplied
@@ -120,3 +126,21 @@ Scenario: 11. A bad response is returned when an invalid publication status is s
     Given the user has searched for suppliers with solutions matching the publication status 'Incorrect'
     When a GET request is made for suppliers
     Then a response status of 400 is returned
+
+@4840
+Scenario Outline: 12. Suppliers with a special character in the name are returned
+    Given the user has searched for suppliers matching '<Search>'
+    When a GET request is made for suppliers
+    Then a successful response is returned
+    And a list of suppliers is returned with the following values
+        | Id           | SupplierName   |
+        | <SupplierId> | <SupplierName> |
+    Examples: 
+        | Search | SupplierId | SupplierName     |
+        | %      | Sup 4      | % Su_p[p&l=ie+r- |
+        | _      | Sup 4      | % Su_p[p&l=ie+r- |
+        | [      | Sup 4      | % Su_p[p&l=ie+r- |
+        | &      | Sup 4      | % Su_p[p&l=ie+r- |
+        | =      | Sup 4      | % Su_p[p&l=ie+r- |
+        | +      | Sup 4      | % Su_p[p&l=ie+r- |
+        | -      | Sup 4      | % Su_p[p&l=ie+r- |

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
@@ -92,15 +93,25 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         public async Task<ISupplierResult> GetSupplierById(string id, CancellationToken cancellationToken) =>
             await _dbConnector.QueryFirstOrDefaultAsync<SupplierResult>(GetSupplierByIdSql, cancellationToken, new { id });
 
-        public async Task<IEnumerable<ISupplierResult>> GetSuppliersByNameAsync(string name, PublishedStatus? solutionPublicationStatus, CancellationToken cancellationToken) =>
-            await _dbConnector.QueryAsync<SupplierResult>(
+        public async Task<IEnumerable<ISupplierResult>> GetSuppliersByNameAsync(string name,
+            PublishedStatus? solutionPublicationStatus, CancellationToken cancellationToken)
+        {
+            var escapedName = name;
+            if (name != null)
+            {
+                var regex = new Regex(@"(\[|%|\+|\&|_|-)");
+                escapedName = regex.Replace(name, "[$1]");
+            }
+
+            return await _dbConnector.QueryAsync<SupplierResult>(
                 GetSuppliersByNameSql,
                 cancellationToken,
                 new
                 {
-                    Name = name ?? string.Empty,
+                    Name = escapedName ?? string.Empty,
                     StatusId = (int?)solutionPublicationStatus
                 });
+        }
 
         public async Task UpdateSupplierAsync(IUpdateSupplierRequest updateSupplierRequest, CancellationToken cancellationToken)
         {
