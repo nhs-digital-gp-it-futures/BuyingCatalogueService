@@ -1,7 +1,7 @@
 ﻿IF OBJECT_ID('migration.CatalogueItem', 'U') IS NOT NULL AND '$(MIGRATE_TO_CATALOGUEITEM)' = 'TRUE'
     CREATE TABLE migration.CatalogueItem
     (
-        CatalogueItemId varchar(14) NOT NULL,
+        CatalogueItemId varchar(14) NOT NULL PRIMARY KEY,
         [Name] varchar(255) NULL,
         Created datetime2(7) NULL,
         CatalogueItemTypeId int NULL,
@@ -32,7 +32,7 @@ GO
 IF OBJECT_ID('migration.SolutionDetail', 'U') IS NOT NULL AND '$(MIGRATE_TO_CATALOGUEITEM)' = 'TRUE'
     CREATE TABLE migration.SolutionDetail
     (
-         SolutionId varchar(14) NOT NULL,
+         SolutionId varchar(14) NOT NULL PRIMARY KEY,
          Features nvarchar(max) NULL,
          ClientApplication nvarchar(max) NULL,
          Hosting nvarchar(max) NULL,
