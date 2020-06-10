@@ -39,7 +39,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         /// <returns>A task representing an operation to retrieve the details of a Solution.</returns>
         [HttpGet]
         [Route("{id}")]
-        [ProducesResponseType(typeof(SolutionDashboardResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<GetSolutionResult>> GetAsync(string id)
