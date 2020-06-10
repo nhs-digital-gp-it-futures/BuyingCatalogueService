@@ -119,6 +119,7 @@
     <Build Include="Tables\AssociatedService.sql" />
     <Build Include="Tables\SupplierServiceAssociation.sql" />
     <None Include="PreDeployment\MigrateSolutionDetailToCatalogueItem.sql" />
+    <None Include="PostDeployment\InsertCapabilityStatuses.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="INCLUDE_IMPORT">
@@ -143,7 +144,6 @@
     </SqlCmdVariable>
   </ItemGroup>
   <ItemGroup>
-    <None Include="PostDeployment\InsertCommonValues.sql" />
     <None Include="PostDeployment\InsertEpics.sql" />
     <None Include="PostDeployment\InsertCapabilities.sql" />
     <None Include="PostDeployment\InsertFrameworks.sql" />
@@ -152,6 +152,11 @@
     <None Include="PostDeployment\DropImport.sql" />
     <None Include="PostDeployment\DropPublish.sql" />
     <None Include="PostDeployment\InsertCatalogueItemTypes.sql" />
+    <None Include="PostDeployment\InsertCapabilityCategories.sql" />
+    <None Include="PostDeployment\InsertCompliancyLevels.sql" />
+    <None Include="PostDeployment\InsertPublicationStatuses.sql" />
+    <None Include="PostDeployment\InsertSolutionCapabilityStatuses.sql" />
+    <None Include="PostDeployment\InsertSolutionEpicStatuses.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="PostDeployment\PostDeployment.sql" />
