@@ -108,7 +108,7 @@
     <Build Include="Types\SolutionCapability.sql" />
     <Build Include="Stored Procedures\ImportSolution.sql" />
     <Build Include="Stored Procedures\PublishSolution.sql" />
-    <None Include="Stored Procedures\ImportAdditionalService.sql" />
+    <Build Include="Stored Procedures\ImportAdditionalService.sql" />
     <Build Include="Types\AdditionalServiceCapability.sql" />
     <Build Include="Security\Schemas\import.sql" />
     <Build Include="Security\Schemas\publish.sql" />
