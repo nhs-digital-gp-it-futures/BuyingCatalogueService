@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-    Copy Solution ID and Names to CatalogueItem Table
+    Copy data from migration tables
 ------------------------------------------------------------------------*/
 DECLARE @solutionCatalogueItemType int = 1;
 
@@ -9,43 +9,86 @@ IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
            FROM migration.CatalogueItem;
 GO
 
-/*-----------------------------------------------------------------------
-    Copy Solution Detail information to Solution Table
-------------------------------------------------------------------------*/
+IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
+    INSERT INTO dbo.Solution(Id, [Version], Summary, FullDescription, Features, ClientApplication, Hosting,
+                ImplementationDetail, RoadMap, IntegrationsUrl, AboutUrl, LastUpdated, LastUpdatedBy)
+         SELECT Id, [Version], Summary, FullDescription, Features, ClientApplication, Hosting,
+                ImplementationDetail, RoadMap, IntegrationsUrl, AboutUrl, LastUpdated, LastUpdatedBy
+           FROM migration.Solution;
+GO
 
 IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
-    UPDATE s
-       SET s.Summary = d.Summary,
-           s.FullDescription = d.FullDescription,
-           s.Features = d.Features,
-           s.ClientApplication = d.ClientApplication,
-           s.Hosting = d.Hosting,
-           s.ImplementationDetail = d.ImplementationDetail,
-           s.RoadMap = d.RoadMap,
-           s.IntegrationsUrl = d.IntegrationsUrl,
-           s.AboutUrl = d.AboutUrl
-      FROM migration.SolutionDetail AS d
-           INNER JOIN dbo.Solution AS s
-           ON s.Id = d.SolutionId;
+    INSERT INTO dbo.FrameworkSolutions(FrameworkId, SolutionId, IsFoundation, LastUpdated, LastUpdatedBy)
+         SELECT FrameworkId, SolutionId, IsFoundation, LastUpdated, LastUpdatedBy
+           FROM migration.FrameworkSolutions;
+GO
+
+IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
+BEGIN
+    SET IDENTITY_INSERT dbo.MarketingContact ON;
+
+    INSERT INTO dbo.MarketingContact(Id, SolutionId, FirstName, LastName, Email, PhoneNumber, Department, LastUpdated, LastUpdatedBy)
+         SELECT Id, SolutionId, FirstName, LastName, Email, PhoneNumber, Department, LastUpdated, LastUpdatedBy
+           FROM migration.MarketingContact;
+
+    SET IDENTITY_INSERT dbo.MarketingContact OFF;
+END;
+GO
+
+IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
+    INSERT INTO dbo.SolutionCapability(SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
+         SELECT SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy
+           FROM migration.SolutionCapability;
+GO
+
+IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
+    INSERT INTO dbo.SolutionEpic(SolutionId, CapabilityId, EpicId, StatusId, LastUpdated, LastUpdatedBy)
+         SELECT SolutionId, CapabilityId, EpicId, StatusId, LastUpdated, LastUpdatedBy
+           FROM migration.SolutionEpic;
 GO
 
 /*-----------------------------------------------------------------------
-    Drop solution detail table
+    Drop unrequired tables
 ------------------------------------------------------------------------*/
 
-DROP TABLE IF EXISTS dbo.SolutionDetail;
+DROP TABLE IF EXISTS
+    dbo.SolutionDetail,
+    dbo.SolutionAuthorityStatus,
+    dbo.SolutionSupplierStatus,
+    AdditionalServicePrice,
+    AssociatedServicePrice,
+    SolutionPrice,
+    PurchasingModel,
+    PriceType,
+    AdditionalServiceDetail,
+    [Audit],
+    SolutionStandard,
+    SolutionStandardStatus,
+    FrameworkStandards,
+    [Standard],
+    StandardStatus,
+    StandardCatery,
+    CapabilityStandards,
+    SolutionDefinedEpicAcceptanceCriteria,
+    SolutionDefinedEpic,
+    SolutionDefinedCapability,
+    Organisation;
 GO
 
 /*-----------------------------------------------------------------------
     Drop migration tables and schema
 ------------------------------------------------------------------------*/
 
---IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
---DROP TABLE IF EXISTS
---     migration.CatalogueItem,
---     migration.SolutionDetail;
---GO
+IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
+DROP TABLE IF EXISTS
+     migration.CatalogueItem,
+     migration.Solution,
+     migration.FrameworkSolutions,
+     migration.MarketingContact,
+     migration.SolutionCapability,
+     migration.SolutionEpic;
+GO
 
---IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
---    DROP SCHEMA IF EXISTS migration;
---GO
+IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
+    DROP SCHEMA IF EXISTS migration;
+GO

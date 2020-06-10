@@ -25,21 +25,6 @@ IF NOT EXISTS (SELECT * FROM dbo.PublicationStatus)
     (4, 'Withdrawn');
 GO
 
-IF NOT EXISTS (SELECT * FROM dbo.SolutionSupplierStatus)
-    INSERT INTO dbo.SolutionSupplierStatus(Id, [Name])
-    VALUES
-    (1, 'Draft'),
-    (2, 'Authority Review'),
-    (3, 'Completed');
-GO
-
-IF NOT EXISTS (SELECT * FROM dbo.SolutionAuthorityStatus)
-    INSERT INTO dbo.SolutionAuthorityStatus(Id, [Name])
-    VALUES
-    (1, 'Draft'),
-    (2, 'Completed');
-GO
-
 IF NOT EXISTS (SELECT * FROM dbo.SolutionCapabilityStatus)
     INSERT INTO dbo.SolutionCapabilityStatus(Id, [Name], Pass)
     VALUES

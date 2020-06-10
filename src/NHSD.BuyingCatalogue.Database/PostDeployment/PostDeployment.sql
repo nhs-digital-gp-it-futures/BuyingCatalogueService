@@ -4,7 +4,7 @@
 :r ./InsertCapabilities.sql
 :r ./InsertEpics.sql
 :r ./InsertSuppliers.sql
+:r ./MigrateSolutionDetailToCatalogueItem.sql
 :r ./InsertSolutions.sql
 :r ./DropImport.sql
 :r ./DropPublish.sql
-:r ./MigrateSolutionDetailToCatalogueItem.sql
