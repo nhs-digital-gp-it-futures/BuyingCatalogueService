@@ -171,5 +171,6 @@ GO
     Delete existing solution data
 ------------------------------------------------------------------------*/
 
-DELETE FROM dbo.Solution;
+IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
+    DELETE FROM dbo.Solution;
 GO

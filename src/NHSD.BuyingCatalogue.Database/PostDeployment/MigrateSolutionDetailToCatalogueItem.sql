@@ -80,13 +80,13 @@ GO
 ------------------------------------------------------------------------*/
 
 IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
-DROP TABLE IF EXISTS
-     migration.CatalogueItem,
-     migration.Solution,
-     migration.FrameworkSolutions,
-     migration.MarketingContact,
-     migration.SolutionCapability,
-     migration.SolutionEpic;
+    DROP TABLE IF EXISTS
+         migration.CatalogueItem,
+         migration.Solution,
+         migration.FrameworkSolutions,
+         migration.MarketingContact,
+         migration.SolutionCapability,
+         migration.SolutionEpic;
 GO
 
 IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
