@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
@@ -30,6 +30,22 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         public SolutionsController(IMediator mediator)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        }
+
+        /// <summary>
+        /// Get a solution matching the specified ID.
+        /// </summary>
+        /// <param name="id">A value to uniquely identify a solution.</param>
+        /// <returns>A task representing an operation to retrieve the details of a Solution.</returns>
+        [HttpGet]
+        [Route("{id}")]
+        [ProducesResponseType(typeof(SolutionDashboardResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult<GetSolutionResult>> GetAsync(string id)
+        {
+            var result = await _mediator.Send(new GetSolutionByIdQuery(id)).ConfigureAwait(false);
+            return new GetSolutionResult(result);
         }
 
         /// <summary>
