@@ -2,7 +2,7 @@
     Create migration schema
 ------------------------------------------------------------------------*/
 
-IF NOT EXISTS (SELECT * FROM information_schema.schemata WHERE schema_name = 'migration')
+IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE' AND NOT EXISTS (SELECT * FROM information_schema.schemata WHERE schema_name = 'migration')
     EXEC sp_executesql N'CREATE SCHEMA migration;'
 GO
 
@@ -94,28 +94,26 @@ GO
     Truncate migration tables (in case they existed previously)
 ------------------------------------------------------------------------*/
 
-IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE' AND EXISTS (SELECT * FROM migration.CatalogueItem)
-    TRUNCATE TABLE migration.CatalogueItem;
-GO
+IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
+BEGIN
+    IF EXISTS (SELECT * FROM migration.CatalogueItem)
+        TRUNCATE TABLE migration.CatalogueItem;
 
-IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE' AND EXISTS (SELECT * FROM migration.Solution)
-    TRUNCATE TABLE migration.Solution;
-GO
+    IF EXISTS (SELECT * FROM migration.Solution)
+        TRUNCATE TABLE migration.Solution;
 
-IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE' AND EXISTS (SELECT * FROM migration.FrameworkSolutions)
-    TRUNCATE TABLE migration.FrameworkSolutions;
-GO
+    IF EXISTS (SELECT * FROM migration.FrameworkSolutions)
+        TRUNCATE TABLE migration.FrameworkSolutions;
 
-IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE' AND EXISTS (SELECT * FROM migration.MarketingContact)
-    TRUNCATE TABLE migration.MarketingContact;
-GO
+    IF EXISTS (SELECT * FROM migration.MarketingContact)
+        TRUNCATE TABLE migration.MarketingContact;
 
-IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE' AND EXISTS (SELECT * FROM migration.SolutionCapability)
-    TRUNCATE TABLE migration.SolutionCapability;
-GO
+    IF EXISTS (SELECT * FROM migration.SolutionCapability)
+        TRUNCATE TABLE migration.SolutionCapability;
 
-IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE' AND EXISTS (SELECT * FROM migration.SolutionEpic)
-    TRUNCATE TABLE migration.SolutionEpic;
+    IF EXISTS (SELECT * FROM migration.SolutionEpic)
+        TRUNCATE TABLE migration.SolutionEpic;
+END;
 GO
 
 /*-----------------------------------------------------------------------
