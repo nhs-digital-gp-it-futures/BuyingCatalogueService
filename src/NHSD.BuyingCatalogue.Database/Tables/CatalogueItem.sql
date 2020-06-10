@@ -1,13 +1,13 @@
 ﻿CREATE TABLE dbo.CatalogueItem
 (
 	CatalogueItemId varchar(14) NOT NULL,
-    [Name] varchar(255) NULL,
-    Created datetime2(7) NULL,
-    CatalogueItemTypeId int NULL,
-    SupplierId varchar(6) NULL,
-    PublishedStatusId int NULL,
+    [Name] varchar(255) NOT NULL,
+    CatalogueItemTypeId int NOT NULL,
+    SupplierId varchar(6) NOT NULL,
+    PublishedStatusId int CONSTRAINT DF_CatalogueItem_PublishedStatus DEFAULT 1 NOT NULL,
+    Created datetime2(7) CONSTRAINT DF_CatalogueItem_Created DEFAULT GETUTCDATE() NOT NULL,
     CONSTRAINT PK_CatalogueItem PRIMARY KEY (CatalogueItemId),
     CONSTRAINT FK_CatalogueItem_CatalogueItemType FOREIGN KEY (CatalogueItemTypeId) REFERENCES CatalogueItemType(CatalogueItemTypeId),
     CONSTRAINT FK_CatalogueItem_Supplier FOREIGN KEY (SupplierId) REFERENCES Supplier(Id),
-    CONSTRAINT FK_CatalogueItem_PublishedStatus FOREIGN KEY (PublishedStatusId) REFERENCES PublicationStatus(Id)
+    CONSTRAINT FK_CatalogueItem_PublicationStatus FOREIGN KEY (PublishedStatusId) REFERENCES PublicationStatus(Id)
 );

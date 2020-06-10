@@ -7,5 +7,6 @@
     LastUpdatedBy uniqueidentifier NULL,
     SolutionId varchar(14) NULL,
     CONSTRAINT PK_AdditionalService PRIMARY KEY (AdditionalServiceId),
-    CONSTRAINT FK_Solution FOREIGN KEY (SolutionId) REFERENCES Solution(Id)
+    CONSTRAINT FK_AdditionalService_CatalogueItem FOREIGN KEY (AdditionalServiceId) REFERENCES dbo.CatalogueItem(CatalogueItemId) ON DELETE CASCADE,
+    CONSTRAINT FK_AdditionalService_Solution FOREIGN KEY (SolutionId) REFERENCES dbo.Solution(Id)
 );
