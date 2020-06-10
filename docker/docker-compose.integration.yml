@@ -57,7 +57,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      - CONNECTIONSTRINGS__BUYINGCATALOGUE=Server=db;Initial Catalog=buyingcatalogue-integration;Persist Security Info=False;User Id=NHSD;Password=DisruptTheMarket1!
+      - CONNECTIONSTRINGS__BUYINGCATALOGUE=Server=db;Initial Catalog=buyingcatalogue-integration;Persist Security Info=False;User Id=NHSD-BAPI;Password=DisruptTheMarket1!
       - APICLIENTSETTINGS__DOCUMENTAPI__BASEURL=http://nhsd.buyingcatalogue.documents.api.wiremock:80
     ports:
       - "5200:80"
