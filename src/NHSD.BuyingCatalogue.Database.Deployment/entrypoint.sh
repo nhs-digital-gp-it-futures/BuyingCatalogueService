@@ -20,7 +20,13 @@ if [ $STATUS -ne 0 ]; then
     exit 1
 fi
 
-/sqlpackage/sqlpackage /Action:publish /SourceFile:NHSD.BuyingCatalogue.Database.Deployment.dacpac /TargetServerName:$DB_SERVER,$PORT /TargetDatabaseName:$DB_NAME /TargetUser:$SA_USERNAME /TargetPassword:$SA_PASSWORD $SQLPACKAGEARGS
+cd PreDeployment
+/opt/mssql-tools/bin/sqlcmd -S $DB_SERVER,$PORT -U $SA_USERNAME -P $SA_PASSWORD -d $DB_NAME -I -i "PreDeployment.sql"
+
+cd ..
+/sqlpackage/sqlpackage /Action:publish /SourceFile:NHSD.BuyingCatalogue.Database.Deployment.dacpac /TargetServerName:$DB_SERVER,$PORT /TargetDatabaseName:$DB_NAME /TargetUser:$SA_USERNAME /TargetPassword:$SA_PASSWORD /p:BlockOnPossibleDataLoss=False $SQLPACKAGEARGS
+
+cd PostDeployment
 /opt/mssql-tools/bin/sqlcmd -S $DB_SERVER,$PORT -U $SA_USERNAME -P $SA_PASSWORD -d $DB_NAME -I -i "PostDeployment.sql"
 
 if [ "${INTEGRATION_TEST^^}" = "TRUE" ]; then

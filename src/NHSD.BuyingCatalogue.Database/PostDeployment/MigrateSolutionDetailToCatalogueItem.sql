@@ -30,15 +30,22 @@ IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
 GO
 
 /*-----------------------------------------------------------------------
+    Drop solution detail table
+------------------------------------------------------------------------*/
+
+DROP TABLE IF EXISTS dbo.SolutionDetail;
+GO
+
+/*-----------------------------------------------------------------------
     Drop migration tables and schema
 ------------------------------------------------------------------------*/
 
-IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
-DROP TABLE IF EXISTS
-     migration.CatalogueItem,
-     migration.SolutionDetail;
-GO
+--IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
+--DROP TABLE IF EXISTS
+--     migration.CatalogueItem,
+--     migration.SolutionDetail;
+--GO
 
-IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
-    DROP SCHEMA IF EXISTS migration;
-GO
+--IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
+--    DROP SCHEMA IF EXISTS migration;
+--GO
