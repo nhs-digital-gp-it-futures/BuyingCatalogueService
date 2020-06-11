@@ -39,11 +39,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         /// <returns>A task representing an operation to retrieve the details of a Solution.</returns>
         [HttpGet]
         [Route("{id}")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(GetSolutionResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<GetSolutionResult>> GetAsync(string id)
         {
-            var result = await _mediator.Send(new GetSolutionByIdQuery(id)).ConfigureAwait(false);
+            var result = await _mediator.Send(new GetSolutionByIdQuery(id));
             return new GetSolutionResult(result);
         }
 

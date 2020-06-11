@@ -12,15 +12,15 @@ Background:
         | Sln1       | MedicOnline    | Sup 1      |
         | Sln2       | TakeTheRedPill | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription             |
-        | Sln1     | An full online medicine system |
+        | Solution | SummaryDescription            |
+        | Sln1     | A full online medicine system |
 
 @7261
 Scenario: 1. Get a single solution
     When a GET request is made to retrieve a solution by ID 'Sln1'
     Then a successful response is returned
     And the string value of element name is MedicOnline
-    And the string value of element summary is An full online medicine system
+    And the string value of element summary is A full online medicine system
 
 @7261
 Scenario: 2. Get a single solution with only a name

@@ -38,9 +38,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task GetAsync_Solution_ReturnsExpectedGetSolutionResult()
         {
-            var solution = Mock.Of<ISolution>(s => s.Id == SolutionId 
-                                                   && s.Name == "Some solution name"
-                                                   && s.Summary == "Some solution summary");
+            var solution = Mock.Of<ISolution>(
+                s => s.Id == SolutionId
+                && s.Name == "Some solution name"
+                && s.Summary == "Some solution summary");
 
             SetupMockMediator(solution);
 
@@ -68,8 +69,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
         private void SetupMockMediator(ISolution result)
         {
-            _mockMediator.Setup(m =>
-                m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId),
+            _mockMediator.Setup(m => m.Send(
+                    It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId),
                     It.IsAny<CancellationToken>())).ReturnsAsync(() => result);
         }
     }

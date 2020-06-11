@@ -21,7 +21,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
         [When(@"a GET request is made to retrieve a solution by ID '(.*)'")]
         public async Task WhenAGetRequestIsMadeToRetrieveASolutionById(string solutionId)
         {
-            _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, GetSolutionUrl, solutionId)).ConfigureAwait(false);
+            _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, GetSolutionUrl, solutionId));
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 {
-    public class GetSolutionResult
+    public sealed class GetSolutionResult
     {
         public string Name { get; set; }
 
