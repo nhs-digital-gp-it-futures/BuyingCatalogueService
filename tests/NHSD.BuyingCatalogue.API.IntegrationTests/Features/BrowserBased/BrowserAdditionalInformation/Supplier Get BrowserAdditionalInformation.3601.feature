@@ -9,14 +9,14 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill | 1                | Sup 2      |
-        | Sln3       | PracticeMgr    | 1                | Sup 2      |
-    And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                      |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "AdditionalInformation": "Some more info", "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum"}, "HardwareRequirements": "Hardware Information" } |
-        | Sln3     | Testing System                 | Full System       | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum" } }                                                                                           |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                      |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "AdditionalInformation": "Some more info", "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum"}, "HardwareRequirements": "Hardware Information" } |
+        | Sln2       | NULL                           | NULL              | NULL                                                                                                                                                                                                                                                                                   |
+        | Sln3       | Testing System                 | Full System       | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum" } }                                                                                           |
+#    And SolutionDetail exist
+#        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                      |
+#        | Sln1     | An full online medicine system | Online medicine 1 | { "AdditionalInformation": "Some more info", "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum"}, "HardwareRequirements": "Hardware Information" } |
+#        | Sln3     | Testing System                 | Full System       | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum" } }                                                                                           |
 
 @3601
 Scenario: 1. Browser Additional Information are retreived for the solution
@@ -52,4 +52,3 @@ Scenario: 5. Service failure
 Scenario: 6. Solution id not present in request
     When a GET request is made for browser-additional-information section with no solution id
     Then a response status of 400 is returned
-

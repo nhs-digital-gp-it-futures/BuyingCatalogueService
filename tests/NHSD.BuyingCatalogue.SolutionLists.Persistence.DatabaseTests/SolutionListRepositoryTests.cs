@@ -51,10 +51,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
         public async Task ShouldListSingleSolution()
         {
             await SolutionEntityBuilder.Create()
-                .WithName("Solution1")
                 .WithId(Solution1Id)
-                .WithSupplierId(_supplierId)
-                .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync();
 
@@ -67,10 +64,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
         public async Task ShouldListSingleSolutionWithSingleCapability()
         {
             await SolutionEntityBuilder.Create()
-                .WithName("Solution1")
                 .WithId(Solution1Id)
-                .WithSupplierId(_supplierId)
-                .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync();
 
@@ -105,10 +99,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
         public async Task ShouldListSingleSolutionAsFoundation(bool isFoundation)
         {
             await SolutionEntityBuilder.Create()
-                .WithName("Solution1")
                 .WithId(Solution1Id)
-                .WithSupplierId(_supplierId)
-                .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync();
 
@@ -140,10 +131,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
         public async Task ShouldListSingleSolutionWithMultipleCapability()
         {
             await SolutionEntityBuilder.Create()
-                .WithName("Solution1")
                 .WithId(Solution1Id)
-                .WithSupplierId(_supplierId)
-                .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync();
 
@@ -194,26 +182,17 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
         public async Task ShouldListMultipleSolutionsWithCapabilities()
         {
             await SolutionEntityBuilder.Create()
-                .WithName("Solution1")
                 .WithId(Solution1Id)
-                .WithSupplierId(_supplierId)
-                .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync();
 
             await SolutionEntityBuilder.Create()
-                .WithName("Solution2")
                 .WithId("Sln2")
-                .WithSupplierId(_supplierId)
-                .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync();
 
             await SolutionEntityBuilder.Create()
-                .WithName("Solution3")
                 .WithId("Sln3")
-                .WithSupplierId(_supplierId)
-                .WithPublishedStatusId(1)
                 .Build()
                 .InsertAsync();
 
@@ -358,10 +337,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
         private async Task CreateSimpleSolutionWithOneCap(string solutionId, string supplierId = _supplierId)
         {
             await SolutionEntityBuilder.Create()
-                .WithName(solutionId)
                 .WithId(solutionId)
-                .WithSupplierId(supplierId)
-                .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync();
 

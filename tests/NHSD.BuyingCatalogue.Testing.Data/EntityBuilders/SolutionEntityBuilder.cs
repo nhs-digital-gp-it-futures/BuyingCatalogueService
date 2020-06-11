@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
@@ -20,15 +20,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             _solutionEntity = new SolutionEntity
             {
                 Id = id,
-                ParentId = null,
-                SupplierId = "Sup 1",
-                SolutionDetailId = null,
-                Name = $"Solution Name {id}",
                 Version = "1.0.0",
-                PublishedStatusId = 1,
-                AuthorityStatusId = 1,
-                SupplierStatusId = 1,
-                OnCatalogueVersion = 0,
                 ServiceLevelAgreement = null,
                 WorkOfPlan = null
             };
@@ -40,57 +32,64 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             return this;
         }
 
-        public SolutionEntityBuilder WithParentId(string parentId)
-        {
-            _solutionEntity.ParentId = parentId;
-            return this;
-        }
-
-        public SolutionEntityBuilder WithSupplierId(string supplierId)
-        {
-            _solutionEntity.SupplierId = supplierId;
-            return this;
-        }
-
-        public SolutionEntityBuilder WithSolutionDetailId(Guid solutionDetailId)
-        {
-            _solutionEntity.SolutionDetailId = solutionDetailId;
-            return this;
-        }
-
-        public SolutionEntityBuilder WithName(string name)
-        {
-            _solutionEntity.Name = name;
-            return this;
-        }
-
         public SolutionEntityBuilder WithVersion(string version)
         {
             _solutionEntity.Version = version;
             return this;
         }
 
-        public SolutionEntityBuilder WithPublishedStatusId(int publishedStatusId)
+        public SolutionEntityBuilder WithFeatures(string features)
         {
-            _solutionEntity.PublishedStatusId = publishedStatusId;
+            _solutionEntity.Features = features;
             return this;
         }
 
-        public SolutionEntityBuilder WithAuthorityStatusId(int authorityStatusId)
+        public SolutionEntityBuilder WithClientApplication(string clientApplication)
         {
-            _solutionEntity.AuthorityStatusId = authorityStatusId;
+            _solutionEntity.ClientApplication = clientApplication;
             return this;
         }
 
-        public SolutionEntityBuilder WithSupplierStatusId(int supplierStatusId)
+        public SolutionEntityBuilder WithHosting(string hosting)
         {
-            _solutionEntity.SupplierStatusId = supplierStatusId;
+            _solutionEntity.Hosting = hosting;
             return this;
         }
 
-        public SolutionEntityBuilder WithOnCatalogueVersion(int onCatalogueVersion)
+        public SolutionEntityBuilder WithImplementationTimescales(string implementationTimescales)
         {
-            _solutionEntity.OnCatalogueVersion = onCatalogueVersion;
+            _solutionEntity.ImplementationDetail = implementationTimescales;
+            return this;
+        }
+
+        public SolutionEntityBuilder WithRoadMap(string roadMap)
+        {
+            _solutionEntity.RoadMap = roadMap;
+            return this;
+        }
+
+        public SolutionEntityBuilder WithIntegrationsUrl(string integrationsUrl)
+        {
+            _solutionEntity.IntegrationsUrl = integrationsUrl;
+            return this;
+        }
+
+
+        public SolutionEntityBuilder WithAboutUrl(string aboutUrl)
+        {
+            _solutionEntity.AboutUrl = aboutUrl;
+            return this;
+        }
+
+        public SolutionEntityBuilder WithSummary(string summary)
+        {
+            _solutionEntity.Summary = summary;
+            return this;
+        }
+
+        public SolutionEntityBuilder WithFullDescription(string fullDescription)
+        {
+            _solutionEntity.FullDescription = fullDescription;
             return this;
         }
 

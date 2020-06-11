@@ -8,14 +8,10 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SolutionName     | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline      | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill   | 1                | Sup 1      |
-        | Sln3       | TakeTheGreenPill | 1                | Sup 1      |
-    And SolutionDetail exist
-        | Solution | SummaryDescription            | FullDescription   | Hosting                                                                                                                                                           |
-        | Sln1     | A full online medicine system | Online medicine 1 | { "OnPremise": { "Summary": "Some summary", "Link": "www.somelink.com", "HostingModel": "AZDO", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
-        | Sln2     | An online medicine system     | Online medicine 2 | { }                                                                                                                                                               |
+        | SolutionId | SummaryDescription            | FullDescription   | Hosting                                                                                                                                                           |
+        | Sln1       | A full online medicine system | Online medicine 1 | { "OnPremise": { "Summary": "Some summary", "Link": "www.somelink.com", "HostingModel": "AZDO", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
+        | Sln2       | An online medicine system     | Online medicine 2 | { }                                                                                                                                                               |
+        | Sln3       | NULL                          | NULL              | NULL                                                                                                                                                              |
 
 @3651
 Scenario: 1. On Premise is retreived for the solution

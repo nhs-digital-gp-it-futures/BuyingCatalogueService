@@ -8,11 +8,8 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | 1                | Sup 1      |
-    And SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
-        | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
+        | SolutionId | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
+        | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
 
 @3319
 Scenario: 1. No features are filled out

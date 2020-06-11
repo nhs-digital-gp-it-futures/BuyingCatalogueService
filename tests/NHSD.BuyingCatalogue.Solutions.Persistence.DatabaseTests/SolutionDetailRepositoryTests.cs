@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
@@ -41,9 +41,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public async Task ShouldUpdateFeatures()
         {
             await SolutionEntityBuilder.Create()
-                .WithName("Solution1")
                 .WithId(_solution1Id)
-                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
@@ -89,9 +87,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public async Task ShouldThrowOnUpdateSolutionDetailNotPresent()
         {
             await SolutionEntityBuilder.Create()
-                .WithName("Solution1")
                 .WithId(_solution1Id)
-                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
@@ -108,9 +104,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public async Task ShouldUpdateClientApplicationType()
         {
             await SolutionEntityBuilder.Create()
-                .WithName("Solution1")
                 .WithId(_solution1Id)
-                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
@@ -156,9 +150,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public async Task ShouldThrowOnUpdateClientApplicationSolutionDetailNotPresent()
         {
             await SolutionEntityBuilder.Create()
-                .WithName("Solution1")
                 .WithId(_solution1Id)
-                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
@@ -174,17 +166,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public async Task ShouldUpdateSummary()
         {
             await SolutionEntityBuilder.Create()
-                .WithName("Solution1")
                 .WithId(_solution1Id)
-                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
 
             await SolutionEntityBuilder.Create()
-                .WithName("Solution2")
                 .WithId(_solution2Id)
-                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
@@ -210,12 +198,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             var solution = await SolutionEntity.GetByIdAsync(_solution1Id)
                 .ConfigureAwait(false);
             solution.Id.Should().Be(_solution1Id);
-            solution.Name.Should().Be("Solution1");
 
             solution = await SolutionEntity.GetByIdAsync(_solution2Id)
                 .ConfigureAwait(false);
             solution.Id.Should().Be(_solution2Id);
-            solution.Name.Should().Be("Solution2");
 
             var solutionDetail = await SolutionDetailEntity.GetBySolutionIdAsync(_solution1Id)
                 .ConfigureAwait(false);
@@ -243,9 +229,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public async Task ShouldThrowOnUpdateSummarySolutionDetailNotPresent()
         {
             await SolutionEntityBuilder.Create()
-                .WithName("Solution1")
                 .WithId(_solution1Id)
-                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
@@ -266,7 +250,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await SolutionEntityBuilder.Create()
                 .WithId(_solution1Id)
-                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
@@ -286,7 +269,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             await SolutionEntityBuilder.Create()
                 .WithId(_solution1Id)
-                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
@@ -328,9 +310,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             string expectedResult = "{ 'SomethingElse': [] }";
 
             await SolutionEntityBuilder.Create()
-                .WithName("Solution1")
                 .WithId(_solution1Id)
-                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
@@ -367,7 +347,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await SolutionEntityBuilder.Create()
                 .WithId(_solution1Id)
-                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
@@ -387,7 +366,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             await SolutionEntityBuilder.Create()
                 .WithId(_solution1Id)
-                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
@@ -403,9 +381,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             string expectedResult = "some roadmap description";
 
             await SolutionEntityBuilder.Create()
-                .WithName("Solution1")
                 .WithId(_solution1Id)
-                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
@@ -442,7 +418,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await SolutionEntityBuilder.Create()
                 .WithId(_solution1Id)
-                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
@@ -462,7 +437,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             await SolutionEntityBuilder.Create()
                 .WithId(_solution1Id)
-                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
@@ -478,9 +452,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             string expectedResult = "some implementation timescales description";
 
             await SolutionEntityBuilder.Create()
-                .WithName("Solution1")
                 .WithId(_solution1Id)
-                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
@@ -517,7 +489,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await SolutionEntityBuilder.Create()
                 .WithId(_solution1Id)
-                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
@@ -537,7 +508,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             await SolutionEntityBuilder.Create()
                 .WithId(_solution1Id)
-                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);

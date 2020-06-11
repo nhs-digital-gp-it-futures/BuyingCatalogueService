@@ -8,14 +8,11 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | 1                | Sup 1      |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                        |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "MinimumConnectionSpeed": "2GBps", "MinimumDesktopResolution": "1x1" } |
 
 @3599
 Scenario: 1. Connection and Resolution details are retreived for the solution
-    Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                     |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "MinimumConnectionSpeed": "2GBps", "MinimumDesktopResolution": "1x1" } |
     When a GET request is made for browser-connectivity-and-resolution section for solution Sln1
     Then a successful response is returned
     And the string value of element minimum-connection-speed is 2GBps

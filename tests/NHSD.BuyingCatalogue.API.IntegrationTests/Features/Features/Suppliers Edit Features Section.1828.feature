@@ -9,18 +9,13 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill | 1                | Sup 2      |
-        | Sln3       | PracticeMgr    | 1                | Sup 2      |
+        | SolutionId | SummaryDescription             | FullDescription     | AboutUrl | Features                          |
+        | Sln1       | An full online medicine system | Online medicine 1   | UrlSln1  | [ "Appointments", "Prescribing" ] |
+        | Sln2       | Eye opening experience         | Eye opening6        | UrlSln2  | [ "Workflow", "Referrals" ]       |
+        | Sln3       | Fully fledged GP system        | Fully fledged GP 12 | UrlSln3  | [ "Dispensing" ]                  |
 
 @1828
 Scenario: 1. Marketing Data is updated against the solution
-    Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | AboutUrl | Features                          |
-        | Sln1     | An full online medicine system | Online medicine 1   | UrlSln1  | [ "Appointments", "Prescribing" ] |
-        | Sln2     | Eye opening experience         | Eye opening6        | UrlSln2  | [ "Workflow", "Referrals" ]       |
-        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 | UrlSln3  | [ "Dispensing" ]                  |
     When a PUT request is made to update solution Sln1 features section
         | Features                      |
         | Dispensing,Referrals,Workflow |
@@ -39,11 +34,6 @@ Scenario: 1. Marketing Data is updated against the solution
 
 @1828
 Scenario: 2. Marketing Data is updated against the solution with trimmed whitespace
-    Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | AboutUrl | Features                          |
-        | Sln1     | An full online medicine system | Online medicine 1   | UrlSln1  | [ "Appointments", "Prescribing" ] |
-        | Sln2     | Eye opening experience         | Eye opening6        | UrlSln2  | [ "Workflow", "Referrals" ]       |
-        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 | UrlSln3  | [ "Dispensing" ]                  |
     When a PUT request is made to update solution Sln1 features section
         | Features                                                     |
         | "      Dispensing     ","      Referrals","Workflow        " |
@@ -62,8 +52,8 @@ Scenario: 2. Marketing Data is updated against the solution with trimmed whitesp
 
 @1828
 Scenario: 3. Marketing Data is added to the solution
-	Given a SolutionDetail Sln1 does not exist
-    When a PUT request is made to update solution Sln1 features section
+	Given a SolutionDetail Sln2 does not exist
+    When a PUT request is made to update solution Sln2 features section
         | Features                      |
         | Dispensing,Referrals,Workflow |
     Then a response status of 500 is returned

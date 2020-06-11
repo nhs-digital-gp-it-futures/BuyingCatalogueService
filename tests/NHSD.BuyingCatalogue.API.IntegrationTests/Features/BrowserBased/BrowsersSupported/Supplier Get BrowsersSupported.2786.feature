@@ -9,11 +9,11 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill | 1                | Sup 2      |
-        | Sln3       | PracticeMgr    | 1                | Sup 2      |
-        | Sln5       | SolutionTest   | 1                | Sup 2      |
+        | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                        |
+        | Sln1       | An full online medicine system | Online medicine 1   | { "BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true } |
+        | Sln2       | NULL                           | NULL                | NULL                                                                     |
+        | Sln3       | Fully fledged GP system        | Fully fledged GP 12 |                                                                          |
+        | Sln5       | Testing System                 | Full System         | {"MobileResponsive": false }                                             |
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                        |
         | Sln1     | An full online medicine system | Online medicine 1   | { "BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true } |
@@ -64,12 +64,11 @@ Scenario: 6. Solution id not present in request
     When a GET request is made for browser-browsers-supported section with no solution id
     Then a response status of 400 is returned
 
-
 @2786
 Scenario: 7.Supported Browsers are retrieved for the solution where no supported-browsers
     When a GET request is made for browser-browsers-supported section for solution Sln5
     Then a successful response is returned
     And the supported-browsers element contains
-    | Elements |
-    |          |
+        | Elements |
+        |          |
     And the mobile-responsive element is No

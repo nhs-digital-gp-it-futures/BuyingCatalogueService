@@ -52,7 +52,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await SolutionEntityBuilder.Create()
                 .WithId(Solution1Id)
-                .WithSupplierId(SupplierId)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);

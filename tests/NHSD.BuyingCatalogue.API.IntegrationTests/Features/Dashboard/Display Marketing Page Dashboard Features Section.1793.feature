@@ -9,14 +9,10 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill | 1                | Sup 2      |
-        | Sln3       | PracticeMgr    | 1                | Sup 2      |
-    And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | AboutUrl | Features                          |
-        | Sln1     | An full online medicine system | Online medicine 1   | UrlSln1  | [ "Appointments", "Prescribing" ] |
-        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 | UrlSln3  | [ "Referrals", "Workflow" ]       |
+        | SolutionId | SummaryDescription             | FullDescription     | AboutUrl | Features                          |
+        | Sln1       | An full online medicine system | Online medicine 1   | UrlSln1  | [ "Appointments", "Prescribing" ] |
+        | Sln2       | NULL                           | NULL                | NULL     | NULL                              |
+        | Sln3       | Fully fledged GP system        | Fully fledged GP 12 | UrlSln3  | [ "Referrals", "Workflow" ]       |
                                                        
 @1793
 Scenario: 1. Sections presented where SolutionDetail exists

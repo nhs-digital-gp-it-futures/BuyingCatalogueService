@@ -8,11 +8,8 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | 1                | Sup 1      |
-    And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | Hosting |
-        | Sln1     | An full online medicine system | Online medicine 1 | { }     |
+        | SolutionId | SummaryDescription             | FullDescription   | Hosting |
+        | Sln1       | An full online medicine system | Online medicine 1 | { }     |
 @3651
 Scenario: 1. On Premise is updated
     When a PUT request is made to update the hosting-type-on-premise section for solution Sln1

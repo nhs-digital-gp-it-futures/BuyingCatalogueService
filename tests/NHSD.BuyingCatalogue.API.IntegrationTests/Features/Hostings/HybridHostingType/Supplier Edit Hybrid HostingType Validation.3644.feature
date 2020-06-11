@@ -8,11 +8,8 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | 1                | Sup 1      |
-    And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | Hosting                                                                                                                             |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "HybridHostingType": { "Summary": "A Summary", "Link": "A Link", "HostingModel": "A hosting type", "RequiresHSCN": "A string" } } |
+        | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                                             |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "HybridHostingType": { "Summary": "A Summary", "Link": "A Link", "HostingModel": "A hosting type", "RequiresHSCN": "A string" } } |
 
 @3644
 Scenario: 1. Summary exceeds the maxLength
