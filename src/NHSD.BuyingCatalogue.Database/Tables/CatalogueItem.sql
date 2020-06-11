@@ -1,6 +1,6 @@
 ﻿CREATE TABLE dbo.CatalogueItem
 (
-	CatalogueItemId varchar(14) NOT NULL,
+    CatalogueItemId varchar(14) NOT NULL,
     [Name] varchar(255) NOT NULL,
     CatalogueItemTypeId int NOT NULL,
     SupplierId varchar(6) NOT NULL,
