@@ -9,18 +9,13 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill | 1                | Sup 2      |
-        | Sln3       | PracticeMgr    | 1                | Sup 2      |
+        | SolutionId | SummaryDescription             | FullDescription     |  ClientApplication                                                                     |
+        | Sln1       | An full online medicine system | Online medicine 1   |  { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
+        | Sln2       | Fully fledged GP system        | Fully fledged GP 12 |  {  }                                                                                  |
+        | Sln3       | Thrills                        | Bellyaches          |  { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] } |
 
 @2726
 Scenario: 1. Client Application Types are updated for the solution
-    Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     |  ClientApplication                                                                     |
-        | Sln1     | An full online medicine system | Online medicine 1   |  { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
-        | Sln2     | Fully fledged GP system        | Fully fledged GP 12 |  {  }                                                                                  |
-        | Sln3     | Thrills                        | Bellyaches          |  { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] } |
     When a PUT request is made to update the client-application-types section for solution Sln1
         | ClientApplicationTypes       |
         | browser-based,native-mobile |
@@ -39,11 +34,6 @@ Scenario: 1. Client Application Types are updated for the solution
     
 @2726
 Scenario: 2. Client Application Types are updated for the solution with trimmed whitespace
-    Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     |  ClientApplication                                                                     |
-        | Sln1     | An full online medicine system | Online medicine 1   |  { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
-        | Sln2     | Fully fledged GP system        | Fully fledged GP 12 |  {  }                                                                                  |
-        | Sln3     | Thrills                        | Bellyaches          |  { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] } |
     When a PUT request is made to update the client-application-types section for solution Sln1
         | ClientApplicationTypes                              |
         | "      browser-based     ", "    native-mobile    " |
@@ -70,11 +60,6 @@ Scenario: 3. If SolutionDetail is missing for the solution, thats an error case
 
 @2726
 Scenario: 4. Client Application Types that we do not understand are ignored
-    Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                     |
-        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
-        | Sln2     | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                  |
-        | Sln3     | Thrills                        | Bellyaches          | { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] } |
     When a PUT request is made to update the client-application-types section for solution Sln1
         | ClientApplicationTypes                      |
         | browser-based,native-mobile,elephant,cheese |

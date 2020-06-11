@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
@@ -53,11 +53,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public async Task ShouldGetById()
         {
             await SolutionEntityBuilder.Create()
-                .WithName("Solution1")
                 .WithId(_solution1Id)
                 .WithOnLastUpdated(_lastUpdated)
-                .WithSupplierId(_supplierId)
-                .WithPublishedStatusId((int)PublishedStatus.Published)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
@@ -94,9 +91,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public async Task ShouldGetByIdFoundation(bool isFoundation)
         {
             await SolutionEntityBuilder.Create()
-                .WithName("Solution1")
                 .WithId(_solution1Id)
-                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
@@ -130,10 +125,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public async Task ShouldGetByIdSolutionDetailNotPresent()
         {
             await SolutionEntityBuilder.Create()
-                .WithName("Solution1")
                 .WithId(_solution1Id)
                 .WithOnLastUpdated(_lastUpdated)
-                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
@@ -154,11 +147,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public async Task ShouldUpdateSupplierStatus()
         {
             await SolutionEntityBuilder.Create()
-                .WithName("Solution1")
                 .WithId(_solution1Id)
                 .WithOnLastUpdated(_lastUpdated)
-                .WithSupplierId(_supplierId)
-                .WithSupplierStatusId(1)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
@@ -176,8 +166,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             solution.Id.Should().Be(_solution1Id);
 
             (await solution.LastUpdated.SecondsFromNow().ConfigureAwait(false)).Should().BeLessOrEqualTo(5);
-
-            solution.SupplierStatusId.Should().Be(2);
         }
 
         [Test]

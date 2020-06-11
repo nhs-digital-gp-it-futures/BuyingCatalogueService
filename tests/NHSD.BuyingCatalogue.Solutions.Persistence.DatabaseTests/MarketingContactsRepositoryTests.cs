@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -40,7 +40,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await SolutionEntityBuilder.Create()
                 .WithId(_solutionId1)
-                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);
@@ -86,7 +85,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             await SolutionEntityBuilder.Create()
                 .WithId(_solutionId2)
-                .WithSupplierId(_supplierId)
                 .Build()
                 .InsertAsync()
                 .ConfigureAwait(false);

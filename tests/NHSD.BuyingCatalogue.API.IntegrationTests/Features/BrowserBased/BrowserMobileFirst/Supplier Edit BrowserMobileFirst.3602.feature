@@ -8,13 +8,10 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | 1                | Sup 1      |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication              |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "MobileFirstDesign": false } |
 @3602
 Scenario: 1. Browser Mobile First is updated
-    Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication              |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "MobileFirstDesign": false } |
     When a PUT request is made to update the browser-mobile-first section for solution Sln1
         | MobileFirstDesign |
         | YEs               |
@@ -25,9 +22,6 @@ Scenario: 1. Browser Mobile First is updated
         
 @3602
 Scenario: 2. Browser Mobile First is updated with trimmed whitespace
-    Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication              |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "MobileFirstDesign": false } |
     When a PUT request is made to update the browser-mobile-first section for solution Sln1
         | MobileFirstDesign  |
         | "    YEs         " |

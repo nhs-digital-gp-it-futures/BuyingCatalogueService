@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
@@ -24,12 +23,15 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             foreach (var solutionTable in table.CreateSet<SolutionTable>())
             {
                 await SolutionEntityBuilder.Create()
-                    .WithName(solutionTable.SolutionName)
                     .WithId(solutionTable.SolutionId)
-                    .WithOnLastUpdated(solutionTable.LastUpdated)
-                    .WithSupplierId(solutionTable.SupplierId)
-                    .WithSupplierStatusId(solutionTable.SupplierStatusId)
-                    .WithPublishedStatusId((int)solutionTable.PublishedStatus)
+                    .WithFeatures(solutionTable.Features)
+                    .WithSummary(solutionTable.SummaryDescription)
+                    .WithFullDescription(solutionTable.FullDescription)
+                    .WithAboutUrl(solutionTable.AboutUrl)
+                    .WithClientApplication(solutionTable.ClientApplication)
+                    .WithHosting(solutionTable.Hosting)
+                    .WithRoadMap(solutionTable.RoadMap)
+                    .WithIntegrationsUrl(solutionTable.IntegrationsUrl)
                     .WithOnLastUpdated(solutionTable.LastUpdated != DateTime.MinValue ? solutionTable.LastUpdated : DateTime.UtcNow)
                     .Build()
                     .InsertAsync();
@@ -39,7 +41,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         [Given(@"Solutions are linked to Capabilities")]
         public static async Task GivenSolutionsAreLinkedToCapabilities(Table table)
         {
-            var solutions = (await SolutionEntity.FetchAllAsync()).ToDictionary(s => s.Name);
+            var solutions = (await SolutionEntity.FetchAllAsync()).ToDictionary(s => s.Id);
             var capabilities = (await CapabilityEntity.FetchAllAsync()).ToDictionary(c => c.Name);
 
             foreach (var solutionCapability in table.CreateSet<SolutionCapabilityTable>())
@@ -83,18 +85,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             var solutions = await SolutionEntity.FetchAllAsync();
             solutions.Select(s => new
             {
-                SolutionId = s.Id,
-                SolutionName = s.Name,
+                SolutionId = s.Id
             }).Should().BeEquivalentTo(expectedSolutions);
-        }
-
-        [Then(@"the field \[SupplierStatusId] for Solution (.*) should correspond to '(.*)'")]
-        public static async Task ThenFieldSolutionSupplierStatusIdShouldCorrespondTo(string solutionId, string supplierStatusName)
-        {
-            var status = await SolutionSupplierStatusEntity.GetByNameAsync(supplierStatusName);
-            var solution = await SolutionEntity.GetByIdAsync(solutionId);
-
-            solution.SupplierStatusId.Should().Be(status.Id);
         }
 
         [Then(@"Last Updated has updated on the SolutionEntity for solution (.*)")]
@@ -108,13 +100,29 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         {
             public string SolutionId { get; set; }
 
-            public string SolutionName { get; set; }
+            public string Version { get; set; }
 
-            public int SupplierStatusId { get; set; }
+            public string SummaryDescription { get; set; }
 
-            public string SupplierId { get; set; }
+            public string FullDescription { get; set; }
 
-            public PublishedStatus PublishedStatus { get; set; } = PublishedStatus.Published;
+            public string Features { get; set; }
+
+            public string ClientApplication { get; set; }
+
+            public string Hosting { get; set; }
+
+            public string ImplementationDetail { get; set; }
+
+            public string RoadMap { get; set; }
+
+            public string IntegrationsUrl { get; set; }
+
+            public string AboutUrl { get; set; }
+
+            public string ServiceLevelAgreement { get; set; }
+
+            public string WorkOfPlan { get; set; }
 
             public DateTime LastUpdated { get; set; }
         }

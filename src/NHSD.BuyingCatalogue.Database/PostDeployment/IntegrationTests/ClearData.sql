@@ -4,10 +4,7 @@
     TRUNCATE TABLE dbo.FrameworkCapabilities;
     TRUNCATE TABLE dbo.FrameworkSolutions;
 
-    UPDATE dbo.Solution
-    SET SolutionDetailId = NULL;
-
-    DELETE FROM dbo.SolutionDetail;
+    DELETE FROM dbo.CatalogueItem;
     TRUNCATE TABLE dbo.SolutionEpic;
     TRUNCATE TABLE dbo.SolutionCapability;
     DELETE FROM dbo.Solution;
