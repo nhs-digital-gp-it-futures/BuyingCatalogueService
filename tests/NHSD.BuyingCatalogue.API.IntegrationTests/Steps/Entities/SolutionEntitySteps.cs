@@ -22,6 +22,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         {
             foreach (var solutionTable in table.CreateSet<SolutionTable>())
             {
+                await CatalogueItemEntityBuilder.Create()
+                    .WithCatalogueItemId(solutionTable.SolutionId)
+                    .WithSupplierId("Sup 1")
+                    .Build()
+                    .InsertAsync();
                 await SolutionEntityBuilder.Create()
                     .WithId(solutionTable.SolutionId)
                     .WithFeatures(solutionTable.Features)

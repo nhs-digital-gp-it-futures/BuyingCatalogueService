@@ -120,7 +120,7 @@
     <Build Include="Tables\AdditionalService.sql" />
     <Build Include="Tables\AssociatedService.sql" />
     <Build Include="Tables\SupplierServiceAssociation.sql" />
-    <Build Include="PreDeployment\MigrateSolutionDetailToCatalogueItem.sql" />
+    <None Include="PreDeployment\MigrateSolutionDetailToCatalogueItem.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="INCLUDE_IMPORT">
