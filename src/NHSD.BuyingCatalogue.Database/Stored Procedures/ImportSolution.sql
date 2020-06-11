@@ -7,7 +7,7 @@ AS
     SET NOCOUNT ON;
 
     BEGIN TRANSACTION;
-    
+
     BEGIN TRY
         DECLARE @emptyGuid AS uniqueidentifier = CAST(0x0 AS uniqueidentifier);
         DECLARE @frameworkId AS varchar(10) = 'NHSDGP001';
