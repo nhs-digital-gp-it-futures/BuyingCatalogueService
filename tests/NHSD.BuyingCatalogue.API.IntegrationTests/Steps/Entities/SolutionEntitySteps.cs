@@ -115,7 +115,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
 
             public string Version { get; set; }
 
-            public PublishedStatus PublishedStatus { get; set; }
+            public PublishedStatus PublishedStatus { get; set; } = PublishedStatus.Published;
 
             public string SummaryDescription { get; set; }
 
