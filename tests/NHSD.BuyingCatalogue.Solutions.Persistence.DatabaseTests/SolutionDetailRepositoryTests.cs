@@ -88,6 +88,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         }
 
         [Test]
+        [Ignore("Solution detail is no more.")]
         public async Task ShouldThrowOnUpdateSolutionDetailNotPresent()
         {
             await CatalogueItemEntityBuilder
@@ -162,6 +163,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         }
 
         [Test]
+        [Ignore("Solution detail is no more.")]
         public async Task ShouldThrowOnUpdateClientApplicationSolutionDetailNotPresent()
         {
             await CatalogueItemEntityBuilder
@@ -260,6 +262,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         }
 
         [Test]
+        [Ignore("Solution detail is no more.")]
         public async Task ShouldThrowOnUpdateSummarySolutionDetailNotPresent()
         {
             await CatalogueItemEntityBuilder

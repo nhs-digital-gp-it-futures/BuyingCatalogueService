@@ -72,6 +72,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithFeatures("Features")
                 .WithClientApplication("Browser-based")
                 .WithHosting("Hosting")
+                .WithLastUpdated(_lastUpdated)
                 .Build()
                 .InsertAndSetCurrentForSolutionAsync();
 
@@ -160,6 +161,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         }
 
         [Test]
+        [Ignore("Supplier status is no more.")]
         public async Task ShouldUpdateSupplierStatus()
         {
             await CatalogueItemEntityBuilder
@@ -198,6 +200,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         }
 
         [Test]
+        [Ignore("Supplier status is no more.")]
         public void ShouldThrowOnUpdateSupplierStatusSolutionNotPresent()
         {
             var mockUpdateSolutionSupplierStatusRequest = new Mock<IUpdateSolutionSupplierStatusRequest>();
@@ -208,6 +211,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         }
 
         [Test]
+        [Ignore("Supplier status is no more.")]
         public void ShouldThrowOnUpdateSupplierStatusNullRequest()
         {
             Assert.ThrowsAsync<ArgumentNullException>(() => _solutionRepository.UpdateSupplierStatusAsync(null, new CancellationToken()));
