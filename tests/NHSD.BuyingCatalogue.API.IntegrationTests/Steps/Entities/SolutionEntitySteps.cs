@@ -25,8 +25,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             {
                 await CatalogueItemEntityBuilder.Create()
                     .WithCatalogueItemId(solutionTable.SolutionId)
-                    .WithName(solutionTable.SolutionName)
-                    .WithSupplierId(solutionTable.SupplierId)
+                    .WithName(solutionTable.SolutionName ?? "SomeName")
+                    .WithSupplierId(solutionTable.SupplierId ?? "Sup 1")
                     .WithPublishedStatusId((int)solutionTable.PublishedStatus)
                     .Build()
                     .InsertAsync();

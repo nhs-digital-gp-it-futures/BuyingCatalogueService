@@ -9,11 +9,11 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                         |
-        | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "IE8", "Opera" ] } |
-        | Sln2       | NULL                           | NULL                | NULL                                                                                      |
-        | Sln3       | Fully fledged GP system        | Fully fledged GP 12 |                                                                                           |
-        | Sln5       | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                              |
+        | SolutionId | SolutionName   | SummaryDescription             | FullDescription     | ClientApplication                                                                         |
+        | Sln1       | MedicOnline    | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "IE8", "Opera" ] } |
+        | Sln2       | TakeTheRedPill | NULL                           | NULL                | NULL                                                                                      |
+        | Sln3       | PracticeMgr    | Fully fledged GP system        | Fully fledged GP 12 |                                                                                           |
+        | Sln5       | Pills          | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                              |
 
 @2786
 Scenario: 1. Browser Supported is updated
@@ -24,6 +24,7 @@ Scenario: 1. Browser Supported is updated
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                     |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true } |
+        | Sln2     | NULL                           | NULL                | NULL                                                                                                                  |
         | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                       |
         | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                          |
     And Last Updated has updated on the SolutionDetail for solution Sln1
@@ -37,6 +38,7 @@ Scenario: 2. Browser Supported is updated with trimmed whitespace
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                     |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true } |
+        | Sln2     | NULL                           | NULL                | NULL                                                                                                                  |
         | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                       |
         | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                          |
     And Last Updated has updated on the SolutionDetail for solution Sln1
@@ -57,6 +59,7 @@ Scenario: 3. Browsers Supported is empty, Mobile Responsive has a result
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                         |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "IE8", "Opera" ] } |
+        | Sln2     | NULL                           | NULL                | NULL                                                                                      |
         | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                           |
         | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                              |
 
