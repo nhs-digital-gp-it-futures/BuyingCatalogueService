@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,7 +6,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 {
     public sealed class SolutionDetailEntity : EntityBase
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         public string SolutionId { get; set; }
 
@@ -31,73 +30,45 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public string FullDescription { get; set; }
 
-        protected override string InsertSql => $@"
-        INSERT INTO [dbo].[SolutionDetail]
-        ([Id]
-        ,[SolutionId]
-        ,[PublishedStatusId]
-        ,[Features]
-        ,[ClientApplication]
-        ,[Hosting]
-        ,[ImplementationDetail]
-        ,[RoadMap]
-        ,[IntegrationsUrl]
-        ,[AboutUrl]
-        ,[Summary]
-        ,[FullDescription]
-        ,[LastUpdated]
-        ,[LastUpdatedBy])
-        VALUES
-            (@Id
-            ,@SolutionId
-            ,@PublishedStatusId
-            ,@Features
-            ,@ClientApplication
-            ,@Hosting
-            ,@ImplementationDetail
-            ,@RoadMap
-            ,@IntegrationsUrl
-            ,@AboutUrl
-            ,@Summary
-            ,@FullDescription
-            ,@LastUpdated
-            ,@LastUpdatedBy)";
-
+        protected override string InsertSql => @"UPDATE dbo.Solution
+   SET Features = @Features,
+       ClientApplication = @ClientApplication,
+       Hosting = @Hosting,
+       ImplementationDetail = @ImplementationDetail,
+       RoadMap = @RoadMap,
+       IntegrationsUrl = @IntegrationsUrl,
+       AboutUrl = @AboutUrl,
+       Summary = @Summary,
+       FullDescription = @FullDescription,
+       LastUpdated = @LastUpdated,
+       LastUpdatedBy = @LastUpdatedBy
+ WHERE Id = @Id;";
 
         public static async Task<IEnumerable<SolutionDetailEntity>> FetchAllAsync()
         {
-            return await SqlRunner.FetchAllAsync<SolutionDetailEntity>($@"SELECT
-                           [Id]
-                            ,[SolutionId]
-                            ,[PublishedStatusId]
-                            ,[Features]
-                            ,[ClientApplication]
-                            ,[Hosting]
-                            ,[ImplementationDetail]
-                            ,[RoadMap]
-                            ,[IntegrationsUrl]
-                            ,[AboutUrl]
-                            ,[Summary]
-                            ,[FullDescription]
-                            ,[LastUpdated]
-                            ,[LastUpdatedBy]
-                            FROM SolutionDetail")
-                .ConfigureAwait(false);
+            return await SqlRunner.FetchAllAsync<SolutionDetailEntity>(@"SELECT Id,
+       Features,
+       ClientApplication,
+       Hosting,
+       ImplementationDetail,
+       RoadMap,
+       IntegrationsUrl,
+       AboutUrl,
+       Summary,
+       FullDescription,
+       LastUpdated,
+       LastUpdatedBy
+  FROM dbo.Solution;");
         }
 
         public async Task InsertAndSetCurrentForSolutionAsync()
         {
-            await base.InsertAsync().ConfigureAwait(false);
-            await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup,
-                $@"UPDATE Solution SET SolutionDetailId = @Id
-                    WHERE Id = @SolutionId",
-                this)
-                .ConfigureAwait(false);
+            await InsertAsync();
         }
 
         public static async Task<SolutionDetailEntity> GetBySolutionIdAsync(string solutionId)
         {
-            return (await FetchAllAsync().ConfigureAwait(false)).First(item => solutionId == item.SolutionId);
+            return (await FetchAllAsync()).First(item => solutionId == item.SolutionId);
         }
     }
 }

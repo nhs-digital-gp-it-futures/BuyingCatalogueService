@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
@@ -24,9 +25,12 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             {
                 await CatalogueItemEntityBuilder.Create()
                     .WithCatalogueItemId(solutionTable.SolutionId)
-                    .WithSupplierId("Sup 1")
+                    .WithName(solutionTable.SolutionName)
+                    .WithSupplierId(solutionTable.SupplierId)
+                    .WithPublishedStatusId((int)solutionTable.PublishedStatus)
                     .Build()
                     .InsertAsync();
+
                 await SolutionEntityBuilder.Create()
                     .WithId(solutionTable.SolutionId)
                     .WithFeatures(solutionTable.Features)
@@ -51,17 +55,17 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
 
             foreach (var solutionCapability in table.CreateSet<SolutionCapabilityTable>())
             {
-                if (solutionCapability.Capability.Any())
+                if (!solutionCapability.Capability.Any())
+                    continue;
+
+                foreach (var capability in solutionCapability.Capability)
                 {
-                    foreach (var capability in solutionCapability.Capability)
-                    {
-                        await SolutionCapabilityEntityBuilder.Create()
+                    await SolutionCapabilityEntityBuilder.Create()
                         .WithSolutionId(solutions[solutionCapability.Solution].Id)
                         .WithCapabilityId(capabilities[capability].Id)
                         .WithStatusId(solutionCapability.Pass ? PassedSolutionCapabilityStatusId : FailedSolutionCapabilityStatusId)
                         .Build()
                         .InsertAsync();
-                    }
                 }
             }
         }
@@ -105,7 +109,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         {
             public string SolutionId { get; set; }
 
+            public string SupplierId { get; set; }
+
+            public string SolutionName { get; set; }
+
             public string Version { get; set; }
+
+            public PublishedStatus PublishedStatus { get; set; }
 
             public string SummaryDescription { get; set; }
 

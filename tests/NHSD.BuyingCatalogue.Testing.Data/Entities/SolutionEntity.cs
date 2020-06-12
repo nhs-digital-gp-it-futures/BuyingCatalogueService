@@ -32,11 +32,11 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public string WorkOfPlan { get; set; }
 
-        protected override string InsertSql => $@"
+        protected override string InsertSql => @"
         INSERT INTO dbo.Solution
         (
-            [Id],
-	        Version,
+            Id,
+            Version,
             Summary,
             FullDescription,
             Features,
@@ -46,15 +46,15 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             RoadMap,
             IntegrationsUrl,
             AboutUrl,
-	        ServiceLevelAgreement,
-	        WorkOfPlan,
-	        LastUpdated,
-	        LastUpdatedBy
+            ServiceLevelAgreement,
+            WorkOfPlan,
+            LastUpdated,
+            LastUpdatedBy
         )
         VALUES
         (
-            @Id,           
-            @Version,   
+            @Id,
+            @Version,
             @Summary,
             @FullDescription,
             @Features,
@@ -72,22 +72,22 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public static async Task<IEnumerable<SolutionEntity>> FetchAllAsync()
         {
-            return await SqlRunner.FetchAllAsync<SolutionEntity>($@"SELECT [Id]
-                                Version.
-                                Summary,
-                                FullDescription,
-                                Features,
-                                ClientApplication,
-                                Hosting,
-                                ImplementationDetail,
-                                RoadMap,
-                                IntegrationsUrl,
-                                AboutUrl,
-	                            ServiceLevelAgreement,
-	                            WorkOfPlan,
-	                            LastUpdated,
-	                            LastUpdatedBy,
-                                FROM dbo.Solution;");
+            return await SqlRunner.FetchAllAsync<SolutionEntity>(@"SELECT Id,
+       [Version],
+       Summary,
+       FullDescription,
+       Features,
+       ClientApplication,
+       Hosting,
+       ImplementationDetail,
+       RoadMap,
+       IntegrationsUrl,
+       AboutUrl,
+       ServiceLevelAgreement,
+       WorkOfPlan,
+       LastUpdated,
+       LastUpdatedBy
+  FROM dbo.Solution;");
         }
 
         public static async Task<SolutionEntity> GetByIdAsync(string solutionId)

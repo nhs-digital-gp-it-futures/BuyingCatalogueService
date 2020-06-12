@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
@@ -14,16 +14,16 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 
         public SolutionDetailEntityBuilder()
         {
-            //Default
+            // Default
             _solutionDetailEntity = new SolutionDetailEntity
             {
                 SolutionId = "Sln1",
-                Id = Guid.NewGuid(),
+                Id = Guid.NewGuid().ToString(),
                 PublishedStatusId = 1
             };
         }
 
-        public SolutionDetailEntityBuilder WithId(Guid id)
+        public SolutionDetailEntityBuilder WithId(string id)
         {
             _solutionDetailEntity.Id = id;
             return this;
@@ -76,7 +76,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             _solutionDetailEntity.IntegrationsUrl = integrationsUrl;
             return this;
         }
-
 
         public SolutionDetailEntityBuilder WithAboutUrl(string aboutUrl)
         {

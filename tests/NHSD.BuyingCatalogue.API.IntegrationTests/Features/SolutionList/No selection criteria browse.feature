@@ -16,21 +16,21 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId | PublicationStatus |
-        | Sln1       | MedicOnline    | 1                | Sup 1      | 3                 |
-        | Sln2       | TakeTheRedPill | 1                | Sup 2      | 3                 |
-        | Sln3       | PracticeMgr    | 1                | Sup 2      | 3                 |
-        | Sln4       | Unpublished    | 1                | Sup 2      | 1                 |
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId | PublishedStatus |
+        | Sln1       | MedicOnline    | 1                | Sup 1      | Published       |
+        | Sln2       | TakeTheRedPill | 1                | Sup 2      | Published       |
+        | Sln3       | PracticeMgr    | 1                | Sup 2      | Published       |
+        | Sln4       | Unpublished    | 1                | Sup 2      | Draft           |
     And Solutions are linked to Capabilities
-        | Solution       | Capability              |
-        | MedicOnline    | Appointments Management |
-        | MedicOnline    | Clinical Safety         |
-        | MedicOnline    | Workflow                |
-        | TakeTheRedPill | Prescribing             |
-        | TakeTheRedPill | Resource Management     |
-        | PracticeMgr    | Clinical Safety         |
-        | PracticeMgr    | Prescribing             |
-        | PracticeMgr    | Workflow                |
+        | Solution   | Capability              |
+        | Sln1       | Appointments Management |
+        | Sln1       | Clinical Safety         |
+        | Sln1       | Workflow                |
+        | Sln2       | Prescribing             |
+        | Sln2       | Resource Management     |
+        | Sln3       | Clinical Safety         |
+        | Sln3       | Prescribing             |
+        | Sln3       | Workflow                |
     And Framework Solutions exist
         | SolutionId | IsFoundation |
         | Sln1       | true         |
