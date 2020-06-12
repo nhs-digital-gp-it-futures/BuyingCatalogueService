@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests.Models;
 using NHSD.BuyingCatalogue.Testing.Data;
@@ -37,6 +38,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await SupplierEntityBuilder.Create()
                 .WithId(SupplierId)
+                .Build()
+                .InsertAsync();
+
+            await CatalogueItemEntityBuilder
+                .Create()
+                .WithCatalogueItemId(Solution1Id)
+                .WithName(Solution1Id)
+                .WithPublishedStatusId((int)PublishedStatus.Published)
+                .WithSupplierId(SupplierId)
                 .Build()
                 .InsertAsync();
 
@@ -83,6 +93,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         [Test]
         public async Task HasMultipleSolutionsAsync()
         {
+            await CatalogueItemEntityBuilder
+                .Create()
+                .WithCatalogueItemId(Solution2Id)
+                .WithName(Solution2Id)
+                .WithPublishedStatusId((int)PublishedStatus.Published)
+                .WithSupplierId(SupplierId)
+                .Build()
+                .InsertAsync();
+
             await SolutionEntityBuilder.Create()
                 .WithId(Solution2Id)
                 .Build()
