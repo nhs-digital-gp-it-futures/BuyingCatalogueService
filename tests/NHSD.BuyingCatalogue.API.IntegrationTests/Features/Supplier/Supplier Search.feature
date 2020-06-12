@@ -11,11 +11,11 @@ Background:
         | Sup 3 | Superb           |
         | Sup 4 | % Su_p[p&l=ie+r- |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId | PublishedStatus |
-        | Sln1       | MedicOnline    | 3                | Sup 1      | Published       |
-        | Sln2       | TakeTheRedPill | 3                | Sup 2      | Published       |
-        | Sln3       | PracticeMgr    | 3                | Sup 3      | Withdrawn       |
-        | Sln4       | PracticeMg2    | 3                | Sup 4      | Withdrawn       |
+        | SolutionId | SolutionName   | SupplierId | PublishedStatus |
+        | Sln1       | MedicOnline    | Sup 1      | Published       |
+        | Sln2       | TakeTheRedPill | Sup 2      | Published       |
+        | Sln3       | PracticeMgr    | Sup 3      | Withdrawn       |
+        | Sln4       | PracticeMg2    | Sup 4      | Withdrawn       |
 
 @4840
 Scenario: 1. All suppliers are returned when there are no query parameters
