@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
@@ -17,38 +16,31 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         public SolutionRepository(IDbConnector dbConnector) => _dbConnector = dbConnector;
 
-        private const string byIdsql = @"SELECT Solution.Id,
-                                        CatalogueItem.[Name],
-                                        Solution.LastUpdated,
-                                        CatalogueItem.PublishedStatusId AS PublishedStatus,
-                                        Solution.Summary AS Summary,
-                                        Solution.FullDescription AS Description,
-                                        Solution.AboutUrl AS AboutUrl,
-                                        Solution.Features As Features,
-                                        Solution.RoadMap As RoadMap,
-                                        Solution.IntegrationsUrl As IntegrationsUrl,
-                                        Solution.ImplementationDetail As ImplementationTimescales,
-                                        Solution.ClientApplication as ClientApplication,
-                                        Solution.Hosting as Hosting,
-                                        Solution.LastUpdated as SolutionDetailLastUpdated,
-                                        FrameworkSolutions.IsFoundation as IsFoundation
-                                 FROM   Solution
-                                        LEFT JOIN CatalogueItem ON Solution.Id = CatalogueItem.CatalogueItemId 
-                                        LEFT JOIN FrameworkSolutions ON Solution.Id = FrameworkSolutions.SolutionId
-                                 WHERE  Solution.Id = @id";
+        private const string ByIdSql = @"SELECT s.Id,
+       ci.[Name],
+       s.LastUpdated,
+       ci.PublishedStatusId AS PublishedStatus,
+       s.Summary,
+       s.FullDescription AS [Description],
+       s.AboutUrl,
+       s.Features,
+       s.RoadMap,
+       s.IntegrationsUrl,
+       s.ImplementationDetail AS ImplementationTimescales,
+       s.ClientApplication,
+       s.Hosting,
+       s.LastUpdated AS SolutionDetailLastUpdated,
+       f.IsFoundation
+   FROM dbo.Solution AS s
+        INNER JOIN dbo.CatalogueItem AS ci
+                ON s.Id = ci.CatalogueItemId
+        LEFT OUTER JOIN dbo.FrameworkSolutions AS f
+                ON s.Id = f.SolutionId
+  WHERE s.Id = @id;";
 
-        private const string updateSolutionSupplierStatusSql = @"
-                                        UPDATE  Solution
-                                        SET		Solution.SupplierStatusId = @supplierStatusId,
-                                                Solution.LastUpdated = GETDATE()
-                                        WHERE   Solution.Id = @id
-                                IF @@ROWCOUNT = 0
-                                    THROW 60000, 'Solution or SolutionDetail not found', 1; ";
-
-        private const string doesSolutionExist = @"
-                                        SELECT COUNT(*)
-                                 FROM   Solution
-                                 WHERE  Solution.Id = @id";
+        private const string DoesSolutionExist = @"SELECT COUNT(*)
+  FROM dbo.Solution
+ WHERE Id = @id;";
 
         /// <summary>
         /// Gets a <see cref="ISolutionResult"/> matching the specified ID.
@@ -57,7 +49,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
         /// <returns>A task representing an operation to retrieve a <see cref="ISolutionResult"/> matching the specified ID.</returns>
         public async Task<ISolutionResult> ByIdAsync(string id, CancellationToken cancellationToken)
-            => (await _dbConnector.QueryAsync<SolutionResult>(byIdsql, cancellationToken, new { id }).ConfigureAwait(false)).SingleOrDefault();
+            => (await _dbConnector.QueryAsync<SolutionResult>(ByIdSql, cancellationToken, new { id })).SingleOrDefault();
 
         /// <summary>
         /// Updates the supplier status of the specified updateSolutionRequest in the data store.
@@ -65,16 +57,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         /// <param name="updateSolutionSupplierStatusRequest">The update solution supplier status details.</param>
         /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
         /// <returns>A task representing an operation to update the supplier status of the specified updateSolutionRequest in the data store.</returns>
-        public async Task UpdateSupplierStatusAsync(IUpdateSolutionSupplierStatusRequest updateSolutionSupplierStatusRequest, CancellationToken cancellationToken)
+        public Task UpdateSupplierStatusAsync(IUpdateSolutionSupplierStatusRequest updateSolutionSupplierStatusRequest, CancellationToken cancellationToken)
         {
-            if (updateSolutionSupplierStatusRequest is null)
-            {
-                throw new ArgumentNullException(nameof(updateSolutionSupplierStatusRequest));
-            }
-
-            await _dbConnector.ExecuteAsync(updateSolutionSupplierStatusSql, cancellationToken,
-                    updateSolutionSupplierStatusRequest)
-                .ConfigureAwait(false);
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -86,12 +71,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         public async Task<bool> CheckExists(string id, CancellationToken cancellationToken)
         {
             var solutionCount = await _dbConnector.QueryAsync<int>(
-                doesSolutionExist, 
-                cancellationToken, 
+                DoesSolutionExist,
+                cancellationToken,
                 new
-            {
-                id
-            }).ConfigureAwait(false);
+                {
+                    id
+                });
 
             return solutionCount.Sum() == 1;
         }

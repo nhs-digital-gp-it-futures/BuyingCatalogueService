@@ -6,8 +6,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 {
     public sealed class SolutionDetailEntity : EntityBase
     {
-        public string Id { get; set; }
-
         public string SolutionId { get; set; }
 
         public int PublishedStatusId { get; set; }
@@ -42,11 +40,11 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
        FullDescription = @FullDescription,
        LastUpdated = @LastUpdated,
        LastUpdatedBy = @LastUpdatedBy
- WHERE Id = @Id;";
+ WHERE Id = @SolutionId;";
 
         public static async Task<IEnumerable<SolutionDetailEntity>> FetchAllAsync()
         {
-            return await SqlRunner.FetchAllAsync<SolutionDetailEntity>(@"SELECT Id,
+            return await SqlRunner.FetchAllAsync<SolutionDetailEntity>(@"SELECT Id AS SolutionId,
        Features,
        ClientApplication,
        Hosting,

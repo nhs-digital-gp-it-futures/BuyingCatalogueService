@@ -13,35 +13,33 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 {
     public sealed class SupplierRepository : ISupplierRepository
     {
-        private const string GetSupplierBySolutionIdSql = @"SELECT
-                                    CatalogueItem.CatalogueItemId as SolutionId,
-                                    Supplier.Name as Name,
-                                    Supplier.Summary as Summary,
-                                    Supplier.SupplierUrl as Url
-                                 FROM Supplier
-									  LEFT JOIN CatalogueItem ON Supplier.Id = CatalogueItem.SupplierId  
-                                 WHERE CatalogueItem.CatalogueItemId = @solutionId";
+        private const string GetSupplierBySolutionIdSql = @"SELECT ci.CatalogueItemId as SolutionId,
+       s.[Name],
+       s.Summary,
+       s.SupplierUrl AS [Url]
+  FROM dbo.Supplier AS s
+       LEFT OUTER JOIN dbo.CatalogueItem AS ci
+               ON s.Id = ci.SupplierId
+ WHERE ci.CatalogueItemId = @solutionId;";
 
-        private const string UpdateSupplierBySolutionIdSql = @"UPDATE
-                                    Supplier
-                                    SET
-                                    Supplier.Summary = @Summary,
-                                    Supplier.SupplierUrl = @SupplierUrl,
-                                    Supplier.LastUpdated = GETDATE()
-                                    FROM Supplier
-                                        INNER JOIN Solution
-                                        ON Supplier.Id = Solution.SupplierId
-                                        WHERE Solution.Id = @solutionId";
+        private const string UpdateSupplierBySolutionIdSql = @"UPDATE s
+   SET Summary = @Summary,
+       SupplierUrl = @SupplierUrl,
+       LastUpdated = GETUTCDATE()
+  FROM dbo.Supplier AS s
+       INNER JOIN dbo.CatalogueItem AS ci
+       ON ci.SupplierId = s.Id
+ WHERE ci.CatalogueItemId = @solutionId;";
 
         // A full-text index is typically a better way of implementing this kind of search. For example, the LIKE search below will
         // always perform an index scan. Given the expected number of suppliers I doubt this will be a problem, however.
-        private const string GetSuppliersByNameSql = @"SELECT sup.Id, sup.[Name]
-     FROM dbo.Supplier AS sup
-		  INNER JOIN dbo.Solution AS sol
-		  ON sup.Id = sol.SupplierId
-    WHERE sup.[Name] LIKE '%' + @name + '%'
-	  AND sol.PublishedStatusId = COALESCE(NULLIF(@statusId, ''), sol.PublishedStatusId)
- ORDER BY sup.[Name];";
+        private const string GetSuppliersByNameSql = @"SELECT s.Id, s.[Name]
+     FROM dbo.Supplier AS s
+		  INNER JOIN dbo.CatalogueItem AS c
+		  ON s.Id = c.SupplierId
+    WHERE s.[Name] LIKE '%' + @name + '%'
+	  AND c.PublishedStatusId = ISNULL(NULLIF(@statusId, ''), c.PublishedStatusId)
+ ORDER BY s.[Name];";
 
         // This query is non-deterministic as there is currently no way to identify a primary contact
         // TODO: define means of identifying a primary contact (task 7581)
@@ -87,15 +85,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         public async Task<ISolutionSupplierResult> GetSupplierBySolutionIdAsync(string solutionId, CancellationToken cancellationToken) =>
             (await _dbConnector
-                .QueryAsync<SolutionSupplierResult>(GetSupplierBySolutionIdSql, cancellationToken, new { solutionId })
-                .ConfigureAwait(false)).SingleOrDefault();
+                .QueryAsync<SolutionSupplierResult>(GetSupplierBySolutionIdSql, cancellationToken, new { solutionId }))
+            .SingleOrDefault();
 
         public async Task<ISupplierResult> GetSupplierById(string id, CancellationToken cancellationToken) =>
             await _dbConnector.QueryFirstOrDefaultAsync<SupplierResult>(GetSupplierByIdSql, cancellationToken, new { id });
 
         public async Task<IEnumerable<ISupplierResult>> GetSuppliersByNameAsync(
             string name,
-            PublishedStatus? solutionPublicationStatus, 
+            PublishedStatus? solutionPublicationStatus,
             CancellationToken cancellationToken)
         {
             var escapedName = name;
@@ -128,7 +126,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                     solutionId = updateSupplierRequest.SolutionId,
                     summary = updateSupplierRequest.Description,
                     supplierUrl = updateSupplierRequest.Link
-                }).ConfigureAwait(false);
+                });
         }
     }
 }

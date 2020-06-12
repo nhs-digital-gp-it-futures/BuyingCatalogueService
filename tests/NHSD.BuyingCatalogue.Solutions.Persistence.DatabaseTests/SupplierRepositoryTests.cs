@@ -36,7 +36,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         [SetUp]
         public async Task SetUp()
         {
-            await Database.ClearAsync().ConfigureAwait(false);
+            await Database.ClearAsync();
 
             TestContext testContext = new TestContext();
             _supplierRepository = testContext.SupplierRepository;
@@ -45,10 +45,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         [Test]
         public async Task ShouldGetSolutionSupplier()
         {
-            await InsertSupplier().ConfigureAwait(false);
+            await InsertSupplier();
 
-            var result = await _supplierRepository.GetSupplierBySolutionIdAsync(_solutionId, new CancellationToken())
-                .ConfigureAwait(false);
+            var result = await _supplierRepository.GetSupplierBySolutionIdAsync(_solutionId, new CancellationToken());
 
             result.SolutionId.Should().Be(_solutionId);
             result.Summary.Should().Be(_description);
@@ -58,8 +57,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         [Test]
         public async Task IfSolutionDoesNotExistThenReturnNull()
         {
-            var result = (await _supplierRepository.GetSupplierBySolutionIdAsync(_solutionId, new CancellationToken())
-                .ConfigureAwait(false));
+            var result = (await _supplierRepository.GetSupplierBySolutionIdAsync(_solutionId, new CancellationToken()));
 
             result.Should().BeNull();
         }
@@ -67,15 +65,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         [Test]
         public async Task ShouldUpdateSolutionSupplier()
         {
-            await InsertSupplier().ConfigureAwait(false);
+            await InsertSupplier();
 
             var supplierRequest = Mock.Of<IUpdateSupplierRequest>(s =>
                 s.SolutionId == _solutionId && s.Description == _newDescription && s.Link == _newLink);
 
-            await _supplierRepository.UpdateSupplierAsync(supplierRequest, new CancellationToken()).ConfigureAwait(false);
+            await _supplierRepository.UpdateSupplierAsync(supplierRequest, new CancellationToken());
 
-            var supplier = await _supplierRepository.GetSupplierBySolutionIdAsync(_solutionId, new CancellationToken())
-                .ConfigureAwait(false);
+            var supplier = await _supplierRepository.GetSupplierBySolutionIdAsync(_solutionId, new CancellationToken());
             supplier.SolutionId.Should().Be(_solutionId);
             supplier.Summary.Should().Be(_newDescription);
             supplier.Url.Should().Be(_newLink);
@@ -84,7 +81,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         [Test]
         public async Task ShouldThrowOnUpdateIfRequestIsNull()
         {
-            await InsertSupplier().ConfigureAwait(false);
+            await InsertSupplier();
 
             Assert.ThrowsAsync<ArgumentNullException>(() =>
                 _supplierRepository.UpdateSupplierAsync(null, new CancellationToken()));
@@ -93,10 +90,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         [Test]
         public async Task ShouldGetSupplier()
         {
-            await InsertSupplier().ConfigureAwait(false);
+            await InsertSupplier();
 
-            var result = await _supplierRepository.GetSupplierById(_supplierId, CancellationToken.None)
-                .ConfigureAwait(false);
+            var result = await _supplierRepository.GetSupplierById(_supplierId, CancellationToken.None);
 
             var expected = new
             {
@@ -179,7 +175,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithSupplierUrl(_link)
                 .WithAddress(_supplierAddress)
                 .Build()
-                .InsertAsync().ConfigureAwait(false);
+                .InsertAsync();
 
             await SupplierContactEntityBuilder.Create()
                 .WithId(Guid.NewGuid())
@@ -189,13 +185,21 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithEmail(_supplierContactEmail)
                 .WithPhoneNumber(_supplierContactPhoneNumber)
                 .Build()
-                .InsertAsync().ConfigureAwait(false);
+                .InsertAsync();
+
+            await CatalogueItemEntityBuilder
+                .Create()
+                .WithCatalogueItemId(_solutionId)
+                .WithName(_solutionId)
+                .WithSupplierId(_supplierId)
+                .WithPublishedStatusId((int)solutionPublicationStatus)
+                .Build()
+                .InsertAsync();
 
             await SolutionEntityBuilder.Create()
                 .WithId(_solutionId)
                 .Build()
-                .InsertAsync()
-                .ConfigureAwait(false);
+                .InsertAsync();
         }
     }
 }

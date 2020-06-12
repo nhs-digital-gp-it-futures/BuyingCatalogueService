@@ -18,15 +18,8 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             _solutionDetailEntity = new SolutionDetailEntity
             {
                 SolutionId = "Sln1",
-                Id = Guid.NewGuid().ToString(),
                 PublishedStatusId = 1
             };
-        }
-
-        public SolutionDetailEntityBuilder WithId(string id)
-        {
-            _solutionDetailEntity.Id = id;
-            return this;
         }
 
         public SolutionDetailEntityBuilder WithSolutionId(string solutionId)
