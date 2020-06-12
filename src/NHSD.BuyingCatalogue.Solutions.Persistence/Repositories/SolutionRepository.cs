@@ -18,22 +18,22 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         public SolutionRepository(IDbConnector dbConnector) => _dbConnector = dbConnector;
 
         private const string byIdsql = @"SELECT Solution.Id,
-                                        Solution.Name,
+                                        CatalogueItem.[Name],
                                         Solution.LastUpdated,
-                                        Solution.PublishedStatusId AS PublishedStatus,
-                                        SolutionDetail.Summary AS Summary,
-                                        SolutionDetail.FullDescription AS Description,
-                                        SolutionDetail.AboutUrl AS AboutUrl,
-                                        SolutionDetail.Features As Features,
-                                        SolutionDetail.RoadMap As RoadMap,
-                                        SolutionDetail.IntegrationsUrl As IntegrationsUrl,
-                                        SolutionDetail.ImplementationDetail As ImplementationTimescales,
-                                        SolutionDetail.ClientApplication as ClientApplication,
-                                        SolutionDetail.Hosting as Hosting,
-                                        SolutionDetail.LastUpdated as SolutionDetailLastUpdated,
+                                        CatalogueItem.PublishedStatusId AS PublishedStatus,
+                                        Solution.Summary AS Summary,
+                                        Solution.FullDescription AS Description,
+                                        Solution.AboutUrl AS AboutUrl,
+                                        Solution.Features As Features,
+                                        Solution.RoadMap As RoadMap,
+                                        Solution.IntegrationsUrl As IntegrationsUrl,
+                                        Solution.ImplementationDetail As ImplementationTimescales,
+                                        Solution.ClientApplication as ClientApplication,
+                                        Solution.Hosting as Hosting,
+                                        Solution.LastUpdated as SolutionDetailLastUpdated,
                                         FrameworkSolutions.IsFoundation as IsFoundation
                                  FROM   Solution
-                                        LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
+                                        LEFT JOIN CatalogueItem ON Solution.Id = CatalogueItem.CatalogueItemId 
                                         LEFT JOIN FrameworkSolutions ON Solution.Id = FrameworkSolutions.SolutionId
                                  WHERE  Solution.Id = @id";
 

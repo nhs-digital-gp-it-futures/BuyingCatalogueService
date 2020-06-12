@@ -14,13 +14,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
     public sealed class SupplierRepository : ISupplierRepository
     {
         private const string GetSupplierBySolutionIdSql = @"SELECT
-                                    Solution.Id as SolutionId,
+                                    CatalogueItem.CatalogueItemId as SolutionId,
                                     Supplier.Name as Name,
                                     Supplier.Summary as Summary,
                                     Supplier.SupplierUrl as Url
                                  FROM Supplier
-                                      LEFT JOIN Solution ON Supplier.Id = Solution.SupplierId
-                                 WHERE  Solution.Id = @solutionId";
+									  LEFT JOIN CatalogueItem ON Supplier.Id = CatalogueItem.SupplierId  
+                                 WHERE CatalogueItem.CatalogueItemId = @solutionId";
 
         private const string UpdateSupplierBySolutionIdSql = @"UPDATE
                                     Supplier

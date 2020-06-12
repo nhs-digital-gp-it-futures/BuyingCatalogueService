@@ -18,21 +18,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         public SolutionDetailRepository(IDbConnector dbConnector) => _dbConnector = dbConnector;
 
         private const string updateTemplate = @"
-                                UPDATE  SolutionDetail
+                                UPDATE  Solution
                                 SET     [Setters],
-								SolutionDetail.LastUpdated = GETDATE()
-                                FROM SolutionDetail
-                                    INNER JOIN Solution
-                                        ON solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
+								Solution.LastUpdated = GETDATE()
+                                FROM Solution
+                                    INNER JOIN CatalogueItem
+                                        ON solution.Id = CatalogueItem.CatalogueItemId
                                 WHERE   Solution.Id = @solutionId
                                 IF @@ROWCOUNT = 0
                                     THROW 60000, 'Solution or SolutionDetail not found', 1; ";
 
         const string getClientApplicationBySolutionIdSql = @"SELECT
-                                    Solution.Id
-                                    ,SolutionDetail.ClientApplication as ClientApplication
+                                    Solution.Id,
+                                    Solution.ClientApplication
                                  FROM   Solution
-                                        LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
                                  WHERE  Solution.Id = @solutionId";
 
         const string getHostingBySolutionIdSql = @"SELECT
@@ -116,7 +115,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
             }
 
             await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
-                        @"SolutionDetail.ClientApplication = @clientApplication", StringComparison.InvariantCulture),
+                        @"Solution.ClientApplication = @clientApplication", StringComparison.InvariantCulture),
                     cancellationToken,
                     updateSolutionClientApplicationRequest)
                 .ConfigureAwait(false);
