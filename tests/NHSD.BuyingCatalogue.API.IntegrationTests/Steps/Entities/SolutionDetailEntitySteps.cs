@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -18,24 +18,24 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         [Given(@"SolutionDetail exist")]
         public static async Task GivenSolutionDetailExist(Table table)
         {
-            foreach (var solutionDetail in table.CreateSet<SolutionDetailTable>())
-            {
-                await SolutionDetailEntityBuilder.Create()
-                    .WithFeatures(solutionDetail.Features)
-                    .WithSummary(solutionDetail.SummaryDescription)
-                    .WithFullDescription(solutionDetail.FullDescription)
-                    .WithAboutUrl(solutionDetail.AboutUrl)
-                    .WithSolutionId(solutionDetail.Solution)
-                    .WithClientApplication(solutionDetail.ClientApplication)
-                    .WithHosting(solutionDetail.Hosting)
-                    .WithRoadMap(solutionDetail.RoadMap)
-                    .WithIntegrationsUrl(solutionDetail.IntegrationsUrl)
-                    .WithImplementationTimescales(solutionDetail.ImplementationDetail)
-                    .WithLastUpdated(solutionDetail.LastUpdated != DateTime.MinValue ? solutionDetail.LastUpdated : DateTime.UtcNow)
-                    .Build()
-                    .InsertAndSetCurrentForSolutionAsync()
-                    .ConfigureAwait(false);
-            }
+            //foreach (var solutionDetail in table.CreateSet<SolutionDetailTable>())
+            //{
+            //    await SolutionDetailEntityBuilder.Create()
+            //        .WithFeatures(solutionDetail.Features)
+            //        .WithSummary(solutionDetail.SummaryDescription)
+            //        .WithFullDescription(solutionDetail.FullDescription)
+            //        .WithAboutUrl(solutionDetail.AboutUrl)
+            //        .WithSolutionId(solutionDetail.Solution)
+            //        .WithClientApplication(solutionDetail.ClientApplication)
+            //        .WithHosting(solutionDetail.Hosting)
+            //        .WithRoadMap(solutionDetail.RoadMap)
+            //        .WithIntegrationsUrl(solutionDetail.IntegrationsUrl)
+            //        .WithImplementationTimescales(solutionDetail.ImplementationDetail)
+            //        .WithLastUpdated(solutionDetail.LastUpdated != DateTime.MinValue ? solutionDetail.LastUpdated : DateTime.UtcNow)
+            //        .Build()
+            //        .InsertAndSetCurrentForSolutionAsync()
+            //        .ConfigureAwait(false);
+            //}
         }
 
         [Given(@"a SolutionDetail (.*) does not exist")]

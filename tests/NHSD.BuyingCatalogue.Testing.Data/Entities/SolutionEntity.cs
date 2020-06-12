@@ -73,7 +73,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         public static async Task<IEnumerable<SolutionEntity>> FetchAllAsync()
         {
             return await SqlRunner.FetchAllAsync<SolutionEntity>($@"SELECT [Id]
-                                Version.
+                                Version,
                                 Summary,
                                 FullDescription,
                                 Features,
@@ -86,7 +86,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 	                            ServiceLevelAgreement,
 	                            WorkOfPlan,
 	                            LastUpdated,
-	                            LastUpdatedBy,
+	                            LastUpdatedBy
                                 FROM dbo.Solution;");
         }
 

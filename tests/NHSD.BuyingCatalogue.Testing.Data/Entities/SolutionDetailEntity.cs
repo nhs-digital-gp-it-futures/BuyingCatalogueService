@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -67,9 +67,9 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         public static async Task<IEnumerable<SolutionDetailEntity>> FetchAllAsync()
         {
             return await SqlRunner.FetchAllAsync<SolutionDetailEntity>($@"SELECT
-                           [Id]
-                            ,[SolutionId]
-                            ,[PublishedStatusId]
+                            --[Id],
+                            Solution.Id AS [SolutionId]
+                            ,CatalogueItem.[PublishedStatusId]
                             ,[Features]
                             ,[ClientApplication]
                             ,[Hosting]
@@ -81,7 +81,8 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
                             ,[FullDescription]
                             ,[LastUpdated]
                             ,[LastUpdatedBy]
-                            FROM SolutionDetail")
+                            FROM Solution
+							LEFT JOIN CatalogueItem ON Solution.Id = CatalogueItem.CatalogueItemId; ")
                 .ConfigureAwait(false);
         }
 
