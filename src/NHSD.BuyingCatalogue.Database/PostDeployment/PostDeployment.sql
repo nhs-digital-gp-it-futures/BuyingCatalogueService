@@ -1,8 +1,12 @@
 ﻿:r ./InsertCommonValues.sql
 :r ./InsertFrameworks.sql
 :r ./InsertCapabilities.sql
+:r ./InsertCataloguePriceTypes.sql
 :r ./InsertEpics.sql
+:r ./InsertPricingUnits.sql
+:r ./InsertProvisioningTypes.sql
 :r ./InsertSuppliers.sql
 :r ./InsertSolutions.sql
+:r ./InsertTimeUnits.sql
 :r ./DropImport.sql
 :r ./DropPublish.sql
