@@ -9,10 +9,10 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionId | SummaryDescription             | FullDescription     |  ClientApplication                                                                     |
-        | Sln1       | An full online medicine system | Online medicine 1   |  { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
-        | Sln2       | Fully fledged GP system        | Fully fledged GP 12 |  {  }                                                                                  |
-        | Sln3       | Thrills                        | Bellyaches          |  { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] } |
+        | SolutionId | SolutionName   | SupplierId | SummaryDescription             | FullDescription     | ClientApplication                                                                      |
+        | Sln1       | MedicOnline    | Sup 1      | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                   |
+        | Sln2       | TakeTheRedPill | Sup 2      | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                   |
+        | Sln3       | PracticeMgr    | Sup 2      | Thrills                        | Bellyaches          |  { "ClientApplicationTypes" : [ "browser-based", "native-mobile", "native-desktop" ] } |
 
 @2726
 Scenario: 1. Client Application Types are updated for the solution

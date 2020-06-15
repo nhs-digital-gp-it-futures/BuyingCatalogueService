@@ -8,8 +8,8 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                     |
-        | Sln1       | An full online medicine system | Online medicine 1 | { "MinimumConnectionSpeed": "2GBps" } |
+        | SolutionId | SolutionName | SummaryDescription             | FullDescription   | ClientApplication                     |
+        | Sln1       | MedicOnline  | An full online medicine system | Online medicine 1 | { "MinimumConnectionSpeed": "2GBps" } |
 
 @3599
 Scenario: 1. Connection and Resolution are updated for the solution

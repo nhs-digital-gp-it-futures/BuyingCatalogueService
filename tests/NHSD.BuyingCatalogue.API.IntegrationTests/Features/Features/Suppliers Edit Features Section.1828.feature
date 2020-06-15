@@ -9,10 +9,10 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionId | SummaryDescription             | FullDescription     | AboutUrl | Features                          |
-        | Sln1       | An full online medicine system | Online medicine 1   | UrlSln1  | [ "Appointments", "Prescribing" ] |
-        | Sln2       | Eye opening experience         | Eye opening6        | UrlSln2  | [ "Workflow", "Referrals" ]       |
-        | Sln3       | Fully fledged GP system        | Fully fledged GP 12 | UrlSln3  | [ "Dispensing" ]                  |
+        | SolutionId | SolutionName   | SupplierId | SummaryDescription             | FullDescription     | AboutUrl | Features                          |
+        | Sln1       | MedicOnline    | Sup 1      | An full online medicine system | Online medicine 1   | UrlSln1  | [ "Appointments", "Prescribing" ] |
+        | Sln2       | TakeTheRedPill | Sup 2      | Eye opening experience         | Eye opening6        | UrlSln2  | [ "Workflow", "Referrals" ]       |
+        | Sln3       | PracticeMgr    | Sup 2      | Fully fledged GP system        | Fully fledged GP 12 | UrlSln3  | [ "Dispensing" ]                  |
 
 @1828
 Scenario: 1. Marketing Data is updated against the solution

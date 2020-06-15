@@ -8,6 +8,8 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
     {
         public string Id { get; set; }
 
+        public string Name { get; set; }
+
         public string Version { get; set; }
 
         public string Summary { get; set; }
@@ -72,27 +74,30 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public static async Task<IEnumerable<SolutionEntity>> FetchAllAsync()
         {
-            return await SqlRunner.FetchAllAsync<SolutionEntity>(@"SELECT Id,
-       [Version],
-       Summary,
-       FullDescription,
-       Features,
-       ClientApplication,
-       Hosting,
-       ImplementationDetail,
-       RoadMap,
-       IntegrationsUrl,
-       AboutUrl,
-       ServiceLevelAgreement,
-       WorkOfPlan,
-       LastUpdated,
-       LastUpdatedBy
-  FROM dbo.Solution;");
+            return await SqlRunner.FetchAllAsync<SolutionEntity>(@"SELECT s.Id,
+       c.[Name],
+       s.[Version],
+       s.Summary,
+       s.FullDescription,
+       s.Features,
+       s.ClientApplication,
+       s.Hosting,
+       s.ImplementationDetail,
+       s.RoadMap,
+       s.IntegrationsUrl,
+       s.AboutUrl,
+       s.ServiceLevelAgreement,
+       s.WorkOfPlan,
+       s.LastUpdated,
+       s.LastUpdatedBy
+  FROM dbo.Solution AS s
+       INNER JOIN dbo.CatalogueItem AS c
+	           ON c.CatalogueItemId = s.Id;");
         }
 
         public static async Task<SolutionEntity> GetByIdAsync(string solutionId)
         {
-            return (await FetchAllAsync().ConfigureAwait(false)).First(item => solutionId == item.Id);
+            return (await FetchAllAsync()).First(item => solutionId == item.Id);
         }
     }
 }
