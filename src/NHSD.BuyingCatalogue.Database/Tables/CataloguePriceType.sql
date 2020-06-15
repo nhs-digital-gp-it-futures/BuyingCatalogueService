@@ -2,5 +2,5 @@
 (
     CataloguePriceTypeId INT NOT NULL,
     [Name] NVARCHAR(10) NOT NULL
-    CONSTRAINT PK_CataloguePriceType PRIMARY KEY (CataloguePriceTypeId)
+    CONSTRAINT PK_CataloguePriceType PRIMARY KEY CLUSTERED (CataloguePriceTypeId)
 )

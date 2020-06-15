@@ -1,5 +1,4 @@
-﻿
-IF NOT EXISTS (SELECT * FROM dbo.PricingUnit)
+﻿IF NOT EXISTS (SELECT * FROM dbo.PricingUnit)
     INSERT INTO dbo.PricingUnit(PricingUnitId, [Name], TierName, [Description])
     VALUES
     (1, 'patient', 'patients', 'per patient'),
