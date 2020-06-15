@@ -44,9 +44,8 @@ AS
 
         DECLARE @passedFull AS int = (SELECT Id FROM dbo.SolutionCapabilityStatus WHERE [Name] = 'Passed – Full');
 
-        INSERT INTO dbo.SolutionCapability
-             SELECT @SolutionId AS SolutionId, c.Id AS CapabilityId, @passedFull AS StatusId,
-                    GETUTCDATE() AS LastUpdated, @emptyGuid AS LastUpdatedBy
+        INSERT INTO dbo.SolutionCapability(SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
+             SELECT @SolutionId, c.Id, @passedFull, @now, @emptyGuid
                FROM @Capabilities AS cap
                     INNER JOIN dbo.Capability AS c
                     ON c.CapabilityRef = cap.CapabilityRef;

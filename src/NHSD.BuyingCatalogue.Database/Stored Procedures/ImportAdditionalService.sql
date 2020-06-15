@@ -2,8 +2,7 @@
      @AdditionalServiceId varchar(14),
      @ServiceName varchar(255),
      @ServiceSummary varchar(300),
-     @ServiceDescription varchar(3000),
-     @Capabilities import.AdditionalServiceCapability READONLY
+     @ServiceDescription varchar(3000)
 AS
     SET NOCOUNT ON;
 
@@ -32,18 +31,6 @@ AS
                    LastUpdated, LastUpdatedBy)
             VALUES (@AdditionalServiceId, @solutionId, @ServiceSummary, @ServiceDescription,
                    @now, @emptyGuid);
-
-        DELETE FROM dbo.SolutionCapability
-              WHERE SolutionId = @AdditionalServiceId;
-
-        DECLARE @passedFull AS int = (SELECT Id FROM dbo.SolutionCapabilityStatus WHERE [Name] = 'Passed – Full');        
-
-        INSERT INTO dbo.SolutionCapability
-             SELECT @AdditionalServiceId AS SolutionId, c.Id AS CapabilityId, @passedFull AS StatusId,
-                    @now AS LastUpdated, @emptyGuid AS LastUpdatedBy
-               FROM @Capabilities AS cin
-                    INNER JOIN dbo.Capability AS c
-                    ON c.CapabilityRef = cin.CapabilityRef;
 
         COMMIT TRANSACTION;
     END TRY
