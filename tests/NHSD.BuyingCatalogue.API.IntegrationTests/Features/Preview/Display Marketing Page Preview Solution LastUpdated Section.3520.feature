@@ -11,8 +11,8 @@ Background:
 @3520
 Scenario Outline: 1. Last Updated is the latest of last updated in the solution tables
     Given Solutions exist
-        | SolutionId | SolutionName | SupplierStatusId | SupplierId | LastUpdated |
-        | Sln1       | MedicOnline  | 1                | Sup 1      | <Solution>  |
+        | SolutionId | SolutionName | SupplierId | LastUpdated |
+        | Sln1       | MedicOnline  | Sup 1      | <Solution>  |
     And MarketingContacts exist
         | SolutionId | LastUpdated |
         | Sln1       | <MarketingContact1> |
@@ -25,15 +25,14 @@ Examples:
     | 01/01/1753 | 01/01/1753        | 01/01/1753        | 01/01/1753          |
     | 31/12/9999 | 31/12/9999        | 31/12/9999        | 31/12/9999          |
     | 27/02/2020 | 30/01/2019        | 31/12/2019        | 27/02/2020          |
-    | 01/01/1753 | 21/12/2019        | 25/12/2025        | 31/12/9999          |
     | 07/12/2019 | 02/01/2020        | 01/01/2020        | 02/01/2020          |
     | 23/02/2022 | 05/12/2024        | 28/09/2025        | 28/09/2025          |
 
 @3520
 Scenario Outline: 2. No marketing contact exist, Last Updated is the latest of last updated in the solution tables
     Given Solutions exist
-        | SolutionId | SolutionName | SupplierStatusId | SupplierId | LastUpdated |
-        | Sln1       | MedicOnline  | 1                | Sup 1      | <Solution>  |
+        | SolutionId | SolutionName | SupplierId | LastUpdated |
+        | Sln1       | MedicOnline  | Sup 1      | <Solution>  |
     When a GET request is made for solution preview Sln1
     Then a successful response is returned
     And the last updated date in the solution is <LastUpdatedSolution>
@@ -41,6 +40,3 @@ Examples:
     | Solution   | LastUpdatedSolution |
     | 01/01/1753 | 01/01/1753          |
     | 31/12/9999 | 31/12/9999          |
-    | 01/01/1753 | 31/12/9999          |
-    | 31/12/2019 | 01/01/2020          |
-    | 15/12/2022 | 14/01/2023          |
