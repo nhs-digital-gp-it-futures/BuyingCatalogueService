@@ -57,6 +57,7 @@ Scenario: 2. Card Content
         | Sln2       | TakeTheRedPill | Eye opening experience | Supplier 2   | Prescribing, Resource Management                   | false        |
         | Sln3       | PracticeMgr    |                        | Supplier 2   | Clinical Safety, Prescribing, Workflow             | false        |
 
+@ignore # solution detail will always be present now
 Scenario: 3. List all Solutions with no marketing data
     Given a SolutionDetail Sln1 does not exist
     When a GET request is made containing no selection criteria

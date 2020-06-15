@@ -54,6 +54,7 @@ Scenario: 3. Connection and Resolution are updated for the solution with empty r
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @3599
+@ignore # solution detail will always be present now
 Scenario: 4. If SolutionDetail is missing for the solution, thats an error case
 	Given a SolutionDetail Sln1 does not exist
     When a PUT request is made to update the browser-connectivity-and-resolution section for solution Sln1

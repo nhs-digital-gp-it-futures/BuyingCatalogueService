@@ -54,6 +54,7 @@ Scenario: 2. Solution description section data is updated with trimmed whitespac
         | Sln3     | NULL       | NULL                    | NULL                   | NULL                              |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
+@ignore # solution detail will always be present now
 Scenario: 3. Solution description section data is not created on update, fail fast in this case
     Given a SolutionDetail Sln3 does not exist
     When a PUT request is made to update the solution-description section for solution Sln3

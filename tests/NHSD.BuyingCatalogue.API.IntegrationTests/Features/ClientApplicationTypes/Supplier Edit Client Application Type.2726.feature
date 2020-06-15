@@ -51,6 +51,7 @@ Scenario: 2. Client Application Types are updated for the solution with trimmed 
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @2726
+@ignore # solution detail will always be present now
 Scenario: 3. If SolutionDetail is missing for the solution, thats an error case
 	Given a SolutionDetail Sln1 does not exist
     When a PUT request is made to update the client-application-types section for solution Sln1
