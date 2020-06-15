@@ -20,7 +20,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         INSERT INTO dbo.CatalogueItem
         (
             CatalogueItemId,
-            Name,
+            [Name],
             Created,
             CatalogueItemTypeId,
             SupplierId,
