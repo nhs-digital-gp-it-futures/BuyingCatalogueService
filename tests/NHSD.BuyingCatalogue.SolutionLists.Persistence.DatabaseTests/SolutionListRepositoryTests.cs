@@ -237,7 +237,6 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .WithCatalogueItemId("Sln3")
                 .WithName("Solution3")
                 .WithSupplierId(_supplierId)
-                .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync();
 
