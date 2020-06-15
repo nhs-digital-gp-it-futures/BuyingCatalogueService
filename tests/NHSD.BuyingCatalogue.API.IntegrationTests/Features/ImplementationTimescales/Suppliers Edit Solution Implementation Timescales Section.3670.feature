@@ -27,6 +27,7 @@ Feature: Suppliers Edit Solution Implementation Timescales Section
             | Solution | ImplementationDetail                                   |
             | Sln1     | A new implementation timescales description            |
             | Sln2     | Another original implementation timescales description |
+            | Sln3     | NULL                                                   |
         And Last Updated has updated on the SolutionDetail for solution Sln1
 
     @3670
@@ -39,6 +40,7 @@ Feature: Suppliers Edit Solution Implementation Timescales Section
             | Solution | ImplementationDetail                                   |
             | Sln1     | A new implementation timescales description            |
             | Sln2     | Another original implementation timescales description |
+            | Sln3     | NULL                                                   |
         And Last Updated has updated on the SolutionDetail for solution Sln1
 
     @3700

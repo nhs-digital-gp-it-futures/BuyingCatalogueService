@@ -33,6 +33,7 @@ Scenario: 1. Solution description section data is updated
         | Solution | AboutUrl   | SummaryDescription      | FullDescription        | Features                          |
         | Sln1     | UrlSln1New | New type of medicine 4  | A new full description | [ "Appointments", "Prescribing" ] |
         | Sln2     | UrlSln2    | Eye opening experience  | Eye opening6           | [ "Workflow", "Referrals" ]       |
+        | Sln3     | NULL       | NULL                    | NULL                   | NULL                              |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @1843
@@ -50,6 +51,7 @@ Scenario: 2. Solution description section data is updated with trimmed whitespac
         | Solution | AboutUrl   | SummaryDescription      | FullDescription        | Features                          |
         | Sln1     | UrlSln1New | New type of medicine 4  | A new full description | [ "Appointments", "Prescribing" ] |
         | Sln2     | UrlSln2    | Eye opening experience  | Eye opening6           | [ "Workflow", "Referrals" ]       |
+        | Sln3     | NULL       | NULL                    | NULL                   | NULL                              |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 Scenario: 3. Solution description section data is not created on update, fail fast in this case

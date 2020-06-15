@@ -27,6 +27,7 @@ Feature: Suppliers Edit Solution Integrations Section
             | Solution | IntegrationsUrl                   |
             | Sln1     | A new integrations url            |
             | Sln2     | Another original integrations url |
+            | Sln3     | NULL                              |
         And Last Updated has updated on the SolutionDetail for solution Sln1
 
     @3667
@@ -39,6 +40,7 @@ Feature: Suppliers Edit Solution Integrations Section
             | Solution | IntegrationsUrl                   |
             | Sln1     | A new integrations url            |
             | Sln2     | Another original integrations url |
+            | Sln3     | NULL                              |
         And Last Updated has updated on the SolutionDetail for solution Sln1
 
     @3667
