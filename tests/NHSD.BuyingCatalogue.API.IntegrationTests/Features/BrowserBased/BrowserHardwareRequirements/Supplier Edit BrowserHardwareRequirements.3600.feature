@@ -7,7 +7,7 @@ Background:
     Given Suppliers exist
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
-     And Solutions exist
+    And Solutions exist
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
 
