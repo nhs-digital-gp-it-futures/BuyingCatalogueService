@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
@@ -28,7 +29,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                     .WithOnLastUpdated(solutionTable.LastUpdated)
                     .WithSupplierId(solutionTable.SupplierId)
                     .WithSupplierStatusId(solutionTable.SupplierStatusId)
-                    .WithPublishedStatusId(solutionTable.PublishedStatusId)
+                    .WithPublishedStatusId((int)solutionTable.PublishedStatus)
                     .WithOnLastUpdated(solutionTable.LastUpdated != DateTime.MinValue ? solutionTable.LastUpdated : DateTime.UtcNow)
                     .Build()
                     .InsertAsync();
@@ -109,11 +110,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
 
             public string SolutionName { get; set; }
 
-            public int SupplierStatusId { get; set; }
+            public int SupplierStatusId { get; set; } = 1;
 
             public string SupplierId { get; set; }
 
-            public int PublishedStatusId { get; set; } = 3;
+            public PublishedStatus PublishedStatus { get; set; } = PublishedStatus.Published;
 
             public DateTime LastUpdated { get; set; }
         }

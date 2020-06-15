@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,6 +13,6 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Contracts.Persistence
         /// Gets a list of <see cref="ISolutionListResult"/> objects.
         /// </summary>
         /// <returns>A list of <see cref="ISolutionListResult"/> objects.</returns>
-        Task<IEnumerable<ISolutionListResult>> ListAsync(bool foundationOnly, CancellationToken cancellationToken);
+        Task<IEnumerable<ISolutionListResult>> ListAsync(bool foundationOnly, string supplierId, CancellationToken cancellationToken);
     }
 }

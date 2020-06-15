@@ -14,15 +14,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
             return await client.GetAsync(new Uri(requestUrl)).ConfigureAwait(false);
         }
 
-        internal static async Task<HttpResponseMessage> GetAsync(string requestUrl, string field, string value)
-        {
-            var builder = new UriBuilder(requestUrl) { Query = $"{field}={value}" };
-
-            using HttpClient client = new HttpClient();
-
-            return await client.GetAsync(builder.Uri);
-        }
-
         internal static async Task<HttpResponseMessage> PostAsJsonAsync(string requestUrl, object content)
         {
             return await PostAsync(requestUrl, JsonConvert.SerializeObject(content)).ConfigureAwait(false);

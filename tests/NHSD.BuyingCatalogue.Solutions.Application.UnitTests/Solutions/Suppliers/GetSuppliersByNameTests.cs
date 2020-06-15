@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
@@ -18,6 +19,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
         public async Task Handle_ReturnsExpectedResults()
         {
             const string supplier = "Supplier";
+            const PublishedStatus solutionStatus = PublishedStatus.Published;
 
             static ISupplierResult MockSupplierNameResult(string id, string name)
             {
@@ -35,11 +37,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
             };
 
             _context.MockSupplierRepository
-                .Setup(r => r.GetSuppliersByName(supplier, _cancellationToken))
+                .Setup(r => r.GetSuppliersByNameAsync(supplier, solutionStatus, _cancellationToken))
                 .ReturnsAsync(expectedResult);
 
             var actualResult = await _context.GetSuppliersByNameHandler.Handle(
-                new GetSuppliersByNameQuery(supplier),
+                new GetSuppliersByNameQuery(supplier, solutionStatus),
                 _cancellationToken);
 
             actualResult.Should().BeEquivalentTo(expectedResult, c => c.ExcludingMissingMembers());

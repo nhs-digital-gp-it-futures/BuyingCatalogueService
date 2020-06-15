@@ -1,4 +1,4 @@
-# Default values for bapi-db.
+# Default values for bapi-db-deploy.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -7,13 +7,12 @@ replicaCount: 1
 useLocalImage: false
 
 image:
-  repository: gpitfuturesdevacr.azurecr.io/nhsd/buying-catalogue/debug-db
+  repository: gpitfuturesdevacr.azurecr.io/nhsd/buying-catalogue/bapi-db-deploy
   pullPolicy: Always
 
 imagePullSecrets: 
-- name: regcredlocal
-nameOverride: "bapi-sql"
-fullnameOverride: "gpitfutures-bc-bapi-sql"
+nameOverride: "bapi-db-deploy"
+fullnameOverride: "gpitfutures-bc-bapi-db-deploy"
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -35,17 +34,13 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-service:
-  type: LoadBalancer
-  port: 1450
-
-resources:
-  limits:
-    cpu: 4000m
-    memory: 2048Mi
+resources: 
   requests:
     cpu: 25m
-    memory: 700Mi
+    memory: 64Mi
+  limits:
+    cpu: 1000m
+    memory: 500Mi
 
 nodeSelector: {}
 
@@ -53,26 +48,29 @@ tolerations: []
 
 affinity: {}
 
-saPasswordSecret: 
+db:
   name:
-  key:
-
-dbName: buyingcatalogue
-dbUser: NHSD
-dbPasswordSecret: 
-  name:
-  key:
+  serverConfig:
+    name:
+    key:
+  serverPortConfig:
+    name:
+    key:
+  saUserNameSecret: 
+    name:
+    key:
+  saPasswordSecret: 
+    name:
+    key:
+  dbPasswordSecret:
+    name:
+    key:
+  includeImport: "FALSE"
+  includePublish: "FALSE"
+  insertTestData: "FALSE"
+  sqlPackageArgs: ""
 
 env:
   configmap:
   secrets:
   values:    
-
-probes:
-  port: 1433
-  liveness:
-    initialDelaySeconds: 15
-    periodSeconds: 20
-  readiness:
-    initialDelaySeconds: 5
-    periodSeconds: 10

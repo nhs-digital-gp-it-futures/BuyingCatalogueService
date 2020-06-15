@@ -9,13 +9,13 @@ using TechTalk.SpecFlow;
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
 {
     [Binding]
-    internal sealed class GetSolutionsByIdSteps
+    internal sealed class GetViewOfSolutionByIdSteps
     {
         private const string ByIdSolutionsUrl = "http://localhost:5200/api/v1/Solutions/{0}/{1}";
 
         private readonly Response _response;
 
-        public GetSolutionsByIdSteps(Response response)
+        public GetViewOfSolutionByIdSteps(Response response)
         {
             _response = response;
         }
@@ -46,6 +46,5 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
 
             contentLastUpdated.Should().Be(lastUpdated);
         }
-
     }
 }

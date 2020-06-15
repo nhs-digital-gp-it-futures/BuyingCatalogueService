@@ -22,7 +22,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSuppliersByName
 
         public async Task<IEnumerable<ISupplier>> Handle(GetSuppliersByNameQuery request, CancellationToken cancellationToken)
         {
-            return _mapper.Map<IEnumerable<ISupplier>>(await _reader.ByNameAsync(request.Name, cancellationToken));
+            return _mapper.Map<IEnumerable<ISupplier>>(
+                await _reader.ByNameAsync(request.Name, request.SolutionPublicationStatus, cancellationToken));
         }
     }
 }

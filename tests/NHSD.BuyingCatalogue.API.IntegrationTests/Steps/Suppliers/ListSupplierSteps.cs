@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Flurl;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using TechTalk.SpecFlow;
@@ -13,23 +14,34 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Suppliers
     {
         private const string RootSuppliersUrl = "http://localhost:5200/api/v1/suppliers";
 
+        private readonly ScenarioContext _context;
         private readonly Response _response;
 
-        public ListSupplierSteps(Response response)
+        public ListSupplierSteps(ScenarioContext context, Response response)
         {
+            _context = context;
             _response = response;
+
+            _context.Set(new Url(RootSuppliersUrl));
+        }
+
+        [Given(@"the user has searched for suppliers matching '([\w\W\s]*)'")]
+        public void GivenTheSupplierName(string name)
+        {
+            GivenTheQueryParameter(nameof(name), name);
+        }
+
+        [Given(@"the user has searched for suppliers with solutions matching the publication status '([\w]*)'")]
+        public void GivenThePublicationStatus(string solutionPublicationStatus)
+        {
+            GivenTheQueryParameter(nameof(solutionPublicationStatus), solutionPublicationStatus);
         }
 
         [When(@"a GET request is made for suppliers")]
         public async Task GetSuppliers()
         {
-            _response.Result = await Client.GetAsync(RootSuppliersUrl);
-        }
-
-        [When(@"a GET request is made for suppliers with (\S+) ?(.*)")]
-        public async Task GetSuppliersWithName(string field, string value)
-        {
-            _response.Result = await Client.GetAsync(RootSuppliersUrl, field, value);
+            var url = _context.Get<Url>();
+            _response.Result = await Client.GetAsync(url.ToString());
         }
 
         [Then(@"a list of suppliers is returned with the following values")]
@@ -45,6 +57,12 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Suppliers
                 });
 
             actualSuppliers.Should().BeEquivalentTo(expectedSuppliers);
+        }
+
+        private void GivenTheQueryParameter<T>(string name, T value)
+        {
+            var url = _context.Get<Url>();
+            url.SetQueryParam(name, value);
         }
 
         private sealed class ListSuppliersTable

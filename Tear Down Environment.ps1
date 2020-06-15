@@ -15,7 +15,7 @@ function determine_environment() {
 }
 
 function remove_environment() {
-    $DockerComposeDown = "docker-compose -f `"docker\docker-compose.yml`" -f `"docker\docker-compose.$($env).yml`" down"
+    $DockerComposeDown = "docker-compose -f `"docker\docker-compose.$($env).yml`" down"
     $Args=''
     if ($c) {
         $Args='-v --rmi "all"'

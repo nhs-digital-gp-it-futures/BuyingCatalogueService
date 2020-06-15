@@ -28,14 +28,13 @@ function build_api_locally() {
 }
 
 function spin_containers_up {
-    $DockerComposeUp = "docker-compose -f `"docker/docker-compose.yml`" -f `"docker/docker-compose.$($env).yml`" up"
+    $DockerComposeUp = "docker-compose -f `"docker/docker-compose.$($env).yml`" up --build"
     $Args="-d"
     if ($a) {
         $Args=""
     }
     
     Set-Location docker
-    docker-compose build --no-cache
     Set-Location ..
     Invoke-Expression "$DockerComposeUp $Args"
 

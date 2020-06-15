@@ -7,5 +7,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Contracts
         IEnumerable<ICapabilityReference> CapabilityReferences { get; }
 
         bool IsFoundation { get; }
+
+        string SupplierId { get; }
     }
 }

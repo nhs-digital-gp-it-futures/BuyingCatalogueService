@@ -42,7 +42,7 @@ determine_environment () {
 }
 
 remove_environment () {
-	docker_compose_down="docker-compose -f \"docker/docker-compose.yml\" -f \"docker/docker-compose.$env.yml\" down"
+	docker_compose_down="docker-compose -f \"docker/docker-compose.$env.yml\" down"
 	if [ "$clearAll" == "true" ]; then
 		docker_args='-v --rmi "all"'
 	fi

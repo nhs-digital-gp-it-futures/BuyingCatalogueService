@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using NHSD.BuyingCatalogue.API.Infrastructure.Filters;
 using NHSD.BuyingCatalogue.API.Infrastructure.HealthChecks;
 using NHSD.BuyingCatalogue.Capabilities.API;
@@ -18,33 +19,33 @@ namespace NHSD.BuyingCatalogue.API.Extensions
     /// Extends the functionality for the <see cref="IServiceCollection"/> class.
     /// </summary>
     public static class ServiceCollectionExtensions
-	{
-		/// <summary>
-		/// Adds the custom swagger settings for application.
-		/// </summary>
-		/// <param name="services">The collection of service descriptors.</param>
-		/// <returns>The extended service collection instance.</returns>
-		public static IServiceCollection AddCustomSwagger(this IServiceCollection services)
-		{
-			services.AddSwaggerGen(options =>
-			{
-				options.SwaggerDoc("v1", new OpenApiInfo
-				{
-					Title = "Solutions API",
-					Version = "v1",
-					Description = "NHS Digital GP IT Buying Catalogue HTTP API"
+    {
+        /// <summary>
+        /// Adds the custom swagger settings for application.
+        /// </summary>
+        /// <param name="services">The collection of service descriptors.</param>
+        /// <returns>The extended service collection instance.</returns>
+        public static IServiceCollection AddCustomSwagger(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Solutions API",
+                    Version = "v1",
+                    Description = "NHS Digital GP IT Buying Catalogue HTTP API"
                 });
-			});
+            });
 
-			return services;
-		}
+            return services;
+        }
 
-		/// <summary>
-		/// Adds the MVC controllers and custom settings.
-		/// </summary>
-		/// <param name="services">The collection of service descriptors.</param>
-		/// <returns>The extended service collection instance.</returns>
-		public static IServiceCollection AddCustomMvc(this IServiceCollection services)
+        /// <summary>
+        /// Adds the MVC controllers and custom settings.
+        /// </summary>
+        /// <param name="services">The collection of service descriptors.</param>
+        /// <returns>The extended service collection instance.</returns>
+        public static IServiceCollection AddCustomMvc(this IServiceCollection services)
         {
             Action<MvcOptions> op = options =>
             {
@@ -57,6 +58,7 @@ namespace NHSD.BuyingCatalogue.API.Extensions
                 {
                     jsonOptions.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
                     jsonOptions.SerializerSettings.Converters.Add(new TrimmingConverter());
+                    jsonOptions.SerializerSettings.Converters.Add(new StringEnumConverter());
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 

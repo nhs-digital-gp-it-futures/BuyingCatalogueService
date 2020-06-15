@@ -33,7 +33,7 @@ services:
 
   dacpac.deploy:
     <<: *dependsOnDb
-    image: ${REGISTRY:-nhsd}/buying-catalogue/db-deploy:${TAG:-latest}
+    image: ${REGISTRY:-nhsd}/buying-catalogue/bapi-db-deploy:${TAG:-latest}
     container_name: nhsd_bcdb_deploy
     build:
       context: ".."
@@ -48,11 +48,16 @@ services:
       INSERT_TEST_DATA: "TRUE"
 
   nhsd.buyingcatalogue.api:
+    image: ${REGISTRY:-nhsd}/buying-catalogue/bapi:${TAG:-latest}
+    container_name: nhsd_bcapi
+    build:
+      context: .
+      dockerfile: Dockerfile
     <<: *dependsOnDb
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       ASPNETCORE_URLS: "http://0.0.0.0:80"
-      ConnectionStrings__BuyingCatalogue: "${NHSD_BUYINGCATALOGUE_DB:-Data Source=db;Initial Catalog=buyingcatalogue;MultipleActiveResultSets=True;User Id=NHSD;Password=DisruptTheMarket1!}"
+      ConnectionStrings__BuyingCatalogue: "${NHSD_BUYINGCATALOGUE_DB:-Data Source=db;Initial Catalog=buyingcatalogue;MultipleActiveResultSets=True;User Id=NHSD-BAPI;Password=DisruptTheMarket1!}"
       APICLIENTSETTINGS__DOCUMENTAPI__BASEURL: "http://nhsd.buyingcatalogue.documents.api.wiremock:80"
     ports:
       - "8080:80"
