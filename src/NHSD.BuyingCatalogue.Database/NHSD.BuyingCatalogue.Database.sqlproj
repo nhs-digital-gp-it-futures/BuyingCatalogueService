@@ -123,6 +123,8 @@
     <Build Include="Tables\CataloguePriceType.sql" />
     <None Include="PostDeployment\InsertCataloguePriceTypes.sql" />
     <None Include="PostDeployment\InsertPricingUnits.sql" />
+    <Build Include="Tables\CataloguePriceFlat.sql" />
+    <Build Include="Tables\CataloguePriceTier.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="INCLUDE_IMPORT">
