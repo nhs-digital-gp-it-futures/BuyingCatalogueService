@@ -92,7 +92,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
        s.LastUpdatedBy
   FROM dbo.Solution AS s
        INNER JOIN dbo.CatalogueItem AS c
-	           ON c.CatalogueItemId = s.Id;");
+               ON c.CatalogueItemId = s.Id;");
         }
 
         public static async Task<SolutionEntity> GetByIdAsync(string solutionId)

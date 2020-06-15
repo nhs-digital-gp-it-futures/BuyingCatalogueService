@@ -110,9 +110,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         {
             public string SolutionId { get; set; }
 
-            public string SupplierId { get; set; }
-
             public string SolutionName { get; set; }
+
+            public int SupplierStatusId { get; set; }
+
+            public string SupplierId { get; set; }
 
             public string Version { get; set; }
 

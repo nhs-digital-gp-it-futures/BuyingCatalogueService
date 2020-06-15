@@ -14,8 +14,8 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 
         public SolutionEntityBuilder()
         {
-            //Default
-            var id = "SolutionId";
+            // Default
+            const string id = "SolutionId";
 
             _solutionEntity = new SolutionEntity
             {
@@ -73,7 +73,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             _solutionEntity.IntegrationsUrl = integrationsUrl;
             return this;
         }
-
 
         public SolutionEntityBuilder WithAboutUrl(string aboutUrl)
         {

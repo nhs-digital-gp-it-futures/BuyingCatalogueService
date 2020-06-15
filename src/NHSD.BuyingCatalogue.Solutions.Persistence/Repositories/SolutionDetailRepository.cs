@@ -26,7 +26,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
  WHERE s.Id = @solutionId;
 
 IF @@ROWCOUNT = 0
-	THROW 60000, 'Solution not found', 1;";
+    THROW 60000, 'Solution not found', 1;";
 
         private const string GetClientApplicationBySolutionIdSql = @"SELECT Id, ClientApplication
   FROM dbo.Solution

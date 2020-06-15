@@ -22,20 +22,20 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.Repositories
                 fs.IsFoundation AS IsFoundation
            FROM dbo.CatalogueItem AS ci
      INNER JOIN dbo.Solution AS sol
-	         ON sol.Id = ci.CatalogueItemId
+             ON sol.Id = ci.CatalogueItemId
      INNER JOIN dbo.Supplier AS sup
              ON sup.Id = ci.SupplierId
      INNER JOIN dbo.PublicationStatus AS ps
-	         ON ps.Id = ci.PublishedStatusId
+             ON ps.Id = ci.PublishedStatusId
      INNER JOIN dbo.SolutionCapability AS sc
              ON sol.Id = sc.SolutionId
      INNER JOIN dbo.Capability AS cap
              ON cap.Id = sc.CapabilityId
 LEFT OUTER JOIN dbo.FrameworkSolutions AS fs
-	         ON sol.Id = fs.SolutionId
-		  WHERE ps.[Name] = 'Published'
-		    AND ISNULL(fs.IsFoundation, 0) = COALESCE(@foundationOnly, fs.IsFoundation, 0)
-			AND ci.SupplierId = ISNULL(@supplierId, ci.SupplierId);";
+             ON sol.Id = fs.SolutionId
+          WHERE ps.[Name] = 'Published'
+            AND ISNULL(fs.IsFoundation, 0) = COALESCE(@foundationOnly, fs.IsFoundation, 0)
+            AND ci.SupplierId = ISNULL(@supplierId, ci.SupplierId);";
 
         /// <summary>
         /// Gets a list of <see cref="ISolutionListResult"/> objects.

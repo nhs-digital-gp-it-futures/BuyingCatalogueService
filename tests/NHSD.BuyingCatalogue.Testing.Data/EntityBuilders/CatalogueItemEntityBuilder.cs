@@ -1,31 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 {
     public sealed class CatalogueItemEntityBuilder
     {
-        private readonly CatalogueItemEntity _catalogueItemEntity;
         private string _catalogueItemId = " CatalogueId";
         private int _catalogueItemTypeId = 1;
         private DateTime _created = DateTime.UtcNow;
-        private string _name= "SomeName";
-        private int _publishedStatusId =1;
+        private string _name = "SomeName";
+        private int _publishedStatusId = 1;
         private string _supplierId;
 
-        
         public static CatalogueItemEntityBuilder Create()
         {
-            return  new CatalogueItemEntityBuilder();
-        }
-
-        private CatalogueItemEntityBuilder()
-        {
-            _catalogueItemEntity = new CatalogueItemEntity();
+            return new CatalogueItemEntityBuilder();
         }
 
         public CatalogueItemEntityBuilder WithCatalogueItemId(string catalogueItemId)

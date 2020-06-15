@@ -35,10 +35,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         // always perform an index scan. Given the expected number of suppliers I doubt this will be a problem, however.
         private const string GetSuppliersByNameSql = @"SELECT s.Id, s.[Name]
      FROM dbo.Supplier AS s
-		  INNER JOIN dbo.CatalogueItem AS c
-		  ON s.Id = c.SupplierId
+          INNER JOIN dbo.CatalogueItem AS c
+          ON s.Id = c.SupplierId
     WHERE s.[Name] LIKE '%' + @name + '%'
-	  AND c.PublishedStatusId = ISNULL(NULLIF(@statusId, ''), c.PublishedStatusId)
+      AND c.PublishedStatusId = ISNULL(NULLIF(@statusId, ''), c.PublishedStatusId)
  ORDER BY s.[Name];";
 
         // This query is non-deterministic as there is currently no way to identify a primary contact
