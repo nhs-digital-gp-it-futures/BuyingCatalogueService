@@ -21,15 +21,15 @@ Background:
         | Sln2       | TakeTheRedPill | 1                | Sup 2      | Published       |
         | Sln3       | PracticeMgr    | 1                | Sup 2      | Published       |
     And Solutions are linked to Capabilities
-        | Solution   | Capability              |
-        | Sln1       | Appointments Management |
-        | Sln1       | Clinical Safety         |
-        | Sln1       | Workflow                |
-        | Sln2       | Prescribing             |
-        | Sln2       | Resource Management     |
-        | Sln3       | Clinical Safety         |
-        | Sln3       | Prescribing             |
-        | Sln3       | Workflow                |
+        | Solution       | Capability              |
+        | MedicOnline    | Appointments Management |
+        | MedicOnline    | Clinical Safety         |
+        | MedicOnline    | Workflow                |
+        | TakeTheRedPill | Prescribing             |
+        | TakeTheRedPill | Resource Management     |
+        | PracticeMgr    | Clinical Safety         |
+        | PracticeMgr    | Prescribing             |
+        | PracticeMgr    | Workflow                |
 
 @2048
 Scenario: 1. No Capability selected, all solutions are returned

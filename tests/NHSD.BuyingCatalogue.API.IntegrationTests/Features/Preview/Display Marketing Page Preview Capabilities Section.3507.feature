@@ -18,11 +18,11 @@ Background:
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 1      |
     And Solutions are linked to Capabilities
-        | Solution   | Capability              | Pass  |
-        | Sln1       | Appointments Management | True  |
-        | Sln1       | Clinical Safety         | True  |
-        | Sln1       | Workflow                | True  |
-        | Sln1       | Prescribing             | False |
+        | Solution    | Capability              | Pass  |
+        | MedicOnline | Appointments Management | True  |
+        | MedicOnline | Clinical Safety         | True  |
+        | MedicOnline | Workflow                | True  |
+        | MedicOnline | Prescribing             | False |
 
 @3507
 Scenario: 1. Sections presented where Capabilities exists

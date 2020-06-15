@@ -12,8 +12,8 @@ Background:
 	   | Id    | SupplierName |
 	   | Sup 1 | Supplier 1   |
      And Solutions exist
-	   | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
-	   | Sln1       | MedicOnline    | 1                | Sup 1      |
+	   | SolutionId | SolutionName   | SupplierId |
+	   | Sln1       | MedicOnline    | Sup 1      |
 
 @3678
 Scenario Outline: 1. Capabilities section is mandatory and is reported complete if there are any capabilities for that solution

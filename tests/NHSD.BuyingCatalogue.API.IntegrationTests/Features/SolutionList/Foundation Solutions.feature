@@ -29,16 +29,16 @@ Background:
         | Sln3       | true         |
         | Sln5       | true         |
    And Solutions are linked to Capabilities
-        | Solution   | Capability              |
-        | Sln1       | Appointments Management |
-        | Sln1       | Clinical Safety         |
-        | Sln1       | Workflow                |
-        | Sln2       | Prescribing             |
-        | Sln2       | Resource Management     |
-        | Sln3       | Clinical Safety         |
-        | Sln3       | Prescribing             |
-        | Sln4       | Workflow                |
-        | Sln5       | Clinical Safety         |
+        | Solution       | Capability              |
+        | MedicOnline    | Appointments Management |
+        | MedicOnline    | Clinical Safety         |
+        | MedicOnline    | Workflow                |
+        | TakeTheRedPill | Prescribing             |
+        | TakeTheRedPill | Resource Management     |
+        | PracticeMgr    | Clinical Safety         |
+        | PracticeMgr    | Prescribing             |
+        | GPSurgery      | Workflow                |
+        | Unpublished    | Clinical Safety         |
 
 @3505
 Scenario: 1. Foundation solutions are retrieved 

@@ -17,8 +17,8 @@ Background:
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 1      |
     And Solutions are linked to Capabilities
-        | Solution   | Capability          |
-        | Sln2       | Resource Management |
+        | Solution             | Capability          |
+        | TakeTheRedPill       | Resource Management |
 
 @3678
 Scenario: 1. A Capability that has no existing Capability Reference is added

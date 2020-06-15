@@ -15,9 +15,9 @@ Background:
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 1      |
     And Solutions are linked to Capabilities
-        | Solution   | Capability              | Pass |
-        | Sln1       | Appointments Management | True |
-        | Sln2       | Appointments Management | True |
+        | Solution       | Capability              | Pass |
+        | MedicOnline    | Appointments Management | True |
+        | TakeTheRedPill | Appointments Management | True |
     And Epics exist
         | Id   | CapabilityRef | Name              | CompliancyLevel | Active |
         | C1E1 | C1            | Epic Must Met     | Must            | True   |

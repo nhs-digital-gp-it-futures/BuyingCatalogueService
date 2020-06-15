@@ -50,7 +50,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         [Given(@"Solutions are linked to Capabilities")]
         public static async Task GivenSolutionsAreLinkedToCapabilities(Table table)
         {
-            var solutions = (await SolutionEntity.FetchAllAsync()).ToDictionary(s => s.Id);
+            var solutions = (await SolutionEntity.FetchAllAsync()).ToDictionary(s => s.Name);
             var capabilities = (await CapabilityEntity.FetchAllAsync()).ToDictionary(c => c.Name);
 
             foreach (var solutionCapability in table.CreateSet<SolutionCapabilityTable>())

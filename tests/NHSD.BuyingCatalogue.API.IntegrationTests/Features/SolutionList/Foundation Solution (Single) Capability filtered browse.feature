@@ -20,14 +20,14 @@ Background:
         | Sln2       | TakeTheRedPill | 1                | Sup 2      | Published       |
         | Sln3       | PracticeMgr    | 1                | Sup 2      | Published       |
     And Solutions are linked to Capabilities
-        | Solution   | Capability              |
-        | Sln1       | Appointments Management |
-        | Sln1       | Clinical Safety         |
-        | Sln1       | Prescribing             |
-        | Sln2       | Prescribing             |
-        | Sln2       | Appointments Management |
-        | Sln2       | Workflow                |
-        | Sln3       | Clinical Safety         |
+        | Solution       | Capability              |
+        | MedicOnline    | Appointments Management |
+        | MedicOnline    | Clinical Safety         |
+        | MedicOnline    | Prescribing             |
+        | TakeTheRedPill | Prescribing             |
+        | TakeTheRedPill | Appointments Management |
+        | TakeTheRedPill | Workflow                |
+        | PracticeMgr    | Clinical Safety         |
 
 @2649
 Scenario: 1. All the Foundation Capabilities and no other Capabilities are selected, only Solutions (Single) that deliver all the Foundation Capabilities are included

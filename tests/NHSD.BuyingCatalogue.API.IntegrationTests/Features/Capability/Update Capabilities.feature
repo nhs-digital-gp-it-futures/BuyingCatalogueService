@@ -17,8 +17,8 @@ Background:
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 1      |
     And Solutions are linked to Capabilities
-        | Solution   | Capability          |
-        | Sln2       | Resource Management |
+        | Solution             | Capability          |
+        | TakeTheRedPill       | Resource Management |
 
 @3678
 Scenario: 1. A Capability is added to a solution which has no capabilities
@@ -63,9 +63,9 @@ Scenario: 4. Capabilies are removed for a solution which has has a capability
 @3678
 Scenario: 5. A Capability is added for a solution which has has multiple capabilies
     And Solutions are linked to Capabilities
-        | Solution | Capability          |
-        | Sln1     | Resource Management |
-        | Sln1     | Prescribing         |
+        | Solution    | Capability          |
+        | MedicOnline | Resource Management |
+        | MedicOnline | Prescribing         |
     When a PUT request is made to update the capabilities section for solution Sln1
         | CapabilityRefs |
         | C3             |
