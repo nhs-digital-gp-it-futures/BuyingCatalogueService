@@ -14,7 +14,7 @@ If release name contains chart name it will be used as a full name.
 {{- define "bapi-db-deploy.fullname" -}}
 {{- $name := include "bapi-db-deploy.chart" . -}}
 
-{{- printf "%s-%d" $name .Release.Revision | trunc 63 -}}
+{{- printf "%s-%d" $name .Release.Revision | trunc 63 | trimSuffix "-"  -}}
 {{- end -}}
 
 {{/*
