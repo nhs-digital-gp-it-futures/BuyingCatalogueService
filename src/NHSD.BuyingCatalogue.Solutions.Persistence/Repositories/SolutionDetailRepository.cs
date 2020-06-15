@@ -19,7 +19,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         private const string UpdateTemplate = @"UPDATE s
    SET [Setters],
-       s.LastUpdated = GETDATE()
+       s.LastUpdated = GETUTCDATE()
   FROM dbo.Solution AS s
        INNER JOIN dbo.CatalogueItem AS ci
                ON s.Id = ci.CatalogueItemId
