@@ -10,12 +10,17 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                            |
-        | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum" } } |
-        | Sln2       | NULL                           | NULL                | NULL                                                                                                                                                                                         |
-        | Sln3       | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                                                                                              |
-        | Sln5       | Testing System                 | Full System         | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Chrome" ], "MobileResponsive": false, "Plugins" : {"Required" : null, "AdditionalInformation": null } }        |
-  
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill | 1                | Sup 2      |
+        | Sln3       | PracticeMgr    | 1                | Sup 2      |
+        | Sln5       | SolutionTest   | 1                | Sup 1      |
+    And SolutionDetail exist
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                            |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum" } } |
+        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                                                                                              |
+        | Sln5     | Testing System                 | Full System         | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Chrome" ], "MobileResponsive": false, "Plugins" : {"Required" : null, "AdditionalInformation": null } }        |
+
 @2786
 Scenario: 1. Plugins are retrieved for the solution
     When a GET request is made for browser-plug-ins-or-extensions section for solution Sln1

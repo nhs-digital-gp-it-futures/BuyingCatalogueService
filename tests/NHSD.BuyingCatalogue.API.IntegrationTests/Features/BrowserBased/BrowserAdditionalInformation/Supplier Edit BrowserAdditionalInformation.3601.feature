@@ -8,11 +8,14 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                        |
-        | Sln1       | An full online medicine system | Online medicine 1 | { "AdditionalInformation": "Some Info" } |
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | 1                | Sup 1      |
 
 @3601
 Scenario: 1. Browser Additional Information is updated
+    Given SolutionDetail exist
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                        |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "AdditionalInformation": "Some Info" } |
     When a PUT request is made to update the browser-additional-information section for solution Sln1
         | AdditionalInformation |
         | New Additional Info   |
@@ -23,6 +26,9 @@ Scenario: 1. Browser Additional Information is updated
 
 @3601
 Scenario: 2. Browser Additional Information is updated with trimmed whitespace
+    Given SolutionDetail exist
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                        |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "AdditionalInformation": "Some Info" } |
     When a PUT request is made to update the browser-additional-information section for solution Sln1
         | AdditionalInformation         |
         | "      New Additional Info  " |

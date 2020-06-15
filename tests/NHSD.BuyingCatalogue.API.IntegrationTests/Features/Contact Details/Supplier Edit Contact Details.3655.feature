@@ -8,8 +8,11 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | AboutUrl | SummaryDescription | Features                          |
-        | Sln1       | UrlSln1  | The best solution  | [ "Appointments", "Prescribing" ] |
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | 1                | Sup 1      |
+    And SolutionDetail exist
+        | Solution | AboutUrl | SummaryDescription | Features                          |
+        | Sln1     | UrlSln1  | The best solution  | [ "Appointments", "Prescribing" ] |
 
 @3655
 Scenario: 1. Contacts are added when none existed before

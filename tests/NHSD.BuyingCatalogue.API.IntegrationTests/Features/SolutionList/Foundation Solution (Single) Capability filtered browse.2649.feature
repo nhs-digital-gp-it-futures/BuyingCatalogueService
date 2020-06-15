@@ -15,10 +15,10 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId | PublishedStatus |
-        | Sln1       | MedicOnline    | 1                | Sup 1      | Published       |
-        | Sln2       | TakeTheRedPill | 1                | Sup 2      | Published       |
-        | Sln3       | PracticeMgr    | 1                | Sup 2      | Published       |
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill | 1                | Sup 2      |
+        | Sln3       | PracticeMgr    | 1                | Sup 2      |
     And Solutions are linked to Capabilities
         | Solution       | Capability              |
         | MedicOnline    | Appointments Management |

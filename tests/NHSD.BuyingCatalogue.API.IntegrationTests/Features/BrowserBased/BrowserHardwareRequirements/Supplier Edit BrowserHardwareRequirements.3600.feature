@@ -7,12 +7,15 @@ Background:
     Given Suppliers exist
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
-    And Solutions exist
-        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                  |
-        | Sln1       | An full online medicine system | Online medicine 1 | { "HardwareRequirements": "New Hardware", "ClientApplicationTypes": [], "BrowsersSupported" : [] } |
+     And Solutions exist
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | 1                | Sup 1      |
 
 @3600
 Scenario: 1. Browser Hardware Requirements is updated
+    Given SolutionDetail exist
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                  |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "HardwareRequirements": "New Hardware", "ClientApplicationTypes": [], "BrowsersSupported" : [] } |
     When a PUT request is made to update the browser-hardware-requirements section for solution Sln1
         | HardwareRequirements |
         | New Hardware         |
@@ -20,9 +23,12 @@ Scenario: 1. Browser Hardware Requirements is updated
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                 |
         | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [],"BrowsersSupported" : [], "HardwareRequirements": "New Hardware" } |
-        
+
 @3600
 Scenario: 2. Browser Hardware Requirements is updated with trimmed whitespace
+    Given SolutionDetail exist
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                  |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "HardwareRequirements": "New Hardware", "ClientApplicationTypes": [], "BrowsersSupported" : [] } |
     When a PUT request is made to update the browser-hardware-requirements section for solution Sln1
         | HardwareRequirements  |
         | "     New Hardware  " |
@@ -37,7 +43,7 @@ Scenario: 3. Solution is not found
     When a PUT request is made to update the browser-hardware-requirements section for solution Sln2
        | HardwareRequirements      |
        | New Hardware Requirements |
-    Then a response status of 404 is returned 
+    Then a response status of 404 is returned
 
 @3600
 Scenario: 4. Service Failure

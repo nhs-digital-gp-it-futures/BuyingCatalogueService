@@ -8,11 +8,15 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SummaryDescription            | FullDescription   | Hosting                                                                                                                                                                                 |
-        | Sln1       | A full online medicine system | Online medicine 1 | { "HybridHostingType": { "Summary": "Some summary", "Link": "www.somelink.com", "HostingModel": "Some hosting model", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
-        | Sln2       | An online medicine system     | Online medicine 2 | {  }                                                                                                                                                                                    |
-        | Sln3       | NULL                          | NULL              | NULL                                                                                                                                                                                    |
-    
+        | SolutionId | SolutionName     | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline      | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill   | 1                | Sup 1      |
+        | Sln3       | TakeTheGreenPill | 1                | Sup 1      |
+    And SolutionDetail exist
+        | Solution | SummaryDescription            | FullDescription   | Hosting                                                                                                                                                                                 |
+        | Sln1     | A full online medicine system | Online medicine 1 | { "HybridHostingType": { "Summary": "Some summary", "Link": "www.somelink.com", "HostingModel": "Some hosting model", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
+        | Sln2     | An online medicine system     | Online medicine 2 | {  }                                                                                                                                                                                    |
+
 @3644
 Scenario: 1. Hybrid hosting type is retreived for the solution
     When a GET request is made for hosting-type-hybrid section for solution Sln1

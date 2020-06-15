@@ -8,11 +8,14 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SolutionName | SummaryDescription             | FullDescription   | ClientApplication                     |
-        | Sln1       | MedicOnline  | An full online medicine system | Online medicine 1 | { "MinimumConnectionSpeed": "2GBps" } |
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | 1                | Sup 1      |
 
 @3599
 Scenario: 1. Connection and Resolution are updated for the solution
+    Given SolutionDetail exist
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                     |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "MinimumConnectionSpeed": "2GBps" } |
     When a PUT request is made to update the browser-connectivity-and-resolution section for solution Sln1
         | MinimumConnectionSpeed | MinimumDesktopResolution |
         | 1GBps                  | 800x600                  |
@@ -27,6 +30,9 @@ Scenario: 1. Connection and Resolution are updated for the solution
 
 @3599
 Scenario: 2. Connection and Resolution are updated for the solution with trimmed whitespace
+    Given SolutionDetail exist
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                     |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "MinimumConnectionSpeed": "2GBps" } |
     When a PUT request is made to update the browser-connectivity-and-resolution section for solution Sln1
         | MinimumConnectionSpeed | MinimumDesktopResolution |
         | "     1GBps      "     | "     800x600   "        |
@@ -38,9 +44,12 @@ Scenario: 2. Connection and Resolution are updated for the solution with trimmed
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                   |
         | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MinimumConnectionSpeed": "1GBps", "MinimumDesktopResolution": "800x600" } |
     And Last Updated has updated on the SolutionDetail for solution Sln1
-    
+
 @3599
 Scenario: 3. Connection and Resolution are updated for the solution with empty resolution
+    Given SolutionDetail exist
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                     |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "MinimumConnectionSpeed": "2GBps" } |
     When a PUT request is made to update the browser-connectivity-and-resolution section for solution Sln1
         | MinimumConnectionSpeed | MinimumDesktopResolution |
         | 1GBps                  | NULL                     |
@@ -56,7 +65,7 @@ Scenario: 3. Connection and Resolution are updated for the solution with empty r
 @3599
 @ignore # solution detail will always be present now
 Scenario: 4. If SolutionDetail is missing for the solution, thats an error case
-	Given a SolutionDetail Sln1 does not exist
+    Given a SolutionDetail Sln1 does not exist
     When a PUT request is made to update the browser-connectivity-and-resolution section for solution Sln1
         | MinimumConnectionSpeed | MinimumDesktopResolution |
         | 1GBps                  | 800x600                  |

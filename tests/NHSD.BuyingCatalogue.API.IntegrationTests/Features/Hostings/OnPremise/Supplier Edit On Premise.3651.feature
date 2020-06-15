@@ -7,9 +7,12 @@ Background:
     Given Suppliers exist
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
-    And Solutions exist
-        | SolutionId | SummaryDescription             | FullDescription   | Hosting |
-        | Sln1       | An full online medicine system | Online medicine 1 | { }     |
+     And Solutions exist
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | 1                | Sup 1      |
+    And SolutionDetail exist
+        | Solution | SummaryDescription             | FullDescription   | Hosting |
+        | Sln1     | An full online medicine system | Online medicine 1 | { }     |
 @3651
 Scenario: 1. On Premise is updated
     When a PUT request is made to update the hosting-type-on-premise section for solution Sln1
@@ -19,7 +22,7 @@ Scenario: 1. On Premise is updated
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | Hosting                                                                                                           |
         | Sln1     | An full online medicine system | Online medicine 1 | { "OnPremise": { "Summary": "New Summary", "Link": "a@b.c", "HostingModel": "AWS", "RequiresHSCN": "A string" } } |
-        
+
 @3651
 Scenario: 2. On Premise is updated with trimmed whitespace
     When a PUT request is made to update the hosting-type-on-premise section for solution Sln1
@@ -29,7 +32,7 @@ Scenario: 2. On Premise is updated with trimmed whitespace
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | Hosting                                                                                                           |
         | Sln1     | An full online medicine system | Online medicine 1 | { "OnPremise": { "Summary": "New Summary", "Link": "a@b.c", "HostingModel": "AWS", "RequiresHSCN": "A string" } } |
-        
+
 @3651
 Scenario: 3. On Premise fields are set to null
     When a PUT request is made to update the hosting-type-on-premise section for solution Sln1
@@ -46,7 +49,7 @@ Scenario: 4. Solution is not found
     When a PUT request is made to update the hosting-type-on-premise section for solution Sln2
         | Summary     | Link  | HostingModel | RequiresHSCN |
         | New Summary | a@b.c | AWS          | yES          |
-    Then a response status of 404 is returned 
+    Then a response status of 404 is returned
 
 @3651
 Scenario: 5. Service Failure

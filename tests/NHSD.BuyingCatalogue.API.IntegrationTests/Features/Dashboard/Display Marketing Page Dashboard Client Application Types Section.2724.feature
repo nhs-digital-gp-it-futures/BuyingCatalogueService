@@ -8,15 +8,25 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                                                                                                                                              |
-        | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                                                                                                                                                                                                                                           |
-        | Sln2       | NULL                           | NULL                | NULL                                                                                                                                                                                                                                                                                                           |
-        | Sln3       | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                                                                                                                                                                                                                |
-        | Sln4       | Thrills                        | Bellyaches          | { "ClientApplicationTypes" : [] }                                                                                                                                                                                                                                                                              |
-        | Sln5       | Fully fledged GP system        | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop", "native-mobile" ] }                                                                                                                                                                                                                          |
-        | Sln6       | More Summaries                 | Online System       | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": true, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum"}, "MobileFirstDesign": true, "MinimumConnectionSpeed": "Connection Speed" }                                            |
-        | Sln7       | More Summaries                 | Online System       | { "ClientApplicationTypes": ["native-mobile"], "MobileOperatingSystems": { "OperatingSystems": ["Windows"] }, "NativeMobileFirstDesign": false, "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "Description": "A description" }}                                                              |
-        | Sln8       | More Summaries                 | Online System       | { "ClientApplicationTypes": ["native-desktop"], "NativeDesktopOperatingSystemsDescription": "Some Description", "NativeDesktopMinimumConnectionSpeed": "2Mbps", "NativeDesktopMemoryAndStorage": { "MinimumMemoryRequirement": "512MB", "StorageRequirementsDescription": "Some Desc", "MinimumCpu": "min" } } |
+        | SolutionId | SolutionName     | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline      | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill   | 1                | Sup 1      |
+        | Sln3       | PracticeMgr      | 1                | Sup 1      |
+        | Sln4       | PracticeMgr      | 1                | Sup 1      |
+        | Sln5       | Integral         | 1                | Sup 1      |
+        | Sln6       | Medical Stuff    | 1                | Sup 1      |
+        | Sln7       | TooCoolForSchool | 1                | Sup 1      |
+        | Sln8       | MedicsAnonymous  | 1                | Sup 1      |
+
+    And SolutionDetail exist
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                                                                                                                                              |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                                                                                                                                                                                                                                           |
+        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                                                                                                                                                                                                                |
+        | Sln4     | Thrills                        | Bellyaches          | { "ClientApplicationTypes" : [] }                                                                                                                                                                                                                                                                              |
+        | Sln5     | Fully fledged GP system        | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop", "native-mobile" ] }                                                                                                                                                                                                                          |
+        | Sln6     | More Summaries                 | Online System       | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": true, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum"}, "MobileFirstDesign": true, "MinimumConnectionSpeed": "Connection Speed" }                                            |
+        | Sln7     | More Summaries                 | Online System       | { "ClientApplicationTypes": ["native-mobile"], "MobileOperatingSystems": { "OperatingSystems": ["Windows"] }, "NativeMobileFirstDesign": false, "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "Description": "A description" }}                                                              |
+        | Sln8     | More Summaries                 | Online System       | { "ClientApplicationTypes": ["native-desktop"], "NativeDesktopOperatingSystemsDescription": "Some Description", "NativeDesktopMinimumConnectionSpeed": "2Mbps", "NativeDesktopMemoryAndStorage": { "MinimumMemoryRequirement": "512MB", "StorageRequirementsDescription": "Some Desc", "MinimumCpu": "min" } } |
 
 @2724
 Scenario: 1. Sections presented where the Solution exists
@@ -50,7 +60,7 @@ Scenario: 4. Sections Mandatory when ClientApplicationTypes is set
     And the solution client-application-types section browser-based subsection requirement is Mandatory
     And the solution client-application-types section native-mobile subsection requirement is Mandatory
     And the solution client-application-types section native-desktop subsection requirement is Mandatory
-   
+
 @3597
 Scenario: 5. Section Browser Based is Incomplete
     When a GET request is made for solution dashboard Sln1

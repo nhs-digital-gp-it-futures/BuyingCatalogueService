@@ -8,8 +8,11 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                     |
-        | Sln1       | An full online medicine system | Online medicine 1 | { "MinimumConnectionSpeed": "2GBps" } |
+        | SolutionId | SolutionName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline  | 1                | Sup 1      |
+    And SolutionDetail exist
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication                     |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "MinimumConnectionSpeed": "2GBps" } |
 
 @3599
 Scenario: 1. Minimum connection speed is null and Minimum desktop resolution is empty

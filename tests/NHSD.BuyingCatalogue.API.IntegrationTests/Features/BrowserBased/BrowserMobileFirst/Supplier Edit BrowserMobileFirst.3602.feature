@@ -8,10 +8,13 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication              |
-        | Sln1       | An full online medicine system | Online medicine 1 | { "MobileFirstDesign": false } |
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | 1                | Sup 1      |
 @3602
 Scenario: 1. Browser Mobile First is updated
+    Given SolutionDetail exist
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication              |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "MobileFirstDesign": false } |
     When a PUT request is made to update the browser-mobile-first section for solution Sln1
         | MobileFirstDesign |
         | YEs               |
@@ -19,9 +22,12 @@ Scenario: 1. Browser Mobile First is updated
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                     |
         | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "MobileFirstDesign": true } |
-        
+
 @3602
 Scenario: 2. Browser Mobile First is updated with trimmed whitespace
+    Given SolutionDetail exist
+        | Solution | SummaryDescription             | FullDescription   | ClientApplication              |
+        | Sln1     | An full online medicine system | Online medicine 1 | { "MobileFirstDesign": false } |
     When a PUT request is made to update the browser-mobile-first section for solution Sln1
         | MobileFirstDesign  |
         | "    YEs         " |
@@ -36,7 +42,7 @@ Scenario: 3. Solution is not found
     When a PUT request is made to update the browser-mobile-first section for solution Sln2
        | MobileFirstDesign |
        | no                |
-    Then a response status of 404 is returned 
+    Then a response status of 404 is returned
 
 @3602
 Scenario: 4. Service Failure

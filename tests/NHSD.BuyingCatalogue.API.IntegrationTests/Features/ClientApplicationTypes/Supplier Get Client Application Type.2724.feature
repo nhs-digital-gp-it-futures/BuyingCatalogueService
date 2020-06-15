@@ -8,10 +8,14 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                    |
-        | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] } |
-        | Sln2       | NULL                           | NULL                | NULL                                                                 |
-        | Sln3       | Fully fledged GP system        | Fully fledged GP 12 |                                                                      |
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline    | 1                | Sup 1      |
+        | Sln2       | TakeTheRedPill | 1                | Sup 2      |
+        | Sln3       | PracticeMgr    | 1                | Sup 2      |
+    And SolutionDetail exist
+        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                    |
+        | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] } |
+        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                      |
 
 @2724
 Scenario: 1. Client Application Types are retrieved for the solution

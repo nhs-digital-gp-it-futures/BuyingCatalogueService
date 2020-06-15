@@ -6,7 +6,7 @@ Feature: Display Marketing Page Preview Capabilities Epics Section
 Background:
     Given Capabilities exist
         | CapabilityName          | CapabilityRef | IsFoundation | Version | Description | SourceUrl                          |
-        | Appointments Management | C1            | true         | 2.0     | AM          | http://appointments.management.com |		
+        | Appointments Management | C1            | true         | 2.0     | AM          | http://appointments.management.com |
     And Suppliers exist
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
