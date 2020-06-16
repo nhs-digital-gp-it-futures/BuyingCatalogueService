@@ -1,26 +1,16 @@
 ﻿CREATE PROCEDURE publish.PublishSolution
-     @SolutionId varchar(16)
+     @CatalogueItemId varchar(14)
 AS
     SET NOCOUNT ON;
 
     BEGIN TRANSACTION;
 
     BEGIN TRY
-        DECLARE @emptyGuid AS uniqueidentifier = CAST(0x0 AS uniqueidentifier);
-        DECLARE @solutionDetailId AS uniqueidentifier;
+        DECLARE @publishedStatus AS int = (SELECT Id FROM dbo.PublicationStatus WHERE [Name] = 'Published');
 
-        UPDATE dbo.Solution
-           SET PublishedStatusId = 3,
-               AuthorityStatusId = 2,
-               SupplierStatusId = 3
-         WHERE Id = @SolutionId;
-
-        SELECT @solutionDetailId = SolutionDetailId
-          FROM dbo.Solution;
-
-        UPDATE dbo.SolutionDetail
-           SET PublishedStatusId = 3
-         WHERE Id = @solutionDetailId;
+        UPDATE dbo.CatalogueItem
+           SET PublishedStatusId = @publishedStatus
+         WHERE CatalogueItemId = @CatalogueItemId;
 
         COMMIT TRANSACTION;
     END TRY

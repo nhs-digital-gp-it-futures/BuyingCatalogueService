@@ -17,51 +17,36 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         public SolutionDetailRepository(IDbConnector dbConnector) => _dbConnector = dbConnector;
 
-        private const string updateTemplate = @"
-                                UPDATE  SolutionDetail
-                                SET     [Setters],
-								SolutionDetail.LastUpdated = GETDATE()
-                                FROM SolutionDetail
-                                    INNER JOIN Solution
-                                        ON solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
-                                WHERE   Solution.Id = @solutionId
-                                IF @@ROWCOUNT = 0
-                                    THROW 60000, 'Solution or SolutionDetail not found', 1; ";
+        private const string UpdateTemplate = @"UPDATE s
+   SET [Setters],
+       s.LastUpdated = GETUTCDATE()
+  FROM dbo.Solution AS s
+       INNER JOIN dbo.CatalogueItem AS ci
+               ON s.Id = ci.CatalogueItemId
+ WHERE s.Id = @solutionId;
 
-        const string getClientApplicationBySolutionIdSql = @"SELECT
-                                    Solution.Id
-                                    ,SolutionDetail.ClientApplication as ClientApplication
-                                 FROM   Solution
-                                        LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
-                                 WHERE  Solution.Id = @solutionId";
+IF @@ROWCOUNT = 0
+    THROW 60000, 'Solution not found', 1;";
 
-        const string getHostingBySolutionIdSql = @"SELECT
-                                    Solution.Id
-                                    ,SolutionDetail.Hosting as Hosting
-                                 FROM   Solution
-                                        LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
-                                 WHERE  Solution.Id = @solutionId";
+        private const string GetClientApplicationBySolutionIdSql = @"SELECT Id, ClientApplication
+  FROM dbo.Solution
+ WHERE Id = @solutionId;";
 
-        const string GetRoadMapBySolutionIdSql = @"SELECT
-                                    Solution.Id,
-                                    SolutionDetail.RoadMap as Summary
-                                 FROM   Solution
-                                        LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
-                                 WHERE  Solution.Id = @solutionId";
+        private const string GetHostingBySolutionIdSql = @"SELECT Id, Hosting
+  FROM dbo.Solution
+WHERE Id = @solutionId;";
 
-        const string GetIntegrationsBySolutionIdSql = @"SELECT
-                                    Solution.Id,
-                                    SolutionDetail.IntegrationsUrl as IntegrationsUrl
-                                 FROM   Solution
-                                        LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
-                                 WHERE  Solution.Id = @solutionId";
+        private const string GetRoadMapBySolutionIdSql = @"SELECT Id, RoadMap AS Summary
+  FROM dbo.Solution
+ WHERE Id = @solutionId;";
 
-        const string GetImplementationTimescalesBySolutionIdSql = @"SELECT
-                                    Solution.Id,
-                                    SolutionDetail.ImplementationDetail as Description
-                                 FROM   Solution
-                                        LEFT JOIN SolutionDetail ON Solution.Id = SolutionDetail.SolutionId AND SolutionDetail.Id = Solution.SolutionDetailId
-                                 WHERE  Solution.Id = @solutionId";
+        private const string GetIntegrationsBySolutionIdSql = @"SELECT Id, IntegrationsUrl
+  FROM dbo.Solution
+ WHERE Id = @solutionId;";
+
+        private const string GetImplementationTimescalesBySolutionIdSql = @"SELECT Id, ImplementationDetail AS [Description]
+  FROM dbo.Solution
+ WHERE Id = @solutionId;";
 
         /// <summary>
         /// Updates the summary details of the solution.
@@ -76,11 +61,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 throw new ArgumentNullException(nameof(updateSolutionSummaryRequest));
             }
 
-            await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
-                    @"SolutionDetail.FullDescription = @description,
-                        SolutionDetail.Summary = @summary,
-                        SolutionDetail.AboutUrl = @aboutUrl", StringComparison.InvariantCulture), cancellationToken,
-                updateSolutionSummaryRequest).ConfigureAwait(false);
+            await _dbConnector.ExecuteAsync(UpdateTemplate.Replace("[Setters]",
+                    @"s.FullDescription = @description,
+                        s.Summary = @summary,
+                        s.AboutUrl = @aboutUrl", StringComparison.InvariantCulture), cancellationToken,
+                updateSolutionSummaryRequest);
         }
 
         /// <summary>
@@ -96,10 +81,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 throw new ArgumentNullException(nameof(updateSolutionFeaturesRequest));
             }
 
-            await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
-                    @"SolutionDetail.Features = @features", StringComparison.InvariantCulture),
+            await _dbConnector.ExecuteAsync(UpdateTemplate.Replace("[Setters]", @"s.Features = @features", StringComparison.InvariantCulture),
                 cancellationToken,
-                updateSolutionFeaturesRequest).ConfigureAwait(false);
+                updateSolutionFeaturesRequest);
         }
 
         /// <summary>
@@ -115,15 +99,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 throw new ArgumentNullException(nameof(updateSolutionClientApplicationRequest));
             }
 
-            await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
-                        @"SolutionDetail.ClientApplication = @clientApplication", StringComparison.InvariantCulture),
-                    cancellationToken,
-                    updateSolutionClientApplicationRequest)
-                .ConfigureAwait(false);
+            await _dbConnector.ExecuteAsync(UpdateTemplate.Replace("[Setters]", @"s.ClientApplication = @clientApplication", StringComparison.InvariantCulture),
+                cancellationToken,
+                updateSolutionClientApplicationRequest);
         }
 
         public async Task<IClientApplicationResult> GetClientApplicationBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
-            => (await _dbConnector.QueryAsync<ClientApplicationResult>(getClientApplicationBySolutionIdSql, cancellationToken, new { solutionId }).ConfigureAwait(false)).SingleOrDefault();
+            => (await _dbConnector.QueryAsync<ClientApplicationResult>(GetClientApplicationBySolutionIdSql, cancellationToken, new { solutionId })).SingleOrDefault();
 
         /// <summary>
         /// Adds or updates the hosting details of a solution.
@@ -138,14 +120,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 throw new ArgumentNullException(nameof(updateSolutionHostingRequest));
             }
 
-            await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
-                    @"SolutionDetail.Hosting = @hosting", StringComparison.InvariantCulture),
+            await _dbConnector.ExecuteAsync(UpdateTemplate.Replace("[Setters]", @"s.Hosting = @hosting", StringComparison.InvariantCulture),
                 cancellationToken,
-                updateSolutionHostingRequest).ConfigureAwait(false);
+                updateSolutionHostingRequest);
         }
 
         public async Task<IHostingResult> GetHostingBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
-            => (await _dbConnector.QueryAsync<HostingResult>(getHostingBySolutionIdSql, cancellationToken, new { solutionId }).ConfigureAwait(false)).SingleOrDefault();
+            => (await _dbConnector.QueryAsync<HostingResult>(GetHostingBySolutionIdSql, cancellationToken, new { solutionId })).SingleOrDefault();
 
         public async Task UpdateRoadmapAsync(IUpdateRoadmapRequest updateRoadmapRequest, CancellationToken cancellationToken)
         {
@@ -154,17 +135,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 throw new ArgumentNullException(nameof(updateRoadmapRequest));
             }
 
-            await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
-                    @"SolutionDetail.RoadMap = @description", StringComparison.InvariantCulture),
+            await _dbConnector.ExecuteAsync(UpdateTemplate.Replace("[Setters]", @"s.RoadMap = @description", StringComparison.InvariantCulture),
                 cancellationToken,
-                updateRoadmapRequest).ConfigureAwait(false);
+                updateRoadmapRequest);
         }
 
         public async Task<IRoadMapResult> GetRoadMapBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
-            => (await _dbConnector.QueryAsync<RoadMapResult>(GetRoadMapBySolutionIdSql, cancellationToken, new { solutionId }).ConfigureAwait(false)).SingleOrDefault();
+            => (await _dbConnector.QueryAsync<RoadMapResult>(GetRoadMapBySolutionIdSql, cancellationToken, new { solutionId })).SingleOrDefault();
 
         public async Task<IIntegrationsResult> GetIntegrationsBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
-            => (await _dbConnector.QueryAsync<IntegrationsResult>(GetIntegrationsBySolutionIdSql, cancellationToken, new { solutionId }).ConfigureAwait(false)).SingleOrDefault();
+            => (await _dbConnector.QueryAsync<IntegrationsResult>(GetIntegrationsBySolutionIdSql, cancellationToken, new { solutionId })).SingleOrDefault();
 
         public async Task UpdateIntegrationsAsync(IUpdateIntegrationsRequest updateIntegrationsRequest, CancellationToken cancellationToken)
         {
@@ -173,14 +153,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 throw new ArgumentNullException(nameof(updateIntegrationsRequest));
             }
 
-            await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
-                    @"SolutionDetail.IntegrationsUrl = @url", StringComparison.InvariantCulture),
+            await _dbConnector.ExecuteAsync(UpdateTemplate.Replace("[Setters]", @"s.IntegrationsUrl = @url", StringComparison.InvariantCulture),
                 cancellationToken,
-                updateIntegrationsRequest).ConfigureAwait(false);
+                updateIntegrationsRequest);
         }
 
         public async Task<IImplementationTimescalesResult> GetImplementationTimescalesBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
-            => (await _dbConnector.QueryAsync<ImplementationTimescalesResult>(GetImplementationTimescalesBySolutionIdSql, cancellationToken, new { solutionId }).ConfigureAwait(false)).SingleOrDefault();
+            => (await _dbConnector.QueryAsync<ImplementationTimescalesResult>(GetImplementationTimescalesBySolutionIdSql, cancellationToken, new { solutionId })).SingleOrDefault();
 
         public async Task UpdateImplementationTimescalesAsync(IUpdateImplementationTimescalesRequest updateImplementationTimescalesRequest, CancellationToken cancellationToken)
         {
@@ -189,11 +168,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 throw new ArgumentNullException(nameof(updateImplementationTimescalesRequest));
             }
 
-            await _dbConnector.ExecuteAsync(updateTemplate.Replace("[Setters]",
-                        @"SolutionDetail.ImplementationDetail = @description", StringComparison.InvariantCulture),
-                    cancellationToken,
-                    updateImplementationTimescalesRequest)
-                .ConfigureAwait(false);
+            await _dbConnector.ExecuteAsync(UpdateTemplate.Replace("[Setters]", @"s.ImplementationDetail = @description", StringComparison.InvariantCulture),
+                cancellationToken,
+                updateImplementationTimescalesRequest);
         }
     }
 }

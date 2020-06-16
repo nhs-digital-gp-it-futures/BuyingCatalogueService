@@ -34,7 +34,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         private const string UpdateCapabilities = @"DELETE FROM SolutionCapability WHERE SolutionId = @solutionId
                                                     INSERT INTO dbo.SolutionCapability
                                                     (SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
-                                                    SELECT @solutionId AS SolutionId, Id, @statusId, GETDATE(), @lastUpdatedBy
+                                                    SELECT @solutionId AS SolutionId, Id, @statusId, GETUTCDATE(), @lastUpdatedBy
                                                     FROM Capability 
                                                     WHERE CapabilityRef in @newCapabilitiesReference";
 

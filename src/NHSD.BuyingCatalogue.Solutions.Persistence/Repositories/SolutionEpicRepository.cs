@@ -12,7 +12,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
     public sealed class SolutionEpicRepository : ISolutionEpicRepository
     {
         private const string DeleteSolutionEpicSql = @"DELETE FROM dbo.SolutionEpic WHERE SolutionId = @solutionId";
-        private const string InsertSolutionEpicSql = @"INSERT INTO dbo.SolutionEpic (SolutionId, CapabilityId, EpicId, StatusId, LastUpdated, LastUpdatedBy) VALUES (@solutionId, (SELECT Epic.CapabilityId FROM Epic WHERE Epic.Id = @epicId), @epicId, (SELECT SolutionEpicStatus.Id FROM SolutionEpicStatus WHERE SolutionEpicStatus.Name = @statusName), GETDATE(), @lastUpdatedBy)";
+        private const string InsertSolutionEpicSql = @"INSERT INTO dbo.SolutionEpic (SolutionId, CapabilityId, EpicId, StatusId, LastUpdated, LastUpdatedBy) VALUES (@solutionId, (SELECT Epic.CapabilityId FROM Epic WHERE Epic.Id = @epicId), @epicId, (SELECT SolutionEpicStatus.Id FROM SolutionEpicStatus WHERE SolutionEpicStatus.Name = @statusName), GETUTCDATE(), @lastUpdatedBy)";
 
         private const string ListSolutionEpicsSql = @"SELECT
 		                                               Epic.[Id] as EpicId

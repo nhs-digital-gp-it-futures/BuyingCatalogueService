@@ -24,7 +24,7 @@ Scenario: 1. Plugins is updated
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                  |
         | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [],"BrowsersSupported" : [], "Plugins" : { "Required" : true , "AdditionalInformation": "This is extra information"} } |
     And Last Updated has updated on the SolutionDetail for solution Sln1
-                         
+
 @2786
 Scenario: 2. Plugins is updated with trimmed whitespace
     Given SolutionDetail exist
@@ -38,14 +38,14 @@ Scenario: 2. Plugins is updated with trimmed whitespace
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                  |
         | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [],"BrowsersSupported" : [], "Plugins" : { "Required" : true , "AdditionalInformation": "This is extra information"} } |
     And Last Updated has updated on the SolutionDetail for solution Sln1
-                                                                                                                                                                 
+
 @2786
 Scenario: 3. Solution is not found
     Given a Solution Sln4 does not exist
     When a PUT request is made to update the browser-plug-ins-or-extensions section for solution Sln4
         | PluginsRequired | PluginsDetail             |
         | nO              | This is extra information |
-    Then a response status of 404 is returned 
+    Then a response status of 404 is returned
 
 @2786
 Scenario: 4. Service Failure

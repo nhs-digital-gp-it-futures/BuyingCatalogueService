@@ -46,6 +46,7 @@ services:
       INCLUDE_IMPORT: "TRUE"
       INCLUDE_PUBLISH: "TRUE"
       INSERT_TEST_DATA: "TRUE"
+      MIGRATE_TO_CATALOGUE_ITEM: "FALSE"
 
   nhsd.buyingcatalogue.api:
     image: ${REGISTRY:-nhsd}/buying-catalogue/bapi:${TAG:-latest}

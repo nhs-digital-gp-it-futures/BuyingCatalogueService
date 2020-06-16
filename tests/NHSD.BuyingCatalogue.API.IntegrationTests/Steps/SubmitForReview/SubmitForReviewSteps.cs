@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,19 +28,19 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.SubmitForReview
         [When(@"a request is made to submit Solution (.*) for review")]
         public async Task WhenARequestIsMadeToSubmitSlnForReview(string solutionId)
         {
-            _response.Result = await Client.PutAsync(string.Format(CultureInfo.InvariantCulture, SubmitForReviewSolutionsUrl, solutionId)).ConfigureAwait(false);
+            _response.Result = await Client.PutAsync(string.Format(CultureInfo.InvariantCulture, SubmitForReviewSolutionsUrl, solutionId));
         }
 
         [When(@"a request is made to submit Solution for review with no solution id")]
         public async Task WhenARequestIsMadeToSubmitForReviewWithNoSolutionId()
         {
-            _response.Result = await Client.PutAsync(string.Format(CultureInfo.InvariantCulture, SubmitForReviewSolutionsUrl, " ")).ConfigureAwait(false);
+            _response.Result = await Client.PutAsync(string.Format(CultureInfo.InvariantCulture, SubmitForReviewSolutionsUrl, " "));
         }
 
         [Then(@"the response details of the submit Solution for review request are as follows")]
         public async Task ThenTheDetailsOfTheSolutionsReturnedAreAsFollows(Table table)
         {
-            var response = await _response.ReadBody().ConfigureAwait(false);
+            var response = await _response.ReadBody();
 
             var expectedSectionErrorTable = table.CreateSet<SubmitSolutionForReviewResponseTable>();
             foreach (var expectedSectionError in expectedSectionErrorTable)

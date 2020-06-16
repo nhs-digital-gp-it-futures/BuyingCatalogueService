@@ -10,6 +10,7 @@ Background:
     And Solutions exist
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
+
 @3602
 Scenario: 1. Browser Mobile First is updated to be empty
     Given SolutionDetail exist

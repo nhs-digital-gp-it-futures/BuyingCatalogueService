@@ -16,11 +16,11 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId | PublicationStatus |
-        | Sln1       | MedicOnline    | 1                | Sup 1      | 3                 |
-        | Sln2       | TakeTheRedPill | 1                | Sup 2      | 3                 |
-        | Sln3       | PracticeMgr    | 1                | Sup 2      | 3                 |
-        | Sln4       | Unpublished    | 1                | Sup 2      | 1                 |
+        | SolutionId | SolutionName   | SupplierStatusId | SupplierId | PublishedStatus |
+        | Sln1       | MedicOnline    | 1                | Sup 1      | Published       |
+        | Sln2       | TakeTheRedPill | 1                | Sup 2      | Published       |
+        | Sln3       | PracticeMgr    | 1                | Sup 2      | Published       |
+        | Sln4       | Unpublished    | 1                | Sup 2      | Draft           |
     And Solutions are linked to Capabilities
         | Solution       | Capability              |
         | MedicOnline    | Appointments Management |
@@ -57,6 +57,7 @@ Scenario: 2. Card Content
         | Sln2       | TakeTheRedPill | Eye opening experience | Supplier 2   | Prescribing, Resource Management                   | false        |
         | Sln3       | PracticeMgr    |                        | Supplier 2   | Clinical Safety, Prescribing, Workflow             | false        |
 
+@ignore # solution detail will always be present now
 Scenario: 3. List all Solutions with no marketing data
     Given a SolutionDetail Sln1 does not exist
     When a GET request is made containing no selection criteria

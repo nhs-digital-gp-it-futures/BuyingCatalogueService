@@ -75,6 +75,7 @@
     <Folder Include="Types" />
     <Folder Include="Stored Procedures" />
     <Folder Include="Security\Schemas" />
+    <Folder Include="PreDeployment" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\SolutionCapabilityStatus.sql" />
@@ -93,12 +94,9 @@
     <Build Include="Tables\Supplier.sql" />
     <Build Include="Tables\SupplierContact.sql" />
     <Build Include="Tables\PublicationStatus.sql" />
-    <Build Include="Tables\SolutionAuthorityStatus.sql" />
-    <Build Include="Tables\SolutionSupplierStatus.sql" />
     <Build Include="Tables\Solution.sql" />
-    <Build Include="Tables\SolutionDetail.sql" />
-    <None Include="Security\Users\NHSD.sql" />
-    <None Include="Security\Logins\NHSD.sql" />
+    <Build Include="Security\Users\NHSD.sql" />
+    <Build Include="Security\Logins\NHSD.sql" />
     <Build Include="Security\Roles\Api.sql" />
     <None Include="PostDeployment\IntegrationTests\ClearData.sql" />
     <None Include="PostDeployment\IntegrationTests\DropRole.sql" />
@@ -109,11 +107,18 @@
     <Build Include="Stored Procedures\ImportSolution.sql" />
     <Build Include="Stored Procedures\PublishSolution.sql" />
     <Build Include="Stored Procedures\ImportAdditionalService.sql" />
-    <Build Include="Types\AdditionalServiceCapability.sql" />
     <Build Include="Security\Schemas\import.sql" />
     <Build Include="Security\Schemas\publish.sql" />
     <Build Include="Security\Roles\Importer.sql" />
     <Build Include="Security\Roles\Publisher.sql" />
+    <Build Include="Tables\CatalogueItemType.sql" />
+    <Build Include="Tables\CatalogueItem.sql" />
+    <None Include="PostDeployment\MigrateSolutionDetailToCatalogueItem.sql" />
+    <Build Include="Tables\AdditionalService.sql" />
+    <Build Include="Tables\AssociatedService.sql" />
+    <Build Include="Tables\SupplierServiceAssociation.sql" />
+    <None Include="PreDeployment\MigrateSolutionDetailToCatalogueItem.sql" />
+    <None Include="PostDeployment\InsertCapabilityStatuses.sql" />
     <Build Include="Tables\CataloguePrice.sql" />
     <Build Include="Tables\TimeUnit.sql" />
     <Build Include="Tables\ProvisioningType.sql" />
@@ -139,13 +144,16 @@
       <DefaultValue>True</DefaultValue>
       <Value>$(SqlCmdVar__2)</Value>
     </SqlCmdVariable>
+    <SqlCmdVariable Include="MIGRATE_TO_CATALOGUE_ITEM">
+      <DefaultValue>False</DefaultValue>
+      <Value>$(SqlCmdVar__5)</Value>
+    </SqlCmdVariable>
     <SqlCmdVariable Include="NHSD_PASSWORD">
       <DefaultValue>DisruptTheMarket1!</DefaultValue>
       <Value>$(SqlCmdVar__1)</Value>
     </SqlCmdVariable>
   </ItemGroup>
   <ItemGroup>
-    <None Include="PostDeployment\InsertCommonValues.sql" />
     <None Include="PostDeployment\InsertEpics.sql" />
     <None Include="PostDeployment\InsertCapabilities.sql" />
     <None Include="PostDeployment\InsertFrameworks.sql" />
@@ -153,8 +161,17 @@
     <None Include="PostDeployment\InsertSuppliers.sql" />
     <None Include="PostDeployment\DropImport.sql" />
     <None Include="PostDeployment\DropPublish.sql" />
+    <None Include="PostDeployment\InsertCatalogueItemTypes.sql" />
+    <None Include="PostDeployment\InsertCapabilityCategories.sql" />
+    <None Include="PostDeployment\InsertCompliancyLevels.sql" />
+    <None Include="PostDeployment\InsertPublicationStatuses.sql" />
+    <None Include="PostDeployment\InsertSolutionCapabilityStatuses.sql" />
+    <None Include="PostDeployment\InsertSolutionEpicStatuses.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="PostDeployment\PostDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PreDeploy Include="PreDeployment\PreDeployment.sql" />
   </ItemGroup>
 </Project>
