@@ -42,7 +42,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
 
             await CapabilityEntityBuilder.Create().WithName("Cap1").WithId(_cap1Id).WithCapabilityRef(CapabilityReference1).WithDescription("Cap1Desc").Build().InsertAsync();
             await CapabilityEntityBuilder.Create().WithName("Cap2").WithId(_cap2Id).WithCapabilityRef(CapabilityReference2).WithDescription("Cap2Desc").Build().InsertAsync();
-            
+
             TestContext testContext = new TestContext();
             _solutionListRepository = testContext.SolutionListRepository;
         }
@@ -50,11 +50,17 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
         [Test]
         public async Task ShouldListSingleSolution()
         {
-            await SolutionEntityBuilder.Create()
+            await CatalogueItemEntityBuilder
+                .Create()
+                .WithCatalogueItemId(Solution1Id)
                 .WithName("Solution1")
-                .WithId(Solution1Id)
                 .WithSupplierId(_supplierId)
                 .WithPublishedStatusId(3)
+                .Build()
+                .InsertAsync();
+
+            await SolutionEntityBuilder.Create()
+                .WithId(Solution1Id)
                 .Build()
                 .InsertAsync();
 
@@ -66,19 +72,20 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
         [Test]
         public async Task ShouldListSingleSolutionWithSingleCapability()
         {
-            await SolutionEntityBuilder.Create()
+            await CatalogueItemEntityBuilder
+                .Create()
+                .WithCatalogueItemId(Solution1Id)
                 .WithName("Solution1")
-                .WithId(Solution1Id)
                 .WithSupplierId(_supplierId)
                 .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync();
 
-            await SolutionDetailEntityBuilder.Create()
-                .WithSolutionId(Solution1Id)
+            await SolutionEntityBuilder.Create()
+                .WithId(Solution1Id)
                 .WithSummary("Sln1Summary")
                 .Build()
-                .InsertAndSetCurrentForSolutionAsync();
+                .InsertAsync();
 
             await SolutionCapabilityEntityBuilder.Create()
                 .WithSolutionId(Solution1Id)
@@ -104,19 +111,20 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
         [TestCase(true)]
         public async Task ShouldListSingleSolutionAsFoundation(bool isFoundation)
         {
-            await SolutionEntityBuilder.Create()
+            await CatalogueItemEntityBuilder
+                .Create()
+                .WithCatalogueItemId(Solution1Id)
                 .WithName("Solution1")
-                .WithId(Solution1Id)
                 .WithSupplierId(_supplierId)
                 .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync();
 
-            await SolutionDetailEntityBuilder.Create()
-                .WithSolutionId(Solution1Id)
+            await SolutionEntityBuilder.Create()
+                .WithId(Solution1Id)
                 .WithSummary("Sln1Summary")
                 .Build()
-                .InsertAndSetCurrentForSolutionAsync();
+                .InsertAsync();
 
             await SolutionCapabilityEntityBuilder.Create()
                 .WithSolutionId(Solution1Id)
@@ -139,19 +147,20 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
         [Test]
         public async Task ShouldListSingleSolutionWithMultipleCapability()
         {
-            await SolutionEntityBuilder.Create()
+            await CatalogueItemEntityBuilder
+                .Create()
+                .WithCatalogueItemId(Solution1Id)
                 .WithName("Solution1")
-                .WithId(Solution1Id)
                 .WithSupplierId(_supplierId)
                 .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync();
 
-            await SolutionDetailEntityBuilder.Create()
-                .WithSolutionId(Solution1Id)
+            await SolutionEntityBuilder.Create()
+                .WithId(Solution1Id)
                 .WithSummary("Sln1Summary")
                 .Build()
-                .InsertAndSetCurrentForSolutionAsync();
+                .InsertAsync();
 
             await SolutionCapabilityEntityBuilder.Create()
                 .WithSolutionId(Solution1Id)
@@ -193,47 +202,49 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
         [Test]
         public async Task ShouldListMultipleSolutionsWithCapabilities()
         {
-            await SolutionEntityBuilder.Create()
+            await CatalogueItemEntityBuilder
+                .Create()
+                .WithCatalogueItemId(Solution1Id)
                 .WithName("Solution1")
+                .WithSupplierId(_supplierId)
+                .WithPublishedStatusId(3)
+                .Build()
+                .InsertAsync();
+
+            await SolutionEntityBuilder.Create()
                 .WithId(Solution1Id)
-                .WithSupplierId(_supplierId)
-                .WithPublishedStatusId(3)
-                .Build()
-                .InsertAsync();
-
-            await SolutionEntityBuilder.Create()
-                .WithName("Solution2")
-                .WithId("Sln2")
-                .WithSupplierId(_supplierId)
-                .WithPublishedStatusId(3)
-                .Build()
-                .InsertAsync();
-
-            await SolutionEntityBuilder.Create()
-                .WithName("Solution3")
-                .WithId("Sln3")
-                .WithSupplierId(_supplierId)
-                .WithPublishedStatusId(1)
-                .Build()
-                .InsertAsync();
-
-            await SolutionDetailEntityBuilder.Create()
-                .WithSolutionId(Solution1Id)
                 .WithSummary("Sln1Summary")
                 .Build()
-                .InsertAndSetCurrentForSolutionAsync();
+                .InsertAsync();
 
-            await SolutionDetailEntityBuilder.Create()
-                .WithSolutionId("Sln2")
+            await CatalogueItemEntityBuilder
+                .Create()
+                .WithCatalogueItemId("Sln2")
+                .WithName("Solution2")
+                .WithSupplierId(_supplierId)
+                .WithPublishedStatusId(3)
+                .Build()
+                .InsertAsync();
+
+            await SolutionEntityBuilder.Create()
+                .WithId("Sln2")
                 .WithSummary("Sln2Summary")
                 .Build()
-                .InsertAndSetCurrentForSolutionAsync();
+                .InsertAsync();
 
-            await SolutionDetailEntityBuilder.Create()
-                .WithSolutionId("Sln3")
+            await CatalogueItemEntityBuilder
+                .Create()
+                .WithCatalogueItemId("Sln3")
+                .WithName("Solution3")
+                .WithSupplierId(_supplierId)
+                .Build()
+                .InsertAsync();
+
+            await SolutionEntityBuilder.Create()
+                .WithId("Sln3")
                 .WithSummary("Sln3Summary")
                 .Build()
-                .InsertAndSetCurrentForSolutionAsync();
+                .InsertAsync();
 
             await SolutionCapabilityEntityBuilder.Create()
                 .WithSolutionId(Solution1Id)
@@ -344,7 +355,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
             solutions.Count().Should().Be(2);
             solutions.Should().Contain(x => x.SupplierId == _supplierId);
         }
-        
+
         [Test]
         public async Task ListAsync_FilterByInvalidSupplierId_ReturnsEmptyList()
         {
@@ -357,18 +368,19 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
 
         private async Task CreateSimpleSolutionWithOneCap(string solutionId, string supplierId = _supplierId)
         {
-            await SolutionEntityBuilder.Create()
+            await CatalogueItemEntityBuilder
+                .Create()
+                .WithCatalogueItemId(solutionId)
                 .WithName(solutionId)
-                .WithId(solutionId)
                 .WithSupplierId(supplierId)
                 .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync();
 
-            await SolutionDetailEntityBuilder.Create()
-                .WithSolutionId(solutionId)
+            await SolutionEntityBuilder.Create()
+                .WithId(solutionId)
                 .Build()
-                .InsertAndSetCurrentForSolutionAsync();
+                .InsertAsync();
 
             await SolutionCapabilityEntityBuilder.Create()
                 .WithSolutionId(solutionId)

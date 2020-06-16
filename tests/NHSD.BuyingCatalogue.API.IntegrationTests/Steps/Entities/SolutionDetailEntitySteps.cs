@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -14,7 +14,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
     [Binding]
     public sealed class SolutionDetailEntitySteps
     {
-
         [Given(@"SolutionDetail exist")]
         public static async Task GivenSolutionDetailExist(Table table)
         {
@@ -33,15 +32,14 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                     .WithImplementationTimescales(solutionDetail.ImplementationDetail)
                     .WithLastUpdated(solutionDetail.LastUpdated != DateTime.MinValue ? solutionDetail.LastUpdated : DateTime.UtcNow)
                     .Build()
-                    .InsertAndSetCurrentForSolutionAsync()
-                    .ConfigureAwait(false);
+                    .InsertAndSetCurrentForSolutionAsync();
             }
         }
 
         [Given(@"a SolutionDetail (.*) does not exist")]
         public static async Task GivenASolutionDetailDoesNotExist(string solutionId)
         {
-            var solutionDetailList = await SolutionDetailEntity.FetchAllAsync().ConfigureAwait(false);
+            var solutionDetailList = await SolutionDetailEntity.FetchAllAsync();
             solutionDetailList.Select(x => x.SolutionId).Should().NotContain(solutionId);
         }
 
@@ -61,7 +59,9 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 IntegrationsUrl = string.IsNullOrWhiteSpace(m.IntegrationsUrl) ? null : m.IntegrationsUrl,
                 ImplementationDetail = string.IsNullOrWhiteSpace(m.ImplementationDetail) ? null : m.ImplementationDetail,
             });
-            var solutionDetails = await SolutionDetailEntity.FetchAllAsync().ConfigureAwait(false);
+
+            var solutionDetails = await SolutionDetailEntity.FetchAllAsync();
+
             solutionDetails.Select(m => new
             {
                 Solution = m.SolutionId,
@@ -80,8 +80,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         [Then(@"Last Updated has updated on the SolutionDetail for solution (.*)")]
         public static async Task LastUpdatedHasUpdatedOnSolutionDetail(string solutionId)
         {
-            var solutionDetail = await SolutionDetailEntity.GetBySolutionIdAsync(solutionId).ConfigureAwait(false);
-            (await solutionDetail.LastUpdated.SecondsFromNow().ConfigureAwait(false)).Should().BeLessOrEqualTo(5);
+            var solutionDetail = await SolutionDetailEntity.GetBySolutionIdAsync(solutionId);
+            (await solutionDetail.LastUpdated.SecondsFromNow()).Should().BeLessOrEqualTo(5);
         }
 
         private class SolutionDetailTable

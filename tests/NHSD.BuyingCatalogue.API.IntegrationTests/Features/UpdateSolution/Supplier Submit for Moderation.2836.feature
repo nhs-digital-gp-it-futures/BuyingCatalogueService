@@ -1,5 +1,5 @@
 Feature: Supplier Submit for Moderation
-	As a Supplier
+    As a Supplier
     I want to submit my Marketing Page for Moderation
     So that my Marketing Page can be approved and published
 
@@ -14,7 +14,7 @@ Scenario: 1. Solution successfully submitted for review
         | SolutionId | SolutionName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline  | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | ClientApplication                                                                                          |
+        | Solution | SummaryDescription             | ClientApplication                                                                                                                             |
         | Sln1     | An full online medicine system | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true, "Plugins": { "Required": false } } |
     When a request is made to submit Solution Sln1 for review
     Then a response status of 204 is returned

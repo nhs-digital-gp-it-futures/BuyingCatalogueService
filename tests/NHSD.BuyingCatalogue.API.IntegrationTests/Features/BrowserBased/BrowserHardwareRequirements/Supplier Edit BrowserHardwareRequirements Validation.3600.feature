@@ -12,7 +12,7 @@ Background:
         | Sln1       | MedicOnline    | 1                | Sup 1      |
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                  |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "HardwareRequirements": "Hardware Information" } | 
+        | Sln1     | An full online medicine system | Online medicine 1 | { "HardwareRequirements": "Hardware Information" } |
 
 @3600
 Scenario: 1. HardwareRequirements exceeds the maxLength

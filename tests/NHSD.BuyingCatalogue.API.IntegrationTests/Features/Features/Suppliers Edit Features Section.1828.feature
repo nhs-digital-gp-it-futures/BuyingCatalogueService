@@ -61,8 +61,9 @@ Scenario: 2. Marketing Data is updated against the solution with trimmed whitesp
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @1828
+@ignore # solution detail will always be present now
 Scenario: 3. Marketing Data is added to the solution
-	Given a SolutionDetail Sln1 does not exist
+    Given a SolutionDetail Sln1 does not exist
     When a PUT request is made to update solution Sln1 features section
         | Features                      |
         | Dispensing,Referrals,Workflow |

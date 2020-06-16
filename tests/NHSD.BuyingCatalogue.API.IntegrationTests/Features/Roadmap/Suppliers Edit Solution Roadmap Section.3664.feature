@@ -27,6 +27,7 @@ Scenario: 1. Solution roadmap section data is updated
         | Solution | RoadMap                          |
         | Sln1     | A new full summary               |
         | Sln2     | Another original roadmap summary |
+        | Sln3     | NULL                             |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @3664
@@ -39,9 +40,11 @@ Scenario: 2. Solution roadmap section data is updated with trimmed whitespace
         | Solution | RoadMap                          |
         | Sln1     | A new full summary               |
         | Sln2     | Another original roadmap summary |
+        | Sln3     | NULL                             |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @3664
+@ignore # solution detail will always be present now
 Scenario: 3. Solution roadmap section data is not created on update if no SolutionDetail
     Given a SolutionDetail Sln3 does not exist
     When a PUT request is made to update the roadmap section for solution Sln3

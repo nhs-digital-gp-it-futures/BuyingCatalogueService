@@ -1,4 +1,4 @@
-Feature:  Supplier Edit Browser Supported 
+Feature:  Supplier Edit Browser Supported
     As a Supplier
     I want to Edit the Browser Support Section
     So that I can ensure the information is correct
@@ -29,10 +29,11 @@ Scenario: 1. Browser Supported is updated
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                     |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true } |
+        | Sln2     | NULL                           | NULL                | NULL                                                                                                                  |
         | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                       |
         | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                          |
     And Last Updated has updated on the SolutionDetail for solution Sln1
-    
+
 @2786
 Scenario: 2. Browser Supported is updated with trimmed whitespace
     Given SolutionDetail exist
@@ -47,13 +48,14 @@ Scenario: 2. Browser Supported is updated with trimmed whitespace
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                                                     |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true } |
+        | Sln2     | NULL                           | NULL                | NULL                                                                                                                  |
         | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                       |
         | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                          |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @2786
 Scenario: 3. Browsers Supported is empty, Mobile Responsive has a result
-     Given SolutionDetail exist
+    Given SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                         |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "IE8", "Opera" ] } |
         | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                           |
@@ -63,7 +65,7 @@ Scenario: 3. Browsers Supported is empty, Mobile Responsive has a result
         |                   | true             |
     Then a response status of 400 is returned
     And the supported-browsers field value is the validation failure required
-     And Solutions exist
+    And Solutions exist
         | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
         | Sln2       | TakeTheRedPill |
@@ -72,6 +74,7 @@ Scenario: 3. Browsers Supported is empty, Mobile Responsive has a result
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                         |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "IE8", "Opera" ] } |
+        | Sln2     | NULL                           | NULL                | NULL                                                                                      |
         | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                           |
         | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                              |
 
@@ -96,6 +99,7 @@ Scenario: 4. Mobile Responsive is empty
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                         |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "IE8", "Opera" ] } |
+        | Sln2     | NULL                           | NULL                | NULL                                                                                      |
         | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                           |
         | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                              |
 
@@ -121,6 +125,7 @@ Scenario: 5. Browsers Supported & Mobile Responsive are empty
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                                         |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "IE8", "Opera" ] } |
+        | Sln2     | NULL                           | NULL                | NULL                                                                                      |
         | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                                           |
         | Sln5     | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                              |
 
@@ -130,7 +135,7 @@ Scenario: 6. Solution is not found
     When a PUT request is made to update the browser-browsers-supported section for solution Sln4
         | BrowsersSupported | MobileResponsive |
         | Chrome, Safari    | false            |
-    Then a response status of 404 is returned 
+    Then a response status of 404 is returned
 
 @2786
 Scenario: 7. Service Failure
