@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 
 namespace NHSD.BuyingCatalogue.Solutions.Contracts.Queries
 {
