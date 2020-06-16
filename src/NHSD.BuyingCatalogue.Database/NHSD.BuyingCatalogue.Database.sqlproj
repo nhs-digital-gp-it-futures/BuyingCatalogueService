@@ -119,6 +119,17 @@
     <Build Include="Tables\SupplierServiceAssociation.sql" />
     <None Include="PreDeployment\MigrateSolutionDetailToCatalogueItem.sql" />
     <None Include="PostDeployment\InsertCapabilityStatuses.sql" />
+    <Build Include="Tables\CataloguePrice.sql" />
+    <Build Include="Tables\TimeUnit.sql" />
+    <Build Include="Tables\ProvisioningType.sql" />
+    <Build Include="Tables\PricingUnit.sql" />
+    <None Include="PostDeployment\InsertProvisioningTypes.sql" />
+    <None Include="PostDeployment\InsertTimeUnits.sql" />
+    <Build Include="Tables\CataloguePriceType.sql" />
+    <None Include="PostDeployment\InsertCataloguePriceTypes.sql" />
+    <None Include="PostDeployment\InsertPricingUnits.sql" />
+    <Build Include="Tables\CataloguePriceFlat.sql" />
+    <Build Include="Tables\CataloguePriceTier.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="INCLUDE_IMPORT">

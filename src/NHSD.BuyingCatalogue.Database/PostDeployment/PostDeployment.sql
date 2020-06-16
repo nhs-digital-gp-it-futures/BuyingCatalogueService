@@ -7,7 +7,10 @@
 :r ./InsertCatalogueItemTypes.sql
 :r ./InsertFrameworks.sql
 :r ./InsertCapabilities.sql
+:r ./InsertCataloguePriceTypes.sql
 :r ./InsertEpics.sql
+:r ./InsertPricingUnits.sql
+:r ./InsertProvisioningTypes.sql
 :r ./InsertSuppliers.sql
 
 :r ./MigrateSolutionDetailToCatalogueItem.sql
@@ -21,5 +24,6 @@ DROP PROCEDURE IF EXISTS migration.PostDeployment;
 DROP SCHEMA IF EXISTS migration;
 
 :r ./InsertSolutions.sql
+:r ./InsertTimeUnits.sql
 :r ./DropImport.sql
 :r ./DropPublish.sql
