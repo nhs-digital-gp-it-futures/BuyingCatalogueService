@@ -171,4 +171,10 @@ AS
     ------------------------------------------------------------------------*/
 
     DELETE FROM dbo.Solution;
+
+    /*-----------------------------------------------------------------------
+        Delete any existing associated service data
+    ------------------------------------------------------------------------*/
+    IF OBJECT_ID(N'dbo.AssociatedService', N'U') IS NOT NULL
+        TRUNCATE TABLE dbo.AssociatedService;
 GO
