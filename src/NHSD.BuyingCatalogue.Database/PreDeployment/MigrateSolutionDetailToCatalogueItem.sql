@@ -109,6 +109,9 @@ AS
     IF EXISTS (SELECT * FROM migration.CatalogueItem)
         TRUNCATE TABLE migration.CatalogueItem;
 
+    IF EXISTS (SELECT * FROM migration.OldSolution)
+        TRUNCATE TABLE migration.OldSolution;
+
     IF EXISTS (SELECT * FROM migration.NewSolution)
         TRUNCATE TABLE migration.NewSolution;
 
