@@ -2,7 +2,7 @@
 AS
     SET NOCOUNT ON;
 
-    IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') <> 'TRUE'
+    IF EXISTS (SELECT * FROM dbo.CatalogueItem)
         RETURN;
 
     /*-----------------------------------------------------------------------

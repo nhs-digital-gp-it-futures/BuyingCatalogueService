@@ -2,7 +2,7 @@
 AS
     SET NOCOUNT ON;
 
-    IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') <> 'TRUE'
+    IF OBJECT_ID(N'dbo.CatalogueItem', N'U') IS NOT NULL
         RETURN;
 
     /*-----------------------------------------------------------------------
