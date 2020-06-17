@@ -15,7 +15,7 @@
 
 :r ./MigrateSolutionDetailToCatalogueItem.sql
 
-IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') = 'TRUE'
+IF NOT EXISTS (SELECT * FROM dbo.CatalogueItem)
     EXEC migration.PostDeployment;
 GO
 

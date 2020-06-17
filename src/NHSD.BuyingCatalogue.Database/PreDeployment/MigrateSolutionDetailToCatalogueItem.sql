@@ -2,7 +2,7 @@
 AS
     SET NOCOUNT ON;
 
-    IF UPPER('$(MIGRATE_TO_CATALOGUE_ITEM)') <> 'TRUE'
+    IF OBJECT_ID(N'dbo.CatalogueItem', N'U') IS NOT NULL
         RETURN;
 
     /*-----------------------------------------------------------------------
@@ -109,6 +109,9 @@ AS
     IF EXISTS (SELECT * FROM migration.CatalogueItem)
         TRUNCATE TABLE migration.CatalogueItem;
 
+    IF EXISTS (SELECT * FROM migration.OldSolution)
+        TRUNCATE TABLE migration.OldSolution;
+
     IF EXISTS (SELECT * FROM migration.NewSolution)
         TRUNCATE TABLE migration.NewSolution;
 
@@ -171,4 +174,10 @@ AS
     ------------------------------------------------------------------------*/
 
     DELETE FROM dbo.Solution;
+
+    /*-----------------------------------------------------------------------
+        Delete any existing associated service data
+    ------------------------------------------------------------------------*/
+    IF OBJECT_ID(N'dbo.AssociatedService', N'U') IS NOT NULL
+        TRUNCATE TABLE dbo.AssociatedService;
 GO
