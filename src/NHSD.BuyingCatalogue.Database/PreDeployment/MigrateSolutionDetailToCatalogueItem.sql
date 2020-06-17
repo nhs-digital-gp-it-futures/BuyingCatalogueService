@@ -170,8 +170,11 @@ AS
            FROM dbo.SolutionEpic;
 
     /*-----------------------------------------------------------------------
-        Drop the purchasing model table if it exists
+        Drop pricing tables from original schema
     ------------------------------------------------------------------------*/
+    DROP TABLE IF EXISTS dbo.AdditionalServicePrice;
+    DROP TABLE IF EXISTS dbo.AssociatedServicePrice;
+    DROP TABLE IF EXISTS dbo.SolutionPrice;
     DROP TABLE IF EXISTS dbo.PurchasingModel;
 
     /*-----------------------------------------------------------------------
