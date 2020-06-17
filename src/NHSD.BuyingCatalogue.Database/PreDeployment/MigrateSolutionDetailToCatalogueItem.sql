@@ -170,6 +170,11 @@ AS
            FROM dbo.SolutionEpic;
 
     /*-----------------------------------------------------------------------
+        Drop the purchasing model table if it exists
+    ------------------------------------------------------------------------*/
+    DROP TABLE IF EXISTS dbo.PurchasingModel;
+
+    /*-----------------------------------------------------------------------
         Delete existing solution data
     ------------------------------------------------------------------------*/
 
@@ -180,9 +185,4 @@ AS
     ------------------------------------------------------------------------*/
     IF OBJECT_ID(N'dbo.AssociatedService', N'U') IS NOT NULL
         TRUNCATE TABLE dbo.AssociatedService;
-
-    /*-----------------------------------------------------------------------
-        Drop the purchasing model table if it exists
-    ------------------------------------------------------------------------*/
-    DROP TABLE IF EXISTS dbo.PurchasingModel;
 GO
