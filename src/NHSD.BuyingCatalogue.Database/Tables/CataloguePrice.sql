@@ -9,7 +9,7 @@
     CurrencyCode varchar(3) NOT NULL,
     LastUpdated datetime2(7) NOT NULL,
     Price decimal(18,3) NULL,
-    CONSTRAINT PK_CataloguePrice PRIMARY KEY CLUSTERED (CataloguePriceId),
+    CONSTRAINT PK_CataloguePrice PRIMARY KEY (CataloguePriceId),
     CONSTRAINT FK_CataloguePrice_CatalogueItem_CatalogueItemId FOREIGN KEY (CatalogueItemId) REFERENCES dbo.CatalogueItem(CatalogueItemId),
     CONSTRAINT FK_CataloguePrice_ProvisioningType_ProvisioningTypeId FOREIGN KEY (ProvisioningTypeId) REFERENCES dbo.ProvisioningType(ProvisioningTypeId),
     CONSTRAINT FK_CataloguePrice_CataloguePriceType_CataloguePriceTypeId FOREIGN KEY (CataloguePriceTypeId) REFERENCES dbo.CataloguePriceType(CataloguePriceTypeId),
