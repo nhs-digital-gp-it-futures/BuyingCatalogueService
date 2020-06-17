@@ -1,6 +1,6 @@
-﻿using System;
+﻿using NHSD.BuyingCatalogue.Solutions.Contracts.Pricing;
 
-namespace NHSD.BuyingCatalogue.Solutions.Contracts.Pricing
+namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
 {
     public interface ICataloguePriceListResult
     {

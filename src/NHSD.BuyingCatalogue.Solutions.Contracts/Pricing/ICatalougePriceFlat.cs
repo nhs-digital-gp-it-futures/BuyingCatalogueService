@@ -1,4 +1,6 @@
-﻿namespace NHSD.BuyingCatalogue.Solutions.Contracts.Pricing
+﻿using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
+
+namespace NHSD.BuyingCatalogue.Solutions.Contracts.Pricing
 {
     interface ICatalougePriceFlat
     {

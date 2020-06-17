@@ -1,4 +1,5 @@
-﻿using System.Net.Mime;
+﻿using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -24,9 +25,18 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         public async Task<ActionResult<PricingResult>> Get(string solutionId)
         {
             var pricing = await _mediator.Send(new GetPricingBySolutionIdQuery(solutionId));
-            //return new PricingResult(pricing);
 
-            return NotFound();
+            var result = new PricingResult
+            {
+                Id = solutionId,
+                Prices = pricing.Select(x => new PricesResult
+                {
+                    PriceId = x.CataloguePriceId,
+                    CurrencyCode = x.CurrencyCode
+                })
+            };
+
+            return Ok(result);
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
-using NHSD.BuyingCatalogue.Solutions.Contracts.Pricing;
 using NHSD.BuyingCatalogue.Solutions.Persistence.Models;
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
@@ -34,7 +33,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         public PricingRepository(IDbConnector dbConnector) => _dbConnector = dbConnector;
 
-        public async Task<IEnumerable<ICataloguePriceListResult>> GetPricingBySolutionIdQuery(string solutionId, CancellationToken cancellationToken) =>
-            (await _dbConnector.QueryAsync<CataloguePriceListResult>(ListCataloguePricesSql, cancellationToken, new { solutionId }));
+        public async Task<IEnumerable<ICataloguePriceListResult>> GetPricingBySolutionIdQuery(string solutionId, CancellationToken cancellationToken)
+        {
+            return (await _dbConnector.QueryAsync<CataloguePriceListResult>(ListCataloguePricesSql, cancellationToken,
+                new {solutionId}));
+        }
     }
 }
