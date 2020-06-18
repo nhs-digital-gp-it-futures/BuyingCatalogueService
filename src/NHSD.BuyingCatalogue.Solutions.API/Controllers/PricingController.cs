@@ -1,26 +1,43 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Pricing;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 {
-    [Route("api/v1/solutions")]
+    [Route("api/v1/pricing")]
     [ApiController]
     [Produces(MediaTypeNames.Application.Json)]
+    [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Swagger doesn't allow static functions. Suppression will be removed when the proper implementation is added")]
     public sealed class PricingController : ControllerBase
     {
         [HttpGet]
-        [Route("{solutionId}/pricing")]
-        public static ActionResult<PricingResult> Get(string solutionId)
+        [Route("{priceId}")]
+        public ActionResult<PriceResult> GetPrice(int priceId)
+        {
+            return new PriceResult
+            {
+                Id = priceId,
+                Type = "flat",
+                CurrencyCode = "GBP",
+                ProvisioningModel = "OnDemand",
+                ItemUnit = new ItemUnitResult { Name = "Consultation", Description = "Per Consultation" },
+                Price = 1.64m
+            };
+        }
+
+        [HttpGet]
+        [Route("/api/v1/solutions/{solutionId}/pricing")]
+        public ActionResult<PricingResult> Get(string solutionId)
         {
             var result = new PricingResult
             {
                 Id = $"{solutionId} ID",
                 Name = "name",
-                Prices = new List<PricesResult>
+                Prices = new List<PriceResult>
                 {
-                    new PricesResult
+                    new PriceResult
                     {
                         Type = "flat",
                         CurrencyCode = "GBP",
@@ -36,7 +53,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
                         },
                         Price = new decimal(1.64)
                     },
-                    new PricesResult
+                    new PriceResult
                     {
                         Type = "Tiered",
                         CurrencyCode = "GBP",

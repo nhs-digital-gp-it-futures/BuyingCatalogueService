@@ -2,11 +2,15 @@
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Pricing
 {
-    public sealed class PricesResult
+    public sealed class PriceResult
     {
+        public int Id { get; set; }
+
         public string Type { get; set; }
 
         public string CurrencyCode { get; set; }
+
+        public string ProvisioningModel { get; set; }
 
         public ItemUnitResult ItemUnit { get; set; }
 

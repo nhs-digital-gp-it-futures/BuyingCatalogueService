@@ -8,6 +8,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Pricing
 
         public string Name { get; set; }
 
-        public IEnumerable<PricesResult> Prices { get; set; }
+        public IEnumerable<PriceResult> Prices { get; set; }
     }
 }
