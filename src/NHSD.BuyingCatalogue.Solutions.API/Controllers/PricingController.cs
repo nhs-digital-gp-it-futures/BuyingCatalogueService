@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Pricing;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
@@ -29,10 +30,24 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
             var result = new PricingResult
             {
                 Id = solutionId,
-                Prices = pricing.Select(x => new PricesResult
+                Name = "NOT IMPLEMENTED",
+                Prices = pricing.Select(x => new PriceResult
                 {
                     PriceId = x.CataloguePriceId,
-                    CurrencyCode = x.CurrencyCode
+                    Type = x.Type,
+                    CurrencyCode = x.CurrencyCode,
+                    ItemUnit = new ItemUnitResult
+                    {
+                        Name = x.PricingUnit.Name,
+                        Description = x.PricingUnit.Description,
+                        TierName = x.PricingUnit.TierName
+                    },
+                    TimeUnit = x.TimeUnit is null ? null : new TimeUnitResult
+                    {
+                        Name = x.TimeUnit.Name,
+                        Description = x.TimeUnit.Description
+                    },
+                    Price = ((FlatCataloguePriceDto)x)?.Price
                 })
             };
 

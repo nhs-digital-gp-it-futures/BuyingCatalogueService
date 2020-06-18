@@ -12,13 +12,19 @@ Background:
         | Sln1       | MedicOnline    | Sup 1      |
         | Sln2       | TakeTheRedPill | Sup 1      |
     Given CataloguePrice exists
-        | CatalogueItemId | CurrencyCode |
-        | Sln1            | £            |
+        | CatalogueItemId | CurrencyCode | Price  | PricingUnitId                        | TimeUnitId |
+        | Sln1            | £            | 521.34 | D43C661A-0587-45E1-B315-5E5091D6E9D0 | 1          |
 
 @7260
-Scenario: 1. Get the stuff
+Scenario: 1. Get a single Flat Price
     When a GET request is made to retrieve the pricing with Solution ID Sln1
     Then a successful response is returned
     And Prices are returned
-        | PriceId | CurrencyCode |
-        | Sln1    | £            |
+        | Type | CurrencyCode | Price  |
+        | Flat | £            | 521.34 |
+    And has Pricing Item Unit
+        | Name | Description |
+        | bed  | per bed     |
+    And has Pricing Time Unit
+        | Name  | Description |
+        | month | per month   |

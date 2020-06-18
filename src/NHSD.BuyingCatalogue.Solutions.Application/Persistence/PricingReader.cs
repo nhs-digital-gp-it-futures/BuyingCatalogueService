@@ -31,10 +31,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
                     {
                         CataloguePriceId = price.CataloguePriceId,
                         CatalogueItemId = price.CatalogueItemId,
+                        Type = CataloguePriceType.Flat.Name,
                         ProvisioningType =
                             Enumerator.FromValue<ProvisioningType>(price.ProvisioningTypeId),
-                        PricingUnit = PricingUnit.Create(price.PricingUnit),
-                        TimeUnit = Enumerator.FromValue<TimeUnit>(price.TimeUnitId),
+                        PricingUnit = new PricingUnit
+                        {
+                            Description = price.PricingUnitDescription,
+                            Name = price.PricingUnitName,
+                            TierName = price.PricingUnitTierName
+                        },
+                        TimeUnit = price.TimeUnitId == 0 ? null : Enumerator.FromValue<TimeUnit>(price.TimeUnitId),
                         CurrencyCode = price.CurrencyCode,
                         Price = price.FlatPrice.GetValueOrDefault()
                     });
@@ -54,11 +60,18 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
                         {
                             CataloguePriceId = price.CataloguePriceId,
                             CatalogueItemId = price.CatalogueItemId,
+                            Type = CataloguePriceType.Tiered.Name,
+                            CurrencyCode = price.CurrencyCode,
                             ProvisioningType =
                                 Enumerator.FromValue<ProvisioningType>(price.ProvisioningTypeId),
-                            PricingUnit = PricingUnit.Create(price.PricingUnit),
+                            PricingUnit = new PricingUnit
+                            {
+                                Name = price.PricingUnitName,
+                                Description = price.PricingUnitDescription,
+                                TierName = price.PricingUnitTierName
+                            },
                             TimeUnit = Enumerator.FromValue<TimeUnit>(price.TimeUnitId),
-                            CurrencyCode = price.CurrencyCode
+                            //TieringPeriod = 
                         };
 
                         dictionary.Add(price.CataloguePriceId, tier);

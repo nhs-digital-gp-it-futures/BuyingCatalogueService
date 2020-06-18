@@ -1,8 +1,10 @@
-﻿namespace NHSD.BuyingCatalogue.Solutions.Contracts.Pricing
+﻿using System;
+
+namespace NHSD.BuyingCatalogue.Solutions.Contracts.Pricing
 {
     public interface IPricingUnit
     {
-        string PricingUnitId { get; }
+        Guid PricingUnitId { get; }
         
         string Name { get; }
 

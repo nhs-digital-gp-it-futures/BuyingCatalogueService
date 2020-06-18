@@ -17,26 +17,50 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 cp.ProvisioningTypeId,
                 cp.CataloguePriceTypeId,
                 pu.PricingUnitId,
-                pu.[Name],
-                pu.[Description],
+                pu.[Name] as PricingUnitName,
+                pu.[Description] as PricingUnitDescription,
+                pu.TierName as PricingUnitTierName,
                 cp.TimeUnitId,
                 cp.CurrencyCode,
-                cpf.Price AS FlatPrice,
+                cp.Price AS FlatPrice,
                 cptr.BandStart,
                 cptr.BandEnd,
                 cptr.Price AS TieredPrice
         FROM	CataloguePrice cp
                 INNER JOIN PricingUnit pu ON pu.PricingUnitId = cp.PricingUnitId
-                LEFT OUTER JOIN CataloguePriceFlat cpf ON cpf.CataloguePriceId = cp.CataloguePriceId
                 LEFT OUTER JOIN CataloguePriceTier cptr ON cptr.CataloguePriceId = cp.CataloguePriceId
         WHERE   cp.CatalogueItemId = @solutionId;";
 
-        public PricingRepository(IDbConnector dbConnector) => _dbConnector = dbConnector;
+        public PricingRepository(IDbConnector dbConnector)
+        {
+            _dbConnector = dbConnector;
+        }
 
         public async Task<IEnumerable<ICataloguePriceListResult>> GetPricingBySolutionIdQuery(string solutionId, CancellationToken cancellationToken)
         {
             return (await _dbConnector.QueryAsync<CataloguePriceListResult>(ListCataloguePricesSql, cancellationToken,
                 new {solutionId}));
         }
+
+
+
+        //public async Task Q(string sql, CancellationToken cancellation, object args = null)
+        //{
+        //    try
+        //    {
+        //        using var databaseConnection = await _dbConnectionFactory.GetAsync(cancellation);
+
+        //        databaseConnection.Query<CataloguePriceListResult, PricingUnit>()
+
+        //        var res = databaseConnection.QueryAsync<CataloguePriceListResult, PricingUnit>(sql, 
+        //            (cataloguePriceList, pricingUnit) =>
+        //            {
+        //                cataloguePriceList.PricingUnit = pricingUnit;
+        //                return cataloguePriceList;
+        //            },
+        //            splitOn: "CataloguePriceListId");
+
+        //    }
+        //}
     }
 }

@@ -32,6 +32,24 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             return this;
         }
 
+        public CataloguePriceEntityBuilder WithPrice(decimal? price)
+        {
+            _cataloguePriceEntity.Price = price;
+            return this;
+        }
+
+        public CataloguePriceEntityBuilder WithPricingUnitId(Guid pricingUnitId)
+        {
+            _cataloguePriceEntity.PricingUnitId = pricingUnitId;
+            return this;
+        }
+
+        public CataloguePriceEntityBuilder WithTimeUnit(int? timeUnitId)
+        {
+            _cataloguePriceEntity.TimeUnitId = timeUnitId;
+            return this;
+        }
+
         public CataloguePriceEntity Build()
         {
             return _cataloguePriceEntity;

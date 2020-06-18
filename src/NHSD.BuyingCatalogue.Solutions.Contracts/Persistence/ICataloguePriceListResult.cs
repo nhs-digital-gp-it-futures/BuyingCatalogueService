@@ -12,11 +12,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
 
         int CataloguePriceTypeId { get; }
 
+        string PricingUnitName { get; }
+        string PricingUnitDescription { get; }
+        string PricingUnitTierName { get; }
+
         //IProvisioningType ProvisioningType { get;}
 
         //ICataloguePriceType CataloguePriceType { get; }
 
-        IPricingUnit PricingUnit { get; }
+        //IPricingUnit PricingUnit { get; }
 
         int TimeUnitId { get; }
 

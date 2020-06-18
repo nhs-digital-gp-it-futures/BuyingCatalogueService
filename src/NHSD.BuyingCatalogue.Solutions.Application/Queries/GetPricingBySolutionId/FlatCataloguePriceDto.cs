@@ -2,5 +2,6 @@
 {
     public sealed class FlatCataloguePriceDto : CataloguePriceDto
     {
+        public decimal? Price { get; set; }
     }
 }

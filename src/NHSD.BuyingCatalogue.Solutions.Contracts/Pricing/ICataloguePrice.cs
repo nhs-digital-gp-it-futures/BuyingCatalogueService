@@ -5,14 +5,15 @@
         int CataloguePriceId { get; }
 
         string CatalogueItemId { get; }
+        string Type { get; }
 
         //IProvisioningType ProvisioningType { get; }
 
-        //ICataloguePriceType CataloguePriceType { get; }
+        string CataloguePriceType { get; }
 
-        //IPricingUnit PricingUnit { get; }
+        IPricingUnit PricingUnit { get; }
 
-        //ITimeUnit TimeUnit { get; }
+        ITimeUnit TimeUnit { get; }
 
         string CurrencyCode { get; }
     }

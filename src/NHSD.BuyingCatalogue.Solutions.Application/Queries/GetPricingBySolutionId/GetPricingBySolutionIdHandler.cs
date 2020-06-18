@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.Pricing;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Pricing;
@@ -32,11 +31,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingBySolutio
             {
                 if (price is CataloguePriceFlat)
                 {
+                    var cataloguePriceFlat = price as CataloguePriceFlat;
+
                     cataloguePrices.Add(new FlatCataloguePriceDto
                     {
                         CataloguePriceId = price.CataloguePriceId,
                         CatalogueItemId = price.CatalogueItemId,
-                        CurrencyCode = price.CurrencyCode
+                        Type = price.Type,
+                        CurrencyCode = price.CurrencyCode,
+                        PricingUnit = _mapper.Map<IPricingUnit>(price.PricingUnit),
+                        TimeUnit = _mapper.Map<ITimeUnit>(price.TimeUnit),
+                        Price = cataloguePriceFlat.Price
                     });
                 }
                 else if (price is CataloguePriceTier)
@@ -45,11 +50,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingBySolutio
                     {
                         CatalogueItemId = price.CatalogueItemId,
                         CataloguePriceId = price.CataloguePriceId,
-                        CurrencyCode = price.CurrencyCode
+                        Type = price.Type,
+                        CurrencyCode = price.CurrencyCode,
+                        PricingUnit = _mapper.Map<IPricingUnit>(price.PricingUnit),
+                        TimeUnit = _mapper.Map<ITimeUnit>(price.TimeUnit)
                     });
                 }
             }
-
+            
             return cataloguePrices;
         }
     }

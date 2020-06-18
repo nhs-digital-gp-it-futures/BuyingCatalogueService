@@ -4,6 +4,6 @@
     {
         int ProvisioningTypeId { get; }
 
-        int Name { get; }
+        string Name { get; }
     }
 }

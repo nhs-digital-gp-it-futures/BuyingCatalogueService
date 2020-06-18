@@ -5,7 +5,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain.Pricing
 {
     public sealed class PricingUnit
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Name { get; set; }
 

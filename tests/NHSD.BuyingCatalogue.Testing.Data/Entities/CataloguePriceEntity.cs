@@ -8,7 +8,9 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         public int ProvisioningTypeId { get; set; }
         public int CataloguePriceTypeId { get; set; }
         public Guid PricingUnitId { get; set; }
+        public int? TimeUnitId { get; set; }
         public string CurrencyCode { get; set; }
+        public decimal? Price { get; set; }
 
         protected override string InsertSql => @"
         INSERT INTO dbo.CataloguePrice
@@ -17,7 +19,9 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             ProvisioningTypeId,
             CataloguePriceTypeId,
             PricingUnitId,
+            TimeUnitId,
             CurrencyCode,
+            Price,
             LastUpdated
         )
         VALUES
@@ -26,7 +30,9 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             @ProvisioningTypeId,
             @CataloguePriceTypeId,
             @PricingUnitId,
+            @TimeUnitId,
             @CurrencyCode,
+            @Price,
             @LastUpdated
         );";
     }

@@ -2,12 +2,14 @@
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.NativeDesktop;
+using NHSD.BuyingCatalogue.Solutions.Application.Domain.Pricing;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.Suppliers;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicationBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetImplementationTimescalesBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetIntegrationsBySolutionId;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetRoadMapBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierBySolutionId;
@@ -17,6 +19,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Commands;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Pricing;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
@@ -81,6 +84,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
             CreateMap<SolutionDocument, ISolutionDocument>().As<SolutionDocumentDto>();
             CreateMap<ClaimedCapabilityEpic, ClaimedCapabilityEpicDto>();
             CreateMap<ClaimedCapabilityEpic, IClaimedCapabilityEpic>().As<ClaimedCapabilityEpicDto>();
+            CreateMap<CataloguePriceBase, CataloguePriceDto>();
+            CreateMap<CataloguePriceBase, ICataloguePrice>().As<CataloguePriceDto>();
+            CreateMap<PricingUnit, PricingUnitDto>();
+            CreateMap<PricingUnit, IPricingUnit>().As<PricingUnitDto>();
+            CreateMap<TimeUnit, TimeUnitDto>();
+            CreateMap<TimeUnit, ITimeUnit>().As<TimeUnitDto>();
         }
     }
 }
