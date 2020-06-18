@@ -178,14 +178,17 @@ AS
     DROP TABLE IF EXISTS dbo.PurchasingModel;
 
     /*-----------------------------------------------------------------------
+        Delete any existing associated service data
+    ------------------------------------------------------------------------*/
+    IF OBJECT_ID(N'dbo.PricingUnit', N'U') IS NOT NULL
+        TRUNCATE TABLE dbo.PricingUnit;
+
+    IF OBJECT_ID(N'dbo.AssociatedService', N'U') IS NOT NULL
+        TRUNCATE TABLE dbo.AssociatedService;
+
+    /*-----------------------------------------------------------------------
         Delete existing solution data
     ------------------------------------------------------------------------*/
 
     DELETE FROM dbo.Solution;
-
-    /*-----------------------------------------------------------------------
-        Delete any existing associated service data
-    ------------------------------------------------------------------------*/
-    IF OBJECT_ID(N'dbo.AssociatedService', N'U') IS NOT NULL
-        TRUNCATE TABLE dbo.AssociatedService;
 GO
