@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Pricing;
@@ -8,6 +9,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
     [Route("api/v1/pricing")]
     [ApiController]
     [Produces(MediaTypeNames.Application.Json)]
+    [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Swagger doesn't allow static functions. Suppression will be removed when the proper implementation is added")]
     public sealed class PricingController : ControllerBase
     {
         [HttpGet]
