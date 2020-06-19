@@ -1,5 +1,4 @@
-﻿using System;
-using NHSD.BuyingCatalogue.Infrastructure;
+﻿using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Domain.Pricing
 {

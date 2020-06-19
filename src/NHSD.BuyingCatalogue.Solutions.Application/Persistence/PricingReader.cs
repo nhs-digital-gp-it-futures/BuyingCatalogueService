@@ -31,9 +31,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
                     {
                         CataloguePriceId = price.CataloguePriceId,
                         CatalogueItemId = price.CatalogueItemId,
-                        Type = CataloguePriceType.Flat.Name,
-                        ProvisioningType =
-                            Enumerator.FromValue<ProvisioningType>(price.ProvisioningTypeId),
                         PricingUnit = new PricingUnit
                         {
                             Description = price.PricingUnitDescription,
@@ -60,18 +57,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
                         {
                             CataloguePriceId = price.CataloguePriceId,
                             CatalogueItemId = price.CatalogueItemId,
-                            Type = CataloguePriceType.Tiered.Name,
                             CurrencyCode = price.CurrencyCode,
-                            ProvisioningType =
-                                Enumerator.FromValue<ProvisioningType>(price.ProvisioningTypeId),
                             PricingUnit = new PricingUnit
                             {
                                 Name = price.PricingUnitName,
                                 Description = price.PricingUnitDescription,
                                 TierName = price.PricingUnitTierName
                             },
-                            TimeUnit = Enumerator.FromValue<TimeUnit>(price.TimeUnitId),
-                            //TieringPeriod = 
+                            TimeUnit = Enumerator.FromValue<TimeUnit>(price.TimeUnitId)
                         };
 
                         dictionary.Add(price.CataloguePriceId, tier);

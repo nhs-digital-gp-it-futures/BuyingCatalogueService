@@ -29,31 +29,30 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingBySolutio
 
             foreach (var price in prices)
             {
-                if (price is CataloguePriceFlat)
+                if (price is CataloguePriceFlat cataloguePriceFlat)
                 {
-                    var cataloguePriceFlat = price as CataloguePriceFlat;
-
                     cataloguePrices.Add(new FlatCataloguePriceDto
                     {
                         CataloguePriceId = price.CataloguePriceId,
                         CatalogueItemId = price.CatalogueItemId,
-                        Type = price.Type,
+                        Type = price.CataloguePriceType.Name,
                         CurrencyCode = price.CurrencyCode,
                         PricingUnit = _mapper.Map<IPricingUnit>(price.PricingUnit),
                         TimeUnit = _mapper.Map<ITimeUnit>(price.TimeUnit),
                         Price = cataloguePriceFlat.Price
                     });
                 }
-                else if (price is CataloguePriceTier)
+                else if (price is CataloguePriceTier cataloguePriceTier)
                 {
                     cataloguePrices.Add(new TieredCataloguePriceDto
                     {
                         CatalogueItemId = price.CatalogueItemId,
                         CataloguePriceId = price.CataloguePriceId,
-                        Type = price.Type,
+                        Type = price.CataloguePriceType.Name,
                         CurrencyCode = price.CurrencyCode,
                         PricingUnit = _mapper.Map<IPricingUnit>(price.PricingUnit),
-                        TimeUnit = _mapper.Map<ITimeUnit>(price.TimeUnit)
+                        TimeUnit = _mapper.Map<ITimeUnit>(price.TimeUnit),
+                        TieredPrices = _mapper.Map<IEnumerable<ITieredPrice>>(cataloguePriceTier.TieredPrices)
                     });
                 }
             }

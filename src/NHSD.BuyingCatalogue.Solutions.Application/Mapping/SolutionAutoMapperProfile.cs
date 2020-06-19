@@ -90,6 +90,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
             CreateMap<PricingUnit, IPricingUnit>().As<PricingUnitDto>();
             CreateMap<TimeUnit, TimeUnitDto>();
             CreateMap<TimeUnit, ITimeUnit>().As<TimeUnitDto>();
+            CreateMap<TieredPrice, TieredPriceDto>();
+            CreateMap<TieredPrice, ITieredPrice>().As<TieredPriceDto>();
         }
     }
 }

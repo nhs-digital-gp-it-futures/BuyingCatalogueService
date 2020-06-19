@@ -14,7 +14,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         private const string ListCataloguePricesSql = @"
         SELECT	cp.CatalogueItemId,
                 cp.CataloguePriceId,
-                cp.ProvisioningTypeId,
                 cp.CataloguePriceTypeId,
                 pu.PricingUnitId,
                 pu.[Name] as PricingUnitName,
@@ -41,26 +40,5 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
             return (await _dbConnector.QueryAsync<CataloguePriceListResult>(ListCataloguePricesSql, cancellationToken,
                 new {solutionId}));
         }
-
-
-
-        //public async Task Q(string sql, CancellationToken cancellation, object args = null)
-        //{
-        //    try
-        //    {
-        //        using var databaseConnection = await _dbConnectionFactory.GetAsync(cancellation);
-
-        //        databaseConnection.Query<CataloguePriceListResult, PricingUnit>()
-
-        //        var res = databaseConnection.QueryAsync<CataloguePriceListResult, PricingUnit>(sql, 
-        //            (cataloguePriceList, pricingUnit) =>
-        //            {
-        //                cataloguePriceList.PricingUnit = pricingUnit;
-        //                return cataloguePriceList;
-        //            },
-        //            splitOn: "CataloguePriceListId");
-
-        //    }
-        //}
     }
 }

@@ -6,10 +6,6 @@
 
         public string CatalogueItemId { get; set; }
 
-        public string Type { get; set; }
-
-        public ProvisioningType ProvisioningType { get; set; }
-
         public CataloguePriceType CataloguePriceType { get; }
 
         public PricingUnit PricingUnit { get; set; }
