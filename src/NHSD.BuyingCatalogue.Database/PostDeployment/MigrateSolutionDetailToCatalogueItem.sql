@@ -46,31 +46,38 @@ AS
 
     DROP TABLE IF EXISTS
         dbo.SolutionDetail,
-        dbo.SolutionAuthorityStatus,
         dbo.SolutionSupplierStatus,
-        AdditionalServicePrice,
-        AssociatedServicePrice,
-        SolutionPrice,
-        PurchasingModel,
-        PriceType,
-        AdditionalServiceDetail,
-        [Audit],
-        CapabilityStandards,
-        SolutionStandard,
-        SolutionStandardStatus,
-        FrameworkStandards,
-        [Standard],
-        StandardStatus,
-        StandardCategory,
-        SolutionDefinedEpicAcceptanceCriteria,
-        SolutionDefinedEpic,
-        SolutionDefinedCapability,
-        Organisation;
+        dbo.AdditionalServicePrice,
+        dbo.AssociatedServicePrice,
+        dbo.SolutionPrice,
+        dbo.PurchasingModel,
+        dbo.PriceType,
+        dbo.AdditionalServiceDetail,
+        dbo.[Audit],
+        dbo.CapabilityStandards,
+        dbo.SolutionStandard,
+        dbo.SolutionStandardStatus,
+        dbo.FrameworkStandards,
+        dbo.[Standard],
+        dbo.StandardStatus,
+        dbo.StandardCategory,
+        dbo.SolutionDefinedEpicAcceptanceCriteria,
+        dbo.SolutionDefinedEpic,
+        dbo.SolutionDefinedCapability,
+        dbo.SolutionAuthorityStatus,
+        dbo.Organisation;
+
+    /*-----------------------------------------------------------------------
+        Drop unrequired stored procedures
+    ------------------------------------------------------------------------*/
+
+    DROP PROCEDURE IF EXISTS dbo.PublishSolution, dbo.SolutionImport;
 
     /*-----------------------------------------------------------------------
         Drop unrequired types
     ------------------------------------------------------------------------*/
 
+    DROP TYPE IF EXISTS dbo.SolutionImportCapability;
     DROP TYPE IF EXISTS import.AdditionalServiceCapability;
 
     /*-----------------------------------------------------------------------
