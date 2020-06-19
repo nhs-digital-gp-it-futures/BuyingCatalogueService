@@ -34,6 +34,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             @CurrencyCode,
             @Price,
             @LastUpdated
-        );";
+        );
+        SELECT SCOPE_IDENTITY();";
     }
 }

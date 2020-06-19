@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,29 +17,37 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
     internal sealed class CataloguePriceSteps
     {
         private readonly Response _response;
+        private readonly ScenarioContext _context;
 
         private const string pricingUrl = "http://localhost:5200/api/v1/solutions/{0}/pricing";
         private readonly string priceToken = "prices";
 
-        public CataloguePriceSteps(Response response)
+        public CataloguePriceSteps(Response response, ScenarioContext context)
         {
             _response = response;
+            _context = context;
         }
 
         [Given(@"CataloguePrice exists")]
-        public static async Task GivenCataloguePriceExists(Table table)
+        public async Task GivenCataloguePriceExists(Table table)
         {
+            IDictionary<string, int> cataloguePriceDictionary = new Dictionary<string, int>();
+
             foreach (var cataloguePrice in table.CreateSet<CataloguePriceTable>())
             {
-                await CataloguePriceEntityBuilder.Create()
+                var price = CataloguePriceEntityBuilder.Create()
                     .WithCatalogueItemId(cataloguePrice.CatalogueItemId)
                     .WithCurrencyCode(cataloguePrice.CurrencyCode)
                     .WithPrice(cataloguePrice.Price)
                     .WithPricingUnitId(cataloguePrice.PricingUnitId)
                     .WithTimeUnit(cataloguePrice.TimeUnitId)
-                    .Build()
-                    .InsertAsync();
+                    .Build();
+
+                var cataloguePriceId = await price.InsertAsync<int>();
+                cataloguePriceDictionary.Add(price.CurrencyCode, cataloguePriceId);
             }
+
+            _context[ScenarioContextKeys.CatalogueTierMapDictionary] = cataloguePriceDictionary;
         }
 
         [When(@"a GET request is made to retrieve the pricing with Solution ID (.*)")]

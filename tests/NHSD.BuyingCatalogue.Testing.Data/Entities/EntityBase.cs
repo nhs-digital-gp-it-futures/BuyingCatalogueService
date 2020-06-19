@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.Entities
@@ -19,5 +19,10 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public async Task InsertAsync()
             => await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, InsertSql, this).ConfigureAwait(false);
+
+        public async Task<T> InsertAsync<T>()
+        {
+            return await SqlRunner.QueryFirstAsync<T>(InsertSql, this);
+        }
     }
 }
