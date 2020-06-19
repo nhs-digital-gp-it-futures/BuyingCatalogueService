@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Mime;
 using System.Threading.Tasks;
@@ -30,7 +29,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         {
             return new PriceResult
             {
-                Id = priceId,
+                PriceId = priceId,
                 Type = "flat",
                 CurrencyCode = "GBP",
                 ProvisioningModel = "OnDemand",
