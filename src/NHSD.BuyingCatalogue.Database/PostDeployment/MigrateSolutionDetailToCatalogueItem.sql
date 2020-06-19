@@ -68,9 +68,16 @@ AS
         dbo.Organisation;
 
     /*-----------------------------------------------------------------------
+        Drop unrequired stored procedures
+    ------------------------------------------------------------------------*/
+
+    DROP PROCEDURE IF EXISTS dbo.PublishSolution, dbo.SolutionImport;
+
+    /*-----------------------------------------------------------------------
         Drop unrequired types
     ------------------------------------------------------------------------*/
 
+    DROP TYPE IF EXISTS dbo.SolutionImportCapability;
     DROP TYPE IF EXISTS import.AdditionalServiceCapability;
 
     /*-----------------------------------------------------------------------
