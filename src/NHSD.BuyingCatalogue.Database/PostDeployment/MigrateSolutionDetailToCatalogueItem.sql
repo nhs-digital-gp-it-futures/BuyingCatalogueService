@@ -55,17 +55,23 @@ AS
         PriceType,
         AdditionalServiceDetail,
         [Audit],
+        CapabilityStandards,
         SolutionStandard,
         SolutionStandardStatus,
         FrameworkStandards,
         [Standard],
         StandardStatus,
-        StandardCatery,
-        CapabilityStandards,
+        StandardCategory,
         SolutionDefinedEpicAcceptanceCriteria,
         SolutionDefinedEpic,
         SolutionDefinedCapability,
         Organisation;
+
+    /*-----------------------------------------------------------------------
+        Drop unrequired types
+    ------------------------------------------------------------------------*/
+
+    DROP TYPE IF EXISTS import.AdditionalServiceCapability;
 
     /*-----------------------------------------------------------------------
         Drop migration tables and schema

@@ -22,6 +22,7 @@ GO
 DROP PROCEDURE IF EXISTS migration.PreDeployment;
 DROP PROCEDURE IF EXISTS migration.PostDeployment;
 DROP SCHEMA IF EXISTS migration;
+GO
 
 :r ./InsertSolutions.sql
 :r ./InsertTimeUnits.sql

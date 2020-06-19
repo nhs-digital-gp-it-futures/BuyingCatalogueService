@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
@@ -9,9 +11,10 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 {
-    [Route("api/v1/solutions")]
+    [Route("api/v1/pricing")]
     [ApiController]
     [Produces(MediaTypeNames.Application.Json)]
+    [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Swagger doesn't allow static functions. Suppression will be removed when the proper implementation is added")]
     public sealed class PricingController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -22,7 +25,24 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         }
 
         [HttpGet]
-        [Route("{solutionId}/pricing")]
+        [Route("{priceId}")]
+        public ActionResult<PriceResult> GetPrice(int priceId)
+        {
+            return new PriceResult
+            {
+                Id = priceId,
+                Type = "flat",
+                CurrencyCode = "GBP",
+                ProvisioningModel = "OnDemand",
+                ItemUnit = new ItemUnitResult { Name = "Consultation", Description = "Per Consultation" },
+                Price = 1.64m
+            };
+        }
+        
+        
+        [HttpGet]
+
+        [Route("/api/v1/solutions/{solutionId}/pricing")]
         public async Task<ActionResult<PricingResult>> Get(string solutionId)
         {
             var pricing = await _mediator.Send(new GetPricingBySolutionIdQuery(solutionId));
