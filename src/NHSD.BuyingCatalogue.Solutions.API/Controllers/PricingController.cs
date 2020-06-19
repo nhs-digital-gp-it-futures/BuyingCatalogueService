@@ -38,9 +38,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
             };
         }
         
-        
         [HttpGet]
-
         [Route("/api/v1/solutions/{solutionId}/pricing")]
         public async Task<ActionResult<PricingResult>> Get(string solutionId)
         {

@@ -19,12 +19,13 @@ Background:
 Scenario: 1. Get a single Flat Price
     When a GET request is made to retrieve the pricing with Solution ID Sln1
     Then a successful response is returned
+    And the string value of element name is NOT IMPLEMENTED
     And Prices are returned
         | Type | CurrencyCode | Price  |
         | Flat | £            | 521.34 |
     And has Pricing Item Unit
-        | Name | Description |
-        | bed  | per bed     |
+        | Name | Description | TierName |
+        | bed  | per bed     | beds     |
     And has Pricing Time Unit
         | Name  | Description |
         | month | per month   |

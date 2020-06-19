@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
@@ -61,19 +62,18 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             content.Should().BeEquivalentTo(expected);
         }
 
-        //NEEDS FIXING
         [Then(@"has Pricing Item Unit")]
         public async Task ThenHasPricingItemUnit(Table table)
         {
             var expected = table.CreateSet<ItemUnitTable>().ToList();
+            var pricesToken = (await _response.ReadBody()).SelectToken(priceToken);
 
-            var a = (await _response.ReadBody()).SelectToken(priceToken).SelectToken("itemUnit");
-
-            var content = (await _response.ReadBody()).SelectToken(priceToken).SelectToken("itemUnit").Select(x => new ItemUnitTable
+            const string itemUnitToken = "itemUnit";
+            var content = pricesToken.Select(x => new
             {
-                Name = x.Value<string>("name"),
-                Description = x.Value<string>("description"),
-                TierName = x.Value<string>("tierName")
+                Name = x.SelectToken(itemUnitToken).Value<string>("name"),
+                Description = x.SelectToken(itemUnitToken).Value<string>("description"),
+                TierName = x.SelectToken(itemUnitToken).Value<string>("tierName")
             });
 
             content.Should().BeEquivalentTo(expected);
@@ -83,11 +83,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         public async Task ThenHasPricingTimeUnit(Table table)
         {
             var expected = table.CreateSet<TimeUnitTable>().ToList();
+            var pricesToken = (await _response.ReadBody()).SelectToken(priceToken);
 
-            var content = (await _response.ReadBody()).SelectToken(priceToken).SelectToken("timeUnit").Select(x => new TimeUnitTable
+            const string timeUnitToken = "timeUnit";
+            var content = pricesToken.Select(x => new
             {
-                Name = x.Value<string>("name"),
-                Description = x.Value<string>("description")
+                Name = x.SelectToken(timeUnitToken).Value<string>("name"),
+                Description = x.SelectToken(timeUnitToken).Value<string>("description")
             });
 
             content.Should().BeEquivalentTo(expected);
