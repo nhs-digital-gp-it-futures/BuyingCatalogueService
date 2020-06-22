@@ -22,7 +22,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             foreach (var tierTable in table.CreateSet<CataloguePriceTierTable>())
             {
                 int cataloguePriceId =
-                    _context.GetCataloguePriceIdByCatalougePriceTierReference(tierTable.CatalougePriceTierRef);
+                    _context.GetCataloguePriceIdByCatalougePriceTierReference(tierTable.CataloguePriceTierRef);
 
                 await CataloguePriceTierEntityBuilder.Create()
                     .WithCataloguePriceId(cataloguePriceId)
