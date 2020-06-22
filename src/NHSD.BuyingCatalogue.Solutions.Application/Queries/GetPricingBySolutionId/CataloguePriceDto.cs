@@ -5,6 +5,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingBySolutio
     public abstract class CataloguePriceDto : ICataloguePrice
     {
         public int CataloguePriceId { get; set; }
+        public string CatalogueItemName { get; set; }
         public string CatalogueItemId { get; set; }
         public string Type { get; set; }
         public string CataloguePriceType { get; }

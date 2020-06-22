@@ -34,6 +34,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingBySolutio
                     cataloguePrices.Add(new FlatCataloguePriceDto
                     {
                         CataloguePriceId = price.CataloguePriceId,
+                        CatalogueItemName = price.CatalogueItemName,
                         CatalogueItemId = price.CatalogueItemId,
                         Type = price.CataloguePriceType.Name,
                         CurrencyCode = price.CurrencyCode,
@@ -47,6 +48,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingBySolutio
                     cataloguePrices.Add(new TieredCataloguePriceDto
                     {
                         CatalogueItemId = price.CatalogueItemId,
+                        CatalogueItemName = price.CatalogueItemName,
                         CataloguePriceId = price.CataloguePriceId,
                         Type = price.CataloguePriceType.Name,
                         CurrencyCode = price.CurrencyCode,

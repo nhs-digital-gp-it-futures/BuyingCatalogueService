@@ -2,7 +2,7 @@
 AS
     SET NOCOUNT ON;
 
-    IF EXISTS (SELECT * FROM dbo.CatalogueItem)
+    IF EXISTS (SELECT * FROM dbo.CatalogueItem) OR OBJECT_ID(N'migration.CatalogueItem', 'U') IS NULL
         RETURN;
 
     /*-----------------------------------------------------------------------

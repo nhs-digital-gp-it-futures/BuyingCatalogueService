@@ -4,6 +4,8 @@
     {
         public int CataloguePriceId { get; set; }
 
+        public string CatalogueItemName { get; set; }
+
         public string CatalogueItemId { get; set; }
 
         public CataloguePriceType CataloguePriceType { get; }

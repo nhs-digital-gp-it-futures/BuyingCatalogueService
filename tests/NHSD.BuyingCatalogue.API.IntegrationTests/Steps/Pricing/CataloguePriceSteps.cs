@@ -37,6 +37,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             {
                 var price = CataloguePriceEntityBuilder.Create()
                     .WithCatalogueItemId(cataloguePrice.CatalogueItemId)
+                    .WithPriceTypeId(cataloguePrice.CataloguePriceTypeId)
                     .WithCurrencyCode(cataloguePrice.CurrencyCode)
                     .WithPrice(cataloguePrice.Price)
                     .WithPricingUnitId(cataloguePrice.PricingUnitId)
@@ -78,7 +79,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             var pricesToken = (await _response.ReadBody()).SelectToken(priceToken);
 
             const string itemUnitToken = "itemUnit";
-            var content = pricesToken.Select(x => new
+            var content = pricesToken.Select(x => new ItemUnitTable
             {
                 Name = x.SelectToken(itemUnitToken).Value<string>("name"),
                 Description = x.SelectToken(itemUnitToken).Value<string>("description"),
@@ -95,7 +96,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             var pricesToken = (await _response.ReadBody()).SelectToken(priceToken);
 
             const string timeUnitToken = "timeUnit";
-            var content = pricesToken.Select(x => new
+            var content = pricesToken.Select(x => new TimeUnitTable
             {
                 Name = x.SelectToken(timeUnitToken).Value<string>("name"),
                 Description = x.SelectToken(timeUnitToken).Value<string>("description")
@@ -104,10 +105,31 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             content.Should().BeEquivalentTo(expected);
         }
 
+        [Then(@"the Prices Tiers are returned")]
+        public async Task ThenThePricesTiersAreReturned(Table table)
+        {
+            var expected = table.CreateSet<TierTable>().ToList();
+            var pricesToken = (await _response.ReadBody()).SelectToken(priceToken);
 
+            const string tierToken = "tiers";
+
+            var content = pricesToken.Select(x => new
+            {
+                Tier = x.SelectToken(tierToken).Select(z => new
+                {
+                    Start = z.Value<int>("start"),
+                    End = z.Value<int?>("end"),
+                    Price = z.Value<decimal>("price")
+                })
+            });
+
+            content.SelectMany(x => x.Tier).Should().BeEquivalentTo(expected);
+        }
+        
         public sealed class CataloguePriceTable
         {
             public string CatalogueItemId { get; set; }
+            public int CataloguePriceTypeId { get; set; }
             public string CurrencyCode { get; set; }
             public decimal? Price { get; set; }
             public Guid PricingUnitId { get; set; }
@@ -132,6 +154,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         {
             public string Name { get; set; }
             public string Description { get; set; }
+        }
+
+        public sealed class TierTable
+        {
+            public int Start { get; set; }
+            public int? End { get; set; }
+            public decimal Price { get; set; }
         }
     }
 }

@@ -50,6 +50,12 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             return this;
         }
 
+        public CataloguePriceEntityBuilder WithPriceTypeId(int typeId)
+        {
+            _cataloguePriceEntity.CataloguePriceTypeId = typeId;
+            return this;
+        }
+
         public CataloguePriceEntity Build()
         {
             return _cataloguePriceEntity;

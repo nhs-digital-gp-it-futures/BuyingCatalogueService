@@ -13,6 +13,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         private const string ListCataloguePricesSql = @"
         SELECT	cp.CatalogueItemId,
+                ci.[Name] as CatalogueItemName,
                 cp.CataloguePriceId,
                 cp.CataloguePriceTypeId,
                 pu.PricingUnitId,
@@ -27,6 +28,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 cptr.Price AS TieredPrice
         FROM	CataloguePrice cp
                 INNER JOIN PricingUnit pu ON pu.PricingUnitId = cp.PricingUnitId
+                INNER JOIN CatalogueItem ci ON ci.CatalogueItemId = cp.CatalogueItemId
                 LEFT OUTER JOIN CataloguePriceTier cptr ON cptr.CataloguePriceId = cp.CataloguePriceId
         WHERE   cp.CatalogueItemId = @solutionId;";
 

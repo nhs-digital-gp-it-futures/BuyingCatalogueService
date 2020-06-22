@@ -8,6 +8,6 @@ GO
 
 :r ./MigrateSolutionDetailToCatalogueItem.sql
 
-IF OBJECT_ID(N'dbo.CatalogueItem', N'U') IS NULL
+IF OBJECT_ID(N'dbo.CatalogueItem', N'U') IS NULL AND OBJECT_ID(N'dbo.Solution', N'U') IS NOT NULL
     EXEC migration.PreDeployment;
 GO

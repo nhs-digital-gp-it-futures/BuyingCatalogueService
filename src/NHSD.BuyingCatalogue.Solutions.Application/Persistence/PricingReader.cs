@@ -23,13 +23,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 
             foreach (var price in a)
             {
-                var b = Enumerator.FromValue<CataloguePriceType>(price.CataloguePriceTypeId);
+                var cataloguePriceType = Enumerator.FromValue<CataloguePriceType>(price.CataloguePriceTypeId);
 
-                if (Equals(b, CataloguePriceType.Flat))
+                if (Equals(cataloguePriceType, CataloguePriceType.Flat))
                 {
                     dictionary.Add(price.CataloguePriceId, new CataloguePriceFlat
                     {
                         CataloguePriceId = price.CataloguePriceId,
+                        CatalogueItemName = price.CatalogueItemName,
                         CatalogueItemId = price.CatalogueItemId,
                         PricingUnit = new PricingUnit
                         {
@@ -42,7 +43,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
                         Price = price.FlatPrice.GetValueOrDefault()
                     });
                 }
-                else if (Equals(b, CataloguePriceType.Tiered))
+                else if (Equals(cataloguePriceType, CataloguePriceType.Tiered))
                 {
                     CataloguePriceTier tier;
 
@@ -56,6 +57,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
                         tier = new CataloguePriceTier
                         {
                             CataloguePriceId = price.CataloguePriceId,
+                            CatalogueItemName = price.CatalogueItemName,
                             CatalogueItemId = price.CatalogueItemId,
                             CurrencyCode = price.CurrencyCode,
                             PricingUnit = new PricingUnit
