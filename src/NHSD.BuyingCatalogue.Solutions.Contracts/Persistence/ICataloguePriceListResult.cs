@@ -1,10 +1,10 @@
-﻿using NHSD.BuyingCatalogue.Solutions.Contracts.Pricing;
-
-namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
+﻿namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
 {
     public interface ICataloguePriceListResult
     {
         int CataloguePriceId { get; }
+
+        string CatalogueItemName { get; }
 
         string CatalogueItemId { get; }
 
@@ -16,24 +16,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         string PricingUnitDescription { get; }
         string PricingUnitTierName { get; }
 
-        //IProvisioningType ProvisioningType { get;}
-
-        //ICataloguePriceType CataloguePriceType { get; }
-
-        //IPricingUnit PricingUnit { get; }
-
         int TimeUnitId { get; }
-
-        //ITimeUnit TimeUnit { get; }
 
         string CurrencyCode { get; }
 
         decimal? FlatPrice { get; }
 
         int? BandStart { get; }
-
         int? BandEnd { get; }
-
         decimal? TieredPrice { get; }
     }
 }

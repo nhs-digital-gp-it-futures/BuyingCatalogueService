@@ -6,6 +6,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
     public sealed class CataloguePriceListResult : ICataloguePriceListResult
     {
         public int CataloguePriceId { get; set; }
+        public string CatalogueItemName { get; set; }
         public string CatalogueItemId { get; set; }
         public int ProvisioningTypeId { get; set; }
         public int CataloguePriceTypeId { get; set; }
