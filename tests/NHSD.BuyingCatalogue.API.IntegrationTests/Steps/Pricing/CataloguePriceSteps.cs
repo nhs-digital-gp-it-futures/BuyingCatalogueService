@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
@@ -31,21 +30,23 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         [Given(@"CataloguePrice exists")]
         public async Task GivenCataloguePriceExists(Table table)
         {
-            IDictionary<string, int> cataloguePriceDictionary = new Dictionary<string, int>();
+            IDictionary<int, int> cataloguePriceDictionary = new Dictionary<int, int>();
 
             foreach (var cataloguePrice in table.CreateSet<CataloguePriceTable>())
             {
                 var price = CataloguePriceEntityBuilder.Create()
                     .WithCatalogueItemId(cataloguePrice.CatalogueItemId)
-                    .WithPriceTypeId(cataloguePrice.CataloguePriceTypeId)
+                    .WithPriceTypeId((int)cataloguePrice.CataloguePriceType)
                     .WithCurrencyCode(cataloguePrice.CurrencyCode)
                     .WithPrice(cataloguePrice.Price)
                     .WithPricingUnitId(cataloguePrice.PricingUnitId)
-                    .WithTimeUnit(cataloguePrice.TimeUnitId)
+                    .WithTimeUnit((int)cataloguePrice.TimeUnit)
                     .Build();
 
                 var cataloguePriceId = await price.InsertAsync<int>();
-                cataloguePriceDictionary.Add(price.CurrencyCode, cataloguePriceId);
+                
+                if(cataloguePrice.CatalougePriceTierRef != null)
+                    cataloguePriceDictionary.Add((int)cataloguePrice.CataloguePriceTierRef, cataloguePriceId);
             }
 
             _context[ScenarioContextKeys.CatalogueTierMapDictionary] = cataloguePriceDictionary;
@@ -109,9 +110,19 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         public async Task ThenThePricesTiersAreReturned(Table table)
         {
             var expected = table.CreateSet<TierTable>().ToList();
+            var listExpected = expected.GroupBy(x => x.Section);
+
+            var a = listExpected.Select(x => x.Select(y => new
+            {
+                Start = y.Start,
+                End = y.End,
+                Price = y.Price
+            }));
+
             var pricesToken = (await _response.ReadBody()).SelectToken(priceToken);
 
             const string tierToken = "tiers";
+
 
             var content = pricesToken.Select(x => new
             {
@@ -123,44 +134,60 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
                 })
             });
 
-            content.SelectMany(x => x.Tier).Should().BeEquivalentTo(expected);
+            var A = content.Select(x => x.Tier);
+
+            content.Select(x => x.Tier).Should().BeEquivalentTo(a, x => x.WithoutStrictOrdering());
         }
-        
-        public sealed class CataloguePriceTable
+
+        private sealed class CataloguePriceTable
         {
             public string CatalogueItemId { get; set; }
-            public int CataloguePriceTypeId { get; set; }
+            public CataloguePriceType CataloguePriceType { get; set; }
             public string CurrencyCode { get; set; }
             public decimal? Price { get; set; }
             public Guid PricingUnitId { get; set; }
-            public int TimeUnitId { get; set; }
+            public TimeUnit TimeUnit { get; set; }
+            public int? CataloguePriceTierRef { get; set; }
         }
 
-        public sealed class PriceResultTable
+        private sealed class PriceResultTable
         {
             public string Type { get; set; }
             public string CurrencyCode { get; set; }
             public decimal? Price { get; set; }
         }
 
-        public sealed class ItemUnitTable
+        private sealed class ItemUnitTable
         {
             public string Name { get; set; }
             public string Description { get; set; }
             public string TierName { get; set; }
         }
 
-        public sealed class TimeUnitTable
+        private sealed class TimeUnitTable
         {
             public string Name { get; set; }
             public string Description { get; set; }
         }
 
-        public sealed class TierTable
+        private sealed class TierTable
         {
             public int Start { get; set; }
             public int? End { get; set; }
             public decimal Price { get; set; }
+            public int Section { get; set; }
+        }
+
+        private enum CataloguePriceType
+        {
+            Flat = 1,
+            Tiered = 2
+        }
+
+        private enum TimeUnit
+        {
+            Month = 1,
+            Year = 2
         }
     }
 }

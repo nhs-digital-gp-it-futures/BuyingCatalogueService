@@ -22,7 +22,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             foreach (var tierTable in table.CreateSet<CataloguePriceTierTable>())
             {
                 int cataloguePriceId =
-                    _context.GetCataloguePriceIdByCurrencyCode(tierTable.CataloguePriceCurrencyCode);
+                    _context.GetCataloguePriceIdByCatalougePriceTierReference(tierTable.CatalougePriceTierRef);
 
                 await CataloguePriceTierEntityBuilder.Create()
                     .WithCataloguePriceId(cataloguePriceId)
@@ -36,7 +36,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
 
         public sealed class CataloguePriceTierTable
         {
-            public string CataloguePriceCurrencyCode { get; set; }
+            public int CataloguePriceTierRef { get; set; }
             public int BandStart { get; set; }
             public int? BandEnd { get; set; }
             public decimal Price { get; set; }
