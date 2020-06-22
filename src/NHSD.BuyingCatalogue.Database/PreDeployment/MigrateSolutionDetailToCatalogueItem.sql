@@ -170,18 +170,13 @@ AS
            FROM dbo.SolutionEpic;
 
     /*-----------------------------------------------------------------------
-        Drop pricing tables from original schema
+        Delete any redundant data
     ------------------------------------------------------------------------*/
-    DROP TABLE IF EXISTS dbo.AdditionalServicePrice;
-    DROP TABLE IF EXISTS dbo.AssociatedServicePrice;
-    DROP TABLE IF EXISTS dbo.SolutionPrice;
-    DROP TABLE IF EXISTS dbo.PurchasingModel;
+    IF OBJECT_ID(N'dbo.PurchasingModel', N'U') IS NOT NULL
+        DELETE FROM dbo.PurchasingModel;
 
-    /*-----------------------------------------------------------------------
-        Delete any existing associated service data
-    ------------------------------------------------------------------------*/
     IF OBJECT_ID(N'dbo.PricingUnit', N'U') IS NOT NULL
-        TRUNCATE TABLE dbo.PricingUnit;
+        DELETE FROM dbo.PricingUnit;
 
     IF OBJECT_ID(N'dbo.AssociatedService', N'U') IS NOT NULL
         TRUNCATE TABLE dbo.AssociatedService;
