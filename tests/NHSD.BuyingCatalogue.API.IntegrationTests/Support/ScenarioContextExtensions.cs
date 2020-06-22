@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
         public static TValue Get<TValue>(this ScenarioContext context, string key, TValue defaultValue) =>
             context.TryGetValue(key, out TValue value) ? value : defaultValue;
 
-        public static int GetCataloguePriceIdByCurrencyCode(this ScenarioContext context, string currencyCode)
+        public static int GetCataloguePriceIdByCatalougePriceTierReference(this ScenarioContext context, int reference)
         {
             if (context is null)
             {
@@ -17,9 +17,9 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
             }
 
             var cataloguePriceDictionary =
-                context.Get<IDictionary<string, int>>(ScenarioContextKeys.CatalogueTierMapDictionary, new Dictionary<string, int>());
+                context.Get<IDictionary<int, int>>(ScenarioContextKeys.CatalogueTierMapDictionary, new Dictionary<int, int>());
 
-            if (cataloguePriceDictionary.TryGetValue(currencyCode, out var cataloguePriceId))
+            if (cataloguePriceDictionary.TryGetValue(reference, out var cataloguePriceId))
                 return cataloguePriceId;
 
             return 0;

@@ -14,23 +14,23 @@ Background:
         | Sln3       | TakeTheBluePill | Sup 1      |
         | Sln4       | MedicRUs        | Sup 1      |
     Given CataloguePrice exists
-        | CatalogueItemId | CataloguePriceType | CurrencyCode | Price  | PricingUnitId                        | TimeUnit |
-        | Sln1            | Flat               | £            | 521.34 | 774E5A1D-D15C-4A37-9990-81861BEAE42B | Month    |
-        | Sln2            | Tiered             | $            |        | D43C661A-0587-45E1-B315-5E5091D6E9D0 | Year     |
-        | Sln3            | Flat               | GBP          | 348.92 | D43C661A-0587-45E1-B315-5E5091D6E9D0 | Month    |
-        | Sln3            | Flat               | USD          | 567.32 | 8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65 | Year     |
-        | Sln4            | Tiered             | EUR          |        | D43C661A-0587-45E1-B315-5E5091D6E9D0 | Year     |
-        | Sln4            | Tiered             | AUZ          |        | 774E5A1D-D15C-4A37-9990-81861BEAE42B | Year     |
+        | CatalogueItemId | CataloguePriceType | CurrencyCode | Price  | PricingUnitId                        | TimeUnit | CataloguePriceTierRef |
+        | Sln1            | Flat               | £            | 521.34 | 774E5A1D-D15C-4A37-9990-81861BEAE42B | Month    |                       |
+        | Sln2            | Tiered             | $            |        | D43C661A-0587-45E1-B315-5E5091D6E9D0 | Year     | 1                     |
+        | Sln3            | Flat               | GBP          | 348.92 | D43C661A-0587-45E1-B315-5E5091D6E9D0 | Month    |                       |
+        | Sln3            | Flat               | USD          | 567.32 | 8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65 | Year     |                       |
+        | Sln4            | Tiered             | EUR          |        | D43C661A-0587-45E1-B315-5E5091D6E9D0 | Year     | 2                     |
+        | Sln4            | Tiered             | AUZ          |        | 774E5A1D-D15C-4A37-9990-81861BEAE42B | Year     | 3                     |
     Given CataloguePriceTier exists
-        | CataloguePriceCurrencyCode | BandStart | BandEnd | Price  |
-        | $                          | 1         | 5       | 700.00 |
-        | $                          | 6         | 10      | 600.00 |
-        | $                          | 11        |         | 500.00 |
-        | EUR                        | 1         | 8       | 900.00 |
-        | EUR                        | 9         | 15      | 800.00 |
-        | EUR                        | 16        |         | 700.00 |
-        | AUZ                        | 1         | 8       | 800.00 |
-        | AUZ                        | 19        |         | 700.00 |
+        | CataloguePriceTierRef | BandStart | BandEnd | Price  |
+        | 1                     | 1         | 5       | 700.00 |
+        | 1                     | 6         | 10      | 600.00 |
+        | 1                     | 11        |         | 500.00 |
+        | 2                     | 1         | 8       | 900.00 |
+        | 2                     | 9         | 15      | 800.00 |
+        | 2                     | 16        |         | 700.00 |
+        | 3                     | 1         | 8       | 800.00 |
+        | 3                     | 19        |         | 700.00 |
 
 @7260
 Scenario: 1. Get a single Flat Price

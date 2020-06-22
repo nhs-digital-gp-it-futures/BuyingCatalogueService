@@ -30,7 +30,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         [Given(@"CataloguePrice exists")]
         public async Task GivenCataloguePriceExists(Table table)
         {
-            IDictionary<string, int> cataloguePriceDictionary = new Dictionary<string, int>();
+            IDictionary<int, int> cataloguePriceDictionary = new Dictionary<int, int>();
 
             foreach (var cataloguePrice in table.CreateSet<CataloguePriceTable>())
             {
@@ -45,8 +45,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
 
                 var cataloguePriceId = await price.InsertAsync<int>();
                 
-                if(!cataloguePriceDictionary.ContainsKey(price.CurrencyCode))
-                    cataloguePriceDictionary.Add(price.CurrencyCode, cataloguePriceId);
+                if(cataloguePrice.CatalougePriceTierRef != null)
+                    cataloguePriceDictionary.Add((int)cataloguePrice.CataloguePriceTierRef, cataloguePriceId);
             }
 
             _context[ScenarioContextKeys.CatalogueTierMapDictionary] = cataloguePriceDictionary;
@@ -137,8 +137,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             var A = content.Select(x => x.Tier);
 
             content.Select(x => x.Tier).Should().BeEquivalentTo(a, x => x.WithoutStrictOrdering());
-
-            //content.SelectMany(x => x.Tier).Should().BeEquivalentTo(expected);
         }
 
         private sealed class CataloguePriceTable
@@ -149,6 +147,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             public decimal? Price { get; set; }
             public Guid PricingUnitId { get; set; }
             public TimeUnit TimeUnit { get; set; }
+            public int? CataloguePriceTierRef { get; set; }
         }
 
         private sealed class PriceResultTable
