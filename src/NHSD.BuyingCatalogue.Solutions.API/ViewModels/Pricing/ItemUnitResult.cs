@@ -1,4 +1,6 @@
-﻿namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Pricing
+﻿using NHSD.BuyingCatalogue.Solutions.Contracts.Pricing;
+
+namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Pricing
 {
     public sealed class ItemUnitResult
     {

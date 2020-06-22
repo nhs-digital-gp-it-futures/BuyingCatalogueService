@@ -4,7 +4,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Pricing
 {
     public sealed class PriceResult
     {
-        public int Id { get; set; }
+        public int PriceId { get; set; }
 
         public string Type { get; set; }
 
