@@ -6,6 +6,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
 {
     public interface IPriceRepository
     {
-        Task<IEnumerable<ICataloguePriceListResult>> GetPricingBySolutionIdQueryAsync(string solutionId, CancellationToken cancellationToken);
+        Task<IEnumerable<ICataloguePriceListResult>> GetPricesBySolutionIdQueryAsync(string solutionId, CancellationToken cancellationToken);
     }
 }

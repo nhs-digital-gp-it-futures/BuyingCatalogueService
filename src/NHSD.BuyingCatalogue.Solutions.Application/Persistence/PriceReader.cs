@@ -18,10 +18,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 
         public async Task<IEnumerable<CataloguePriceBase>> GetBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
         {
-            var priceList = await _priceRepository.GetPricingBySolutionIdQueryAsync(solutionId, cancellationToken);
+            var prices = await _priceRepository.GetPricesBySolutionIdQueryAsync(solutionId, cancellationToken);
             Dictionary<int, CataloguePriceBase> dictionary = new Dictionary<int, CataloguePriceBase>();
 
-            foreach (var price in priceList)
+            foreach (var price in prices)
             {
                 var cataloguePriceType = Enumerator.FromValue<CataloguePriceType>(price.CataloguePriceTypeId);
 

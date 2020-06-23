@@ -34,7 +34,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             }
         }
 
-        public sealed class CataloguePriceTierTable
+        private sealed class CataloguePriceTierTable
         {
             public int CataloguePriceTierRef { get; set; }
             public int BandStart { get; set; }

@@ -37,7 +37,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
             _dbConnector = dbConnector;
         }
 
-        public async Task<IEnumerable<ICataloguePriceListResult>> GetPricingBySolutionIdQueryAsync(string solutionId, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ICataloguePriceListResult>> GetPricesBySolutionIdQueryAsync(string solutionId, CancellationToken cancellationToken)
         {
             return (await _dbConnector.QueryAsync<CataloguePriceListResult>(ListCataloguePricesSql, cancellationToken,
                 new {solutionId}));

@@ -43,13 +43,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [Route("/api/v1/solutions/{solutionId}/prices")]
         public async Task<ActionResult<PricingResult>> GetListAsync(string solutionId)
         {
-            var pricing = (await _mediator.Send(new GetPriceBySolutionIdQuery(solutionId))).ToList();
+            var prices = (await _mediator.Send(new GetPriceBySolutionIdQuery(solutionId))).ToList();
 
             var result = new PricingResult
             {
                 Id = solutionId,
-                Name = pricing.First()?.CatalogueItemName,
-                Prices = pricing.Select(x => new PriceResult
+                Name = prices.First()?.CatalogueItemName,
+                Prices = prices.Select(x => new PriceResult
                 {
                     PriceId = x.CataloguePriceId,
                     Type = x.Type,

@@ -13,8 +13,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
     internal sealed class PriceRepositoryTests
     {
         private IPriceRepository _priceRepository;
-
-
+        
         private const string _solutionId = "Sln1";
         private const string _supplierId = "Sup1";
 
@@ -47,19 +46,19 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         }
 
         [Test]
-        public async Task GetPricingBySolutionIdQueryAsync_InvalidSolutionId_ReturnsEmptyList()
+        public async Task GetPricesBySolutionIdQueryAsync_InvalidSolutionId_ReturnsEmptyList()
         {
-            var request = await _priceRepository.GetPricingBySolutionIdQueryAsync("INVALID", CancellationToken.None);
+            var request = await _priceRepository.GetPricesBySolutionIdQueryAsync("INVALID", CancellationToken.None);
 
             request.Count().Should().Be(0);
         }
 
         [Test]
-        public async Task GetPricingBySolutionIdQueryAsync_ValidSolutionId_ReturnsPriceListResult()
+        public async Task GetPricesBySolutionIdQueryAsync_ValidSolutionId_ReturnsPriceListResult()
         {
             await InsertPriceAsync(_solutionId);
 
-            var request = await _priceRepository.GetPricingBySolutionIdQueryAsync(_solutionId, CancellationToken.None);
+            var request = await _priceRepository.GetPricesBySolutionIdQueryAsync(_solutionId, CancellationToken.None);
 
             request.Count().Should().Be(2);
         }

@@ -47,14 +47,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var flatPricing = FlatPriceBuilder.Create().Build();
             var cataloguePriceList = new List<ICataloguePrice> { flatPricing };
 
-            var pricingResult = CreatePricing(cataloguePriceList);
+            var priceResult = CreatePrices(cataloguePriceList);
 
             _mockMediator.Setup(m =>
                     m.Send(It.Is<GetPriceBySolutionIdQuery>(q => q.SolutionId == _solutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(cataloguePriceList);
 
             var response = (await _controller.GetListAsync(_solutionId));
-            response.Should().BeEquivalentTo(new ActionResult<PricingResult>(pricingResult));
+            response.Should().BeEquivalentTo(new ActionResult<PricingResult>(priceResult));
         }
 
         [Test]
@@ -63,14 +63,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var tieredPricing = TieredPriceBuilder.Create().Build();
             var cataloguePriceList = new List<ICataloguePrice> { tieredPricing };
 
-            var pricingResult = CreatePricing(cataloguePriceList);
+            var priceResult = CreatePrices(cataloguePriceList);
 
             _mockMediator.Setup(m =>
                     m.Send(It.Is<GetPriceBySolutionIdQuery>(q => q.SolutionId == _solutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(cataloguePriceList);
 
             var response = (await _controller.GetListAsync(_solutionId));
-            response.Should().BeEquivalentTo(new ActionResult<PricingResult>(pricingResult));
+            response.Should().BeEquivalentTo(new ActionResult<PricingResult>(priceResult));
         }
 
         [Test]
@@ -80,17 +80,17 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var tieredPricing = TieredPriceBuilder.Create().Build();
             var cataloguePriceList = new List<ICataloguePrice> { flatPricing, tieredPricing };
 
-            var pricingResult = CreatePricing(cataloguePriceList);
+            var priceResult = CreatePrices(cataloguePriceList);
 
             _mockMediator.Setup(m =>
                     m.Send(It.Is<GetPriceBySolutionIdQuery>(q => q.SolutionId == _solutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(cataloguePriceList);
 
             var response = (await _controller.GetListAsync(_solutionId));
-            response.Should().BeEquivalentTo(new ActionResult<PricingResult>(pricingResult));
+            response.Should().BeEquivalentTo(new ActionResult<PricingResult>(priceResult));
         }
 
-        private static PricingResult CreatePricing(IEnumerable<ICataloguePrice> cataloguePrice)
+        private static PricingResult CreatePrices(IEnumerable<ICataloguePrice> cataloguePrice)
         {
             var pricingResult = new PricingResult
             {

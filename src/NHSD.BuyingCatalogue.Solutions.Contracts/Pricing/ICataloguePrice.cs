@@ -6,7 +6,6 @@
         string CatalogueItemName { get; }
         string CatalogueItemId { get; }
         string Type { get; }
-        string CataloguePriceType { get; }
         IPricingUnit PricingUnit { get; }
         ITimeUnit TimeUnit { get; }
         string CurrencyCode { get; }

@@ -23,14 +23,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Builders
                     TierName = "tierName"
                 },
                 CurrencyCode = "GBP",
-                TieredPrices = new List<ITieredPrice> { 
+                TieredPrices = new List<ITieredPrice> {
                     new TieredPriceDto
                 {
                     BandStart = 1,
                     BandEnd = 5,
                     Price = new decimal(753.78)
-                },
-                    new TieredPriceDto
+                }, new TieredPriceDto
                     {
                         BandStart = 6,
                         Price = new decimal(546.32)

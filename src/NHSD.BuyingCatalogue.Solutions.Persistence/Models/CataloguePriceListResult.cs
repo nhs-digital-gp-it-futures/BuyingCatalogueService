@@ -8,9 +8,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
         public int CataloguePriceId { get; set; }
         public string CatalogueItemName { get; set; }
         public string CatalogueItemId { get; set; }
-        public int ProvisioningTypeId { get; set; }
         public int CataloguePriceTypeId { get; set; }
-        public Guid PricingUnitId { get; set; }
         public string PricingUnitName { get; set; }
         public string PricingUnitDescription { get; set; }
         public string PricingUnitTierName { get; set; }
