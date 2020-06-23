@@ -7,21 +7,21 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 {
-    internal sealed class PricingReader
+    internal sealed class PriceReader
     {
-        private readonly IPricingRepository _pricingRepository;
+        private readonly IPriceRepository _priceRepository;
 
-        public PricingReader(IPricingRepository pricingRepository)
+        public PriceReader(IPriceRepository priceRepository)
         {
-            _pricingRepository = pricingRepository;
+            _priceRepository = priceRepository;
         }
 
         public async Task<IEnumerable<CataloguePriceBase>> GetBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
         {
-            var a = await _pricingRepository.GetPricingBySolutionIdQuery(solutionId, cancellationToken);
+            var prices = await _priceRepository.GetPricesBySolutionIdQueryAsync(solutionId, cancellationToken);
             Dictionary<int, CataloguePriceBase> dictionary = new Dictionary<int, CataloguePriceBase>();
 
-            foreach (var price in a)
+            foreach (var price in prices)
             {
                 var cataloguePriceType = Enumerator.FromValue<CataloguePriceType>(price.CataloguePriceTypeId);
 

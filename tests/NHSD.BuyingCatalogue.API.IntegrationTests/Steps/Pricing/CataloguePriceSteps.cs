@@ -18,7 +18,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         private readonly Response _response;
         private readonly ScenarioContext _context;
 
-        private const string pricingUrl = "http://localhost:5200/api/v1/solutions/{0}/pricing";
+        private const string pricingUrl = "http://localhost:5200/api/v1/solutions/{0}/prices";
         private readonly string priceToken = "prices";
 
         public CataloguePriceSteps(Response response, ScenarioContext context)
@@ -36,16 +36,16 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             {
                 var price = CataloguePriceEntityBuilder.Create()
                     .WithCatalogueItemId(cataloguePrice.CatalogueItemId)
-                    .WithPriceTypeId((int)cataloguePrice.CataloguePriceType)
+                    .WithPriceTypeId((int)cataloguePrice.CataloguePriceTypeEnum)
                     .WithCurrencyCode(cataloguePrice.CurrencyCode)
                     .WithPrice(cataloguePrice.Price)
                     .WithPricingUnitId(cataloguePrice.PricingUnitId)
-                    .WithTimeUnit((int)cataloguePrice.TimeUnit)
+                    .WithTimeUnit((int)cataloguePrice.TimeUnitEnum == -1 ? (int?)null : (int)cataloguePrice.TimeUnitEnum)
                     .Build();
 
                 var cataloguePriceId = await price.InsertAsync<int>();
                 
-                if(cataloguePrice.CatalougePriceTierRef != null)
+                if(cataloguePrice.CataloguePriceTierRef != null)
                     cataloguePriceDictionary.Add((int)cataloguePrice.CataloguePriceTierRef, cataloguePriceId);
             }
 
@@ -62,45 +62,19 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         public async Task ThenPricesAreReturned(Table table)
         {
             var expected = table.CreateSet<PriceResultTable>().ToList();
+            const string itemUnitToken = "itemUnit";
+            const string timeUnitToken = "timeUnit";
 
-            var content = (await _response.ReadBody()).SelectToken(priceToken).Select(x => new PriceResultTable
+            var content = (await _response.ReadBody()).SelectToken(priceToken).Select(x => new
             {
                 Type = x.Value<string>("type"),
                 CurrencyCode = x.Value<string>("currencyCode"),
-                Price = x.Value<decimal?>("price")
-            });
-
-            content.Should().BeEquivalentTo(expected);
-        }
-
-        [Then(@"has Pricing Item Unit")]
-        public async Task ThenHasPricingItemUnit(Table table)
-        {
-            var expected = table.CreateSet<ItemUnitTable>().ToList();
-            var pricesToken = (await _response.ReadBody()).SelectToken(priceToken);
-
-            const string itemUnitToken = "itemUnit";
-            var content = pricesToken.Select(x => new ItemUnitTable
-            {
-                Name = x.SelectToken(itemUnitToken).Value<string>("name"),
-                Description = x.SelectToken(itemUnitToken).Value<string>("description"),
-                TierName = x.SelectToken(itemUnitToken).Value<string>("tierName")
-            });
-
-            content.Should().BeEquivalentTo(expected);
-        }
-
-        [Then(@"has Pricing Time Unit")]
-        public async Task ThenHasPricingTimeUnit(Table table)
-        {
-            var expected = table.CreateSet<TimeUnitTable>().ToList();
-            var pricesToken = (await _response.ReadBody()).SelectToken(priceToken);
-
-            const string timeUnitToken = "timeUnit";
-            var content = pricesToken.Select(x => new TimeUnitTable
-            {
-                Name = x.SelectToken(timeUnitToken).Value<string>("name"),
-                Description = x.SelectToken(timeUnitToken).Value<string>("description")
+                Price = x.Value<decimal?>("price"),
+                PricingItemName = x.SelectToken(itemUnitToken).Value<string>("name"),
+                PricingItemDescription = x.SelectToken(itemUnitToken).Value<string>("description"),
+                PricingItemTierName = x.SelectToken(itemUnitToken).Value<string>("tierName"),
+                TimeUnitName = x.SelectToken(timeUnitToken)?.Value<string>("name"),
+                TimeUnitDescription = x.SelectToken(timeUnitToken)?.Value<string>("description")
             });
 
             content.Should().BeEquivalentTo(expected);
@@ -109,22 +83,21 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         [Then(@"the Prices Tiers are returned")]
         public async Task ThenThePricesTiersAreReturned(Table table)
         {
-            var expected = table.CreateSet<TierTable>().ToList();
-            var listExpected = expected.GroupBy(x => x.Section);
+            var expectedTable = table.CreateSet<TierTable>().ToList();
+            var listExpected = expectedTable.GroupBy(x => x.Section);
 
-            var a = listExpected.Select(x => x.Select(y => new
+            var expected = listExpected.Select(x => x.Select(y => new
             {
-                Start = y.Start,
-                End = y.End,
-                Price = y.Price
+                y.Start,
+                y.End,
+                y.Price
             }));
 
             var pricesToken = (await _response.ReadBody()).SelectToken(priceToken);
 
             const string tierToken = "tiers";
-
-
-            var content = pricesToken.Select(x => new
+            var tierPrices = pricesToken.Where(x => x.SelectToken(tierToken) != null);
+            var content = tierPrices.Select(x => new
             {
                 Tier = x.SelectToken(tierToken).Select(z => new
                 {
@@ -134,19 +107,17 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
                 })
             });
 
-            var A = content.Select(x => x.Tier);
-
-            content.Select(x => x.Tier).Should().BeEquivalentTo(a, x => x.WithoutStrictOrdering());
+            content.Select(x => x.Tier).Should().BeEquivalentTo(expected, x => x.WithoutStrictOrdering());
         }
 
         private sealed class CataloguePriceTable
         {
             public string CatalogueItemId { get; set; }
-            public CataloguePriceType CataloguePriceType { get; set; }
+            public CataloguePriceTypeEnum CataloguePriceTypeEnum { get; set; }
             public string CurrencyCode { get; set; }
             public decimal? Price { get; set; }
             public Guid PricingUnitId { get; set; }
-            public TimeUnit TimeUnit { get; set; }
+            public TimeUnitEnum? TimeUnitEnum { get; set; }
             public int? CataloguePriceTierRef { get; set; }
         }
 
@@ -155,39 +126,33 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             public string Type { get; set; }
             public string CurrencyCode { get; set; }
             public decimal? Price { get; set; }
-        }
+            public string PricingItemName { get; set; }
+            public string PricingItemDescription { get; set; }
+            public string PricingItemTierName { get; set; }
+            public string TimeUnitName { get; set; }
+            public string TimeUnitDescription { get; set; }
 
-        private sealed class ItemUnitTable
-        {
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public string TierName { get; set; }
-        }
-
-        private sealed class TimeUnitTable
-        {
-            public string Name { get; set; }
-            public string Description { get; set; }
         }
 
         private sealed class TierTable
         {
-            public int Start { get; set; }
+            public int? Start { get; set; }
             public int? End { get; set; }
-            public decimal Price { get; set; }
-            public int Section { get; set; }
+            public decimal? Price { get; set; }
+            public int? Section { get; set; }
         }
 
-        private enum CataloguePriceType
+        private enum CataloguePriceTypeEnum
         {
             Flat = 1,
             Tiered = 2
         }
 
-        private enum TimeUnit
+        private enum TimeUnitEnum
         {
             Month = 1,
-            Year = 2
+            Year = 2,
+            NULL = -1
         }
     }
 }

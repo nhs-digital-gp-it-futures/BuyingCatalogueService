@@ -4,7 +4,6 @@
     {
         int BandStart { get; }
         int? BandEnd { get; }
-
         decimal Price { get; }
     }
 }

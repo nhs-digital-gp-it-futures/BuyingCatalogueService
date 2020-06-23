@@ -8,12 +8,12 @@
 
         string CatalogueItemId { get; }
 
-        int ProvisioningTypeId { get; }
-
         int CataloguePriceTypeId { get; }
 
         string PricingUnitName { get; }
+
         string PricingUnitDescription { get; }
+
         string PricingUnitTierName { get; }
 
         int TimeUnitId { get; }
@@ -23,7 +23,9 @@
         decimal? FlatPrice { get; }
 
         int? BandStart { get; }
+
         int? BandEnd { get; }
+
         decimal? TieredPrice { get; }
     }
 }

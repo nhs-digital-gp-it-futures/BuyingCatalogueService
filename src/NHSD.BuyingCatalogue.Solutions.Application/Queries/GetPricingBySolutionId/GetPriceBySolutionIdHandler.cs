@@ -10,20 +10,20 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingBySolutionId
 {
-    internal sealed class GetPricingBySolutionIdHandler : IRequestHandler<GetPricingBySolutionIdQuery, IEnumerable<ICataloguePrice>>
+    internal sealed class GetPriceBySolutionIdHandler : IRequestHandler<GetPriceBySolutionIdQuery, IEnumerable<ICataloguePrice>>
     {
-        private readonly PricingReader _pricingReader;
+        private readonly PriceReader _priceReader;
         private readonly IMapper _mapper;
 
-        public GetPricingBySolutionIdHandler(PricingReader pricingReader, IMapper mapper)
+        public GetPriceBySolutionIdHandler(PriceReader priceReader, IMapper mapper)
         {
-            _pricingReader = pricingReader;
+            _priceReader = priceReader;
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ICataloguePrice>> Handle(GetPricingBySolutionIdQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ICataloguePrice>> Handle(GetPriceBySolutionIdQuery request, CancellationToken cancellationToken)
         {
-            var prices = await _pricingReader.GetBySolutionIdAsync(request.SolutionId, cancellationToken);
+            var prices = await _priceReader.GetBySolutionIdAsync(request.SolutionId, cancellationToken);
 
             List<ICataloguePrice> cataloguePrices = new List<ICataloguePrice>();
 
