@@ -18,7 +18,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         private readonly Response _response;
         private readonly ScenarioContext _context;
 
-        private const string pricingUrl = "http://localhost:5200/api/v1/solutions/{0}/pricing";
+        private const string pricingUrl = "http://localhost:5200/api/v1/solutions/{0}/prices";
         private readonly string priceToken = "prices";
 
         public CataloguePriceSteps(Response response, ScenarioContext context)

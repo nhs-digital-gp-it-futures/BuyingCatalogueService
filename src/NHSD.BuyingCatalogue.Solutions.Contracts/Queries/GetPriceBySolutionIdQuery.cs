@@ -4,11 +4,11 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Pricing;
 
 namespace NHSD.BuyingCatalogue.Solutions.Contracts.Queries
 {
-    public sealed class GetPricingBySolutionIdQuery : IRequest<IEnumerable<ICataloguePrice>>
+    public sealed class GetPriceBySolutionIdQuery : IRequest<IEnumerable<ICataloguePrice>>
     {
         public string SolutionId { get; }
 
-        public GetPricingBySolutionIdQuery(string solutionId)
+        public GetPriceBySolutionIdQuery(string solutionId)
         {
             SolutionId = solutionId;
         }

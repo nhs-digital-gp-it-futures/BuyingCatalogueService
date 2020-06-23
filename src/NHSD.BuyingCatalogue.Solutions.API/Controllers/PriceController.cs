@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Mime;
 using System.Threading.Tasks;
@@ -14,13 +15,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
     [ApiController]
     [Produces(MediaTypeNames.Application.Json)]
     [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Swagger doesn't allow static functions. Suppression will be removed when the proper implementation is added")]
-    public sealed class PricingController : ControllerBase
+    public sealed class PriceController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public PricingController(IMediator mediator)
+        public PriceController(IMediator mediator)
         {
-            _mediator = mediator;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         [HttpGet]
@@ -39,10 +40,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         }
         
         [HttpGet]
-        [Route("/api/v1/solutions/{solutionId}/pricing")]
-        public async Task<ActionResult<PricingResult>> Get(string solutionId)
+        [Route("/api/v1/solutions/{solutionId}/prices")]
+        public async Task<ActionResult<PricingResult>> GetListAsync(string solutionId)
         {
-            var pricing = (await _mediator.Send(new GetPricingBySolutionIdQuery(solutionId))).ToList();
+            var pricing = (await _mediator.Send(new GetPriceBySolutionIdQuery(solutionId))).ToList();
 
             var result = new PricingResult
             {
@@ -74,7 +75,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
                 })
             };
 
-            return Ok(result);
+            return result;
         }
     }
 }
