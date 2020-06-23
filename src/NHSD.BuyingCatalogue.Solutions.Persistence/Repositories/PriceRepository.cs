@@ -12,7 +12,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         private readonly IDbConnector _dbConnector;
 
         private const string ListCataloguePricesSql = @"
-        SELECT	cp.CatalogueItemId,
+        SELECT  cp.CatalogueItemId,
                 ci.[Name] as CatalogueItemName,
                 cp.CataloguePriceId,
                 cp.CataloguePriceTypeId,
@@ -26,7 +26,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 cptr.BandStart,
                 cptr.BandEnd,
                 cptr.Price AS TieredPrice
-        FROM	CataloguePrice cp
+        FROM    CataloguePrice cp
                 INNER JOIN PricingUnit pu ON pu.PricingUnitId = cp.PricingUnitId
                 INNER JOIN CatalogueItem ci ON ci.CatalogueItemId = cp.CatalogueItemId
                 LEFT OUTER JOIN CataloguePriceTier cptr ON cptr.CataloguePriceId = cp.CataloguePriceId
@@ -40,7 +40,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         public async Task<IEnumerable<ICataloguePriceListResult>> GetPricesBySolutionIdQueryAsync(string solutionId, CancellationToken cancellationToken)
         {
             return (await _dbConnector.QueryAsync<CataloguePriceListResult>(ListCataloguePricesSql, cancellationToken,
-                new {solutionId}));
+                new { solutionId }));
         }
     }
 }
