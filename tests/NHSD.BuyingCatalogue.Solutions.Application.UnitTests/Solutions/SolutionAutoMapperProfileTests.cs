@@ -6,6 +6,7 @@ using FluentAssertions;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.NativeDesktop;
+using NHSD.BuyingCatalogue.Solutions.Application.Domain.Pricing;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.Suppliers;
 using NHSD.BuyingCatalogue.Solutions.Application.Mapping;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicationBySolutionId;
@@ -13,6 +14,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolut
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetImplementationTimescalesBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetIntegrationsBySolutionId;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetRoadMapBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierBySolutionId;
@@ -22,6 +24,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Commands;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Pricing;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
 using NUnit.Framework;
 
@@ -83,6 +86,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             yield return new KeyValuePair<Type, Type>(typeof(SolutionDocument), typeof(ISolutionDocument));
             yield return new KeyValuePair<Type, Type>(typeof(ClaimedCapabilityEpic), typeof(ClaimedCapabilityEpicDto));
             yield return new KeyValuePair<Type, Type>(typeof(ClaimedCapabilityEpic), typeof(IClaimedCapabilityEpic));
+            yield return new KeyValuePair<Type, Type>(typeof(CataloguePriceBase), typeof(CataloguePriceDto));
+            yield return new KeyValuePair<Type, Type>(typeof(CataloguePriceBase), typeof(ICataloguePrice));
+            yield return new KeyValuePair<Type, Type>(typeof(PricingUnit), typeof(PricingUnitDto));
+            yield return new KeyValuePair<Type, Type>(typeof(PricingUnit), typeof(IPricingUnit));
+            yield return new KeyValuePair<Type, Type>(typeof(TimeUnit), typeof(TimeUnitDto));
+            yield return new KeyValuePair<Type, Type>(typeof(TimeUnit), typeof(ITimeUnit));
+            yield return new KeyValuePair<Type, Type>(typeof(TieredPrice), typeof(TieredPriceDto));
+            yield return new KeyValuePair<Type, Type>(typeof(TieredPrice), typeof(ITieredPrice));
+
         }
 
         [SetUp]
