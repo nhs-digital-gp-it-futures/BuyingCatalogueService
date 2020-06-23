@@ -1,7 +1,7 @@
 ﻿Feature: GET a list of prices from a Solution ID
     As a Public User
     I want to be able to retrieve the price for a solution
-    So that I know the pricing structure for each Solution
+    So that I know the price structure for each Solution
 
 Background:
     Given Suppliers exist
