@@ -3,8 +3,6 @@
 
     TRUNCATE TABLE dbo.FrameworkCapabilities;
     
-    DELETE FROM dbo.CataloguePriceTier;
-    DELETE FROM dbo.CataloguePrice;
     DELETE FROM dbo.CatalogueItem;
     DELETE FROM dbo.Epic;
     DELETE FROM dbo.Capability;
