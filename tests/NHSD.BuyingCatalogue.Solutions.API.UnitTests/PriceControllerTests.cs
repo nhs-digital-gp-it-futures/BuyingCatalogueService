@@ -44,7 +44,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task GetListAsync_HasSingleFlatPricing_RetrievesPricing()
         {
-            var flatPricing = FlatPriceBuilder.Create().Build();
+            var flatPricing = FlatCataloguePriceDtoBuilder.Create().Build();
             var cataloguePriceList = new List<ICataloguePrice> { flatPricing };
 
             var priceResult = CreatePrices(cataloguePriceList);
@@ -60,7 +60,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task GetListAsync_HasSingleTieredPricing_RetrievesPricing()
         {
-            var tieredPricing = TieredPriceBuilder.Create().Build();
+            var tieredPricing = TieredCataloguePriceDtoBuilder.Create().Build();
             var cataloguePriceList = new List<ICataloguePrice> { tieredPricing };
 
             var priceResult = CreatePrices(cataloguePriceList);
@@ -76,8 +76,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task GetListAsync_HasMultipleFlatAndTieredPricing_RetrievesPricing()
         {
-            var flatPricing = FlatPriceBuilder.Create().Build();
-            var tieredPricing = TieredPriceBuilder.Create().Build();
+            var flatPricing = FlatCataloguePriceDtoBuilder.Create().Build();
+            var tieredPricing = TieredCataloguePriceDtoBuilder.Create().Build();
             var cataloguePriceList = new List<ICataloguePrice> { flatPricing, tieredPricing };
 
             var priceResult = CreatePrices(cataloguePriceList);

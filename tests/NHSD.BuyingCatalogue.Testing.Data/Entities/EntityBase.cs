@@ -18,7 +18,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         public Guid LastUpdatedBy { get; set; }
 
         public async Task InsertAsync()
-            => await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, InsertSql, this).ConfigureAwait(false);
+            => await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, InsertSql, this);
 
         public async Task<T> InsertAsync<T>()
         {

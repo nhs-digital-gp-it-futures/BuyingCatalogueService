@@ -6,5 +6,5 @@
     BandEnd int NULL,
     Price decimal(18,3) NOT NULL,
     CONSTRAINT PK_CataloguePriceTier PRIMARY KEY (CataloguePriceTierId),
-    CONSTRAINT FK_CataloguePriceTier_CataloguePrice_CataloguePriceId FOREIGN KEY (CataloguePriceId) REFERENCES dbo.CataloguePrice(CataloguePriceId)
+    CONSTRAINT FK_CataloguePriceTier_CataloguePrice_CataloguePriceId FOREIGN KEY (CataloguePriceId) REFERENCES dbo.CataloguePrice(CataloguePriceId) ON DELETE CASCADE
 );

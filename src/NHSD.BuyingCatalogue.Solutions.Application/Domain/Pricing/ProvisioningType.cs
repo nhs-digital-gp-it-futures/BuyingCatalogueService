@@ -8,7 +8,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain.Pricing
         public static readonly ProvisioningType Declarative = new ProvisioningType(2, nameof(Declarative));
         public static readonly ProvisioningType OnDemand = new ProvisioningType(3, nameof(OnDemand));
 
-        public ProvisioningType(int id, string name) : base(id, name)
+        private ProvisioningType(int id, string name) : base(id, name)
         {
         }
     }

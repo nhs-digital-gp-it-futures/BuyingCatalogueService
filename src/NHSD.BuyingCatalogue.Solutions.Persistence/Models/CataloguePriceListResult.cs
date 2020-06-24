@@ -1,5 +1,4 @@
-﻿using System;
-using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
+﻿using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
 {
