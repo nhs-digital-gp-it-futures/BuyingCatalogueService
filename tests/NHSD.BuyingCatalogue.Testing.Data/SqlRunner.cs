@@ -41,7 +41,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data
         internal static async Task<T> QueryFirstAsync<T>(string sql, object parameters = null)
         {
             using IDbConnection databaseConnection = new SqlConnection(ConnectionStrings.GPitFuturesSetup);
-            return (await databaseConnection.QueryFirstAsync<T>(sql, parameters));
+            return await databaseConnection.QueryFirstAsync<T>(sql, parameters);
         }
     }
 }

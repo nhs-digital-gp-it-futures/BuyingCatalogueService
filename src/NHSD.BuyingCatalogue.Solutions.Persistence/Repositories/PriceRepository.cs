@@ -26,10 +26,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 cptr.BandStart,
                 cptr.BandEnd,
                 cptr.Price AS TieredPrice
-        FROM    CataloguePrice cp
-                INNER JOIN dbo.PricingUnit pu ON pu.PricingUnitId = cp.PricingUnitId
-                INNER JOIN dbo.CatalogueItem ci ON ci.CatalogueItemId = cp.CatalogueItemId
-                LEFT OUTER JOIN dbo.CataloguePriceTier cptr ON cptr.CataloguePriceId = cp.CataloguePriceId
+        FROM    dbo.CataloguePrice AS cp
+                INNER JOIN dbo.PricingUnit AS pu ON pu.PricingUnitId = cp.PricingUnitId
+                INNER JOIN dbo.CatalogueItem AS ci ON ci.CatalogueItemId = cp.CatalogueItemId
+                LEFT OUTER JOIN dbo.CataloguePriceTier AS cptr ON cptr.CataloguePriceId = cp.CataloguePriceId
         WHERE   cp.CatalogueItemId = @solutionId;";
 
         public PriceRepository(IDbConnector dbConnector)
