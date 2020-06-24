@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -36,6 +36,12 @@ namespace NHSD.BuyingCatalogue.Testing.Data
             {
                 return (await databaseConnection.QueryAsync<T>(selectSql, param).ConfigureAwait(false)).ToList();
             }
+        }
+
+        internal static async Task<T> QueryFirstAsync<T>(string sql, object parameters = null)
+        {
+            using IDbConnection databaseConnection = new SqlConnection(ConnectionStrings.GPitFuturesSetup);
+            return await databaseConnection.QueryFirstAsync<T>(sql, parameters);
         }
     }
 }

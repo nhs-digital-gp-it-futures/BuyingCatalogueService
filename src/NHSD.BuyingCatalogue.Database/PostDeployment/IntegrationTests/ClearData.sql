@@ -2,7 +2,7 @@
     SET NOCOUNT ON;
 
     TRUNCATE TABLE dbo.FrameworkCapabilities;
-
+    
     DELETE FROM dbo.CatalogueItem;
     DELETE FROM dbo.Epic;
     DELETE FROM dbo.Capability;
