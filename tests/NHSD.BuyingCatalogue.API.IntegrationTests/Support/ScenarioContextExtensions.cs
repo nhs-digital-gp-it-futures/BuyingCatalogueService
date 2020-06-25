@@ -32,13 +32,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
 
             var cataloguePriceDictionary =
                 context.Get<IDictionary<string,int>>(ScenarioContextKeys.CataloguePriceIdMapDictionary, new Dictionary<string,int>());
-
-            
-            if (cataloguePriceDictionary.TryGetValue(solutionId, out var cataloguePriceId))
-                return cataloguePriceId;
-
-            return 0;
+           
+            return cataloguePriceDictionary.TryGetValue(solutionId, out var cataloguePriceId) ? cataloguePriceId : 0;
         }
-
     }
 }

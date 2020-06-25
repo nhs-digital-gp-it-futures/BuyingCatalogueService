@@ -63,7 +63,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var tieredPricing = TieredCataloguePriceDtoBuilder.Create().Build();
 
             var priceResult = CreatePrice(tieredPricing);
-
             
             _mockMediator.Setup(m =>
                     m.Send(It.Is<GetPriceByPriceIdQuery>(q => q.PriceId == _priceId), It.IsAny<CancellationToken>()))
@@ -72,7 +71,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var response = (await _controller.GetPriceAsync(_priceId));
             response.Should().BeEquivalentTo(new ActionResult<PriceResult>(priceResult));
         }
-
 
         [Test]
         public async Task GetListAsync_HasSingleFlatPricing_RetrievesPricing()

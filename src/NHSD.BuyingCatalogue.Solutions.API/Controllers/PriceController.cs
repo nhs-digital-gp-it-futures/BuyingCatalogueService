@@ -12,7 +12,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 {
-    [Route("api/v1/pricing")]
+    [Route("api/v1/prices")]
     [ApiController]
     [Produces(MediaTypeNames.Application.Json)]
     [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Swagger doesn't allow static functions. Suppression will be removed when the proper implementation is added")]
@@ -27,11 +27,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 
         [HttpGet]
         [Route("{priceId}")]
-        public async  Task<ActionResult<PriceResult>> GetPriceAsync(int priceId)
+        public async Task<ActionResult<PriceResult>> GetPriceAsync(int priceId)
         {
             var pricing = await _mediator.Send(new GetPriceByPriceIdQuery(priceId));
             var result = GetPriceResult(pricing);
-            if (result==null)
+            if (result == null)
             {
                 return NotFound();
             }
@@ -60,7 +60,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
             {
                 PriceId = cataloguePrice.CataloguePriceId,
                 Type = cataloguePrice.Type,
-                ProvisioningType =cataloguePrice.ProvisioningType,
+                ProvisioningType = cataloguePrice.ProvisioningType,
                 CurrencyCode = cataloguePrice.CurrencyCode,
                 ItemUnit = new ItemUnitResult
                 {

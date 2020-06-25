@@ -20,7 +20,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         private readonly ScenarioContext _context;
 
         private const string pricingUrl = "http://localhost:5200/api/v1/solutions/{0}/prices";
-        private const string singlePriceUrl = "http://localhost:5200/api/v1/pricing/{0}";
+        private const string getPriceUrl = "http://localhost:5200/api/v1/prices/{0}";
         private readonly string priceToken = "prices";
 
         public CataloguePriceSteps(Response response, ScenarioContext context)
@@ -72,7 +72,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         public async Task WhenAGetRequestIsMadeToRetrieveThePriceUsingPriceIdAssociatedWithSolutionId(string caltaloguePriceIdRef)
         {
             var cataloguePriceId = _context.GetCataloguePriceIdsByCatalougeSolutionId(caltaloguePriceIdRef);
-            _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, singlePriceUrl, cataloguePriceId));
+            _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, getPriceUrl, cataloguePriceId));
         }
 
         [Then(@"Prices are returned")]
@@ -164,15 +164,15 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
                 y.Price
             });
 
-            var pricesToken = (await _response.ReadBody());//.SelectToken(priceToken);
+            var pricesToken = await _response.ReadBody();
             const string tierToken = "tiers";
             var tierPrices = pricesToken.SelectToken("tiers");
 
             var content = tierPrices.Select(x => new
             {
-                    Start = x.Value<int>("start"),
-                    End = x.Value<int?>("end"),
-                    Price = x.Value<decimal>("price")
+                Start = x.Value<int>("start"),
+                End = x.Value<int?>("end"),
+                 Price = x.Value<decimal>("price")
             });
 
             content.Should().BeEquivalentTo(expected, x => x.WithoutStrictOrdering());
@@ -182,7 +182,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         {
             public string CatalogueItemId { get; set; }
             public CataloguePriceTypeEnum CataloguePriceTypeEnum { get; set; }
-            public ProvisioningTypeEnum ProvisioningTypeEnum { get; set; } = ProvisioningTypeEnum.PatientNumbers;
+            public ProvisioningTypeEnum ProvisioningTypeEnum { get; set; } 
             public string CurrencyCode { get; set; }
             public decimal? Price { get; set; }
             public Guid PricingUnitId { get; set; }

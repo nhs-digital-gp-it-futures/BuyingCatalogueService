@@ -64,7 +64,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         }
 
         [Test]
-        public async Task GetPricingByPriceIdQueryAsync_InvalidPriceId_ReturnsEmptyList()
+        public async Task GetPriceByPriceIdQueryAsync_InvalidPriceId_ReturnsEmptyList()
         {
             var request = await _priceRepository.GetPriceByPriceIdQueryAsync(-999, CancellationToken.None);
 
@@ -85,7 +85,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public async Task GetPricingByPriceIdQueryAsync_ValidPriceIdAndTiredPrice_ReturnsTieredPriceResult()
         {
             int validPriceId = await InsertTieredPriceAsync(_solutionId);
-
+            await InsertCalaloguePriceTier(validPriceId, 1, 2, 1.0m);
+            await InsertCalaloguePriceTier(validPriceId, 3, 4, 1.50m);
             var response = await _priceRepository.GetPriceByPriceIdQueryAsync(validPriceId, CancellationToken.None);
             response.Count(t => t.CataloguePriceTypeId == 2).Should().Be(2);
         }
@@ -103,19 +104,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithPriceTypeId(2)
                 .WithCatalogueItemId(solutionId)
                 .Build().InsertAsync<int>();
-            await CataloguePriceTierEntityBuilder.Create()
-                .WithCataloguePriceId(priceId)
-                .WithBandEnd(1)
-                .WithBandStart(2)
-                .WithPrice(1.0m)
-                .Build().InsertAsync();
-            await CataloguePriceTierEntityBuilder.Create()
-                .WithCataloguePriceId(priceId)
-                .WithBandEnd(3)
-                .WithBandStart(4)
-                .WithPrice(1.50m)
-                .Build().InsertAsync();
             return priceId;
+        }
+
+        private static async Task InsertCalaloguePriceTier(int priceId, int? startBand, int endBand, decimal price)
+        {
+            await CataloguePriceTierEntityBuilder.Create()
+                .WithCataloguePriceId(priceId)
+                .WithBandEnd(startBand)
+                .WithBandStart(endBand)
+                .WithPrice(price)
+                .Build().InsertAsync();
         }
     }
 }
