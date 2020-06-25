@@ -13,7 +13,7 @@
     DTS:Name="UserName">@[$Project::UserName]</DTS:PropertyExpression>
   <DTS:ObjectData>
     <DTS:ConnectionManager
-      DTS:ConnectionString="Data Source=localhost;User ID=user_name;Initial Catalog=buyingcatalogue_dest;Provider=SQLNCLI11.1;Auto Translate=False;">
+      DTS:ConnectionString="Data Source=localhost;User ID=user_name;Initial Catalog=buyingcatalogue_dest;Provider=MSOLEDBSQL.1;">
       <DTS:Password
         DTS:Name="Password"
         Sensitive="1"></DTS:Password>
