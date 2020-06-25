@@ -26,7 +26,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingByPriceId
         {
             var price = await _pricingReader.GetByPriceIdAsync(request.PriceId, cancellationToken);
 
-            ICataloguePrice cataloguePrice=null;
+            ICataloguePrice cataloguePrice = null;
 
             if (price is CataloguePriceFlat cataloguePriceFlat)
             {

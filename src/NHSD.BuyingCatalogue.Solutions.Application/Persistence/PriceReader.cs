@@ -60,6 +60,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
                     }
                 }
             }
+
             return priceDictionary.Values;
         }
 

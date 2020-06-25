@@ -107,12 +107,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             return priceId;
         }
 
-        private static async Task InsertCalaloguePriceTier(int priceId, int? startBand, int endBand, decimal price)
+        private static async Task InsertCalaloguePriceTier(int priceId, int startBand, int? endBand, decimal price)
         {
             await CataloguePriceTierEntityBuilder.Create()
                 .WithCataloguePriceId(priceId)
-                .WithBandEnd(startBand)
-                .WithBandStart(endBand)
+                .WithBandStart(startBand)
+                .WithBandEnd(endBand)
                 .WithPrice(price)
                 .Build().InsertAsync();
         }

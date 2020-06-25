@@ -35,6 +35,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
             {
                 return NotFound();
             }
+
             return result;
         }
 
@@ -46,8 +47,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 
             var result = new PricingResult
             {
-                Id = solutionId,
-                Name = prices.First()?.CatalogueItemName,
+                Id = solutionId, 
+                Name = prices.First()?.CatalogueItemName, 
                 Prices = prices.Select(GetPriceResult)
             };
 
