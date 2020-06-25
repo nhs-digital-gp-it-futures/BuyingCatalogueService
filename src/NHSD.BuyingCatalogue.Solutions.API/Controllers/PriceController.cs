@@ -7,11 +7,12 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Pricing;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingBySolutionId;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Pricing;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 {
-    [Route("api/v1/pricing")]
+    [Route("api/v1/prices")]
     [ApiController]
     [Produces(MediaTypeNames.Application.Json)]
     [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Swagger doesn't allow static functions. Suppression will be removed when the proper implementation is added")]
@@ -26,19 +27,18 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 
         [HttpGet]
         [Route("{priceId}")]
-        public ActionResult<PriceResult> GetPrice(int priceId)
+        public async Task<ActionResult<PriceResult>> GetPriceAsync(int priceId)
         {
-            return new PriceResult
+            var pricing = await _mediator.Send(new GetPriceByPriceIdQuery(priceId));
+            var result = GetPriceResult(pricing);
+            if (result == null)
             {
-                PriceId = priceId,
-                Type = "flat",
-                CurrencyCode = "GBP",
-                ProvisioningModel = "OnDemand",
-                ItemUnit = new ItemUnitResult { Name = "Consultation", Description = "Per Consultation" },
-                Price = 1.64m
-            };
+                return NotFound();
+            }
+
+            return result;
         }
-        
+
         [HttpGet]
         [Route("/api/v1/solutions/{solutionId}/prices")]
         public async Task<ActionResult<PricingResult>> GetListAsync(string solutionId)
@@ -47,35 +47,41 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 
             var result = new PricingResult
             {
-                Id = solutionId,
-                Name = prices.First()?.CatalogueItemName,
-                Prices = prices.Select(x => new PriceResult
-                {
-                    PriceId = x.CataloguePriceId,
-                    Type = x.Type,
-                    CurrencyCode = x.CurrencyCode,
-                    ItemUnit = new ItemUnitResult
-                    {
-                        Name = x.PricingUnit.Name,
-                        Description = x.PricingUnit.Description,
-                        TierName = x.PricingUnit.TierName
-                    },
-                    TimeUnit = x.TimeUnit is null ? null : new TimeUnitResult
-                    {
-                        Name = x.TimeUnit.Name,
-                        Description = x.TimeUnit.Description
-                    },
-                    Price = (x as FlatCataloguePriceDto)?.Price,
-                    Tiers = (x as TieredCataloguePriceDto)?.TieredPrices.Select(x => new TierResult
-                    {
-                        Start = x.BandStart,
-                        End = x.BandEnd,
-                        Price = x.Price
-                    })
-                })
+                Id = solutionId, 
+                Name = prices.First()?.CatalogueItemName, 
+                Prices = prices.Select(GetPriceResult)
             };
 
             return result;
+        }
+
+        private static PriceResult GetPriceResult(ICataloguePrice cataloguePrice)
+        {
+            return new PriceResult
+            {
+                PriceId = cataloguePrice.CataloguePriceId,
+                Type = cataloguePrice.Type,
+                ProvisioningType = cataloguePrice.ProvisioningType,
+                CurrencyCode = cataloguePrice.CurrencyCode,
+                ItemUnit = new ItemUnitResult
+                {
+                    Name = cataloguePrice.PricingUnit.Name,
+                    Description = cataloguePrice.PricingUnit.Description,
+                    TierName = cataloguePrice.PricingUnit.TierName
+                },
+                TimeUnit = cataloguePrice.TimeUnit is null ? null : new TimeUnitResult
+                {
+                    Name = cataloguePrice.TimeUnit.Name,
+                    Description = cataloguePrice.TimeUnit.Description
+                },
+                Price = (cataloguePrice as FlatCataloguePriceDto)?.Price,
+                Tiers = (cataloguePrice as TieredCataloguePriceDto)?.TieredPrices.Select(x => new TierResult
+                {
+                    Start = x.BandStart,
+                    End = x.BandEnd,
+                    Price = x.Price
+                })
+            };
         }
     }
 }

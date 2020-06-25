@@ -16,6 +16,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 ci.[Name] AS CatalogueItemName,
                 cp.CataloguePriceId,
                 cp.CataloguePriceTypeId,
+                cp.ProvisioningTypeId,
                 pu.PricingUnitId,
                 pu.[Name] AS PricingUnitName,
                 pu.[Description] AS PricingUnitDescription,
@@ -32,6 +33,26 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 LEFT OUTER JOIN dbo.CataloguePriceTier AS cptr ON cptr.CataloguePriceId = cp.CataloguePriceId
         WHERE   cp.CatalogueItemId = @solutionId;";
 
+        private const string CataloguePriceSql = @"
+        SELECT  cp.CatalogueItemId,
+                cp.CataloguePriceId,
+                cp.CataloguePriceTypeId,
+                cp.ProvisioningTypeId,
+                pu.PricingUnitId,
+                pu.[Name] AS PricingUnitName,
+                pu.[Description] as PricingUnitDescription,
+                pu.TierName as PricingUnitTierName,
+                cp.TimeUnitId,
+                cp.CurrencyCode,
+                cp.Price AS FlatPrice,
+                cptr.BandStart,
+                cptr.BandEnd,
+                cptr.Price AS TieredPrice
+        FROM    dbo.CataloguePrice As cp
+                INNER JOIN dbo.PricingUnit AS pu ON pu.PricingUnitId = cp.PricingUnitId
+                LEFT OUTER JOIN dbo.CataloguePriceTier AS cptr ON cptr.CataloguePriceId = cp.CataloguePriceId
+        WHERE   cp.CataloguePriceId = @cataloguePriceId;";
+
         public PriceRepository(IDbConnector dbConnector)
         {
             _dbConnector = dbConnector;
@@ -41,6 +62,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         {
             return await _dbConnector.QueryAsync<CataloguePriceListResult>(ListCataloguePricesSql, cancellationToken,
                 new { solutionId });
+        }
+
+        public async Task<IEnumerable<ICataloguePriceListResult>> GetPriceByPriceIdQueryAsync(int cataloguePriceId, CancellationToken cancellationToken)
+        {
+            return (await _dbConnector.QueryAsync<CataloguePriceListResult>(CataloguePriceSql, cancellationToken,
+                new { cataloguePriceId }));
         }
     }
 }

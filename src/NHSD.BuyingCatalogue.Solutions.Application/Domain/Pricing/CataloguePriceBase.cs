@@ -10,6 +10,8 @@
 
         public CataloguePriceType CataloguePriceType { get; }
 
+        public ProvisioningType ProvisioningType { get; set; }
+
         public PricingUnit PricingUnit { get; set; }
 
         public TimeUnit TimeUnit { get; set; }
