@@ -71,7 +71,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         [When(@"a GET request is made to retrieve a single price using the PriceId associated with CaltaloguePriceIdRef (.*)")]
         public async Task WhenAGetRequestIsMadeToRetrieveThePriceUsingPriceIdAssociatedWithSolutionId(string caltaloguePriceIdRef)
         {
-            var cataloguePriceId = _context.GetCataloguePriceIdsByCatalougeSolutionId(caltaloguePriceIdRef);
+            var cataloguePriceId = _context.GetCataloguePriceIdsByCatalougePriceIdRef(caltaloguePriceIdRef);
             _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, getPriceUrl, cataloguePriceId));
         }
 

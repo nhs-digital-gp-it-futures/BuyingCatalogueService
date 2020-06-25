@@ -23,7 +23,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
             return cataloguePriceDictionary.TryGetValue(reference, out var cataloguePriceId) ? cataloguePriceId : 0;
         }
 
-        public static int GetCataloguePriceIdsByCatalougeSolutionId(this ScenarioContext context, string solutionId)
+        public static int GetCataloguePriceIdsByCatalougePriceIdRef(this ScenarioContext context, string priceIdRef)
         {
             if (context is null)
             {
@@ -33,7 +33,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
             var cataloguePriceDictionary =
                 context.Get<IDictionary<string,int>>(ScenarioContextKeys.CataloguePriceIdMapDictionary, new Dictionary<string,int>());
            
-            return cataloguePriceDictionary.TryGetValue(solutionId, out var cataloguePriceId) ? cataloguePriceId : 0;
+            return cataloguePriceDictionary.TryGetValue(priceIdRef, out var cataloguePriceId) ? cataloguePriceId : 0;
         }
     }
 }
