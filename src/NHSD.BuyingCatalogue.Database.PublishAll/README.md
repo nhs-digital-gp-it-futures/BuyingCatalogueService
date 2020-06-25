@@ -45,7 +45,7 @@ The source and destination databases are currently set as follows.
 * Source: localhost, buyingcatalogue_source
 * Destination: localhost, buyingcatalogue_dest
 
-**This is deliberate. Please reset the source and destination connection information (in `Project.params`) before running the package**.
+**This is deliberate. Please update the source and destination connection information (in `Project.params`) before running the package**.
 
 ### Execution
 
@@ -60,7 +60,7 @@ The source and destination databases are currently set as follows.
 
 ### Prerequisites
 
-The Azure-SSIS Integration Runtime has been provisioned  in Azure Data Factory as described [here](https://docs.microsoft.com/en-us/sql/integration-services/lift-shift/ssis-azure-lift-shift-ssis-packages-overview?view=sql-server-ver15#provision-ssis-on-azure).
+The Azure-SSIS Integration Runtime has been provisioned in Azure Data Factory as described [here](https://docs.microsoft.com/en-us/sql/integration-services/lift-shift/ssis-azure-lift-shift-ssis-packages-overview?view=sql-server-ver15#provision-ssis-on-azure).
 
 ### Steps
 
