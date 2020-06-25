@@ -3,9 +3,8 @@
   DTS:refId="Package"
   DTS:CreationDate="12/12/2019 10:17:38 AM"
   DTS:CreationName="Microsoft.Package"
-  DTS:CreatorComputerName="LPT3353"
-  DTS:CreatorName="BJSS\andy.berry"
-  DTS:Description="SSIS Package Description"
+  DTS:CreatorComputerName=""
+  DTS:CreatorName=""
   DTS:DTSID="{41CBBF9B-528A-4586-9D42-96AB51BD09B0}"
   DTS:ExecutableType="Microsoft.Package"
   DTS:LastModifiedProductVersion="15.0.2000.123"
@@ -13,8 +12,8 @@
   DTS:MaxErrorCount="0"
   DTS:ObjectName="PublishAll"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="57"
-  DTS:VersionGUID="{C2023479-3CB1-4867-96CA-F18BC7C2ABBD}">
+  DTS:VersionBuild="58"
+  DTS:VersionGUID="{2AA890B4-B38C-4481-81BD-25FF4FCEB5D8}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables />
