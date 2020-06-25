@@ -57,6 +57,12 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             return this;
         }
 
+        public CataloguePriceEntityBuilder WithProvisioningTypeId(int typeId)
+        {
+            _cataloguePriceEntity.ProvisioningTypeId = typeId;
+            return this;
+        }
+
         public CataloguePriceEntity Build()
         {
             return _cataloguePriceEntity;

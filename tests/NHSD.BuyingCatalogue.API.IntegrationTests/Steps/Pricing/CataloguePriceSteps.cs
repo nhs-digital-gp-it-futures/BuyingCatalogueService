@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Flurl.Util;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
@@ -19,6 +20,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         private readonly ScenarioContext _context;
 
         private const string pricingUrl = "http://localhost:5200/api/v1/solutions/{0}/prices";
+        private const string singlePriceUrl = "http://localhost:5200/api/v1/pricing/{0}";
         private readonly string priceToken = "prices";
 
         public CataloguePriceSteps(Response response, ScenarioContext context)
@@ -32,11 +34,14 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         {
             IDictionary<int, int> cataloguePriceDictionary = new Dictionary<int, int>();
 
+            IDictionary<string,int> catalogueItemIdPriceIdDictionary = new Dictionary<string, int>();
+
             foreach (var cataloguePrice in table.CreateSet<CataloguePriceTable>())
             {
                 var price = CataloguePriceEntityBuilder.Create()
                     .WithCatalogueItemId(cataloguePrice.CatalogueItemId)
                     .WithPriceTypeId((int)cataloguePrice.CataloguePriceTypeEnum)
+                    .WithProvisioningTypeId((int) cataloguePrice.ProvisioningTypeEnum)
                     .WithCurrencyCode(cataloguePrice.CurrencyCode)
                     .WithPrice(cataloguePrice.Price)
                     .WithPricingUnitId(cataloguePrice.PricingUnitId)
@@ -47,15 +52,27 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
                 
                 if(cataloguePrice.CataloguePriceTierRef != null)
                     cataloguePriceDictionary.Add((int)cataloguePrice.CataloguePriceTierRef, cataloguePriceId);
+
+                if (!string.IsNullOrEmpty(cataloguePrice.CataloguePriceIdRef))
+                    catalogueItemIdPriceIdDictionary.Add(cataloguePrice.CataloguePriceIdRef,cataloguePriceId);
             }
 
             _context[ScenarioContextKeys.CatalogueTierMapDictionary] = cataloguePriceDictionary;
+
+            _context[ScenarioContextKeys.CataloguePriceIdMapDictionary] = catalogueItemIdPriceIdDictionary;
         }
 
         [When(@"a GET request is made to retrieve the pricing with Solution ID (.*)")]
         public async Task WhenAGETRequestIsMadeToRetrieveThePricingWithSolutionID(string solutionId)
         {
             _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, pricingUrl, solutionId));
+        }
+
+        [When(@"a GET request is made to retrieve a single price using the PriceId associated with CaltaloguePriceIdRef (.*)")]
+        public async Task WhenAGetRequestIsMadeToRetrieveThePriceUsingPriceIdAssociatedWithSolutionId(string caltaloguePriceIdRef)
+        {
+            var cataloguePriceId = _context.GetCataloguePriceIdsByCatalougeSolutionId(caltaloguePriceIdRef);
+            _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, singlePriceUrl, cataloguePriceId));
         }
 
         [Then(@"Prices are returned")]
@@ -68,6 +85,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             var content = (await _response.ReadBody()).SelectToken(priceToken).Select(x => new
             {
                 Type = x.Value<string>("type"),
+                ProvisioningType = x.Value<string>("provisioningType"),
                 CurrencyCode = x.Value<string>("currencyCode"),
                 Price = x.Value<decimal?>("price"),
                 PricingItemName = x.SelectToken(itemUnitToken).Value<string>("name"),
@@ -76,6 +94,30 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
                 TimeUnitName = x.SelectToken(timeUnitToken)?.Value<string>("name"),
                 TimeUnitDescription = x.SelectToken(timeUnitToken)?.Value<string>("description")
             });
+
+            content.Should().BeEquivalentTo(expected);
+        }
+
+        [Then(@"a Price is returned")]
+        public async Task ThenPriceIsReturned(Table table)
+        {
+            var expected = table.CreateSet<PriceResultTable>().Single();
+            const string itemUnitToken = "itemUnit";
+            const string timeUnitToken = "timeUnit";
+
+            var response = await _response.ReadBody();
+            var content = new
+            {
+                Type = response.Value<string>("type"),
+                CurrencyCode = response.Value<string>("currencyCode"),
+                Price = response.Value<decimal?>("price"),
+                ProvisioningType = response.Value<string>("provisioningType"),
+                PricingItemName = response.SelectToken(itemUnitToken).Value<string>("name"),
+                PricingItemDescription = response.SelectToken(itemUnitToken).Value<string>("description"),
+                PricingItemTierName = response.SelectToken(itemUnitToken).Value<string>("tierName"),
+                TimeUnitName = response.SelectToken(timeUnitToken)?.Value<string>("name"),
+                TimeUnitDescription = response.SelectToken(timeUnitToken)?.Value<string>("description")
+            };
 
             content.Should().BeEquivalentTo(expected);
         }
@@ -110,15 +152,43 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             content.Select(x => x.Tier).Should().BeEquivalentTo(expected, x => x.WithoutStrictOrdering());
         }
 
+        [Then(@"the Price Tiers are returned")]
+        public async Task ThenThePriceTiersAreReturned(Table table)
+        {
+            var expectedTable = table.CreateSet<TierTable>().ToList();
+
+            var expected = expectedTable.Select(y => new
+            {
+                y.Start,
+                y.End,
+                y.Price
+            });
+
+            var pricesToken = (await _response.ReadBody());//.SelectToken(priceToken);
+            const string tierToken = "tiers";
+            var tierPrices = pricesToken.SelectToken("tiers");
+
+            var content = tierPrices.Select(x => new
+            {
+                    Start = x.Value<int>("start"),
+                    End = x.Value<int?>("end"),
+                    Price = x.Value<decimal>("price")
+            });
+
+            content.Should().BeEquivalentTo(expected, x => x.WithoutStrictOrdering());
+        }
+
         private sealed class CataloguePriceTable
         {
             public string CatalogueItemId { get; set; }
             public CataloguePriceTypeEnum CataloguePriceTypeEnum { get; set; }
+            public ProvisioningTypeEnum ProvisioningTypeEnum { get; set; } = ProvisioningTypeEnum.PatientNumbers;
             public string CurrencyCode { get; set; }
             public decimal? Price { get; set; }
             public Guid PricingUnitId { get; set; }
             public TimeUnitEnum? TimeUnitEnum { get; set; }
             public int? CataloguePriceTierRef { get; set; }
+            public string CataloguePriceIdRef { get; set; }
         }
 
         private sealed class PriceResultTable
@@ -131,7 +201,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             public string PricingItemTierName { get; set; }
             public string TimeUnitName { get; set; }
             public string TimeUnitDescription { get; set; }
-
+            public string ProvisioningType { get; set; }
         }
 
         private sealed class TierTable
@@ -146,6 +216,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         {
             Flat = 1,
             Tiered = 2
+        }
+
+        private enum ProvisioningTypeEnum
+        {
+            PatientNumbers = 1,
+            Declarative =2,
+            OnDemand =3
         }
 
         private enum TimeUnitEnum

@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.Pricing;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 {
@@ -16,68 +18,98 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
             _priceRepository = priceRepository;
         }
 
+        public async Task<CataloguePriceBase> GetByPriceIdAsync(int priceId, CancellationToken cancellationToken)
+        {
+            var priceItems = await _priceRepository.GetPriceByPriceIdQueryAsync(priceId, cancellationToken);
+            return ProcessPriceItems(priceItems).FirstOrDefault();
+        }
+
         public async Task<IEnumerable<CataloguePriceBase>> GetBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
         {
             var prices = await _priceRepository.GetPricesBySolutionIdQueryAsync(solutionId, cancellationToken);
-            Dictionary<int, CataloguePriceBase> dictionary = new Dictionary<int, CataloguePriceBase>();
+            return ProcessPriceItems(prices);
+        }
 
-            foreach (var price in prices)
+        private static IEnumerable<CataloguePriceBase> ProcessPriceItems(IEnumerable<ICataloguePriceListResult> priceItems)
+        {
+            Dictionary<int, CataloguePriceBase> priceDictionary = new Dictionary<int, CataloguePriceBase>();
+
+            foreach (var price in priceItems)
             {
                 var cataloguePriceType = Enumerator.FromValue<CataloguePriceType>(price.CataloguePriceTypeId);
 
                 if (Equals(cataloguePriceType, CataloguePriceType.Flat))
                 {
-                    dictionary.Add(price.CataloguePriceId, new CataloguePriceFlat
-                    {
-                        CataloguePriceId = price.CataloguePriceId,
-                        CatalogueItemName = price.CatalogueItemName,
-                        CatalogueItemId = price.CatalogueItemId,
-                        PricingUnit = new PricingUnit
-                        {
-                            Description = price.PricingUnitDescription,
-                            Name = price.PricingUnitName,
-                            TierName = price.PricingUnitTierName
-                        },
-                        TimeUnit = price.TimeUnitId == 0 ? null : Enumerator.FromValue<TimeUnit>(price.TimeUnitId),
-                        CurrencyCode = price.CurrencyCode,
-                        Price = price.FlatPrice.GetValueOrDefault()
-                    });
+                    priceDictionary.Add(price.CataloguePriceId, GetFlatPrice(price));
                 }
                 else if (Equals(cataloguePriceType, CataloguePriceType.Tiered))
                 {
                     CataloguePriceTier tier;
 
-                    if (dictionary.ContainsKey(price.CataloguePriceId))
+                    if (priceDictionary.ContainsKey(price.CataloguePriceId))
                     {
-                        tier = dictionary[price.CataloguePriceId] as CataloguePriceTier;
-                    }
+                        tier = priceDictionary[price.CataloguePriceId] as CataloguePriceTier;
 
+                        UpdateTierPrices(tier, price);
+                    }
                     else
                     {
-                        tier = new CataloguePriceTier
-                        {
-                            CataloguePriceId = price.CataloguePriceId,
-                            CatalogueItemName = price.CatalogueItemName,
-                            CatalogueItemId = price.CatalogueItemId,
-                            CurrencyCode = price.CurrencyCode,
-                            PricingUnit = new PricingUnit
-                            {
-                                Name = price.PricingUnitName,
-                                Description = price.PricingUnitDescription,
-                                TierName = price.PricingUnitTierName
-                            },
-                            TimeUnit = Enumerator.FromValue<TimeUnit>(price.TimeUnitId)
-                        };
+                        tier = GetTierPrice(price);
 
-                        dictionary.Add(price.CataloguePriceId, tier);
+                        priceDictionary.Add(price.CataloguePriceId, tier);
                     }
-
-                    tier?.TieredPrices.Add(new TieredPrice(price.BandStart.GetValueOrDefault(), price.BandEnd,
-                        price.TieredPrice.GetValueOrDefault()));
                 }
             }
+            return priceDictionary.Values;
+        }
 
-            return dictionary.Values;
+        private static void UpdateTierPrices(CataloguePriceTier tier, ICataloguePriceListResult price)
+        {
+            tier.TieredPrices.Add(new TieredPrice(price.BandStart.GetValueOrDefault(), price.BandEnd,
+                price.TieredPrice.GetValueOrDefault()));
+        }
+
+        private static CataloguePriceTier GetTierPrice(ICataloguePriceListResult price)
+        {
+            CataloguePriceTier tier = new CataloguePriceTier
+            {
+                CataloguePriceId = price.CataloguePriceId,
+                CatalogueItemName = price.CatalogueItemName,
+                CatalogueItemId = price.CatalogueItemId,
+                CurrencyCode = price.CurrencyCode,
+                PricingUnit = new PricingUnit
+                {
+                    Name = price.PricingUnitName,
+                    Description = price.PricingUnitDescription,
+                    TierName = price.PricingUnitTierName
+                },
+                TimeUnit = Enumerator.FromValue<TimeUnit>(price.TimeUnitId),
+                ProvisioningType = Enumerator.FromValue<ProvisioningType>(price.ProvisioningTypeId)
+            };
+
+            UpdateTierPrices(tier, price);
+            return tier;
+        }
+
+        private static CataloguePriceFlat GetFlatPrice(ICataloguePriceListResult price)
+        {
+            var flatPrice = new CataloguePriceFlat
+            {
+                CataloguePriceId = price.CataloguePriceId,
+                CatalogueItemName = price.CatalogueItemName,
+                CatalogueItemId = price.CatalogueItemId,
+                PricingUnit = new PricingUnit
+                {
+                    Description = price.PricingUnitDescription,
+                    Name = price.PricingUnitName,
+                    TierName = price.PricingUnitTierName
+                },
+                TimeUnit = price.TimeUnitId == 0 ? null : Enumerator.FromValue<TimeUnit>(price.TimeUnitId),
+                CurrencyCode = price.CurrencyCode,
+                Price = price.FlatPrice.GetValueOrDefault(),
+                ProvisioningType = Enumerator.FromValue<ProvisioningType>(price.ProvisioningTypeId)
+            };
+            return flatPrice;
         }
     }
 }

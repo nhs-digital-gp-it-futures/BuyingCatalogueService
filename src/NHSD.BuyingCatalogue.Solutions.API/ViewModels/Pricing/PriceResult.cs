@@ -10,7 +10,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Pricing
 
         public string CurrencyCode { get; set; }
 
-        public string ProvisioningModel { get; set; }
+        public string ProvisioningType { get; set; }
 
         public ItemUnitResult ItemUnit { get; set; }
 

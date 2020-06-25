@@ -16,6 +16,8 @@
 
         string PricingUnitTierName { get; }
 
+        int ProvisioningTypeId { get; }
+
         int TimeUnitId { get; }
 
         string CurrencyCode { get; }
