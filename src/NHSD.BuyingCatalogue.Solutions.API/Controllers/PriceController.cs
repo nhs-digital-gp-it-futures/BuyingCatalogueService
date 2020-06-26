@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Diagnostics.CodeAnalysis;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
@@ -15,7 +14,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
     [Route("api/v1/prices")]
     [ApiController]
     [Produces(MediaTypeNames.Application.Json)]
-    [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Swagger doesn't allow static functions. Suppression will be removed when the proper implementation is added")]
     public sealed class PriceController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -30,11 +28,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         public async Task<ActionResult<PriceResult>> GetPriceAsync(int priceId)
         {
             var pricing = await _mediator.Send(new GetPriceByPriceIdQuery(priceId));
-            var result = GetPriceResult(pricing);
-            if (result == null)
-            {
+            if (pricing is null)
                 return NotFound();
-            }
+
+            var result = GetPriceResult(pricing);
 
             return result;
         }
