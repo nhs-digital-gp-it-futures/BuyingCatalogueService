@@ -165,7 +165,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             });
 
             var pricesToken = await _response.ReadBody();
-            const string tierToken = "tiers";
             var tierPrices = pricesToken.SelectToken("tiers");
 
             var content = tierPrices.Select(x => new

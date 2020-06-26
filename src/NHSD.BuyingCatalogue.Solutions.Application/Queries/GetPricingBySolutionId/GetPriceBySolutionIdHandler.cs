@@ -13,16 +13,19 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingBySolutio
     internal sealed class GetPriceBySolutionIdHandler : IRequestHandler<GetPriceBySolutionIdQuery, IEnumerable<ICataloguePrice>>
     {
         private readonly PriceReader _priceReader;
+        private readonly SolutionVerifier _verifier;
         private readonly IMapper _mapper;
 
-        public GetPriceBySolutionIdHandler(PriceReader priceReader, IMapper mapper)
+        public GetPriceBySolutionIdHandler(PriceReader priceReader, SolutionVerifier verifier, IMapper mapper)
         {
             _priceReader = priceReader;
+            _verifier = verifier;
             _mapper = mapper;
         }
 
         public async Task<IEnumerable<ICataloguePrice>> Handle(GetPriceBySolutionIdQuery request, CancellationToken cancellationToken)
         {
+            await _verifier.ThrowWhenMissingAsync(request.SolutionId, cancellationToken);
             var prices = await _priceReader.GetBySolutionIdAsync(request.SolutionId, cancellationToken);
 
             List<ICataloguePrice> cataloguePrices = new List<ICataloguePrice>();

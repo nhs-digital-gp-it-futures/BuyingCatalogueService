@@ -43,6 +43,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         }
 
         [Test]
+        public async Task GetPriceAsync_PriceIdDoesNotExist_ReturnNotFound()
+        {
+            var response = await _controller.GetPriceAsync(-1);
+            response.Result.Should().BeOfType<NotFoundResult>();
+        }
+
+        [Test]
         public async Task GetPriceAsync_HasFlatPrice_RetrievesPricing()
         {
             var flatPricing = FlatCataloguePriceDtoBuilder.Create().Build();
@@ -53,8 +60,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     m.Send(It.Is<GetPriceByPriceIdQuery>(q => q.PriceId == _priceId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(flatPricing);
 
-            var response = (await _controller.GetPriceAsync(_priceId));
-            response.Should().BeEquivalentTo(new ActionResult<PriceResult>(priceResult));
+            var response = await _controller.GetPriceAsync(_priceId);
+            response.Value.Should().BeEquivalentTo(priceResult);
         }
 
         [Test]
@@ -68,8 +75,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     m.Send(It.Is<GetPriceByPriceIdQuery>(q => q.PriceId == _priceId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(tieredPricing);
 
-            var response = (await _controller.GetPriceAsync(_priceId));
-            response.Should().BeEquivalentTo(new ActionResult<PriceResult>(priceResult));
+            var response = await _controller.GetPriceAsync(_priceId);
+            response.Value.Should().BeEquivalentTo(priceResult);
         }
 
         [Test]
@@ -85,7 +92,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 .ReturnsAsync(cataloguePriceList);
 
             var response = (await _controller.GetListAsync(_solutionId));
-            response.Should().BeEquivalentTo(new ActionResult<PricingResult>(priceResult));
+            response.Value.Should().BeEquivalentTo(priceResult);
         }
 
         [Test]
@@ -101,7 +108,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 .ReturnsAsync(cataloguePriceList);
 
             var response = (await _controller.GetListAsync(_solutionId));
-            response.Should().BeEquivalentTo(new ActionResult<PricingResult>(priceResult));
+            response.Value.Should().BeEquivalentTo(priceResult);
         }
 
         [Test]
@@ -117,8 +124,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     m.Send(It.Is<GetPriceBySolutionIdQuery>(q => q.SolutionId == _solutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(cataloguePriceList);
 
-            var response = (await _controller.GetListAsync(_solutionId));
-            response.Should().BeEquivalentTo(new ActionResult<PricingResult>(priceResult));
+            var response = await _controller.GetListAsync(_solutionId);
+            response.Value.Should().BeEquivalentTo(priceResult);
         }
 
         private static PriceResult CreatePrice(ICataloguePrice cataloguePrice)

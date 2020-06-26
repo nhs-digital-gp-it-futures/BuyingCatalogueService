@@ -15,15 +15,15 @@ Background:
         | Sln4       | MedicRUs        | Sup 1      |
         | Sln5       | GP Practice     | Sup 1      |
     Given CataloguePrice exists
-        | CatalogueItemId | CataloguePriceTypeEnum | ProvisioningTypeEnum | CurrencyCode | Price  | PricingUnitId                        | TimeUnitEnum | CataloguePriceTierRef |
-        | Sln1            | Flat                   | OnDemand             | £            | 521.34 | 774E5A1D-D15C-4A37-9990-81861BEAE42B | Month        |                       |
-        | Sln2            | Tiered                 | PatientNumbers       | $            |        | D43C661A-0587-45E1-B315-5E5091D6E9D0 | Year         | 1                     |
-        | Sln3            | Flat                   | Declarative          | GBP          | 348.92 | D43C661A-0587-45E1-B315-5E5091D6E9D0 | Month        |                       |
-        | Sln3            | Flat                   | OnDemand             | USD          | 567.32 | 8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65 | Year         |                       |
-        | Sln4            | Tiered                 | PatientNumbers       | EUR          |        | D43C661A-0587-45E1-B315-5E5091D6E9D0 | Year         | 2                     |
-        | Sln4            | Tiered                 | Declarative          | AUZ          |        | 774E5A1D-D15C-4A37-9990-81861BEAE42B | Year         | 3                     |
-        | Sln5            | Flat                   | OnDemand             | GBP          | 521.90 | 8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65 | NULL         |                       |
-        | Sln5            | Tiered                 | PatientNumbers       | GBP          |        | 90119522-D381-4296-82EE-8FE630593B56 | Year         | 4                     |
+        | CatalogueItemId | CataloguePriceTypeEnum | ProvisioningTypeEnum | CurrencyCode | Price   | PricingUnitId                        | TimeUnitEnum | CataloguePriceTierRef |
+        | Sln1            | Flat                   | OnDemand             | £            | 521.34  | 774E5A1D-D15C-4A37-9990-81861BEAE42B | Month        |                       |
+        | Sln2            | Tiered                 | PatientNumbers       | $            |         | D43C661A-0587-45E1-B315-5E5091D6E9D0 | Year         | 1                     |
+        | Sln3            | Flat                   | Declarative          | GBP          | 348.92  | D43C661A-0587-45E1-B315-5E5091D6E9D0 | Month        |                       |
+        | Sln3            | Flat                   | OnDemand             | USD          | 567.32  | 8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65 | Year         |                       |
+        | Sln4            | Tiered                 | PatientNumbers       | EUR          |         | D43C661A-0587-45E1-B315-5E5091D6E9D0 | Year         | 2                     |
+        | Sln4            | Tiered                 | Declarative          | AUZ          |         | 774E5A1D-D15C-4A37-9990-81861BEAE42B | Year         | 3                     |
+        | Sln5            | Flat                   | OnDemand             | GBP          | 521.90  | 8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65 | NULL         |                       |
+        | Sln5            | Tiered                 | PatientNumbers       | GBP          |         | 90119522-D381-4296-82EE-8FE630593B56 | Year         | 4                     |
     Given CataloguePriceTier exists
         | CataloguePriceTierRef | BandStart | BandEnd | Price   |
         | 1                     | 1         | 5       | 700.00  |
@@ -100,3 +100,8 @@ Scenario: 5. Get a list of flat and tiered prices
         | Start | End | Price   | Section |
         | 1     | 10  | 2100.93 | 0       |
         | 11    |     | 1943.21 | 0       |
+
+@7260
+Scenario: 6. Get a price with no solution
+     When a GET request is made to retrieve the pricing with Solution ID INVALID
+     Then a response status of 404 is returned
