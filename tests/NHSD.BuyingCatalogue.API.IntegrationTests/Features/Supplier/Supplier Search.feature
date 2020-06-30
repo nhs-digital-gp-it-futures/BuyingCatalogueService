@@ -135,7 +135,7 @@ Scenario Outline: 12. Suppliers with a special character in the name are returne
     And a list of suppliers is returned with the following values
         | Id           | SupplierName   |
         | <SupplierId> | <SupplierName> |
-    Examples: 
+    Examples:
         | Search | SupplierId | SupplierName     |
         | %      | Sup 4      | % Su_p[p&l=ie+r- |
         | _      | Sup 4      | % Su_p[p&l=ie+r- |

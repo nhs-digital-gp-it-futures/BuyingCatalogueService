@@ -1,6 +1,6 @@
 Feature:  Display Marketing Page Form Browser Mobile First Section
     As a Supplier
-    I want to manage Marketing Page Information for the Solution's Browser Mobile First 
+    I want to manage Marketing Page Information for the Solution's Browser Mobile First
     So that I can ensure the information is correct
 
 Background:
@@ -45,4 +45,3 @@ Scenario: 4. Service failure
 Scenario: 5. Solution id not present in request
     When a GET request is made for browser-mobile-first section with no solution id
     Then a response status of 400 is returned
-

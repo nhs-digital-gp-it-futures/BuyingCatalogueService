@@ -2,6 +2,7 @@ Feature: Display Marketing Page Dashboard Authority Capability Section
     As an Authority User
     I want to manage Marketing Page Information for the Solution's Capability
     So that I can ensure the information is correct
+
 Background:
     Given Capabilities exist
        | CapabilityName      | IsFoundation |
@@ -9,11 +10,11 @@ Background:
        | Prescribing         | true         |
        | Workflow            | true         |
      And Suppliers exist
-	   | Id    | SupplierName |
-	   | Sup 1 | Supplier 1   |
+       | Id    | SupplierName |
+       | Sup 1 | Supplier 1   |
      And Solutions exist
-	   | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
-	   | Sln1       | MedicOnline    | 1                | Sup 1      |
+       | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
+       | Sln1       | MedicOnline    | 1                | Sup 1      |
 
 @3678
 Scenario Outline: 1. Capabilities section is mandatory and is reported complete if there are any capabilities for that solution

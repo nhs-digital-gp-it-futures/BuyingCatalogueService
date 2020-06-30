@@ -16,7 +16,7 @@ Background:
         | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                    |
         | Sln1     | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] } |
         | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                      |
-                
+
 @2724
 Scenario: 1. Client Application Types are retrieved for the solution
     When a GET request is made for client-application-types section for solution Sln1

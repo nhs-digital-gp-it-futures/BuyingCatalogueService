@@ -49,6 +49,10 @@ trim_trailing_whitespace = false
 [*.{yml,yaml}]
 indent_size = 2
 
+# SQL Project Files
+[*.sqlproj]
+insert_final_newline = true
+
 ###############################
 # .NET Coding Conventions     #
 ###############################

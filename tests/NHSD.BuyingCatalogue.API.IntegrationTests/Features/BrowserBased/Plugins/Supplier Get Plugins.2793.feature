@@ -51,7 +51,7 @@ Scenario: 4. Service failure
 Scenario: 5. Solution id not present in request
     When a GET request is made for browser-plug-ins-or-extensions section with no solution id
     Then a response status of 400 is returned
-    
+
 @2786
 Scenario: 6. Plugins are retrieved for the solution where no plugins-required
     When a GET request is made for browser-plug-ins-or-extensions section for solution Sln5

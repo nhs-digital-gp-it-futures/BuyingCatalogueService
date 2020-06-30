@@ -64,12 +64,11 @@ Scenario: 6. Solution id not present in request
     When a GET request is made for browser-browsers-supported section with no solution id
     Then a response status of 400 is returned
 
-
 @2786
 Scenario: 7.Supported Browsers are retrieved for the solution where no supported-browsers
     When a GET request is made for browser-browsers-supported section for solution Sln5
     Then a successful response is returned
     And the supported-browsers element contains
-    | Elements |
-    |          |
+        | Elements |
+        |          |
     And the mobile-responsive element is No

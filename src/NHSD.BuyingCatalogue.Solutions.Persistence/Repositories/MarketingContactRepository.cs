@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -18,54 +18,53 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         private readonly IDbConnector _dbConnector;
 
         public MarketingContactRepository(IDbConnector dbConnector)
-        => _dbConnector = dbConnector ?? throw new System.ArgumentNullException(nameof(dbConnector));
+        => _dbConnector = dbConnector ?? throw new ArgumentNullException(nameof(dbConnector));
 
-        private const string getSql = @"SELECT 
-                                    MarketingContact.Id
-                                    ,MarketingContact.SolutionId
-                                    ,MarketingContact.FirstName
-                                    ,MarketingContact.LastName
-                                    ,MarketingContact.Email
-                                    ,MarketingContact.PhoneNumber
-                                    ,MarketingContact.Department
-                                    ,MarketingContact.LastUpdated
-                                    FROM Solution
-                                    INNER JOIN MarketingContact ON MarketingContact.SolutionId = Solution.Id
-                                    WHERE Solution.Id = @solutionId";
+        private const string GetSql = @"SELECT m.Id,
+       m.SolutionId,
+       m.FirstName,
+       m.LastName,
+       m.Email,
+       m.PhoneNumber,
+       m.Department,
+       m.LastUpdated
+  FROM dbo.Solution AS s
+       INNER JOIN MarketingContact AS m
+               ON m.SolutionId = s.Id
+WHERE s.Id = @solutionId;";
 
-        private const string deleteSql = @"DELETE FROM MarketingContact Where SolutionId = @solutionId";
+        private const string DeleteSql = @"DELETE FROM dbo.MarketingContact Where SolutionId = @solutionId;";
 
-        private const string insertSql = @"INSERT INTO [dbo].[MarketingContact]
-            ([SolutionId]
-            ,[FirstName]
-            ,[LastName]
-            ,[Email]
-            ,[PhoneNumber]
-            ,[Department]
-            ,[LastUpdated]
-            ,[LastUpdatedBy])
-            VALUES(
-            @solutionId,
+        private const string InsertSql = @"INSERT INTO dbo.MarketingContact(
+            SolutionId,
+            FirstName,
+            LastName,
+            Email,
+            PhoneNumber,
+            Department,
+            LastUpdated,
+            LastUpdatedBy)
+    VALUES (@solutionId,
             @firstName,
             @lastName,
             @email,
             @phoneNumber,
             @department,
-            GETDATE(),
-            @lastUpdatedBy)";
+            GETUTCDATE(),
+            @lastUpdatedBy);";
 
         public async Task<IEnumerable<IMarketingContactResult>> BySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
-                => await _dbConnector.QueryAsync<MarketingContactResult>(getSql, cancellationToken, new { solutionId }).ConfigureAwait(false);
+                => await _dbConnector.QueryAsync<MarketingContactResult>(GetSql, cancellationToken, new { solutionId });
 
         public async Task ReplaceContactsForSolution(string solutionId, IEnumerable<IContact> newContacts, CancellationToken cancellationToken)
         {
-            var queries = new List<(string, object)> { (deleteSql, new { solutionId }) };
+            var queries = new List<(string, object)> { (DeleteSql, new { solutionId }) };
 
             queries.AddRange(newContacts.Select(contact =>
-                (insertSql,
+                (insertSql: InsertSql,
                     (object)new
                     {
-                        solutionId = solutionId,
+                        solutionId,
                         firstName = contact.FirstName,
                         lastName = contact.LastName,
                         email = contact.Email,
@@ -74,7 +73,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                         lastUpdatedBy = Guid.Empty
                     })));
 
-            await _dbConnector.ExecuteMultipleWithTransactionAsync(queries, cancellationToken).ConfigureAwait(false);
+            await _dbConnector.ExecuteMultipleWithTransactionAsync(queries, cancellationToken);
         }
     }
 }

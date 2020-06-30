@@ -17,7 +17,6 @@ Background:
         | Solution | SummaryDescription             | FullDescription     | Features                          |
         | Sln1     | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
         | Sln3     | Eye opening experience         | Eye opening6        |                                   |
-      
 
 @2724
 Scenario: 1. Features are retrieved for the solution

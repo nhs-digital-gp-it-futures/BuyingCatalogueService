@@ -27,6 +27,7 @@ Feature: Suppliers Edit Solution Implementation Timescales Section
             | Solution | ImplementationDetail                                   |
             | Sln1     | A new implementation timescales description            |
             | Sln2     | Another original implementation timescales description |
+            | Sln3     | NULL                                                   |
         And Last Updated has updated on the SolutionDetail for solution Sln1
 
     @3670
@@ -39,9 +40,11 @@ Feature: Suppliers Edit Solution Implementation Timescales Section
             | Solution | ImplementationDetail                                   |
             | Sln1     | A new implementation timescales description            |
             | Sln2     | Another original implementation timescales description |
+            | Sln3     | NULL                                                   |
         And Last Updated has updated on the SolutionDetail for solution Sln1
 
     @3700
+    @ignore # solution detail will always be present now
     Scenario: 3. Solution implementation timescales section data is not created on update if no SolutionDetail
         Given a SolutionDetail Sln3 does not exist
         When a PUT request is made to update the implementation-timescales section for solution Sln3
