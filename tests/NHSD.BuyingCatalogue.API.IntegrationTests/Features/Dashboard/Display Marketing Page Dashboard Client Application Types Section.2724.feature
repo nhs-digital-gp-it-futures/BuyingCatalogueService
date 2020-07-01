@@ -27,7 +27,6 @@ Background:
         | Sln6     | More Summaries                 | Online System       | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": true, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum"}, "MobileFirstDesign": true, "MinimumConnectionSpeed": "Connection Speed" }                                            |
         | Sln7     | More Summaries                 | Online System       | { "ClientApplicationTypes": ["native-mobile"], "MobileOperatingSystems": { "OperatingSystems": ["Windows"] }, "NativeMobileFirstDesign": false, "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "Description": "A description" }}                                                              |
         | Sln8     | More Summaries                 | Online System       | { "ClientApplicationTypes": ["native-desktop"], "NativeDesktopOperatingSystemsDescription": "Some Description", "NativeDesktopMinimumConnectionSpeed": "2Mbps", "NativeDesktopMemoryAndStorage": { "MinimumMemoryRequirement": "512MB", "StorageRequirementsDescription": "Some Desc", "MinimumCpu": "min" } } |
-        
 
 @2724
 Scenario: 1. Sections presented where the Solution exists
@@ -61,7 +60,7 @@ Scenario: 4. Sections Mandatory when ClientApplicationTypes is set
     And the solution client-application-types section browser-based subsection requirement is Mandatory
     And the solution client-application-types section native-mobile subsection requirement is Mandatory
     And the solution client-application-types section native-desktop subsection requirement is Mandatory
-   
+
 @3597
 Scenario: 5. Section Browser Based is Incomplete
     When a GET request is made for solution dashboard Sln1
@@ -103,5 +102,3 @@ Scenario: 10. Section Native Desktop is Complete
     Then a successful response is returned
     Then the solution client-application-types section native-desktop subsection status is COMPLETE
     And the solution client-application-types section native-desktop subsection requirement is Mandatory
-
-

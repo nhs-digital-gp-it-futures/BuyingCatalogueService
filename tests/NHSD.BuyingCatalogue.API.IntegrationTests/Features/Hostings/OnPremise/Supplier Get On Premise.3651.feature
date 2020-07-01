@@ -27,7 +27,7 @@ Scenario: 1. On Premise is retreived for the solution
     And the requires-hscn element contains
         | Elements                                    |
         | This Solution requires a HSCN/N3 connection |
-    
+
 @3651
 Scenario: 2. On Premise is retrieved for the solution where no public cloud data exists
     When a GET request is made for hosting-type-on-premise section for solution Sln2

@@ -2,11 +2,11 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS dacpacbuild
 WORKDIR ~/dacpac
 COPY src/NHSD.BuyingCatalogue.Database.Deployment/*.csproj .
 COPY src/NHSD.BuyingCatalogue.Database .
-RUN rm -rf PostDeployment \
+RUN rm -rf PostDeployment && rm -rf PreDeployment \
     && dotnet build "NHSD.BuyingCatalogue.Database.Deployment.csproj" -c Release -o build
 
 FROM mcr.microsoft.com/mssql-tools:latest AS dacfx
-RUN apt-get update && apt-get install libunwind8 libicu-dev wget unzip -y
+RUN apt-get -o Acquire::https::No-Cache=True -o Acquire::http::No-Cache=True update && apt-get install libunwind8 libicu-dev wget unzip -y
 WORKDIR ~
 RUN wget https://go.microsoft.com/fwlink/?linkid=2128144 -O sqlpackage.zip \
     && mkdir sqlpackage \
@@ -14,6 +14,7 @@ RUN wget https://go.microsoft.com/fwlink/?linkid=2128144 -O sqlpackage.zip \
     && chmod a+x /sqlpackage/sqlpackage
 COPY --from=dacpacbuild ~/dacpac/build/*.dacpac .
 COPY src/NHSD.BuyingCatalogue.Database.Deployment/entrypoint.sh .
-COPY src/NHSD.BuyingCatalogue.Database/PostDeployment .
+COPY src/NHSD.BuyingCatalogue.Database/PreDeployment PreDeployment/
+COPY src/NHSD.BuyingCatalogue.Database/PostDeployment PostDeployment/
 RUN chmod a+x entrypoint.sh
 ENTRYPOINT ["./entrypoint.sh"]

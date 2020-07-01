@@ -244,3 +244,7 @@ The `dacpac` deployment takes a few seconds to initialize and complete so it is 
 ### "Start Buying Catalogue API failed, could not get a successful health status from 'http://localhost:8080/health/live' after trying for '01:00'"
 
 Have you remembered to run `Launch Environment.ps1 i` :) ?
+
+## Data Migration SSIS Package
+
+Additional information on the data migration package can be found in its [readme](src/NHSD.BuyingCatalogue.Database.PublishAll/README.md).

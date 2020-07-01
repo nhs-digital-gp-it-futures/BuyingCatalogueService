@@ -52,4 +52,3 @@ Scenario: 5. Service failure
 Scenario: 6. Solution id not present in request
     When a GET request is made for browser-additional-information section with no solution id
     Then a response status of 400 is returned
-

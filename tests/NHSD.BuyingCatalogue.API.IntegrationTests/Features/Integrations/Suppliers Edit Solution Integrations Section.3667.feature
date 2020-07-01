@@ -27,6 +27,7 @@ Feature: Suppliers Edit Solution Integrations Section
             | Solution | IntegrationsUrl                   |
             | Sln1     | A new integrations url            |
             | Sln2     | Another original integrations url |
+            | Sln3     | NULL                              |
         And Last Updated has updated on the SolutionDetail for solution Sln1
 
     @3667
@@ -39,9 +40,11 @@ Feature: Suppliers Edit Solution Integrations Section
             | Solution | IntegrationsUrl                   |
             | Sln1     | A new integrations url            |
             | Sln2     | Another original integrations url |
+            | Sln3     | NULL                              |
         And Last Updated has updated on the SolutionDetail for solution Sln1
 
     @3667
+    @ignore # solution detail will always be present now
     Scenario: 3. Solution integrations section data is not created on update if no SolutionDetail
         Given a SolutionDetail Sln3 does not exist
         When a PUT request is made to update the integrations section for solution Sln3
