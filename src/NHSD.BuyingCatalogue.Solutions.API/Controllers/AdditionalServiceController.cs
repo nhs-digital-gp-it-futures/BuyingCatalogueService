@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System.Globalization;
 using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.AdditionalService;
@@ -14,9 +14,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Cannot be viewed on swagger if static")]
         public ActionResult<AdditionalServiceResult> Get([FromQuery] string[] solutionIds)
         {
+            if (solutionIds is null)
+                return NotFound();
+
             return new AdditionalServiceResult
             {
-                Id = solutionIds.FirstOrDefault(),
+                Id = SetAdditionalServiceId(solutionIds),
                 Name = "Write on Time Additional Service 1",
                 Summary = "Addition to Write on Time",
                 Solution = new AdditionalServiceSolutionResult
@@ -25,6 +28,21 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
                     Name = "Write on Time"
                 }
             };
+        }
+
+        private static string SetAdditionalServiceId(string[] solutionIds)
+        {
+            var additionalServiceId = string.Empty;
+            var incrementalId = 1;
+
+            foreach (var solutionId in solutionIds)
+            {
+                additionalServiceId += $"{solutionId}A{incrementalId.ToString(CultureInfo.InvariantCulture).PadLeft(3, '0')}";
+
+                incrementalId++;
+            }
+
+            return additionalServiceId;
         }
     }
 }
