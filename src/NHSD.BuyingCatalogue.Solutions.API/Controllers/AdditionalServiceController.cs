@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
 using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.AdditionalService;
@@ -13,16 +12,18 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
     {
         [HttpGet]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Cannot be viewed on swagger if static")]
-        public ActionResult<List<AdditionalServiceResult>> Get([FromQuery] string[] solutionIds)
+        public ActionResult<IEnumerable<AdditionalServiceResult>> Get([FromQuery] string[] solutionIds)
         {
             if (solutionIds is null)
                 return NotFound();
 
-            return new List<AdditionalServiceResult>
+            var additionalServiceResults = new List<AdditionalServiceResult>();
+
+            foreach (var solutionId in solutionIds)
             {
-                new AdditionalServiceResult
+                additionalServiceResults.Add(new AdditionalServiceResult
                 {
-                    AdditionalServiceId = SetAdditionalServiceId(solutionIds),
+                    AdditionalServiceId = SetAdditionalServiceId(solutionId),
                     Name = "Write on Time Additional Service 1",
                     Summary = "Addition to Write on Time",
                     Solution = new AdditionalServiceSolutionResult
@@ -30,21 +31,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
                         SolutionId = "100000-001",
                         Name = "Write on Time"
                     }
-                }
-            };
+                });
+            }
+
+            return additionalServiceResults;
         }
 
-        private static string SetAdditionalServiceId(string[] solutionIds)
+        private static string SetAdditionalServiceId(string solutionId)
         {
             var additionalServiceId = string.Empty;
-            var incrementalId = 1;
-
-            foreach (var solutionId in solutionIds)
-            {
-                additionalServiceId += $"{solutionId}A{incrementalId.ToString(CultureInfo.InvariantCulture).PadLeft(3, '0')}";
-
-                incrementalId++;
-            }
+            additionalServiceId += $"{solutionId}A001";
 
             return additionalServiceId;
         }
