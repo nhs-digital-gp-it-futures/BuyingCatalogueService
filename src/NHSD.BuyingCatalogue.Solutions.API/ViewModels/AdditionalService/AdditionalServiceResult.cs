@@ -2,7 +2,7 @@
 {
     public sealed class AdditionalServiceResult
     {
-        public string Id { get; set; }
+        public string AdditionalServiceId { get; set; }
 
         public string Name { get; set; }
 

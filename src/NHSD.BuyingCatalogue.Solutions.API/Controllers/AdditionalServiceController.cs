@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.AdditionalService;
@@ -12,20 +13,23 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
     {
         [HttpGet]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Cannot be viewed on swagger if static")]
-        public ActionResult<AdditionalServiceResult> Get([FromQuery] string[] solutionIds)
+        public ActionResult<List<AdditionalServiceResult>> Get([FromQuery] string[] solutionIds)
         {
             if (solutionIds is null)
                 return NotFound();
 
-            return new AdditionalServiceResult
+            return new List<AdditionalServiceResult>
             {
-                Id = SetAdditionalServiceId(solutionIds),
-                Name = "Write on Time Additional Service 1",
-                Summary = "Addition to Write on Time",
-                Solution = new AdditionalServiceSolutionResult
+                new AdditionalServiceResult
                 {
-                    Id = "100000-001",
-                    Name = "Write on Time"
+                    AdditionalServiceId = SetAdditionalServiceId(solutionIds),
+                    Name = "Write on Time Additional Service 1",
+                    Summary = "Addition to Write on Time",
+                    Solution = new AdditionalServiceSolutionResult
+                    {
+                        SolutionId = "100000-001",
+                        Name = "Write on Time"
+                    }
                 }
             };
         }
