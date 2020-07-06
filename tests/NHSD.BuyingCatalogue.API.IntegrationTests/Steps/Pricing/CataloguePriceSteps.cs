@@ -219,7 +219,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
 
         private enum ProvisioningTypeEnum
         {
-            PatientNumbers = 1,
+            Patient = 1,
             Declarative = 2,
             OnDemand = 3
         }
