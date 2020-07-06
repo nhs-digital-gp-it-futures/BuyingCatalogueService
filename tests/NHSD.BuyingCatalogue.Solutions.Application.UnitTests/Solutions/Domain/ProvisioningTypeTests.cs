@@ -6,20 +6,18 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Domain
 {
     [TestFixture]
-	public class ProvisioningTypeTests
-	{
-        [Test]
-        public void EnsureProvioningTypeNamingMatchesOrdapi()
+    public sealed class ProvisioningTypeTests
+    {
+        [TestCase("Patient")]
+        [TestCase("Declarative")]
+        [TestCase("OnDemand")]
+        public void EnsureProvisioningTypeNamingMatchesOrdapi(string name)
         {
             //Arrange
-            var patient = Enumerator.FromName<ProvisioningType>("Patient");
-            var declarative = Enumerator.FromName<ProvisioningType>("Declarative");
-            var onDemand = Enumerator.FromName<ProvisioningType>("OnDemand");
+            ProvisioningType provisioningType = Enumerator.FromName<ProvisioningType>(name);
 
             //Assert
-            patient.Name.Should().Be("Patient");
-            declarative.Name.Should().Be("Declarative");
-            onDemand.Name.Should().Be("OnDemand");
+            provisioningType.Name.Should().Be(name);
         }
     }
 }
