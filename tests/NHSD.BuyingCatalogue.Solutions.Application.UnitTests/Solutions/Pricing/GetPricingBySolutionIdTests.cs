@@ -71,9 +71,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Pricing
                 new CancellationToken())).ToList();
 
             prices.Count.Should().Be(1);
-            var price = prices.FirstOrDefault();
+            var price = prices.First();
 
-            price.CatalogueItemId.Should().Be(SolutionId);
             price.CatalogueItemId.Should().BeEquivalentTo(Price1.CatalogueItemId);
             price.CatalogueItemName.Should().BeEquivalentTo(Price1.CatalogueItemName);
             price.Type.Should().BeEquivalentTo(Enumerator.FromValue<CataloguePriceType>(Price1.CataloguePriceTypeId).Name);
