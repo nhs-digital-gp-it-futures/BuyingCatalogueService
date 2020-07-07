@@ -40,6 +40,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSuppliers;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Mapping;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetAdditionalServiceByAdditionalServiceId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicationBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutionId;
@@ -96,6 +97,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
         public Mock<ISolutionEpicStatusRepository> MockSolutionEpicStatusRepository { get; private set; }
 
+        public Mock<IAdditionalServiceRepository> MockAdditionalServiceRepository { get; private set; }
+
         public GetSolutionByIdHandler GetSolutionByIdHandler => (GetSolutionByIdHandler)_scope.GetSolutionByIdHandler;
 
         public GetRoadMapBySolutionIdHandler GetRoadMapBySolutionIdHandler => (GetRoadMapBySolutionIdHandler)_scope.GetRoadMapBySolutionIdHandler;
@@ -111,6 +114,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
         public GetSupplierBySolutionIdHandler GetSupplierBySolutionIdHandler => (GetSupplierBySolutionIdHandler)_scope.GetSupplierBySolutionIdHandler;
 
         public GetSupplierByIdHandler GetSupplierByIdHandler => (GetSupplierByIdHandler)_scope.GetSupplierByIdHandler;
+
+        public GetAdditionalServiceByCatalogueItemIdHandler GetAdditionalServiceBySolutionIdsHandler =>
+            (GetAdditionalServiceByCatalogueItemIdHandler)_scope.GetAdditionalServiceBySolutionIdsHandler;
 
         public GetSuppliersByNameHandler GetSuppliersByNameHandler => (GetSuppliersByNameHandler)_scope.GetSuppliersByNameHandler;
 
@@ -234,6 +240,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             serviceCollection.AddSingleton(MockEpicRepository.Object);
             MockSolutionEpicStatusRepository = new Mock<ISolutionEpicStatusRepository>();
             serviceCollection.AddSingleton(MockSolutionEpicStatusRepository.Object);
+            MockAdditionalServiceRepository = new Mock<IAdditionalServiceRepository>();
+            serviceCollection.AddSingleton(MockAdditionalServiceRepository.Object);
         }
 
         private class Scope
@@ -281,7 +289,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdateIntegrationsCommand, ISimpleResult> updateIntegrationsRequestHandler,
                 IRequestHandler<UpdateImplementationTimescalesCommand, ISimpleResult> updateImplementationTimescalesHandler,
                 IRequestHandler<UpdateCapabilitiesCommand, ISimpleResult> updateCapabilitiesHandler,
-                IRequestHandler<UpdateClaimedEpicsCommand, ISimpleResult> updateClaimedEpicsHandler)
+                IRequestHandler<UpdateClaimedEpicsCommand, ISimpleResult> updateClaimedEpicsHandler,
+                IRequestHandler<GetAdditionalServiceBySolutionIdsQuery, IEnumerable<IAdditionalService>> getAdditionalServiceBySolutionIdsHandler)
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;
                 GetClientApplicationBySolutionIdHandler = getClientApplicationBySolutionIdHandler;
@@ -327,6 +336,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 UpdateImplementationTimescalesHandler = updateImplementationTimescalesHandler;
                 UpdateCapabilitiesHandler = updateCapabilitiesHandler;
                 UpdateClaimedEpicsHandler = updateClaimedEpicsHandler;
+                GetAdditionalServiceBySolutionIdsHandler = getAdditionalServiceBySolutionIdsHandler;
             }
 
             public IRequestHandler<GetSolutionByIdQuery, ISolution> GetSolutionByIdHandler { get; }
@@ -416,6 +426,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             public IRequestHandler<UpdateCapabilitiesCommand, ISimpleResult> UpdateCapabilitiesHandler { get; }
 
             public IRequestHandler<UpdateClaimedEpicsCommand, ISimpleResult> UpdateClaimedEpicsHandler { get; }
+
+            public IRequestHandler<GetAdditionalServiceBySolutionIdsQuery, IEnumerable<IAdditionalService>> GetAdditionalServiceBySolutionIdsHandler { get; }
         }
     }
 }
