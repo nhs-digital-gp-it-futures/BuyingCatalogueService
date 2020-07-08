@@ -46,6 +46,8 @@ using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolut
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetImplementationTimescalesBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetIntegrationsBySolutionId;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingByPriceId;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetRoadMapBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierById;
@@ -53,6 +55,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierBySolutionId
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSuppliersByName;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Pricing;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
 
@@ -97,6 +100,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
         public Mock<ISolutionEpicStatusRepository> MockSolutionEpicStatusRepository { get; private set; }
 
+        public Mock<IPriceRepository> MockPriceRepository { get; private set; }
+        
         public Mock<IAdditionalServiceRepository> MockAdditionalServiceRepository { get; private set; }
 
         public GetSolutionByIdHandler GetSolutionByIdHandler => (GetSolutionByIdHandler)_scope.GetSolutionByIdHandler;
@@ -218,6 +223,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
         public UpdateCapabilitiesHandler UpdateCapabilitiesHandler =>
             (UpdateCapabilitiesHandler)_scope.UpdateCapabilitiesHandler;
 
+        public GetPricingByPriceIdHandler GetPricingByPriceIdHandler =>
+            (GetPricingByPriceIdHandler)_scope.GetPriceByPriceIdHandler;
+
+        public GetPriceBySolutionIdHandler GetPriceBySolutionIdHandler =>
+            (GetPriceBySolutionIdHandler)_scope.GetPriceBySolutionIdHandler;
+
         public UpdateClaimedEpicsHandler UpdateClaimedEpicsHandler => (UpdateClaimedEpicsHandler)_scope.UpdateClaimedEpicsHandler;
 
         private void RegisterDependencies(IServiceCollection serviceCollection)
@@ -240,6 +251,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             serviceCollection.AddSingleton(MockEpicRepository.Object);
             MockSolutionEpicStatusRepository = new Mock<ISolutionEpicStatusRepository>();
             serviceCollection.AddSingleton(MockSolutionEpicStatusRepository.Object);
+            MockPriceRepository = new Mock<IPriceRepository>();
+            serviceCollection.AddSingleton(MockPriceRepository.Object);
             MockAdditionalServiceRepository = new Mock<IAdditionalServiceRepository>();
             serviceCollection.AddSingleton(MockAdditionalServiceRepository.Object);
         }
@@ -290,6 +303,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdateImplementationTimescalesCommand, ISimpleResult> updateImplementationTimescalesHandler,
                 IRequestHandler<UpdateCapabilitiesCommand, ISimpleResult> updateCapabilitiesHandler,
                 IRequestHandler<UpdateClaimedEpicsCommand, ISimpleResult> updateClaimedEpicsHandler,
+                IRequestHandler<GetPriceByPriceIdQuery, ICataloguePrice> getPriceByPriceIdHandler,
+                IRequestHandler<GetPriceBySolutionIdQuery, IEnumerable<ICataloguePrice>> getPriceBySolutionIdHandler,
                 IRequestHandler<GetAdditionalServiceBySolutionIdsQuery, IEnumerable<IAdditionalService>> getAdditionalServiceBySolutionIdsHandler)
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;
@@ -336,6 +351,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 UpdateImplementationTimescalesHandler = updateImplementationTimescalesHandler;
                 UpdateCapabilitiesHandler = updateCapabilitiesHandler;
                 UpdateClaimedEpicsHandler = updateClaimedEpicsHandler;
+                GetPriceByPriceIdHandler = getPriceByPriceIdHandler;
+                GetPriceBySolutionIdHandler = getPriceBySolutionIdHandler;
                 GetAdditionalServiceBySolutionIdsHandler = getAdditionalServiceBySolutionIdsHandler;
             }
 
@@ -427,6 +444,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public IRequestHandler<UpdateClaimedEpicsCommand, ISimpleResult> UpdateClaimedEpicsHandler { get; }
 
+            public IRequestHandler<GetPriceByPriceIdQuery, ICataloguePrice> GetPriceByPriceIdHandler { get; }
+
+            public IRequestHandler<GetPriceBySolutionIdQuery, IEnumerable<ICataloguePrice>> GetPriceBySolutionIdHandler { get; }
+            
             public IRequestHandler<GetAdditionalServiceBySolutionIdsQuery, IEnumerable<IAdditionalService>> GetAdditionalServiceBySolutionIdsHandler { get; }
         }
     }
