@@ -29,6 +29,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
         public IPriceRepository PriceRepository => _scope.PriceRepository;
 
+        public IAdditionalServiceRepository AdditionalServiceRepository => _scope.AdditionalServiceRepository;
+
         public IDbConnector DbConnector => _scope.DbConnector;
 
         public TestContext()
@@ -67,6 +69,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             public IPriceRepository PriceRepository { get; }
 
+            public IAdditionalServiceRepository AdditionalServiceRepository { get; }
+
             public IDbConnector DbConnector { get; }
 
             public Scope(IMarketingContactRepository marketingContactRepository,
@@ -78,6 +82,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 IEpicRepository epicRepository,
                 ISolutionEpicStatusRepository solutionEpicStatusRepository,
                 IPriceRepository priceRepository,
+                IAdditionalServiceRepository additionalServiceRepository,
                 IDbConnector dbConnector)
             {
                 MarketingContactRepository = marketingContactRepository;
@@ -89,6 +94,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 EpicRepository = epicRepository;
                 SolutionEpicStatusRepository = solutionEpicStatusRepository;
                 PriceRepository = priceRepository;
+                AdditionalServiceRepository = additionalServiceRepository;
                 DbConnector = dbConnector;
             }
         }

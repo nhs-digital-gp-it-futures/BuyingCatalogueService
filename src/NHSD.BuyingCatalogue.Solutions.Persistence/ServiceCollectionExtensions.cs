@@ -20,6 +20,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence
             serviceCollection.AddTransient<IEpicRepository, EpicRepository>();
             serviceCollection.AddTransient<ISolutionEpicStatusRepository, SolutionEpicStatusRepository>();
             serviceCollection.AddTransient<IPriceRepository, PriceRepository>();
+            serviceCollection.AddTransient<IAdditionalServiceRepository, AdditionalServiceRepository>();
             
             return serviceCollection;
         }

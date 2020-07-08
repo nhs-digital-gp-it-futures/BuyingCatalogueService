@@ -4,6 +4,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Domain.Hostings;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.Pricing;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.Suppliers;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetAdditionalServiceByAdditionalServiceId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicationBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutionId;
@@ -92,6 +93,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
             CreateMap<TimeUnit, ITimeUnit>().As<TimeUnitDto>();
             CreateMap<TieredPrice, TieredPriceDto>();
             CreateMap<TieredPrice, ITieredPrice>().As<TieredPriceDto>();
+            CreateMap<AdditionalService, AdditionalServiceDto>();
+            CreateMap<AdditionalService, IAdditionalService>().As<AdditionalServiceDto>();
         }
     }
 }
