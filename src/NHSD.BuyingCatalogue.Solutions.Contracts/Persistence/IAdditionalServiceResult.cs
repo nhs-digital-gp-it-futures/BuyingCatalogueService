@@ -8,8 +8,6 @@
 
         string Summary { get; }
 
-        string FullDescription { get; }
-
         string SolutionId { get; }
 
         string SolutionName { get; }

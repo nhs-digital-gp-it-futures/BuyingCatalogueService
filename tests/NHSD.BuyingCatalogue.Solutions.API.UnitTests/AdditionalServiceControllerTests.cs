@@ -46,10 +46,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         }
 
         [Test]
-        public async Task GetAsync_SolutionDoesNotExist_ReturnsNotFound()
+        public async Task GetAsync_SolutionDoesNotExist_ReturnsEmptyList()
         {
             var response = await _controller.GetAsync(new List<string> { "INVALID", "ANOTHER INVALID ID" });
-            response.Result.Should().BeOfType<NotFoundResult>();
+            response.Value.Should().BeEmpty();
         }
 
         [Test]

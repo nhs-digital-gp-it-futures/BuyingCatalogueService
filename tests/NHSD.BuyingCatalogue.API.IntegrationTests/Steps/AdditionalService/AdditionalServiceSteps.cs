@@ -78,6 +78,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.AdditionalService
             content.Should().BeEquivalentTo(expected);
         }
 
+        [Then(@"an empty list is returned")]
+        public async Task ThenAnEmptyListIsReturned()
+        {
+            var content = await _response.ReadBody();
+            content.Should().BeEmpty();
+        }
+        
         private sealed class AdditionalServiceTable
         {
             public string CatalogueItemId { get; set; }

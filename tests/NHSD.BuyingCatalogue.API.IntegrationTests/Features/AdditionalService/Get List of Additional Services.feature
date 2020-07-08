@@ -45,11 +45,12 @@ Scenario: 3. Providing no solution IDs returns not found
     Then a response status of 404 is returned
 
 @5352
-Scenario: 4. Providing an invalid solution ID, returns not found
+Scenario: 4. Providing an invalid solution ID, returns an empty list
     When a Get request is made to retrieve the additional services with solutionIds
         | SolutionId |
         | INVALID    |
-    Then a response status of 404 is returned
+    Then a successful response is returned
+    And an empty list is returned
 
 @5352
 Scenario: 5. Service failure

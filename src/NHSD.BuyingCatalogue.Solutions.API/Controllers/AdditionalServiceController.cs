@@ -19,7 +19,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 
         public AdditionalServiceController(IMediator mediator)
         {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator)); ;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         [HttpGet]
@@ -37,9 +37,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
             }
 
             var additionalServices = (await _mediator.Send(new GetAdditionalServiceBySolutionIdsQuery(solutionIds))).ToList();
-
-            if (additionalServices.Count is 0)
-                return NotFound();
 
             return additionalServices.Select(
                 additionalService => new AdditionalServiceResult
