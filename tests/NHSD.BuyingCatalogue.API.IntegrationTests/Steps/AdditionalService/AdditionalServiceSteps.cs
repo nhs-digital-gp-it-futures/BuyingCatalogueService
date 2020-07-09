@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
@@ -28,6 +29,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.AdditionalService
             {
                 await CatalogueItemEntityBuilder.Create()
                     .WithCatalogueItemId(additionalService.CatalogueItemId)
+                    .WithCatalogueItemTypeId((int)CatalogueItemType.AdditionalService)
                     .WithName(additionalService.CatalogueItemName)
                     .WithSupplierId(additionalService.CatalogueSupplierId)
                     .Build()
@@ -89,7 +91,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.AdditionalService
 
             additionalServicesToken.Should().BeEmpty();
         }
-        
+
         private sealed class AdditionalServiceTable
         {
             public string CatalogueItemId { get; set; }
