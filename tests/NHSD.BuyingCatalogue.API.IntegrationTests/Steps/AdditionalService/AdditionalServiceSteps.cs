@@ -66,7 +66,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.AdditionalService
 
             const string solutionToken = "solution";
 
-            var content = (await _response.ReadBody()).Select(x => new ExpectedAdditionalServiceTable
+            var responseBody = await _response.ReadBody();
+            var additionalServicesToken = responseBody.SelectToken("additionalServices");
+
+            var actual = additionalServicesToken.Select(x => new ExpectedAdditionalServiceTable
             {
                 AdditionalServiceId = x.Value<string>("additionalServiceId"),
                 Name = x.Value<string>("name"),
@@ -75,14 +78,16 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.AdditionalService
                 SolutionName = x.SelectToken(solutionToken).Value<string>("name")
             });
 
-            content.Should().BeEquivalentTo(expected);
+            actual.Should().BeEquivalentTo(expected);
         }
 
-        [Then(@"an empty list is returned")]
-        public async Task ThenAnEmptyListIsReturned()
+        [Then(@"no additional services are returned")]
+        public async Task ThenNoAdditionalServicesAreReturned()
         {
-            var content = await _response.ReadBody();
-            content.Should().BeEmpty();
+            var responseBody = await _response.ReadBody();
+            var additionalServicesToken = responseBody.SelectToken("additionalServices");
+
+            additionalServicesToken.Should().BeEmpty();
         }
         
         private sealed class AdditionalServiceTable

@@ -48,8 +48,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task GetAsync_SolutionDoesNotExist_ReturnsEmptyList()
         {
-            var response = await _controller.GetAsync(new List<string> { "INVALID", "ANOTHER INVALID ID" });
-            response.Value.Should().BeEmpty();
+            var actual = (await _controller.GetAsync(new List<string> { "INVALID", "ANOTHER INVALID ID" })).Value;
+
+            var expected = new AdditionalServiceListResult
+            {
+                AdditionalServices = new List<AdditionalServiceModel>()
+            };
+
+            actual.Should().BeEquivalentTo(expected);
         }
 
         [Test]
@@ -95,19 +101,21 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             response.Value.Should().BeEquivalentTo(expected);
         }
 
-        private IEnumerable<AdditionalServiceResult> GetAdditionalServicesResult(IEnumerable<IAdditionalService> additionalServices)
+        private AdditionalServiceListResult GetAdditionalServicesResult(IEnumerable<IAdditionalService> additionalServices)
         {
-            return additionalServices.Select(x => new AdditionalServiceResult
+            return new AdditionalServiceListResult
             {
-                AdditionalServiceId = x.CatalogueItemId,
-                Name = x.CatalogueItemName,
-                Summary = x.Summary,
-                Solution = new AdditionalServiceSolutionResult
+                AdditionalServices = additionalServices.Select(x => new AdditionalServiceModel
                 {
-                    SolutionId = x.SolutionId,
-                    Name = x.SolutionName
-                }
-            });
+                    AdditionalServiceId = x.CatalogueItemId,
+                    Name = x.CatalogueItemName,
+                    Summary = x.Summary,
+                    Solution = new AdditionalServiceSolutionModel
+                    {
+                        SolutionId = x.SolutionId, Name = x.SolutionName
+                    }
+                })
+            };
         }
     }
 }

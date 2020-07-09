@@ -50,7 +50,7 @@ Scenario: 4. Providing an invalid solution ID, returns an empty list
         | SolutionId |
         | INVALID    |
     Then a successful response is returned
-    And an empty list is returned
+    And no additional services are returned
 
 @5352
 Scenario: 5. Service failure
