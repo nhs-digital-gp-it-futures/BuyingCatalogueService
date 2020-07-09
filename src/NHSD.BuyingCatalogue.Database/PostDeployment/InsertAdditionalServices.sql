@@ -163,7 +163,7 @@ BEGIN
 		    INSERT INTO dbo.CataloguePrice
 			    (CatalogueItemId, ProvisioningTypeId, CataloguePriceTypeId, PricingUnitId, TimeUnitId, CurrencyCode, LastUpdated, Price) 
 			    VALUES
-			    (@additionalServiceId, 3, 1, 'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', null, 'GBP', @now, 499.99);
+			    (@additionalServiceId, 3, 1, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', null, 'GBP', @now, 499.99);
 	    END;
     END;
 
