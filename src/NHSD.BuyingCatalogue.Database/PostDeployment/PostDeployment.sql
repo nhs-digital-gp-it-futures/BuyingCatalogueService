@@ -26,5 +26,6 @@ GO
 
 :r ./InsertTimeUnits.sql
 :r ./InsertSolutions.sql
+:r ./InsertAdditionalServices.sql
 :r ./DropImport.sql
 :r ./DropPublish.sql
