@@ -77,12 +77,12 @@ BEGIN
 		    INSERT INTO dbo.CataloguePrice
 			    (CatalogueItemId, ProvisioningTypeId, CataloguePriceTypeId, PricingUnitId, TimeUnitId, CurrencyCode, LastUpdated, Price) 
 			    VALUES
-			    (@additionalServiceId, 1, 1, 'D43C661A-0587-45E1-B315-5E5091D6E9D0', 2, 'GBP', @now, 399.99);
+			    (@additionalServiceId, 2, 1, 'D43C661A-0587-45E1-B315-5E5091D6E9D0', 2, 'GBP', @now, 399.99);
 
 		    INSERT INTO dbo.CataloguePrice
 			    (CatalogueItemId, ProvisioningTypeId, CataloguePriceTypeId, PricingUnitId, TimeUnitId, CurrencyCode, LastUpdated, Price) 
 			    VALUES
-			    (@additionalServiceId2, 1, 1, '774E5A1D-D15C-4A37-9990-81861BEAE42B', 2, 'GBP', @now, 389.99);
+			    (@additionalServiceId2, 2, 1, '774E5A1D-D15C-4A37-9990-81861BEAE42B', 2, 'GBP', @now, 389.99);
 	    END;
     END;
 
@@ -163,7 +163,7 @@ BEGIN
 		    INSERT INTO dbo.CataloguePrice
 			    (CatalogueItemId, ProvisioningTypeId, CataloguePriceTypeId, PricingUnitId, TimeUnitId, CurrencyCode, LastUpdated, Price) 
 			    VALUES
-			    (@additionalServiceId, 1, 1, 'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 1, 'GBP', @now, 499.99);
+			    (@additionalServiceId, 3, 1, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', null, 'GBP', @now, 499.99);
 	    END;
     END;
 
@@ -204,7 +204,7 @@ BEGIN
 		    INSERT INTO dbo.CataloguePrice
 			    (CatalogueItemId, ProvisioningTypeId, CataloguePriceTypeId, PricingUnitId, TimeUnitId, CurrencyCode, LastUpdated, Price) 
 			    VALUES
-			    (@additionalServiceId, 2, 1, 'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 1, 'GBP', @now, 699.99);
+			    (@additionalServiceId, 2, 1, 'D43C661A-0587-45E1-B315-5E5091D6E9D0', 1, 'GBP', @now, 699.99);
 	    END;
     END;
 END;
