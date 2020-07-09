@@ -31,14 +31,18 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
        ON ci.SupplierId = s.Id
  WHERE ci.CatalogueItemId = @solutionId;";
 
-        // A full-text index is typically a better way of implementing this kind of search. For example, the LIKE search below will
-        // always perform an index scan. Given the expected number of suppliers I doubt this will be a problem, however.
+        // A full-text index is typically a better way of implementing this kind of search although the requirements prevent its use.
+        // The LIKE search below will always perform an index scan.
+        // Given the expected number of suppliers I doubt this will be a problem, however.
         private const string GetSuppliersByNameSql = @"SELECT s.Id, s.[Name]
      FROM dbo.Supplier AS s
-          INNER JOIN dbo.CatalogueItem AS c
-          ON s.Id = c.SupplierId
     WHERE s.[Name] LIKE '%' + @name + '%'
-      AND c.PublishedStatusId = ISNULL(NULLIF(@statusId, ''), c.PublishedStatusId)
+      AND EXISTS (
+          SELECT *
+            FROM dbo.CatalogueItem AS c
+           WHERE c.SupplierId = s.Id
+             AND c.PublishedStatusId = ISNULL(NULLIF(@statusId, ''), c.PublishedStatusId)
+             AND c.CatalogueItemTypeId = ISNULL(NULLIF(@catalogueItemTypeId, ''), c.CatalogueItemTypeId))
  ORDER BY s.[Name];";
 
         // This query is non-deterministic as there is currently no way to identify a primary contact
@@ -94,6 +98,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         public async Task<IEnumerable<ISupplierResult>> GetSuppliersByNameAsync(
             string name,
             PublishedStatus? solutionPublicationStatus,
+            CatalogueItemType? catalogueItemType,
             CancellationToken cancellationToken)
         {
             var escapedName = name;
@@ -109,7 +114,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 new
                 {
                     Name = escapedName ?? string.Empty,
-                    StatusId = (int?)solutionPublicationStatus
+                    StatusId = (int?)solutionPublicationStatus,
+                    CatalogueItemTypeId = (int?)catalogueItemType,
                 });
         }
 

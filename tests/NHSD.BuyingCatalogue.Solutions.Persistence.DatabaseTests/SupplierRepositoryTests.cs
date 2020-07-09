@@ -126,41 +126,49 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             var suppliers = await _supplierRepository.GetSuppliersByNameAsync(
                 "Invisible",
                 null,
+                null,
                 CancellationToken.None);
 
             suppliers.Should().BeEmpty();
         }
 
-        [TestCase(null, null)]
-        [TestCase("Supplier", null)]
-        [TestCase("Supplier", PublishedStatus.Published)]
+        [TestCase(null, null, null)]
+        [TestCase("Supplier", null, null)]
+        [TestCase("Supplier", null, CatalogueItemType.Solution)]
+        [TestCase("Supplier", PublishedStatus.Published, null)]
+        [TestCase("Supplier", PublishedStatus.Published, CatalogueItemType.Solution)]
         public async Task GetSuppliersByNameAsync_PositiveMatch_ReturnsExpectedSupplier(
             string supplierName,
-            PublishedStatus? solutionPublicationStatus)
+            PublishedStatus? solutionPublicationStatus,
+            CatalogueItemType? catalogueItemType)
         {
             await InsertSupplier();
 
             var suppliers = await _supplierRepository.GetSuppliersByNameAsync(
                 supplierName,
                 solutionPublicationStatus,
+                catalogueItemType,
                 CancellationToken.None);
 
             suppliers.Should().BeEquivalentTo(new { Id = _supplierId, Name = _supplierName });
         }
 
-        [TestCase("Supplier", PublishedStatus.Draft)]
-        [TestCase("Invisible", PublishedStatus.Published)]
-        [TestCase("Invisible", null)]
-        [TestCase(null, PublishedStatus.Withdrawn)]
+        [TestCase("Supplier", PublishedStatus.Draft, null)]
+        [TestCase("Supplier", null, CatalogueItemType.AdditionalService)]
+        [TestCase("Invisible", PublishedStatus.Published, null)]
+        [TestCase("Invisible", null, null)]
+        [TestCase(null, PublishedStatus.Withdrawn, null)]
         public async Task GetSuppliersByNameAsync_NoMatchingSuppliers_ReturnsEmptySet(
             string supplierName,
-            PublishedStatus? solutionPublicationStatus)
+            PublishedStatus? solutionPublicationStatus,
+            CatalogueItemType? catalogueItemType)
         {
             await InsertSupplier();
 
             var suppliers = await _supplierRepository.GetSuppliersByNameAsync(
                 supplierName,
                 solutionPublicationStatus,
+                catalogueItemType,
                 CancellationToken.None);
 
             suppliers.Should().BeEmpty();

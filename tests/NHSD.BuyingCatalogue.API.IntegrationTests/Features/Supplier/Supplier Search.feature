@@ -144,3 +144,17 @@ Scenario Outline: 12. Suppliers with a special character in the name are returne
         | =      | Sup 4      | % Su_p[p&l=ie+r- |
         | +      | Sup 4      | % Su_p[p&l=ie+r- |
         | -      | Sup 4      | % Su_p[p&l=ie+r- |
+
+@4840
+Scenario: 13. Only one result per supplier is returned when a supplier has multiple catalogue items
+    Given AdditionalService exist
+        | CatalogueItemId | CatalogueItemName                 | CatalogueSupplierId | Summary                    | SolutionId |
+        | Sup1-Sln1A001   | MedicOnline Additional Service 1  | Sup 1               | Addition to MedicOnline    | Sln1       |
+        | Sup2-Sln2A001   | TakeTheRedPill Additional Service | Sup 2               | Addition to TakeTheRedPill | Sln2       |
+    And the user has searched for suppliers matching 'Supplier'
+    When a GET request is made for suppliers
+    Then a successful response is returned
+    And a list of suppliers is returned with the following values
+        | Id    | SupplierName |
+        | Sup 2 | Supplier A   |
+        | Sup 1 | Supplier B   |

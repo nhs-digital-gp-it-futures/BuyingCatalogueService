@@ -7,5 +7,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.QueryModels
         public string Name { get; set; }
 
         public PublishedStatus? SolutionPublicationStatus { get; set; }
+
+        public CatalogueItemType? CatalogueItemType { get; set; }
     }
 }

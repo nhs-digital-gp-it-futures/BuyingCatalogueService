@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.QueryModels;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers
@@ -26,7 +27,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetSuppliersModel>>> GetList([FromQuery] SupplierSearchQueryModel query)
         {
-            var suppliers = await _mediator.Send(new GetSuppliersByNameQuery(query?.Name, query?.SolutionPublicationStatus));
+            var supplierQuery = new GetSuppliersByNameQuery(
+                query?.Name,
+                query?.SolutionPublicationStatus,
+                query?.CatalogueItemType ?? CatalogueItemType.Solution);
+
+            var suppliers = await _mediator.Send(supplierQuery);
 
             return Ok(suppliers.Select(s => new GetSuppliersModel(s)));
         }
