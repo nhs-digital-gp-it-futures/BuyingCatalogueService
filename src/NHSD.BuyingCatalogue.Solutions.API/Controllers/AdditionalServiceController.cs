@@ -23,7 +23,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AdditionalServiceResult>>> GetAsync([FromQuery] IEnumerable<string> solutionIds)
+        public async Task<ActionResult<AdditionalServiceListResult>> GetAsync([FromQuery] IEnumerable<string> solutionIds)
         {
             if (solutionIds is null)
             {
@@ -38,18 +38,21 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 
             var additionalServices = (await _mediator.Send(new GetAdditionalServiceBySolutionIdsQuery(solutionIds))).ToList();
 
-            return additionalServices.Select(
-                additionalService => new AdditionalServiceResult
-                {
-                    AdditionalServiceId = additionalService.CatalogueItemId,
-                    Name = additionalService.CatalogueItemName,
-                    Summary = additionalService.Summary,
-                    Solution = new AdditionalServiceSolutionResult
+            return new AdditionalServiceListResult
+            {
+                AdditionalServices = additionalServices.Select(
+                    additionalService => new AdditionalServiceModel
                     {
-                        SolutionId = additionalService.SolutionId,
-                        Name = additionalService.SolutionName
-                    }
-                }).ToList();
+                        AdditionalServiceId = additionalService.CatalogueItemId,
+                        Name = additionalService.CatalogueItemName,
+                        Summary = additionalService.Summary,
+                        Solution = new AdditionalServiceSolutionModel
+                        {
+                            SolutionId = additionalService.SolutionId,
+                            Name = additionalService.SolutionName
+                        }
+                    })
+            };
         }
     }
 }
