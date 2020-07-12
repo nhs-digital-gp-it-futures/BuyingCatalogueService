@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence.CatalogueItems;
 using NHSD.BuyingCatalogue.Solutions.Persistence.Clients;
 using NHSD.BuyingCatalogue.Solutions.Persistence.Repositories;
 
@@ -21,6 +22,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence
             serviceCollection.AddTransient<ISolutionEpicStatusRepository, SolutionEpicStatusRepository>();
             serviceCollection.AddTransient<IPriceRepository, PriceRepository>();
             serviceCollection.AddTransient<IAdditionalServiceRepository, AdditionalServiceRepository>();
+            serviceCollection.AddTransient<ICatalogueItemRepository, CatalogueItemRepository>();
             
             return serviceCollection;
         }

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 {
@@ -35,5 +38,23 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             @SupplierId,
             @PublishedStatusId
         );";
+
+        public static async Task<IEnumerable<CatalogueItemEntity>> FetchAllAsync()
+        {
+            return await SqlRunner.FetchAllAsync<CatalogueItemEntity>($@"
+            SELECT  CatalogueItemId,
+                    [Name],
+                    Created,
+                    CatalogueItemTypeId,
+                    SupplierId,
+                    PublishedStatusId
+            FROM    CatalogueItem");
+        }
+
+        public static async Task<CatalogueItemEntity> GetByIdAsync(string catalogueItemId)
+        {
+            return (await FetchAllAsync()).First(item => 
+                string.Equals(item.CatalogueItemId, catalogueItemId, StringComparison.Ordinal));
+        }
     }
 }
