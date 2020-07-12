@@ -675,7 +675,7 @@ It allows practices to communicate with patients via video, audio and asynchrono
 
     MERGE INTO [dbo].[AdditionalService] AS TARGET
     USING #AdditionalService AS SOURCE
-    ON TARGET.[AdditionalServiceId] = SOURCE.[CatalogueItemId] 
+    ON TARGET.[CatalogueItemId] = SOURCE.[CatalogueItemId] 
     WHEN MATCHED THEN  
         UPDATE SET TARGET.[Summary] = SOURCE.[Summary],
                    TARGET.[FullDescription] = SOURCE.[FullDescription],
@@ -683,7 +683,7 @@ It allows practices to communicate with patients via video, audio and asynchrono
                    TARGET.[LastUpdated] = SOURCE.[LastUpdated],
                    TARGET.[LastUpdatedBy] = SOURCE.[LastUpdatedBy]
     WHEN NOT MATCHED BY TARGET THEN  
-        INSERT  ([AdditionalServiceId], [Summary], [FullDescription], [LastUpdated], [LastUpdatedBy], [SolutionId]) 
+        INSERT  ([CatalogueItemId], [Summary], [FullDescription], [LastUpdated], [LastUpdatedBy], [SolutionId]) 
         VALUES  (SOURCE.[CatalogueItemId], SOURCE.[Summary], SOURCE.[FullDescription], SOURCE.[LastUpdated], SOURCE.[LastUpdatedBy], SOURCE.[SolutionId])
     OUTPUT $action INTO #SummaryOfChanges;
 
@@ -1460,8 +1460,8 @@ It allows practices to communicate with patients via video, audio and asynchrono
     INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1068, N'10073-009-03', 2, 1,'599a1105-a16a-4861-b54b-d65da84366c9', NULL, 'GBP', GETUTCDATE(), 600)
     INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1069, N'10007-S-001', 2, 1,'66443acc-7e40-4f95-955b-47234016cff1', NULL, 'GBP', GETUTCDATE(), 20)
     INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1070, N'10052-002-08', 2, 1,'6f65c40f-e7cc-4140-85c5-592dcd216132', NULL, 'GBP', GETUTCDATE(), 1979.21)
-    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1071, N'10000-S-004', 2, 1,'60523726-bbaf-4ec3-b29c-dee2f3d3eca8', NULL, 'GBP', GETUTCDATE(), 252.5)
-    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1072, N'10052-S-002', 2, 1,'60523726-bbaf-4ec3-b29c-dee2f3d3eca8', NULL, 'GBP', GETUTCDATE(), 637.74)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1071, N'10000-S-004', 2, 1,'121bd710-b73b-48f9-a429-f269a7bb0bf2', NULL, 'GBP', GETUTCDATE(), 252.5)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1072, N'10052-S-002', 2, 1,'121bd710-b73b-48f9-a429-f269a7bb0bf2', NULL, 'GBP', GETUTCDATE(), 637.74)
     INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1073, N'10000-001-04', 2, 1,'701afb98-699e-4eda-9a66-e79a91769614', NULL, 'GBP', GETUTCDATE(), 3000)
     INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1074, N'10000-054-03', 2, 1,'7e4dd1fd-c953-41a8-9e62-64dc306a6307', NULL, 'GBP', GETUTCDATE(), 800)
     INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1075, N'10000-S-002', 2, 1,'7e4dd1fd-c953-41a8-9e62-64dc306a6307', NULL, 'GBP', GETUTCDATE(), 1000)
