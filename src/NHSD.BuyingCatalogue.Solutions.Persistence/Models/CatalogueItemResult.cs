@@ -7,7 +7,5 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
         public string CatalogueItemId { get; set; }
 
         public string Name { get; set; }
-
-        public string Summary { get; set; }
     }
 }
