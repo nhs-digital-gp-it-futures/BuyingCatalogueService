@@ -199,6 +199,8 @@ More than 25 million patients in the UK already receive messages from their GP o
         PublishedStatusId int NOT NULL,
         Created datetime2(7) NOT NULL
     );
+
+    --Catalogue Solutions
     INSERT #CatalogueItem ([CatalogueItemId], [Name], [CatalogueItemTypeId], [SupplierId], [PublishedStatusId], [Created]) VALUES (N'10000-001', N'Emis Web GP', 1, N'10000', 3, CAST(N'2020-03-25T07:30:18.1133333' AS DateTime2))
     INSERT #CatalogueItem ([CatalogueItemId], [Name], [CatalogueItemTypeId], [SupplierId], [PublishedStatusId], [Created]) VALUES (N'10000-002', N'Anywhere Consult', 1, N'10000', 3, CAST(N'2020-04-06T10:50:03.2166667' AS DateTime2))
     INSERT #CatalogueItem ([CatalogueItemId], [Name], [CatalogueItemTypeId], [SupplierId], [PublishedStatusId], [Created]) VALUES (N'10000-054', N'Online and Video Consult', 1, N'10000', 3, CAST(N'2020-04-03T12:25:59.0533333' AS DateTime2))
@@ -227,6 +229,26 @@ More than 25 million patients in the UK already receive messages from their GP o
     INSERT #CatalogueItem ([CatalogueItemId], [Name], [CatalogueItemTypeId], [SupplierId], [PublishedStatusId], [Created]) VALUES (N'10072-004', N'Digital Locum', 1, N'10072', 1, CAST(N'2020-06-25T14:31:34.0466667' AS DateTime2))
     INSERT #CatalogueItem ([CatalogueItemId], [Name], [CatalogueItemTypeId], [SupplierId], [PublishedStatusId], [Created]) VALUES (N'10072-006', N'Push Access', 1, N'10072', 1, CAST(N'2020-06-25T14:31:15.0166667' AS DateTime2))
     INSERT #CatalogueItem ([CatalogueItemId], [Name], [CatalogueItemTypeId], [SupplierId], [PublishedStatusId], [Created]) VALUES (N'10073-009', N'Remote Consultation', 1, N'10073', 3, CAST(N'2020-04-01T12:49:33.9433333' AS DateTime2))
+    --Additional Services
+    INSERT #CatalogueItem ([CatalogueItemId], [Name], [CatalogueItemTypeId], [SupplierId], [PublishedStatusId], [Created]) VALUES (N'10030-001A001', N'AccuRx Video Consultation', 2, N'10030', 3, GETUTCDATE())
+    INSERT #CatalogueItem ([CatalogueItemId], [Name], [CatalogueItemTypeId], [SupplierId], [PublishedStatusId], [Created]) VALUES (N'10007-002A001', N'Localised Referral Forms', 2, N'10007', 3, GETUTCDATE())
+    INSERT #CatalogueItem ([CatalogueItemId], [Name], [CatalogueItemTypeId], [SupplierId], [PublishedStatusId], [Created]) VALUES (N'10007-002A002', N'Localised Supporting Content', 2, N'10007', 3, GETUTCDATE())
+    INSERT #CatalogueItem ([CatalogueItemId], [Name], [CatalogueItemTypeId], [SupplierId], [PublishedStatusId], [Created]) VALUES (N'10000-001A008', N'Enterprise Search and Reports', 2, N'10000', 3, GETUTCDATE())
+    INSERT #CatalogueItem ([CatalogueItemId], [Name], [CatalogueItemTypeId], [SupplierId], [PublishedStatusId], [Created]) VALUES (N'10000-001A007', N'Risk Stratification', 2, N'10000', 3, GETUTCDATE())
+    INSERT #CatalogueItem ([CatalogueItemId], [Name], [CatalogueItemTypeId], [SupplierId], [PublishedStatusId], [Created]) VALUES (N'10000-001A006', N'Document Management', 2, N'10000', 3, GETUTCDATE())
+    INSERT #CatalogueItem ([CatalogueItemId], [Name], [CatalogueItemTypeId], [SupplierId], [PublishedStatusId], [Created]) VALUES (N'10000-001A005', N'EMIS Web Dispensing', 2, N'10000', 3, GETUTCDATE())
+    INSERT #CatalogueItem ([CatalogueItemId], [Name], [CatalogueItemTypeId], [SupplierId], [PublishedStatusId], [Created]) VALUES (N'10000-001A003', N'Automated Arrivals', 2, N'10000', 3, GETUTCDATE())
+    INSERT #CatalogueItem ([CatalogueItemId], [Name], [CatalogueItemTypeId], [SupplierId], [PublishedStatusId], [Created]) VALUES (N'10000-001A004', N'Extract Services', 2, N'10000', 3, GETUTCDATE())
+    INSERT #CatalogueItem ([CatalogueItemId], [Name], [CatalogueItemTypeId], [SupplierId], [PublishedStatusId], [Created]) VALUES (N'10000-001A002', N'EMIS Mobile', 2, N'10000', 3, GETUTCDATE())
+    INSERT #CatalogueItem ([CatalogueItemId], [Name], [CatalogueItemTypeId], [SupplierId], [PublishedStatusId], [Created]) VALUES (N'10000-001A001', N'Long Term Conditions Manager', 2, N'10000', 3, GETUTCDATE())
+    INSERT #CatalogueItem ([CatalogueItemId], [Name], [CatalogueItemTypeId], [SupplierId], [PublishedStatusId], [Created]) VALUES (N'10035-001A001', N'Digital First Consultations', 2, N'10035', 3, GETUTCDATE())
+    INSERT #CatalogueItem ([CatalogueItemId], [Name], [CatalogueItemTypeId], [SupplierId], [PublishedStatusId], [Created]) VALUES (N'10052-002A001', N'SystmOne Enhanced', 2, N'10052', 3, GETUTCDATE())
+    INSERT #CatalogueItem ([CatalogueItemId], [Name], [CatalogueItemTypeId], [SupplierId], [PublishedStatusId], [Created]) VALUES (N'10052-002A002', N'SystmOne Mobile Working', 2, N'10052', 3, GETUTCDATE())
+    INSERT #CatalogueItem ([CatalogueItemId], [Name], [CatalogueItemTypeId], [SupplierId], [PublishedStatusId], [Created]) VALUES (N'10052-002A004', N'SystemOne Shared Admin', 2, N'10052', 3, GETUTCDATE())
+    INSERT #CatalogueItem ([CatalogueItemId], [Name], [CatalogueItemTypeId], [SupplierId], [PublishedStatusId], [Created]) VALUES (N'10052-002A003', N'SystmOne Auto Planner', 2, N'10052', 3, GETUTCDATE())
+    INSERT #CatalogueItem ([CatalogueItemId], [Name], [CatalogueItemTypeId], [SupplierId], [PublishedStatusId], [Created]) VALUES (N'10052-002A005', N'TPP Video Conferencing with Airmid', 2, N'10052', 3, GETUTCDATE())
+    --Associated Services
+
 
     MERGE INTO [dbo].[CatalogueItem] AS TARGET
     USING #CatalogueItem AS SOURCE
@@ -563,6 +585,67 @@ It allows practices to communicate with patients via video, audio and asynchrono
 
 
     /*********************************************************************************************************************************************/
+    /* AdditionalService */
+    /*********************************************************************************************************************************************/
+
+    CREATE TABLE #AdditionalService
+    (
+        CatalogueItemId varchar(14) NOT NULL,
+        Summary varchar(300) NULL,
+        FullDescription varchar(3000) NULL,
+        LastUpdated datetime2(7) NULL,
+        LastUpdatedBy uniqueidentifier NULL,
+        SolutionId varchar(14) NULL,
+
+    );
+
+    INSERT INTO #AdditionalService ([CatalogueItemId], [Summary], [FullDescription], [LastUpdated], [LastUpdatedBy], [SolutionId]) VALUES (N'10030-001A001',N'SUMMARY',N'DESCRIPTION',GETUTCDATE(),N'00000000-0000-0000-0000-000000000000',N'10030-001')
+    INSERT INTO #AdditionalService ([CatalogueItemId], [Summary], [FullDescription], [LastUpdated], [LastUpdatedBy], [SolutionId]) VALUES (N'10007-002A001',N'SUMMARY',N'DESCRIPTION',GETUTCDATE(),N'00000000-0000-0000-0000-000000000000',N'10007-002')
+    INSERT INTO #AdditionalService ([CatalogueItemId], [Summary], [FullDescription], [LastUpdated], [LastUpdatedBy], [SolutionId]) VALUES (N'10007-002A002',N'SUMMARY',N'DESCRIPTION',GETUTCDATE(),N'00000000-0000-0000-0000-000000000000',N'10007-002')
+    INSERT INTO #AdditionalService ([CatalogueItemId], [Summary], [FullDescription], [LastUpdated], [LastUpdatedBy], [SolutionId]) VALUES (N'10000-001A008',N'SUMMARY',N'DESCRIPTION',GETUTCDATE(),N'00000000-0000-0000-0000-000000000000',N'10000-001')
+    INSERT INTO #AdditionalService ([CatalogueItemId], [Summary], [FullDescription], [LastUpdated], [LastUpdatedBy], [SolutionId]) VALUES (N'10000-001A007',N'SUMMARY',N'DESCRIPTION',GETUTCDATE(),N'00000000-0000-0000-0000-000000000000',N'10000-001')
+    INSERT INTO #AdditionalService ([CatalogueItemId], [Summary], [FullDescription], [LastUpdated], [LastUpdatedBy], [SolutionId]) VALUES (N'10000-001A006',N'SUMMARY',N'DESCRIPTION',GETUTCDATE(),N'00000000-0000-0000-0000-000000000000',N'10000-001')
+    INSERT INTO #AdditionalService ([CatalogueItemId], [Summary], [FullDescription], [LastUpdated], [LastUpdatedBy], [SolutionId]) VALUES (N'10000-001A005',N'SUMMARY',N'DESCRIPTION',GETUTCDATE(),N'00000000-0000-0000-0000-000000000000',N'10000-001')
+    INSERT INTO #AdditionalService ([CatalogueItemId], [Summary], [FullDescription], [LastUpdated], [LastUpdatedBy], [SolutionId]) VALUES (N'10000-001A003',N'SUMMARY',N'DESCRIPTION',GETUTCDATE(),N'00000000-0000-0000-0000-000000000000',N'10000-001')
+    INSERT INTO #AdditionalService ([CatalogueItemId], [Summary], [FullDescription], [LastUpdated], [LastUpdatedBy], [SolutionId]) VALUES (N'10000-001A004',N'SUMMARY',N'DESCRIPTION',GETUTCDATE(),N'00000000-0000-0000-0000-000000000000',N'10000-001')
+    INSERT INTO #AdditionalService ([CatalogueItemId], [Summary], [FullDescription], [LastUpdated], [LastUpdatedBy], [SolutionId]) VALUES (N'10000-001A002',N'SUMMARY',N'DESCRIPTION',GETUTCDATE(),N'00000000-0000-0000-0000-000000000000',N'10000-001')
+    INSERT INTO #AdditionalService ([CatalogueItemId], [Summary], [FullDescription], [LastUpdated], [LastUpdatedBy], [SolutionId]) VALUES (N'10000-001A001',N'SUMMARY',N'DESCRIPTION',GETUTCDATE(),N'00000000-0000-0000-0000-000000000000',N'10000-001')
+    INSERT INTO #AdditionalService ([CatalogueItemId], [Summary], [FullDescription], [LastUpdated], [LastUpdatedBy], [SolutionId]) VALUES (N'10035-001A001',N'SUMMARY',N'DESCRIPTION',GETUTCDATE(),N'00000000-0000-0000-0000-000000000000',N'10035-001')
+    INSERT INTO #AdditionalService ([CatalogueItemId], [Summary], [FullDescription], [LastUpdated], [LastUpdatedBy], [SolutionId]) VALUES (N'10052-002A001',N'SUMMARY',N'DESCRIPTION',GETUTCDATE(),N'00000000-0000-0000-0000-000000000000',N'10052-002')
+    INSERT INTO #AdditionalService ([CatalogueItemId], [Summary], [FullDescription], [LastUpdated], [LastUpdatedBy], [SolutionId]) VALUES (N'10052-002A002',N'SUMMARY',N'DESCRIPTION',GETUTCDATE(),N'00000000-0000-0000-0000-000000000000',N'10052-002')
+    INSERT INTO #AdditionalService ([CatalogueItemId], [Summary], [FullDescription], [LastUpdated], [LastUpdatedBy], [SolutionId]) VALUES (N'10052-002A004',N'SUMMARY',N'DESCRIPTION',GETUTCDATE(),N'00000000-0000-0000-0000-000000000000',N'10052-002')
+    INSERT INTO #AdditionalService ([CatalogueItemId], [Summary], [FullDescription], [LastUpdated], [LastUpdatedBy], [SolutionId]) VALUES (N'10052-002A003',N'SUMMARY',N'DESCRIPTION',GETUTCDATE(),N'00000000-0000-0000-0000-000000000000',N'10052-002')
+    INSERT INTO #AdditionalService ([CatalogueItemId], [Summary], [FullDescription], [LastUpdated], [LastUpdatedBy], [SolutionId]) VALUES (N'10052-002A005',N'SUMMARY',N'DESCRIPTION',GETUTCDATE(),N'00000000-0000-0000-0000-000000000000',N'10052-002')
+
+    MERGE INTO [dbo].[AdditionalService] AS TARGET
+    USING #AdditionalService AS SOURCE
+    ON TARGET.[AdditionalServiceId] = SOURCE.[CatalogueItemId] 
+    WHEN MATCHED THEN  
+        UPDATE SET TARGET.[Summary] = SOURCE.[Summary],
+                   TARGET.[FullDescription] = SOURCE.[FullDescription],
+                   TARGET.[SolutionId] = SOURCE.[SolutionId],
+                   TARGET.[LastUpdated] = SOURCE.[LastUpdated],
+                   TARGET.[LastUpdatedBy] = SOURCE.[LastUpdatedBy]
+    WHEN NOT MATCHED BY TARGET THEN  
+        INSERT  ([AdditionalServiceId], [Summary], [FullDescription], [LastUpdated], [LastUpdatedBy], [SolutionId]) 
+        VALUES  (SOURCE.[CatalogueItemId], SOURCE.[Summary], SOURCE.[FullDescription], SOURCE.[LastUpdated], SOURCE.[LastUpdatedBy], SOURCE.[SolutionId])
+    OUTPUT $action INTO #SummaryOfChanges;
+
+    /*********************************************************************************************************************************************/
+    /* AssociatedService */
+    /*********************************************************************************************************************************************/
+
+    CREATE TABLE #AssociatedService
+    (
+        AssociatedServiceId varchar(14) NOT NULL,
+        [Description] varchar(1000) NULL,
+        OrderGuidance varchar(1000) NULL,
+        LastUpdated datetime2(7) NULL,
+        LastUpdatedBy uniqueidentifier NULL,
+    );
+
+
+    /*********************************************************************************************************************************************/
     /* MarketingContact */
     /*********************************************************************************************************************************************/
 
@@ -579,46 +662,46 @@ It allows practices to communicate with patients via video, audio and asynchrono
          LastUpdatedBy uniqueidentifier NOT NULL,
     );
 
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES ( 3, N'10000-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-03-31T10:50:17.6233333' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (49, N'10000-002', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-08T10:55:58.5100000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (46, N'10000-054', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-07T19:57:45.7166667' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (45, N'10000-062', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-07T19:47:00.3600000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES ( 2, N'10004-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-03-26T13:24:14.8666667' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES ( 9, N'10004-002', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-03-31T11:46:17.2700000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES ( 1, N'10007-002', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-03-25T12:12:59.8166667' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (43, N'10020-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-07T19:21:57.3566667' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (44, N'10020-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-07T19:21:57.3566667' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (47, N'10029-003', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-08T10:05:14.8833333' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (48, N'10029-003', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-08T10:05:14.8866667' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (36, N'10030-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-02T16:28:19.8700000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (37, N'10030-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-02T16:28:19.8700000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (17, N'10031-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-01T12:50:18.1366667' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (18, N'10031-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-01T12:50:18.1366667' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (29, N'10033-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-01T14:09:25.0333333' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (13, N'10035-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-01T12:22:15.4700000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (14, N'10035-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-01T12:22:15.4700000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (12, N'10046-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-03-31T14:40:22.0600000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (10, N'10046-003', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-03-31T14:07:29.2166667' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (11, N'10046-003', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-03-31T14:07:29.2200000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (30, N'10047-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-01T15:11:13.1100000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (31, N'10047-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-01T15:11:13.1133333' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (34, N'10052-002', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-02T12:24:23.3200000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (35, N'10052-002', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-02T12:24:23.3200000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES ( 6, N'10059-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-03-31T11:03:30.5666667' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES ( 7, N'10059-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-03-31T11:03:30.5666667' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (38, N'10062-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-07T09:45:13.5733333' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (39, N'10062-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-07T09:45:13.5733333' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (27, N'10073-009', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-01T13:56:52.4200000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (28, N'10073-009', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-01T13:56:52.4200000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1003, N'10000-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-03-31T10:50:17.6233333' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1049, N'10000-002', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-08T10:55:58.5100000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1046, N'10000-054', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-07T19:57:45.7166667' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1045, N'10000-062', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-07T19:47:00.3600000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1002, N'10004-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-03-26T13:24:14.8666667' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1009, N'10004-002', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-03-31T11:46:17.2700000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1001, N'10007-002', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-03-25T12:12:59.8166667' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1043, N'10020-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-07T19:21:57.3566667' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1044, N'10020-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-07T19:21:57.3566667' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1047, N'10029-003', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-08T10:05:14.8833333' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1048, N'10029-003', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-08T10:05:14.8866667' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1036, N'10030-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-02T16:28:19.8700000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1037, N'10030-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-02T16:28:19.8700000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1017, N'10031-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-01T12:50:18.1366667' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1018, N'10031-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-01T12:50:18.1366667' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1029, N'10033-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-01T14:09:25.0333333' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1013, N'10035-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-01T12:22:15.4700000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1014, N'10035-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-01T12:22:15.4700000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1012, N'10046-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-03-31T14:40:22.0600000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1010, N'10046-003', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-03-31T14:07:29.2166667' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1011, N'10046-003', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-03-31T14:07:29.2200000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1030, N'10047-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-01T15:11:13.1100000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1031, N'10047-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-01T15:11:13.1133333' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1034, N'10052-002', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-02T12:24:23.3200000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1035, N'10052-002', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-02T12:24:23.3200000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1006, N'10059-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-03-31T11:03:30.5666667' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1007, N'10059-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-03-31T11:03:30.5666667' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1038, N'10062-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-07T09:45:13.5733333' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1039, N'10062-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-07T09:45:13.5733333' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1027, N'10073-009', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-01T13:56:52.4200000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
+    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) VALUES (1028, N'10073-009', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-01T13:56:52.4200000' AS DateTime2), N'00000000-0000-0000-0000-000000000000')
 
-    SET IDENTITY_INSERT [dbo].[MarketingContact] ON
+    SET IDENTITY_INSERT [dbo].[MarketingContact] ON; 
 
     MERGE INTO [dbo].[MarketingContact] AS TARGET
     USING #MarketingContact AS SOURCE
     ON TARGET.[Id] = SOURCE.[Id] 
     WHEN MATCHED THEN  
         UPDATE SET TARGET.[SolutionId] = SOURCE.[SolutionId],
-                   TARGET.[FirstName] = SOURCE.[FirstName],
+				   TARGET.[FirstName] = SOURCE.[FirstName],
                    TARGET.[LastName] = SOURCE.[LastName],
                    TARGET.[Email] = SOURCE.[Email],
                    TARGET.[PhoneNumber] = SOURCE.[PhoneNumber],
@@ -629,9 +712,9 @@ It allows practices to communicate with patients via video, audio and asynchrono
         INSERT  ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) 
         VALUES  (SOURCE.[Id], SOURCE.[SolutionId], SOURCE.[FirstName], SOURCE.[LastName], SOURCE.[Email], SOURCE.[PhoneNumber], SOURCE.[Department], SOURCE.[LastUpdated], SOURCE.[LastUpdatedBy])
     OUTPUT $action INTO #SummaryOfChanges; 
-    
-    SET IDENTITY_INSERT [dbo].[MarketingContact] OFF
 
+    SET IDENTITY_INSERT [dbo].[MarketingContact] OFF; 
+    
     /*********************************************************************************************************************************************/
     /* SolutionEpic */
     /*********************************************************************************************************************************************/
@@ -1172,10 +1255,91 @@ It allows practices to communicate with patients via video, audio and asynchrono
 
 
 
+
+
+    /*********************************************************************************************************************************************/
+    /* CataloguePrice */
+    /*********************************************************************************************************************************************/
+
+    CREATE TABLE #CataloguePrice
+    (
+        CataloguePriceId int NOT NULL,
+        CatalogueItemId varchar(14) NOT NULL,
+        ProvisioningTypeId int NOT NULL,
+        CataloguePriceTypeId int NOT NULL,
+        PricingUnitId uniqueidentifier NOT NULL,
+        TimeUnitId int NULL,
+        CurrencyCode varchar(3) NOT NULL,
+        LastUpdated datetime2(7) NOT NULL,
+        Price decimal(18,3) NULL,
+    );
+
+    --SOLUTIONS PER PATIENT
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1001, N'10000-001', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP', GETUTCDATE(), 1.26)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1002, N'10000-054', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP', GETUTCDATE(), 0.15)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1003, N'10000-062', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP', GETUTCDATE(), 0.02)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1004, N'10004-001', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP', GETUTCDATE(), 0.22)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1005, N'10004-002', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP', GETUTCDATE(), 0.19)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1006, N'10007-002', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP', GETUTCDATE(), 0.14)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1007, N'10020-001', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP', GETUTCDATE(), 0.5)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1008, N'10029-003', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP', GETUTCDATE(), 0.84)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1009, N'10046-001', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP', GETUTCDATE(), 0.28)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1010, N'10046-003', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP', GETUTCDATE(), 0.28)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1011, N'10047-001', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP', GETUTCDATE(), 0.84)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1012, N'10052-001', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP', GETUTCDATE(), 1.26)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1013, N'10059-001', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP', GETUTCDATE(), 0.14)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1014, N'10030-001', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP', GETUTCDATE(), 0)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1015, N'10033-001', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP', GETUTCDATE(), 1.26)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1016, N'10062-001', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP', GETUTCDATE(), 0.3)
+    --Solutions Variable On Demand 
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1017, N'10035-001', 3, 1,'8a5e119f-9b33-4017-8cc9-552e86e20898', NULL, 'GBP', GETUTCDATE(), 0)
+    --Solutions Declarative
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1018, N'10000-002', 2, 1,'8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', 1, 'GBP', GETUTCDATE(), 37.92)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1019, N'10073-009', 2, 1,'AAD2820E-472D-4BAC-864E-853F92E9B3BC', 1, 'GBP', GETUTCDATE(),207.92)
+    --Additional Service Per Patient
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1020, N'10000-001A001', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP',GETUTCDATE(), 0.25)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1021, N'10000-001A002', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP',GETUTCDATE(), 0.07)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1022, N'10000-001A004', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP',GETUTCDATE(), 0.06)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1023, N'10000-001A005', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP',GETUTCDATE(), 0.25)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1024, N'10000-001A006', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP',GETUTCDATE(), 0.12)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1025, N'10000-001A007', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP',GETUTCDATE(), 0.06)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1026, N'10000-001A008', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP',GETUTCDATE(), 0.06)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1027, N'10007-002A001', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP',GETUTCDATE(), 0.04)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1028, N'10007-002A002', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP',GETUTCDATE(), 0.05)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1029, N'10052-002A001', 1, 1,'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP',GETUTCDATE(), 0.38)
+    --Additional Service Variable
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1030, N'10030-001A001', 3, 1,'774E5A1D-D15C-4A37-9990-81861BEAE42B', NULL, 'GBP', GETUTCDATE(), 0.2)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1031, N'10035-001A001', 3, 1,'774E5A1D-D15C-4A37-9990-81861BEAE42B', NULL, 'GBP', GETUTCDATE(), 0)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1032, N'10052-002A005', 3, 1,'8A5E119F-9B33-4017-8CC9-552E86E20898', NULL, 'GBP', GETUTCDATE(), 0)
+    --Additional Service Declarative
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1033, N'10000-001A003', 2, 1,'8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', 1, 'GBP', GETUTCDATE(),35.51)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1034, N'10052-002A002', 2, 1,'CC6EE39D-41F1-4671-B31A-800485D05752', 1, 'GBP', GETUTCDATE(),68.5)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1035, N'10052-002A003', 2, 1,'CC6EE39D-41F1-4671-B31A-800485D05752', 1, 'GBP', GETUTCDATE(),68.5)
+    INSERT INTO #CataloguePrice ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price]) VALUES(1036, N'10052-002A004', 2, 1,'9D3BADE6-F232-4B6E-9809-88A8FBB5C881', 1, 'GBP', GETUTCDATE(),291.67)
+
+    SET IDENTITY_INSERT [dbo].[CataloguePrice] ON; 
+
+    MERGE INTO [dbo].[CataloguePrice] AS TARGET
+    USING #CataloguePrice AS SOURCE
+    ON TARGET.[CataloguePriceId] = SOURCE.[CataloguePriceId]
+    WHEN MATCHED THEN  
+        UPDATE SET TARGET.[CatalogueItemId] = SOURCE.[CatalogueItemId],
+                   TARGET.[ProvisioningTypeId] = SOURCE.[ProvisioningTypeId],
+                   TARGET.[CataloguePriceTypeId] = SOURCE.[CataloguePriceTypeId],
+                   TARGET.[PricingUnitId] = SOURCE.[PricingUnitId],
+                   TARGET.[CurrencyCode] = SOURCE.[CurrencyCode],
+                   TARGET.[LastUpdated] = SOURCE.[LastUpdated]
+    WHEN NOT MATCHED BY TARGET THEN  
+        INSERT  ([CataloguePriceId], [CatalogueItemId], [ProvisioningTypeId], [CataloguePriceTypeId], [PricingUnitId], [TimeUnitId], [CurrencyCode], [LastUpdated], [Price])
+        VALUES  (SOURCE.[CataloguePriceId], SOURCE.[CatalogueItemId], SOURCE.[ProvisioningTypeId], SOURCE.[CataloguePriceTypeId], SOURCE.[PricingUnitId], SOURCE.[TimeUnitId], SOURCE.[CurrencyCode], SOURCE.[LastUpdated], SOURCE.[Price])
+    OUTPUT $action INTO #SummaryOfChanges;
+
+     SET IDENTITY_INSERT [dbo].[CataloguePrice] OFF; 
+
     -- Query the results of the table variable.  
     SELECT Change, COUNT(*) AS CountPerChange  
     FROM #SummaryOfChanges  
     GROUP BY Change;  
 
 END
-GO
+
