@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetCatalogueItemById;
@@ -12,7 +13,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence.CatalogueItems
 
         public CatalogueItemReader(ICatalogueItemRepository catalogueItemRepository)
         {
-            _catalogueItemRepository = catalogueItemRepository;
+            _catalogueItemRepository = catalogueItemRepository ?? throw new ArgumentNullException(nameof(catalogueItemRepository));
         }
 
         public async Task<CatalogueItemDto> GetByIdAsync(string catalogueItemId, CancellationToken cancellationToken)

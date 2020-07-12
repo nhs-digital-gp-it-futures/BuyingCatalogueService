@@ -1,5 +1,4 @@
-﻿using System;
-using MediatR;
+﻿using MediatR;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetCatalogueItemById
 {
@@ -9,7 +8,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetCatalogueItemByI
 
         public GetCatalogueItemByIdQuery(string catalogueItemId)
         {
-            CatalogueItemId = catalogueItemId ?? throw new ArgumentNullException(nameof(catalogueItemId));
+            CatalogueItemId = catalogueItemId;
         }
     }
 }

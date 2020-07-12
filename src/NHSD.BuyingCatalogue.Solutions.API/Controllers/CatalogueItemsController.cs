@@ -28,7 +28,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         public async Task<ActionResult<GetCatalogueItemResult>> GetAsync(string catalogueItemId)
         {
             var catalogueItem = await _mediator.Send(new GetCatalogueItemByIdQuery(catalogueItemId));
-            return new GetCatalogueItemResult(catalogueItem);
+
+            return new GetCatalogueItemResult
+            {
+                CatalogueItemId = catalogueItem?.CatalogueItemId,
+                Name = catalogueItem?.Name
+            };
         }
     }
 }

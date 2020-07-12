@@ -8,10 +8,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.CatalogueItems
 
         public string Name { get; set; }
 
-        public GetCatalogueItemResult(CatalogueItemDto catalogueItemDto)
+        public GetCatalogueItemResult()
         {
-            CatalogueItemId = catalogueItemDto?.CatalogueItemId;
-            Name = catalogueItemDto?.Name;
         }
     }
 }
