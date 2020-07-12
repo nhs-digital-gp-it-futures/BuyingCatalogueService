@@ -130,6 +130,7 @@
     <None Include="PostDeployment\InsertPricingUnits.sql" />
     <Build Include="Tables\CataloguePriceTier.sql" />
     <None Include="PostDeployment\InsertAdditionalServices.sql" />
+    <Build Include="PostDeployment\InsertProdData.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="INCLUDE_IMPORT">

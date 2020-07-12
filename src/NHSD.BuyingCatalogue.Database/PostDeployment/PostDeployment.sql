@@ -29,3 +29,5 @@ GO
 :r ./InsertAdditionalServices.sql
 :r ./DropImport.sql
 :r ./DropPublish.sql
+
+:r ./InsertProdData.sql
