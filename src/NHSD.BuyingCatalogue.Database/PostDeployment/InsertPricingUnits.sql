@@ -38,10 +38,11 @@ USING #PricingUnit AS SOURCE
 ON TARGET.[PricingUnitId] = SOURCE.[PricingUnitId] 
 WHEN MATCHED THEN  
     UPDATE SET TARGET.[Name] = SOURCE.[Name],
-                TARGET.TierName = SOURCE.TierName,
-                TARGET.[Description] = SOURCE.[Description]
+               TARGET.TierName = SOURCE.TierName,
+               TARGET.[Description] = SOURCE.[Description]
 WHEN NOT MATCHED BY TARGET THEN  
     INSERT  ([PricingUnitId], [Name], TierName, [Description]) 
     VALUES  (SOURCE.[PricingUnitId], SOURCE.[Name], SOURCE.TierName, SOURCE.[Description]);    
 
-DROP TABLE #PricingUnit
+DROP TABLE #PricingUnit;
+GO
