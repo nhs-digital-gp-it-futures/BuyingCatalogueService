@@ -75,6 +75,7 @@
     <Folder Include="Types" />
     <Folder Include="Stored Procedures" />
     <Folder Include="Security\Schemas" />
+    <Folder Include="PostDeployment\ProdLikeData" />
     <Folder Include="PreDeployment" />
   </ItemGroup>
   <ItemGroup>
@@ -113,11 +114,9 @@
     <Build Include="Security\Roles\Publisher.sql" />
     <Build Include="Tables\CatalogueItemType.sql" />
     <Build Include="Tables\CatalogueItem.sql" />
-    <None Include="PostDeployment\MigrateSolutionDetailToCatalogueItem.sql" />
     <Build Include="Tables\AdditionalService.sql" />
     <Build Include="Tables\AssociatedService.sql" />
     <Build Include="Tables\SupplierServiceAssociation.sql" />
-    <None Include="PreDeployment\MigrateSolutionDetailToCatalogueItem.sql" />
     <None Include="PostDeployment\InsertCapabilityStatuses.sql" />
     <Build Include="Tables\CataloguePrice.sql" />
     <Build Include="Tables\TimeUnit.sql" />
@@ -130,7 +129,7 @@
     <None Include="PostDeployment\InsertPricingUnits.sql" />
     <Build Include="Tables\CataloguePriceTier.sql" />
     <None Include="PostDeployment\InsertAdditionalServices.sql" />
-    <None Include="PostDeployment\InsertProdData.sql" />
+    <PreDeploy Include="PreDeployment\PreDeployment.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="INCLUDE_IMPORT">
@@ -164,11 +163,18 @@
     <None Include="PostDeployment\InsertPublicationStatuses.sql" />
     <None Include="PostDeployment\InsertSolutionCapabilityStatuses.sql" />
     <None Include="PostDeployment\InsertSolutionEpicStatuses.sql" />
+    <None Include="PostDeployment\ProdLikeData\MergeSuppliers.sql" />
+    <None Include="PostDeployment\ProdLikeData\MergeCatalogueItems.sql" />
+    <None Include="PostDeployment\ProdLikeData\MergeSolutions.sql" />
+    <None Include="PostDeployment\ProdLikeData\MergeAdditionalServices.sql" />
+    <None Include="PostDeployment\ProdLikeData\MergeAssociatedServices.sql" />
+    <None Include="PostDeployment\ProdLikeData\MergeMarketingContacts.sql" />
+    <None Include="PostDeployment\ProdLikeData\MergeSolutionEpics.sql" />
+    <None Include="PostDeployment\ProdLikeData\MergeSolutionCapabilities.sql" />
+    <None Include="PostDeployment\ProdLikeData\MergeFrameworkSolutions.sql" />
+    <None Include="PostDeployment\ProdLikeData\MergeCataloguePrices.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="PostDeployment\PostDeployment.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <PreDeploy Include="PreDeployment\PreDeployment.sql" />
   </ItemGroup>
 </Project>
