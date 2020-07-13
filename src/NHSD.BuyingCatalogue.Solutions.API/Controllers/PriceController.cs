@@ -53,13 +53,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<PricingResult>> GetPricesByCatalogueItemIdAsync(string catalogueItemId)
+        public async Task<ActionResult<PricingResult>> GetPricesAsync(string catalogueItemId)
         {
-            var prices = (await _mediator.Send(new GetPriceByCatalogueItemIdQuery(catalogueItemId))).ToList();
+            var prices = (await _mediator.Send(new GetPricesQuery(catalogueItemId))).ToList();
 
-            var result = new PricingResult { Prices = prices.Select(GetPriceResult) };
-
-            return result;
+            return new PricingResult { Prices = prices.Select(GetPriceResult) };
         }
 
         private static PriceResult GetPriceResult(ICataloguePrice cataloguePrice)

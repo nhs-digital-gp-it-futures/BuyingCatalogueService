@@ -31,7 +31,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 INNER JOIN dbo.PricingUnit AS pu ON pu.PricingUnitId = cp.PricingUnitId
                 INNER JOIN dbo.CatalogueItem AS ci ON ci.CatalogueItemId = cp.CatalogueItemId
                 LEFT OUTER JOIN dbo.CataloguePriceTier AS cptr ON cptr.CataloguePriceId = cp.CataloguePriceId
-        WHERE   cp.CatalogueItemId = @catalogueItemId;";
+        WHERE   cp.CatalogueItemId = ISNULL(NULLIF(@catalogueItemId, ''), cp.CatalogueItemId)";
 
         private const string CataloguePriceSql = @"
         SELECT  cp.CatalogueItemId,
@@ -64,7 +64,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 new { catalogueItemId = solutionId });
         }
 
-        public async Task<IEnumerable<ICataloguePriceListResult>> GetPricesByCatalogueItemIdQueryAsync(string catalogueItemId, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ICataloguePriceListResult>> GetPricesAsync(string catalogueItemId, CancellationToken cancellationToken)
         {
             return await _dbConnector.QueryAsync<CataloguePriceListResult>(ListCataloguePricesSql, cancellationToken,
                 new { catalogueItemId });

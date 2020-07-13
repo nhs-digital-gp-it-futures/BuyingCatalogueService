@@ -137,10 +137,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var priceResult = CreatePricesForQueryingByCatalogueItemId(cataloguePriceList);
 
             _mockMediator.Setup(m =>
-                    m.Send(It.Is<GetPriceByCatalogueItemIdQuery>(q => q.CatalogueItemId == _solutionId), It.IsAny<CancellationToken>()))
+                    m.Send(It.Is<GetPricesQuery>(q => q.CatalogueItemId == _solutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(cataloguePriceList);
 
-            var response = (await _controller.GetPricesByCatalogueItemIdAsync(_solutionId));
+            var response = (await _controller.GetPricesAsync(_solutionId));
             response.Value.Should().BeEquivalentTo(priceResult);
         }
 
@@ -153,10 +153,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var priceResult = CreatePricesForQueryingByCatalogueItemId(cataloguePriceList);
 
             _mockMediator.Setup(m =>
-                    m.Send(It.Is<GetPriceByCatalogueItemIdQuery>(q => q.CatalogueItemId == _solutionId), It.IsAny<CancellationToken>()))
+                    m.Send(It.Is<GetPricesQuery>(q => q.CatalogueItemId == _solutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(cataloguePriceList);
 
-            var response = (await _controller.GetPricesByCatalogueItemIdAsync(_solutionId));
+            var response = (await _controller.GetPricesAsync(_solutionId));
             response.Value.Should().BeEquivalentTo(priceResult);
         }
 
@@ -170,10 +170,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var priceResult = CreatePricesForQueryingByCatalogueItemId(cataloguePriceList);
 
             _mockMediator.Setup(m =>
-                    m.Send(It.Is<GetPriceByCatalogueItemIdQuery>(q => q.CatalogueItemId == _solutionId), It.IsAny<CancellationToken>()))
+                    m.Send(It.Is<GetPricesQuery>(q => q.CatalogueItemId == _solutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(cataloguePriceList);
 
-            var response = await _controller.GetPricesByCatalogueItemIdAsync(_solutionId);
+            var response = await _controller.GetPricesAsync(_solutionId);
             response.Value.Should().BeEquivalentTo(priceResult);
         }
 

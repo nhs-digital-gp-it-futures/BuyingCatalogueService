@@ -29,9 +29,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
             return ProcessPriceItems(prices);
         }
 
-        public async Task<IEnumerable<CataloguePriceBase>> GetByCatalogueItemIdAsync(string catalogueItemId, CancellationToken cancellationToken)
+        public async Task<IEnumerable<CataloguePriceBase>> GetPricesAsync(string catalogueItemId, CancellationToken cancellationToken)
         {
-            var prices = await _priceRepository.GetPricesByCatalogueItemIdQueryAsync(catalogueItemId, cancellationToken);
+            var prices = await _priceRepository.GetPricesAsync(catalogueItemId, cancellationToken);
             return ProcessPriceItems(prices);
         }
 
@@ -89,7 +89,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
                     Description = price.PricingUnitDescription,
                     TierName = price.PricingUnitTierName
                 },
-                TimeUnit = Enumerator.FromValue<TimeUnit>(price.TimeUnitId),
+                TimeUnit = price.TimeUnitId == 0 ? null : Enumerator.FromValue<TimeUnit>(price.TimeUnitId),
                 ProvisioningType = Enumerator.FromValue<ProvisioningType>(price.ProvisioningTypeId)
             };
 

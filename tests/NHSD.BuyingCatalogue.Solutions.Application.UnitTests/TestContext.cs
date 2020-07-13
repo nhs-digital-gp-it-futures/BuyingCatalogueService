@@ -231,8 +231,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
         public GetPriceBySolutionIdHandler GetPriceBySolutionIdHandler =>
             (GetPriceBySolutionIdHandler)_scope.GetPriceBySolutionIdHandler;
 
-        public GetPriceByCatalogueItemIdHandler GetPriceByCatalogueItemIdHandler =>
-            (GetPriceByCatalogueItemIdHandler)_scope.GetPriceByCatalogueItemIdHandler;
+        public GetPricesHandler GetPricesHandler =>
+            (GetPricesHandler)_scope.GetPriceByCatalogueItemIdHandler;
 
         public UpdateClaimedEpicsHandler UpdateClaimedEpicsHandler => (UpdateClaimedEpicsHandler)_scope.UpdateClaimedEpicsHandler;
 
@@ -312,7 +312,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdateClaimedEpicsCommand, ISimpleResult> updateClaimedEpicsHandler,
                 IRequestHandler<GetPriceByPriceIdQuery, ICataloguePrice> getPriceByPriceIdHandler,
                 IRequestHandler<GetPriceBySolutionIdQuery, IEnumerable<ICataloguePrice>> getPriceBySolutionIdHandler,
-                IRequestHandler<GetPriceByCatalogueItemIdQuery, IEnumerable<ICataloguePrice>> getPriceByCatalogueItemIdHandler,
+                IRequestHandler<GetPricesQuery, IEnumerable<ICataloguePrice>> getPriceByCatalogueItemIdHandler,
                 IRequestHandler<GetAdditionalServiceBySolutionIdsQuery, IEnumerable<IAdditionalService>> getAdditionalServiceBySolutionIdsHandler)
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;
@@ -456,7 +456,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             public IRequestHandler<GetPriceByPriceIdQuery, ICataloguePrice> GetPriceByPriceIdHandler { get; }
 
             public IRequestHandler<GetPriceBySolutionIdQuery, IEnumerable<ICataloguePrice>> GetPriceBySolutionIdHandler { get; }
-            public IRequestHandler<GetPriceByCatalogueItemIdQuery, IEnumerable<ICataloguePrice>> GetPriceByCatalogueItemIdHandler { get; }
+            public IRequestHandler<GetPricesQuery, IEnumerable<ICataloguePrice>> GetPriceByCatalogueItemIdHandler { get; }
             
             public IRequestHandler<GetAdditionalServiceBySolutionIdsQuery, IEnumerable<IAdditionalService>> GetAdditionalServiceBySolutionIdsHandler { get; }
         }
