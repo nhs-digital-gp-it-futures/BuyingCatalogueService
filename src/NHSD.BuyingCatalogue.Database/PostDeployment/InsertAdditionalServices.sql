@@ -188,6 +188,27 @@ BEGIN
 	    END;
     END;
     /***************************************************************************************************************************/
+    SET @solutionId = '100008-001';
+    SET @additionalServiceId = '100008-001-A01'
+
+    IF EXISTS (SELECT * FROM dbo.CatalogueItem WHERE CatalogueItemId = @solutionId)
+    BEGIN
+	    IF NOT EXISTS (SELECT * FROM dbo.CatalogueItem WHERE CatalogueItemId = @additionalServiceId)
+	    BEGIN
+		    INSERT INTO dbo.CatalogueItem(CatalogueItemId, CatalogueItemTypeId, [Name], SupplierId, PublishedStatusId, Created)
+			    VALUES (@additionalServiceId, @additionalServiceItemType, 'Boston Dynamics additional service', '100008', @publishedStatus, @now);
+
+		    INSERT INTO dbo.AdditionalService(CatalogueItemId,Summary,[FullDescription],[LastUpdated],[LastUpdatedBy],[SolutionId])
+			    VALUES (@additionalServiceId,'Addition to Boston Dynamics', 'Boston Dynamics Addition Full Description', @now , @emptyGuid, @solutionId);
+
+		    INSERT INTO dbo.CataloguePrice
+			    (CatalogueItemId, ProvisioningTypeId, CataloguePriceTypeId, PricingUnitId, TimeUnitId, CurrencyCode, LastUpdated, Price) 
+			    VALUES
+			    (@additionalServiceId, 1, 1, 'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 1, 'GBP', @now, 599.99);
+	    END;
+    END;
+
+    /***************************************************************************************************************************/
     SET @solutionId = '99999-89';
     SET @additionalServiceId = '99999-89-A01'
 

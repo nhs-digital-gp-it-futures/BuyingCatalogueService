@@ -282,6 +282,36 @@ BEGIN
 
     /*************************************************************************************************************************************************************/
 
+    SET @solutionId = '100008-001';
+    /* Second solution on supplier 100007 */
+    IF NOT EXISTS (SELECT * FROM dbo.CatalogueItem WHERE CatalogueItemId = @solutionId)
+    BEGIN
+        INSERT INTO dbo.CatalogueItem(CatalogueItemId, CatalogueItemTypeId, [Name], SupplierId, PublishedStatusId, Created)
+             VALUES (@solutionId, @solutionItemType, 'BostonDynamics', '100007', @publishedStatus, @now);
+
+        INSERT INTO dbo.Solution(Id, [Version], Features, Hosting, AboutUrl, Summary, FullDescription, LastUpdated, LastUpdatedBy)
+        VALUES (
+            @solutionId,
+            @version1,
+            '["Fully adaptable to suit your practice''s needs", "Integrates with Spine", "FHIR compliant", "Flexible Pricing", "24/7 customer support"]',
+            '{"PublicCloud":{"Summary":"Summary description","Link":"External URL link","RequiresHSCN":"Link to HSCN or N3 network required to access service"},"PrivateCloud":{"Summary":"Summary description","Link":"External URL link","HostingModel":"Hosting environment description","RequiresHSCN":"Link to HSCN or N3 network required to access service"},"HybridHostingType":{"Summary":"Summary description","Link":"External URL link","HostingModel":"Hosting environment description","RequiresHSCN":"Link to HSCN or N3 network required to access service"},"OnPremise":{"Summary":"Summary description","Link":"External URL link","HostingModel":"Hosting environment description","RequiresHSCN":"Link to HSCN or N3 network required to access service"}}',
+            'http://www.bostondynamics.com/about',
+            'BostonDynamics enhances your medicine optimisation process and introduces new, more customisable tools that can be adapted to your local environment.',
+            'FULL DESCRIPTION – BostonDynamics enhances your medicine optimisation process and introduces new, more customisable tools that can be adapted to your local environment.',
+            @now,
+            @emptyGuid);
+
+        INSERT INTO dbo.MarketingContact(SolutionId, FirstName, LastName, PhoneNumber, Email, Department, LastUpdated, LastUpdatedBy)
+             VALUES (@solutionId, 'Boston', 'Rob', '07295044295', 'Sales@DocabilitySoftware.com', 'Sales', @now, @emptyGuid);
+
+        INSERT INTO dbo.SolutionCapability(SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
+             SELECT @solutionId, Id, 1, @now, @emptyGuid
+               FROM dbo.Capability
+              WHERE CapabilityRef = 'C30';
+    END;
+
+    /*************************************************************************************************************************************************************/
+
     SET @solutionId = '99999-89';
 
     IF NOT EXISTS (SELECT * FROM dbo.CatalogueItem WHERE CatalogueItemId = @solutionId)
@@ -544,7 +574,9 @@ TPP maintain close contact with staff at the unit throughout these phases to ens
           ('99999-89', 1, 2, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', 2, 'GBP', @now, NULL),
           ('100000-001', 3, 1, '774E5A1D-D15C-4A37-9990-81861BEAE42B', NULL, 'GBP', @now, 1001.010),
           ('100003-001', 2, 1, 'D43C661A-0587-45E1-B315-5E5091D6E9D0', 1, 'GBP', @now, 19.987),
-          ('100007-001', 3, 1, '90119522-D381-4296-82EE-8FE630593B56', NULL, 'GBP', @now, 0.15);
+          ('100007-001', 3, 1, '90119522-D381-4296-82EE-8FE630593B56', NULL, 'GBP', @now, 0.15),
+          ('100008-001', 3, 2, '90119522-D381-4296-82EE-8FE630593B56', NULL, 'GBP', @now, NULL);
+          DECLARE @priceId100008 AS int = (SELECT CataloguePriceId from dbo.CataloguePrice WHERE CatalogueItemId='100008-001');
 
           INSERT INTO dbo.CataloguePriceTier
           (CataloguePriceId, BandStart, BandEnd, Price)
@@ -560,7 +592,10 @@ TPP maintain close contact with staff at the unit throughout these phases to ens
           (12, 1, 8, 42.42),
           (12, 9, 33,33.33),
           (12, 34, 1004, 50),
-          (12, 1005, NULL, 0.02);
+          (12, 1005, NULL, 0.02),
+          (@priceId100008, 1, 10, 20),
+          (@priceId100008, 11, 99, 30.15),
+          (@priceId100008, 100, NULL, 40.99);
      END;
 END;
 GO
