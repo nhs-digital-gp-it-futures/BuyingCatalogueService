@@ -55,6 +55,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierBySolutionId
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSuppliersByName;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence.CatalogueItems;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Pricing;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
@@ -83,6 +84,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
         }
 
         public Mock<ISolutionRepository> MockSolutionRepository { get; private set; }
+        public Mock<ICatalogueItemRepository> MockCatalogueItemRepository { get; private set; }
 
         public Mock<ISolutionDetailRepository> MockSolutionDetailRepository { get; private set; }
 
@@ -229,12 +231,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
         public GetPriceBySolutionIdHandler GetPriceBySolutionIdHandler =>
             (GetPriceBySolutionIdHandler)_scope.GetPriceBySolutionIdHandler;
 
+        public GetPriceByCatalogueItemIdHandler GetPriceByCatalogueItemIdHandler =>
+            (GetPriceByCatalogueItemIdHandler)_scope.GetPriceByCatalogueItemIdHandler;
+
         public UpdateClaimedEpicsHandler UpdateClaimedEpicsHandler => (UpdateClaimedEpicsHandler)_scope.UpdateClaimedEpicsHandler;
 
         private void RegisterDependencies(IServiceCollection serviceCollection)
         {
             MockSolutionRepository = new Mock<ISolutionRepository>();
             serviceCollection.AddSingleton(MockSolutionRepository.Object);
+            MockCatalogueItemRepository = new Mock<ICatalogueItemRepository>();
+            serviceCollection.AddSingleton(MockCatalogueItemRepository.Object);
             MockSolutionDetailRepository = new Mock<ISolutionDetailRepository>();
             serviceCollection.AddSingleton(MockSolutionDetailRepository.Object);
             MockSolutionCapabilityRepository = new Mock<ISolutionCapabilityRepository>();
@@ -305,6 +312,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdateClaimedEpicsCommand, ISimpleResult> updateClaimedEpicsHandler,
                 IRequestHandler<GetPriceByPriceIdQuery, ICataloguePrice> getPriceByPriceIdHandler,
                 IRequestHandler<GetPriceBySolutionIdQuery, IEnumerable<ICataloguePrice>> getPriceBySolutionIdHandler,
+                IRequestHandler<GetPriceByCatalogueItemIdQuery, IEnumerable<ICataloguePrice>> getPriceByCatalogueItemIdHandler,
                 IRequestHandler<GetAdditionalServiceBySolutionIdsQuery, IEnumerable<IAdditionalService>> getAdditionalServiceBySolutionIdsHandler)
             {
                 GetSolutionByIdHandler = getSolutionByIdHandler;
@@ -353,6 +361,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 UpdateClaimedEpicsHandler = updateClaimedEpicsHandler;
                 GetPriceByPriceIdHandler = getPriceByPriceIdHandler;
                 GetPriceBySolutionIdHandler = getPriceBySolutionIdHandler;
+                GetPriceByCatalogueItemIdHandler = getPriceByCatalogueItemIdHandler;
                 GetAdditionalServiceBySolutionIdsHandler = getAdditionalServiceBySolutionIdsHandler;
             }
 
@@ -447,6 +456,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             public IRequestHandler<GetPriceByPriceIdQuery, ICataloguePrice> GetPriceByPriceIdHandler { get; }
 
             public IRequestHandler<GetPriceBySolutionIdQuery, IEnumerable<ICataloguePrice>> GetPriceBySolutionIdHandler { get; }
+            public IRequestHandler<GetPriceByCatalogueItemIdQuery, IEnumerable<ICataloguePrice>> GetPriceByCatalogueItemIdHandler { get; }
             
             public IRequestHandler<GetAdditionalServiceBySolutionIdsQuery, IEnumerable<IAdditionalService>> GetAdditionalServiceBySolutionIdsHandler { get; }
         }

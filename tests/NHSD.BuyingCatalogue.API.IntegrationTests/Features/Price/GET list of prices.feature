@@ -14,7 +14,7 @@ Background:
         | Sln3       | TakeTheBluePill | Sup 1      |
         | Sln4       | MedicRUs        | Sup 1      |
         | Sln5       | GP Practice     | Sup 1      |
-    Given CataloguePrice exists
+    And CataloguePrice exists
         | CatalogueItemId | CataloguePriceTypeEnum | ProvisioningTypeEnum | CurrencyCode | Price   | PricingUnitId                        | TimeUnitEnum | CataloguePriceTierRef |
         | Sln1            | Flat                   | OnDemand             | £            | 521.34  | 774E5A1D-D15C-4A37-9990-81861BEAE42B | Month        |                       |
         | Sln2            | Tiered                 | Patient              | $            |         | D43C661A-0587-45E1-B315-5E5091D6E9D0 | Year         | 1                     |
@@ -24,7 +24,7 @@ Background:
         | Sln4            | Tiered                 | Declarative          | AUZ          |         | 774E5A1D-D15C-4A37-9990-81861BEAE42B | Year         | 3                     |
         | Sln5            | Flat                   | OnDemand             | GBP          | 521.90  | 8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65 | NULL         |                       |
         | Sln5            | Tiered                 | Patient              | GBP          |         | 90119522-D381-4296-82EE-8FE630593B56 | Year         | 4                     |
-    Given CataloguePriceTier exists
+    And CataloguePriceTier exists
         | CataloguePriceTierRef | BandStart | BandEnd | Price   |
         | 1                     | 1         | 5       | 700.00  |
         | 1                     | 6         | 10      | 600.00  |

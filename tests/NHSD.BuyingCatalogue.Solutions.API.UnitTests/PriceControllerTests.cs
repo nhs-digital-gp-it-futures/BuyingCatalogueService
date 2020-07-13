@@ -128,6 +128,55 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             response.Value.Should().BeEquivalentTo(priceResult);
         }
 
+        [Test]
+        public async Task GetListByCatalogueItemId_HasSingleFlatPricing_RetrievesPricing()
+        {
+            var flatPricing = FlatCataloguePriceDtoBuilder.Create().Build();
+            var cataloguePriceList = new List<ICataloguePrice> { flatPricing };
+
+            var priceResult = CreatePricesForQueryingByCatalogueItemId(cataloguePriceList);
+
+            _mockMediator.Setup(m =>
+                    m.Send(It.Is<GetPriceByCatalogueItemIdQuery>(q => q.CatalogueItemId == _solutionId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(cataloguePriceList);
+
+            var response = (await _controller.GetPricesByCatalogueItemIdAsync(_solutionId));
+            response.Value.Should().BeEquivalentTo(priceResult);
+        }
+
+        [Test]
+        public async Task GetListByCatalogueItemId_HasSingleTieredPricing_RetrievesPricing()
+        {
+            var tieredPricing = TieredCataloguePriceDtoBuilder.Create().Build();
+            var cataloguePriceList = new List<ICataloguePrice> { tieredPricing };
+
+            var priceResult = CreatePricesForQueryingByCatalogueItemId(cataloguePriceList);
+
+            _mockMediator.Setup(m =>
+                    m.Send(It.Is<GetPriceByCatalogueItemIdQuery>(q => q.CatalogueItemId == _solutionId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(cataloguePriceList);
+
+            var response = (await _controller.GetPricesByCatalogueItemIdAsync(_solutionId));
+            response.Value.Should().BeEquivalentTo(priceResult);
+        }
+
+        [Test]
+        public async Task GetListByCatalogueItemId_HasMultipleFlatAndTieredPricing_RetrievesPricing()
+        {
+            var flatPricing = FlatCataloguePriceDtoBuilder.Create().Build();
+            var tieredPricing = TieredCataloguePriceDtoBuilder.Create().Build();
+            var cataloguePriceList = new List<ICataloguePrice> { flatPricing, tieredPricing };
+
+            var priceResult = CreatePricesForQueryingByCatalogueItemId(cataloguePriceList);
+
+            _mockMediator.Setup(m =>
+                    m.Send(It.Is<GetPriceByCatalogueItemIdQuery>(q => q.CatalogueItemId == _solutionId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(cataloguePriceList);
+
+            var response = await _controller.GetPricesByCatalogueItemIdAsync(_solutionId);
+            response.Value.Should().BeEquivalentTo(priceResult);
+        }
+
         private static PriceResult CreatePrice(ICataloguePrice cataloguePrice)
         {
             return new PriceResult
@@ -153,7 +202,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 Price = (cataloguePrice as FlatCataloguePriceDto)?.Price,
                 Tiers = (cataloguePrice as TieredCataloguePriceDto)?.TieredPrices.Select(x => new TierResult
                 {
-                    Start = x.BandStart, End = x.BandEnd, Price = x.Price
+                    Start = x.BandStart,
+                    End = x.BandEnd,
+                    Price = x.Price
                 })
             };
         }
@@ -169,5 +220,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             return pricingResult;
         }
+
+        private static PricingResult CreatePricesForQueryingByCatalogueItemId(IEnumerable<ICataloguePrice> cataloguePrice)
+        => new PricingResult { Prices = cataloguePrice.Select(CreatePrice) };
     }
 }

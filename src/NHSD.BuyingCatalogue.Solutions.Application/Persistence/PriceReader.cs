@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.Pricing;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
-using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 {
@@ -27,6 +26,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
         public async Task<IEnumerable<CataloguePriceBase>> GetBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
         {
             var prices = await _priceRepository.GetPricesBySolutionIdQueryAsync(solutionId, cancellationToken);
+            return ProcessPriceItems(prices);
+        }
+
+        public async Task<IEnumerable<CataloguePriceBase>> GetByCatalogueItemIdAsync(string catalogueItemId, CancellationToken cancellationToken)
+        {
+            var prices = await _priceRepository.GetPricesByCatalogueItemIdQueryAsync(catalogueItemId, cancellationToken);
             return ProcessPriceItems(prices);
         }
 

@@ -6,5 +6,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence.CatalogueItems
     public interface ICatalogueItemRepository
     {
         Task<ICatalogueItemResult> GetByIdAsync(string catalogueItemId, CancellationToken cancellationToken);
+        Task<bool> CheckExists(string catalogueItemId, CancellationToken cancellationToken);
     }
 }

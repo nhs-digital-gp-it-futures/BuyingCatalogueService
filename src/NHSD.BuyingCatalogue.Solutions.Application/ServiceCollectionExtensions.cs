@@ -58,6 +58,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<AdditionalServiceReader>()
                 .AddTransient<CatalogueItemReader>()
                 .AddTransient<SolutionVerifier>()
+                .AddTransient<CatalogueItemVerifier>()
                 .AddTransient<SolutionSummaryUpdater>()
                 .AddTransient<SolutionFeaturesUpdater>()
                 .AddTransient<SolutionClientApplicationUpdater>()

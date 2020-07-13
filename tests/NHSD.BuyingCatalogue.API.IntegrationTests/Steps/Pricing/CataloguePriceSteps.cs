@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Flurl.Util;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
@@ -19,9 +18,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         private readonly Response _response;
         private readonly ScenarioContext _context;
 
-        private const string pricingUrl = "http://localhost:5200/api/v1/solutions/{0}/prices";
+        private const string getPriceBySolutionIdUrl = "http://localhost:5200/api/v1/solutions/{0}/prices";
+        private const string getPriceByCatalogueItemIdUrl = "http://localhost:5200/api/v1/prices?catalogueItemId={0}";
         private const string getPriceUrl = "http://localhost:5200/api/v1/prices/{0}";
-        private readonly string priceToken = "prices";
+        private const string priceToken = "prices";
 
         public CataloguePriceSteps(Response response, ScenarioContext context)
         {
@@ -65,7 +65,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         [When(@"a GET request is made to retrieve the pricing with Solution ID (.*)")]
         public async Task WhenAGETRequestIsMadeToRetrieveThePricingWithSolutionID(string solutionId)
         {
-            _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, pricingUrl, solutionId));
+            _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, getPriceBySolutionIdUrl, solutionId));
+        }
+
+        [When(@"a GET request is made to retrieve the pricing for catalogue item with ID (.*)")]
+        public async Task WhenAGETRequestIsMadeToRetrieveThePricingByCatalogueItemId(string catalogueItemId)
+        {
+            _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, getPriceByCatalogueItemIdUrl, catalogueItemId));
         }
 
         [When(@"a GET request is made to retrieve a single price using the PriceId associated with CaltaloguePriceIdRef (.*)")]
