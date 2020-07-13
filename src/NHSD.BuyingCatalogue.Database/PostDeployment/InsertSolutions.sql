@@ -282,8 +282,7 @@ BEGIN
 
     /*************************************************************************************************************************************************************/
 
-    SET @solutionId = '100008-001';
-    /* Second solution on supplier 100007 */
+    SET @solutionId = '100007-002';
     IF NOT EXISTS (SELECT * FROM dbo.CatalogueItem WHERE CatalogueItemId = @solutionId)
     BEGIN
         INSERT INTO dbo.CatalogueItem(CatalogueItemId, CatalogueItemTypeId, [Name], SupplierId, PublishedStatusId, Created)
@@ -576,7 +575,7 @@ TPP maintain close contact with staff at the unit throughout these phases to ens
           ('100003-001', 2, 1, 'D43C661A-0587-45E1-B315-5E5091D6E9D0', 1, 'GBP', @now, 19.987),
           ('100007-001', 3, 1, '90119522-D381-4296-82EE-8FE630593B56', NULL, 'GBP', @now, 0.15),
           ('100008-001', 3, 2, '90119522-D381-4296-82EE-8FE630593B56', NULL, 'GBP', @now, NULL);
-          DECLARE @priceId100008 AS int = (SELECT CataloguePriceId from dbo.CataloguePrice WHERE CatalogueItemId='100008-001');
+          DECLARE @priceId1000072 AS int = (SELECT CataloguePriceId from dbo.CataloguePrice WHERE CatalogueItemId='100007-002');
 
           INSERT INTO dbo.CataloguePriceTier
           (CataloguePriceId, BandStart, BandEnd, Price)
@@ -593,9 +592,9 @@ TPP maintain close contact with staff at the unit throughout these phases to ens
           (12, 9, 33,33.33),
           (12, 34, 1004, 50),
           (12, 1005, NULL, 0.02),
-          (@priceId100008, 1, 10, 20),
-          (@priceId100008, 11, 99, 30.15),
-          (@priceId100008, 100, NULL, 40.99);
+          (@priceId1000072, 1, 10, 20),
+          (@priceId1000072, 11, 99, 30.15),
+          (@priceId1000072, 100, NULL, 40.99);
      END;
 END;
 GO
