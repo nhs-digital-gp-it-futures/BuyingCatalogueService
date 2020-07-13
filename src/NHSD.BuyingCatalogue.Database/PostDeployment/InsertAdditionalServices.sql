@@ -1,6 +1,4 @@
-﻿USE [buyingcatalogue]
-GO
-DECLARE @cataloguePriceId AS int = 0;
+﻿DECLARE @cataloguePriceId AS int = 0;
 DECLARE @publishedStatus AS int = 3;
 DECLARE @solutionItemType AS int = 1;
 DECLARE @now AS datetime = GETUTCDATE();
