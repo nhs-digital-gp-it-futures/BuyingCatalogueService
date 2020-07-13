@@ -574,8 +574,9 @@ TPP maintain close contact with staff at the unit throughout these phases to ens
           ('100000-001', 3, 1, '774E5A1D-D15C-4A37-9990-81861BEAE42B', NULL, 'GBP', @now, 1001.010),
           ('100003-001', 2, 1, 'D43C661A-0587-45E1-B315-5E5091D6E9D0', 1, 'GBP', @now, 19.987),
           ('100007-001', 3, 1, '90119522-D381-4296-82EE-8FE630593B56', NULL, 'GBP', @now, 0.15),
-          ('100008-001', 3, 2, '90119522-D381-4296-82EE-8FE630593B56', NULL, 'GBP', @now, NULL);
-          DECLARE @priceId1000072 AS int = (SELECT CataloguePriceId from dbo.CataloguePrice WHERE CatalogueItemId='100007-002');
+          ('100007-002', 3, 2, '90119522-D381-4296-82EE-8FE630593B56', NULL, 'GBP', @now, NULL);
+
+          DECLARE @priceId1000072 AS int = (SELECT CataloguePriceId from dbo.CataloguePrice WHERE CatalogueItemId = '100007-002');
 
           INSERT INTO dbo.CataloguePriceTier
           (CataloguePriceId, BandStart, BandEnd, Price)
