@@ -17,7 +17,6 @@ Background:
 	And AdditionalService exist
 		| CatalogueItemId | CatalogueItemName                | CatalogueSupplierId | Summary                 | SolutionId |
 		| Sln1-001A001    | MedicOnline Additional Service 1 | Sup 1               | Addition to MedicOnline | Sln1       |
-		| Sln2-002A001    | Red Pill Additional Service      | Sup 1               | Addition to Red Pill    | Sln2       |
 	And CataloguePrice exists
 		| CatalogueItemId | CataloguePriceTypeEnum | ProvisioningTypeEnum | CurrencyCode | Price  | PricingUnitId                        | TimeUnitEnum | CataloguePriceTierRef |
 		| Sln1            | Flat                   | OnDemand             | £            | 521.34 | 774E5A1D-D15C-4A37-9990-81861BEAE42B | Month        |                       |

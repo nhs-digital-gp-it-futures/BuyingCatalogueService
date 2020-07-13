@@ -32,7 +32,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
             var result = await _dbConnector.QueryAsync<int>(
                 DoesCatalogueItemExist,
                 cancellationToken,
-                new {catalogueItemId});
+                new { catalogueItemId });
 
             return result.Sum() == 1;
         }
