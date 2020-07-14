@@ -13,18 +13,19 @@
 :r ./InsertProvisioningTypes.sql
 :r ./InsertSuppliers.sql
 
-:r ./MigrateSolutionDetailToCatalogueItem.sql
-
-IF NOT EXISTS (SELECT * FROM dbo.CatalogueItem)
-    EXEC migration.PostDeployment;
-GO
-
-DROP PROCEDURE IF EXISTS migration.PreDeployment;
-DROP PROCEDURE IF EXISTS migration.PostDeployment;
-DROP SCHEMA IF EXISTS migration;
-GO
-
 :r ./InsertTimeUnits.sql
 :r ./InsertSolutions.sql
+:r ./InsertAdditionalServices.sql
 :r ./DropImport.sql
 :r ./DropPublish.sql
+
+:r ./ProdLikeData/MergeSuppliers.sql
+:r ./ProdLikeData/MergeCatalogueItems.sql
+:r ./ProdLikeData/MergeSolutions.sql
+:r ./ProdLikeData/MergeAdditionalServices.sql
+:r ./ProdLikeData/MergeAssociatedServices.sql
+:r ./ProdLikeData/MergeMarketingContacts.sql
+:r ./ProdLikeData/MergeSolutionEpics.sql
+:r ./ProdLikeData/MergeSolutionCapabilities.sql
+:r ./ProdLikeData/MergeFrameworkSolutions.sql
+:r ./ProdLikeData/MergeCataloguePrices.sql

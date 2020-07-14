@@ -9,6 +9,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Domain.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.Pricing;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.Suppliers;
 using NHSD.BuyingCatalogue.Solutions.Application.Mapping;
+using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetAdditionalServiceByAdditionalServiceId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicationBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutionId;
@@ -94,7 +95,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             yield return new KeyValuePair<Type, Type>(typeof(TimeUnit), typeof(ITimeUnit));
             yield return new KeyValuePair<Type, Type>(typeof(TieredPrice), typeof(TieredPriceDto));
             yield return new KeyValuePair<Type, Type>(typeof(TieredPrice), typeof(ITieredPrice));
-
+            yield return new KeyValuePair<Type, Type>(typeof(AdditionalService), typeof(AdditionalServiceDto));
+            yield return new KeyValuePair<Type, Type>(typeof(AdditionalService), typeof(IAdditionalService));
         }
 
         [SetUp]

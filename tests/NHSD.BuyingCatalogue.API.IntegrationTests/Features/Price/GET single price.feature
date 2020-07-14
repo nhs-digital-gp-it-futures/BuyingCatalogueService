@@ -15,7 +15,7 @@ Background:
     Given CataloguePrice exists
         | CatalogueItemId | ProvisioningTypeEnum | CataloguePriceTypeEnum | CurrencyCode | Price  | PricingUnitId                        | TimeUnitEnum | CataloguePriceTierRef | CataloguePriceIdRef |
         | Sln1            | OnDemand             | Flat                   | £            | 521.34 | 774E5A1D-D15C-4A37-9990-81861BEAE42B | Month        |                       | priceId1            |
-        | Sln2            | PatientNumbers       | Tiered                 | $            |        | D43C661A-0587-45E1-B315-5E5091D6E9D0 | Year         | 1                     | priceId2            |
+        | Sln2            | Patient              | Tiered                 | $            |        | D43C661A-0587-45E1-B315-5E5091D6E9D0 | Year         | 1                     | priceId2            |
         | Sln3            | OnDemand             | Flat                   | £            | 321.34 | 774E5A1D-D15C-4A37-9990-81861BEAE42B | NULL         |                       | priceId3            |
     Given CataloguePriceTier exists
         | CataloguePriceTierRef | BandStart | BandEnd | Price  |
@@ -45,7 +45,7 @@ Scenario: 3. Get a single Tierred Price by CatalogugePriceId
     Then a successful response is returned
     And a Price is returned
         | Type   | ProvisioningType | CurrencyCode | PricingItemName | PricingItemDescription | PricingItemTierName | TimeUnitName | TimeUnitDescription |
-        | Tiered | PatientNumbers   | $            | bed             | per bed                | beds                | year         | per year            |
+        | Tiered | Patient          | $            | bed             | per bed                | beds                | year         | per year            |
     And the Price Tiers are returned
         | Start | End | Price   |
         | 1     | 5   | 700.000 |

@@ -85,8 +85,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public async Task GetPricingByPriceIdQueryAsync_ValidPriceIdAndTiredPrice_ReturnsTieredPriceResult()
         {
             int validPriceId = await InsertTieredPriceAsync(_solutionId);
-            await InsertCalaloguePriceTier(validPriceId, 1, 2, 1.0m);
-            await InsertCalaloguePriceTier(validPriceId, 3, 4, 1.50m);
+            await InsertCataloguePriceTier(validPriceId, 1, 2, 1.0m);
+            await InsertCataloguePriceTier(validPriceId, 3, 4, 1.50m);
             var response = await _priceRepository.GetPriceByPriceIdQueryAsync(validPriceId, CancellationToken.None);
             response.Count(t => t.CataloguePriceTypeId == 2).Should().Be(2);
         }
@@ -107,7 +107,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             return priceId;
         }
 
-        private static async Task InsertCalaloguePriceTier(int priceId, int startBand, int? endBand, decimal price)
+        private static async Task InsertCataloguePriceTier(int priceId, int startBand, int? endBand, decimal price)
         {
             await CataloguePriceTierEntityBuilder.Create()
                 .WithCataloguePriceId(priceId)

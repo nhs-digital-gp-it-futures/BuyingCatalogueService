@@ -35,6 +35,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSuppliers;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
+using NHSD.BuyingCatalogue.Solutions.Application.Persistence.CatalogueItems;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence.Epics;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence.Suppliers;
 
@@ -54,6 +55,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<IntegrationsReader>()
                 .AddTransient<ImplementationTimescalesReader>()
                 .AddTransient<PriceReader>()
+                .AddTransient<AdditionalServiceReader>()
+                .AddTransient<CatalogueItemReader>()
                 .AddTransient<SolutionVerifier>()
                 .AddTransient<SolutionSummaryUpdater>()
                 .AddTransient<SolutionFeaturesUpdater>()
