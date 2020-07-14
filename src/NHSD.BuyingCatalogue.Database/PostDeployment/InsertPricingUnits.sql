@@ -32,8 +32,8 @@ VALUES
     ('60523726-bbaf-4ec3-b29c-dee2f3d3eca8', 'item'               , 'items'          , 'per item'),
     ('8a5e119f-9b33-4017-8cc9-552e86e20898', 'activeUser'         , 'active users'   , 'per active user'),
     --Units in the data that may be amended / consolidated
-    ('4b39590d-3f35-4963-83ba-bc7d0bfe988b', 'videoConsultationInitiated', 'initiated video consultations', 'per video consultation initiated'),
-    ('372787ad-041f-4176-93e9-e4a303c39014', 'digitalFirstConsultation', 'digital first consultations', 'per digital first consultation'),
+    ('4b39590d-3f35-4963-83ba-bc7d0bfe988b', 'videoConsultation', 'consultations', 'per video consultation initiated'),
+    ('372787ad-041f-4176-93e9-e4a303c39014', 'digitalFirstConsult', 'consultations', 'per digital first consultation'),
     ('a4012e6c-caf3-430c-b8d3-9c45ab9fd0de', 'unitMerge', 'unit merges', 'per unit merge'),
     ('bede8599-7a4e-4753-a928-f419681b7c93', 'unitSplit', 'unit splits', 'per unit split'),
     ('8eea4a69-977d-4fb1-b4d1-2f0971beb04b', 'hourSession', 'hour Sessions', 'per 1hr session');
