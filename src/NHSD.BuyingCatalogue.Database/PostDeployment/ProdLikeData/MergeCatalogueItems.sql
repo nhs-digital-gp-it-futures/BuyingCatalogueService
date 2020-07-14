@@ -64,28 +64,28 @@ BEGIN
     (N'10052-002A003', N'SystmOne Auto Planner', 2, N'10052', 3, GETUTCDATE()),
     (N'10052-002A005', N'TPP Video Conferencing with Airmid', 2, N'10052', 3, GETUTCDATE()),
     --Associated Services
-    (N'10046-S-001', N'Consultancy', 3, N'10046', 3, GETUTCDATE()),
+    (N'10046-S-001',  N'Consultancy', 3, N'10046', 3, GETUTCDATE()),
     (N'10046-002-05', N'Data Import Activity', 3, N'10046', 3, GETUTCDATE()),
     (N'10046-002-08', N'Database creation/software initialisation', 3, N'10046', 3, GETUTCDATE()),
     (N'10046-001-07', N'Docman 10 upgrade for current Docman 7 customer', 3, N'10046', 3, GETUTCDATE()),
     (N'10046-001-06', N'eLearning', 3, N'10046', 3, GETUTCDATE()),
     (N'10046-001-02', N'Post-Deployment/ Upgrade Day', 3, N'10046', 3, GETUTCDATE()),
-    (N'10046-S-002', N'Practice Merger or Split', 3, N'10046', 3, GETUTCDATE()),
+    (N'10046-S-002',  N'Practice Merger or Split', 3, N'10046', 3, GETUTCDATE()),
     (N'10046-001-01', N'Pre-Deployment/ Upgrade Day', 3, N'10046', 3, GETUTCDATE()),
-    (N'10046-S-003', N'Remote Training', 3, N'10046', 3, GETUTCDATE()),
-    (N'10046-S-004', N'Training Services', 3, N'10046', 3, GETUTCDATE()),
-    (N'10007-S-001', N'Bespoke Documentation', 3, N'10007', 3, GETUTCDATE()),
-    (N'10007-S-002', N'Clinical System Migration/Data Consolidation', 3, N'10007', 3, GETUTCDATE()),
-    (N'10007-S-003', N'Deployment', 3, N'10007', 3, GETUTCDATE()),
-    (N'10007-S-004', N'Process Optimisation', 3, N'10007', 3, GETUTCDATE()),
-    (N'10007-S-005', N'Training', 3, N'10007', 3, GETUTCDATE()),
-    (N'10000-S-001', N'Video Consult, Online and Video Consult - Additional Minute Package (3000 minutes)', 3, N'10000', 3, GETUTCDATE()),
+    (N'10046-S-003',  N'Remote Training', 3, N'10046', 3, GETUTCDATE()),
+    (N'10046-S-004',  N'Training Services', 3, N'10046', 3, GETUTCDATE()),
+    (N'10007-S-001',  N'Bespoke Documentation', 3, N'10007', 3, GETUTCDATE()),
+    (N'10007-S-002',  N'Clinical System Migration/Data Consolidation', 3, N'10007', 3, GETUTCDATE()),
+    (N'10007-S-003',  N'Deployment', 3, N'10007', 3, GETUTCDATE()),
+    (N'10007-S-004',  N'Process Optimisation', 3, N'10007', 3, GETUTCDATE()),
+    (N'10007-S-005',  N'Training', 3, N'10007', 3, GETUTCDATE()),
+    (N'10000-S-001',  N'Video Consult, Online and Video Consult - Additional Minute Package (3000 minutes)', 3, N'10000', 3, GETUTCDATE()),
     (N'10000-001-01', N'Engineering', 3, N'10000', 3, GETUTCDATE()),
-    (N'10000-S-004', N'Automated Arrivals - Engineering Half Day', 3, N'10000', 3, GETUTCDATE()),
+    (N'10000-S-004',  N'Automated Arrivals - Engineering Half Day', 3, N'10000', 3, GETUTCDATE()),
     (N'10000-054-03', N'Online and Video Consult - Implementation', 3, N'10000', 3, GETUTCDATE()),
-    (N'10000-S-002', N'Installation', 3, N'10000', 3, GETUTCDATE()),
-    (N'10000-S-005', N'Enterprise Search and Reports - Installation', 3, N'10000', 3, GETUTCDATE()),
-    (N'10000-S-006', N'Automated Arrivals - Installation of wall mounted kiosk, excludes cabling', 3, N'10000', 3, GETUTCDATE()),
+    (N'10000-S-002',  N'Installation', 3, N'10000', 3, GETUTCDATE()),
+    (N'10000-S-005',  N'Enterprise Search and Reports - Installation', 3, N'10000', 3, GETUTCDATE()),
+    (N'10000-S-006',  N'Automated Arrivals - Installation of wall mounted kiosk, excludes cabling', 3, N'10000', 3, GETUTCDATE()),
     (N'10000-002-01', N'Anywhere Consult - Integrated Device', 3, N'10000', 3, GETUTCDATE()),
     (N'10000-001-02', N'Lloyd George digitisation', 3, N'10000', 3, GETUTCDATE()),
     (N'10000-001-03', N'Lloyd George Digitisation (upload only)', 3, N'10000', 3, GETUTCDATE()),
@@ -93,15 +93,15 @@ BEGIN
     (N'10000-024-01', N'Doc Management - Migration', 3, N'10000', 3, GETUTCDATE()),
     (N'10000-001-05', N'Practice Reorganisation', 3, N'10000', 3, GETUTCDATE()),
     (N'10000-001-06', N'Project Management', 3, N'10000', 3, GETUTCDATE()),
-    (N'10000-S-007', N'Automated Arrivals - Specialist Cabling', 3, N'10000', 3, GETUTCDATE()),
-    (N'10000-S-003', N'Training Day at Practice', 3, N'10000', 3, GETUTCDATE()),
-    (N'10000-S-008', N'Automated Arrivals - Wall Mount Bracket', 3, N'10000', 3, GETUTCDATE()),
+    (N'10000-S-007',  N'Automated Arrivals - Specialist Cabling', 3, N'10000', 3, GETUTCDATE()),
+    (N'10000-S-003',  N'Training Day at Practice', 3, N'10000', 3, GETUTCDATE()),
+    (N'10000-S-008',  N'Automated Arrivals - Wall Mount Bracket', 3, N'10000', 3, GETUTCDATE()),
     (N'10047-001-01', N'Pathfinder', 3, N'10047', 3, GETUTCDATE()),
     (N'10047-001-02', N'Transform', 3, N'10047', 3, GETUTCDATE()),
     (N'10004-001-01', N'Customisation', 3, N'10004', 3, GETUTCDATE()),
     (N'10004-002-02', N'Data Migration from existing appointments solution', 3, N'10004', 3, GETUTCDATE()),
     (N'10004-001-03', N'End User Training Seminar', 3, N'10004', 3, GETUTCDATE()),
-    (N'10004-S-001', N'Training Day at Practice', 3, N'10004', 3, GETUTCDATE()),
+    (N'10004-S-001',  N'Training Day at Practice', 3, N'10004', 3, GETUTCDATE()),
     (N'10073-009-03', N'my GP Integration', 3, N'10073', 3, GETUTCDATE()),
     (N'10073-009-01', N'Setup/Provisioning/Launch', 3, N'10073', 3, GETUTCDATE()),
     (N'10073-009-02', N'Training', 3, N'10073', 3, GETUTCDATE()),
@@ -111,28 +111,28 @@ BEGIN
     (N'10029-003-03', N'Solution Model Development', 3, N'10029', 3, GETUTCDATE()),
     (N'10029-003-05', N'Staff Training', 3, N'10029', 3, GETUTCDATE()),
     (N'10052-002-08', N'Data Extraction Service', 3, N'10052', 3, GETUTCDATE()),
-    (N'10052-S-001', N'Full Training Day', 3, N'10052', 3, GETUTCDATE()),
-    (N'10052-S-002', N'Half Training Day', 3, N'10052', 3, GETUTCDATE()),
+    (N'10052-S-001',  N'Full Training Day', 3, N'10052', 3, GETUTCDATE()),
+    (N'10052-S-002',  N'Half Training Day', 3, N'10052', 3, GETUTCDATE()),
     (N'10052-002-05', N'Practice Merge', 3, N'10052', 3, GETUTCDATE()),
     (N'10052-002-06', N'Practice Split', 3, N'10052', 3, GETUTCDATE()),
     (N'10052-002-07', N'Provision of Legacy Data', 3, N'10052', 3, GETUTCDATE()),
-    (N'10052-S-003', N'Super User Course', 3, N'10052', 3, GETUTCDATE()),
+    (N'10052-S-003',  N'Super User Course', 3, N'10052', 3, GETUTCDATE()),
     (N'10052-002-11', N'SystmOne GP Deployment (Data Migration, Full Training)', 3, N'10052', 3, GETUTCDATE()),
     (N'10052-002-01', N'SystmOne GP Deployment (Data Migration, Go-Live Support)', 3, N'10052', 3, GETUTCDATE()),
-    (N'10052-S-004', N'Train the Trainer Course', 3, N'10052', 3, GETUTCDATE()),
-    (N'10052-S-005', N'Training Environment', 3, N'10052', 3, GETUTCDATE());
+    (N'10052-S-004',  N'Train the Trainer Course', 3, N'10052', 3, GETUTCDATE()),
+    (N'10052-S-005',  N'Training Environment', 3, N'10052', 3, GETUTCDATE());
 
     MERGE INTO [dbo].[CatalogueItem] AS TARGET
     USING #CatalogueItem AS SOURCE
     ON TARGET.CatalogueItemId = SOURCE.CatalogueItemId  
     WHEN MATCHED THEN  
         UPDATE SET TARGET.[Name] = SOURCE.[Name],
-                    TARGET.[CatalogueItemTypeId] = SOURCE.[CatalogueItemTypeId],
-                    TARGET.[SupplierId] = SOURCE.[SupplierId],
-                    TARGET.[PublishedStatusId] = SOURCE.[PublishedStatusId],
-                    TARGET.[Created] = SOURCE.[Created]
+                   TARGET.CatalogueItemTypeId = SOURCE.CatalogueItemTypeId,
+                   TARGET.SupplierId = SOURCE.SupplierId,
+                   TARGET.PublishedStatusId = SOURCE.PublishedStatusId,
+                   TARGET.Created = SOURCE.Created
     WHEN NOT MATCHED BY TARGET THEN  
-        INSERT  ([CatalogueItemId], [Name], [CatalogueItemTypeId], [SupplierId], [PublishedStatusId], [Created]) 
-        VALUES  (SOURCE.[CatalogueItemId], SOURCE.[Name], SOURCE.[CatalogueItemTypeId], SOURCE.[SupplierId], SOURCE.[PublishedStatusId], SOURCE.[Created]);
+        INSERT  (CatalogueItemId, [Name], CatalogueItemTypeId, SupplierId, PublishedStatusId, Created) 
+        VALUES  (SOURCE.CatalogueItemId, SOURCE.[Name], SOURCE.CatalogueItemTypeId, SOURCE.SupplierId, SOURCE.PublishedStatusId, SOURCE.Created);
 END;
 GO

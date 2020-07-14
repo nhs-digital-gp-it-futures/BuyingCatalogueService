@@ -6,14 +6,14 @@ BEGIN
 
     CREATE TABLE #FrameworkSolutions
     (
-            FrameworkId varchar(10) NOT NULL,
-            SolutionId varchar(14) NOT NULL,
-            IsFoundation bit CONSTRAINT DF_FrameworkSolutions_IsFoundation DEFAULT 0 NOT NULL,
-            LastUpdated datetime2(7) NOT NULL,
-            LastUpdatedBy uniqueidentifier NOT NULL,
+        FrameworkId varchar(10) NOT NULL,
+        SolutionId varchar(14) NOT NULL,
+        IsFoundation bit CONSTRAINT DF_FrameworkSolutions_IsFoundation DEFAULT 0 NOT NULL,
+        LastUpdated datetime2(7) NOT NULL,
+        LastUpdatedBy uniqueidentifier NOT NULL,
     );
 
-    INSERT #FrameworkSolutions ([FrameworkId], [SolutionId], [IsFoundation], [LastUpdated], [LastUpdatedBy]) 
+    INSERT #FrameworkSolutions (FrameworkId, SolutionId, IsFoundation, LastUpdated, LastUpdatedBy) 
     VALUES 
     (N'NHSDGP001', N'10000-001', 1, CAST(N'2020-03-25T07:30:18.1133333' AS DateTime2), N'00000000-0000-0000-0000-000000000000'),
     (N'NHSDGP001', N'10000-002', 0, CAST(N'2020-04-06T10:50:03.2166667' AS DateTime2), N'00000000-0000-0000-0000-000000000000'),
@@ -46,13 +46,13 @@ BEGIN
 
     MERGE INTO [dbo].[FrameworkSolutions] AS TARGET
     USING #FrameworkSolutions AS SOURCE
-    ON TARGET.[FrameworkId] = SOURCE.[FrameworkId] AND TARGET.[SolutionId] = SOURCE.[SolutionId] 
+    ON TARGET.FrameworkId = SOURCE.FrameworkId AND TARGET.SolutionId = SOURCE.SolutionId 
     WHEN MATCHED THEN  
-        UPDATE SET TARGET.[IsFoundation] = SOURCE.[IsFoundation],
-                    TARGET.[LastUpdated] = SOURCE.[LastUpdated],
-                    TARGET.[LastUpdatedBy] = SOURCE.[LastUpdatedBy]
+        UPDATE SET TARGET.IsFoundation = SOURCE.IsFoundation,
+                   TARGET.LastUpdated = SOURCE.LastUpdated,
+                   TARGET.LastUpdatedBy = SOURCE.LastUpdatedBy
     WHEN NOT MATCHED BY TARGET THEN  
-        INSERT  ([FrameworkId], [SolutionId], [IsFoundation], [LastUpdated], [LastUpdatedBy])
-        VALUES  (SOURCE.[FrameworkId], SOURCE.[SolutionId], SOURCE.[IsFoundation], SOURCE.[LastUpdated], SOURCE.[LastUpdatedBy]);
+        INSERT  (FrameworkId, SolutionId, IsFoundation, LastUpdated, LastUpdatedBy)
+        VALUES  (SOURCE.FrameworkId, SOURCE.SolutionId, SOURCE.IsFoundation, SOURCE.LastUpdated, SOURCE.LastUpdatedBy);
 END;
 GO

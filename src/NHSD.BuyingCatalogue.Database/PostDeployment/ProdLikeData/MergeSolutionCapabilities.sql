@@ -6,14 +6,14 @@ BEGIN
 
     CREATE TABLE #SolutionCapability
     (
-            SolutionId varchar(14) NOT NULL,
-            CapabilityId uniqueidentifier NOT NULL,
-            StatusId int NOT NULL,
-            LastUpdated datetime2(7) NOT NULL,
-            LastUpdatedBy uniqueidentifier NOT NULL
+        SolutionId varchar(14) NOT NULL,
+        CapabilityId uniqueidentifier NOT NULL,
+        StatusId int NOT NULL,
+        LastUpdated datetime2(7) NOT NULL,
+        LastUpdatedBy uniqueidentifier NOT NULL
     );
 
-    INSERT #SolutionCapability ([SolutionId], [CapabilityId], [StatusId], [LastUpdated], [LastUpdatedBy]) 
+    INSERT #SolutionCapability (SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy) 
     VALUES 
     (N'10000-001', N'efd93d25-447b-4ca3-9d78-108d42afeae0', 1, CAST(N'2020-03-31T10:44:03.4500000' AS DateTime2), N'4f222d7a-74ae-4ec7-9062-e4ad07fcd4f7'),
     (N'10000-001', N'e3e4cf8a-22d3-4056-bb5d-10f8e26b9b5e', 1, CAST(N'2020-03-31T10:44:03.4500000' AS DateTime2), N'4f222d7a-74ae-4ec7-9062-e4ad07fcd4f7'),
@@ -86,13 +86,13 @@ BEGIN
     
     MERGE INTO [dbo].[SolutionCapability] AS TARGET
     USING #SolutionCapability AS SOURCE
-    ON TARGET.[SolutionId] = SOURCE.[SolutionId] AND TARGET.[CapabilityId] = SOURCE.[CapabilityId] 
+    ON TARGET.SolutionId = SOURCE.SolutionId AND TARGET.CapabilityId = SOURCE.CapabilityId 
     WHEN MATCHED THEN  
-        UPDATE SET TARGET.[StatusId] = SOURCE.[StatusId],
-                    TARGET.[LastUpdated] = SOURCE.[LastUpdated],
-                    TARGET.[LastUpdatedBy] = SOURCE.[LastUpdatedBy]
+        UPDATE SET TARGET.StatusId = SOURCE.StatusId,
+                   TARGET.LastUpdated = SOURCE.LastUpdated,
+                   TARGET.LastUpdatedBy = SOURCE.LastUpdatedBy
     WHEN NOT MATCHED BY TARGET THEN  
-        INSERT  ([SolutionId], [CapabilityId], [StatusId], [LastUpdated], [LastUpdatedBy])
-        VALUES  (SOURCE.[SolutionId], SOURCE.[CapabilityId], SOURCE.[StatusId], SOURCE.[LastUpdated], SOURCE.[LastUpdatedBy]);
+        INSERT  (SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
+        VALUES  (SOURCE.SolutionId, SOURCE.CapabilityId, SOURCE.StatusId, SOURCE.LastUpdated, SOURCE.LastUpdatedBy);
 END;
 GO

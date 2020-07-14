@@ -6,18 +6,18 @@ BEGIN
 
     CREATE TABLE #MarketingContact
     (
-            Id int NOT NULL,
-            SolutionId varchar(14) NOT NULL,
-            FirstName varchar(35) NULL,
-            LastName varchar(35) NULL,
-            Email varchar(255) NULL,
-            PhoneNumber varchar(35) NULL,
-            Department varchar(50) NULL,
-            LastUpdated datetime2(7) NOT NULL,
-            LastUpdatedBy uniqueidentifier NOT NULL,
+        Id int NOT NULL,
+        SolutionId varchar(14) NOT NULL,
+        FirstName varchar(35) NULL,
+        LastName varchar(35) NULL,
+        Email varchar(255) NULL,
+        PhoneNumber varchar(35) NULL,
+        Department varchar(50) NULL,
+        LastUpdated datetime2(7) NOT NULL,
+        LastUpdatedBy uniqueidentifier NOT NULL,
     );
 
-    INSERT #MarketingContact ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) 
+    INSERT #MarketingContact (Id, SolutionId, FirstName, LastName, Email, PhoneNumber, Department, LastUpdated, LastUpdatedBy) 
     VALUES 
     (1003, N'10000-001', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-03-31T10:50:17.6233333' AS DateTime2), N'00000000-0000-0000-0000-000000000000'),
     (1049, N'10000-002', N'Bob', N'Smith', N'bob.smith@anon.net', N'01234 5678901', N'Internal Sales Team', CAST(N'2020-04-08T10:55:58.5100000' AS DateTime2), N'00000000-0000-0000-0000-000000000000'),
@@ -55,20 +55,20 @@ BEGIN
 
     MERGE INTO [dbo].[MarketingContact] AS TARGET
     USING #MarketingContact AS SOURCE
-    ON TARGET.[Id] = SOURCE.[Id] 
+    ON TARGET.Id = SOURCE.Id 
     WHEN MATCHED THEN  
-        UPDATE SET TARGET.[SolutionId] = SOURCE.[SolutionId],
-				    TARGET.[FirstName] = SOURCE.[FirstName],
-                    TARGET.[LastName] = SOURCE.[LastName],
-                    TARGET.[Email] = SOURCE.[Email],
-                    TARGET.[PhoneNumber] = SOURCE.[PhoneNumber],
-                    TARGET.[Department] = SOURCE.[Department],
-                    TARGET.[LastUpdated] = SOURCE.[LastUpdated],
-                    TARGET.[LastUpdatedBy] = SOURCE.[LastUpdatedBy]
+        UPDATE SET TARGET.SolutionId = SOURCE.SolutionId,
+				   TARGET.FirstName = SOURCE.FirstName,
+                   TARGET.LastName = SOURCE.LastName,
+                   TARGET.Email = SOURCE.Email,
+                   TARGET.PhoneNumber = SOURCE.PhoneNumber,
+                   TARGET.Department = SOURCE.Department,
+                   TARGET.LastUpdated = SOURCE.LastUpdated,
+                   TARGET.LastUpdatedBy = SOURCE.LastUpdatedBy
     WHEN NOT MATCHED BY TARGET THEN  
-        INSERT  ([Id], [SolutionId], [FirstName], [LastName], [Email], [PhoneNumber], [Department], [LastUpdated], [LastUpdatedBy]) 
-        VALUES  (SOURCE.[Id], SOURCE.[SolutionId], SOURCE.[FirstName], SOURCE.[LastName], SOURCE.[Email], SOURCE.[PhoneNumber], SOURCE.[Department], SOURCE.[LastUpdated], SOURCE.[LastUpdatedBy]);
+        INSERT  (Id, SolutionId, FirstName, LastName, Email, PhoneNumber, Department, LastUpdated, LastUpdatedBy) 
+        VALUES  (SOURCE.Id, SOURCE.SolutionId, SOURCE.FirstName, SOURCE.LastName, SOURCE.Email, SOURCE.PhoneNumber, SOURCE.Department, SOURCE.LastUpdated, SOURCE.LastUpdatedBy);
 
     SET IDENTITY_INSERT [dbo].[MarketingContact] OFF; 
 END;
-GO    
+GO
