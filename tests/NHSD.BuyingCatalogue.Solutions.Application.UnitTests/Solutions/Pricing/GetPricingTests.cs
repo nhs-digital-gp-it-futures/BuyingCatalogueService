@@ -116,8 +116,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Pricing
                 },
                 TimeUnit = new
                 {
-                    Enumerator.FromValue<TimeUnit>(result.TimeUnitId).Name, 
-                    Enumerator.FromValue<TimeUnit>(result.TimeUnitId).Description
+                    Name = result.TimeUnitId is null ? null : Enumerator.FromValue<TimeUnit>(result.TimeUnitId.Value).Name, 
+                    Description = result.TimeUnitId is null ? null : Enumerator.FromValue<TimeUnit>(result.TimeUnitId.Value).Description
                 }
             };
         }

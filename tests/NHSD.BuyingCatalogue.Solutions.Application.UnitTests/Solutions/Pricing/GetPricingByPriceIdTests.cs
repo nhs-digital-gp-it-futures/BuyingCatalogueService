@@ -72,8 +72,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Pricing
             price.PricingUnit.Name.Should().BeEquivalentTo(Price1.PricingUnitName);
             price.PricingUnit.Description.Should().BeEquivalentTo(Price1.PricingUnitDescription);
             price.PricingUnit.TierName.Should().BeEquivalentTo(Price1.PricingUnitTierName);
-            price.TimeUnit.Name.Should().BeEquivalentTo(Enumerator.FromValue<TimeUnit>(Price1.TimeUnitId).Name);
-            price.TimeUnit.Description.Should().BeEquivalentTo(Enumerator.FromValue<TimeUnit>(Price1.TimeUnitId).Description);
+            price.TimeUnit.Name.Should().BeEquivalentTo(Price1.TimeUnitId is null ? null : Enumerator.FromValue<TimeUnit>(Price1.TimeUnitId.Value).Name);
+            price.TimeUnit.Description.Should().BeEquivalentTo(Price1.TimeUnitId is null ? null : Enumerator.FromValue<TimeUnit>(Price1.TimeUnitId.Value).Description);
             price.CurrencyCode.Should().BeEquivalentTo(Price1.CurrencyCode);
         }
     }
