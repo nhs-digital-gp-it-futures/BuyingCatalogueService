@@ -1,7 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using FluentAssertions;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 using TechTalk.SpecFlow;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
@@ -16,5 +18,26 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
         [StepArgumentTransformation]
         internal static DateTime ParseDateTimeString(string dateString) =>
             DateTime.ParseExact(dateString, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+        [StepArgumentTransformation]
+        internal static string ParseStringToNull(string nullString)
+        {
+            return nullString is "NULL" ? null : nullString;
+        }
+
+        [StepArgumentTransformation]
+        internal static CatalogueItemType? ParseCatalogueItemType(string nullString)
+        {
+            if (nullString is "NULL")
+            {
+                return null;
+            }
+
+            var parsedCatalogueItemType = Enum.TryParse<CatalogueItemType>(nullString, out var catalogueItemType);
+
+            parsedCatalogueItemType.Should().BeTrue("Invalid parsed value");
+
+            return catalogueItemType;
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
     public sealed class CatalogueItemEntitySteps
     {
         [Given(@"a catalogue item with ID '(.*)' does not exist")]
-        public async Task GivenACatalogueItemWithIdDoesNotExist(string catalogueItemId)
+        public static async Task GivenACatalogueItemWithIdDoesNotExist(string catalogueItemId)
         {
             var catalogueItemList = await CatalogueItemEntity.FetchAllAsync();
             catalogueItemList.Select(x => x.CatalogueItemId).Should().NotContain(catalogueItemId);

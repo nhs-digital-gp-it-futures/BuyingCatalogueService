@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
@@ -6,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.CatalogueItems;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetCatalogueItemById;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 {
@@ -34,6 +37,19 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
                 CatalogueItemId = catalogueItem?.CatalogueItemId,
                 Name = catalogueItem?.Name
             };
+        }
+
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<GetCatalogueItemResult>>> ListAsync([FromQuery] string supplierId, [FromQuery] CatalogueItemType? catalogueItemType)
+        {
+            var catalogueItemList = await _mediator.Send(new ListCatalogueItemQuery(supplierId, catalogueItemType));
+
+            return catalogueItemList.Select(catalogueItem => new GetCatalogueItemResult
+            {
+                CatalogueItemId = catalogueItem.CatalogueItemId,
+                Name = catalogueItem.Name
+            }).ToList();
         }
     }
 }
