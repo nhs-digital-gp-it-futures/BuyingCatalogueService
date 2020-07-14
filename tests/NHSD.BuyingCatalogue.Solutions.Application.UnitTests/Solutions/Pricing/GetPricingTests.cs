@@ -78,19 +78,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Pricing
             prices.Count.Should().Be(1);
             var price = prices.First();
 
-            price.CatalogueItemId.Should().BeEquivalentTo(Price1.CatalogueItemId);
-            price.CatalogueItemName.Should().BeEquivalentTo(Price1.CatalogueItemName);
-            price.Type.Should()
-                .BeEquivalentTo(Enumerator.FromValue<CataloguePriceType>(Price1.CataloguePriceTypeId).Name);
-            price.ProvisioningType.Should()
-                .BeEquivalentTo(Enumerator.FromValue<ProvisioningType>(Price1.CataloguePriceTypeId).Name);
-            price.PricingUnit.Name.Should().BeEquivalentTo(Price1.PricingUnitName);
-            price.PricingUnit.Description.Should().BeEquivalentTo(Price1.PricingUnitDescription);
-            price.PricingUnit.TierName.Should().BeEquivalentTo(Price1.PricingUnitTierName);
-            price.TimeUnit.Name.Should().BeEquivalentTo(Enumerator.FromValue<TimeUnit>(Price1.TimeUnitId).Name);
-            price.TimeUnit.Description.Should()
-                .BeEquivalentTo(Enumerator.FromValue<TimeUnit>(Price1.TimeUnitId).Description);
-            price.CurrencyCode.Should().BeEquivalentTo(Price1.CurrencyCode);
+            price.Should().BeEquivalentTo(TransformResultToDto(Price1));
         }
 
         [Test]
@@ -106,6 +94,32 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Pricing
                 new CancellationToken())).ToList();
 
             prices.Count.Should().Be(2);
+
+            var expectedPrices = _cataloguePriceResult.Select(TransformResultToDto);
+            prices.Should().BeEquivalentTo(expectedPrices);
+        }
+
+        private static object TransformResultToDto(ICataloguePriceListResult result)
+        {
+            return new
+            {
+                result.CatalogueItemId,
+                result.CatalogueItemName,
+                result.CataloguePriceId,
+                result.CurrencyCode,
+                Type = Enumerator.FromValue<CataloguePriceType>(result.CataloguePriceTypeId).Name,
+                PricingUnit = new
+                {
+                    Name = result.PricingUnitName,
+                    Description = result.PricingUnitDescription,
+                    TierName= result.PricingUnitTierName
+                },
+                TimeUnit = new
+                {
+                    Enumerator.FromValue<TimeUnit>(result.TimeUnitId).Name, 
+                    Enumerator.FromValue<TimeUnit>(result.TimeUnitId).Description
+                }
+            };
         }
 
         private void SetUpMockPriceRepository(string filter)

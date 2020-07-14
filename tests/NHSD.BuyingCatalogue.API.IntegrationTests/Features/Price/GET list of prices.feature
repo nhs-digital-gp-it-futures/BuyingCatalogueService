@@ -125,7 +125,7 @@ Scenario: 7. Get a single Flat Price for an additional service
 		| Flat | Patient          | GBP          | 199.99 | patient         | per patient            | patients            | month        | per month           |
 
 @7264
-Scenario: 8. Get a prices with an invalid catalogue item ID
-	When a GET request is made to retrieve the list of prices using catalogue item ID INVALID
+Scenario: 8. Get prices with a catalogue item ID that doesn't exist
+	When a GET request is made to retrieve the list of prices using catalogue item ID Solution99
 	Then a successful response is returned
 	And an empty price list is returned

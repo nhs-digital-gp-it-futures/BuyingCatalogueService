@@ -89,7 +89,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
                     Description = price.PricingUnitDescription,
                     TierName = price.PricingUnitTierName
                 },
-                TimeUnit = price.TimeUnitId == 0 ? null : Enumerator.FromValue<TimeUnit>(price.TimeUnitId),
+                TimeUnit = price.TimeUnitId is null ? null : Enumerator.FromValue<TimeUnit>(price.TimeUnitId.Value),
                 ProvisioningType = Enumerator.FromValue<ProvisioningType>(price.ProvisioningTypeId)
             };
 
@@ -110,7 +110,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
                     Name = price.PricingUnitName,
                     TierName = price.PricingUnitTierName
                 },
-                TimeUnit = price.TimeUnitId == 0 ? null : Enumerator.FromValue<TimeUnit>(price.TimeUnitId),
+                TimeUnit = price.TimeUnitId is null ? null : Enumerator.FromValue<TimeUnit>(price.TimeUnitId.Value),
                 CurrencyCode = price.CurrencyCode,
                 Price = price.FlatPrice.GetValueOrDefault(),
                 ProvisioningType = Enumerator.FromValue<ProvisioningType>(price.ProvisioningTypeId)

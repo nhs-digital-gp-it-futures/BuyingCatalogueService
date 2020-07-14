@@ -18,11 +18,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         private readonly Response _response;
         private readonly ScenarioContext _context;
 
+        private const string priceToken = "prices";
         private const string getPriceBySolutionIdUrlTemplate = "http://localhost:5200/api/v1/solutions/{0}/prices";
         private const string getPricesUrl = "http://localhost:5200/api/v1/prices";
-        private const string getPricesByCatalogueItemIdUrlTemplate = getPricesUrl + "?catalogueItemId={0}";
-        private const string getPricesByPriceIdUrlTemplate = getPricesUrl + "/{0}";
-        private const string priceToken = "prices";
+        private readonly string getPricesByCatalogueItemIdUrlTemplate = $"{getPricesUrl}?catalogueItemId={{0}}";
+        private readonly string getPricesByPriceIdUrlTemplate = $"{getPricesUrl}/{{0}}";
 
         public CataloguePriceSteps(Response response, ScenarioContext context)
         {
