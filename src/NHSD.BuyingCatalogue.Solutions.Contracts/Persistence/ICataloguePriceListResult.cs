@@ -18,7 +18,7 @@
 
         int ProvisioningTypeId { get; }
 
-        int TimeUnitId { get; }
+        int? TimeUnitId { get; }
 
         string CurrencyCode { get; }
 

@@ -52,6 +52,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
             return result;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<PricingResult>> GetPricesAsync(string catalogueItemId)
+        {
+            var prices = (await _mediator.Send(new GetPricesQuery(catalogueItemId))).ToList();
+
+            return new PricingResult { Prices = prices.Select(GetPriceResult) };
+        }
+
         private static PriceResult GetPriceResult(ICataloguePrice cataloguePrice)
         {
             return new PriceResult

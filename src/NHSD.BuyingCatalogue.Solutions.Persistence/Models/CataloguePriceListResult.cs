@@ -12,7 +12,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
         public string PricingUnitDescription { get; set; }
         public string PricingUnitTierName { get; set; }
         public int ProvisioningTypeId { get; }
-        public int TimeUnitId { get; set; }
+        public int? TimeUnitId { get; set; }
         public string CurrencyCode { get; set; }
         public decimal? FlatPrice { get; set; }
         public int? BandStart { get; set; }

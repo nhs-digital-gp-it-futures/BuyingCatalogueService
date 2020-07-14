@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Flurl.Util;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
@@ -19,9 +18,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         private readonly Response _response;
         private readonly ScenarioContext _context;
 
-        private const string pricingUrl = "http://localhost:5200/api/v1/solutions/{0}/prices";
-        private const string getPriceUrl = "http://localhost:5200/api/v1/prices/{0}";
-        private readonly string priceToken = "prices";
+        private const string priceToken = "prices";
+        private const string getPriceBySolutionIdUrlTemplate = "http://localhost:5200/api/v1/solutions/{0}/prices";
+        private const string getPricesUrl = "http://localhost:5200/api/v1/prices";
+        private readonly string getPricesByCatalogueItemIdUrlTemplate = $"{getPricesUrl}?catalogueItemId={{0}}";
+        private readonly string getPricesByPriceIdUrlTemplate = $"{getPricesUrl}/{{0}}";
 
         public CataloguePriceSteps(Response response, ScenarioContext context)
         {
@@ -34,14 +35,14 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         {
             IDictionary<int, int> cataloguePriceDictionary = new Dictionary<int, int>();
 
-            IDictionary<string,int> catalogueItemIdPriceIdDictionary = new Dictionary<string, int>();
+            IDictionary<string, int> catalogueItemIdPriceIdDictionary = new Dictionary<string, int>();
 
             foreach (var cataloguePrice in table.CreateSet<CataloguePriceTable>())
             {
                 var price = CataloguePriceEntityBuilder.Create()
                     .WithCatalogueItemId(cataloguePrice.CatalogueItemId)
                     .WithPriceTypeId((int)cataloguePrice.CataloguePriceTypeEnum)
-                    .WithProvisioningTypeId((int) cataloguePrice.ProvisioningTypeEnum)
+                    .WithProvisioningTypeId((int)cataloguePrice.ProvisioningTypeEnum)
                     .WithCurrencyCode(cataloguePrice.CurrencyCode)
                     .WithPrice(cataloguePrice.Price)
                     .WithPricingUnitId(cataloguePrice.PricingUnitId)
@@ -49,12 +50,12 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
                     .Build();
 
                 var cataloguePriceId = await price.InsertAsync<int>();
-                
-                if(cataloguePrice.CataloguePriceTierRef != null)
+
+                if (cataloguePrice.CataloguePriceTierRef != null)
                     cataloguePriceDictionary.Add((int)cataloguePrice.CataloguePriceTierRef, cataloguePriceId);
 
                 if (!string.IsNullOrEmpty(cataloguePrice.CataloguePriceIdRef))
-                    catalogueItemIdPriceIdDictionary.Add(cataloguePrice.CataloguePriceIdRef,cataloguePriceId);
+                    catalogueItemIdPriceIdDictionary.Add(cataloguePrice.CataloguePriceIdRef, cataloguePriceId);
             }
 
             _context[ScenarioContextKeys.CatalogueTierMapDictionary] = cataloguePriceDictionary;
@@ -63,16 +64,28 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         }
 
         [When(@"a GET request is made to retrieve the pricing with Solution ID (.*)")]
-        public async Task WhenAGETRequestIsMadeToRetrieveThePricingWithSolutionID(string solutionId)
+        public async Task WhenAGetRequestIsMadeToRetrieveThePricingWithSolutionID(string solutionId)
         {
-            _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, pricingUrl, solutionId));
+            _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, getPriceBySolutionIdUrlTemplate, solutionId));
+        }
+
+        [When(@"a GET request is made to retrieve the list of prices using catalogue item ID (.*)")]
+        public async Task WhenAGetRequestIsMadeToRetrieveThePricingByCatalogueItemId(string catalogueItemId)
+        {
+            _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, getPricesByCatalogueItemIdUrlTemplate, catalogueItemId));
+        }
+
+        [When(@"a GET request is made to retrieve the list of prices")]
+        public async Task WhenAGetRequestIsMadeToRetrieveTheListOfPrices()
+        {
+            _response.Result = await Client.GetAsync(getPricesUrl);
         }
 
         [When(@"a GET request is made to retrieve a single price using the PriceId associated with CaltaloguePriceIdRef (.*)")]
         public async Task WhenAGetRequestIsMadeToRetrieveThePriceUsingPriceIdAssociatedWithSolutionId(string caltaloguePriceIdRef)
         {
             var cataloguePriceId = _context.GetCataloguePriceIdsByCatalougePriceIdRef(caltaloguePriceIdRef);
-            _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, getPriceUrl, cataloguePriceId));
+            _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, getPricesByPriceIdUrlTemplate, cataloguePriceId));
         }
 
         [Then(@"Prices are returned")]
@@ -96,6 +109,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             });
 
             content.Should().BeEquivalentTo(expected);
+        }
+
+        [Then(@"an empty price list is returned")]
+        public async Task ThenAnEmptyListIsReturned()
+        {
+            var response = (await _response.ReadBody()).SelectToken(priceToken).ToList();
+            response.Should().BeEmpty();
         }
 
         [Then(@"a Price is returned")]
@@ -171,7 +191,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             {
                 Start = x.Value<int>("start"),
                 End = x.Value<int?>("end"),
-                 Price = x.Value<decimal>("price")
+                Price = x.Value<decimal>("price")
             });
 
             content.Should().BeEquivalentTo(expected, x => x.WithoutStrictOrdering());
@@ -181,7 +201,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         {
             public string CatalogueItemId { get; set; }
             public CataloguePriceTypeEnum CataloguePriceTypeEnum { get; set; }
-            public ProvisioningTypeEnum ProvisioningTypeEnum { get; set; } 
+            public ProvisioningTypeEnum ProvisioningTypeEnum { get; set; }
             public string CurrencyCode { get; set; }
             public decimal? Price { get; set; }
             public Guid PricingUnitId { get; set; }
