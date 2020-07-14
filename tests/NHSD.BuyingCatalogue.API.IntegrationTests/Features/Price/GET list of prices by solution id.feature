@@ -68,7 +68,7 @@ Scenario: 3. Get a list of flat prices
     And Prices are returned
         | Type | ProvisioningType | CurrencyCode | Price  | PricingItemName | PricingItemDescription | PricingItemTierName | TimeUnitName | TimeUnitDescription |
         | Flat | Declarative      | GBP          | 348.92 | bed             | per bed                | beds                | month        | per month           |
-        | Flat | OnDemand         | USD          | 567.32 | licence         | per license            | licenses            | year         | per year            |
+        | Flat | OnDemand         | USD          | 567.32 | license         | per license            | licenses            | year         | per year            |
 
 @7260
 Scenario: 4. Get a list of Tiered prices
@@ -94,7 +94,7 @@ Scenario: 5. Get a list of flat and tiered prices
     And the string value of element name is GP Practice
     And Prices are returned
         | Type   | ProvisioningType | CurrencyCode | Price  | PricingItemName | PricingItemDescription | PricingItemTierName | TimeUnitName | TimeUnitDescription |
-        | Flat   | OnDemand         | GBP          | 521.90 | licence         | per license            | licenses            | NULL         | NULL                |
+        | Flat   | OnDemand         | GBP          | 521.90 | license         | per license            | licenses            | NULL         | NULL                |
         | Tiered | Patient          | GBP          |        | sms             | per SMS                | SMS                 | year         | per year            |
     And the Prices Tiers are returned
         | Start | End | Price   | Section |
