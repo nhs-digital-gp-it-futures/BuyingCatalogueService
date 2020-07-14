@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -6,6 +8,7 @@ using Moq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence.CatalogueItems;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetCatalogueItemById;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence.CatalogueItems;
 using NUnit.Framework;
 
@@ -70,8 +73,48 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Persistence
             var reader = new CatalogueItemReader(catalogueItemRepositoryMock.Object);
             await reader.GetByIdAsync(catalogueItemId, CancellationToken.None);
 
-            catalogueItemRepositoryMock.Verify(x => 
+            catalogueItemRepositoryMock.Verify(x =>
                 x.GetByIdAsync(catalogueItemId, default), Times.Once);
+        }
+
+        [Test]
+        public async Task ListAsync_ReturnsExpectedValue()
+        {
+            var catalogueItemsResult = new List<ICatalogueItemResult>
+            {
+                Mock.Of<ICatalogueItemResult>(r => r.CatalogueItemId == "Id1" && r.Name == "Name 1"),
+                Mock.Of<ICatalogueItemResult>(r => r.CatalogueItemId == "Id2" && r.Name == "Name 2"),
+            };
+
+            var catalogueItemRepositoryMock = new Mock<ICatalogueItemRepository>();
+            catalogueItemRepositoryMock.Setup(x => x.ListAsync(It.IsAny<string>(), It.IsAny<CatalogueItemType?>(), default))
+                .ReturnsAsync(() => catalogueItemsResult);
+
+            var reader = new CatalogueItemReader(catalogueItemRepositoryMock.Object);
+            var actual = await reader.ListAsync(null, null, CancellationToken.None);
+
+            var expected = catalogueItemsResult.Select(x => new CatalogueItemDto(x.CatalogueItemId, x.Name));
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public async Task ListAsync_CatalogueItemRepository_GetByIdAsync_CalledOnce()
+        {
+            var catalogueItemsResult = new List<ICatalogueItemResult>
+            {
+                Mock.Of<ICatalogueItemResult>(r => r.CatalogueItemId == "Id1" && r.Name == "Name 1"),
+            };
+
+            var catalogueItemRepositoryMock = new Mock<ICatalogueItemRepository>();
+            catalogueItemRepositoryMock.Setup(x => x.ListAsync(It.IsAny<string>(), It.IsAny<CatalogueItemType?>(), default))
+                .ReturnsAsync(() => catalogueItemsResult);
+
+            var reader = new CatalogueItemReader(catalogueItemRepositoryMock.Object);
+            await reader.ListAsync(null, null, CancellationToken.None);
+
+            catalogueItemRepositoryMock.Verify(x =>
+                x.ListAsync(null, null, default), Times.Once);
         }
     }
 }
