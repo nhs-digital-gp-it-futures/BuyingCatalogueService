@@ -50,10 +50,10 @@ Scenario: 1. Get prices returns all prices
 		| Flat   | OnDemand         | £            | 521.34 | consultation    | per consultation       | consultations       | month        | per month           |
 		| Tiered | Patient          | $            |        | bed             | per bed                | beds                | year         | per year            |
 		| Flat   | Declarative      | GBP          | 348.92 | bed             | per bed                | beds                | month        | per month           |
-		| Flat   | OnDemand         | USD          | 567.32 | license         | per license            | licenses            | year         | per year            |
+		| Flat   | OnDemand         | USD          | 567.32 | licence         | per licence            | licences            | year         | per year            |
 		| Tiered | Patient          | EUR          |        | bed             | per bed                | beds                | year         | per year            |
 		| Tiered | Declarative      | AUZ          |        | consultation    | per consultation       | consultations       | year         | per year            |
-		| Flat   | OnDemand         | GBP          | 521.90 | license         | per license            | licenses            | NULL         | NULL                |
+		| Flat   | OnDemand         | GBP          | 521.90 | licence         | per licence            | licences            | NULL         | NULL                |
 		| Tiered | Patient          | GBP          |        | sms             | per SMS                | SMS                 | year         | per year            |
 		| Flat   | Patient          | GBP          | 199.99 | patient         | per patient            | patients            | month        | per month           |
 
@@ -85,7 +85,7 @@ Scenario: 4. Get a list of flat prices
 	And Prices are returned
 		| Type | ProvisioningType | CurrencyCode | Price  | PricingItemName | PricingItemDescription | PricingItemTierName | TimeUnitName | TimeUnitDescription |
 		| Flat | Declarative      | GBP          | 348.92 | bed             | per bed                | beds                | month        | per month           |
-		| Flat | OnDemand         | USD          | 567.32 | license         | per license            | licenses            | year         | per year            |
+		| Flat | OnDemand         | USD          | 567.32 | licence         | per licence            | licences            | year         | per year            |
 
 @7264
 Scenario: 5. Get a list of Tiered prices
@@ -109,7 +109,7 @@ Scenario: 6. Get a list of flat and tiered prices
 	Then a successful response is returned
 	And Prices are returned
 		| Type   | ProvisioningType | CurrencyCode | Price  | PricingItemName | PricingItemDescription | PricingItemTierName | TimeUnitName | TimeUnitDescription |
-		| Flat   | OnDemand         | GBP          | 521.90 | license         | per license            | licenses            | NULL         | NULL                |
+		| Flat   | OnDemand         | GBP          | 521.90 | licence         | per licence            | licences            | NULL         | NULL                |
 		| Tiered | Patient          | GBP          |        | sms             | per SMS                | SMS                 | year         | per year            |
 	And the Prices Tiers are returned
 		| Start | End | Price   | Section |
