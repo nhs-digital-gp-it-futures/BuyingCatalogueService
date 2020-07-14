@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetCatalogueItemById;
+using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence.CatalogueItems;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence.CatalogueItems
@@ -23,6 +26,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence.CatalogueItems
                 throw new NotFoundException(nameof(CatalogueItemDto), catalogueItemId);
 
             return new CatalogueItemDto(result.CatalogueItemId, result.Name);
+        }
+
+        public async Task<IEnumerable<CatalogueItemDto>> ListAsync(string supplierId, CatalogueItemType? catalogueItemType, CancellationToken cancellationToken)
+        {
+            var result = await _catalogueItemRepository.ListAsync(supplierId, catalogueItemType, cancellationToken);
+
+            return result.Select(x => new CatalogueItemDto(x.CatalogueItemId, x.Name));
         }
     }
 }

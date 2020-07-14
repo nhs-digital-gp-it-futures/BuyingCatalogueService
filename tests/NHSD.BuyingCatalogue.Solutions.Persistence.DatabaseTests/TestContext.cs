@@ -5,6 +5,7 @@ using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.Data;
 using NHSD.BuyingCatalogue.Data.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence.CatalogueItems;
 using NHSD.BuyingCatalogue.Testing.Data;
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
@@ -30,6 +31,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public IPriceRepository PriceRepository => _scope.PriceRepository;
 
         public IAdditionalServiceRepository AdditionalServiceRepository => _scope.AdditionalServiceRepository;
+
+        public ICatalogueItemRepository CatalogueItemRepository => _scope.CatalogueItemRepository;
 
         public IDbConnector DbConnector => _scope.DbConnector;
 
@@ -71,6 +74,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             public IAdditionalServiceRepository AdditionalServiceRepository { get; }
 
+            public ICatalogueItemRepository CatalogueItemRepository { get; }
+
             public IDbConnector DbConnector { get; }
 
             public Scope(IMarketingContactRepository marketingContactRepository,
@@ -83,6 +88,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 ISolutionEpicStatusRepository solutionEpicStatusRepository,
                 IPriceRepository priceRepository,
                 IAdditionalServiceRepository additionalServiceRepository,
+                ICatalogueItemRepository catalogueItemRepository,
                 IDbConnector dbConnector)
             {
                 MarketingContactRepository = marketingContactRepository;
@@ -95,6 +101,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 SolutionEpicStatusRepository = solutionEpicStatusRepository;
                 PriceRepository = priceRepository;
                 AdditionalServiceRepository = additionalServiceRepository;
+                CatalogueItemRepository = catalogueItemRepository;
                 DbConnector = dbConnector;
             }
         }
