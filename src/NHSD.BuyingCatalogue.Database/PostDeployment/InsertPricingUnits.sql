@@ -36,7 +36,8 @@ VALUES
     ('372787ad-041f-4176-93e9-e4a303c39014', 'digitalFirstConsult', 'consultations', 'per digital first consultation'),
     ('a4012e6c-caf3-430c-b8d3-9c45ab9fd0de', 'unitMerge', 'unit merges', 'per unit merge'),
     ('bede8599-7a4e-4753-a928-f419681b7c93', 'unitSplit', 'unit splits', 'per unit split'),
-    ('8eea4a69-977d-4fb1-b4d1-2f0971beb04b', 'hourSession', 'hour Sessions', 'per 1hr session');
+    ('8eea4a69-977d-4fb1-b4d1-2f0971beb04b', 'hourSession', 'hour Sessions', 'per 1hr session'),
+    ('A92C1326-4826-48B3-B429-4A368ADB9785', 'na','','');
 
 MERGE INTO [dbo].[PricingUnit] AS TARGET
 USING #PricingUnit AS SOURCE
