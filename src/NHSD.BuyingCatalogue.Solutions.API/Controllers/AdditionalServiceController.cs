@@ -43,7 +43,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
                 AdditionalServices = additionalServices.Select(
                     additionalService => new AdditionalServiceModel
                     {
-                        AdditionalServiceId = additionalService.CatalogueItemId,
+                        CatalogueItemId = additionalService.CatalogueItemId,
                         Name = additionalService.CatalogueItemName,
                         Summary = additionalService.Summary,
                         Solution = new AdditionalServiceSolutionModel
