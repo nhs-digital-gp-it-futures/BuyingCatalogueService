@@ -57,7 +57,7 @@ BEGIN
     ON TARGET.Id = SOURCE.Id 
     WHEN MATCHED THEN  
            UPDATE SET TARGET.SolutionId = SOURCE.SolutionId,
-				      TARGET.FirstName = SOURCE.FirstName,
+                      TARGET.FirstName = SOURCE.FirstName,
                       TARGET.LastName = SOURCE.LastName,
                       TARGET.Email = SOURCE.Email,
                       TARGET.PhoneNumber = SOURCE.PhoneNumber,
