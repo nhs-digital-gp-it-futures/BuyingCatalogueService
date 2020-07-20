@@ -39,7 +39,7 @@ VALUES
     ('8eea4a69-977d-4fb1-b4d1-2f0971beb04b', 'hourSession', 'hour Sessions', 'per 1hr session'),
     ('A92C1326-4826-48B3-B429-4A368ADB9785', 'na','','');
 
-MERGE INTO [dbo].[PricingUnit] AS TARGET
+MERGE INTO dbo.PricingUnit AS TARGET
 USING #PricingUnit AS SOURCE
 ON TARGET.PricingUnitId = SOURCE.PricingUnitId
 WHEN MATCHED THEN  
@@ -47,8 +47,8 @@ WHEN MATCHED THEN
                TARGET.TierName = SOURCE.TierName,
                TARGET.[Description] = SOURCE.[Description]
 WHEN NOT MATCHED BY TARGET THEN  
-    INSERT  (PricingUnitId, [Name], TierName, [Description]) 
-    VALUES  (SOURCE.PricingUnitId, SOURCE.[Name], SOURCE.TierName, SOURCE.[Description]);    
+    INSERT (PricingUnitId, [Name], TierName, [Description]) 
+    VALUES (SOURCE.PricingUnitId, SOURCE.[Name], SOURCE.TierName, SOURCE.[Description]);    
 
 DROP TABLE #PricingUnit;
 GO

@@ -121,23 +121,22 @@ BEGIN
     (1092, N'10052-002-06', 2, 1,'f2bb1b9d-b546-40b3-bfd9-d55221d96880', NULL, 'GBP', GETUTCDATE(), 2089.16),
     (1093, N'10046-001-06', 2, 1,'4b9a4640-a97a-4e30-8ed5-cccae9829616', NULL, 'GBP', GETUTCDATE(), 40);
 
-    SET IDENTITY_INSERT [dbo].[CataloguePrice] ON; 
+    SET IDENTITY_INSERT dbo.CataloguePrice ON; 
 
-    MERGE INTO [dbo].[CataloguePrice] AS TARGET
+    MERGE INTO dbo.CataloguePrice AS TARGET
     USING #CataloguePrice AS SOURCE
     ON TARGET.CataloguePriceId = SOURCE.CataloguePriceId
     WHEN MATCHED THEN  
-        UPDATE SET TARGET.CatalogueItemId = SOURCE.CatalogueItemId,
-                   TARGET.ProvisioningTypeId = SOURCE.ProvisioningTypeId,
-                   TARGET.CataloguePriceTypeId = SOURCE.CataloguePriceTypeId,
-                   TARGET.PricingUnitId = SOURCE.PricingUnitId,
-                   TARGET.CurrencyCode = SOURCE.CurrencyCode,
-                   TARGET.LastUpdated = SOURCE.LastUpdated
+           UPDATE SET TARGET.CatalogueItemId = SOURCE.CatalogueItemId,
+                      TARGET.ProvisioningTypeId = SOURCE.ProvisioningTypeId,
+                      TARGET.CataloguePriceTypeId = SOURCE.CataloguePriceTypeId,
+                      TARGET.PricingUnitId = SOURCE.PricingUnitId,
+                      TARGET.CurrencyCode = SOURCE.CurrencyCode,
+                      TARGET.LastUpdated = SOURCE.LastUpdated
     WHEN NOT MATCHED BY TARGET THEN  
-        INSERT  (CataloguePriceId, CatalogueItemId, ProvisioningTypeId, CataloguePriceTypeId, PricingUnitId, TimeUnitId, CurrencyCode, LastUpdated, Price)
-        VALUES  (SOURCE.CataloguePriceId, SOURCE.CatalogueItemId, SOURCE.ProvisioningTypeId, SOURCE.CataloguePriceTypeId, SOURCE.PricingUnitId, SOURCE.TimeUnitId, SOURCE.CurrencyCode, SOURCE.LastUpdated, SOURCE.Price);
+        INSERT (CataloguePriceId, CatalogueItemId, ProvisioningTypeId, CataloguePriceTypeId, PricingUnitId, TimeUnitId, CurrencyCode, LastUpdated, Price)
+        VALUES (SOURCE.CataloguePriceId, SOURCE.CatalogueItemId, SOURCE.ProvisioningTypeId, SOURCE.CataloguePriceTypeId, SOURCE.PricingUnitId, SOURCE.TimeUnitId, SOURCE.CurrencyCode, SOURCE.LastUpdated, SOURCE.Price);
 
-    SET IDENTITY_INSERT [dbo].[CataloguePrice] OFF;
+    SET IDENTITY_INSERT dbo.CataloguePrice OFF;
 END;
 GO
-

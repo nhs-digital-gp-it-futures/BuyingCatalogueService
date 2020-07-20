@@ -34,18 +34,17 @@ BEGIN
     (N'10052-002A003', N'SUMMARY', N'DESCRIPTION', GETUTCDATE(), N'00000000-0000-0000-0000-000000000000', N'10052-002'),
     (N'10052-002A005', N'SUMMARY', N'DESCRIPTION', GETUTCDATE(), N'00000000-0000-0000-0000-000000000000', N'10052-002');
 
-    MERGE INTO [dbo].[AdditionalService] AS TARGET
+    MERGE INTO dbo.AdditionalService AS TARGET
     USING #AdditionalService AS SOURCE
     ON TARGET.CatalogueItemId = SOURCE.CatalogueItemId 
     WHEN MATCHED THEN  
-        UPDATE SET TARGET.Summary = SOURCE.Summary,
-                    TARGET.FullDescription = SOURCE.FullDescription,
-                    TARGET.SolutionId = SOURCE.SolutionId,
-                    TARGET.LastUpdated = SOURCE.LastUpdated,
-                    TARGET.LastUpdatedBy = SOURCE.LastUpdatedBy
+           UPDATE SET TARGET.Summary = SOURCE.Summary,
+                      TARGET.FullDescription = SOURCE.FullDescription,
+                      TARGET.SolutionId = SOURCE.SolutionId,
+                      TARGET.LastUpdated = SOURCE.LastUpdated,
+                      TARGET.LastUpdatedBy = SOURCE.LastUpdatedBy
     WHEN NOT MATCHED BY TARGET THEN  
-        INSERT  (CatalogueItemId, Summary, FullDescription, LastUpdated, LastUpdatedBy, SolutionId) 
-        VALUES  (SOURCE.CatalogueItemId, SOURCE.Summary, SOURCE.FullDescription, SOURCE.LastUpdated, SOURCE.LastUpdatedBy, SOURCE.SolutionId);
-
+        INSERT (CatalogueItemId, Summary, FullDescription, LastUpdated, LastUpdatedBy, SolutionId) 
+        VALUES (SOURCE.CatalogueItemId, SOURCE.Summary, SOURCE.FullDescription, SOURCE.LastUpdated, SOURCE.LastUpdatedBy, SOURCE.SolutionId);
 END;
 GO

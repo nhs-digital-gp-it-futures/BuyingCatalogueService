@@ -14,7 +14,7 @@ BEGIN
         LastUpdatedBy uniqueidentifier NULL,
     );
 
-    INSERT INTO #AssociatedService ([CatalogueItemId], [Description], OrderGuidance, [LastUpdated], [LastUpdatedBy]) 
+    INSERT INTO #AssociatedService (CatalogueItemId, [Description], OrderGuidance, LastUpdated, LastUpdatedBy) 
     VALUES 
     (N'10000-S-002',  N'DESCRIPTION', N'', GETUTCDATE(), N'00000000-0000-0000-0000-000000000000'),
     (N'10000-S-005',  N'DESCRIPTION', N'', GETUTCDATE(), N'00000000-0000-0000-0000-000000000000'),
@@ -55,17 +55,17 @@ BEGIN
     (N'10052-S-004',  N'DESCRIPTION', N'', GETUTCDATE(), N'00000000-0000-0000-0000-000000000000'),
     (N'10052-S-005',  N'DESCRIPTION', N'', GETUTCDATE(), N'00000000-0000-0000-0000-000000000000');
 
-    MERGE INTO [dbo].[AssociatedService] AS TARGET
+    MERGE INTO dbo.AssociatedService AS TARGET
     USING #AssociatedService AS SOURCE
     ON TARGET.AssociatedServiceId = SOURCE.CatalogueItemId 
     WHEN MATCHED THEN  
-    UPDATE SET TARGET.[Description] = SOURCE.[Description],
-                TARGET.OrderGuidance = SOURCE.OrderGuidance,
-                TARGET.LastUpdated = SOURCE.LastUpdated,
-                TARGET.LastUpdatedBy = SOURCE.LastUpdatedBy
+           UPDATE SET TARGET.[Description] = SOURCE.[Description],
+                      TARGET.OrderGuidance = SOURCE.OrderGuidance,
+                      TARGET.LastUpdated = SOURCE.LastUpdated,
+                      TARGET.LastUpdatedBy = SOURCE.LastUpdatedBy
     WHEN NOT MATCHED BY TARGET THEN  
-    INSERT  (AssociatedServiceId, [Description], OrderGuidance, LastUpdated, LastUpdatedBy)
-    VALUES  (SOURCE.CatalogueItemId, SOURCE.[Description], SOURCE.OrderGuidance, SOURCE,LastUpdated, SOURCE.LastUpdatedBy);
+    INSERT (AssociatedServiceId, [Description], OrderGuidance, LastUpdated, LastUpdatedBy)
+    VALUES (SOURCE.CatalogueItemId, SOURCE.[Description], SOURCE.OrderGuidance, SOURCE,LastUpdated, SOURCE.LastUpdatedBy);
 
 END;
 GO

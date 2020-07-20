@@ -12,8 +12,8 @@ DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE Cap
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
     INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
-    ('C2E1', 'Manage communications - Patient', @capabilityId, 1, 1),
-    ('C2E2', 'Manage communications - Proxy', @capabilityId, 3, 1);
+    ('C2E1', 'Manage communications – Patient', @capabilityId, 1, 1),
+    ('C2E2', 'Manage communications – Proxy', @capabilityId, 3, 1);
 GO
 
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C3');
@@ -21,7 +21,7 @@ DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE Cap
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
     INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
-    ('C3E1', 'Manage Repeat Medications - Patient', @capabilityId, 1, 1),
+    ('C3E1', 'Manage Repeat Medications – Patient', @capabilityId, 1, 1),
     ('C3E2', 'Manage my nominated EPS pharmacy', @capabilityId, 1, 1),
     ('C3E3', 'Manage my Preferred PharmacyAs a Patient', @capabilityId, 3, 1),
     ('C3E4', 'Manage Acute Medications', @capabilityId, 3, 1),
@@ -38,8 +38,8 @@ DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE Cap
 IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
     INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
     VALUES
-    ('C4E1', 'View Patient Record - Patient', @capabilityId, 1, 1),
-    ('C4E2', 'View Patient Record - Proxy', @capabilityId, 3, 1);
+    ('C4E1', 'View Patient Record – Patient', @capabilityId, 1, 1),
+    ('C4E2', 'View Patient Record – Proxy', @capabilityId, 3, 1);
 GO
 
 DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C5');
@@ -162,7 +162,7 @@ IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
     ('C13E4', 'Manage Patients for Citizen Services', @capabilityId, 1, 1),
     ('C13E5', 'Manage Patient Communications', @capabilityId, 1, 1),
     ('C13E6', 'Configure Patient notifications', @capabilityId, 1, 1),
-    ('C13E7', 'Manage Practice notifications - Patient', @capabilityId, 1, 1),
+    ('C13E7', 'Manage Practice notifications – Patient', @capabilityId, 1, 1),
     ('C13E8', 'Search for Patient Records', @capabilityId, 1, 1),
     ('C13E9', 'View Patient Reports', @capabilityId, 1, 1),
     ('C13E10', 'Configure Citizen service access for the Practice', @capabilityId, 1, 1),
@@ -173,7 +173,7 @@ IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
     ('C13E15', 'Notify the Patient of changes', @capabilityId, 3, 1),
     ('C13E16', 'Manage Subject Access Request (SAR) requests', @capabilityId, 3, 1),
     ('C13E17', 'Notify the Proxy of changes', @capabilityId, 3, 1),
-    ('C13E18', 'Manage Practice notifications - Proxy', @capabilityId, 3, 1),
+    ('C13E18', 'Manage Practice notifications – Proxy', @capabilityId, 3, 1),
     ('C13E19', 'Configure Proxy notifications', @capabilityId, 3, 1),
     ('C13E20', 'Manage Proxy Communications', @capabilityId, 3, 1),
     ('C13E21', 'Manage Proxys for Citizen Services', @capabilityId, 3, 1);
