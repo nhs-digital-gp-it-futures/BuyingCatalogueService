@@ -173,6 +173,7 @@
     <None Include="PostDeployment\ProdLikeData\MergeSolutionCapabilities.sql" />
     <None Include="PostDeployment\ProdLikeData\MergeFrameworkSolutions.sql" />
     <None Include="PostDeployment\ProdLikeData\MergeCataloguePrices.sql" />
+    <None Include="PostDeployment\InsertAssociatedServices.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="PostDeployment\PostDeployment.sql" />

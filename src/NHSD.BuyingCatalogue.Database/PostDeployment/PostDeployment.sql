@@ -16,6 +16,7 @@
 :r ./InsertTimeUnits.sql
 :r ./InsertSolutions.sql
 :r ./InsertAdditionalServices.sql
+:r ./InsertAssociatedServices.sql
 :r ./DropImport.sql
 :r ./DropPublish.sql
 
