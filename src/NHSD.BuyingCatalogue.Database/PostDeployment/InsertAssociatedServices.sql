@@ -9,6 +9,7 @@ DECLARE @tiered AS int = (SELECT CataloguePriceTypeId FROM dbo.CataloguePriceTyp
 
 DECLARE @hour AS uniqueidentifier = (SELECT PricingUnitId FROM dbo.PricingUnit WHERE [Name] = 'hour');
 DECLARE @course AS uniqueidentifier = (SELECT PricingUnitId FROM dbo.PricingUnit WHERE [Name] = 'course');
+DECLARE @halfDay AS uniqueidentifier = (SELECT PricingUnitId FROM dbo.PricingUnit WHERE [Name] = 'halfDay');
 
 DECLARE @associatedServiceItemType AS int = (SELECT CatalogueItemTypeId FROM dbo.CatalogueItemType WHERE [Name] = 'Associated Service');
 DECLARE @publishedStatus AS int = (SELECT Id FROM dbo.PublicationStatus WHERE [Name] = 'Published');
@@ -29,7 +30,18 @@ BEGIN
 
     INSERT INTO dbo.CataloguePrice (CatalogueItemId, ProvisioningTypeId, CataloguePriceTypeId, PricingUnitId, TimeUnitId, CurrencyCode, LastUpdated, Price)
          VALUES (@associatedServiceId, @declarative, @flat, @course, NULL, @gbp, @now, 99.99),
-                (@associatedServiceId, @onDemand, @tiered, @hour, NULL, @gbp, @now, NULL);
+                (@associatedServiceId, @onDemand, @flat, @halfDay, NULL, @gbp, @now, 150.00);
+
+    SET @associatedServiceId = '100000-S-002';
+
+    INSERT INTO dbo.CatalogueItem(CatalogueItemId, CatalogueItemTypeId, [Name], SupplierId, PublishedStatusId, Created)
+         VALUES (@associatedServiceId, @associatedServiceItemType, 'Really Kool tiered associated service', '100000', @publishedStatus, @now);
+
+    INSERT INTO dbo.AssociatedService (AssociatedServiceId, [Description], OrderGuidance, LastUpdated, LastUpdatedBy) 
+         VALUES (@associatedServiceId, 'Really Kool tiered associated service', NULL, @now, @emptyGuid);
+
+    INSERT INTO dbo.CataloguePrice (CatalogueItemId, ProvisioningTypeId, CataloguePriceTypeId, PricingUnitId, TimeUnitId, CurrencyCode, LastUpdated, Price)
+         VALUES (@associatedServiceId, @onDemand, @tiered, @hour, NULL, @gbp, @now, NULL);
 
     DECLARE @tieredPriceId AS int = (SELECT CataloguePriceId FROM dbo.CataloguePrice WHERE CatalogueItemId = @associatedServiceId AND CataloguePriceTypeId = @tiered);
 
