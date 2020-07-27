@@ -58,12 +58,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
             _dbConnector = dbConnector;
         }
 
-        public async Task<IEnumerable<ICataloguePriceListResult>> GetPricesBySolutionIdQueryAsync(string solutionId, CancellationToken cancellationToken)
-        {
-            return await _dbConnector.QueryAsync<CataloguePriceListResult>(ListCataloguePricesSql, cancellationToken,
-                new { catalogueItemId = solutionId });
-        }
-
         public async Task<IEnumerable<ICataloguePriceListResult>> GetPricesAsync(string catalogueItemId, CancellationToken cancellationToken)
         {
             return await _dbConnector.QueryAsync<CataloguePriceListResult>(ListCataloguePricesSql, cancellationToken,

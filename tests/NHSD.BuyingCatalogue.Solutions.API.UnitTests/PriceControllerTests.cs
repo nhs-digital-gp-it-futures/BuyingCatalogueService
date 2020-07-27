@@ -80,55 +80,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         }
 
         [Test]
-        public async Task GetListAsync_HasSingleFlatPricing_RetrievesPricing()
-        {
-            var flatPricing = FlatCataloguePriceDtoBuilder.Create().Build();
-            var cataloguePriceList = new List<ICataloguePrice> { flatPricing };
-
-            var priceResult = CreatePrices(cataloguePriceList);
-
-            _mockMediator.Setup(m =>
-                    m.Send(It.Is<GetPriceBySolutionIdQuery>(q => q.SolutionId == _solutionId), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(cataloguePriceList);
-
-            var response = (await _controller.GetListAsync(_solutionId));
-            response.Value.Should().BeEquivalentTo(priceResult);
-        }
-
-        [Test]
-        public async Task GetListAsync_HasSingleTieredPricing_RetrievesPricing()
-        {
-            var tieredPricing = TieredCataloguePriceDtoBuilder.Create().Build();
-            var cataloguePriceList = new List<ICataloguePrice> { tieredPricing };
-
-            var priceResult = CreatePrices(cataloguePriceList);
-
-            _mockMediator.Setup(m =>
-                    m.Send(It.Is<GetPriceBySolutionIdQuery>(q => q.SolutionId == _solutionId), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(cataloguePriceList);
-
-            var response = (await _controller.GetListAsync(_solutionId));
-            response.Value.Should().BeEquivalentTo(priceResult);
-        }
-
-        [Test]
-        public async Task GetListAsync_HasMultipleFlatAndTieredPricing_RetrievesPricing()
-        {
-            var flatPricing = FlatCataloguePriceDtoBuilder.Create().Build();
-            var tieredPricing = TieredCataloguePriceDtoBuilder.Create().Build();
-            var cataloguePriceList = new List<ICataloguePrice> { flatPricing, tieredPricing };
-
-            var priceResult = CreatePrices(cataloguePriceList);
-
-            _mockMediator.Setup(m =>
-                    m.Send(It.Is<GetPriceBySolutionIdQuery>(q => q.SolutionId == _solutionId), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(cataloguePriceList);
-
-            var response = await _controller.GetListAsync(_solutionId);
-            response.Value.Should().BeEquivalentTo(priceResult);
-        }
-
-        [Test]
         public async Task GetListByCatalogueItemId_HasSingleFlatPricing_RetrievesPricing()
         {
             var flatPricing = FlatCataloguePriceDtoBuilder.Create().Build();

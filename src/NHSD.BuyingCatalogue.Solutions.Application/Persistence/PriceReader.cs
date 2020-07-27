@@ -23,12 +23,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
             return ProcessPriceItems(priceItems).FirstOrDefault();
         }
 
-        public async Task<IEnumerable<CataloguePriceBase>> GetBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
-        {
-            var prices = await _priceRepository.GetPricesBySolutionIdQueryAsync(solutionId, cancellationToken);
-            return ProcessPriceItems(prices);
-        }
-
         public async Task<IEnumerable<CataloguePriceBase>> GetPricesAsync(string catalogueItemId, CancellationToken cancellationToken)
         {
             var prices = await _priceRepository.GetPricesAsync(catalogueItemId, cancellationToken);

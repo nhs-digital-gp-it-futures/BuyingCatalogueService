@@ -19,7 +19,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         private readonly ScenarioContext _context;
 
         private const string priceToken = "prices";
-        private const string getPriceBySolutionIdUrlTemplate = "http://localhost:5200/api/v1/solutions/{0}/prices";
         private const string getPricesUrl = "http://localhost:5200/api/v1/prices";
         private readonly string getPricesByCatalogueItemIdUrlTemplate = $"{getPricesUrl}?catalogueItemId={{0}}";
         private readonly string getPricesByPriceIdUrlTemplate = $"{getPricesUrl}/{{0}}";
@@ -61,12 +60,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             _context[ScenarioContextKeys.CatalogueTierMapDictionary] = cataloguePriceDictionary;
 
             _context[ScenarioContextKeys.CataloguePriceIdMapDictionary] = catalogueItemIdPriceIdDictionary;
-        }
-
-        [When(@"a GET request is made to retrieve the pricing with Solution ID (.*)")]
-        public async Task WhenAGetRequestIsMadeToRetrieveThePricingWithSolutionID(string solutionId)
-        {
-            _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, getPriceBySolutionIdUrlTemplate, solutionId));
         }
 
         [When(@"a GET request is made to retrieve the list of prices using catalogue item ID (.*)")]
