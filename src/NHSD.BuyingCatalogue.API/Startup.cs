@@ -60,7 +60,6 @@ namespace NHSD.BuyingCatalogue.API
 
             services
                 .AddSingleton<ISettings>(settings)
-                .AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>))
                 .AddAutoMapper(assemblies)
                 .AddMediatR(assemblies)
                 .RegisterSolutionApplication()
@@ -84,8 +83,7 @@ namespace NHSD.BuyingCatalogue.API
         {
             app.UseSerilogRequestLogging(opts =>
             {
-                opts.EnrichDiagnosticContext = LogHelper.EnrichFromRequest;
-                opts.GetLevel = LogHelper.ExcludeHealthChecks;
+                opts.GetLevel = SerilogRequestLoggingOptions.GetLevel;
             });
 
             app.UseRouting();
