@@ -9,7 +9,6 @@ using Serilog.Events;
 
 namespace NHSD.BuyingCatalogue.API.UnitTests.Logging
 {
-
     [TestFixture]
     internal sealed class SerilogRequestLoggingOptionsTests
     {
