@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using NHSD.BuyingCatalogue.Infrastructure;
@@ -22,7 +22,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
         public async Task<ISimpleResult> Handle(UpdateSolutionNativeMobileFirstCommand request,
             CancellationToken cancellationToken)
         {
-            var validationResult = _updateSolutionNativeMobileFirstValidator.Validation(request);
+            var validationResult = UpdateSolutionNativeMobileFirstValidator.Validation(request);
 
             if (validationResult.IsValid)
             {

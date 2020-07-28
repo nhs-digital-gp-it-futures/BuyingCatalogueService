@@ -101,7 +101,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             response.Value.Should().BeEquivalentTo(expected);
         }
 
-        private AdditionalServiceListResult GetAdditionalServicesResult(IEnumerable<IAdditionalService> additionalServices)
+        private static AdditionalServiceListResult GetAdditionalServicesResult(IEnumerable<IAdditionalService> additionalServices)
         {
             return new AdditionalServiceListResult
             {

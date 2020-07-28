@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -213,7 +213,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             actual["contact-1"]["last-name"].Should().Be("maxLength");
         }
 
-        private ContactsMaxLengthResult GetContactsMaxLengthResult(string[] contact1Errors, string[] contact2Errors)
+        private static ContactsMaxLengthResult GetContactsMaxLengthResult(string[] contact1Errors, string[] contact2Errors)
         {
             var contact1Dict = contact1Errors.ToDictionary(k => k, v => "maxLength");
             var contact2Dict = contact2Errors.ToDictionary(k => k, v => "maxLength");

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -59,7 +59,7 @@ namespace NHSD.BuyingCatalogue.Capabilities.Application.UnitTests
             _context.MockCapabilityRepository.Verify(r => r.ListAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
 
-        private IEnumerable<ICapabilityListResult> GetCapabilities()
+        private static IEnumerable<ICapabilityListResult> GetCapabilities()
         {
             return new List<ICapabilityListResult>
             {
