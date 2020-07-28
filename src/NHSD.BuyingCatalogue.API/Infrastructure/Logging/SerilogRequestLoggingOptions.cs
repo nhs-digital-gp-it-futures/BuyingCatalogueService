@@ -8,7 +8,7 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.Logging
     {
         public const string HealthCheckEndpointDisplayName = "Health checks";
 
-        public static LogEventLevel GetLevel(HttpContext httpContext,double value, Exception exception)
+        public static LogEventLevel GetLevel(HttpContext httpContext, double value, Exception exception)
         {
             if (exception != null)
                 return LogEventLevel.Error;
