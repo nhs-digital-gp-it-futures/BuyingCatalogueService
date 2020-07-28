@@ -15,17 +15,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         private readonly IDbConnector _dbConnector;
 
         private const string GetByIdSql = @"
-        SELECT  ci.CatalogueItemId,
-                ci.[Name]
-        FROM    dbo.CatalogueItem ci
-        WHERE   ci.CatalogueItemId = @catalogueItemId;";
+            SELECT  ci.CatalogueItemId,
+                    ci.[Name]
+            FROM    dbo.CatalogueItem ci
+            WHERE   ci.CatalogueItemId = @catalogueItemId;";
 
         private const string ListSql = @"
-        SELECT  ci.CatalogueItemId,
-                ci.[Name]
-        FROM    dbo.CatalogueItem ci
-        WHERE   ci.SupplierId = ISNULL(NULLIF(@supplierId, ''), ci.SupplierId)
-        AND     ci.CatalogueItemTypeId = ISNULL(NULLIF(@catalogueItemType, ''), ci.CatalogueItemTypeId)";
+	        SELECT  ci.CatalogueItemId,
+	                ci.[Name]
+	        FROM    dbo.CatalogueItem ci
+	        WHERE   ci.SupplierId = ISNULL(NULLIF(@supplierId, ''), ci.SupplierId)
+	        AND     ci.CatalogueItemTypeId = ISNULL(NULLIF(@catalogueItemType, ''), ci.CatalogueItemTypeId)";
 
         public CatalogueItemRepository(IDbConnector dbConnector) =>
             _dbConnector = dbConnector ?? throw new ArgumentNullException(nameof(dbConnector));

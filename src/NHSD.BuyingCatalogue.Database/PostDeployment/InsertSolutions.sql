@@ -556,46 +556,42 @@ TPP maintain close contact with staff at the unit throughout these phases to ens
     /* insert prices */
     IF NOT EXISTS (SELECT * FROM dbo.CataloguePrice)
     BEGIN
-     INSERT INTO dbo.CataloguePrice
-          (CatalogueItemId, ProvisioningTypeId, CataloguePriceTypeId, PricingUnitId, TimeUnitId, CurrencyCode, LastUpdated, Price) 
-          VALUES
-          ('100000-001', 1, 1, 'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP', @now, 99.99),
-          ('100000-001', 1, 2, 'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP', @now, NULL),
-          ('100001-001', 3, 1, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', NULL, 'GBP', @now, 3.142),
-          ('100002-001', 2, 1, 'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 1, 'GBP', @now, 4.85),
-          ('100004-001', 2, 1, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', 1, 'GBP', @now, 10101.65),
-          ('100005-001', 3, 1, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', NULL, 'GBP', @now, 456),
-          ('100006-001', 2, 1, '90119522-D381-4296-82EE-8FE630593B56', 1, 'GBP', @now, 7),
-          ('99998-98', 1, 1, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', 2, 'GBP', @now, 30000),
-          ('99999-89', 1, 1, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', 2, 'GBP', @now, 500.49),
-          ('100002-001', 2, 2, 'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 1, 'GBP', @now, NULL),
-          ('99998-98', 1, 2, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', 2, 'GBP', @now, NULL),
-          ('99999-89', 1, 2, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', 2, 'GBP', @now, NULL),
-          ('100000-001', 3, 1, '774E5A1D-D15C-4A37-9990-81861BEAE42B', NULL, 'GBP', @now, 1001.010),
-          ('100003-001', 2, 1, 'D43C661A-0587-45E1-B315-5E5091D6E9D0', 1, 'GBP', @now, 19.987),
-          ('100007-001', 3, 1, '90119522-D381-4296-82EE-8FE630593B56', NULL, 'GBP', @now, 0.15),
-          ('100007-002', 3, 2, '90119522-D381-4296-82EE-8FE630593B56', NULL, 'GBP', @now, NULL);
+     INSERT INTO dbo.CataloguePrice(CatalogueItemId, ProvisioningTypeId, CataloguePriceTypeId, PricingUnitId, TimeUnitId, CurrencyCode, LastUpdated, Price) 
+          VALUES ('100000-001', 1, 1, 'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP', @now, 99.99),
+                 ('100000-001', 1, 2, 'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP', @now, NULL),
+                 ('100001-001', 3, 1, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', NULL, 'GBP', @now, 3.142),
+                 ('100002-001', 2, 1, 'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 1, 'GBP', @now, 4.85),
+                 ('100004-001', 2, 1, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', 1, 'GBP', @now, 10101.65),
+                 ('100005-001', 3, 1, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', NULL, 'GBP', @now, 456),
+                 ('100006-001', 2, 1, '90119522-D381-4296-82EE-8FE630593B56', 1, 'GBP', @now, 7),
+                 ('99998-98', 1, 1, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', 2, 'GBP', @now, 30000),
+                 ('99999-89', 1, 1, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', 2, 'GBP', @now, 500.49),
+                 ('100002-001', 2, 2, 'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 1, 'GBP', @now, NULL),
+                 ('99998-98', 1, 2, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', 2, 'GBP', @now, NULL),
+                 ('99999-89', 1, 2, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', 2, 'GBP', @now, NULL),
+                 ('100000-001', 3, 1, '774E5A1D-D15C-4A37-9990-81861BEAE42B', NULL, 'GBP', @now, 1001.010),
+                 ('100003-001', 2, 1, 'D43C661A-0587-45E1-B315-5E5091D6E9D0', 1, 'GBP', @now, 19.987),
+                 ('100007-001', 3, 1, '90119522-D381-4296-82EE-8FE630593B56', NULL, 'GBP', @now, 0.15),
+                 ('100007-002', 3, 2, '90119522-D381-4296-82EE-8FE630593B56', NULL, 'GBP', @now, NULL);
 
           DECLARE @priceId1000072 AS int = (SELECT CataloguePriceId from dbo.CataloguePrice WHERE CatalogueItemId = '100007-002');
 
-          INSERT INTO dbo.CataloguePriceTier
-          (CataloguePriceId, BandStart, BandEnd, Price)
-          VALUES
-          (2, 1, 999, 123.45),
-          (2, 1000, 1999, 49.99),
-          (2, 2000, NULL, 19.99),
-          (10, 1, 10, 200),
-          (10, 11, 99, 150.15),
-          (10, 100, NULL, 99.99),
-          (11, 1, 10000, 500),
-          (11, 10001, NULL, 499.99),
-          (12, 1, 8, 42.42),
-          (12, 9, 33,33.33),
-          (12, 34, 1004, 50),
-          (12, 1005, NULL, 0.02),
-          (@priceId1000072, 1, 10, 20),
-          (@priceId1000072, 11, 99, 30.15),
-          (@priceId1000072, 100, NULL, 40.99);
+          INSERT INTO dbo.CataloguePriceTier(CataloguePriceId, BandStart, BandEnd, Price)
+               VALUES (2, 1, 999, 123.45),
+                      (2, 1000, 1999, 49.99),
+                      (2, 2000, NULL, 19.99),
+                      (10, 1, 10, 200),
+                      (10, 11, 99, 150.15),
+                      (10, 100, NULL, 99.99),
+                      (11, 1, 10000, 500),
+                      (11, 10001, NULL, 499.99),
+                      (12, 1, 8, 42.42),
+                      (12, 9, 33,33.33),
+                      (12, 34, 1004, 50),
+                      (12, 1005, NULL, 0.02),
+                      (@priceId1000072, 1, 10, 20),
+                      (@priceId1000072, 11, 99, 30.15),
+                      (@priceId1000072, 100, NULL, 40.99);
      END;
 END;
 GO

@@ -107,7 +107,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             {
                 AdditionalServices = additionalServices.Select(x => new AdditionalServiceModel
                 {
-                    AdditionalServiceId = x.CatalogueItemId,
+                    CatalogueItemId = x.CatalogueItemId,
                     Name = x.CatalogueItemName,
                     Summary = x.Summary,
                     Solution = new AdditionalServiceSolutionModel

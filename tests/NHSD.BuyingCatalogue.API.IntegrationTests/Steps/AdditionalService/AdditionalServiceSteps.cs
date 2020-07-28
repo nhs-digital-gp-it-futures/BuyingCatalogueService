@@ -15,7 +15,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.AdditionalService
     {
         private readonly Response _response;
 
-        private const string additionalServiceUrl = "http://localhost:5200/api/v1/additional-services";
+        private const string AdditionalServiceUrl = "http://localhost:5200/api/v1/additional-services";
 
         public AdditionalServiceSteps(Response response)
         {
@@ -51,13 +51,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.AdditionalService
 
             if (solutionIds.Count is 0)
             {
-                _response.Result = await Client.GetAsync(additionalServiceUrl);
+                _response.Result = await Client.GetAsync(AdditionalServiceUrl);
             }
             else
             {
                 var query = string.Join("&", solutionIds);
 
-                _response.Result = await Client.GetAsync($"{additionalServiceUrl}?{query}");
+                _response.Result = await Client.GetAsync($"{AdditionalServiceUrl}?{query}");
             }
         }
 
@@ -73,7 +73,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.AdditionalService
 
             var actual = additionalServicesToken.Select(x => new ExpectedAdditionalServiceTable
             {
-                AdditionalServiceId = x.Value<string>("additionalServiceId"),
+                CatalogueItemId = x.Value<string>("catalogueItemId"),
                 Name = x.Value<string>("name"),
                 Summary = x.Value<string>("summary"),
                 SolutionId = x.SelectToken(solutionToken).Value<string>("solutionId"),
@@ -108,7 +108,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.AdditionalService
 
         private sealed class ExpectedAdditionalServiceTable
         {
-            public string AdditionalServiceId { get; set; }
+            public string CatalogueItemId { get; set; }
             public string Name { get; set; }
             public string Summary { get; set; }
             public string SolutionId { get; set; }

@@ -46,24 +46,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         }
 
         [Test]
-        public async Task GetPricesBySolutionIdQueryAsync_InvalidSolutionId_ReturnsEmptyList()
-        {
-            var request = await _priceRepository.GetPricesBySolutionIdQueryAsync("INVALID", CancellationToken.None);
-
-            request.Count().Should().Be(0);
-        }
-
-        [Test]
-        public async Task GetPricesBySolutionIdQueryAsync_ValidSolutionId_ReturnsPriceListResult()
-        {
-            await InsertPriceAsync(_solutionId);
-
-            var request = await _priceRepository.GetPricesBySolutionIdQueryAsync(_solutionId, CancellationToken.None);
-
-            request.Count().Should().Be(2);
-        }
-
-        [Test]
         public async Task GetPriceByPriceIdQueryAsync_InvalidPriceId_ReturnsEmptyList()
         {
             var request = await _priceRepository.GetPriceByPriceIdQueryAsync(-999, CancellationToken.None);

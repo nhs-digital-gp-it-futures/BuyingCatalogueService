@@ -27,7 +27,7 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.Logging
             {
                 var stopWatch = new Stopwatch();
                 stopWatch.Start();
-                
+
                 var response = await next().ConfigureAwait(false);
                 stopWatch.Stop();
                 _logger.LogInformation(
@@ -43,4 +43,3 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.Logging
         }
     }
 }
-

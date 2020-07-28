@@ -84,8 +84,7 @@ namespace NHSD.BuyingCatalogue.API
         {
             app.UseSerilogRequestLogging(opts =>
             {
-                opts.EnrichDiagnosticContext = LogHelper.EnrichFromRequest;
-                opts.GetLevel = LogHelper.ExcludeHealthChecks;
+                opts.GetLevel = SerilogRequestLoggingOptions.GetLevel;
             });
 
             app.UseRouting();

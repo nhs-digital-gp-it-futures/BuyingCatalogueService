@@ -10,23 +10,20 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingBySolutionId
 {
-    internal sealed class GetPriceBySolutionIdHandler : IRequestHandler<GetPriceBySolutionIdQuery, IEnumerable<ICataloguePrice>>
+    internal sealed class GetPricesHandler : IRequestHandler<GetPricesQuery, IEnumerable<ICataloguePrice>>
     {
         private readonly PriceReader _priceReader;
-        private readonly SolutionVerifier _verifier;
         private readonly IMapper _mapper;
 
-        public GetPriceBySolutionIdHandler(PriceReader priceReader, SolutionVerifier verifier, IMapper mapper)
+        public GetPricesHandler(PriceReader priceReader, IMapper mapper)
         {
             _priceReader = priceReader;
-            _verifier = verifier;
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ICataloguePrice>> Handle(GetPriceBySolutionIdQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ICataloguePrice>> Handle(GetPricesQuery request, CancellationToken cancellationToken)
         {
-            await _verifier.ThrowWhenMissingAsync(request.SolutionId, cancellationToken);
-            var prices = await _priceReader.GetBySolutionIdAsync(request.SolutionId, cancellationToken);
+            var prices = await _priceReader.GetPricesAsync(request.CatalogueItemId, cancellationToken);
 
             List<ICataloguePrice> cataloguePrices = new List<ICataloguePrice>();
 
@@ -47,6 +44,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingBySolutio
                         Price = cataloguePriceFlat.Price
                     });
                 }
+
                 else if (price is CataloguePriceTier cataloguePriceTier)
                 {
                     cataloguePrices.Add(new TieredCataloguePriceDto
@@ -63,7 +61,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingBySolutio
                     });
                 }
             }
-            
+
             return cataloguePrices;
         }
     }
