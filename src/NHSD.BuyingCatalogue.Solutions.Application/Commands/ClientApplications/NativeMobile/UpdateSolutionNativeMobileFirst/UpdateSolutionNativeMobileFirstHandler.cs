@@ -11,23 +11,29 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
     {
         private readonly ClientApplicationPartialUpdater _clientApplicationPartialUpdater;
 
-        public UpdateSolutionNativeMobileFirstHandler(ClientApplicationPartialUpdater clientApplicationPartialUpdater)
+        private readonly UpdateSolutionNativeMobileFirstValidator _updateSolutionNativeMobileFirstValidator;
+
+        public UpdateSolutionNativeMobileFirstHandler(ClientApplicationPartialUpdater clientApplicationPartialUpdater, UpdateSolutionNativeMobileFirstValidator updateSolutionNativeMobileFirstValidator)
         {
             _clientApplicationPartialUpdater = clientApplicationPartialUpdater;
+            _updateSolutionNativeMobileFirstValidator = updateSolutionNativeMobileFirstValidator;
         }
 
-        public async Task<ISimpleResult> Handle(UpdateSolutionNativeMobileFirstCommand request,
+        public async Task<ISimpleResult> Handle(
+            UpdateSolutionNativeMobileFirstCommand request,
             CancellationToken cancellationToken)
         {
-            var validationResult = UpdateSolutionNativeMobileFirstValidator.Validation(request);
+            var validationResult = _updateSolutionNativeMobileFirstValidator.Validate(request);
 
             if (validationResult.IsValid)
             {
-                await _clientApplicationPartialUpdater.UpdateAsync(request.SolutionId, clientApplication =>
+                await _clientApplicationPartialUpdater.UpdateAsync(
+                    request.SolutionId,
+                    clientApplication =>
                     {
                         clientApplication.NativeMobileFirstDesign = request.MobileFirstDesign.ToBoolean();
                     },
-                    cancellationToken).ConfigureAwait(false);
+                    cancellationToken);
             }
 
             return validationResult;
