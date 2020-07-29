@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -62,7 +62,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var marketingContact = (await _context.GetContactDetailBySolutionIdHandler.Handle(
                 new GetContactDetailBySolutionIdQuery(SolutionId), _cancellationToken).ConfigureAwait(false)).ToArray();
       
-            marketingContact.Count().Should().Be(2);
+            marketingContact.Length.Should().Be(2);
 
             marketingContact[0].FirstName.Should().Be("Bob");
             marketingContact[0].LastName.Should().Be("Builder");

@@ -57,7 +57,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 (await _additionalServiceRepository.GetAdditionalServiceBySolutionIdsAsync(
                     new List<string> { solutionId }, CancellationToken.None)).ToList();
 
-            request.Count().Should().Be(1);
+            request.Count.Should().Be(1);
             request.First().Should().BeEquivalentTo(expected);
         }
 
@@ -79,12 +79,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 (await _additionalServiceRepository.GetAdditionalServiceBySolutionIdsAsync(
                     new List<string> { solutionId1, solutionId2 }, CancellationToken.None)).ToList();
 
-            request.Count().Should().Be(2);
+            request.Count.Should().Be(2);
             request.First().Should().BeEquivalentTo(expected1);
             request.Last().Should().BeEquivalentTo(expected2);
         }
 
-        private async Task<CatalogueItemEntity> CreateSolution(string solutionId)
+        private static async Task<CatalogueItemEntity> CreateSolution(string solutionId)
         {
             var solutionCatalogueEntity = CatalogueItemEntityBuilder
                 .Create()
@@ -102,7 +102,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             return solutionCatalogueEntity;
         }
 
-        private async Task<(CatalogueItemEntity, AdditionalServiceEntity)> CreateAdditionalService(string catalogueItemId, string solutionId)
+        private static async Task<(CatalogueItemEntity, AdditionalServiceEntity)> CreateAdditionalService(string catalogueItemId, string solutionId)
         {
             var catalogueItemEntity = CatalogueItemEntityBuilder.Create()
                 .WithCatalogueItemId(catalogueItemId)
@@ -119,7 +119,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             return (catalogueItemEntity, additionServiceEntity);
         }
 
-        private IAdditionalServiceResult ConvertEntityToResult(
+        private static IAdditionalServiceResult ConvertEntityToResult(
             (CatalogueItemEntity catalogueItemEntity, AdditionalServiceEntity additionalServiceEntity) entity, CatalogueItemEntity solutionEntity)
         {
             return new AdditionalServiceResult

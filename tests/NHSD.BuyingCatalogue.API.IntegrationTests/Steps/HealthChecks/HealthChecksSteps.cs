@@ -22,7 +22,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.HealthChecks
         }
 
         [Given(@"The Database server is available")]
-        public async Task GivenTheDatabaseIsUp()
+        public static async Task GivenTheDatabaseIsUp()
         {
             await Database.AwaitDatabaseAsync().ConfigureAwait(false);
         }

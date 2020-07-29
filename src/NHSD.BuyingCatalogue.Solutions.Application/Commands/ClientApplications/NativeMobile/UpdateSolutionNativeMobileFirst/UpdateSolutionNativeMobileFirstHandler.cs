@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using NHSD.BuyingCatalogue.Infrastructure;
@@ -19,18 +19,21 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
             _updateSolutionNativeMobileFirstValidator = updateSolutionNativeMobileFirstValidator;
         }
 
-        public async Task<ISimpleResult> Handle(UpdateSolutionNativeMobileFirstCommand request,
+        public async Task<ISimpleResult> Handle(
+            UpdateSolutionNativeMobileFirstCommand request,
             CancellationToken cancellationToken)
         {
-            var validationResult = _updateSolutionNativeMobileFirstValidator.Validation(request);
+            var validationResult = _updateSolutionNativeMobileFirstValidator.Validate(request);
 
             if (validationResult.IsValid)
             {
-                await _clientApplicationPartialUpdater.UpdateAsync(request.SolutionId, clientApplication =>
+                await _clientApplicationPartialUpdater.UpdateAsync(
+                    request.SolutionId,
+                    clientApplication =>
                     {
                         clientApplication.NativeMobileFirstDesign = request.MobileFirstDesign.ToBoolean();
                     },
-                    cancellationToken).ConfigureAwait(false);
+                    cancellationToken);
             }
 
             return validationResult;

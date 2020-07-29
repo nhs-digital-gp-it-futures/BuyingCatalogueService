@@ -87,7 +87,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             request.Should().BeEquivalentTo(expected);
         }
 
-        public async Task<CatalogueItemEntity> CreateCatalogueItemEntity(string catalogueItemId, string supplierId, int catalogueItemTypeId)
+        public static async Task<CatalogueItemEntity> CreateCatalogueItemEntity(string catalogueItemId, string supplierId, int catalogueItemTypeId)
         {
             var catalogueItem = CatalogueItemEntityBuilder
                 .Create()

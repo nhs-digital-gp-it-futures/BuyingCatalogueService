@@ -126,7 +126,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
                 () => NativeDesktopSection = DashboardSection.Mandatory(clientApplication.IsNativeDesktopComplete()));
         }
 
-        private void SetIfSelected(string sectionName, HashSet<string> sections, Action setDashboardAction)
+        private static void SetIfSelected(string sectionName, HashSet<string> sections, Action setDashboardAction)
         {
             if (sections.Contains(sectionName))
             {
