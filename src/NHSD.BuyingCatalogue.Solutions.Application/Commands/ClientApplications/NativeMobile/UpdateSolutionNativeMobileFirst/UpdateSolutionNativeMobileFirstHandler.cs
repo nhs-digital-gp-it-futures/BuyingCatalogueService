@@ -11,12 +11,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
     {
         private readonly ClientApplicationPartialUpdater _clientApplicationPartialUpdater;
 
-        private readonly UpdateSolutionNativeMobileFirstValidator _updateSolutionNativeMobileFirstValidator;
-
-        public UpdateSolutionNativeMobileFirstHandler(ClientApplicationPartialUpdater clientApplicationPartialUpdater, UpdateSolutionNativeMobileFirstValidator updateSolutionNativeMobileFirstValidator)
+        public UpdateSolutionNativeMobileFirstHandler(ClientApplicationPartialUpdater clientApplicationPartialUpdater)
         {
             _clientApplicationPartialUpdater = clientApplicationPartialUpdater;
-            _updateSolutionNativeMobileFirstValidator = updateSolutionNativeMobileFirstValidator;
         }
 
         public async Task<ISimpleResult> Handle(UpdateSolutionNativeMobileFirstCommand request,
