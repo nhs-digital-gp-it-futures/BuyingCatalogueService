@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,7 +14,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
     internal sealed class MarketingContactEntitySteps
     {
         [Given(@"MarketingContacts exist")]
-        public async Task GivenMarketingContactsExist(Table table)
+        public static async Task GivenMarketingContactsExist(Table table)
         {
             foreach (var contact in table.CreateSet<MarketingContactEntity>())
             {
@@ -28,14 +28,14 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
 
         [Given(@"No contacts exist for solution (.*)")]
         [Then(@"No contacts exist for solution (.*)")]
-        public async Task NoContactsExist(string solutionId)
+        public static async Task NoContactsExist(string solutionId)
         {
             var contacts = await MarketingContactEntity.FetchForSolutionAsync(solutionId).ConfigureAwait(false);
             contacts.Should().BeEmpty();
         }
 
         [Then(@"Last Updated has updated on the MarketingContact for solution (.*)")]
-        public async Task LastUpdatedHasUpdatedOnMarketingContact(string solutionId)
+        public static async Task LastUpdatedHasUpdatedOnMarketingContact(string solutionId)
         {
             var contacts = (await MarketingContactEntity.FetchForSolutionAsync(solutionId).ConfigureAwait(false)).ToList();
             
@@ -43,7 +43,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         }
 
         [Then(@"MarketingContacts exist for solution (.*)")]
-        public async Task ThenMarketingContactsExist(string solutionId, Table table)
+        public static async Task ThenMarketingContactsExist(string solutionId, Table table)
         {
             var expected = table.CreateSet<MarketingContactEntity>().ToList();
             var contacts = await MarketingContactEntity.FetchForSolutionAsync(solutionId).ConfigureAwait(false);

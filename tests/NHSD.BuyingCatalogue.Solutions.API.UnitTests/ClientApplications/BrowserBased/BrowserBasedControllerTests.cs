@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -212,12 +212,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
             return result.Value as BrowserBasedResult;
         }
 
-        private void AssertBrowsersSupportedSectionComplete(BrowserBasedResult browserBasedResult, bool shouldBeComplete)
+        private static void AssertBrowsersSupportedSectionComplete(BrowserBasedResult browserBasedResult, bool shouldBeComplete)
         {
             browserBasedResult.BrowserBasedDashboardSections.BrowsersSupportedSection.Status.Should().Be(shouldBeComplete ? "COMPLETE" : "INCOMPLETE");
         }
 
-        private void AssertPluginsSectionComplete(BrowserBasedResult browserBasedResult, bool shouldBeComplete)
+        private static void AssertPluginsSectionComplete(BrowserBasedResult browserBasedResult, bool shouldBeComplete)
         {
             browserBasedResult.BrowserBasedDashboardSections.PluginsOrExtensionsSection.Status.Should().Be(shouldBeComplete ? "COMPLETE" : "INCOMPLETE");
         }

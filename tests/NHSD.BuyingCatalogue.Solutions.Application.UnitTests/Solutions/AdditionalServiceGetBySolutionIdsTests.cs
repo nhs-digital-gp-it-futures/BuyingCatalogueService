@@ -65,7 +65,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 (await _context.GetAdditionalServiceBySolutionIdsHandler.Handle(
                     new GetAdditionalServiceBySolutionIdsQuery(_solutionIds), new CancellationToken())).ToList();
 
-            additionalService.Count().Should().Be(2);
+            additionalService.Count.Should().Be(2);
 
             additionalService[0].SolutionId.Should().BeEquivalentTo(AdditionalService1.SolutionId);
             additionalService[1].SolutionId.Should().BeEquivalentTo(AdditionalService2.SolutionId);

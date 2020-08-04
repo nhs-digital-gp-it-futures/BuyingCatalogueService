@@ -76,7 +76,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
             return statusNameCount == uniqueStatusNameList.Count();
         }
 
-        public bool CheckNoDuplicateEpicIds(IEnumerable<string> epicIds)
+        public static bool CheckNoDuplicateEpicIds(IEnumerable<string> epicIds)
         {
             return epicIds.GroupBy(x => x).Any(c => c.Count() > 1);
         }

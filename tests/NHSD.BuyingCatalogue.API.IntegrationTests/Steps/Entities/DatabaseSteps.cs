@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using NHSD.BuyingCatalogue.Testing.Data;
 using TechTalk.SpecFlow;
@@ -18,7 +18,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         }
 
         [Given(@"the call to the database to set the field will fail")]
-        public async Task GivenTheCallToTheDatabaseToSetTheFieldFails()
+        public static async Task GivenTheCallToTheDatabaseToSetTheFieldFails()
         {
             await Database.DropServerRoleAsync().ConfigureAwait(false);
         }

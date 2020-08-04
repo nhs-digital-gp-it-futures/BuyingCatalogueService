@@ -86,7 +86,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                     Mock.Of<IUpdateClaimedEpicListRequest>(c => c.ClaimedEpics == expectedClaimedEpic), new CancellationToken());
 
             var solutionEpics = (await SolutionEpicEntity.FetchAllEpicIdsForSolutionAsync(Solution1Id)).ToList();
-            solutionEpics.Count().Should().Be(1);
+            solutionEpics.Count.Should().Be(1);
             solutionEpics[0].Should().Be(_epicDetails[0].Id);
         }
 
@@ -110,7 +110,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                     Mock.Of<IUpdateClaimedEpicListRequest>(c => c.ClaimedEpics == expectedEpic), new CancellationToken());
 
             var solutionEpics = (await SolutionEpicEntity.FetchAllEpicIdsForSolutionAsync(Solution1Id)).ToList();
-            solutionEpics.Count().Should().Be(2);
+            solutionEpics.Count.Should().Be(2);
             solutionEpics.Should().BeEquivalentTo(_epicDetails.Select(ed => ed.Id),
                 options => options.WithoutStrictOrdering());
         }

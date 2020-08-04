@@ -25,7 +25,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
 
             Solutions = solutions.Values
                 .Where(s => s.Capabilities.Select(c => c.CapabilityReference).Intersect(uniqueCapabilityReferences).Count() ==
-                            uniqueCapabilityReferences.Count())
+                            uniqueCapabilityReferences.Count)
                 .ToList();
         }
     }
