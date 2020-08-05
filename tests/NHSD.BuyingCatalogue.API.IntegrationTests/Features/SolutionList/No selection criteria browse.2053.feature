@@ -57,14 +57,7 @@ Scenario: 2. Card Content
         | Sln2       | TakeTheRedPill | Eye opening experience | Supplier 2   | Prescribing, Resource Management                   | false        |
         | Sln3       | PracticeMgr    |                        | Supplier 2   | Clinical Safety, Prescribing, Workflow             | false        |
 
-@ignore # solution detail will always be present now
-Scenario: 3. List all Solutions with no marketing data
-    Given a SolutionDetail Sln1 does not exist
-    When a GET request is made containing no selection criteria
-    Then a successful response is returned
-    And the solutions MedicOnline,TakeTheRedPill,PracticeMgr are found in the response
-
-Scenario: 4. Retrieve all Solutions with Marketing data.
+Scenario: 3. Retrieve all Solutions with Marketing data.
     Given SolutionDetail exist
         | Solution | SummaryDescription      | FullDescription     | AboutUrl | Features                                            |
         | Sln1     |                         | Online medicine 1   | UrlSln1  | { "customJson" : { "id" : 1, "name" : "feature1" }} |
@@ -75,7 +68,7 @@ Scenario: 4. Retrieve all Solutions with Marketing data.
     And the solutions MedicOnline,TakeTheRedPill,PracticeMgr are found in the response
 
 @5350
-Scenario: 5. List all solutions filtered by SupplierID
+Scenario: 4. List all solutions filtered by SupplierID
     Given SolutionDetail exist
         | Solution | SummaryDescription     | FullDescription   | AboutUrl | Features                                            |
         | Sln1     | NULL                   | Online medicine 1 | UrlSln1  | { "customJson" : { "id" : 1, "name" : "feature1" }} |
@@ -83,11 +76,11 @@ Scenario: 5. List all solutions filtered by SupplierID
     When a GET request is made containing a filter on supplierID Sup 1
     Then a successful response is returned
     And the details of the solutions returned are as follows
-        | SolutionId | SolutionName   | SummaryDescription     | SupplierName | Capabilities                                       | IsFoundation |
-        | Sln1       | MedicOnline    |                        | Supplier 1   | Appointments Management, Clinical Safety, Workflow | true         |
+        | SolutionId | SolutionName | SummaryDescription | SupplierName | Capabilities                                       | IsFoundation |
+        | Sln1       | MedicOnline  |                    | Supplier 1   | Appointments Management, Clinical Safety, Workflow | true         |
 
 @5350
-Scenario: 6. List all solutions filtered by an non existant SupplierID
+Scenario: 5. List all solutions filtered by an non existant SupplierID
     Given SolutionDetail exist
         | Solution | SummaryDescription     | FullDescription   | AboutUrl | Features                                            |
         | Sln1     | NULL                   | Online medicine 1 | UrlSln1  | { "customJson" : { "id" : 1, "name" : "feature1" }} |
