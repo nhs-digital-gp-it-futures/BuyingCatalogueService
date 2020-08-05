@@ -88,31 +88,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         }
 
         [Test]
-        [Ignore("Solution detail is no more.")]
-        public async Task ShouldThrowOnUpdateSolutionDetailNotPresent()
-        {
-            await CatalogueItemEntityBuilder
-                .Create()
-                .WithCatalogueItemId(_solution1Id)
-                .WithName(_solution1Id)
-                .WithPublishedStatusId((int)PublishedStatus.Published)
-                .WithSupplierId(_supplierId)
-                .Build()
-                .InsertAsync();
-
-            await SolutionEntityBuilder.Create()
-                .WithId(_solution1Id)
-                .Build()
-                .InsertAsync();
-
-            var mockUpdateSolutionFeaturesRequest = new Mock<IUpdateSolutionFeaturesRequest>();
-            mockUpdateSolutionFeaturesRequest.Setup(m => m.SolutionId).Returns(_solution1Id);
-            mockUpdateSolutionFeaturesRequest.Setup(m => m.Features).Returns("Features4");
-
-            Assert.ThrowsAsync<SqlException>(() => _solutionDetailRepository.UpdateFeaturesAsync(mockUpdateSolutionFeaturesRequest.Object, new CancellationToken()));
-        }
-
-        [Test]
         public async Task ShouldUpdateClientApplicationType()
         {
             await CatalogueItemEntityBuilder
@@ -155,31 +130,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         [Test]
         public void ShouldThrowOnUpdateClientApplicationSolutionNotPresent()
         {
-            var mockUpdateSolutionClientApplicationRequest = new Mock<IUpdateSolutionClientApplicationRequest>();
-            mockUpdateSolutionClientApplicationRequest.Setup(m => m.SolutionId).Returns(_solution1Id);
-            mockUpdateSolutionClientApplicationRequest.Setup(m => m.ClientApplication).Returns("Browser-based");
-
-            Assert.ThrowsAsync<SqlException>(() => _solutionDetailRepository.UpdateClientApplicationAsync(mockUpdateSolutionClientApplicationRequest.Object, new CancellationToken()));
-        }
-
-        [Test]
-        [Ignore("Solution detail is no more.")]
-        public async Task ShouldThrowOnUpdateClientApplicationSolutionDetailNotPresent()
-        {
-            await CatalogueItemEntityBuilder
-                .Create()
-                .WithCatalogueItemId(_solution1Id)
-                .WithName(_solution1Id)
-                .WithPublishedStatusId((int)PublishedStatus.Published)
-                .WithSupplierId(_supplierId)
-                .Build()
-                .InsertAsync();
-
-            await SolutionEntityBuilder.Create()
-                .WithId(_solution1Id)
-                .Build()
-                .InsertAsync();
-
             var mockUpdateSolutionClientApplicationRequest = new Mock<IUpdateSolutionClientApplicationRequest>();
             mockUpdateSolutionClientApplicationRequest.Setup(m => m.SolutionId).Returns(_solution1Id);
             mockUpdateSolutionClientApplicationRequest.Setup(m => m.ClientApplication).Returns("Browser-based");
@@ -252,33 +202,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         [Test]
         public void ShouldThrowOnUpdateSummarySolutionNotPresent()
         {
-            var mockUpdateSolutionSummaryRequest = new Mock<IUpdateSolutionSummaryRequest>();
-            mockUpdateSolutionSummaryRequest.Setup(m => m.SolutionId).Returns(_solution1Id);
-            mockUpdateSolutionSummaryRequest.Setup(m => m.Summary).Returns("Sln4Summary");
-            mockUpdateSolutionSummaryRequest.Setup(m => m.Description).Returns("Sln4Description");
-            mockUpdateSolutionSummaryRequest.Setup(m => m.AboutUrl).Returns("AboutUrl4");
-
-            Assert.ThrowsAsync<SqlException>(() => _solutionDetailRepository.UpdateSummaryAsync(mockUpdateSolutionSummaryRequest.Object, new CancellationToken()));
-        }
-
-        [Test]
-        [Ignore("Solution detail is no more.")]
-        public async Task ShouldThrowOnUpdateSummarySolutionDetailNotPresent()
-        {
-            await CatalogueItemEntityBuilder
-                .Create()
-                .WithCatalogueItemId(_solution1Id)
-                .WithName(_solution1Id)
-                .WithPublishedStatusId((int)PublishedStatus.Published)
-                .WithSupplierId(_supplierId)
-                .Build()
-                .InsertAsync();
-
-            await SolutionEntityBuilder.Create()
-                .WithId(_solution1Id)
-                .Build()
-                .InsertAsync();
-
             var mockUpdateSolutionSummaryRequest = new Mock<IUpdateSolutionSummaryRequest>();
             mockUpdateSolutionSummaryRequest.Setup(m => m.SolutionId).Returns(_solution1Id);
             mockUpdateSolutionSummaryRequest.Setup(m => m.Summary).Returns("Sln4Summary");

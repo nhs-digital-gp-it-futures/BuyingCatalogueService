@@ -61,16 +61,7 @@ Scenario: 2. Marketing Data is updated against the solution with trimmed whitesp
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @1828
-@ignore # solution detail will always be present now
-Scenario: 3. Marketing Data is added to the solution
-    Given a SolutionDetail Sln1 does not exist
-    When a PUT request is made to update solution Sln1 features section
-        | Features                      |
-        | Dispensing,Referrals,Workflow |
-    Then a response status of 500 is returned
-
-@1828
-Scenario: 4. Solution not found
+Scenario: 3. Solution not found
     Given a Solution Sln4 does not exist
     When a PUT request is made to update solution Sln4 features section
         | Features                      |
@@ -78,7 +69,7 @@ Scenario: 4. Solution not found
     Then a response status of 404 is returned
 
 @1828
-Scenario: 5. Service failure
+Scenario: 4. Service failure
     Given the call to the database to set the field will fail
     When a PUT request is made to update solution Sln1 features section
         | Features                      |
@@ -86,7 +77,7 @@ Scenario: 5. Service failure
     Then a response status of 500 is returned
 
 @1828
-Scenario: 6. Solution id not present in request
+Scenario: 5. Solution id not present in request
     When a PUT request is made to update solution features section with no solution id
         | Features                      |
         | Dispensing,Referrals,Workflow |
