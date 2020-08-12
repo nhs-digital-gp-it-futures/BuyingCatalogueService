@@ -8,8 +8,8 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | 1                | Sup 1      |
+        | SolutionId | SolutionName | SupplierStatusId | SupplierId |
+        | Sln1       | MedicOnline  | 1                | Sup 1      |
 
 @3599
 Scenario: 1. Connection and Resolution are updated for the solution
@@ -21,8 +21,8 @@ Scenario: 1. Connection and Resolution are updated for the solution
         | 1GBps                  | 800x600                  |
     Then a successful response is returned
     And Solutions exist
-        | SolutionId | SolutionName   |
-        | Sln1       | MedicOnline    |
+        | SolutionId | SolutionName |
+        | Sln1       | MedicOnline  |
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                   |
         | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MinimumConnectionSpeed": "1GBps", "MinimumDesktopResolution": "800x600" } |
@@ -38,8 +38,8 @@ Scenario: 2. Connection and Resolution are updated for the solution with trimmed
         | "     1GBps      "     | "     800x600   "        |
     Then a successful response is returned
     And Solutions exist
-        | SolutionId | SolutionName   |
-        | Sln1       | MedicOnline    |
+        | SolutionId | SolutionName |
+        | Sln1       | MedicOnline  |
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                   |
         | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MinimumConnectionSpeed": "1GBps", "MinimumDesktopResolution": "800x600" } |
@@ -55,24 +55,15 @@ Scenario: 3. Connection and Resolution are updated for the solution with empty r
         | 1GBps                  | NULL                     |
     Then a successful response is returned
     And Solutions exist
-        | SolutionId | SolutionName   |
-        | Sln1       | MedicOnline    |
+        | SolutionId | SolutionName |
+        | Sln1       | MedicOnline  |
     And SolutionDetail exist
         | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                            |
         | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MinimumConnectionSpeed": "1GBps" } |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @3599
-@ignore # solution detail will always be present now
-Scenario: 4. If SolutionDetail is missing for the solution, thats an error case
-    Given a SolutionDetail Sln1 does not exist
-    When a PUT request is made to update the browser-connectivity-and-resolution section for solution Sln1
-        | MinimumConnectionSpeed | MinimumDesktopResolution |
-        | 1GBps                  | 800x600                  |
-    Then a response status of 500 is returned
-
-@3599
-Scenario: 5. Solution not found
+Scenario: 4. Solution not found
     Given a Solution Sln2 does not exist
     When a PUT request is made to update the browser-connectivity-and-resolution section for solution Sln2
         | MinimumConnectionSpeed | MinimumDesktopResolution |
@@ -80,7 +71,7 @@ Scenario: 5. Solution not found
     Then a response status of 404 is returned
 
 @3599
-Scenario: 6. Service failure
+Scenario: 5. Service failure
     Given the call to the database to set the field will fail
     When a PUT request is made to update the browser-connectivity-and-resolution section for solution Sln1
         | MinimumConnectionSpeed | MinimumDesktopResolution |
@@ -88,7 +79,7 @@ Scenario: 6. Service failure
     Then a response status of 500 is returned
 
 @3599
-Scenario: 7. Solution id not present in request
+Scenario: 6. Solution id not present in request
     When a PUT request is made to update the browser-connectivity-and-resolution section with no solution id
         | MinimumConnectionSpeed | MinimumDesktopResolution |
         | 1GBps                  | 800x600                  |

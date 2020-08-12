@@ -11,7 +11,6 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 1      |
-        | Sln3       | PracticeMgr    | 1                | Sup 1      |
     And SolutionDetail exist
         | Solution | RoadMap                          |
         | Sln1     | An original roadmap summary      |
@@ -27,7 +26,6 @@ Scenario: 1. Solution roadmap section data is updated
         | Solution | RoadMap                          |
         | Sln1     | A new full summary               |
         | Sln2     | Another original roadmap summary |
-        | Sln3     | NULL                             |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @3664
@@ -40,28 +38,18 @@ Scenario: 2. Solution roadmap section data is updated with trimmed whitespace
         | Solution | RoadMap                          |
         | Sln1     | A new full summary               |
         | Sln2     | Another original roadmap summary |
-        | Sln3     | NULL                             |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @3664
-@ignore # solution detail will always be present now
-Scenario: 3. Solution roadmap section data is not created on update if no SolutionDetail
-    Given a SolutionDetail Sln3 does not exist
+Scenario: 3. Solution not found
+    Given a Solution Sln3 does not exist
     When a PUT request is made to update the roadmap section for solution Sln3
-        | Summary            |
-        | A new full summary |
-    Then a response status of 500 is returned
-
-@3664
-Scenario: 4. Solution not found
-    Given a Solution Sln4 does not exist
-    When a PUT request is made to update the roadmap section for solution Sln4
         | Summary            |
         | A new full summary |
     Then a response status of 404 is returned
 
 @3664
-Scenario: 5. Service failure
+Scenario: 4. Service failure
     Given the call to the database to set the field will fail
     When a PUT request is made to update the roadmap section for solution Sln1
         | Summary            |
@@ -69,7 +57,7 @@ Scenario: 5. Service failure
     Then a response status of 500 is returned
 
 @3664
-Scenario: 6. Solution id not present in request
+Scenario: 5. Solution id not present in request
     When a PUT request is made to update the roadmap section with no solution id
         | Summary            |
         | A new full summary |

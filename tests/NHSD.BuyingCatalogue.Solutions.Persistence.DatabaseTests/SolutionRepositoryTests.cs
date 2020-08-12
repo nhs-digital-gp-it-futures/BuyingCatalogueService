@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Moq;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Testing.Data;
-using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
 using NUnit.Framework;
 
@@ -161,60 +158,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         }
 
         [Test]
-        [Ignore("Supplier status is no more.")]
-        public async Task ShouldUpdateSupplierStatus()
-        {
-            await CatalogueItemEntityBuilder
-                .Create()
-                .WithCatalogueItemId(_solution1Id)
-                .WithName(_solution1Id)
-                .WithPublishedStatusId((int)PublishedStatus.Published)
-                .WithSupplierId(_supplierId)
-                .Build()
-                .InsertAsync();
-
-            await SolutionEntityBuilder.Create()
-                .WithId(_solution1Id)
-                .WithOnLastUpdated(_lastUpdated)
-                .Build()
-                .InsertAsync();
-
-            var mockUpdateSolutionSupplierStatusRequest = new Mock<IUpdateSolutionSupplierStatusRequest>();
-            mockUpdateSolutionSupplierStatusRequest.Setup(m => m.Id).Returns(_solution1Id);
-            mockUpdateSolutionSupplierStatusRequest.Setup(m => m.SupplierStatusId).Returns(2);
-
-            _solutionRepository.CheckExists(_solution1Id, new CancellationToken()).Result.Should().BeTrue();
-
-            await _solutionRepository.UpdateSupplierStatusAsync(mockUpdateSolutionSupplierStatusRequest.Object, new CancellationToken());
-
-            var solution = await SolutionEntity.GetByIdAsync(_solution1Id);
-            solution.Id.Should().Be(_solution1Id);
-
-            (await solution.LastUpdated.SecondsFromNow()).Should().BeLessOrEqualTo(5);
-        }
-
-        [Test]
         public void SolutionIdDoesNotExist()
         {
             _solutionRepository.CheckExists(_solution1Id, new CancellationToken()).Result.Should().BeFalse();
-        }
-
-        [Test]
-        [Ignore("Supplier status is no more.")]
-        public void ShouldThrowOnUpdateSupplierStatusSolutionNotPresent()
-        {
-            var mockUpdateSolutionSupplierStatusRequest = new Mock<IUpdateSolutionSupplierStatusRequest>();
-            mockUpdateSolutionSupplierStatusRequest.Setup(m => m.Id).Returns(_solution1Id);
-            mockUpdateSolutionSupplierStatusRequest.Setup(m => m.SupplierStatusId).Returns(2);
-
-            Assert.ThrowsAsync<SqlException>(() => _solutionRepository.UpdateSupplierStatusAsync(mockUpdateSolutionSupplierStatusRequest.Object, new CancellationToken()));
-        }
-
-        [Test]
-        [Ignore("Supplier status is no more.")]
-        public void ShouldThrowOnUpdateSupplierStatusNullRequest()
-        {
-            Assert.ThrowsAsync<ArgumentNullException>(() => _solutionRepository.UpdateSupplierStatusAsync(null, new CancellationToken()));
         }
     }
 }

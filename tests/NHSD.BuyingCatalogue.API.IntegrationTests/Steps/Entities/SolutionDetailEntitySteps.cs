@@ -36,13 +36,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             }
         }
 
-        [Given(@"a SolutionDetail (.*) does not exist")]
-        public static async Task GivenASolutionDetailDoesNotExist(string solutionId)
-        {
-            var solutionDetailList = await SolutionDetailEntity.FetchAllAsync();
-            solutionDetailList.Select(x => x.SolutionId).Should().NotContain(solutionId);
-        }
-
         [Then(@"SolutionDetail exist")]
         public static async Task ThenSolutionDetailExist(Table table)
         {
