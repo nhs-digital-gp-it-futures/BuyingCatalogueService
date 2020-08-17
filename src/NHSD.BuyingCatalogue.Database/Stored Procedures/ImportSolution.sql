@@ -42,7 +42,7 @@ AS
         DELETE FROM dbo.SolutionCapability
               WHERE SolutionId = @SolutionId;
 
-        DECLARE @passedFull AS int = (SELECT Id FROM dbo.SolutionCapabilityStatus WHERE [Name] = 'Passed – Full');
+        DECLARE @passedFull AS int = (SELECT Id FROM dbo.SolutionCapabilityStatus WHERE [Name] = 'Passed - Full');
 
         INSERT INTO dbo.SolutionCapability(SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
              SELECT @SolutionId, c.Id, @passedFull, @now, @emptyGuid
