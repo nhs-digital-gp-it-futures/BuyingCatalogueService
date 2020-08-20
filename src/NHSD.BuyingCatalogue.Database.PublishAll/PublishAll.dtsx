@@ -7,13 +7,13 @@
   DTS:CreatorName=""
   DTS:DTSID="{41CBBF9B-528A-4586-9D42-96AB51BD09B0}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="15.0.2000.123"
+  DTS:LastModifiedProductVersion="15.0.2000.71"
   DTS:LocaleID="2057"
   DTS:MaxErrorCount="0"
   DTS:ObjectName="PublishAll"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="58"
-  DTS:VersionGUID="{2AA890B4-B38C-4481-81BD-25FF4FCEB5D8}">
+  DTS:VersionBuild="59"
+  DTS:VersionGUID="{9B2B03FE-6DDE-4677-970B-CA5F238D0014}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables />
@@ -123,14 +123,6 @@
                   name="OLE DB Destination Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Synchronize Catalogue Item Details\Destination - AdditionalService.Inputs[OLE DB Destination Input].Columns[AdditionalServiceId]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
-                      cachedLength="14"
-                      cachedName="AdditionalServiceId"
-                      externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Destination - AdditionalService.Inputs[OLE DB Destination Input].ExternalColumns[AdditionalServiceId]"
-                      lineageId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].Columns[AdditionalServiceId]" />
-                    <inputColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - AdditionalService.Inputs[OLE DB Destination Input].Columns[Summary]"
                       cachedCodepage="1252"
                       cachedDataType="str"
@@ -167,15 +159,17 @@
                       cachedName="SolutionId"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Destination - AdditionalService.Inputs[OLE DB Destination Input].ExternalColumns[SolutionId]"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].Columns[SolutionId]" />
+                    <inputColumn
+                      refId="Package\Synchronize Catalogue Item Details\Destination - AdditionalService.Inputs[OLE DB Destination Input].Columns[CatalogueItemId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="14"
+                      cachedName="CatalogueItemId"
+                      externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Destination - AdditionalService.Inputs[OLE DB Destination Input].ExternalColumns[CatalogueItemId]"
+                      lineageId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].Columns[CatalogueItemId]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
-                    <externalMetadataColumn
-                      refId="Package\Synchronize Catalogue Item Details\Destination - AdditionalService.Inputs[OLE DB Destination Input].ExternalColumns[AdditionalServiceId]"
-                      codePage="1252"
-                      dataType="str"
-                      length="14"
-                      name="AdditionalServiceId" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - AdditionalService.Inputs[OLE DB Destination Input].ExternalColumns[Summary]"
                       codePage="1252"
@@ -203,6 +197,12 @@
                       dataType="str"
                       length="14"
                       name="SolutionId" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Catalogue Item Details\Destination - AdditionalService.Inputs[OLE DB Destination Input].ExternalColumns[CatalogueItemId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="14"
+                      name="CatalogueItemId" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -1138,17 +1138,6 @@
                   name="OLE DB Source Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].Columns[AdditionalServiceId]"
-                      codePage="1252"
-                      dataType="str"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].ExternalColumns[AdditionalServiceId]"
-                      length="14"
-                      lineageId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].Columns[AdditionalServiceId]"
-                      name="AdditionalServiceId"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].Columns[Summary]"
                       codePage="1252"
                       dataType="str"
@@ -1200,15 +1189,20 @@
                       lineageId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].Columns[SolutionId]"
                       name="SolutionId"
                       truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].Columns[CatalogueItemId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].ExternalColumns[CatalogueItemId]"
+                      length="14"
+                      lineageId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].Columns[CatalogueItemId]"
+                      name="CatalogueItemId"
+                      truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
-                    <externalMetadataColumn
-                      refId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].ExternalColumns[AdditionalServiceId]"
-                      codePage="1252"
-                      dataType="str"
-                      length="14"
-                      name="AdditionalServiceId" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].ExternalColumns[Summary]"
                       codePage="1252"
@@ -1236,6 +1230,12 @@
                       dataType="str"
                       length="14"
                       name="SolutionId" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].ExternalColumns[CatalogueItemId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="14"
+                      name="CatalogueItemId" />
                   </externalMetadataColumns>
                 </output>
                 <output
@@ -1244,12 +1244,12 @@
                   name="OLE DB Source Error Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Error Output].Columns[AdditionalServiceId]"
+                      refId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Error Output].Columns[CatalogueItemId]"
                       codePage="1252"
                       dataType="str"
                       length="14"
-                      lineageId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Error Output].Columns[AdditionalServiceId]"
-                      name="AdditionalServiceId" />
+                      lineageId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Error Output].Columns[CatalogueItemId]"
+                      name="CatalogueItemId" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Error Output].Columns[Summary]"
                       codePage="1252"
@@ -3999,106 +3999,56 @@
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="212,42"
-          Id="Package\Synchronize Catalogue Item Details\Source - SolutionCapability"
-          TopLeft="15.5,5.5" />
-        <NodeLayout
-          Size="232,42"
-          Id="Package\Synchronize Catalogue Item Details\Destination - SolutionCapability"
-          TopLeft="5.5,107.5" />
-        <EdgeLayout
-          Id="Package\Synchronize Catalogue Item Details.Paths[OLE DB Source Output]"
-          TopLeft="121.5,47.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
           Size="185,42"
           Id="Package\Synchronize Catalogue Item Details\Source - SolutionEpic"
           TopLeft="308,5.5" />
         <NodeLayout
-          Size="205,42"
-          Id="Package\Synchronize Catalogue Item Details\Destination - SolutionEpic"
-          TopLeft="298,107.5" />
-        <EdgeLayout
-          Id="Package\Synchronize Catalogue Item Details.Paths[OLE DB Source Output1]"
-          TopLeft="400.5,47.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+          Size="244,42"
+          Id="Package\Synchronize Catalogue Item Details\Destination - FrameworkSolutions"
+          TopLeft="563.5,107.5" />
+        <NodeLayout
+          Size="209,42"
+          Id="Package\Synchronize Catalogue Item Details\Source - AdditionalService"
+          TopLeft="15.5,209.5" />
+        <NodeLayout
+          Size="230,42"
+          Id="Package\Synchronize Catalogue Item Details\Destination - MarketingContact"
+          TopLeft="868.5,107.5" />
+        <NodeLayout
+          Size="232,42"
+          Id="Package\Synchronize Catalogue Item Details\Destination - SolutionCapability"
+          TopLeft="5.5,107.5" />
         <NodeLayout
           Size="224,42"
           Id="Package\Synchronize Catalogue Item Details\Source - FrameworkSolutions"
           TopLeft="573.5,5.5" />
         <NodeLayout
-          Size="244,42"
-          Id="Package\Synchronize Catalogue Item Details\Destination - FrameworkSolutions"
-          TopLeft="563.5,107.5" />
-        <EdgeLayout
-          Id="Package\Synchronize Catalogue Item Details.Paths[OLE DB Source Output2]"
-          TopLeft="685.5,47.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+          Size="212,42"
+          Id="Package\Synchronize Catalogue Item Details\Source - SolutionCapability"
+          TopLeft="15.5,5.5" />
         <NodeLayout
           Size="210,42"
           Id="Package\Synchronize Catalogue Item Details\Source - MarketingContact"
           TopLeft="878.5,5.49999999999989" />
         <NodeLayout
-          Size="230,42"
-          Id="Package\Synchronize Catalogue Item Details\Destination - MarketingContact"
-          TopLeft="868.5,107.5" />
+          Size="205,42"
+          Id="Package\Synchronize Catalogue Item Details\Destination - SolutionEpic"
+          TopLeft="298,107.5" />
+        <NodeLayout
+          Size="257,42"
+          Id="Package\Synchronize Catalogue Item Details\Source - SupplierServiceAssociation"
+          TopLeft="1169,5.49999999999989" />
+        <NodeLayout
+          Size="229,42"
+          Id="Package\Synchronize Catalogue Item Details\Destination - AdditionalService"
+          TopLeft="5.5,311.5" />
+        <NodeLayout
+          Size="277,42"
+          Id="Package\Synchronize Catalogue Item Details\Destination - SupplierServiceAssociation"
+          TopLeft="1159,107.5" />
         <EdgeLayout
-          Id="Package\Synchronize Catalogue Item Details.Paths[OLE DB Source Output3]"
-          TopLeft="983.5,47.4999999999999">
+          Id="Package\Synchronize Catalogue Item Details.Paths[OLE DB Source Output5]"
+          TopLeft="120,251.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -4118,14 +4068,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="257,42"
-          Id="Package\Synchronize Catalogue Item Details\Source - SupplierServiceAssociation"
-          TopLeft="1169,5.49999999999989" />
-        <NodeLayout
-          Size="277,42"
-          Id="Package\Synchronize Catalogue Item Details\Destination - SupplierServiceAssociation"
-          TopLeft="1159,107.5" />
         <EdgeLayout
           Id="Package\Synchronize Catalogue Item Details.Paths[OLE DB Source Output4]"
           TopLeft="1297.5,47.4999999999999">
@@ -4148,17 +4090,75 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="209,42"
-          Id="Package\Synchronize Catalogue Item Details\Source - AdditionalService"
-          TopLeft="15.5,209.5" />
-        <NodeLayout
-          Size="229,42"
-          Id="Package\Synchronize Catalogue Item Details\Destination - AdditionalService"
-          TopLeft="5.5,311.5" />
         <EdgeLayout
-          Id="Package\Synchronize Catalogue Item Details.Paths[OLE DB Source Output5]"
-          TopLeft="120,251.5">
+          Id="Package\Synchronize Catalogue Item Details.Paths[OLE DB Source Output3]"
+          TopLeft="983.5,47.4999999999999">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Synchronize Catalogue Item Details.Paths[OLE DB Source Output2]"
+          TopLeft="685.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Synchronize Catalogue Item Details.Paths[OLE DB Source Output1]"
+          TopLeft="400.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Synchronize Catalogue Item Details.Paths[OLE DB Source Output]"
+          TopLeft="121.5,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -4407,16 +4407,24 @@
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
+          Size="214,42"
+          Id="Package\Synchronize Solutions and Associated Services\Source - AssociatedService"
+          TopLeft="260.5,5.5" />
+        <NodeLayout
           Size="163,42"
           Id="Package\Synchronize Solutions and Associated Services\Source - Solution"
           TopLeft="16,5.5" />
+        <NodeLayout
+          Size="234,42"
+          Id="Package\Synchronize Solutions and Associated Services\Destination - AssociatedService"
+          TopLeft="250.5,107.5" />
         <NodeLayout
           Size="184,42"
           Id="Package\Synchronize Solutions and Associated Services\Destination - Solution"
           TopLeft="5.5,107.5" />
         <EdgeLayout
-          Id="Package\Synchronize Solutions and Associated Services.Paths[OLE DB Source Output]"
-          TopLeft="97.5,47.5">
+          Id="Package\Synchronize Solutions and Associated Services.Paths[OLE DB Source Output1]"
+          TopLeft="367.5,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -4436,17 +4444,9 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="214,42"
-          Id="Package\Synchronize Solutions and Associated Services\Source - AssociatedService"
-          TopLeft="260.5,5.5" />
-        <NodeLayout
-          Size="234,42"
-          Id="Package\Synchronize Solutions and Associated Services\Destination - AssociatedService"
-          TopLeft="250.5,107.5" />
         <EdgeLayout
-          Id="Package\Synchronize Solutions and Associated Services.Paths[OLE DB Source Output1]"
-          TopLeft="367.5,47.5">
+          Id="Package\Synchronize Solutions and Associated Services.Paths[OLE DB Source Output]"
+          TopLeft="97.5,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
