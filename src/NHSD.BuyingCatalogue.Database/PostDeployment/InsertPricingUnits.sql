@@ -25,7 +25,7 @@ VALUES
     ('6f65c40f-e7cc-4140-85c5-592dcd216132', 'extract'            , 'extracts'       , 'per extract'),
     ('59fa7cad-87b8-4e78-92b7-5689f6b123dc', 'migration'          , 'migrations'     , 'per migration'),
     ('e17fbd0b-208f-453f-938a-9880bab1ec5e', 'course'             , 'courses'        , 'per course'),
-    ('1d40c0d1-6bd5-40b3-ba2f-cf433f339787', 'environment'        , 'environments'   , 'per environment'),
+    ('1d40c0d1-6bd5-40b3-ba2f-cf433f339787', 'trainingEnvironment', 'environments'   , 'per training environment'),
     ('4b9a4640-a97a-4e30-8ed5-cccae9829616', 'user'               , 'users'          , 'per user'),
     ('66443acc-7e40-4f95-955b-47234016cff1', 'document'           , 'documents'      , 'per document'),
     ('626b43e6-c9a0-4ede-99ed-da3a1ad2d8d3', 'seminar'            , 'seminars'       , 'per seminar'),
@@ -37,7 +37,13 @@ VALUES
     ('a4012e6c-caf3-430c-b8d3-9c45ab9fd0de', 'unitMerge', 'unit merges', 'per unit merge'),
     ('bede8599-7a4e-4753-a928-f419681b7c93', 'unitSplit', 'unit splits', 'per unit split'),
     ('8eea4a69-977d-4fb1-b4d1-2f0971beb04b', 'hourSession', 'hour Sessions', 'per 1hr session'),
-    ('A92C1326-4826-48B3-B429-4A368ADB9785', 'na','','');
+    ('A92C1326-4826-48B3-B429-4A368ADB9785', 'na','',''),
+    --New Units in confirmed spreadsheet 27/08/2020
+    ('60d07eb0-01ef-44e4-bed3-d34ad1352e19', 'consultationCore'    , 'consultations'  , 'per consultation - core hours'),
+    ('93931091-8945-43a0-b181-96f2b41ed3c3', 'consultationExtended', 'consultations'  , 'per consultation - extended hours'),
+    ('fec28905-5670-4c45-99f3-1f93c8aa156c', 'consultationOut'     , 'consultations'  , 'per consultation - out of hours'),
+    ('9f8888de-69fb-4395-83ce-066d4a4dc120', 'systmOneUnit'        , 'SystmOne units' , 'per SystmOne unit'),
+    ('e72500e5-4cb4-4ddf-a8b8-d898187691ca', 'smsFragment'         , 'SMS fragments'  , 'per SMS fragment');
 
 MERGE INTO dbo.PricingUnit AS TARGET
 USING #PricingUnit AS SOURCE
