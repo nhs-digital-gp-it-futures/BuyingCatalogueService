@@ -9,11 +9,9 @@ variables:
 
 trigger:
 - master
-- development
 
 pr:
 - master
-- development
 
 jobs:
 - job: version
