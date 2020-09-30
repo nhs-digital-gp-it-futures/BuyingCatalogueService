@@ -31,6 +31,7 @@ VALUES
     ('626b43e6-c9a0-4ede-99ed-da3a1ad2d8d3', 'seminar'            , 'seminars'       , 'per seminar'),
     ('60523726-bbaf-4ec3-b29c-dee2f3d3eca8', 'item'               , 'items'          , 'per item'),
     ('8a5e119f-9b33-4017-8cc9-552e86e20898', 'activeUser'         , 'active users'   , 'per active user'),
+    ('84c10564-e85f-4f64-843b-528e88b7bf59', 'virtualPC'          , 'virtual PCs'    , 'per virtual PC'),
     --Units in the data that may be amended / consolidated
     ('4b39590d-3f35-4963-83ba-bc7d0bfe988b', 'videoConsultation', 'consultations', 'per video consultation initiated'),
     ('372787ad-041f-4176-93e9-e4a303c39014', 'digitalFirstConsult', 'consultations', 'per digital first consultation'),
