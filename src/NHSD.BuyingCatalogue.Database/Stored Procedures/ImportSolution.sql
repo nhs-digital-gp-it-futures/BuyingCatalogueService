@@ -6,20 +6,21 @@
 AS
     SET NOCOUNT ON;
 
+    DECLARE @supplierId AS varchar(6) = import.GetSupplierId(@SolutionId);
+
+    IF NOT EXISTS (SELECT * FROM dbo.Supplier WHERE Id = @supplierId)
+        THROW 51000, 'Supplier record does not exist.', 1;
+
+    DECLARE @draftPublicationStatus AS int = (SELECT Id FROM dbo.PublicationStatus WHERE [Name] = 'Draft');
+    DECLARE @emptyGuid AS uniqueidentifier = CAST(0x0 AS uniqueidentifier);
+    DECLARE @frameworkId AS varchar(10) = 'NHSDGP001';
+    DECLARE @now AS datetime = GETUTCDATE();
+    DECLARE @passedFull AS int = (SELECT Id FROM dbo.SolutionCapabilityStatus WHERE [Name] = 'Passed - Full');
+    DECLARE @solutionCatalogueItemType AS int = (SELECT CatalogueItemTypeId FROM dbo.CatalogueItemType WHERE [Name] = 'Solution');
+
     BEGIN TRANSACTION;
 
     BEGIN TRY
-        DECLARE @emptyGuid AS uniqueidentifier = CAST(0x0 AS uniqueidentifier);
-        DECLARE @frameworkId AS varchar(10) = 'NHSDGP001';
-        DECLARE @now AS datetime = GETUTCDATE();
-        DECLARE @supplierId AS varchar(6) = SUBSTRING(@SolutionId, 1, CHARINDEX('-', @SolutionId) - 1);
-
-        IF NOT EXISTS (SELECT * FROM dbo.Supplier WHERE Id = @supplierId)
-            THROW 51000, 'Supplier record does not exist.', 1;
-
-        DECLARE @draftPublicationStatus AS int = (SELECT Id FROM dbo.PublicationStatus WHERE [Name] = 'Draft');
-        DECLARE @solutionCatalogueItemType AS int = (SELECT CatalogueItemTypeId FROM dbo.CatalogueItemType WHERE [Name] = 'Solution');
-
         IF NOT EXISTS (SELECT * FROM dbo.CatalogueItem WHERE CatalogueItemId = @SolutionId)
             INSERT INTO dbo.CatalogueItem(CatalogueItemId, [Name], Created,
                         CatalogueItemTypeId, SupplierId, PublishedStatusId)
@@ -41,8 +42,6 @@ AS
 
         DELETE FROM dbo.SolutionCapability
               WHERE SolutionId = @SolutionId;
-
-        DECLARE @passedFull AS int = (SELECT Id FROM dbo.SolutionCapabilityStatus WHERE [Name] = 'Passed - Full');
 
         INSERT INTO dbo.SolutionCapability(SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
              SELECT @SolutionId, c.Id, @passedFull, @now, @emptyGuid
