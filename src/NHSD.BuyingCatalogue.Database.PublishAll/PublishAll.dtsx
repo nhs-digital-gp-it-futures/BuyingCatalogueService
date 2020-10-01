@@ -7,13 +7,13 @@
   DTS:CreatorName=""
   DTS:DTSID="{41CBBF9B-528A-4586-9D42-96AB51BD09B0}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="15.0.2000.71"
+  DTS:LastModifiedProductVersion="15.0.2000.132"
   DTS:LocaleID="2057"
   DTS:MaxErrorCount="0"
   DTS:ObjectName="PublishAll"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="59"
-  DTS:VersionGUID="{9B2B03FE-6DDE-4677-970B-CA5F238D0014}">
+  DTS:VersionBuild="64"
+  DTS:VersionGUID="{E5F5BD40-168E-466B-AA62-DAAA79B09B05}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables />
@@ -2772,6 +2772,875 @@
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
+      DTS:refId="Package\Synchronize Pricing"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{539250CF-2B05-415D-B881-571203D3E85D}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Synchronize Pricing"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Synchronize Pricing\Destination - CataloguePrice"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Destination - CataloguePrice"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[CataloguePrice]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">true</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Synchronize Pricing\Destination - CataloguePrice.Connections[OleDbConnection]"
+                  connectionManagerID="{BE465BA3-7D38-4E77-96CB-0F8CB74E98F4}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[OleDbConnection_Destination_BuyingCatalogue]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].Columns[LastUpdated]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="LastUpdated"
+                      cachedScale="7"
+                      externalMetadataColumnId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].ExternalColumns[LastUpdated]"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[LastUpdated]" />
+                    <inputColumn
+                      refId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].Columns[CatalogueItemId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="14"
+                      cachedName="CatalogueItemId"
+                      externalMetadataColumnId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].ExternalColumns[CatalogueItemId]"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[CatalogueItemId]" />
+                    <inputColumn
+                      refId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].Columns[CataloguePriceId]"
+                      cachedDataType="i4"
+                      cachedName="CataloguePriceId"
+                      externalMetadataColumnId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].ExternalColumns[CataloguePriceId]"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[CataloguePriceId]" />
+                    <inputColumn
+                      refId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].Columns[ProvisioningTypeId]"
+                      cachedDataType="i4"
+                      cachedName="ProvisioningTypeId"
+                      externalMetadataColumnId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].ExternalColumns[ProvisioningTypeId]"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[ProvisioningTypeId]" />
+                    <inputColumn
+                      refId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].Columns[CataloguePriceTypeId]"
+                      cachedDataType="i4"
+                      cachedName="CataloguePriceTypeId"
+                      externalMetadataColumnId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].ExternalColumns[CataloguePriceTypeId]"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[CataloguePriceTypeId]" />
+                    <inputColumn
+                      refId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].Columns[PricingUnitId]"
+                      cachedDataType="guid"
+                      cachedName="PricingUnitId"
+                      externalMetadataColumnId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].ExternalColumns[PricingUnitId]"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[PricingUnitId]" />
+                    <inputColumn
+                      refId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].Columns[TimeUnitId]"
+                      cachedDataType="i4"
+                      cachedName="TimeUnitId"
+                      externalMetadataColumnId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].ExternalColumns[TimeUnitId]"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[TimeUnitId]" />
+                    <inputColumn
+                      refId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].Columns[CurrencyCode]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="CurrencyCode"
+                      externalMetadataColumnId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].ExternalColumns[CurrencyCode]"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[CurrencyCode]" />
+                    <inputColumn
+                      refId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].Columns[Price]"
+                      cachedDataType="numeric"
+                      cachedName="Price"
+                      cachedPrecision="18"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].ExternalColumns[Price]"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[Price]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].ExternalColumns[LastUpdated]"
+                      dataType="dbTimeStamp2"
+                      name="LastUpdated"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].ExternalColumns[CatalogueItemId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="14"
+                      name="CatalogueItemId" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].ExternalColumns[CataloguePriceId]"
+                      dataType="i4"
+                      name="CataloguePriceId" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].ExternalColumns[ProvisioningTypeId]"
+                      dataType="i4"
+                      name="ProvisioningTypeId" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].ExternalColumns[CataloguePriceTypeId]"
+                      dataType="i4"
+                      name="CataloguePriceTypeId" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].ExternalColumns[PricingUnitId]"
+                      dataType="guid"
+                      name="PricingUnitId" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].ExternalColumns[TimeUnitId]"
+                      dataType="i4"
+                      name="TimeUnitId" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].ExternalColumns[CurrencyCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="CurrencyCode" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].ExternalColumns[Price]"
+                      dataType="numeric"
+                      name="Price"
+                      precision="18"
+                      scale="3" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Synchronize Pricing\Destination - CataloguePrice.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Synchronize Pricing\Destination - CataloguePrice.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Pricing\Destination - CataloguePrice.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing\Destination - CataloguePrice.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Pricing\Destination - CataloguePrice.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Synchronize Pricing\Source - CataloguePrice"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Source - CataloguePrice"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[CataloguePrice]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Synchronize Pricing\Source - CataloguePrice.Connections[OleDbConnection]"
+                  connectionManagerID="{15801389-7BF2-4283-8BAB-06CFF3322C46}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[OleDbConnection_Source_BuyingCatalogue]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[LastUpdated]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].ExternalColumns[LastUpdated]"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[LastUpdated]"
+                      name="LastUpdated"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[CatalogueItemId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].ExternalColumns[CatalogueItemId]"
+                      length="14"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[CatalogueItemId]"
+                      name="CatalogueItemId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[CataloguePriceId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].ExternalColumns[CataloguePriceId]"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[CataloguePriceId]"
+                      name="CataloguePriceId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[ProvisioningTypeId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].ExternalColumns[ProvisioningTypeId]"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[ProvisioningTypeId]"
+                      name="ProvisioningTypeId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[CataloguePriceTypeId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].ExternalColumns[CataloguePriceTypeId]"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[CataloguePriceTypeId]"
+                      name="CataloguePriceTypeId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[PricingUnitId]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].ExternalColumns[PricingUnitId]"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[PricingUnitId]"
+                      name="PricingUnitId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[TimeUnitId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].ExternalColumns[TimeUnitId]"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[TimeUnitId]"
+                      name="TimeUnitId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[CurrencyCode]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].ExternalColumns[CurrencyCode]"
+                      length="3"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[CurrencyCode]"
+                      name="CurrencyCode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[Price]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].ExternalColumns[Price]"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[Price]"
+                      name="Price"
+                      precision="18"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].ExternalColumns[LastUpdated]"
+                      dataType="dbTimeStamp2"
+                      name="LastUpdated"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].ExternalColumns[CatalogueItemId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="14"
+                      name="CatalogueItemId" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].ExternalColumns[CataloguePriceId]"
+                      dataType="i4"
+                      name="CataloguePriceId" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].ExternalColumns[ProvisioningTypeId]"
+                      dataType="i4"
+                      name="ProvisioningTypeId" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].ExternalColumns[CataloguePriceTypeId]"
+                      dataType="i4"
+                      name="CataloguePriceTypeId" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].ExternalColumns[PricingUnitId]"
+                      dataType="guid"
+                      name="PricingUnitId" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].ExternalColumns[TimeUnitId]"
+                      dataType="i4"
+                      name="TimeUnitId" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].ExternalColumns[CurrencyCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="CurrencyCode" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].ExternalColumns[Price]"
+                      dataType="numeric"
+                      name="Price"
+                      precision="18"
+                      scale="3" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[CataloguePriceId]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[CataloguePriceId]"
+                      name="CataloguePriceId" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[CatalogueItemId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="14"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[CatalogueItemId]"
+                      name="CatalogueItemId" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[ProvisioningTypeId]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[ProvisioningTypeId]"
+                      name="ProvisioningTypeId" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[CataloguePriceTypeId]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[CataloguePriceTypeId]"
+                      name="CataloguePriceTypeId" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[PricingUnitId]"
+                      dataType="guid"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[PricingUnitId]"
+                      name="PricingUnitId" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[TimeUnitId]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[TimeUnitId]"
+                      name="TimeUnitId" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[CurrencyCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[CurrencyCode]"
+                      name="CurrencyCode" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[LastUpdated]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[LastUpdated]"
+                      name="LastUpdated"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[Price]"
+                      dataType="numeric"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[Price]"
+                      name="Price"
+                      precision="18"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Synchronize Pricing.Paths[OLE DB Source Output]"
+              endId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Synchronize Pricing Tiers"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{72ce8132-5e5c-4b85-b823-944cad1b3e05}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Synchronize Pricing Tiers"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Destination - CataloguePriceTier"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[CataloguePriceTier]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">true</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier.Connections[OleDbConnection]"
+                  connectionManagerID="{BE465BA3-7D38-4E77-96CB-0F8CB74E98F4}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[OleDbConnection_Destination_BuyingCatalogue]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier.Inputs[OLE DB Destination Input].Columns[CataloguePriceId]"
+                      cachedDataType="i4"
+                      cachedName="CataloguePriceId"
+                      externalMetadataColumnId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier.Inputs[OLE DB Destination Input].ExternalColumns[CataloguePriceId]"
+                      lineageId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].Columns[CataloguePriceId]" />
+                    <inputColumn
+                      refId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier.Inputs[OLE DB Destination Input].Columns[Price]"
+                      cachedDataType="numeric"
+                      cachedName="Price"
+                      cachedPrecision="18"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier.Inputs[OLE DB Destination Input].ExternalColumns[Price]"
+                      lineageId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].Columns[Price]" />
+                    <inputColumn
+                      refId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier.Inputs[OLE DB Destination Input].Columns[CataloguePriceTierId]"
+                      cachedDataType="i4"
+                      cachedName="CataloguePriceTierId"
+                      externalMetadataColumnId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier.Inputs[OLE DB Destination Input].ExternalColumns[CataloguePriceTierId]"
+                      lineageId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].Columns[CataloguePriceTierId]" />
+                    <inputColumn
+                      refId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier.Inputs[OLE DB Destination Input].Columns[BandStart]"
+                      cachedDataType="i4"
+                      cachedName="BandStart"
+                      externalMetadataColumnId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier.Inputs[OLE DB Destination Input].ExternalColumns[BandStart]"
+                      lineageId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].Columns[BandStart]" />
+                    <inputColumn
+                      refId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier.Inputs[OLE DB Destination Input].Columns[BandEnd]"
+                      cachedDataType="i4"
+                      cachedName="BandEnd"
+                      externalMetadataColumnId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier.Inputs[OLE DB Destination Input].ExternalColumns[BandEnd]"
+                      lineageId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].Columns[BandEnd]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier.Inputs[OLE DB Destination Input].ExternalColumns[CataloguePriceId]"
+                      dataType="i4"
+                      name="CataloguePriceId" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier.Inputs[OLE DB Destination Input].ExternalColumns[Price]"
+                      dataType="numeric"
+                      name="Price"
+                      precision="18"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier.Inputs[OLE DB Destination Input].ExternalColumns[CataloguePriceTierId]"
+                      dataType="i4"
+                      name="CataloguePriceTierId" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier.Inputs[OLE DB Destination Input].ExternalColumns[BandStart]"
+                      dataType="i4"
+                      name="BandStart" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier.Inputs[OLE DB Destination Input].ExternalColumns[BandEnd]"
+                      dataType="i4"
+                      name="BandEnd" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Source - CataloguePriceTier"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[CataloguePriceTier]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Connections[OleDbConnection]"
+                  connectionManagerID="{15801389-7BF2-4283-8BAB-06CFF3322C46}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[OleDbConnection_Source_BuyingCatalogue]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].Columns[CataloguePriceId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].ExternalColumns[CataloguePriceId]"
+                      lineageId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].Columns[CataloguePriceId]"
+                      name="CataloguePriceId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].Columns[Price]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].ExternalColumns[Price]"
+                      lineageId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].Columns[Price]"
+                      name="Price"
+                      precision="18"
+                      scale="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].Columns[CataloguePriceTierId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].ExternalColumns[CataloguePriceTierId]"
+                      lineageId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].Columns[CataloguePriceTierId]"
+                      name="CataloguePriceTierId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].Columns[BandStart]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].ExternalColumns[BandStart]"
+                      lineageId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].Columns[BandStart]"
+                      name="BandStart"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].Columns[BandEnd]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].ExternalColumns[BandEnd]"
+                      lineageId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].Columns[BandEnd]"
+                      name="BandEnd"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].ExternalColumns[CataloguePriceId]"
+                      dataType="i4"
+                      name="CataloguePriceId" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].ExternalColumns[Price]"
+                      dataType="numeric"
+                      name="Price"
+                      precision="18"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].ExternalColumns[CataloguePriceTierId]"
+                      dataType="i4"
+                      name="CataloguePriceTierId" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].ExternalColumns[BandStart]"
+                      dataType="i4"
+                      name="BandStart" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output].ExternalColumns[BandEnd]"
+                      dataType="i4"
+                      name="BandEnd" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Error Output].Columns[CataloguePriceTierId]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Error Output].Columns[CataloguePriceTierId]"
+                      name="CataloguePriceTierId" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Error Output].Columns[CataloguePriceId]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Error Output].Columns[CataloguePriceId]"
+                      name="CataloguePriceId" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Error Output].Columns[BandStart]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Error Output].Columns[BandStart]"
+                      name="BandStart" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Error Output].Columns[BandEnd]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Error Output].Columns[BandEnd]"
+                      name="BandEnd" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Error Output].Columns[Price]"
+                      dataType="numeric"
+                      lineageId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Error Output].Columns[Price]"
+                      name="Price"
+                      precision="18"
+                      scale="3" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Synchronize Pricing Tiers.Paths[OLE DB Source Output]"
+              endId="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
       DTS:refId="Package\Synchronize Solutions and Associated Services"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
@@ -3895,6 +4764,22 @@
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 2"
       DTS:To="Package\Synchronize Catalogue Item Details" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{D05FD610-0E27-4C86-BF4A-9E7A827735A1}"
+      DTS:From="Package\Synchronize Catalogue Item Details"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Synchronize Pricing" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{F39DDB5A-0B9A-4B10-921F-67F30945F186}"
+      DTS:From="Package\Synchronize Pricing"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Synchronize Pricing Tiers" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -3907,7 +4792,7 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="211,42"
           Id="Package\Delete Existing Data"
@@ -3971,6 +4856,58 @@
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
           TopLeft="161,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="176,42"
+          Id="Package\Synchronize Pricing"
+          TopLeft="73.0000000000001,413.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="161,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="204,42"
+          Id="Package\Synchronize Pricing Tiers"
+          TopLeft="59.0000000000001,515.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="161,455.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -4510,6 +5447,108 @@
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Synchronize Solutions and Associated Services\Destination - Solution">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Synchronize Pricing">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="199,42"
+          Id="Package\Synchronize Pricing\Source - CataloguePrice"
+          TopLeft="15.5,5.5" />
+        <NodeLayout
+          Size="219,42"
+          Id="Package\Synchronize Pricing\Destination - CataloguePrice"
+          TopLeft="5.50000000000001,107.5" />
+        <EdgeLayout
+          Id="Package\Synchronize Pricing.Paths[OLE DB Source Output]"
+          TopLeft="115,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <TaskHost
+    design-time-name="Package\Synchronize Pricing Tiers">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="218,42"
+          Id="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier"
+          TopLeft="15.5,5.5" />
+        <NodeLayout
+          Size="238,42"
+          Id="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier"
+          TopLeft="5.50000000000001,107.5" />
+        <EdgeLayout
+          Id="Package\Synchronize Pricing Tiers.Paths[OLE DB Source Output]"
+          TopLeft="124.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
