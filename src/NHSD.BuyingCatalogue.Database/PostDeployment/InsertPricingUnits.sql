@@ -2,7 +2,7 @@
 (
     PricingUnitId uniqueidentifier NOT NULL,
     [Name] varchar(20) NOT NULL,
-    TierName varchar(20) NOT NULL,
+    TierName varchar(25) NOT NULL,
     [Description] varchar(35) NOT NULL    
 );
 
@@ -40,11 +40,20 @@ VALUES
     ('8eea4a69-977d-4fb1-b4d1-2f0971beb04b', 'hourSession', 'hour Sessions', 'per 1hr session'),
     ('A92C1326-4826-48B3-B429-4A368ADB9785', 'na','',''),
     --New Units in confirmed spreadsheet 27/08/2020
-    ('60d07eb0-01ef-44e4-bed3-d34ad1352e19', 'consultationCore'    , 'consultations'  , 'per consultation - core hours'),
-    ('93931091-8945-43a0-b181-96f2b41ed3c3', 'consultationExtended', 'consultations'  , 'per consultation - extended hours'),
-    ('fec28905-5670-4c45-99f3-1f93c8aa156c', 'consultationOut'     , 'consultations'  , 'per consultation - out of hours'),
-    ('9f8888de-69fb-4395-83ce-066d4a4dc120', 'systmOneUnit'        , 'SystmOne units' , 'per SystmOne unit'),
-    ('e72500e5-4cb4-4ddf-a8b8-d898187691ca', 'smsFragment'         , 'SMS fragments'  , 'per SMS fragment');
+    ('60d07eb0-01ef-44e4-bed3-d34ad1352e19', 'consultationCore'    , 'consultations'            , 'per consultation – core hours'),
+    ('93931091-8945-43a0-b181-96f2b41ed3c3', 'consultationExtended', 'consultations'            , 'per consultation – extended hours'),
+    ('fec28905-5670-4c45-99f3-1f93c8aa156c', 'consultationOut'     , 'consultations'            , 'per consultation – out of hours'),
+    ('9f8888de-69fb-4395-83ce-066d4a4dc120', 'systmOneUnit'        , 'SystmOne units'           , 'per SystmOne unit'),
+    ('e72500e5-4cb4-4ddf-a8b8-d898187691ca', 'smsFragment'         , 'SMS fragments'            , 'per SMS fragment'),
+    ('1ba99da5-44a8-4dc9-97e7-50c450842191', 'usersPerSite_5'      , 'users per site'           , 'up to 5 users per site'),
+    ('bf5b9d2c-d690-41d2-9075-7558ad3f3f1a', 'usersPerSite_10'     , 'users per site'           , 'up to 10 users per site'),
+    ('8a7fe8b5-83eb-4d12-939b-53e823ecc624', 'usersPerSite_15'     , 'users per site'           , 'up to 15 users per site'),
+    ('b53a9db9-697b-4184-8177-28e9d0f66142', 'usersPerSite_16'     , 'users per site'           , '16+ users per site'),
+    ('72f164c0-5eeb-4df1-b3ba-68943c0ae86c', 'traineesPerCourse_5' , 'trainees per course'      , 'per 5 trainees per course'),
+    ('f5975c2e-a5fd-40a9-9030-cf02227e60b1', 'consultationRequest' , 'requests for consultation', 'per request for consultation'),
+    ('2ca3b90b-6073-48c6-9162-acc89c6cd459', 'serviceForSites_5'   , 'sites'                    , 'service for up to 5 sites'),
+    ('bbd35a61-8baf-43c2-bb93-7942b99bd004', 'serviceForSites_10'  , 'sites'                    , 'service for up to 10 sites'),
+    ('f20469f3-7ef5-4dac-ae17-ad1b7c69e9c2', 'serviceForSites_11'  , 'sites'                    , 'service for 11+ sites');
 
 MERGE INTO dbo.PricingUnit AS TARGET
 USING #PricingUnit AS SOURCE
