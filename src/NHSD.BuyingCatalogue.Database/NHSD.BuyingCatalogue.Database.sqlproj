@@ -77,6 +77,7 @@
     <Folder Include="Security\Schemas" />
     <Folder Include="PostDeployment\ProdLikeData" />
     <Folder Include="PreDeployment" />
+    <Folder Include="Functions" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\SolutionCapabilityStatus.sql" />
@@ -106,7 +107,7 @@
     <None Include="PostDeployment\IntegrationTests\RestoreUserAndLogin.sql" />
     <Build Include="Types\SolutionCapability.sql" />
     <Build Include="Stored Procedures\ImportSolution.sql" />
-    <Build Include="Stored Procedures\PublishSolution.sql" />
+    <Build Include="Stored Procedures\PublishCatalogueItem.sql" />
     <Build Include="Stored Procedures\ImportAdditionalService.sql" />
     <Build Include="Security\Schemas\import.sql" />
     <Build Include="Security\Schemas\publish.sql" />
@@ -130,6 +131,9 @@
     <Build Include="Tables\CataloguePriceTier.sql" />
     <None Include="PostDeployment\InsertAdditionalServices.sql" />
     <PreDeploy Include="PreDeployment\PreDeployment.sql" />
+    <Build Include="Stored Procedures\ImportAssociatedService.sql" />
+    <Build Include="Functions\GetSupplierId.sql" />
+    <Build Include="Types\AssociatedCatalogueItems.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="INCLUDE_IMPORT">
