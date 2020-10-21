@@ -32,6 +32,9 @@ VALUES
     ('60523726-bbaf-4ec3-b29c-dee2f3d3eca8', 'item'               , 'items'          , 'per item'),
     ('8a5e119f-9b33-4017-8cc9-552e86e20898', 'activeUser'         , 'active users'   , 'per active user'),
     ('84c10564-e85f-4f64-843b-528e88b7bf59', 'virtualPC'          , 'virtual PCs'    , 'per virtual PC'),
+    ('7d709183-90ad-4b35-b399-010014bb1b9b', 'transaction'        , 'transactions'   , 'per transaction'),
+    ('c74e980c-bb59-4b5a-96ce-1e616bdf827c', 'nurseReview'        , 'nurse reviews'  , 'per nurse review'),
+    ('34acc3bf-c036-4125-9eab-23fbe39f6352', 'review'             , 'reviews'        , 'per review'),
     --Units in the data that may be amended / consolidated
     ('4b39590d-3f35-4963-83ba-bc7d0bfe988b', 'videoConsultation', 'consultations', 'per video consultation initiated'),
     ('372787ad-041f-4176-93e9-e4a303c39014', 'digitalFirstConsult', 'consultations', 'per digital first consultation'),
