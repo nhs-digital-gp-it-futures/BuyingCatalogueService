@@ -2,8 +2,8 @@
 (
     PricingUnitId uniqueidentifier NOT NULL,
     [Name] varchar(20) NOT NULL,
-    TierName varchar(25) NOT NULL,
-    [Description] varchar(35) NOT NULL    
+    TierName varchar(30) NOT NULL,
+    [Description] varchar(85) NOT NULL    
 );
 
 INSERT INTO #PricingUnit(PricingUnitId, [Name], TierName, [Description])
@@ -43,20 +43,31 @@ VALUES
     ('8eea4a69-977d-4fb1-b4d1-2f0971beb04b', 'hourSession', 'hour Sessions', 'per 1hr session'),
     ('A92C1326-4826-48B3-B429-4A368ADB9785', 'na','',''),
     --New Units in confirmed spreadsheet 27/08/2020
-    ('60d07eb0-01ef-44e4-bed3-d34ad1352e19', 'consultationCore'    , 'consultations'            , 'per consultation – core hours'),
-    ('93931091-8945-43a0-b181-96f2b41ed3c3', 'consultationExtended', 'consultations'            , 'per consultation – extended hours'),
-    ('fec28905-5670-4c45-99f3-1f93c8aa156c', 'consultationOut'     , 'consultations'            , 'per consultation – out of hours'),
-    ('9f8888de-69fb-4395-83ce-066d4a4dc120', 'systmOneUnit'        , 'SystmOne units'           , 'per SystmOne unit'),
-    ('e72500e5-4cb4-4ddf-a8b8-d898187691ca', 'smsFragment'         , 'SMS fragments'            , 'per SMS fragment'),
-    ('1ba99da5-44a8-4dc9-97e7-50c450842191', 'usersPerSite_5'      , 'users per site'           , 'up to 5 users per site'),
-    ('bf5b9d2c-d690-41d2-9075-7558ad3f3f1a', 'usersPerSite_10'     , 'users per site'           , 'up to 10 users per site'),
-    ('8a7fe8b5-83eb-4d12-939b-53e823ecc624', 'usersPerSite_15'     , 'users per site'           , 'up to 15 users per site'),
-    ('b53a9db9-697b-4184-8177-28e9d0f66142', 'usersPerSite_16'     , 'users per site'           , '16+ users per site'),
-    ('72f164c0-5eeb-4df1-b3ba-68943c0ae86c', 'traineesPerCourse_5' , 'trainees per course'      , 'per 5 trainees per course'),
-    ('f5975c2e-a5fd-40a9-9030-cf02227e60b1', 'consultationRequest' , 'requests for consultation', 'per request for consultation'),
-    ('2ca3b90b-6073-48c6-9162-acc89c6cd459', 'serviceForSites_5'   , 'sites'                    , 'service for up to 5 sites'),
-    ('bbd35a61-8baf-43c2-bb93-7942b99bd004', 'serviceForSites_10'  , 'sites'                    , 'service for up to 10 sites'),
-    ('f20469f3-7ef5-4dac-ae17-ad1b7c69e9c2', 'serviceForSites_11'  , 'sites'                    , 'service for 11+ sites');
+    ('60d07eb0-01ef-44e4-bed3-d34ad1352e19', 'consultationCore'    , 'consultations'                , 'per consultation – core hours'),
+    ('93931091-8945-43a0-b181-96f2b41ed3c3', 'consultationExtended', 'consultations'                , 'per consultation – extended hours'),
+    ('fec28905-5670-4c45-99f3-1f93c8aa156c', 'consultationOut'     , 'consultations'                , 'per consultation – out of hours'),
+    ('9f8888de-69fb-4395-83ce-066d4a4dc120', 'systmOneUnit'        , 'SystmOne units'               , 'per SystmOne unit'),
+    ('e72500e5-4cb4-4ddf-a8b8-d898187691ca', 'smsFragment'         , 'SMS fragments'                , 'per SMS fragment'),
+    ('1ba99da5-44a8-4dc9-97e7-50c450842191', 'usersPerSite_5'      , 'users per site'               , 'up to 5 users per site'),
+    ('bf5b9d2c-d690-41d2-9075-7558ad3f3f1a', 'usersPerSite_10'     , 'users per site'               , 'up to 10 users per site'),
+    ('8a7fe8b5-83eb-4d12-939b-53e823ecc624', 'usersPerSite_15'     , 'users per site'               , 'up to 15 users per site'),
+    ('b53a9db9-697b-4184-8177-28e9d0f66142', 'usersPerSite_16'     , 'users per site'               , '16+ users per site'),
+    ('72f164c0-5eeb-4df1-b3ba-68943c0ae86c', 'traineesPerCourse_5' , 'trainees per course'          , 'per 5 trainees per course'),
+    ('f5975c2e-a5fd-40a9-9030-cf02227e60b1', 'consultationRequest' , 'requests for consultation'    , 'per request for consultation'),
+    ('2ca3b90b-6073-48c6-9162-acc89c6cd459', 'serviceForSites_5'   , 'sites'                        , 'service for up to 5 sites'),
+    ('bbd35a61-8baf-43c2-bb93-7942b99bd004', 'serviceForSites_10'  , 'sites'                        , 'service for up to 10 sites'),
+    ('f20469f3-7ef5-4dac-ae17-ad1b7c69e9c2', 'serviceForSites_11'  , 'sites'                        , 'service for 11+ sites'),
+    ('e6946b09-28a8-4fb5-af57-12ad9247f850', 'callOff'             , 'Call-offs'                    , 'per Call-off'),
+    ('720f2d4d-448d-4899-ad40-979b30911ca6', 'carePlan'            , 'care plan/Call-offs'          , 'per custom care plan/Call-off'),
+    ('05281ffc-1077-41d5-a253-3077540ef2e9', 'organisation'        , 'organisations'                , 'per organisation'),
+    ('f845fcaa-96ae-4884-aeb6-56576699bfcd', 'nonGP'               , 'non-GP practice organisations', 'per organisation (non-GP practice organisations who consume the care plan service)'),
+    ('a7eb74d3-2615-4fb5-8083-cabd40ca8cba', 'carePlans_1'         , 'care plans'                   , 'per patient for 1 care plan'),
+    ('69329f3d-76ac-46f3-88dc-0ea0409975b8', 'carePlans_2'         , 'care plans'                   , 'per patient for 2-5 care plans'),
+    ('a973174d-b4b1-4a28-8ab6-6334fb8159bd', 'carePlans_6'         , 'care plans'                   , 'per patient for 6-10 care plans'),
+    ('68e39619-d5b1-4355-845d-5b2b20d4d0d3', 'carePlans_11'        , 'care plans'                   , 'per patient for 11-20 care plans'),
+    ('af3c90a8-a8c1-46d9-a6de-d97ec3d6087f', 'carePlans_21'        , 'care plans'                   , 'per patient for 21+ care plans'),
+    ('9a9cc023-e799-4a46-892f-6e98f462cd0e', 'service'             , 'services'                     , 'per service');
+
 
 MERGE INTO dbo.PricingUnit AS TARGET
 USING #PricingUnit AS SOURCE
