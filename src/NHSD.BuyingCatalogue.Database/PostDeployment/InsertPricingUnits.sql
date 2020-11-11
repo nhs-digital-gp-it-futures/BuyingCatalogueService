@@ -3,7 +3,7 @@
     PricingUnitId uniqueidentifier NOT NULL,
     [Name] varchar(20) NOT NULL,
     TierName varchar(30) NOT NULL,
-    [Description] varchar(85) NOT NULL    
+    [Description] varchar(85) NOT NULL
 );
 
 INSERT INTO #PricingUnit(PricingUnitId, [Name], TierName, [Description])
@@ -66,19 +66,22 @@ VALUES
     ('a973174d-b4b1-4a28-8ab6-6334fb8159bd', 'carePlans_6'         , 'care plans'                   , 'per patient for 6-10 care plans'),
     ('68e39619-d5b1-4355-845d-5b2b20d4d0d3', 'carePlans_11'        , 'care plans'                   , 'per patient for 11-20 care plans'),
     ('af3c90a8-a8c1-46d9-a6de-d97ec3d6087f', 'carePlans_21'        , 'care plans'                   , 'per patient for 21+ care plans'),
-    ('9a9cc023-e799-4a46-892f-6e98f462cd0e', 'service'             , 'services'                     , 'per service');
+    ('9a9cc023-e799-4a46-892f-6e98f462cd0e', 'service'             , 'services'                     , 'per service'),
+    ('2cb9d70f-cd40-4f86-aa63-829f030e63dc', 'patients_0-50k'      , 'patients'                     , 'per patient for 0-49,999 patients'),
+    ('5fff29ee-a360-4077-b712-73abff3a7f0b', 'patients_50-500k'    , 'patients'                     , 'per patient for 50,000-499,999 patients'),
+    ('79b62a1b-8e86-4be5-95e6-c19aa65af4d4', 'patients_500k+'      , 'patients'                     , 'per patient for 500,000+ patients');
 
 
 MERGE INTO dbo.PricingUnit AS TARGET
 USING #PricingUnit AS SOURCE
 ON TARGET.PricingUnitId = SOURCE.PricingUnitId
-WHEN MATCHED THEN  
+WHEN MATCHED THEN
     UPDATE SET TARGET.[Name] = SOURCE.[Name],
                TARGET.TierName = SOURCE.TierName,
                TARGET.[Description] = SOURCE.[Description]
-WHEN NOT MATCHED BY TARGET THEN  
-    INSERT (PricingUnitId, [Name], TierName, [Description]) 
-    VALUES (SOURCE.PricingUnitId, SOURCE.[Name], SOURCE.TierName, SOURCE.[Description]);    
+WHEN NOT MATCHED BY TARGET THEN
+    INSERT (PricingUnitId, [Name], TierName, [Description])
+    VALUES (SOURCE.PricingUnitId, SOURCE.[Name], SOURCE.TierName, SOURCE.[Description]);
 
 DROP TABLE #PricingUnit;
 GO
