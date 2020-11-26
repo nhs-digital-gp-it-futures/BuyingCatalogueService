@@ -40,7 +40,7 @@ VALUES
     ('372787ad-041f-4176-93e9-e4a303c39014', 'digitalFirstConsult', 'consultations', 'per digital first consultation'),
     ('a4012e6c-caf3-430c-b8d3-9c45ab9fd0de', 'unitMerge', 'unit merges', 'per unit merge'),
     ('bede8599-7a4e-4753-a928-f419681b7c93', 'unitSplit', 'unit splits', 'per unit split'),
-    ('8eea4a69-977d-4fb1-b4d1-2f0971beb04b', 'hourSession', 'hour Sessions', 'per 1hr session'),
+    ('8eea4a69-977d-4fb1-b4d1-2f0971beb04b', 'hourSession', 'hour sessions', 'per 1 hour session'),
     ('A92C1326-4826-48B3-B429-4A368ADB9785', 'na','',''),
     --New Units in confirmed spreadsheet 27/08/2020
     ('60d07eb0-01ef-44e4-bed3-d34ad1352e19', 'consultationCore'    , 'consultations'                , 'per consultation – core hours'),
@@ -69,7 +69,11 @@ VALUES
     ('9a9cc023-e799-4a46-892f-6e98f462cd0e', 'service'             , 'services'                     , 'per service'),
     ('2cb9d70f-cd40-4f86-aa63-829f030e63dc', 'patients_0-50k'      , 'patients'                     , 'per patient for 0-49,999 patients'),
     ('5fff29ee-a360-4077-b712-73abff3a7f0b', 'patients_50-500k'    , 'patients'                     , 'per patient for 50,000-499,999 patients'),
-    ('79b62a1b-8e86-4be5-95e6-c19aa65af4d4', 'patients_500k+'      , 'patients'                     , 'per patient for 500,000+ patients');
+    ('79b62a1b-8e86-4be5-95e6-c19aa65af4d4', 'patients_500k+'      , 'patients'                     , 'per patient for 500,000+ patients'),
+    ('d96142d4-2190-43b4-83a1-1ad8ffc66532', 'additionalPractice'  , 'additional practices'         , 'per additional practice'),
+    ('0b8b296e-3d5a-4fd2-8614-fd3df220b394', 'incomingPractice'    , 'incoming practices'           , 'per incoming practice'),
+    ('cba9431d-115b-4c62-b0e5-bf11aa82dbd0', 'groupMigration'      , 'group migrations'             , 'per group migration'),
+    ('d29a3db3-5426-44f4-9dc6-4569f4561958', 'session'             , 'sessions'                     , 'per session');
 
 
 MERGE INTO dbo.PricingUnit AS TARGET
