@@ -12,8 +12,8 @@
   DTS:MaxErrorCount="0"
   DTS:ObjectName="PublishAll"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="64"
-  DTS:VersionGUID="{E5F5BD40-168E-466B-AA62-DAAA79B09B05}">
+  DTS:VersionBuild="67"
+  DTS:VersionGUID="{19C48792-6D7A-4ABC-9164-F054AECD936D}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables />
@@ -32,7 +32,7 @@
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{BE465BA3-7D38-4E77-96CB-0F8CB74E98F4}"
-          SQLTask:SqlStatementSource="DELETE FROM dbo.CatalogueItem;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="DELETE FROM dbo.CatalogueItem;&#xA;DELETE FROM dbo.PricingUnit;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -3641,6 +3641,364 @@
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
+      DTS:refId="Package\Synchronize Pricing Units"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{B510C250-209B-4DBD-A30E-F2836309F3CF}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Synchronize Pricing Units"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Synchronize Pricing Units\Destination - Pricing Unit"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Destination - Pricing Unit"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[PricingUnit]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">true</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Connections[OleDbConnection]"
+                  connectionManagerID="{BE465BA3-7D38-4E77-96CB-0F8CB74E98F4}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[OleDbConnection_Destination_BuyingCatalogue]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input].Columns[PricingUnitId]"
+                      cachedDataType="guid"
+                      cachedName="PricingUnitId"
+                      externalMetadataColumnId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input].ExternalColumns[PricingUnitId]"
+                      lineageId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].Columns[PricingUnitId]" />
+                    <inputColumn
+                      refId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input].Columns[Name]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="Name"
+                      externalMetadataColumnId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      lineageId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].Columns[Name]" />
+                    <inputColumn
+                      refId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input].Columns[TierName]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="TierName"
+                      externalMetadataColumnId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input].ExternalColumns[TierName]"
+                      lineageId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].Columns[TierName]" />
+                    <inputColumn
+                      refId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input].Columns[Description]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="85"
+                      cachedName="Description"
+                      externalMetadataColumnId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].Columns[Description]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input].ExternalColumns[PricingUnitId]"
+                      dataType="guid"
+                      name="PricingUnitId" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input].ExternalColumns[TierName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="TierName" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      codePage="1252"
+                      dataType="str"
+                      length="85"
+                      name="Description" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Synchronize Pricing Units\Source - Pricing Unit"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Source - Pricing Unit"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[PricingUnit]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Connections[OleDbConnection]"
+                  connectionManagerID="{15801389-7BF2-4283-8BAB-06CFF3322C46}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[OleDbConnection_Source_BuyingCatalogue]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].Columns[PricingUnitId]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].ExternalColumns[PricingUnitId]"
+                      lineageId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].Columns[PricingUnitId]"
+                      name="PricingUnitId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].Columns[Name]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      length="20"
+                      lineageId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].Columns[Name]"
+                      name="Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].Columns[TierName]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].ExternalColumns[TierName]"
+                      length="30"
+                      lineageId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].Columns[TierName]"
+                      name="TierName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].Columns[Description]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].ExternalColumns[Description]"
+                      length="85"
+                      lineageId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].Columns[Description]"
+                      name="Description"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].ExternalColumns[PricingUnitId]"
+                      dataType="guid"
+                      name="PricingUnitId" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].ExternalColumns[TierName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="TierName" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].ExternalColumns[Description]"
+                      codePage="1252"
+                      dataType="str"
+                      length="85"
+                      name="Description" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Error Output].Columns[PricingUnitId]"
+                      dataType="guid"
+                      lineageId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Error Output].Columns[PricingUnitId]"
+                      name="PricingUnitId" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      lineageId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      name="Name" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Error Output].Columns[TierName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Error Output].Columns[TierName]"
+                      name="TierName" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Error Output].Columns[Description]"
+                      codePage="1252"
+                      dataType="str"
+                      length="85"
+                      lineageId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Error Output].Columns[Description]"
+                      name="Description" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Synchronize Pricing Units.Paths[OLE DB Source Output]"
+              endId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
       DTS:refId="Package\Synchronize Solutions and Associated Services"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
@@ -4767,11 +5125,11 @@
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
       DTS:CreationName=""
-      DTS:DTSID="{D05FD610-0E27-4C86-BF4A-9E7A827735A1}"
+      DTS:DTSID="{50FF1A3B-71E9-4BE2-8434-9F156DB11A77}"
       DTS:From="Package\Synchronize Catalogue Item Details"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 3"
-      DTS:To="Package\Synchronize Pricing" />
+      DTS:To="Package\Synchronize Pricing Units" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
       DTS:CreationName=""
@@ -4780,6 +5138,14 @@
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 4"
       DTS:To="Package\Synchronize Pricing Tiers" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{3B5506CE-1318-4F3D-BC96-6E1B17CFCCC7}"
+      DTS:From="Package\Synchronize Pricing Units"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Synchronize Pricing" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -4800,11 +5166,19 @@
         <NodeLayout
           Size="254,42"
           Id="Package\Synchronize Catalogue Item Details"
-          TopLeft="34.0000000000001,311.5" />
+          TopLeft="34,311.5" />
         <NodeLayout
           Size="223,42"
           Id="Package\Synchronize Catalogue Items"
           TopLeft="49.5,107.5" />
+        <NodeLayout
+          Size="176,42"
+          Id="Package\Synchronize Pricing"
+          TopLeft="73.0000000000001,515.5" />
+        <NodeLayout
+          Size="204,42"
+          Id="Package\Synchronize Pricing Tiers"
+          TopLeft="59.0000000000001,617.5" />
         <NodeLayout
           Size="311,42"
           Id="Package\Synchronize Solutions and Associated Services"
@@ -4875,10 +5249,32 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="161,557.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <NodeLayout
-          Size="176,42"
-          Id="Package\Synchronize Pricing"
-          TopLeft="73.0000000000001,413.5" />
+          Size="204,42"
+          Id="Package\Synchronize Pricing Units"
+          TopLeft="59.0000000000001,413.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
           TopLeft="161,353.5">
@@ -4901,12 +5297,8 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="204,42"
-          Id="Package\Synchronize Pricing Tiers"
-          TopLeft="59.0000000000001,515.5" />
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 4]"
+          Id="Package.PrecedenceConstraints[Constraint 5]"
           TopLeft="161,455.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -4936,21 +5328,37 @@
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="185,42"
-          Id="Package\Synchronize Catalogue Item Details\Source - SolutionEpic"
-          TopLeft="308,5.5" />
+          Size="210,42"
+          Id="Package\Synchronize Catalogue Item Details\Source - MarketingContact"
+          TopLeft="878.5,5.49999999999989" />
+        <NodeLayout
+          Size="205,42"
+          Id="Package\Synchronize Catalogue Item Details\Destination - SolutionEpic"
+          TopLeft="298,107.5" />
         <NodeLayout
           Size="244,42"
           Id="Package\Synchronize Catalogue Item Details\Destination - FrameworkSolutions"
           TopLeft="563.5,107.5" />
         <NodeLayout
-          Size="209,42"
-          Id="Package\Synchronize Catalogue Item Details\Source - AdditionalService"
-          TopLeft="15.5,209.5" />
+          Size="277,42"
+          Id="Package\Synchronize Catalogue Item Details\Destination - SupplierServiceAssociation"
+          TopLeft="1159,107.5" />
+        <NodeLayout
+          Size="185,42"
+          Id="Package\Synchronize Catalogue Item Details\Source - SolutionEpic"
+          TopLeft="308,5.5" />
         <NodeLayout
           Size="230,42"
           Id="Package\Synchronize Catalogue Item Details\Destination - MarketingContact"
           TopLeft="868.5,107.5" />
+        <NodeLayout
+          Size="257,42"
+          Id="Package\Synchronize Catalogue Item Details\Source - SupplierServiceAssociation"
+          TopLeft="1169,5.49999999999989" />
+        <NodeLayout
+          Size="209,42"
+          Id="Package\Synchronize Catalogue Item Details\Source - AdditionalService"
+          TopLeft="15.5,209.5" />
         <NodeLayout
           Size="232,42"
           Id="Package\Synchronize Catalogue Item Details\Destination - SolutionCapability"
@@ -4964,25 +5372,9 @@
           Id="Package\Synchronize Catalogue Item Details\Source - SolutionCapability"
           TopLeft="15.5,5.5" />
         <NodeLayout
-          Size="210,42"
-          Id="Package\Synchronize Catalogue Item Details\Source - MarketingContact"
-          TopLeft="878.5,5.49999999999989" />
-        <NodeLayout
-          Size="205,42"
-          Id="Package\Synchronize Catalogue Item Details\Destination - SolutionEpic"
-          TopLeft="298,107.5" />
-        <NodeLayout
-          Size="257,42"
-          Id="Package\Synchronize Catalogue Item Details\Source - SupplierServiceAssociation"
-          TopLeft="1169,5.49999999999989" />
-        <NodeLayout
           Size="229,42"
           Id="Package\Synchronize Catalogue Item Details\Destination - AdditionalService"
           TopLeft="5.5,311.5" />
-        <NodeLayout
-          Size="277,42"
-          Id="Package\Synchronize Catalogue Item Details\Destination - SupplierServiceAssociation"
-          TopLeft="1159,107.5" />
         <EdgeLayout
           Id="Package\Synchronize Catalogue Item Details.Paths[OLE DB Source Output5]"
           TopLeft="120,251.5">
@@ -5119,7 +5511,7 @@
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Synchronize Catalogue Item Details\Source - FrameworkSolutions">
+    design-time-name="Package\Synchronize Catalogue Item Details\Source - MarketingContact">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -5132,7 +5524,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Synchronize Catalogue Item Details\Source - SupplierServiceAssociation">
+    design-time-name="Package\Synchronize Catalogue Item Details\Destination - SolutionEpic">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -5171,20 +5563,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Synchronize Catalogue Item Details\Source - MarketingContact">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Synchronize Catalogue Item Details\Destination - SolutionCapability">
+    design-time-name="Package\Synchronize Catalogue Item Details\Source - SolutionEpic">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -5210,7 +5589,46 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Synchronize Catalogue Item Details\Source - SolutionEpic">
+    design-time-name="Package\Synchronize Catalogue Item Details\Source - SupplierServiceAssociation">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Synchronize Catalogue Item Details\Source - AdditionalService">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Synchronize Catalogue Item Details\Destination - SolutionCapability">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Synchronize Catalogue Item Details\Source - FrameworkSolutions">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -5237,32 +5655,6 @@
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Synchronize Catalogue Item Details\Destination - AdditionalService">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Synchronize Catalogue Item Details\Destination - SolutionEpic">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Synchronize Catalogue Item Details\Source - AdditionalService">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -5327,6 +5719,108 @@
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Synchronize Catalogue Items\Source - CatalogueItem">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Synchronize Pricing">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="199,42"
+          Id="Package\Synchronize Pricing\Source - CataloguePrice"
+          TopLeft="15.5,5.5" />
+        <NodeLayout
+          Size="219,42"
+          Id="Package\Synchronize Pricing\Destination - CataloguePrice"
+          TopLeft="5.50000000000001,107.5" />
+        <EdgeLayout
+          Id="Package\Synchronize Pricing.Paths[OLE DB Source Output]"
+          TopLeft="115,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <TaskHost
+    design-time-name="Package\Synchronize Pricing Tiers">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="238,42"
+          Id="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier"
+          TopLeft="5.50000000000001,107.5" />
+        <NodeLayout
+          Size="218,42"
+          Id="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier"
+          TopLeft="15.5,5.5" />
+        <EdgeLayout
+          Id="Package\Synchronize Pricing Tiers.Paths[OLE DB Source Output]"
+          TopLeft="124.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -5459,21 +5953,21 @@
     </Properties>
   </PipelineComponentMetadata>
   <TaskHost
-    design-time-name="Package\Synchronize Pricing">
+    design-time-name="Package\Synchronize Pricing Units">
     <LayoutInfo>
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="199,42"
-          Id="Package\Synchronize Pricing\Source - CataloguePrice"
-          TopLeft="15.5,5.5" />
-        <NodeLayout
-          Size="219,42"
-          Id="Package\Synchronize Pricing\Destination - CataloguePrice"
+          Size="200,42"
+          Id="Package\Synchronize Pricing Units\Destination - Pricing Unit"
           TopLeft="5.50000000000001,107.5" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package\Synchronize Pricing Units\Source - Pricing Unit"
+          TopLeft="15.5,5.5" />
         <EdgeLayout
-          Id="Package\Synchronize Pricing.Paths[OLE DB Source Output]"
-          TopLeft="115,47.5">
+          Id="Package\Synchronize Pricing Units.Paths[OLE DB Source Output]"
+          TopLeft="105.5,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -5496,69 +5990,5 @@
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
-  <TaskHost
-    design-time-name="Package\Synchronize Pricing Tiers">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="218,42"
-          Id="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier"
-          TopLeft="15.5,5.5" />
-        <NodeLayout
-          Size="238,42"
-          Id="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier"
-          TopLeft="5.50000000000001,107.5" />
-        <EdgeLayout
-          Id="Package\Synchronize Pricing Tiers.Paths[OLE DB Source Output]"
-          TopLeft="124.5,47.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Synchronize Pricing Tiers\Source - CataloguePriceTier">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Synchronize Pricing Tiers\Destination - CataloguePriceTier">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>
