@@ -73,8 +73,9 @@ VALUES
     ('d96142d4-2190-43b4-83a1-1ad8ffc66532', 'additionalPractice'  , 'additional practices'         , 'per additional practice'),
     ('0b8b296e-3d5a-4fd2-8614-fd3df220b394', 'incomingPractice'    , 'incoming practices'           , 'per incoming practice'),
     ('cba9431d-115b-4c62-b0e5-bf11aa82dbd0', 'groupMigration'      , 'group migrations'             , 'per group migration'),
-    ('d29a3db3-5426-44f4-9dc6-4569f4561958', 'session'             , 'sessions'                     , 'per session');
-
+    ('d29a3db3-5426-44f4-9dc6-4569f4561958', 'session'             , 'sessions'                     , 'per session'),
+    ('11ecd056-e2ac-45a7-bbf8-a274e0ca8320', 'system'              , 'systems'                      , 'per system'),
+    ('fb3b6d1b-78fb-4733-a6cb-6d18582e273e', 'keystoneCapability'  , 'Keystone capabilities'        , 'per Keystone capability/capability increment');
 
 MERGE INTO dbo.PricingUnit AS TARGET
 USING #PricingUnit AS SOURCE
