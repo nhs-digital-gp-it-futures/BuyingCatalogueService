@@ -12,8 +12,8 @@
   DTS:MaxErrorCount="0"
   DTS:ObjectName="PublishAll"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="67"
-  DTS:VersionGUID="{19C48792-6D7A-4ABC-9164-F054AECD936D}">
+  DTS:VersionBuild="68"
+  DTS:VersionGUID="{F9239913-61EE-4E44-B9AC-2C37CA9F6921}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables />
@@ -3752,7 +3752,7 @@
                       refId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input].Columns[Description]"
                       cachedCodepage="1252"
                       cachedDataType="str"
-                      cachedLength="85"
+                      cachedLength="40"
                       cachedName="Description"
                       externalMetadataColumnId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
                       lineageId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].Columns[Description]" />
@@ -3779,7 +3779,7 @@
                       refId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
                       codePage="1252"
                       dataType="str"
-                      length="85"
+                      length="40"
                       name="Description" />
                   </externalMetadataColumns>
                 </input>
@@ -3908,7 +3908,7 @@
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].ExternalColumns[Description]"
-                      length="85"
+                      length="40"
                       lineageId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].Columns[Description]"
                       name="Description"
                       truncationRowDisposition="FailComponent" />
@@ -3935,7 +3935,7 @@
                       refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].ExternalColumns[Description]"
                       codePage="1252"
                       dataType="str"
-                      length="85"
+                      length="40"
                       name="Description" />
                   </externalMetadataColumns>
                 </output>
@@ -3967,7 +3967,7 @@
                       refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Error Output].Columns[Description]"
                       codePage="1252"
                       dataType="str"
-                      length="85"
+                      length="40"
                       lineageId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Error Output].Columns[Description]"
                       name="Description" />
                     <outputColumn
@@ -5180,6 +5180,10 @@
           Id="Package\Synchronize Pricing Tiers"
           TopLeft="59.0000000000001,617.5" />
         <NodeLayout
+          Size="204,42"
+          Id="Package\Synchronize Pricing Units"
+          TopLeft="59.0000000000001,413.5" />
+        <NodeLayout
           Size="311,42"
           Id="Package\Synchronize Solutions and Associated Services"
           TopLeft="5.50000000000003,209.5" />
@@ -5250,8 +5254,8 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 4]"
-          TopLeft="161,557.5">
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="161,353.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -5271,13 +5275,9 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="204,42"
-          Id="Package\Synchronize Pricing Units"
-          TopLeft="59.0000000000001,413.5" />
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="161,353.5">
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="161,557.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -5511,7 +5511,7 @@
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Synchronize Catalogue Item Details\Source - MarketingContact">
+    design-time-name="Package\Synchronize Catalogue Item Details\Source - FrameworkSolutions">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -5524,7 +5524,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Synchronize Catalogue Item Details\Destination - SolutionEpic">
+    design-time-name="Package\Synchronize Catalogue Item Details\Source - SupplierServiceAssociation">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -5563,46 +5563,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Synchronize Catalogue Item Details\Source - SolutionEpic">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Synchronize Catalogue Item Details\Destination - MarketingContact">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Synchronize Catalogue Item Details\Source - SupplierServiceAssociation">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Synchronize Catalogue Item Details\Source - AdditionalService">
+    design-time-name="Package\Synchronize Catalogue Item Details\Source - MarketingContact">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -5628,7 +5589,20 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Synchronize Catalogue Item Details\Source - FrameworkSolutions">
+    design-time-name="Package\Synchronize Catalogue Item Details\Destination - MarketingContact">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Synchronize Catalogue Item Details\Source - SolutionEpic">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -5655,6 +5629,32 @@
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Synchronize Catalogue Item Details\Destination - AdditionalService">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Synchronize Catalogue Item Details\Destination - SolutionEpic">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Synchronize Catalogue Item Details\Source - AdditionalService">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -5833,6 +5833,44 @@
     </Properties>
   </PipelineComponentMetadata>
   <TaskHost
+    design-time-name="Package\Synchronize Pricing Units">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="180,42"
+          Id="Package\Synchronize Pricing Units\Source - Pricing Unit"
+          TopLeft="15.5,5.5" />
+        <NodeLayout
+          Size="200,42"
+          Id="Package\Synchronize Pricing Units\Destination - Pricing Unit"
+          TopLeft="5.50000000000001,107.5" />
+        <EdgeLayout
+          Id="Package\Synchronize Pricing Units.Paths[OLE DB Source Output]"
+          TopLeft="105.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <TaskHost
     design-time-name="Package\Synchronize Solutions and Associated Services">
     <LayoutInfo>
       <GraphLayout
@@ -5952,43 +5990,5 @@
       </Property>
     </Properties>
   </PipelineComponentMetadata>
-  <TaskHost
-    design-time-name="Package\Synchronize Pricing Units">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="200,42"
-          Id="Package\Synchronize Pricing Units\Destination - Pricing Unit"
-          TopLeft="5.50000000000001,107.5" />
-        <NodeLayout
-          Size="180,42"
-          Id="Package\Synchronize Pricing Units\Source - Pricing Unit"
-          TopLeft="15.5,5.5" />
-        <EdgeLayout
-          Id="Package\Synchronize Pricing Units.Paths[OLE DB Source Output]"
-          TopLeft="105.5,47.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>
