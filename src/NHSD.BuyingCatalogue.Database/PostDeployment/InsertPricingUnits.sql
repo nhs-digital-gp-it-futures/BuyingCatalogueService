@@ -60,7 +60,6 @@ VALUES
     ('e6946b09-28a8-4fb5-af57-12ad9247f850', 'callOff'             , 'Call-offs'                    , 'per Call-off'),
     ('720f2d4d-448d-4899-ad40-979b30911ca6', 'carePlan'            , 'care plan/Call-offs'          , 'per custom care plan/Call-off'),
     ('05281ffc-1077-41d5-a253-3077540ef2e9', 'organisation'        , 'organisations'                , 'per organisation'),
-    ('f845fcaa-96ae-4884-aeb6-56576699bfcd', 'nonGP'               , 'non-GP practice organisations', 'per organisation (non-GP practice organisations who consume the care plan service)'),
     ('a7eb74d3-2615-4fb5-8083-cabd40ca8cba', 'carePlans_1'         , 'care plans'                   , 'per patient for 1 care plan'),
     ('69329f3d-76ac-46f3-88dc-0ea0409975b8', 'carePlans_2'         , 'care plans'                   , 'per patient for 2-5 care plans'),
     ('a973174d-b4b1-4a28-8ab6-6334fb8159bd', 'carePlans_6'         , 'care plans'                   , 'per patient for 6-10 care plans'),
@@ -75,7 +74,7 @@ VALUES
     ('cba9431d-115b-4c62-b0e5-bf11aa82dbd0', 'groupMigration'      , 'group migrations'             , 'per group migration'),
     ('d29a3db3-5426-44f4-9dc6-4569f4561958', 'session'             , 'sessions'                     , 'per session'),
     ('11ecd056-e2ac-45a7-bbf8-a274e0ca8320', 'system'              , 'systems'                      , 'per system'),
-    ('fb3b6d1b-78fb-4733-a6cb-6d18582e273e', 'keystoneCapability'  , 'Keystone capabilities'        , 'per Keystone capability/capability increment');
+    ('fb3b6d1b-78fb-4733-a6cb-6d18582e273e', 'keystoneCapability'  , 'Keystone capabilities'        , 'per Keystone capability');
 
 MERGE INTO dbo.PricingUnit AS TARGET
 USING #PricingUnit AS SOURCE
