@@ -31,7 +31,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Catalog
             };
 
             var catalogueItemRepositoryMock = new Mock<ICatalogueItemRepository>();
-            catalogueItemRepositoryMock.Setup(x => x.ListAsync(It.IsAny<string>(), It.IsAny<CatalogueItemType?>(), default))
+            catalogueItemRepositoryMock
+                .Setup(r => r.ListAsync(It.IsAny<string>(), It.IsAny<CatalogueItemType?>(), It.IsAny<PublishedStatus?>(), default))
                 .ReturnsAsync(() => catalogueItemsResult);
 
             var handler = new ListCatalogueItemHandler(new CatalogueItemReader(catalogueItemRepositoryMock.Object));

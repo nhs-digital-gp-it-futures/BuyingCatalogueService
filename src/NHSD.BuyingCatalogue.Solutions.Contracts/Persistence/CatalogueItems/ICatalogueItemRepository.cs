@@ -8,7 +8,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence.CatalogueItems
     {
         Task<ICatalogueItemResult> GetByIdAsync(string catalogueItemId, CancellationToken cancellationToken);
 
-        Task<IEnumerable<ICatalogueItemResult>> ListAsync(string supplierId,
-            CatalogueItemType? catalogueItemType, CancellationToken cancellationToken);
+        Task<IEnumerable<ICatalogueItemResult>> ListAsync(
+            string supplierId,
+            CatalogueItemType? catalogueItemType,
+            PublishedStatus? publishedStatus,
+            CancellationToken cancellationToken);
     }
 }

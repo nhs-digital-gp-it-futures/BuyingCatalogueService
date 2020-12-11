@@ -9,16 +9,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetCatalogueItemByI
 {
     public sealed class ListCatalogueItemHandler : IRequestHandler<ListCatalogueItemQuery, IEnumerable<CatalogueItemDto>>
     {
-        private readonly CatalogueItemReader _catalogueItemReader;
+        private readonly CatalogueItemReader catalogueItemReader;
 
         public ListCatalogueItemHandler(CatalogueItemReader catalogueItemReader)
         {
-            _catalogueItemReader = catalogueItemReader ?? throw new ArgumentNullException(nameof(catalogueItemReader));
+            this.catalogueItemReader = catalogueItemReader ?? throw new ArgumentNullException(nameof(catalogueItemReader));
         }
 
         public async Task<IEnumerable<CatalogueItemDto>> Handle(ListCatalogueItemQuery request, CancellationToken cancellationToken)
         {
-            return await _catalogueItemReader.ListAsync(request?.SupplierId, request?.CatalogueItemType, cancellationToken);
+            return await catalogueItemReader.ListAsync(
+                request?.SupplierId,
+                request?.CatalogueItemType,
+                request?.PublishedStatus,
+                cancellationToken);
         }
     }
 }

@@ -15,9 +15,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
     [TestFixture]
     internal sealed class CatalogueItemRepositoryTests
     {
-        private ICatalogueItemRepository _catalogueItemRepository;
-        private const string _supplierId1 = "Sup1";
-        private const string _supplierId2 = "Sup2";
+        private ICatalogueItemRepository catalogueItemRepository;
+        private const string SupplierId1 = "Sup1";
+        private const string SupplierId2 = "Sup2";
         
         [SetUp]
         public async Task SetUp()
@@ -25,23 +25,23 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             await Database.ClearAsync();
 
             await SupplierEntityBuilder.Create()
-                .WithId(_supplierId1)
+                .WithId(SupplierId1)
                 .Build()
                 .InsertAsync();
 
             await SupplierEntityBuilder.Create()
-                .WithId(_supplierId2)
+                .WithId(SupplierId2)
                 .Build()
                 .InsertAsync();
 
             TestContext testContext = new TestContext();
-            _catalogueItemRepository = testContext.CatalogueItemRepository;
+            catalogueItemRepository = testContext.CatalogueItemRepository;
         }
 
         [Test]
         public async Task GetByIdAsync_CatalogueItemIdIsNull_ReturnsNull()
         {
-            var request = await _catalogueItemRepository.GetByIdAsync(null, CancellationToken.None);
+            var request = await catalogueItemRepository.GetByIdAsync(null, CancellationToken.None);
 
             request.Should().BeNull();
         }
@@ -51,49 +51,72 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             const string catalogueItemId = "100000-001";
 
-            var catalogueItemEntity = await CreateCatalogueItemEntity(catalogueItemId, _supplierId1, (int)CatalogueItemType.Solution);
+            var catalogueItemEntity = await CreateCatalogueItemEntity(catalogueItemId, SupplierId1, CatalogueItemType.Solution);
 
-            var request = await _catalogueItemRepository.GetByIdAsync(catalogueItemId, CancellationToken.None);
+            var request = await catalogueItemRepository.GetByIdAsync(catalogueItemId, CancellationToken.None);
             request.CatalogueItemId.Should().BeEquivalentTo(catalogueItemEntity.CatalogueItemId);
             request.Name.Should().BeEquivalentTo(catalogueItemEntity.Name);
         }
 
-        [TestCase(null, null)]
-        [TestCase(null, CatalogueItemType.Solution)]
-        [TestCase(null, CatalogueItemType.AdditionalService)]
-        [TestCase(null, CatalogueItemType.AssociatedService)]
-        [TestCase(_supplierId1, null)]
-        [TestCase(_supplierId1, null)]
-        [TestCase(_supplierId1, null)]
-        [TestCase(_supplierId2, CatalogueItemType.Solution)]
-        [TestCase(_supplierId1, CatalogueItemType.AdditionalService)]
-        [TestCase(_supplierId1, CatalogueItemType.AssociatedService)]
-        public async Task ListAsync_NoFilter_ReturnsAllResults(string supplierId, CatalogueItemType? catalogueItemType)
+        [TestCase(null, null, null)]
+        [TestCase(null, CatalogueItemType.Solution, null)]
+        [TestCase(null, CatalogueItemType.AdditionalService, null)]
+        [TestCase(null, CatalogueItemType.AssociatedService, null)]
+        [TestCase(null, CatalogueItemType.Solution, PublishedStatus.Published)]
+        [TestCase(SupplierId1, null, null)]
+        [TestCase(SupplierId1, null, null)]
+        [TestCase(SupplierId1, null, null)]
+        [TestCase(SupplierId2, CatalogueItemType.Solution, null)]
+        [TestCase(SupplierId1, CatalogueItemType.AdditionalService, null)]
+        [TestCase(SupplierId1, CatalogueItemType.AssociatedService, null)]
+        [TestCase(SupplierId1, CatalogueItemType.Solution, PublishedStatus.Published)]
+        public async Task ListAsync_NoFilter_ReturnsAllResults(
+            string supplierId,
+            CatalogueItemType? catalogueItemType,
+            PublishedStatus? publishedStatus)
         {
             var catalogueItemsEntity = new List<CatalogueItemEntity>
             {
-                await CreateCatalogueItemEntity("100000-001", _supplierId1, (int)CatalogueItemType.Solution),
-                await CreateCatalogueItemEntity("100000-002", _supplierId1, (int)CatalogueItemType.AdditionalService),
-                await CreateCatalogueItemEntity("100000-003", _supplierId2, (int)CatalogueItemType.AssociatedService),
-                await CreateCatalogueItemEntity("100000-004", _supplierId1, (int)CatalogueItemType.Solution)
+                await CreateCatalogueItemEntity("100000-001", SupplierId1, CatalogueItemType.Solution),
+                await CreateCatalogueItemEntity("100000-002", SupplierId1, CatalogueItemType.AdditionalService),
+                await CreateCatalogueItemEntity("100000-003", SupplierId2, CatalogueItemType.AssociatedService),
+                await CreateCatalogueItemEntity("100000-004", SupplierId1, CatalogueItemType.Solution),
+                await CreateCatalogueItemEntity("100000-005", SupplierId1, CatalogueItemType.Solution, PublishedStatus.Draft),
+                await CreateCatalogueItemEntity("100000-006", SupplierId2, CatalogueItemType.Solution, PublishedStatus.Withdrawn),
             };
 
-            var request = await _catalogueItemRepository.ListAsync(supplierId, catalogueItemType, CancellationToken.None);
+            var request = await catalogueItemRepository.ListAsync(
+                supplierId,
+                catalogueItemType,
+                publishedStatus,
+                CancellationToken.None);
 
-            var filteredExpected = catalogueItemsEntity?.Where(x => (supplierId is null || x.SupplierId == supplierId) && (catalogueItemType is null || x.CatalogueItemTypeId == (int)catalogueItemType));
+            bool MatchesSupplier(CatalogueItemEntity item) => supplierId is null || item.SupplierId == supplierId;
+            bool MatchesCatalogueItemType(CatalogueItemEntity item) => catalogueItemType is null || item.CatalogueItemTypeId == (int)catalogueItemType;
+            bool MatchesPublishedStatus(CatalogueItemEntity item) => publishedStatus is null || item.PublishedStatusId == (int)publishedStatus;
+            bool MatchesFilters(CatalogueItemEntity item) => MatchesSupplier(item) 
+                && MatchesCatalogueItemType(item)
+                && MatchesPublishedStatus(item);
 
-            var expected = filteredExpected.Select(x => new { x.CatalogueItemId, x.Name });
+            var filteredExpected = catalogueItemsEntity.Where(MatchesFilters);
+
+            var expected = filteredExpected.Select(i => new { i.CatalogueItemId, i.Name });
 
             request.Should().BeEquivalentTo(expected);
         }
 
-        public static async Task<CatalogueItemEntity> CreateCatalogueItemEntity(string catalogueItemId, string supplierId, int catalogueItemTypeId)
+        public static async Task<CatalogueItemEntity> CreateCatalogueItemEntity(
+            string catalogueItemId,
+            string supplierId,
+            CatalogueItemType catalogueItemType,
+            PublishedStatus publishedStatus = PublishedStatus.Published)
         {
             var catalogueItem = CatalogueItemEntityBuilder
                 .Create()
                 .WithCatalogueItemId(catalogueItemId)
                 .WithSupplierId(supplierId)
-                .WithCatalogueItemTypeId(catalogueItemTypeId)
+                .WithCatalogueItemTypeId((int)catalogueItemType)
+                .WithPublishedStatusId((int)publishedStatus)
                 .Build();
 
             await catalogueItem.InsertAsync();

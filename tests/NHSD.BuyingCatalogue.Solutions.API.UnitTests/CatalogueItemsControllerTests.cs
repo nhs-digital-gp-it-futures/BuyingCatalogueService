@@ -60,10 +60,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var context = CatalogueItemsControllerTestContext.Create();
             var catalogueItemId = context.GetCatalogueItemDtoResult.CatalogueItemId;
-            
+
             await context.Controller.GetAsync(catalogueItemId);
 
-            context.MediatorMock.Verify(x => 
+            context.MediatorMock.Verify(x =>
                 x.Send(It.IsNotNull<GetCatalogueItemByIdQuery>(), default), Times.Once);
         }
 
@@ -82,7 +82,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             context.ListCatalogueItemsDtoResult.Add(catalogueItem1);
             context.ListCatalogueItemsDtoResult.Add(catalogueItem2);
 
-            var response = await context.Controller.ListAsync("sup1", CatalogueItemType.Solution);
+            var response = await context.Controller.ListAsync(
+                "sup1",
+                CatalogueItemType.Solution,
+                PublishedStatus.Published);
 
             var expected = context.ListCatalogueItemsDtoResult.Select(CatalogueItemResultBuilder).ToList();
 
@@ -93,7 +96,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         public async Task ListAsync_NoCatalogueItemsExist_ReturnsEmptyList()
         {
             var context = CatalogueItemsControllerTestContext.Create();
-            var response = await context.Controller.ListAsync("sup1", CatalogueItemType.Solution);
+            var response = await context.Controller.ListAsync(
+                "sup1",
+                CatalogueItemType.Solution,
+                PublishedStatus.Published);
 
             response.Value.Should().BeEmpty();
         }
@@ -102,13 +108,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         public async Task ListAsync_Mediator_Send_CalledOnce()
         {
             var context = CatalogueItemsControllerTestContext.Create();
-            await context.Controller.ListAsync("sup1", CatalogueItemType.Solution);
+            await context.Controller.ListAsync(
+                "sup1",
+                CatalogueItemType.Solution,
+                PublishedStatus.Published);
 
-            context.MediatorMock.Verify(x =>
-                x.Send(It.IsNotNull<ListCatalogueItemQuery>(), default), Times.Once);
+            context.MediatorMock.Verify(m => m.Send(It.IsNotNull<ListCatalogueItemQuery>(), default));
         }
 
-        private GetCatalogueItemResult CatalogueItemResultBuilder(CatalogueItemDto catalogueItem)
+        private static GetCatalogueItemResult CatalogueItemResultBuilder(CatalogueItemDto catalogueItem)
         {
             return GetCatalogueItemResultBuilder
                 .Create()
