@@ -87,13 +87,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Persistence
             };
 
             var catalogueItemRepositoryMock = new Mock<ICatalogueItemRepository>();
-            catalogueItemRepositoryMock.Setup(x => x.ListAsync(It.IsAny<string>(), It.IsAny<CatalogueItemType?>(), default))
+            catalogueItemRepositoryMock
+                .Setup(r => r.ListAsync(It.IsAny<string>(), It.IsAny<CatalogueItemType?>(), It.IsAny<PublishedStatus?>(), default))
                 .ReturnsAsync(() => catalogueItemsResult);
 
             var reader = new CatalogueItemReader(catalogueItemRepositoryMock.Object);
-            var actual = await reader.ListAsync(null, null, CancellationToken.None);
+            var actual = await reader.ListAsync(null, null, null, CancellationToken.None);
 
-            var expected = catalogueItemsResult.Select(x => new CatalogueItemDto(x.CatalogueItemId, x.Name));
+            var expected = catalogueItemsResult.Select(r => new CatalogueItemDto(r.CatalogueItemId, r.Name));
 
             actual.Should().BeEquivalentTo(expected);
         }
@@ -107,14 +108,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Persistence
             };
 
             var catalogueItemRepositoryMock = new Mock<ICatalogueItemRepository>();
-            catalogueItemRepositoryMock.Setup(x => x.ListAsync(It.IsAny<string>(), It.IsAny<CatalogueItemType?>(), default))
+            catalogueItemRepositoryMock
+                .Setup(r => r.ListAsync(It.IsAny<string>(), It.IsAny<CatalogueItemType?>(), It.IsAny<PublishedStatus?>(), default))
                 .ReturnsAsync(() => catalogueItemsResult);
 
             var reader = new CatalogueItemReader(catalogueItemRepositoryMock.Object);
-            await reader.ListAsync(null, null, CancellationToken.None);
+            await reader.ListAsync(null, null, null, CancellationToken.None);
 
-            catalogueItemRepositoryMock.Verify(x =>
-                x.ListAsync(null, null, default), Times.Once);
+            catalogueItemRepositoryMock.Verify(r => r.ListAsync(null, null, null, default));
         }
     }
 }

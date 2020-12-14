@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Flurl;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
@@ -16,14 +17,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.CatalogueItems
     [Binding]
     internal sealed class ListCatalogueItemSteps
     {
-        private string _listCatalogueItemUrlTemplate = "http://localhost:5200/api/v1/catalogue-items";
-        private readonly Response _response;
-        private readonly ScenarioContext _context;
+        private readonly Response response;
+        private readonly ScenarioContext context;
 
         public ListCatalogueItemSteps(Response response, ScenarioContext context)
         {
-            _response = response ?? throw new ArgumentNullException(nameof(response));
-            _context = context;
+            this.response = response ?? throw new ArgumentNullException(nameof(response));
+            this.context = context;
         }
 
         [Given(@"CatalogueItems exist")]
@@ -38,55 +38,66 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.CatalogueItems
                     .WithCatalogueItemTypeId((int)catalogueItem.CatalogueItemType)
                     .WithName(catalogueItem.Name)
                     .WithSupplierId(catalogueItem.SupplierId)
+                    .WithPublishedStatusId((int)catalogueItem.PublishedStatus)
                     .Build();
 
                 catalogueItemList.Add(item);
                 await item.InsertAsync();
             }
 
-            _context[ScenarioContextKeys.CatalogueItems] = catalogueItemList;
+            context[ScenarioContextKeys.CatalogueItems] = catalogueItemList;
         }
 
-        [When(@"a Get request is made to retrieve a list of catalogue items with supplierId (.*) and catalogueItemType (.*)")]
-        public async Task WhenAGetRequestIsMadeToRetrieveAListOfCatalogueItemsWithSupplierIdAndCatalogueItemType(string supplierId, string catalogueItemType)
+        [When(@"a Get request is made to retrieve a list of catalogue items with supplierId (.*) and catalogueItemType (.*) and publishedStatus (.*)")]
+        public async Task WhenAGetRequestIsMadeToRetrieveAListOfCatalogueItemsWithSupplierIdAndCatalogueItemType(
+            string supplierId,
+            string catalogueItemType,
+            string publishedStatus)
         {
+            var url = new Url("http://localhost:5200/api/v1/catalogue-items");
+
             if (supplierId != null)
-            {
-                _listCatalogueItemUrlTemplate += $"?supplierId={supplierId}";
+                url.QueryParams.Add(nameof(supplierId), supplierId);
 
-                if (catalogueItemType != null)
-                {
-                    _listCatalogueItemUrlTemplate += $"&catalogueItemType={catalogueItemType}";
-                }
-            }
-            else if (catalogueItemType != null)
-            {
-                _listCatalogueItemUrlTemplate += $"?catalogueItemType={catalogueItemType}";
-            }
+            if (catalogueItemType != null)
+                url.QueryParams.Add(nameof(catalogueItemType), catalogueItemType);
 
-            _response.Result = await Client.GetAsync(_listCatalogueItemUrlTemplate);
+            if (publishedStatus != null)
+                url.QueryParams.Add(nameof(publishedStatus), publishedStatus);
+
+            response.Result = await Client.GetAsync(url.ToString());
         }
 
-        [Then(@"the response contains a list of catalogue item details filtered by (.*) and (.*)")]
-        public async Task ThenTheResponseContainsAListOfCatalogueItemDetailsFilteredByAnd(string supplierId, CatalogueItemType? catalogueItemType)
+        [Then(@"the response contains a list of catalogue item details filtered by (.*) and (.*) and (.*)")]
+        public async Task ThenTheResponseContainsAListOfCatalogueItemDetailsFilteredByAnd(
+            string supplierId,
+            CatalogueItemType? catalogueItemType,
+            PublishedStatus? publishedStatus)
         {
             IEnumerable<CatalogueItemEntity> expectedCatalogueItems =
-                (_context[ScenarioContextKeys.CatalogueItems] as IEnumerable<CatalogueItemEntity>)?.ToList();
+                (context[ScenarioContextKeys.CatalogueItems] as IEnumerable<CatalogueItemEntity>)?.ToList();
 
-            var filteredExpected = expectedCatalogueItems?.Where(x => (supplierId is null || x.SupplierId == supplierId) && (catalogueItemType is null || x.CatalogueItemTypeId == (int)catalogueItemType));
+            bool MatchesSupplier(CatalogueItemEntity item) => supplierId is null || item.SupplierId == supplierId;
+            bool MatchesCatalogueItemType(CatalogueItemEntity item) => catalogueItemType is null || item.CatalogueItemTypeId == (int)catalogueItemType;
+            bool MatchesPublishedStatus(CatalogueItemEntity item) => publishedStatus is null || item.PublishedStatusId == (int)publishedStatus;
+            bool MatchesFilters(CatalogueItemEntity item) => MatchesSupplier(item)
+                && MatchesCatalogueItemType(item)
+                && MatchesPublishedStatus(item);
 
-            var content = await _response.ReadBody();
+            var filteredExpected = expectedCatalogueItems?.Where(MatchesFilters);
+
+            var content = await response.ReadBody();
 
             var actual = content.Select(catalogueItem => new CatalogueItemResponseTable
             {
                 CatalogueItemId = catalogueItem.Value<string>("catalogueItemId"),
-                Name = catalogueItem.Value<string>("name")
+                Name = catalogueItem.Value<string>("name"),
             });
 
             var expected = filteredExpected?.Select(x => new CatalogueItemResponseTable
             {
                 CatalogueItemId = x.CatalogueItemId,
-                Name = x.Name
+                Name = x.Name,
             });
 
             actual.Should().BeEquivalentTo(expected);
@@ -95,16 +106,21 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.CatalogueItems
         [Then(@"an empty catalogue items list is returned")]
         public async Task ThenAnEmptySolutionIsReturned()
         {
-            var catalogueItem = (await _response.ReadBody());
+            var catalogueItem = (await response.ReadBody());
             catalogueItem.Count().Should().Be(0);
         }
 
         private sealed class CatalogueItemTable
         {
             public string CatalogueItemId { get; set; }
+
             public string Name { get; set; }
+
             public CatalogueItemType CatalogueItemType { get; set; }
+
             public string SupplierId { get; set; }
+
+            public PublishedStatus PublishedStatus { get; set; }
         }
 
         private sealed class CatalogueItemResponseTable

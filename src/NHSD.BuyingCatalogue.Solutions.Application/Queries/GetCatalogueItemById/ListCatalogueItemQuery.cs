@@ -6,14 +6,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetCatalogueItemByI
 {
     public sealed class ListCatalogueItemQuery : IRequest<IEnumerable<CatalogueItemDto>>
     {
+        public ListCatalogueItemQuery(
+            string supplierId,
+            CatalogueItemType? catalogueItemType,
+            PublishedStatus? publishedStatus)
+        {
+            SupplierId = supplierId;
+            CatalogueItemType = catalogueItemType;
+            PublishedStatus = publishedStatus;
+        }
+
         public string SupplierId { get; }
 
         public CatalogueItemType? CatalogueItemType { get; }
 
-        public ListCatalogueItemQuery(string supplierId, CatalogueItemType? catalogueItemType)
-        {
-            SupplierId = supplierId;
-            CatalogueItemType = catalogueItemType;
-        }
+        public PublishedStatus? PublishedStatus { get; }
     }
 }

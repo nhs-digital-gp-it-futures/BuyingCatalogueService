@@ -12,25 +12,33 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence.CatalogueItems
 {
     public sealed class CatalogueItemReader
     {
-        private readonly ICatalogueItemRepository _catalogueItemRepository;
+        private readonly ICatalogueItemRepository catalogueItemRepository;
 
         public CatalogueItemReader(ICatalogueItemRepository catalogueItemRepository)
         {
-            _catalogueItemRepository = catalogueItemRepository ?? throw new ArgumentNullException(nameof(catalogueItemRepository));
+            this.catalogueItemRepository = catalogueItemRepository ?? throw new ArgumentNullException(nameof(catalogueItemRepository));
         }
 
         public async Task<CatalogueItemDto> GetByIdAsync(string catalogueItemId, CancellationToken cancellationToken)
         {
-            var result = await _catalogueItemRepository.GetByIdAsync(catalogueItemId, cancellationToken);
+            var result = await catalogueItemRepository.GetByIdAsync(catalogueItemId, cancellationToken);
             if (result is null)
                 throw new NotFoundException(nameof(CatalogueItemDto), catalogueItemId);
 
             return new CatalogueItemDto(result.CatalogueItemId, result.Name);
         }
 
-        public async Task<IEnumerable<CatalogueItemDto>> ListAsync(string supplierId, CatalogueItemType? catalogueItemType, CancellationToken cancellationToken)
+        public async Task<IEnumerable<CatalogueItemDto>> ListAsync(
+            string supplierId,
+            CatalogueItemType? catalogueItemType,
+            PublishedStatus? publishedStatus,
+            CancellationToken cancellationToken)
         {
-            var result = await _catalogueItemRepository.ListAsync(supplierId, catalogueItemType, cancellationToken);
+            var result = await catalogueItemRepository.ListAsync(
+                supplierId,
+                catalogueItemType,
+                publishedStatus,
+                cancellationToken);
 
             return result.Select(x => new CatalogueItemDto(x.CatalogueItemId, x.Name));
         }

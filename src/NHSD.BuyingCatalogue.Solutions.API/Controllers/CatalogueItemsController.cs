@@ -17,11 +17,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
     [Produces(MediaTypeNames.Application.Json)]
     public sealed class CatalogueItemsController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
         public CatalogueItemsController(IMediator mediator)
         {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         [HttpGet]
@@ -30,7 +30,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<GetCatalogueItemResult>> GetAsync(string catalogueItemId)
         {
-            var catalogueItem = await _mediator.Send(new GetCatalogueItemByIdQuery(catalogueItemId));
+            var catalogueItem = await mediator.Send(new GetCatalogueItemByIdQuery(catalogueItemId));
 
             return new GetCatalogueItemResult
             {
@@ -41,14 +41,17 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<GetCatalogueItemResult>>> ListAsync([FromQuery] string supplierId, [FromQuery] CatalogueItemType? catalogueItemType)
+        public async Task<ActionResult<IEnumerable<GetCatalogueItemResult>>> ListAsync(
+            string supplierId,
+            CatalogueItemType? catalogueItemType,
+            PublishedStatus? publishedStatus)
         {
-            var catalogueItemList = await _mediator.Send(new ListCatalogueItemQuery(supplierId, catalogueItemType));
+            var catalogueItemList = await mediator.Send(new ListCatalogueItemQuery(supplierId, catalogueItemType, publishedStatus));
 
             return catalogueItemList.Select(catalogueItem => new GetCatalogueItemResult
             {
                 CatalogueItemId = catalogueItem.CatalogueItemId,
-                Name = catalogueItem.Name
+                Name = catalogueItem.Name,
             }).ToList();
         }
     }

@@ -26,18 +26,21 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
         }
 
         [StepArgumentTransformation]
-        internal static CatalogueItemType? ParseCatalogueItemType(string nullString)
+        internal static CatalogueItemType? ParseCatalogueItemType(string input) => ParseEnum<CatalogueItemType>(input);
+
+        [StepArgumentTransformation]
+        internal static PublishedStatus? ParsePublishedStatus(string input) => ParseEnum<PublishedStatus>(input);
+
+        private static TEnum? ParseEnum<TEnum>(string input)
+            where TEnum : struct, Enum
         {
-            if (nullString is "NULL")
-            {
+            if (input.Equals("NULL", StringComparison.OrdinalIgnoreCase))
                 return null;
-            }
 
-            var parsedCatalogueItemType = Enum.TryParse<CatalogueItemType>(nullString, out var catalogueItemType);
+            var parsed = Enum.TryParse<TEnum>(input, out var value);
+            parsed.Should().BeTrue("Invalid value for {0}", typeof(TEnum).Name);
 
-            parsedCatalogueItemType.Should().BeTrue("Invalid parsed value");
-
-            return catalogueItemType;
+            return value;
         }
     }
 }

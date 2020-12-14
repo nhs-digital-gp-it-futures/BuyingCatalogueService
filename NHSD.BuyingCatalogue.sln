@@ -17,6 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solutions Items", "Solution
 		docker\docker-compose.development.yml = docker\docker-compose.development.yml
 		docker\docker-compose.integration.yml = docker\docker-compose.integration.yml
 		docker\Dockerfile = docker\Dockerfile
+		NHSD.BuyingCatalogue.sln.DotSettings = NHSD.BuyingCatalogue.sln.DotSettings
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.API.UnitTests", "tests\NHSD.BuyingCatalogue.API.UnitTests\NHSD.BuyingCatalogue.API.UnitTests.csproj", "{F6E3EE51-7F18-440B-A882-3F6148068384}"
@@ -106,6 +107,13 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.Database.Deployment", "src\NHSD.BuyingCatalogue.Database.Deployment\NHSD.BuyingCatalogue.Database.Deployment.csproj", "{20C95824-E0AD-488F-A903-BD0A9CABE847}"
 EndProject
 Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "NHSD.BuyingCatalogue.Database.PublishAll", "src\NHSD.BuyingCatalogue.Database.PublishAll\NHSD.BuyingCatalogue.Database.PublishAll.dtproj", "{7142A686-E318-4692-9C5E-DE74EC7873B9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dictionaries", "Dictionaries", "{D70633DE-C4B5-477C-8FD1-6FD54B3701F4}"
+	ProjectSection(SolutionItems) = preProject
+		Dictionaries\en_GB-large.aff = Dictionaries\en_GB-large.aff
+		Dictionaries\en_GB-large.dic = Dictionaries\en_GB-large.dic
+		Dictionaries\README_en_GB-large.txt = Dictionaries\README_en_GB-large.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
