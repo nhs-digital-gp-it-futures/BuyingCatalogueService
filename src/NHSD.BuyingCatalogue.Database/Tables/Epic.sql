@@ -1,7 +1,7 @@
 ﻿CREATE TABLE dbo.Epic
 (
      Id varchar(10) NOT NULL,
-     [Name] varchar(100) NOT NULL,
+     [Name] varchar(150) NOT NULL,
      CapabilityId uniqueidentifier NOT NULL,
      SourceUrl varchar(max) NULL,
      CompliancyLevelId int NULL,

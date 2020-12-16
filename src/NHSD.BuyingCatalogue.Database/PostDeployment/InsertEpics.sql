@@ -570,9 +570,65 @@ IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
     ('C42E1', 'Manage Stock in a Dispensary', @capabilityId, 1, 1),
     ('C42E2', 'Manage Stock Orders', @capabilityId, 1, 1),
     ('C42E3', 'Manage Dispensing tasks for a Dispensary', @capabilityId, 1, 1),
-    ('C42E4', 'Dispense Medicatio', @capabilityId, 1, 1),
+    ('C42E4', 'Dispense Medication', @capabilityId, 1, 1),
     ('C42E5', 'Manage Dispensaries', @capabilityId, 1, 1),
     ('C42E6', 'Manage Endorsements', @capabilityId, 1, 1),
     ('C42E7', 'Manage Supplier Accounts', @capabilityId, 1, 1),
     ('C42E8', 'View Stock reports', @capabilityId, 1, 1);
+GO
+
+DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C45');
+
+IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    VALUES
+    ('C45E1', 'Identify COVID-19 vaccination cohorts', @capabilityId, 1, 1),
+    ('C45E2', 'Verify Patient information using Personal Demographics Service (PDS)', @capabilityId, 1, 1),
+    ('C45E3', 'Import or consume COVID-19 vaccination data for Patients', @capabilityId, 1, 1),
+    ('C45E4', 'Extract COVID-19 vaccination cohorts data in .CSV file format', @capabilityId, 3, 1),
+    ('C45E5', 'Bulk send SMS messages for COVID-19 vaccination invite communications', @capabilityId, 3, 1),
+    ('C45E6', 'Bulk create letters for COVID-19 vaccination invite communications', @capabilityId, 3, 1),
+    ('C45E7', 'Bulk send email for COVID-19 vaccination invite communications', @capabilityId, 3, 1),
+    ('C45E8', 'Automatically record which Patients have had COVID-19 vaccination invites created', @capabilityId, 3, 1),
+    ('C45E9', 'View whether Patients have had a COVID-19 vaccination invite communication created', @capabilityId, 3, 1);
+GO
+
+DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C46');
+
+IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    VALUES
+    ('C46E1', 'Define appointment availability for COVID-19 vaccination site', @capabilityId, 1, 1),
+    ('C46E2', 'Automatically record which Patients have had COVID-19 vaccination invites created', @capabilityId, 3, 1),
+    ('C46E3', 'View whether Patients have had a COVID-19 vaccination invite communication created', @capabilityId, 3, 1),
+    ('C46E4', 'Automatically bulk send booking reminders to Patients via SMS messages for COVID-19 vaccination invites', @capabilityId, 3, 1),
+    ('C46E5', 'Automatically bulk create booking reminders to Patients as letters for COVID-19 vaccination invites', @capabilityId, 3, 1),
+    ('C46E6', 'Automatically bulk send booking reminders to Patients via email for COVID-19 vaccination invites', @capabilityId, 3, 1),
+    ('C46E7', 'Book Appointments across Solutions using GP Connect Appointments Management', @capabilityId, 3, 1),
+    ('C46E8', 'Patients can book their own COVID-19 vaccination appointments', @capabilityId, 3, 1),
+    ('C46E9', 'Patients can re-schedule their own future COVID-19 vaccination appointment', @capabilityId, 3, 1),
+    ('C46E10', 'Patients can cancel their own future COVID-19 vaccination appointment', @capabilityId, 3, 1),
+    ('C46E11', 'Automatically send booking notifications to Patients via SMS messages for COVID-19 vaccination appointments', @capabilityId, 3, 1),
+    ('C46E12', 'Book COVID-19 vaccination appointments for eligible Patients registered across different GP Practices', @capabilityId, 1, 1),
+    ('C46E13', 'Automatically create booking notifications to Patients as letters for COVID-19 vaccination appointments', @capabilityId, 3, 1),
+    ('C46E14', 'Automatically send booking notifications to Patients via email for COVID-19 vaccination appointments', @capabilityId, 3, 1),
+    ('C46E15', 'Create ad-hoc booking notifications to Patients for COVID-19 vaccination appointments', @capabilityId, 3, 1),
+    ('C46E16', 'Automatically bulk send appointment reminders to Patients via SMS messages for COVID-19 vaccination appointments', @capabilityId, 3, 1),
+    ('C46E17', 'Automatically bulk create booking reminders to Patients as letters for COVID-19 vaccination appointments', @capabilityId, 3, 1),
+    ('C46E18', 'Automatically bulk send appointment reminders to Patients via email for COVID-19 vaccination appointments', @capabilityId, 3, 1),
+    ('C46E19', 'Send ad-hoc appointment reminders to Patients for COVID-19 vaccination appointments', @capabilityId, 3, 1),
+    ('C46E20', 'View all booked COVID-19 vaccination appointments for a specified time period', @capabilityId, 3, 1),
+    ('C46E21', 'Export all booked COVID-19 vaccination appointments for a specified time period', @capabilityId, 3, 1),
+    ('C46E22', 'Cancel booked COVID-19 vaccination appointments for Patients', @capabilityId, 3, 1),
+    ('C46E23', 'Record that a COVID-19 vaccination appointment for a Patient has been completed', @capabilityId, 1, 1),
+    ('C46E24', 'Re-schedule booked COVID-19 vaccination appointments for Patients', @capabilityId, 3, 1),
+    ('C46E25', 'Automatically send appointment cancellation notifications to Patients via SMS messages for COVID-19 appointments', @capabilityId, 3, 1),
+    ('C46E26', 'Automatically create appointment cancellation notifications to Patients as letters for COVID-19 appointments', @capabilityId, 3, 1),
+    ('C46E27', 'Automatically send appointment cancellation notifications to Patients via email for COVID-19 appointments', @capabilityId, 3, 1),
+    ('C46E28', 'Extract COVID-19 vaccination appointments data for NHS Digital', @capabilityId, 1, 1),
+    ('C46E29', 'Import COVID-19 vaccination Patient cohorts data via .CSV file', @capabilityId, 3, 1),
+    ('C46E30', 'Verify Patient information using Personal Demographics Service (PDS)', @capabilityId, 3, 1),
+    ('C46E31', 'Bulk send SMS messages for COVID-19 vaccination invite communications', @capabilityId, 3, 1),
+    ('C46E32', 'Bulk create letters for COVID-19 vaccination invite communications', @capabilityId, 3, 1),
+    ('C46E33', 'Bulk send email for COVID-19 vaccination invite communications', @capabilityId, 3, 1);
 GO
