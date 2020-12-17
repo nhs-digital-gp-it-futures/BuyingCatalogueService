@@ -632,3 +632,23 @@ IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
     ('C46E32', 'Bulk create letters for COVID-19 vaccination invite communications', @capabilityId, 3, 1),
     ('C46E33', 'Bulk send email for COVID-19 vaccination invite communications', @capabilityId, 3, 1);
 GO
+
+DECLARE @capabilityId AS uniqueidentifier = (SELECT Id FROM Capability WHERE CapabilityRef = 'C47');
+
+IF NOT EXISTS (SELECT * FROM dbo.Epic WHERE CapabilityId = @capabilityId)
+    INSERT INTO dbo.Epic(Id, [Name], CapabilityId, CompliancyLevelId, Active)
+    VALUES
+    ('C47E1', 'Record structured COVID-19 vaccination data at the point of care for Patients registered at different GP Practices', @capabilityId, 1, 1),
+    ('C47E2', 'Record structured COVID-19 adverse reaction data at the point of care for Patients registered at different GP Practices', @capabilityId, 1, 1),
+    ('C47E3', 'Extract COVID-19 vaccination data for NHS Digital Daily Clinical Vaccination Extract', @capabilityId, 1, 1),
+    ('C47E4', 'Extract COVID-19 adverse reaction data for NHS Digital Daily Clinical Adverse Reaction Extract', @capabilityId, 1, 1),
+    ('C47E5', 'Automatically send vaccination data to Patient’s registered GP Practice Foundation Solution using Digital Medicines FHIR messages', @capabilityId, 1, 1),
+    ('C47E6', 'Automatically send COVID-19 adverse reaction data to Patient’s registered GP Practice Foundation Solution using Digital Medicines FHIR messages', @capabilityId, 1, 1),
+    ('C47E7', 'Automatically send COVID-19 vaccination data to the NHS Business Services Authority (NHSBSA)', @capabilityId, 1, 1),
+    ('C47E8', 'View information from the GP Patient Record using GP Connect Access Record HTML', @capabilityId, 3, 1),
+    ('C47E9', 'View information from the GP Patient Record held by the same Solution', @capabilityId, 3, 1),
+    ('C47E10', 'View Summary Care Record (SCR) for a Patient', @capabilityId, 3, 1),
+    ('C47E11', 'Scanning of a GS1 barcode when recording vaccination data', @capabilityId, 1, 1),
+    ('C47E12', 'Record structured COVID-19 vaccination data at the point of care directly into GP Patient Record', @capabilityId, 3, 1),
+    ('C47E13', 'Record structured COVID-19 adverse reaction data at the point of care directly into GP Patient Record', @capabilityId, 3, 1);
+GO
