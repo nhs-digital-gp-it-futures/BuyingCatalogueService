@@ -74,9 +74,20 @@ jobs:
       includePreviewVersions: false
 
   - task: DotNetCoreCLI@2
-    displayName: Build
+    displayName: 'Run dotnet restore'
     inputs:
+      command: restore
       projects: src/NHSD.BuyingCatalogue.API/NHSD.BuyingCatalogue.API.csproj
+      feedsToUse: config
+      nugetConfigPath: 'NuGet.config'
+      arguments: '-v n'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Run dotnet build'
+    inputs:
+      command: build
+      projects: src/NHSD.BuyingCatalogue.API/NHSD.BuyingCatalogue.API.csproj
+      arguments: '--no-restore'
   
   - task: DotNetCoreCLI@2
     displayName: Publish
@@ -84,7 +95,7 @@ jobs:
       command: publish
       publishWebProjects: false
       projects: '**/*NHSD.BuyingCatalogue.API.csproj'
-      arguments: ' --configuration Release --output "docker/out"'
+      arguments: '--no-build --configuration Release --output "docker/out"'
       zipAfterPublish: false
       modifyOutputPath: false
   
@@ -93,6 +104,26 @@ jobs:
       docker-compose -f "docker/docker-compose.integration.yml" up -d
       docker ps -a
     displayName: 'Docker up'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Run dotnet restore (tests)'
+    inputs:
+      command: restore
+      projects: |
+        **/*Tests.csproj
+        !**/*IntegrationTests.csproj
+      feedsToUse: config
+      nugetConfigPath: 'NuGet.config'
+      arguments: '-v n'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Run dotnet build (tests)'
+    inputs:
+      command: build
+      projects: |
+        **/*Tests.csproj
+        !**/*IntegrationTests.csproj
+      arguments: '--no-restore'
   
   - task: DotNetCoreCLI@2
     displayName: 'Run unit tests'
@@ -101,14 +132,14 @@ jobs:
       projects: |
         **/*Tests.csproj
         !**/*IntegrationTests.csproj
-      arguments: '-v n --collect "Code coverage"'
+      arguments: '-v n --no-build --collect "Code coverage"'
   
   - task: DotNetCoreCLI@2
     displayName: 'Run Integration tests'
     inputs:
       command: test
       projects: '**/*IntegrationTests.csproj'
-      arguments: '  -v n'
+      arguments: '-v n --no-build'
 
   - task: DockerCompose@0
     displayName: 'Docker Build: Dev'

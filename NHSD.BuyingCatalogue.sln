@@ -21,6 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solutions Items", "Solution
 		docker\docker-compose.integration.yml = docker\docker-compose.integration.yml
 		docker\Dockerfile = docker\Dockerfile
 		NHSD.BuyingCatalogue.sln.DotSettings = NHSD.BuyingCatalogue.sln.DotSettings
+		NuGet.config = NuGet.config
 		README.md = README.md
 	EndProjectSection
 EndProject
