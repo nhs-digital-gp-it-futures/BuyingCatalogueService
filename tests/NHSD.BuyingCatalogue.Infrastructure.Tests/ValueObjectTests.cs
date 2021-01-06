@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -37,6 +38,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
         }
 
         [Test]
+        [SuppressMessage("Maintainability", "CA1508:Avoid dead conditional code", Justification = "Testing null equality")]
         public void GivenTwoNullsShouldReturnTrue()
         {
             _size1 = null;

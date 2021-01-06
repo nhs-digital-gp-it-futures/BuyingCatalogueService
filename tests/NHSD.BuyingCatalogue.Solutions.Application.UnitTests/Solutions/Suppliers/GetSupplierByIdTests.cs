@@ -11,8 +11,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
     [TestFixture]
     internal sealed class GetSupplierByIdTests
     {
-        private readonly CancellationToken _cancellationToken = new CancellationToken();
-        private readonly TestContext _context = new TestContext();
+        private readonly TestContext _context = new();
 
         [Test]
         public async Task Handle_ReturnsExpectedResults()
@@ -27,15 +26,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
             mockResult.Setup(r => r.HasAddress).Returns(true);
             mockResult.Setup(r => r.HasContact).Returns(true);
 
+            var cancellationToken = default(CancellationToken);
             var expectedSupplier = mockResult.Object;
 
             _context.MockSupplierRepository
-                .Setup(r => r.GetSupplierById(supplier, _cancellationToken))
+                .Setup(r => r.GetSupplierById(supplier, cancellationToken))
                 .ReturnsAsync(expectedSupplier);
 
             var actualResult = await _context.GetSupplierByIdHandler.Handle(
                 new GetSupplierByIdQuery(supplier),
-                _cancellationToken);
+                cancellationToken);
 
             actualResult.Id.Should().BeEquivalentTo(expectedSupplier.Id);
             actualResult.Name.Should().BeEquivalentTo(expectedSupplier.Name);

@@ -2,8 +2,9 @@
 {
     public enum CatalogueItemType
     {
+        Undefined = 0,
         Solution = 1,
         AdditionalService = 2,
-        AssociatedService = 3
+        AssociatedService = 3,
     }
 }

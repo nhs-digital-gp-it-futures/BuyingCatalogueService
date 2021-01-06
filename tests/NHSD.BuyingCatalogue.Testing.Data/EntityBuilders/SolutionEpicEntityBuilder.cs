@@ -21,8 +21,9 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 
         public enum SolutionEpicStatus
         {
+            Undefined = 0,
             Passed = 1,
-            NotEvidenced = 3
+            NotEvidenced = 3,
         }
 
         public static SolutionEpicEntityBuilder Create()

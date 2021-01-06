@@ -33,8 +33,8 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.ViewModels
             Name = summary.Name;
             Summary = summary.Summary;
             IsFoundation = summary.IsFoundation;
-            Supplier = summary?.Supplier != null ? new SolutionSupplierResult(summary?.Supplier) : null;
-            Capabilities = summary?.Capabilities.Select(cap => new SolutionCapabilityResult(cap)).ToList();
+            Supplier = summary.Supplier != null ? new SolutionSupplierResult(summary.Supplier) : null;
+            Capabilities = summary.Capabilities.Select(cap => new SolutionCapabilityResult(cap)).ToList();
         }
     }
 }

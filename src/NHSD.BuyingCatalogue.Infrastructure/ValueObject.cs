@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace NHSD.BuyingCatalogue.Infrastructure
@@ -26,12 +26,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure
                 return false;
             }
 
-            if (!(obj is ValueObject item))
-            {
-                return false;
-            }
-
-            return GetEqualityComponents().SequenceEqual(item.GetEqualityComponents());
+            return obj is ValueObject item && GetEqualityComponents().SequenceEqual(item.GetEqualityComponents());
         }
 
         /// <summary>

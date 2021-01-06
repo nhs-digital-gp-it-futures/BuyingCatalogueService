@@ -64,10 +64,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 new { catalogueItemId });
         }
 
-        public async Task<IEnumerable<ICataloguePriceListResult>> GetPriceByPriceIdQueryAsync(int cataloguePriceId, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ICataloguePriceListResult>> GetPriceByPriceIdQueryAsync(int priceId, CancellationToken cancellationToken)
         {
             return (await _dbConnector.QueryAsync<CataloguePriceListResult>(CataloguePriceSql, cancellationToken,
-                new { cataloguePriceId }));
+                new
+                {
+                    cataloguePriceId = priceId
+                }));
         }
     }
 }

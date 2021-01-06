@@ -329,7 +329,6 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             solution.Supplier.Id.Should().Be(Suppliers["Sup2"].id);
             solution.Supplier.Name.Should().Be(Suppliers["Sup2"].name);
             solution.Capabilities.Should().HaveCount(1);
-            solution.Capabilities.Single(c => string.Equals(c.CapabilityReference, "C2", StringComparison.OrdinalIgnoreCase));
 
             capability = solution.Capabilities.Should().ContainSingle(c => string.Equals(c.CapabilityReference, "C2", StringComparison.OrdinalIgnoreCase)).Subject;
             capability.Name.Should().Be(Capabilities["C2"].Name);
