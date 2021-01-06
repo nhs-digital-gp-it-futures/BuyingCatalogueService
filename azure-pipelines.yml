@@ -87,7 +87,7 @@ jobs:
     inputs:
       command: build
       projects: src/NHSD.BuyingCatalogue.API/NHSD.BuyingCatalogue.API.csproj
-      arguments: '--no-restore'
+      arguments: '--no-restore --configuration Release'
   
   - task: DotNetCoreCLI@2
     displayName: Publish
