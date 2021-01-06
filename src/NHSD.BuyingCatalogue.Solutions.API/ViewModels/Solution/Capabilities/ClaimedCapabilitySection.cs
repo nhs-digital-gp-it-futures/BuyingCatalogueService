@@ -28,7 +28,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Capabilities
             Description = capability.Description.NullIfWhitespace();
             Link = capability.Link.NullIfWhitespace();
 
-            if (capability?.ClaimedEpics.Any() == true)
+            if (capability.ClaimedEpics.Any())
             {
                 EpicSection = new ClaimedCapabilityEpicSection(capability.ClaimedEpics);
             }

@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{38D4746C-6C90-41BB-8EDD-BFE49144320E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{BF4E3ADF-9CB3-45D6-ABCA-8CC6258761AC}"
+	ProjectSection(SolutionItems) = preProject
+		tests\.editorconfig = tests\.editorconfig
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.API", "src\NHSD.BuyingCatalogue.API\NHSD.BuyingCatalogue.API.csproj", "{6D4ADEFD-E673-4238-A3A7-089E06104A16}"
 EndProject
@@ -18,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solutions Items", "Solution
 		docker\docker-compose.integration.yml = docker\docker-compose.integration.yml
 		docker\Dockerfile = docker\Dockerfile
 		NHSD.BuyingCatalogue.sln.DotSettings = NHSD.BuyingCatalogue.sln.DotSettings
+		NuGet.config = NuGet.config
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSD.BuyingCatalogue.API.UnitTests", "tests\NHSD.BuyingCatalogue.API.UnitTests\NHSD.BuyingCatalogue.API.UnitTests.csproj", "{F6E3EE51-7F18-440B-A882-3F6148068384}"

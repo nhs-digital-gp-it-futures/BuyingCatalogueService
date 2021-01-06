@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FluentAssertions;
 using Newtonsoft.Json;
@@ -19,6 +20,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
         }
 
         [Test]
+        [SuppressMessage("Usage", "CA2201:Do not raise reserved exception types", Justification = "Extension method test")]
         public void ShouldReturnStatusCode500()
         {
             var exception = new Exception();
@@ -26,6 +28,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
         }
 
         [Test]
+        [SuppressMessage("Usage", "CA2201:Do not raise reserved exception types", Justification = "Extension method test")]
         public void ShouldMapToJsonMessageVerboseFalse()
         {
             var exception = new Exception();
@@ -38,6 +41,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
         }
 
         [Test]
+        [SuppressMessage("Usage", "CA2201:Do not raise reserved exception types", Justification = "Extension method test")]
         public void ShouldMapToJsonMessagesVerboseTrue()
         {
             var exception = new Exception();

@@ -1,6 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using FluentAssertions;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NUnit.Framework;
@@ -11,7 +9,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
     public class NotFoundExceptionTests
     {
         private readonly string _expectedMessage = "ABC";
-        private readonly Exception _innerException = new Exception();
+        private readonly Exception _innerException = new InvalidOperationException();
 
         [Test]
         public void PassingMessageSetsExceptionMessage()

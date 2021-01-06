@@ -12,8 +12,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
     [TestFixture]
     internal sealed class GetSuppliersByNameTests
     {
-        private readonly CancellationToken _cancellationToken = new CancellationToken();
-        private readonly TestContext _context = new TestContext();
+        private readonly TestContext _context = new();
 
         [Test]
         public async Task Handle_ReturnsExpectedResults()
@@ -31,6 +30,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
                 return mockResult.Object;
             }
 
+            var cancellationToken = default(CancellationToken);
             var expectedResult = new[]
             {
                 MockSupplierNameResult("1", "Supplier 1"),
@@ -38,12 +38,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
             };
 
             _context.MockSupplierRepository
-                .Setup(r => r.GetSuppliersByNameAsync(supplier, solutionStatus, itemType, _cancellationToken))
+                .Setup(r => r.GetSuppliersByNameAsync(supplier, solutionStatus, itemType, cancellationToken))
                 .ReturnsAsync(expectedResult);
 
             var actualResult = await _context.GetSuppliersByNameHandler.Handle(
                 new GetSuppliersByNameQuery(supplier, solutionStatus, itemType),
-                _cancellationToken);
+                cancellationToken);
 
             actualResult.Should().BeEquivalentTo(expectedResult, c => c.ExcludingMissingMembers());
         }

@@ -17,7 +17,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.ViewModels
         /// <summary>
         /// Filters to only foundation solutions
         /// </summary>
-        public bool IsFoundation { get; set; } = false;
+        public bool IsFoundation { get; set; }
 
         public string SupplierId { get; set; }
     }

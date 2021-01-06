@@ -22,9 +22,10 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 
         public enum CompliancyLevel
         {
+            Undefined = 0,
             Must = 1,
             Should = 2,
-            May = 3
+            May = 3,
         }
 
         public static EpicEntityBuilder Create()
