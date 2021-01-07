@@ -13,15 +13,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Features
     {
         private const string FeaturesUrl = "http://localhost:5200/api/v1/Solutions/{0}/sections/features";
 
-        private List<string> _features = new List<string>();
-
-        private readonly ScenarioContext _context;
-
+        private readonly List<string> _features = new();
         private readonly Response _response;
 
-        public FeaturesSectionValidationSteps(ScenarioContext context, Response response)
+        public FeaturesSectionValidationSteps(Response response)
         {
-            _context = context;
             _response = response;
         }
 
@@ -57,7 +53,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Features
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < length; i++)
             {
-                builder.Append("a");
+                builder.Append('a');
             }
 
             return builder.ToString();

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Testing.Tools;
 
@@ -20,7 +20,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
             var started = await HttpClientAwaiter.WaitForGetAsync(url, TestTimeout).ConfigureAwait(false);
             if (!started)
             {
-                throw new Exception($"Start Document API failed, could not get a successful health status from '{url}' after trying for '{TestTimeout}'");
+                throw new TimeoutException(
+                    $"Start Document API failed, could not get a successful health status from '{url}' after trying for '{TestTimeout}'");
             }
         }
     }

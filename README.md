@@ -1,6 +1,6 @@
 # BuyingCatalogueService - Service architecture for the NHS Digital Buying Catalogue
 
-.Net Core application, based on a service architecture.
+.Net 5 application, based on a service architecture.
 
 ## IMPORTANT NOTES
 
@@ -8,13 +8,13 @@
 
 ### Architecture overview
 
-This application uses **.NET core** to provide an API capable of running on Linux or Windows.
+This application uses **.NET 5** to provide an API capable of running on Linux or Windows.
 
 > For the frontend web application see <https://github.com/nhs-digital-gp-it-futures/public-browse>
 
 ### Overview of the application code
 
-This repo consists of one service to provide multiple resource endpoints for the NHS Digitial Buying Catalogue application using **.NET Core** and **Docker**.
+This repo consists of one service to provide multiple resource endpoints for the NHS Digitial Buying Catalogue application using **.NET 5** and **Docker**.
 
 The application is broken down into the following project libraries:
 
@@ -27,10 +27,10 @@ The application is broken down into the following project libraries:
 
 ### Requirements
 
-- .NET Core Version 3.0
+- .NET 5.0
 - Docker
 
-> Before you begin please install **.NET Core 3.0** & **Docker** on your machine.
+> Before you begin please install **.NET 5.0** & **Docker** on your machine.
 
 ## Running the API
 
@@ -126,7 +126,7 @@ bash tear_down_environment.sh
 
 Launch the environment as described above in [Running the API](#running-the-api).
 
-Secondly, copy and paste the connection string into your [User Secrets file](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-3.1&tabs=windows#how-the-secret-manager-tool-works). Your file should have this format:
+Secondly, copy and paste the connection string into your [User Secrets file](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-5.0&tabs=windows#how-the-secret-manager-tool-works). Your file should have this format:
 
 ```json
 {
