@@ -3,7 +3,7 @@
      Id varchar(6) NOT NULL,
      [Name] varchar(255) NOT NULL,
      LegalName varchar(255) NOT NULL,
-     Summary varchar(1000) NULL,
+     Summary varchar(1100) NULL,
      SupplierUrl varchar(1000) NULL,
      [Address] nvarchar(500) NULL,
      OdsCode varchar(8) NULL,

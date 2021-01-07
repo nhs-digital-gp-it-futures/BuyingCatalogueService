@@ -15,12 +15,19 @@ Background:
         | Sln1     | An original implementation timescales description |
 
 @3670
-Scenario: 1. Description is greater than max length (1000 characters)
+Scenario: Description is greater than max length (1100 characters)
     When a PUT request is made to update the implementation-timescales section for solution Sln1
         | ImplementationTimescales     |
-        | A string with length of 1001 |
+        | A string with length of 1101 |
     Then a response status of 400 is returned
     And the description field value is the validation failure maxLength
     And SolutionDetail exist
         | Solution | ImplementationDetail                              |
         | Sln1     | An original implementation timescales description |
+
+@3670
+Scenario: Description is equal to max length (1100 characters)
+    When a PUT request is made to update the implementation-timescales section for solution Sln1
+        | ImplementationTimescales     |
+        | A string with length of 1100 |
+    Then a successful response is returned

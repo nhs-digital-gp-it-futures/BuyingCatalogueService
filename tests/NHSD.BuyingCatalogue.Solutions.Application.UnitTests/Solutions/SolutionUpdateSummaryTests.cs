@@ -25,7 +25,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public async Task ShouldUpdateSolutionSummary()
         {
-            var validationResult = await UpdateSolutionDescriptionAsync().ConfigureAwait(false);
+            var validationResult = await UpdateSolutionDescriptionAsync();
             validationResult.IsValid.Should().BeTrue();
 
             _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
@@ -44,7 +44,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [TestCase(" ")]//space
         public async Task ShouldValidateForExistenceOfSummary(string summary)
         {
-            var validationResult = await UpdateSolutionDescriptionAsync(summary: summary).ConfigureAwait(false);
+            var validationResult = await UpdateSolutionDescriptionAsync(summary);
 
             validationResult.IsValid.Should().BeFalse();
             var results = validationResult.ToDictionary();
@@ -58,7 +58,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public async Task ShouldValidateForMaxLengthDescription()
         {
-            var validationResult = await UpdateSolutionDescriptionAsync(description: new string('a', 1001)).ConfigureAwait(false);
+            var validationResult = await UpdateSolutionDescriptionAsync(description: new string('a', 1101));
 
             validationResult.IsValid.Should().BeFalse();
             var results = validationResult.ToDictionary();
@@ -72,7 +72,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public async Task ShouldValidateForMaxLengthLink()
         {
-            var validationResult = await UpdateSolutionDescriptionAsync(link: new string('a', 1001)).ConfigureAwait(false);
+            var validationResult = await UpdateSolutionDescriptionAsync(link: new string('a', 1001));
 
             validationResult.IsValid.Should().BeFalse();
             var results = validationResult.ToDictionary();
@@ -86,7 +86,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public async Task ShouldValidateForMaxLengthSummary()
         {
-            var validationResult = await UpdateSolutionDescriptionAsync(summary: new string('a', 301)).ConfigureAwait(false);
+            var validationResult = await UpdateSolutionDescriptionAsync(new string('a', 351));
 
             validationResult.IsValid.Should().BeFalse();
             var results = validationResult.ToDictionary();
@@ -101,7 +101,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public async Task ShouldValidateCombinations()
         {
-            var validationResult = await UpdateSolutionDescriptionAsync(summary: "", description: new string('a', 1001), link: new string('a', 1001)).ConfigureAwait(false);
+            var validationResult = await UpdateSolutionDescriptionAsync("", new string('a', 1101), new string('a', 1001));
 
             validationResult.IsValid.Should().BeFalse();
             var results = validationResult.ToDictionary();
@@ -117,7 +117,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public async Task ShouldValidateValidCases()
         {
-            var validationResult = await UpdateSolutionDescriptionAsync(summary: "Summary", description: null, link: null).ConfigureAwait(false);
+            var validationResult = await UpdateSolutionDescriptionAsync("Summary", null, null);
 
             validationResult.IsValid.Should().BeTrue();
             var results = validationResult.ToDictionary();
@@ -167,7 +167,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                     Description = description,
                     Link = link,
                     Summary = summary
-                }), new CancellationToken()).ConfigureAwait(false);
+                }), new CancellationToken());
             return validationResult;
         }
     }

@@ -1,4 +1,4 @@
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
+﻿using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary
 {
@@ -8,8 +8,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSumm
             => new RequiredMaxLengthResult(
                 new RequiredValidator().Validate(command.Data.Summary, "summary").Result(),
                 new MaxLengthValidator()
-                    .Validate(command.Data.Summary, 300, "summary")
-                    .Validate(command.Data.Description, 1000, "description")
+                    .Validate(command.Data.Summary, 350, "summary")
+                    .Validate(command.Data.Description, 1100, "description")
                     .Validate(command.Data.Link, 1000, "link")
                     .Result()
                 );

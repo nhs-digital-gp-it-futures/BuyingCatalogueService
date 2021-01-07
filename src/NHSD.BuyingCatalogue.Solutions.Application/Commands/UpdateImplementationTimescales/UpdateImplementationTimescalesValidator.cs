@@ -1,4 +1,4 @@
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
+﻿using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateImplementationTimescales
 {
@@ -6,7 +6,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateImplementati
     {
         public ISimpleResult Validate(UpdateImplementationTimescalesCommand command)
             => new MaxLengthValidator()
-                .Validate(command.Description, 1000, "description")
+                .Validate(command.Description, 1100, "description")
                 .Result();
     }
 }
