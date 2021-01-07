@@ -15,7 +15,7 @@ Background:
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
 
 @3319
-Scenario: 1. Summary is not filled out
+Scenario: Summary is not filled out
     When a PUT request is made to update the solution-description section for solution Sln1
          | Summary                   | Description | Link |
          | A string with length of 0 | NULL        | NULL |
@@ -29,10 +29,10 @@ Scenario: 1. Summary is not filled out
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
 
 @3319
-Scenario: 2. Summary exceeds the character limit
+Scenario: Summary exceeds the character limit
     When a PUT request is made to update the solution-description section for solution Sln1
         | Summary                     | Description | Link |
-        | A string with length of 301 | NULL        | NULL |
+        | A string with length of 351 | NULL        | NULL |
     Then a response status of 400 is returned
     And the summary field value is the validation failure maxLength
     And Solutions exist
@@ -43,10 +43,10 @@ Scenario: 2. Summary exceeds the character limit
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
 
 @3319
-Scenario: 3. Description exceeds the character limit
+Scenario: Description exceeds the character limit
     When a PUT request is made to update the solution-description section for solution Sln1
         | Summary   | Description                  | Link |
-        | A Summary | A string with length of 1001 | NULL |
+        | A Summary | A string with length of 1101 | NULL |
     Then a response status of 400 is returned
     And the description field value is the validation failure maxLength
     And Solutions exist
@@ -57,7 +57,7 @@ Scenario: 3. Description exceeds the character limit
         | Sln1     | An full online medicine system | Online medicine 1 | UrlSln1  | [ "Appointments", "Prescribing" ] |
 
 @3319
-Scenario: 4. Link exceeds the character limit
+Scenario: Link exceeds the character limit
     When a PUT request is made to update the solution-description section for solution Sln1
         | Summary   | Description                  | Link                         |
         | A Summary | It's the link's fault really | A string with length of 1001 |
@@ -71,10 +71,10 @@ Scenario: 4. Link exceeds the character limit
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
 
 @3319
-Scenario: 5. Summary is not filled out & Description exceeds the character limit
+Scenario: Summary is not filled out & Description exceeds the character limit
     When a PUT request is made to update the solution-description section for solution Sln1
         | Summary                   | Description                  | Link |
-        | A string with length of 0 | A string with length of 1001 | NULL |
+        | A string with length of 0 | A string with length of 1101 | NULL |
     Then a response status of 400 is returned
     And the summary field value is the validation failure required
     And the description field value is the validation failure maxLength
@@ -86,7 +86,7 @@ Scenario: 5. Summary is not filled out & Description exceeds the character limit
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
 
 @3319
-Scenario: 6. Summary is not filled out & Link exceeds the character limit
+Scenario: Summary is not filled out & Link exceeds the character limit
     When a PUT request is made to update the solution-description section for solution Sln1
         | Summary                   | Description | Link                         |
         | A string with length of 0 | NULL        | A string with length of 1001 |
@@ -101,10 +101,10 @@ Scenario: 6. Summary is not filled out & Link exceeds the character limit
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
 
 @3319
-Scenario: 7. Summary & Description exceeds the character limit
+Scenario: Summary & Description exceeds the character limit
     When a PUT request is made to update the solution-description section for solution Sln1
         | Summary                     | Description                  | Link |
-        | A string with length of 301 | A string with length of 1001 | Null |
+        | A string with length of 351 | A string with length of 1101 | Null |
     Then a response status of 400 is returned
     And the description field value is the validation failure maxLength
     And the summary field value is the validation failure maxLength
@@ -116,10 +116,10 @@ Scenario: 7. Summary & Description exceeds the character limit
         | Sln1     | UrlSln1  |An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
 
 @3319
-Scenario: 8. Summary & Link exceeds the character limit
+Scenario: Summary & Link exceeds the character limit
     When a PUT request is made to update the solution-description section for solution Sln1
         | Summary                     | Description | Link                         |
-        | A string with length of 301 | NULL        | A string with length of 1001 |
+        | A string with length of 351 | NULL        | A string with length of 1001 |
     Then a response status of 400 is returned
     And the summary field value is the validation failure maxLength
     And the link field value is the validation failure maxLength
@@ -131,10 +131,10 @@ Scenario: 8. Summary & Link exceeds the character limit
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
 
 @3319
-Scenario: 9. Description & Link exceeds the character limit
+Scenario: Description & Link exceeds the character limit
     When a PUT request is made to update the solution-description section for solution Sln1
         | Summary   | Description                  | Link                         |
-        | A Summary | A string with length of 1001 | A string with length of 1001 |
+        | A Summary | A string with length of 1101 | A string with length of 1001 |
     Then a response status of 400 is returned
     And the link field value is the validation failure maxLength
     And the description field value is the validation failure maxLength
@@ -146,10 +146,10 @@ Scenario: 9. Description & Link exceeds the character limit
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
 
 @3319
-Scenario: 10. Summary is not filled out, Description & Link exceeds the character limit
+Scenario: Summary is not filled out, Description & Link exceeds the character limit
     When a PUT request is made to update the solution-description section for solution Sln1
         | Summary                   | Description                  | Link                         |
-        | A string with length of 0 | A string with length of 1001 | A string with length of 1001 |
+        | A string with length of 0 | A string with length of 1101 | A string with length of 1001 |
     Then a response status of 400 is returned
     And the summary field value is the validation failure required
     And the description field value is the validation failure maxLength
@@ -162,10 +162,10 @@ Scenario: 10. Summary is not filled out, Description & Link exceeds the characte
         | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
 
 @3319
-Scenario: 11. Summary, Description & Link exceeds the character limit
+Scenario: Summary, Description & Link exceeds the character limit
     When a PUT request is made to update the solution-description section for solution Sln1
         | Summary                     | Description                  | Link                         |
-        | A string with length of 301 | A string with length of 1001 | A string with length of 1001 |
+        | A string with length of 351 | A string with length of 1101 | A string with length of 1001 |
     Then a response status of 400 is returned
     And the summary field value is the validation failure maxLength
     And the description field value is the validation failure maxLength

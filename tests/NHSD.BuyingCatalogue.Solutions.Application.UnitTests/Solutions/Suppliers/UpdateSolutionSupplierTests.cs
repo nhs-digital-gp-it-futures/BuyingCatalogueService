@@ -41,7 +41,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
             SetupMockSolutionCheckExists();
             SetupMockSupplierRepositoryGetByIdAsync();
 
-            var validationResult = await UpdateSupplier().ConfigureAwait(false);
+            var validationResult = await UpdateSupplier();
 
             _context.MockSupplierRepository.Verify(s =>
                 s.UpdateSupplierAsync(
@@ -64,7 +64,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
             _description = null;
             _link = null;
 
-            var validationResult = await UpdateSupplier().ConfigureAwait(false);
+            var validationResult = await UpdateSupplier();
 
             _context.MockSupplierRepository.Verify(s =>
                 s.UpdateSupplierAsync(
@@ -77,9 +77,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
             validationResult.IsValid.Should().BeTrue();
         }
 
-        [TestCase(1001, 1000, "description")]
-        [TestCase(1000, 1001, "link")]
-        [TestCase(1001, 1001, "description", "link")]
+        [TestCase(1101, 1000, "description")]
+        [TestCase(1100, 1001, "link")]
+        [TestCase(1101, 1001, "description", "link")]
         public async Task ShouldNotUpdateInvalidSupplierOnHandler(int description, int link, params string[] expected)
         {
             SetupMockSolutionRepositoryGetByIdAsync();
@@ -89,7 +89,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
             _description = new string('a', description);
             _link = new string('a', link);
 
-            var validationResult = await UpdateSupplier().ConfigureAwait(false);
+            var validationResult = await UpdateSupplier();
 
             _context.MockSupplierRepository.Verify(s =>
                 s.UpdateSupplierAsync(
@@ -107,7 +107,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
         private async Task<ISimpleResult> UpdateSupplier()
         {
             return await _context.UpdateSolutionSupplierHandler.Handle(new UpdateSolutionSupplierCommand(SolutionId, _dataMock.Object),
-                new CancellationToken()).ConfigureAwait(false);
+                new CancellationToken());
         }
 
         private void SetupMockSolutionCheckExists(bool solutionExists = true)

@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
@@ -28,10 +28,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public async Task ShouldUpdateSolutionImplementationTimescales()
         {
-            var expected = "an implementation timescales description";
+            const string expected = "an implementation timescales description";
 
-            var validationResult = await UpdateImplementationTimescalesAsync(_existingSolutionId, expected)
-                .ConfigureAwait(false);
+            var validationResult = await UpdateImplementationTimescalesAsync(_existingSolutionId, expected);
+
             validationResult.IsValid.Should().BeTrue();
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(0);
@@ -47,8 +47,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public async Task ShouldValidateSingleMaxLength()
         {
-            var validationResult = await UpdateImplementationTimescalesAsync(_existingSolutionId, new string('a', 1001))
-                .ConfigureAwait(false);
+            var validationResult = await UpdateImplementationTimescalesAsync(_existingSolutionId, new string('a', 1101));
+
             validationResult.IsValid.Should().BeFalse();
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(1);
@@ -67,8 +67,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         private async Task<ISimpleResult> UpdateImplementationTimescalesAsync(string solutionId, string url)
         {
             var validationResult = await _context.UpdateImplementationTimescalesHandler.Handle(
-                    new UpdateImplementationTimescalesCommand(solutionId, url), new CancellationToken())
-                .ConfigureAwait(false);
+                    new UpdateImplementationTimescalesCommand(solutionId, url), new CancellationToken());
+
             return validationResult;
         }
     }
