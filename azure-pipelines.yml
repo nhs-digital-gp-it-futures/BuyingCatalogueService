@@ -111,7 +111,7 @@ jobs:
       command: restore
       projects: |
         **/*Tests.csproj
-        !**/*IntegrationTests.csproj
+        **/*IntegrationTests.csproj
       feedsToUse: config
       nugetConfigPath: 'NuGet.config'
       arguments: '-v n'
