@@ -22,7 +22,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Builders
             _price = 474.32m;
         }
 
-        internal static FlatCataloguePriceDtoBuilder Create() => new FlatCataloguePriceDtoBuilder();
+        internal static FlatCataloguePriceDtoBuilder Create() => new();
 
         internal ICataloguePrice Build()
         {

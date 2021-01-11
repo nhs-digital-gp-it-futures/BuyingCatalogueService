@@ -22,7 +22,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
         private const string SupplierId = "Sup 1";
 
-        private readonly List<CapabilityDetails> _capDetails = new List<CapabilityDetails>
+        private readonly List<CapabilityDetails> _capDetails = new()
         {
             CreateCapability("Cap1", "Desc1", "Ref1", "1.0.0", "http://cap1.link"),
             CreateCapability("Cap2", "Desc2", "Ref2", "1.0.0", "http://cap2.link"),
@@ -277,7 +277,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
         private static CapabilityDetails CreateCapability(string name, string desc, string reference, string version, string sourceUrl)
         {
-            return new CapabilityDetails
+            return new()
             {
                 Id = Guid.NewGuid(),
                 Name = name,

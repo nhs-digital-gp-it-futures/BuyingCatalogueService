@@ -8,7 +8,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
     {
         public bool IsValid => !Required.Any();
 
-        public HashSet<string> Required { get; } = new HashSet<string>();
+        public HashSet<string> Required { get; } = new();
 
         public Dictionary<string, string> ToDictionary() => Required.ToConstantValueDictionary(ValidationConstants.Required);
     }

@@ -28,7 +28,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 
         public static SolutionEpicEntityBuilder Create()
         {
-            return new SolutionEpicEntityBuilder();
+            return new();
         }
 
         public SolutionEpicEntityBuilder WithSolutionId(string solutionId)

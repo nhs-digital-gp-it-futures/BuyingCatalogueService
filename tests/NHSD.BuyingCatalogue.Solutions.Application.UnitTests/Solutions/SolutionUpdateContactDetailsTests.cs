@@ -18,9 +18,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
     {
         private TestContext _context;
 
-        private static readonly string _36CharacterString = new string('a', 36);
-        private static readonly string _256CharacterString = new string('a', 256);
-        private static readonly string _51CharacterString = new string('a', 51);
+        private static readonly string _36CharacterString = new('a', 36);
+        private static readonly string _256CharacterString = new('a', 256);
+        private static readonly string _51CharacterString = new('a', 51);
 
         private UpdateSolutionContactViewModel _contact1;
         private UpdateSolutionContactViewModel _contact2;

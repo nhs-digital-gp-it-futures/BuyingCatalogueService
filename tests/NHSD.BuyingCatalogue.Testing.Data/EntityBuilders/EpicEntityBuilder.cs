@@ -30,7 +30,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 
         public static EpicEntityBuilder Create()
         {
-            return new EpicEntityBuilder();
+            return new();
         }
 
         public EpicEntityBuilder WithId(string id)

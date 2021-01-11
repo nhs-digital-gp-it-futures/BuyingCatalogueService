@@ -14,7 +14,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 
         public static CatalogueItemEntityBuilder Create()
         {
-            return new CatalogueItemEntityBuilder();
+            return new();
         }
 
         public CatalogueItemEntityBuilder WithCatalogueItemId(string catalogueItemId)
@@ -55,7 +55,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 
         public CatalogueItemEntity Build()
         {
-            return new CatalogueItemEntity
+            return new()
             {
                 CatalogueItemId = _catalogueItemId,
                 CatalogueItemTypeId = _catalogueItemTypeId,

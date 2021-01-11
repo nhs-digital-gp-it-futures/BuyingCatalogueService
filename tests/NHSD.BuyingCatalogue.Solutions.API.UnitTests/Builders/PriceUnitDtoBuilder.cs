@@ -16,7 +16,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Builders
             _tierName = "tier";
         }
 
-        internal static PriceUnitDtoBuilder Create() => new PriceUnitDtoBuilder();
+        internal static PriceUnitDtoBuilder Create() => new();
 
         internal IPricingUnit Build()
         {

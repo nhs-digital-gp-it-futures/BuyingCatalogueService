@@ -7,8 +7,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
     /// </summary>
     public sealed class SupplierStatus : Enumerator
     {
-        public static readonly SupplierStatus Draft = new SupplierStatus(1, nameof(Draft));
-        public static readonly SupplierStatus AuthorityReview = new SupplierStatus(2, nameof(AuthorityReview));
+        public static readonly SupplierStatus Draft = new(1, nameof(Draft));
+        public static readonly SupplierStatus AuthorityReview = new(2, nameof(AuthorityReview));
 
         /// <summary>
         /// Initialises a new instance of the <see cref="SupplierStatus"/> class.

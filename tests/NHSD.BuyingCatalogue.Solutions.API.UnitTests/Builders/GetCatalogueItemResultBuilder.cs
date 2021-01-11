@@ -14,7 +14,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Builders
             _name = "Some catalogue item name";
         }
 
-        public static GetCatalogueItemResultBuilder Create() => new GetCatalogueItemResultBuilder();
+        public static GetCatalogueItemResultBuilder Create() => new();
 
         public GetCatalogueItemResultBuilder WithCatalogueItemId(string catalogueItemId)
         {
@@ -29,7 +29,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Builders
         }
 
         public GetCatalogueItemResult Build() =>
-            new GetCatalogueItemResult
+            new()
             {
                 CatalogueItemId = _catalogueItemId,
                 Name = _name

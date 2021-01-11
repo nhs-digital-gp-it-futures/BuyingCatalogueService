@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
         private string _summary;
         private string _solutionId;
 
-        public static AdditionalServiceEntityBuilder Create() => new AdditionalServiceEntityBuilder();
+        public static AdditionalServiceEntityBuilder Create() => new();
 
         public AdditionalServiceEntityBuilder WithCatalogueItemId(string catalogueItemId)
         {
@@ -31,7 +31,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 
         public AdditionalServiceEntity Build()
         {
-            return new AdditionalServiceEntity
+            return new()
             {
                 CatalogueItemId = _catalogueItemId,
                 Summary = _summary,

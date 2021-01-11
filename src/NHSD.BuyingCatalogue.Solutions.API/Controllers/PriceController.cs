@@ -46,7 +46,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 
         private static PriceResult GetPriceResult(ICataloguePrice cataloguePrice)
         {
-            return new PriceResult
+            return new()
             {
                 PriceId = cataloguePrice.CataloguePriceId,
                 Type = cataloguePrice.Type,

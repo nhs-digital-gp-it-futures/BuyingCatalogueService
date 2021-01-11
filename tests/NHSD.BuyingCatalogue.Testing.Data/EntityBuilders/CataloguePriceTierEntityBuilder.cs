@@ -11,7 +11,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             _cataloguePriceTierEntity = new CataloguePriceTierEntity();
         }
 
-        public static CataloguePriceTierEntityBuilder Create() => new CataloguePriceTierEntityBuilder();
+        public static CataloguePriceTierEntityBuilder Create() => new();
 
         public CataloguePriceTierEntityBuilder WithCataloguePriceId(int id)
         {

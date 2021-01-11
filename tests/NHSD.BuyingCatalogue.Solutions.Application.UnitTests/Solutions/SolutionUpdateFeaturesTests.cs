@@ -48,7 +48,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public async Task ShouldValidateSingleMaxLength()
         {
-            var validationResult = await UpdateSolutionFeaturesAsync(new List<string>() { new string('a', 101), "test" })
+            var validationResult = await UpdateSolutionFeaturesAsync(new List<string>() { new('a', 101), "test" })
                 .ConfigureAwait(false);
             validationResult.IsValid.Should().BeFalse();
             var results = validationResult.ToDictionary();
@@ -62,7 +62,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public async Task ShouldValidateMultipleMaxLength()
         {
-            var validationResult = await UpdateSolutionFeaturesAsync(new List<string>() { new string('a', 101), "test", new string('b', 200), "test", "test", new string('c', 105) })
+            var validationResult = await UpdateSolutionFeaturesAsync(new List<string>() { new('a', 101), "test", new('b', 200), "test", "test", new('c', 105) })
                 .ConfigureAwait(false);
             validationResult.IsValid.Should().BeFalse();
             var results = validationResult.ToDictionary();

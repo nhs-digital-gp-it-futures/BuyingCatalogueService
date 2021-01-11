@@ -6,7 +6,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
 {
     internal class MaxLengthResult : ISimpleResult
     {
-        public HashSet<string> MaxLength { get; } = new HashSet<string>();
+        public HashSet<string> MaxLength { get; } = new();
 
         public bool IsValid => !MaxLength.Any();
 

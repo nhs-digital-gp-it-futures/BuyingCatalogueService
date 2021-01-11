@@ -15,7 +15,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
     {
         private TestContext _context;
 
-        private List<string> _solutionIds = new List<string>();
+        private List<string> _solutionIds = new();
         private List<IAdditionalServiceResult> _additionalServiceResult;
 
         private static readonly IAdditionalServiceResult AdditionalService1 = Mock.Of<IAdditionalServiceResult>(a =>

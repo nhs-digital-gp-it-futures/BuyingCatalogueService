@@ -17,14 +17,14 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
     {
         private TestContext _context;
 
-        private readonly Dictionary<string, (string name, string id)> Suppliers = new Dictionary<string, (string name, string id)>
+        private readonly Dictionary<string, (string name, string id)> Suppliers = new()
         {
             { "Sup1", (name: "Supplier 1 Name", id: "Sup1")},
             { "Sup2", (name: "Supplier 2 Name", id: "Sup2")},
             { "Sup3", (name: "Supplier 3 Name", id: "Sup3")},
         };
 
-        private readonly Dictionary<string, (string Name, string Description)> Capabilities = new Dictionary<string, (string Name, string Description)>
+        private readonly Dictionary<string, (string Name, string Description)> Capabilities = new()
         {
             { "C1", ("Cap1Name", "Cap1Desc")},
             { "C2", ("Cap2Name", "Cap2Desc")},
