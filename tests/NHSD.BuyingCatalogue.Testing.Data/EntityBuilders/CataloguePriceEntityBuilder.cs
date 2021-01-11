@@ -19,7 +19,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             };
         }
 
-        public static CataloguePriceEntityBuilder Create() => new CataloguePriceEntityBuilder();
+        public static CataloguePriceEntityBuilder Create() => new();
 
         public CataloguePriceEntityBuilder WithCatalogueItemId(string itemId)
         {

@@ -5,7 +5,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicatio
 {
     public class MobileOperatingSystemsDto : IMobileOperatingSystems
     {
-        public HashSet<string> OperatingSystems { get; internal set; } = new HashSet<string>();
+        public HashSet<string> OperatingSystems { get; internal set; } = new();
         public string OperatingSystemsDescription { get; set; }
     }
 }

@@ -28,13 +28,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         private IEpicRepository _epicRepository;
         private ISolutionEpicStatusRepository _solutionEpicStatusRepository;
 
-        private static readonly List<CapabilityEntity> _capDetails = new List<CapabilityEntity>
+        private static readonly List<CapabilityEntity> _capDetails = new()
         {
             CapabilityEntityBuilder.Create().WithId(Guid.NewGuid()).WithCapabilityRef("Ref1").Build(),
             CapabilityEntityBuilder.Create().WithId(Guid.NewGuid()).WithCapabilityRef("Ref2").Build(),
         };
 
-        private readonly List<EpicEntity> _epicDetails = new List<EpicEntity>()
+        private readonly List<EpicEntity> _epicDetails = new()
         {
             EpicEntityBuilder.Create().WithId("Epic1").WithCapabilityId(_capDetails[0].Id).Build(),
             EpicEntityBuilder.Create().WithId("Epic2").WithCapabilityId(_capDetails[1].Id).Build()

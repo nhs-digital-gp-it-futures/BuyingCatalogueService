@@ -20,7 +20,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Builders
             _solutionName = "sol name";
         }
 
-        internal static AdditionalServiceDtoBuilder Create() => new AdditionalServiceDtoBuilder();
+        internal static AdditionalServiceDtoBuilder Create() => new();
 
         public AdditionalServiceDtoBuilder WithSolutionId(string solutionId)
         {

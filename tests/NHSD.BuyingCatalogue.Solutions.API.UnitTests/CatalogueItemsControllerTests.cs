@@ -153,7 +153,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             internal CatalogueItemsController Controller { get; }
 
             internal static CatalogueItemsControllerTestContext Create() =>
-                new CatalogueItemsControllerTestContext();
+                new();
         }
     }
 }

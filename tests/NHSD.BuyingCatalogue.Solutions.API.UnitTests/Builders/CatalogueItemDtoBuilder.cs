@@ -13,7 +13,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Builders
             _name = "Some catalogue item name";
         }
 
-        public static CatalogueItemDtoBuilder Create() => new CatalogueItemDtoBuilder();
+        public static CatalogueItemDtoBuilder Create() => new();
 
         public CatalogueItemDtoBuilder WithCatalogueItemId(string catalogueItemId)
         {
@@ -27,6 +27,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Builders
             return this;
         }
 
-        public CatalogueItemDto Build() => new CatalogueItemDto(_catalogueItemId, _name);
+        public CatalogueItemDto Build() => new(_catalogueItemId, _name);
     }
 }

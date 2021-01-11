@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 
         public static SupplierEntityBuilder Create()
         {
-            return new SupplierEntityBuilder();
+            return new();
         }
 
         public SupplierEntityBuilder()

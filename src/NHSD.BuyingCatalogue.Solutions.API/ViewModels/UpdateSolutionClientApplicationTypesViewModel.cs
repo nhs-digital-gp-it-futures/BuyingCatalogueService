@@ -7,7 +7,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 {
     public sealed class UpdateSolutionClientApplicationTypesViewModel : IUpdateSolutionClientApplicationTypes
     {
-        private static readonly HashSet<string> AcceptedClientApplicationTypes = new HashSet<string>
+        private static readonly HashSet<string> AcceptedClientApplicationTypes = new()
         {
             "browser-based",
             "native-mobile",

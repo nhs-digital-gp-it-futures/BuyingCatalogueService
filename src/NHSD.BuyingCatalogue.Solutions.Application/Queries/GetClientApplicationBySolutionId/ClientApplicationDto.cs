@@ -6,9 +6,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicatio
 {
     internal sealed class ClientApplicationDto : IClientApplication
     {
-        public HashSet<string> ClientApplicationTypes { get; set; } = new HashSet<string>();
+        public HashSet<string> ClientApplicationTypes { get; set; } = new();
 
-        public HashSet<string> BrowsersSupported { get; set; } = new HashSet<string>();
+        public HashSet<string> BrowsersSupported { get; set; } = new();
 
         public bool? MobileResponsive { get; set; }
 

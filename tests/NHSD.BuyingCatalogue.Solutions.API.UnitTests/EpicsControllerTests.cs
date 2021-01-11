@@ -33,7 +33,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             HashSet<ClaimedEpicViewModel> claimedEpics = new HashSet<ClaimedEpicViewModel>()
             {
-                new ClaimedEpicViewModel()
+                new()
                 {
                     EpicId = "Epic1",
                     StatusName = "Passed"
@@ -61,7 +61,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             HashSet<ClaimedEpicViewModel> claimedEpics = new HashSet<ClaimedEpicViewModel>()
             {
-                new ClaimedEpicViewModel()
+                new()
                 {
                     EpicId = "Test",
                     StatusName = "Unknown"

@@ -130,7 +130,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
         private static PriceResult CreatePrice(ICataloguePrice cataloguePrice)
         {
-            return new PriceResult
+            return new()
             {
                 PriceId = cataloguePrice.CataloguePriceId,
                 Type = cataloguePrice.Type,
@@ -173,6 +173,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         }
 
         private static PricingResult CreatePricesForQueryingByCatalogueItemId(IEnumerable<ICataloguePrice> cataloguePrice)
-        => new PricingResult { Prices = cataloguePrice.Select(CreatePrice) };
+        => new()
+            { Prices = cataloguePrice.Select(CreatePrice) };
     }
 }

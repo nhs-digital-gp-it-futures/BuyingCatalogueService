@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 
         public static FrameworkSolutionEntityBuilder Create()
         {
-            return new FrameworkSolutionEntityBuilder();
+            return new();
         }
 
         public FrameworkSolutionEntityBuilder()

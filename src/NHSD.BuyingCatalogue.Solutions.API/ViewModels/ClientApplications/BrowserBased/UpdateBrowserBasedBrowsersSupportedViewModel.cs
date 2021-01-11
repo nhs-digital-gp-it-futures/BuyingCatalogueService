@@ -7,7 +7,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.ClientApplications.Brows
     public sealed class UpdateBrowserBasedBrowsersSupportedViewModel : IUpdateBrowserBasedBrowsersSupportedData
     {
         [JsonProperty("supported-browsers")]
-        public HashSet<string> BrowsersSupported { get; internal set; } = new HashSet<string>();
+        public HashSet<string> BrowsersSupported { get; internal set; } = new();
 
         [JsonProperty("mobile-responsive")]
         public string MobileResponsive { get; internal set; }

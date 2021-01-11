@@ -5,9 +5,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 {
     internal class ClientApplication
     {
-        public HashSet<string> ClientApplicationTypes { get; set; } = new HashSet<string>();
+        public HashSet<string> ClientApplicationTypes { get; set; } = new();
 
-        public HashSet<string> BrowsersSupported { get; set; } = new HashSet<string>();
+        public HashSet<string> BrowsersSupported { get; set; } = new();
 
         public bool? MobileResponsive { get; set; }
 

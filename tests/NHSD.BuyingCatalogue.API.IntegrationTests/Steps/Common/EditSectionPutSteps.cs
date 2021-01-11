@@ -14,7 +14,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
     {
         private readonly Response _response;
 
-        private static readonly Dictionary<string, Type> PayloadTypes = new Dictionary<string, Type>
+        private static readonly Dictionary<string, Type> PayloadTypes = new()
         {
             { "client-application-types", typeof(ClientApplicationTypesPayload) },
             { "solution-description", typeof(SolutionDescriptionPayload) },

@@ -27,7 +27,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Builders
             };
         }
 
-        internal static TieredCataloguePriceDtoBuilder Create() => new TieredCataloguePriceDtoBuilder();
+        internal static TieredCataloguePriceDtoBuilder Create() => new();
 
         internal ICataloguePrice Build()
         {

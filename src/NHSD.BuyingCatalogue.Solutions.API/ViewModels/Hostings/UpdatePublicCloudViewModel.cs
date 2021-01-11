@@ -14,7 +14,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Hostings
         public string Link { get; set; }
 
         [JsonProperty("requires-hscn")]
-        public HashSet<string> RequiresHSCNArray { get; internal set; } = new HashSet<string>();
+        public HashSet<string> RequiresHSCNArray { get; internal set; } = new();
 
         [JsonIgnore]
         public string RequiresHSCN

@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 
         public static CapabilityEntityBuilder Create()
         {
-            return new CapabilityEntityBuilder();
+            return new();
         }
 
         public CapabilityEntityBuilder()

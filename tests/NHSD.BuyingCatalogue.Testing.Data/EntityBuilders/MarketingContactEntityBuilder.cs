@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 
         public static MarketingContactEntityBuilder Create()
         {
-            return new MarketingContactEntityBuilder();
+            return new();
         }
 
         public MarketingContactEntityBuilder()

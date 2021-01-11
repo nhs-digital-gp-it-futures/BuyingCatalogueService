@@ -33,7 +33,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
         }
 
         public async Task<Solution> ByIdAsync(string id, CancellationToken cancellationToken) =>
-            new Solution(await _solutionRepository.ByIdAsync(id, cancellationToken).ConfigureAwait(false)
+            new(await _solutionRepository.ByIdAsync(id, cancellationToken).ConfigureAwait(false)
                          ?? throw new NotFoundException(nameof(Solution), id),
                 await _solutionCapabilityRepository.ListSolutionCapabilitiesAsync(id, cancellationToken)
                     .ConfigureAwait(false),

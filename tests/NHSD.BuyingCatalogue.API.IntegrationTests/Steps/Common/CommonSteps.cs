@@ -11,7 +11,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
     [Binding]
     internal sealed class CommonSteps
     {
-        private static readonly Dictionary<string, string> Tokens = new Dictionary<string, string>
+        private static readonly Dictionary<string, string> Tokens = new()
         {
             { "learn-more", "sections.learn-more.answers."},
             {

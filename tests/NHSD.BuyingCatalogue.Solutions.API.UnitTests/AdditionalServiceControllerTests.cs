@@ -103,7 +103,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
         private static AdditionalServiceListResult GetAdditionalServicesResult(IEnumerable<IAdditionalService> additionalServices)
         {
-            return new AdditionalServiceListResult
+            return new()
             {
                 AdditionalServices = additionalServices.Select(x => new AdditionalServiceModel
                 {
