@@ -77,7 +77,7 @@ jobs:
     displayName: 'Run dotnet restore'
     inputs:
       command: restore
-      projects: '!**/*.dtproj'
+      projects: '**/*.csproj'
       feedsToUse: config
       nugetConfigPath: 'NuGet.config'
       arguments: '-v n'
