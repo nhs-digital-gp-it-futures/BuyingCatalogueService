@@ -77,7 +77,7 @@ jobs:
     displayName: 'Run dotnet restore'
     inputs:
       command: restore
-      projects: src/NHSD.BuyingCatalogue.API/NHSD.BuyingCatalogue.API.csproj
+      projects: '**/*.csproj'
       feedsToUse: config
       nugetConfigPath: 'NuGet.config'
       arguments: '-v n'
@@ -106,23 +106,12 @@ jobs:
     displayName: 'Docker up'
 
   - task: DotNetCoreCLI@2
-    displayName: 'Run dotnet restore (tests)'
-    inputs:
-      command: restore
-      projects: |
-        **/*Tests.csproj
-        !**/*IntegrationTests.csproj
-      feedsToUse: config
-      nugetConfigPath: 'NuGet.config'
-      arguments: '-v n'
-
-  - task: DotNetCoreCLI@2
     displayName: 'Run dotnet build (tests)'
     inputs:
       command: build
       projects: |
         **/*Tests.csproj
-        !**/*IntegrationTests.csproj
+        **/*IntegrationTests.csproj
       arguments: '--no-restore'
   
   - task: DotNetCoreCLI@2
