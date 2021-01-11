@@ -8,7 +8,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
     {
         public bool IsValid => !InvalidEpicsList.Any();
 
-        public HashSet<string> InvalidEpicsList { get; } = new HashSet<string>();
+        public HashSet<string> InvalidEpicsList { get; } = new();
         
         public Dictionary<string, string> ToDictionary() =>
             InvalidEpicsList.ToConstantValueDictionary(ValidationConstants.InvalidEpics);

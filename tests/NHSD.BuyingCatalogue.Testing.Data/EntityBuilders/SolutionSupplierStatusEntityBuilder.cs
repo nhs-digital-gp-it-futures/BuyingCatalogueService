@@ -8,7 +8,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 
         public static SolutionSupplierStatusEntityBuilder Create()
         {
-            return new SolutionSupplierStatusEntityBuilder();
+            return new();
         }
 
         public SolutionSupplierStatusEntityBuilder()

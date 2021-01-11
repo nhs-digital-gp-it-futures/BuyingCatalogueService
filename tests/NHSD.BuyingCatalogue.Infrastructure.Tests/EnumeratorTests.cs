@@ -105,9 +105,9 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
 
         private sealed class SizeType : Enumerator
         {
-            public static SizeType Small = new SizeType(1, "Small");
-            public static SizeType Medium = new SizeType(2, "Medium");
-            public static SizeType Large = new SizeType(3, "Large");
+            public static SizeType Small = new(1, "Small");
+            public static SizeType Medium = new(2, "Medium");
+            public static SizeType Large = new(3, "Large");
 
             private SizeType(int id, string name) : base(id, name)
             {

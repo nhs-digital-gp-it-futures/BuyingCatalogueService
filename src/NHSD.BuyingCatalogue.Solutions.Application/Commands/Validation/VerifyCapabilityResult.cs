@@ -8,7 +8,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
     {
         public bool IsValid => !ValidCapabilityList.Any();
 
-        public HashSet<string> ValidCapabilityList { get; } = new HashSet<string>();
+        public HashSet<string> ValidCapabilityList { get; } = new();
 
         public Dictionary<string, string> ToDictionary() =>
             ValidCapabilityList.ToConstantValueDictionary(ValidationConstants.Capability);

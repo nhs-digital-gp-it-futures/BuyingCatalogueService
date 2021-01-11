@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 
         public static SolutionCapabilityEntityBuilder Create()
         {
-            return new SolutionCapabilityEntityBuilder();
+            return new();
         }
 
         public SolutionCapabilityEntityBuilder()

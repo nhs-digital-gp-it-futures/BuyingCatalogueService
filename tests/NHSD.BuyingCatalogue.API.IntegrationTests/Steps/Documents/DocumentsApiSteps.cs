@@ -49,7 +49,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Documents
 
         private static MappingModel CreateMappingModel(string path, int responseStatusCode, string responseBody = null)
         {
-            return new MappingModel
+            return new()
             {
                 Response = new ResponseModel { StatusCode = responseStatusCode, Body = responseBody },
                 Request = new RequestModel
