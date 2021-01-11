@@ -77,7 +77,6 @@ jobs:
     displayName: 'Run dotnet restore'
     inputs:
       command: restore
-      projects: src/NHSD.BuyingCatalogue.API/NHSD.BuyingCatalogue.API.csproj
       feedsToUse: config
       nugetConfigPath: 'NuGet.config'
       arguments: '-v n'
@@ -104,17 +103,6 @@ jobs:
       docker-compose -f "docker/docker-compose.integration.yml" up -d
       docker ps -a
     displayName: 'Docker up'
-
-  - task: DotNetCoreCLI@2
-    displayName: 'Run dotnet restore (tests)'
-    inputs:
-      command: restore
-      projects: |
-        **/*Tests.csproj
-        **/*IntegrationTests.csproj
-      feedsToUse: config
-      nugetConfigPath: 'NuGet.config'
-      arguments: '-v n'
 
   - task: DotNetCoreCLI@2
     displayName: 'Run dotnet build (tests)'
