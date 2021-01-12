@@ -72,7 +72,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var solutionSummaryUpdateViewModel = new UpdateSolutionSummaryViewModel()
             {
-                Summary = string.Empty
+                Summary = string.Empty,
             };
 
             var validationModel = new Mock<ISimpleResult>();

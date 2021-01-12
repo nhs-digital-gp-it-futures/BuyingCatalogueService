@@ -54,7 +54,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                         solutionId,
                         epicId = claimedEpic.EpicId,
                         statusName = claimedEpic.StatusName,
-                        lastUpdatedBy
+                        lastUpdatedBy,
                     })));
 
             await _dbConnector.ExecuteMultipleWithTransactionAsync(queries, cancellationToken).ConfigureAwait(false);

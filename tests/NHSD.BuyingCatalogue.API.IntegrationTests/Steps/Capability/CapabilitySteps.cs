@@ -36,7 +36,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Capability
                 CapabilityRef = t.CapabilityRef,
                 Version = t.Version,
                 Name = t.CapabilityName,
-                IsFoundation = t.IsFoundation
+                IsFoundation = t.IsFoundation,
             });
 
             var capabilities = (await _response.ReadBody().ConfigureAwait(false))
@@ -46,7 +46,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Capability
                     CapabilityRef = t.SelectToken("reference").ToString(),
                     Version = t.SelectToken("version").ToString(),
                     Name = t.SelectToken("name").ToString(),
-                    IsFoundation = Convert.ToBoolean(t.SelectToken("isFoundation").ToString(), CultureInfo.InvariantCulture)
+                    IsFoundation = Convert.ToBoolean(t.SelectToken("isFoundation").ToString(), CultureInfo.InvariantCulture),
                 });
 
             capabilities.Should().BeEquivalentTo(expectedCapabilities, options => options.WithStrictOrdering());

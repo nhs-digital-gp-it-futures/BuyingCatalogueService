@@ -23,7 +23,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Builders
             _tieredPrices = new List<ITieredPrice>
             {
                 new TieredPriceDto { BandStart = 1, BandEnd = 5, Price = 753.78m },
-                new TieredPriceDto { BandStart = 6, Price = 546.32m }
+                new TieredPriceDto { BandStart = 6, Price = 546.32m },
             };
         }
 
@@ -39,7 +39,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Builders
                 CatalogueItemId = _catalogueItemId,
                 CurrencyCode = _currencyCode,
                 TieredPrices = _tieredPrices,
-                PricingUnit = PriceUnitDtoBuilder.Create().Build()
+                PricingUnit = PriceUnitDtoBuilder.Create().Build(),
             };
         }
     }

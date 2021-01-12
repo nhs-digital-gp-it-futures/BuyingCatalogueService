@@ -19,7 +19,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             {
                 CapabilityId = Guid.NewGuid(),
                 FrameworkId = "NHSDGP001",
-                IsFoundation = true
+                IsFoundation = true,
             };
         }
 

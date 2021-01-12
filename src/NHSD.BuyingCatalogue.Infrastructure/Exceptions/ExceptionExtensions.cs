@@ -33,7 +33,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Exceptions
             return new JsonResult(new
             {
                 errors = new[] { "An unexpected error occurred." },
-                detail = verbose ? exception.ToString() : exception.Message
+                detail = verbose ? exception.ToString() : exception.Message,
             });
         }
     }

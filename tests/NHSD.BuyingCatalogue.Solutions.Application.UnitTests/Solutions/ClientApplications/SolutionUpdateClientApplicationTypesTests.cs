@@ -24,7 +24,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateClientApplicationTypes(new HashSet<string> { "browser-based", "native-mobile", })
+            var validationResult = await UpdateClientApplicationTypes(new HashSet<string> { "browser-based", "native-mobile" })
                 .ConfigureAwait(false);
             validationResult.IsValid.Should().Be(true);
 

@@ -45,7 +45,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
             {
                 SizeType.Small,
                 SizeType.Medium,
-                SizeType.Large
+                SizeType.Large,
             };
 
             var actual = Enumerator.GetAll<SizeType>();

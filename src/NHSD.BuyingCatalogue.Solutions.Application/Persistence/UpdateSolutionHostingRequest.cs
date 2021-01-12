@@ -11,7 +11,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
             SolutionId = id;
             Hosting = JsonConvert.SerializeObject(hosting, new JsonSerializerSettings
             {
-                NullValueHandling = NullValueHandling.Ignore
+                NullValueHandling = NullValueHandling.Ignore,
             });
         }
 

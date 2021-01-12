@@ -21,7 +21,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
                     clientApplication.MobileThirdParty = new MobileThirdParty()
                     {
                         ThirdPartyComponents = request.Data.ThirdPartyComponents,
-                        DeviceCapabilities = request.Data.DeviceCapabilities
+                        DeviceCapabilities = request.Data.DeviceCapabilities,
                     };
                 }, cancellationToken).ConfigureAwait(false);
     }

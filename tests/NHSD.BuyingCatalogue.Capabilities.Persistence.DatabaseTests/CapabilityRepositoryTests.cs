@@ -39,7 +39,7 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
             var capabilityEntities = new List<CapabilityEntity>
             {
                 CapabilityEntityBuilder.Create().WithName("Cap1").Build(),
-                CapabilityEntityBuilder.Create().WithName("Cap2").Build()
+                CapabilityEntityBuilder.Create().WithName("Cap2").Build(),
             };
 
             foreach (var capabilityEntity in capabilityEntities)
@@ -54,7 +54,7 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
                 CapabilityReference = ce.CapabilityRef,
                 ce.Version,
                 ce.Name,
-                IsFoundation = false
+                IsFoundation = false,
             }));
         }
 
@@ -65,7 +65,7 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
             {
                 CapabilityEntityBuilder.Create().WithName("Cap1").Build(),
                 CapabilityEntityBuilder.Create().WithName("Cap2").Build(),
-                CapabilityEntityBuilder.Create().WithName("Cap3").Build()
+                CapabilityEntityBuilder.Create().WithName("Cap3").Build(),
             };
 
             foreach (var capabilityEntity in capabilityEntities)
@@ -83,7 +83,7 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
                 CapabilityReference = ce.CapabilityRef,
                 ce.Version,
                 ce.Name,
-                IsFoundation = (ce.Name == "Cap2")
+                IsFoundation = (ce.Name == "Cap2"),
             }));
         }
 
@@ -95,7 +95,7 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
                 CapabilityEntityBuilder.Create().WithName("Bravo").Build(),
                 CapabilityEntityBuilder.Create().WithName("Alpha").Build(),
                 CapabilityEntityBuilder.Create().WithName("Delta").Build(),
-                CapabilityEntityBuilder.Create().WithName("Charlie").Build()
+                CapabilityEntityBuilder.Create().WithName("Charlie").Build(),
             };
 
             foreach (var capabilityEntity in capabilityEntities)

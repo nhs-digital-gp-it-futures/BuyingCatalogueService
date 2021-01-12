@@ -62,12 +62,12 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Documents
                                 {
                                     Name = "WildcardMatcher",
                                     Pattern = path,
-                                    IgnoreCase = true
-                                }
-                            }
+                                    IgnoreCase = true,
+                                },
+                            },
                     },
-                    Methods = new[] { "GET" }
-                }
+                    Methods = new[] { "GET" },
+                },
             };
         }
 

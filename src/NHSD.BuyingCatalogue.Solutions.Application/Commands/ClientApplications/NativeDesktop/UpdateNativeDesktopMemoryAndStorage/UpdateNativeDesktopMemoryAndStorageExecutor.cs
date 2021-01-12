@@ -20,7 +20,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
                     MinimumMemoryRequirement = request.Data.MinimumMemoryRequirement,
                     StorageRequirementsDescription = request.Data.StorageRequirementsDescription,
                     MinimumCpu = request.Data.MinimumCpu,
-                    RecommendedResolution = request.Data.RecommendedResolution
+                    RecommendedResolution = request.Data.RecommendedResolution,
                 },cancellationToken).ConfigureAwait(false);
     }
 }

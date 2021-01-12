@@ -131,7 +131,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 {
                     solutionId = updateSupplierRequest.SolutionId,
                     summary = updateSupplierRequest.Description,
-                    supplierUrl = updateSupplierRequest.Link
+                    supplierUrl = updateSupplierRequest.Link,
                 });
         }
     }

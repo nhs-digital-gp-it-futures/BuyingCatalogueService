@@ -153,7 +153,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                                                           cc.Version == "1.0" &&
                                                           cc.Description == "cap1 Description" &&
                                                           cc.Link == "http://a.url"),
-                        Mock.Of<IClaimedCapability>(cc => cc.Name == "cap2")
+                        Mock.Of<IClaimedCapability>(cc => cc.Name == "cap2"),
                     }, config => config.ComparingByMembers<IClaimedCapability>().WithoutStrictOrdering());
 
             solution.Contacts.Count().Should().Be(1);
@@ -352,7 +352,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                     {
                         Mock.Of<IClaimedCapability>(cc => cc.Name == "cap1"),
                         Mock.Of<IClaimedCapability>(cc => cc.Name == "cap2"),
-                        Mock.Of<IClaimedCapability>(cc => cc.Name == "cap3")
+                        Mock.Of<IClaimedCapability>(cc => cc.Name == "cap3"),
                     }, config => config.ComparingByMembers<IClaimedCapability>());
 
 
@@ -486,7 +486,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 .BeEquivalentTo(
                     new[]
                     {
-                        Mock.Of<IClaimedCapability>(cc => cc.Name == "cap1")
+                        Mock.Of<IClaimedCapability>(cc => cc.Name == "cap1"),
                     }, config => config.ComparingByMembers<IClaimedCapability>());
 
             solution.Contacts.Count().Should().Be(0);
@@ -563,7 +563,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 .BeEquivalentTo(
                     new[]
                     {
-                        Mock.Of<IClaimedCapability>(cc => cc.Name == "cap1")
+                        Mock.Of<IClaimedCapability>(cc => cc.Name == "cap1"),
                     }, config => config.ComparingByMembers<IClaimedCapability>());
             solution.Contacts.Should().HaveCount(0);
 
@@ -662,9 +662,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                                                               Mock.Of<IClaimedCapabilityEpic>( e=> e.EpicId == "C1E4" &&
                                                                                                    e.EpicName == "Epic 4" &&
                                                                                                    e.IsMet == false &&
-                                                                                                   e.EpicCompliancyLevel == "MAY")
+                                                                                                   e.EpicCompliancyLevel == "MAY"),
                                                           }),
-                        Mock.Of<IClaimedCapability>(cc => cc.Name == "cap2")
+                        Mock.Of<IClaimedCapability>(cc => cc.Name == "cap2"),
                     }, config => config.ComparingByMembers<IClaimedCapability>());
 
 

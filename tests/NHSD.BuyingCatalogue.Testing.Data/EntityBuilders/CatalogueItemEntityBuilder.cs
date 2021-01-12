@@ -62,7 +62,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
                 Created = _created,
                 PublishedStatusId = _publishedStatusId,
                 Name = _name,
-                SupplierId = _supplierId
+                SupplierId = _supplierId,
             };
         }
     }

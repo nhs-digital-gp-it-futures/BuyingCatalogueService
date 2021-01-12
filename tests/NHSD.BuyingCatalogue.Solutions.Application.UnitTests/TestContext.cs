@@ -73,7 +73,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             var myAssemblies = new[]
             {
-                Assembly.GetAssembly(typeof(SolutionAutoMapperProfile))
+                Assembly.GetAssembly(typeof(SolutionAutoMapperProfile)),
             };
             _scope = serviceCollection
                 .AddAutoMapper(myAssemblies)

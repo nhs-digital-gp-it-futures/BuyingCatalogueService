@@ -26,7 +26,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             CreateCapability("Cap1", "Desc1", "Ref1", "1.0.0", "http://cap1.link"),
             CreateCapability("Cap2", "Desc2", "Ref2", "1.0.0", "http://cap2.link"),
-            CreateCapability("Cap3", "Desc3", "Ref3", "1.0.0", "http://cap3.link")
+            CreateCapability("Cap3", "Desc3", "Ref3", "1.0.0", "http://cap3.link"),
         };
 
         private ISolutionCapabilityRepository _solutionCapabilityRepository;
@@ -284,7 +284,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 Desc = desc,
                 Reference = reference,
                 Version = version,
-                SourceUrl = sourceUrl
+                SourceUrl = sourceUrl,
             };
         }
 

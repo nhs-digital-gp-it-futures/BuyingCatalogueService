@@ -19,7 +19,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             {
                 SolutionId = "SolutionId",
                 CapabilityId = Guid.NewGuid(),
-                StatusId = 1
+                StatusId = 1,
             };
         }
 

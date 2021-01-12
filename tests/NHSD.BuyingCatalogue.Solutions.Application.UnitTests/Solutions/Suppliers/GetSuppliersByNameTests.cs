@@ -34,7 +34,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
             var expectedResult = new[]
             {
                 MockSupplierNameResult("1", "Supplier 1"),
-                MockSupplierNameResult("2", "Supplier 2")
+                MockSupplierNameResult("2", "Supplier 2"),
             };
 
             _context.MockSupplierRepository

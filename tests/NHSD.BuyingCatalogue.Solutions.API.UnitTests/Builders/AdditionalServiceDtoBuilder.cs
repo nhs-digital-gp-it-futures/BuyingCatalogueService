@@ -36,7 +36,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Builders
                 Summary = _summary,
                 CatalogueItemName = _catalogueItemName,
                 SolutionId = _solutionId,
-                SolutionName = _solutionName
+                SolutionName = _solutionName,
             };
         }
     }

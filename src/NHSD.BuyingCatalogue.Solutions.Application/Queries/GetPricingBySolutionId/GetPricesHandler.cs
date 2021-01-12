@@ -41,7 +41,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingBySolutio
                         CurrencyCode = price.CurrencyCode,
                         PricingUnit = _mapper.Map<IPricingUnit>(price.PricingUnit),
                         TimeUnit = _mapper.Map<ITimeUnit>(price.TimeUnit),
-                        Price = cataloguePriceFlat.Price
+                        Price = cataloguePriceFlat.Price,
                     });
                 }
 
@@ -57,7 +57,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingBySolutio
                         CurrencyCode = price.CurrencyCode,
                         PricingUnit = _mapper.Map<IPricingUnit>(price.PricingUnit),
                         TimeUnit = _mapper.Map<ITimeUnit>(price.TimeUnit),
-                        TieredPrices = _mapper.Map<IEnumerable<ITieredPrice>>(cataloguePriceTier.TieredPrices)
+                        TieredPrices = _mapper.Map<IEnumerable<ITieredPrice>>(cataloguePriceTier.TieredPrices),
                     });
                 }
             }

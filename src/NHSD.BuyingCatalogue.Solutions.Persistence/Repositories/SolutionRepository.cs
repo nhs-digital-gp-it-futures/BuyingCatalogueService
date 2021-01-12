@@ -75,7 +75,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 cancellationToken,
                 new
                 {
-                    id
+                    id,
                 });
 
             return solutionCount.Sum() == 1;

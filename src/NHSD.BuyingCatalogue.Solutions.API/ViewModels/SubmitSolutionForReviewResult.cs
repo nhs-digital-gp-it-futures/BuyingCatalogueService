@@ -14,7 +14,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
             { SubmitSolutionForReviewErrors.ClientApplicationTypeIsRequired, "client-application-types" },
             { SubmitSolutionForReviewErrors.SupportedBrowserIsRequired, "browser-based" },
             { SubmitSolutionForReviewErrors.MobileResponsiveIsRequired, "browser-based" },
-            { SubmitSolutionForReviewErrors.PluginRequirementIsRequired, "browser-based" }
+            { SubmitSolutionForReviewErrors.PluginRequirementIsRequired, "browser-based" },
         };
 
         [JsonProperty("required")]

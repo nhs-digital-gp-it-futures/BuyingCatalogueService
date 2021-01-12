@@ -27,7 +27,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Domain
             var expected = new[]
             {
                 SupplierStatus.Draft,
-                SupplierStatus.AuthorityReview
+                SupplierStatus.AuthorityReview,
             };
 
             var actual = Enumerator.GetAll<SupplierStatus>();

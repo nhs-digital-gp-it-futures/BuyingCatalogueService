@@ -38,7 +38,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
                                    INNER JOIN Capability ON SolutionCapability.CapabilityId = Capability.Id
                                    WHERE SolutionId = @solutionId;", new
             {
-                solutionId
+                solutionId,
             })
                 .ConfigureAwait(false);
         }

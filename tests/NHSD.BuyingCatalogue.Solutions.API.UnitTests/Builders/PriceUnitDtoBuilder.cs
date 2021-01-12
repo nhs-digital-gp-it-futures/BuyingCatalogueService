@@ -24,7 +24,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Builders
             {
                 Name = _name,
                 Description = _description,
-                TierName = _tierName
+                TierName = _tierName,
             };
         }
     }

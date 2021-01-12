@@ -36,8 +36,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 new()
                 {
                     EpicId = "Epic1",
-                    StatusName = "Passed"
-                }
+                    StatusName = "Passed",
+                },
             };
 
             var viewModel = new UpdateEpicsViewModel { ClaimedEpics = claimedEpics };
@@ -64,8 +64,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 new()
                 {
                     EpicId = "Test",
-                    StatusName = "Unknown"
-                }
+                    StatusName = "Unknown",
+                },
             };
 
             var viewModel = new UpdateEpicsViewModel { ClaimedEpics = claimedEpics };

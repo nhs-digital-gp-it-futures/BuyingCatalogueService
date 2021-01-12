@@ -24,7 +24,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
             new List<Dictionary<string, string>>
             {
                 Required.ToConstantValueDictionary(ValidationConstants.Required),
-                MaxLength.ToConstantValueDictionary(ValidationConstants.MaxLength)
+                MaxLength.ToConstantValueDictionary(ValidationConstants.MaxLength),
             }
             .Combine();
     }

@@ -122,7 +122,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
             var request = new UpdateBrowserBasedPluginsViewModel()
             {
                 Required = "yes",
-                AdditionalInformation = "Some info"
+                AdditionalInformation = "Some info",
             };
 
             var result = (await _plugInsController.UpdatePlugInsAsync(SolutionId, request).ConfigureAwait(false)) as NoContentResult;

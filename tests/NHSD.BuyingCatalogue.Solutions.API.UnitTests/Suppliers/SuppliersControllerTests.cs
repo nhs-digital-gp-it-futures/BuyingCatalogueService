@@ -66,7 +66,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
             var expectedSuppliers = new[]
             {
                 new GetSupplierModel(supplier1),
-                new GetSupplierModel(supplier2)
+                new GetSupplierModel(supplier2),
             };
 
             var mockMediator = new Mock<IMediator>();

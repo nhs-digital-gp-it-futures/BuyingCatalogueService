@@ -60,7 +60,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Persistence
             var expectedSuppliers = new[]
             {
                 MockSupplierNameResult("1", "Supplier 1"),
-                MockSupplierNameResult("2", "Supplier 2")
+                MockSupplierNameResult("2", "Supplier 2"),
             };
 
             var mockRepo = new Mock<ISupplierRepository>();

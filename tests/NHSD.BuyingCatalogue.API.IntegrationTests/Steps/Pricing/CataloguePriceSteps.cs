@@ -98,7 +98,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
                 PricingItemDescription = x.SelectToken(itemUnitToken).Value<string>("description"),
                 PricingItemTierName = x.SelectToken(itemUnitToken).Value<string>("tierName"),
                 TimeUnitName = x.SelectToken(timeUnitToken)?.Value<string>("name"),
-                TimeUnitDescription = x.SelectToken(timeUnitToken)?.Value<string>("description")
+                TimeUnitDescription = x.SelectToken(timeUnitToken)?.Value<string>("description"),
             });
 
             content.Should().BeEquivalentTo(expected);
@@ -129,7 +129,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
                 PricingItemDescription = response.SelectToken(itemUnitToken).Value<string>("description"),
                 PricingItemTierName = response.SelectToken(itemUnitToken).Value<string>("tierName"),
                 TimeUnitName = response.SelectToken(timeUnitToken)?.Value<string>("name"),
-                TimeUnitDescription = response.SelectToken(timeUnitToken)?.Value<string>("description")
+                TimeUnitDescription = response.SelectToken(timeUnitToken)?.Value<string>("description"),
             };
 
             content.Should().BeEquivalentTo(expected);
@@ -145,7 +145,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             {
                 y.Start,
                 y.End,
-                y.Price
+                y.Price,
             }));
 
             var pricesToken = (await _response.ReadBody()).SelectToken(priceToken);
@@ -158,8 +158,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
                 {
                     Start = z.Value<int>("start"),
                     End = z.Value<int?>("end"),
-                    Price = z.Value<decimal>("price")
-                })
+                    Price = z.Value<decimal>("price"),
+                }),
             });
 
             content.Select(x => x.Tier).Should().BeEquivalentTo(expected, x => x.WithoutStrictOrdering());
@@ -174,7 +174,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             {
                 y.Start,
                 y.End,
-                y.Price
+                y.Price,
             });
 
             var pricesToken = await _response.ReadBody();
@@ -184,7 +184,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             {
                 Start = x.Value<int>("start"),
                 End = x.Value<int?>("end"),
-                Price = x.Value<decimal>("price")
+                Price = x.Value<decimal>("price"),
             });
 
             content.Should().BeEquivalentTo(expected, x => x.WithoutStrictOrdering());
@@ -227,21 +227,21 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
         private enum CataloguePriceTypeEnum
         {
             Flat = 1,
-            Tiered = 2
+            Tiered = 2,
         }
 
         private enum ProvisioningTypeEnum
         {
             Patient = 1,
             Declarative = 2,
-            OnDemand = 3
+            OnDemand = 3,
         }
 
         private enum TimeUnitEnum
         {
             Month = 1,
             Year = 2,
-            NULL = -1
+            NULL = -1,
         }
     }
 }

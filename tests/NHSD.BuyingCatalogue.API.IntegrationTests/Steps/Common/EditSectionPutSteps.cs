@@ -45,7 +45,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             { "about-supplier", typeof(SupplierPayload) },
             { "integrations", typeof(IntegrationsPayload) },
             { "implementation-timescales", typeof(ImplementationTimescalesPayload )},
-            { "capabilities", typeof(CapabilitiesPayload) }
+            { "capabilities", typeof(CapabilitiesPayload) },
         };
 
         public EditSectionPutSteps(Response response)

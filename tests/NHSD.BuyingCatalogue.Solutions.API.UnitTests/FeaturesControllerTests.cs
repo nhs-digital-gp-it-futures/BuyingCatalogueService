@@ -55,7 +55,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var featuresUpdateViewModel = new UpdateSolutionFeaturesViewModel()
             {
-                Listing = new List<string>() { new('a', 200) }
+                Listing = new List<string>() { new('a', 200) },
             };
 
             var validationModel = new Mock<ISimpleResult>();
@@ -80,7 +80,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var featuresUpdateViewModel = new UpdateSolutionFeaturesViewModel()
             {
-                Listing = new List<string>() { "test", "test2" }
+                Listing = new List<string>() { "test", "test2" },
             };
 
             var validationModel = new Mock<ISimpleResult>();

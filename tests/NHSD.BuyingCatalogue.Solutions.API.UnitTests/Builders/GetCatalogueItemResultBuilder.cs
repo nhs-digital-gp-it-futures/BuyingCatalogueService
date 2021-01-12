@@ -32,7 +32,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Builders
             new()
             {
                 CatalogueItemId = _catalogueItemId,
-                Name = _name
+                Name = _name,
             };
     }
 }

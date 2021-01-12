@@ -131,14 +131,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
                 : JsonConvert.DeserializeObject<IEnumerable<string>>(solutionResult.Features);
             Integrations = new Integrations
             {
-                Url = solutionResult.IntegrationsUrl, DocumentName = documentResult?.IntegrationDocumentName
+                Url = solutionResult.IntegrationsUrl, DocumentName = documentResult?.IntegrationDocumentName,
             };
             ImplementationTimescales =
                 new ImplementationTimescales {Description = solutionResult.ImplementationTimescales};
             AboutUrl = solutionResult.AboutUrl;
             RoadMap = new RoadMap
             {
-                Summary = solutionResult.RoadMap, DocumentName = documentResult?.RoadMapDocumentName
+                Summary = solutionResult.RoadMap, DocumentName = documentResult?.RoadMapDocumentName,
             };
             ClientApplication = string.IsNullOrWhiteSpace(solutionResult.ClientApplication)
                 ? new ClientApplication()
@@ -172,7 +172,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
             {
                 solutionResult.LastUpdated,
                 solutionResult.SolutionDetailLastUpdated,
-                contactResult?.Any() == true ? contactResult.Max(x => x.LastUpdated) : DateTime.MinValue
+                contactResult?.Any() == true ? contactResult.Max(x => x.LastUpdated) : DateTime.MinValue,
             }.Max();
     }
 }

@@ -140,7 +140,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     {
                         Name = cataloguePrice.PricingUnit.Name,
                         Description = cataloguePrice.PricingUnit.Description,
-                        TierName = cataloguePrice.PricingUnit.TierName
+                        TierName = cataloguePrice.PricingUnit.TierName,
                     },
                 TimeUnit =
                     cataloguePrice.TimeUnit is null
@@ -148,15 +148,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                         : new TimeUnitResult
                         {
                             Name = cataloguePrice.TimeUnit.Name,
-                            Description = cataloguePrice.TimeUnit.Description
+                            Description = cataloguePrice.TimeUnit.Description,
                         },
                 Price = (cataloguePrice as FlatCataloguePriceDto)?.Price,
                 Tiers = (cataloguePrice as TieredCataloguePriceDto)?.TieredPrices.Select(x => new TierResult
                 {
                     Start = x.BandStart,
                     End = x.BandEnd,
-                    Price = x.Price
-                })
+                    Price = x.Price,
+                }),
             };
         }
 
@@ -166,7 +166,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             {
                 Id = _solutionId,
                 Name = "Item Name",
-                Prices = cataloguePrice.Select(CreatePrice)
+                Prices = cataloguePrice.Select(CreatePrice),
             };
 
             return pricingResult;

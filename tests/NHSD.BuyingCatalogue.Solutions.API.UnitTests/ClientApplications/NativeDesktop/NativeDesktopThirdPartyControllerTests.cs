@@ -86,7 +86,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
             var request = new UpdateNativeDesktopThirdPartyViewModel
             {
                 ThirdPartyComponents = "New Component",
-                DeviceCapabilities = "New Capability"
+                DeviceCapabilities = "New Capability",
             };
 
             var result =

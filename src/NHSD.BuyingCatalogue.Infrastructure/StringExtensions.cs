@@ -10,8 +10,8 @@ namespace NHSD.BuyingCatalogue.Infrastructure
                 {
                     "YES" => true,
                     "NO" => false,
-                    _ => null
-                };
+                    _ => null,
+            };
 
 
         public static string NullIfWhitespace(this string candidate) => String.IsNullOrWhiteSpace(candidate) ? null : candidate;

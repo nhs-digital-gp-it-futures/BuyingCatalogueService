@@ -18,7 +18,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             {
                 FrameworkId = "NHSDGP001",
                 SolutionId = "Sln1",
-                IsFoundation = true
+                IsFoundation = true,
             };
         }
 

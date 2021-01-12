@@ -11,7 +11,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         {
             "browser-based",
             "native-mobile",
-            "native-desktop"
+            "native-desktop",
         };
 
         public UpdateSolutionClientApplicationTypesViewModel(HashSet<string> clientApplicationTypes) =>

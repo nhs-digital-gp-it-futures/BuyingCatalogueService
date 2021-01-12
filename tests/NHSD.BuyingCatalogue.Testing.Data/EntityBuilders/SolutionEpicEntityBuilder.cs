@@ -15,7 +15,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
                 SolutionId = "SolutionId",
                 CapabilityId = Guid.NewGuid(),
                 EpicId = "EpicId",
-                StatusId = PassedStatusId
+                StatusId = PassedStatusId,
             };
         }
 

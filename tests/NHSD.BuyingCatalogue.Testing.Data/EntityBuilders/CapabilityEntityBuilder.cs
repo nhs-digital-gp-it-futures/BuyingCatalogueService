@@ -24,7 +24,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
                 Name = "Capability",
                 Description = "Capability Description",
                 EffectiveDate = DateTime.Today,
-                CategoryId = 0
+                CategoryId = 0,
             };
         }
 

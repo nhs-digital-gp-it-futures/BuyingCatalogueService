@@ -38,7 +38,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 LastName = "Bobbington",
                 Department = "Bobbing",
                 Email = "bob@bob.bob",
-                PhoneNumber = "123"
+                PhoneNumber = "123",
             };
             _contact2 = new UpdateSolutionContactViewModel
             {
@@ -46,7 +46,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 LastName = "Bettington",
                 Department = "Betting",
                 Email = "betty@betty.betty",
-                PhoneNumber = "321"
+                PhoneNumber = "321",
             };
             _context.MockSolutionRepository.Setup(x => x.CheckExists(ExistingSolutionId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
             _context.MockSolutionRepository.Setup(x => x.CheckExists(InvalidSolutionId, It.IsAny<CancellationToken>())).ReturnsAsync(false);

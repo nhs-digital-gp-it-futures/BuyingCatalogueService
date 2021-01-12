@@ -213,7 +213,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var contactMock = new List<IContact>
             {
-                Mock.Of<IContact>(c => c.Name == "Cool McRule")
+                Mock.Of<IContact>(c => c.Name == "Cool McRule"),
             };
             var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s =>
                 s.Contacts == contactMock)).ConfigureAwait(false);
@@ -239,7 +239,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var contactMock = new List<IContact>
             {
-                Mock.Of<IContact>(c => c.Name == "" && c.Department == "            ")
+                Mock.Of<IContact>(c => c.Name == "" && c.Department == "            "),
             };
             var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of<ISolution>(s =>
                 s.Contacts == contactMock)).ConfigureAwait(false);

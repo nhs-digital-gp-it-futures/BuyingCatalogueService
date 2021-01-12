@@ -58,7 +58,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
             var clientApplication = new Application.Domain.ClientApplication { NativeDesktopThirdParty = new NativeDesktopThirdParty()
             {
                 ThirdPartyComponents = "Component",
-                DeviceCapabilities = "Capabilities"
+                DeviceCapabilities = "Capabilities",
             }};
             var clientJson = JsonConvert.SerializeObject(clientApplication);
 

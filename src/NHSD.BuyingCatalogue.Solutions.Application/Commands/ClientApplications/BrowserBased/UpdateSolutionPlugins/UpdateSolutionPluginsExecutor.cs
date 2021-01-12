@@ -20,7 +20,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
                     clientApplication.Plugins = new Plugins()
                     {
                         Required = request.Data.Required.ToBoolean(),
-                        AdditionalInformation = request.Data.AdditionalInformation
+                        AdditionalInformation = request.Data.AdditionalInformation,
                     };
                 },
                 cancellationToken).ConfigureAwait(false);

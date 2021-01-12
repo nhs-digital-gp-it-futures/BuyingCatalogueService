@@ -112,13 +112,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Pricing
                 {
                     Name = result.PricingUnitName,
                     Description = result.PricingUnitDescription,
-                    TierName= result.PricingUnitTierName
+                    TierName= result.PricingUnitTierName,
                 },
                 TimeUnit = new
                 {
                     Name = result.TimeUnitId is null ? null : Enumerator.FromValue<TimeUnit>(result.TimeUnitId.Value).Name, 
-                    Description = result.TimeUnitId is null ? null : Enumerator.FromValue<TimeUnit>(result.TimeUnitId.Value).Description
-                }
+                    Description = result.TimeUnitId is null ? null : Enumerator.FromValue<TimeUnit>(result.TimeUnitId.Value).Description,
+                },
             };
         }
 

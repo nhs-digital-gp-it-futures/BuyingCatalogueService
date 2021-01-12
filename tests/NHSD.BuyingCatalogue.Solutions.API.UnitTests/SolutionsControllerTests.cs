@@ -50,7 +50,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var expected = new ActionResult<GetSolutionResult>(new GetSolutionResult(null)
             {
                 Name = solution.Name,
-                Summary = solution.Summary
+                Summary = solution.Summary,
             });
 
             result.Should().BeEquivalentTo(expected);
