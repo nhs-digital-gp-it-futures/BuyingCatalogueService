@@ -38,7 +38,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
                 FirstName = contact.FirstName,
                 LastName = contact.LastName,
                 Email = contact.Email,
-                PhoneNumber = contact.PhoneNumber
+                PhoneNumber = contact.PhoneNumber,
             }
                 : null;
     }

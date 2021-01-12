@@ -15,7 +15,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
                 CataloguePriceTypeId = 1,
                 CurrencyCode = "GBP",
                 PricingUnitId = Guid.Parse("F8D06518-1A20-4FBA-B369-AB583F9FA8C0"),
-                LastUpdated = DateTime.UtcNow
+                LastUpdated = DateTime.UtcNow,
             };
         }
 

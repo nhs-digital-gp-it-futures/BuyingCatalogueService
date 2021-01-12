@@ -33,7 +33,7 @@ namespace NHSD.BuyingCatalogue.Capabilities.Application.UnitTests
                 t.CapabilityReference,
                 t.Version,
                 t.Name,
-                t.IsFoundation
+                t.IsFoundation,
             });
 
             var capabilities = await _context.ListCapabilitiesHandler.Handle(new ListCapabilitiesQuery(), new CancellationToken()).ConfigureAwait(false);

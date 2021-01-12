@@ -1036,7 +1036,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                         && ce.EpicName == $"Cap {capabilityNumber} Epic 4 Name" 
                         && ce.IsMet == false 
                         && ce.EpicCompliancyLevel == "MAY"
-                    )
+                    ),
                 };
 
                 var claimedCapabilityMock = Mock.Of<IClaimedCapability>(

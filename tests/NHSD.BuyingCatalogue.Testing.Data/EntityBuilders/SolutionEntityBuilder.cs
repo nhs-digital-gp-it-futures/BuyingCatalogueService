@@ -22,7 +22,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
                 Id = id,
                 Version = "1.0.0",
                 ServiceLevelAgreement = null,
-                WorkOfPlan = null
+                WorkOfPlan = null,
             };
         }
 

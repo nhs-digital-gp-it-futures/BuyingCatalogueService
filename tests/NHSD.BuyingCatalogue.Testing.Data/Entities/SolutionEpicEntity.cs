@@ -42,7 +42,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
                                    FROM SolutionEpic
                                    WHERE SolutionId = @solutionId;", new
                 {
-                    solutionId
+                    solutionId,
                 })
                 .ConfigureAwait(false);
         }

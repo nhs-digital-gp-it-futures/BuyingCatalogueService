@@ -39,7 +39,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             var claimedEpics = new HashSet<IClaimedEpic>
             {
-                Mock.Of<IClaimedEpic>(e => e.EpicId == "Epic1" && e.StatusName == "Passed")
+                Mock.Of<IClaimedEpic>(e => e.EpicId == "Epic1" && e.StatusName == "Passed"),
             };
 
             _context.MockEpicRepository
@@ -74,7 +74,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             var claimedEpics = new HashSet<IClaimedEpic>
             {
-                Mock.Of<IClaimedEpic>(e => e.EpicId == epicId && e.StatusName == statusName)
+                Mock.Of<IClaimedEpic>(e => e.EpicId == epicId && e.StatusName == statusName),
             };
 
             Assert.ThrowsAsync<ArgumentNullException>(() => UpdateClaimedEpicsAsync(ValidSolutionId, claimedEpics));
@@ -93,7 +93,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             {
                 Mock.Of<IClaimedEpic>(e => e.EpicId == "Epic1" && e.StatusName == "Passed"),
                 Mock.Of<IClaimedEpic>(e => e.EpicId == "Epic2" && e.StatusName == "Not Evidenced"),
-                Mock.Of<IClaimedEpic>(e => e.EpicId == "Epic1" && e.StatusName == "Passed")
+                Mock.Of<IClaimedEpic>(e => e.EpicId == "Epic1" && e.StatusName == "Passed"),
             };
 
             var validationResult = await UpdateClaimedEpicsAsync(ValidSolutionId, claimedEpics).ConfigureAwait(false);
@@ -120,7 +120,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var claimedEpics = new HashSet<IClaimedEpic>
             {
                 Mock.Of<IClaimedEpic>(e => e.EpicId == "Test" && e.StatusName == "Passed"),
-                Mock.Of<IClaimedEpic>(e => e.EpicId == "Epic2" && e.StatusName == "Unknown")
+                Mock.Of<IClaimedEpic>(e => e.EpicId == "Epic2" && e.StatusName == "Unknown"),
             };
 
             _context.MockEpicRepository

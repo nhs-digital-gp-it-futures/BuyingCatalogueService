@@ -37,7 +37,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         private readonly List<EpicEntity> _epicDetails = new()
         {
             EpicEntityBuilder.Create().WithId("Epic1").WithCapabilityId(_capDetails[0].Id).Build(),
-            EpicEntityBuilder.Create().WithId("Epic2").WithCapabilityId(_capDetails[1].Id).Build()
+            EpicEntityBuilder.Create().WithId("Epic2").WithCapabilityId(_capDetails[1].Id).Build(),
         };
 
         [SetUp]
@@ -78,7 +78,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             var expectedClaimedEpic = new List<IClaimedEpicResult>
             {
-                Mock.Of<IClaimedEpicResult>(e => e.EpicId == _epicDetails[0].Id && e.StatusName == StatusPassed)
+                Mock.Of<IClaimedEpicResult>(e => e.EpicId == _epicDetails[0].Id && e.StatusName == StatusPassed),
             };
 
             await _solutionEpicRepository
@@ -102,7 +102,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             var expectedEpic = new List<IClaimedEpicResult>
             {
                 Mock.Of<IClaimedEpicResult>(e => e.EpicId == _epicDetails[0].Id && e.StatusName == StatusPassed),
-                Mock.Of<IClaimedEpicResult>(e => e.EpicId == _epicDetails[1].Id && e.StatusName == StatusPassed)
+                Mock.Of<IClaimedEpicResult>(e => e.EpicId == _epicDetails[1].Id && e.StatusName == StatusPassed),
             };
 
             await _solutionEpicRepository
@@ -127,7 +127,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             var epics = new List<IClaimedEpicResult>
             {
-                Mock.Of<IClaimedEpicResult>(e => e.EpicId == _epicDetails[0].Id && e.StatusName == StatusPassed)
+                Mock.Of<IClaimedEpicResult>(e => e.EpicId == _epicDetails[0].Id && e.StatusName == StatusPassed),
             };
 
             var epicIdCount = await _epicRepository.CountMatchingEpicIdsAsync(epics.Select(x => x.EpicId), It.IsAny<CancellationToken>());
@@ -146,7 +146,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             var epics = new List<IClaimedEpicResult>
             {
-                Mock.Of<IClaimedEpicResult>(e => e.EpicId == _epicDetails[0].Id && e.StatusName == InvalidStatus)
+                Mock.Of<IClaimedEpicResult>(e => e.EpicId == _epicDetails[0].Id && e.StatusName == InvalidStatus),
             };
 
             var epicIdCount = await _epicRepository.CountMatchingEpicIdsAsync(epics.Select(x => x.EpicId), It.IsAny<CancellationToken>());

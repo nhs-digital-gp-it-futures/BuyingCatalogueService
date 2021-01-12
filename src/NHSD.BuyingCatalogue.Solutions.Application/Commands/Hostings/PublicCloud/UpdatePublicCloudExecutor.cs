@@ -20,7 +20,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PublicClo
                     {
                         Summary = request.Data.Summary,
                         Link = request.Data.Link,
-                        RequiresHSCN = request.Data.RequiresHSCN
+                        RequiresHSCN = request.Data.RequiresHSCN,
                     };
                 },
                 cancellationToken).ConfigureAwait(false);

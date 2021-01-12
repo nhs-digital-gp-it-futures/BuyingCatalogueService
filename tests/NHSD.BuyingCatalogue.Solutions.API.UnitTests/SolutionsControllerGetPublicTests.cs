@@ -70,7 +70,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                         ce.EpicName == $"Cap {capabilityNumber} Epic 4 Name" &&
                         ce.IsMet == false &&
                         ce.EpicCompliancyLevel == "MAY"
-                    )
+                    ),
                 };
 
                 var ccMock = Mock.Of<IClaimedCapability>(
@@ -986,7 +986,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             {
                 Mock.Of<IContact>(m =>
                     m.Name == null && m.Department == "" && m.Email == "" && m.PhoneNumber == "   "),
-                Mock.Of<IContact>(m => m.Name == "" && m.Department == "" && m.Email == "" && m.PhoneNumber == "")
+                Mock.Of<IContact>(m => m.Name == "" && m.Department == "" && m.Email == "" && m.PhoneNumber == ""),
             };
 
             var contact = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
@@ -1103,7 +1103,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     m.PhoneNumber == "01234567890"),
                 Mock.Of<IContact>(m =>
                     m.Name == "name2" && m.Department == "dep2" && m.Email == "test2@gmail.com" &&
-                    m.PhoneNumber == "12345678901")
+                    m.PhoneNumber == "12345678901"),
             };
 
             var contact = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>
@@ -1209,7 +1209,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             {
                 Mock.Of<IContact>(m =>
                     m.Name == "Hello" && m.Department == "" && m.Email == "" && m.PhoneNumber == "   "),
-                Mock.Of<IContact>(m => m.Name == "" && m.Department == "" && m.Email == "" && m.PhoneNumber == "")
+                Mock.Of<IContact>(m => m.Name == "" && m.Department == "" && m.Email == "" && m.PhoneNumber == ""),
             };
 
             var contact = await GetSolutionPublicResultAsync(Mock.Of<ISolution>(s =>

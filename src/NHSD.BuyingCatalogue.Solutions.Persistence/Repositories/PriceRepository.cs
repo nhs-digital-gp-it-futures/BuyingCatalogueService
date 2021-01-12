@@ -69,7 +69,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
             return (await _dbConnector.QueryAsync<CataloguePriceListResult>(CataloguePriceSql, cancellationToken,
                 new
                 {
-                    cataloguePriceId = priceId
+                    cataloguePriceId = priceId,
                 }));
         }
     }

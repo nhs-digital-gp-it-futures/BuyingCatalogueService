@@ -19,7 +19,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
                         {
                             MinimumConnectionSpeed = request.Data.MinimumConnectionSpeed,
                             Description = request.Data.ConnectionRequirementsDescription,
-                            ConnectionType = request.Data.ConnectionType
+                            ConnectionType = request.Data.ConnectionType,
                         };
                     },
                     cancellationToken)

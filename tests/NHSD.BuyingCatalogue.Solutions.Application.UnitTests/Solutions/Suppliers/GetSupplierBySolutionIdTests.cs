@@ -35,7 +35,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
             {
                 Name = "Some name",
                 Summary = "Some Summary",
-                Url = "Some Url"
+                Url = "Some Url",
             };
 
             solutionSupplierResult = Mock.Of<ISolutionSupplierResult>(r =>

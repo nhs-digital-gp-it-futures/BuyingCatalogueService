@@ -28,7 +28,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             {
                 s.Id,
                 Summary = string.IsNullOrWhiteSpace(s.Summary) ? null : s.Summary,
-                SupplierUrl = string.IsNullOrWhiteSpace(s.SupplierUrl) ? null : s.SupplierUrl
+                SupplierUrl = string.IsNullOrWhiteSpace(s.SupplierUrl) ? null : s.SupplierUrl,
             });
 
             var suppliers = await SupplierEntity.FetchAllAsync().ConfigureAwait(false);
@@ -36,7 +36,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             {
                 s.Id,
                 s.Summary,
-                s.SupplierUrl
+                s.SupplierUrl,
             }).Should().BeEquivalentTo(expectedSuppliers);
         }
 

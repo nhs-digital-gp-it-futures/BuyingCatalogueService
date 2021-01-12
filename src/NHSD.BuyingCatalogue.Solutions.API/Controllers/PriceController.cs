@@ -56,20 +56,20 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
                 {
                     Name = cataloguePrice.PricingUnit.Name,
                     Description = cataloguePrice.PricingUnit.Description,
-                    TierName = cataloguePrice.PricingUnit.TierName
+                    TierName = cataloguePrice.PricingUnit.TierName,
                 },
                 TimeUnit = cataloguePrice.TimeUnit is null ? null : new TimeUnitResult
                 {
                     Name = cataloguePrice.TimeUnit.Name,
-                    Description = cataloguePrice.TimeUnit.Description
+                    Description = cataloguePrice.TimeUnit.Description,
                 },
                 Price = (cataloguePrice as FlatCataloguePriceDto)?.Price,
                 Tiers = (cataloguePrice as TieredCataloguePriceDto)?.TieredPrices.Select(x => new TierResult
                 {
                     Start = x.BandStart,
                     End = x.BandEnd,
-                    Price = x.Price
-                })
+                    Price = x.Price,
+                }),
             };
         }
     }

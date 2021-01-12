@@ -42,7 +42,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Features
         {
             var content = new
             {
-                listing = _features
+                listing = _features,
             };
 
             _response.Result = await Client.PutAsJsonAsync(string.Format(CultureInfo.InvariantCulture, FeaturesUrl, featuresId), content).ConfigureAwait(false);

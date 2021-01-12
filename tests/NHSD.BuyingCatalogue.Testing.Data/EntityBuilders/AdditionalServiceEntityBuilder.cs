@@ -37,7 +37,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
                 Summary = _summary,
                 SolutionId = _solutionId,
                 LastUpdated = DateTime.UtcNow,
-                LastUpdatedBy = Guid.NewGuid()
+                LastUpdatedBy = Guid.NewGuid(),
             };
         }
     }

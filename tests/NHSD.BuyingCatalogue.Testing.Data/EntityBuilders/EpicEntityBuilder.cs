@@ -16,7 +16,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
                 CapabilityId = Guid.NewGuid(),
                 SourceUrl = "url",
                 CompliancyLevelId = (int)CompliancyLevel.May,
-                Active = false
+                Active = false,
             };
         }
 

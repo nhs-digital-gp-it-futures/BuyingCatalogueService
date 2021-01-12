@@ -20,7 +20,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
                 SupplierId = "Sup 1",
                 FirstName = "Bob",
                 LastName = "Smith",
-                Email = "bobsmith@email.com"
+                Email = "bobsmith@email.com",
             };
         }
 

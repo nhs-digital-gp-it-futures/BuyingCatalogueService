@@ -19,7 +19,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
                 Id = "Sup",
                 Name = "Supplier",
                 LegalName = "Supplier",
-                Deleted = false
+                Deleted = false,
             };
         }
 

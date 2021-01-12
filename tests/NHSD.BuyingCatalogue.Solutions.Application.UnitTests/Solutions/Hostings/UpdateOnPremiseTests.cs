@@ -44,8 +44,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                     Summary = "A summary",
                     Link = "A link",
                     HostingModel = "A _initialHosting model",
-                    RequiresHSCN = "A string"
-                }
+                    RequiresHSCN = "A string",
+                },
             };
 
             _initialHostingJson = JsonConvert.SerializeObject(_initialHosting);

@@ -33,7 +33,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.CatalogueItems
             var actualCatalogueItem = new GetCatalogueItemResponseTable
             {
                 CatalogueItemId = content.Value<string>("catalogueItemId"),
-                Name = content.Value<string>("name")
+                Name = content.Value<string>("name"),
             };
 
             actualCatalogueItem.Should().BeEquivalentTo(expectedCatalogueItem);

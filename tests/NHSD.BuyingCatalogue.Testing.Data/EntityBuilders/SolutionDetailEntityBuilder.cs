@@ -18,7 +18,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             _solutionDetailEntity = new SolutionDetailEntity
             {
                 SolutionId = "Sln1",
-                PublishedStatusId = 1
+                PublishedStatusId = 1,
             };
         }
 

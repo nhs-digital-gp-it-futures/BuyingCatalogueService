@@ -136,7 +136,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 {
                     Description = "Description",
                     Link = "Link",
-                    Summary = "Summary"
+                    Summary = "Summary",
                 };
 
                 return _context.UpdateSolutionSummaryHandler.Handle(
@@ -166,7 +166,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 {
                     Description = description,
                     Link = link,
-                    Summary = summary
+                    Summary = summary,
                 }), new CancellationToken());
             return validationResult;
         }

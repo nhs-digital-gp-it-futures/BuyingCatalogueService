@@ -19,7 +19,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
                     clientApplication.NativeDesktopThirdParty = new NativeDesktopThirdParty
                     {
                         ThirdPartyComponents = request.Data.ThirdPartyComponents,
-                        DeviceCapabilities = request.Data.DeviceCapabilities
+                        DeviceCapabilities = request.Data.DeviceCapabilities,
                     };
                 },
                 cancellationToken).ConfigureAwait(false);

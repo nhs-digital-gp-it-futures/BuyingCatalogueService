@@ -20,7 +20,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
                         clientApplication.MobileMemoryAndStorage = new MobileMemoryAndStorage()
                         {
                             MinimumMemoryRequirement = request.MinimumMemoryRequirement,
-                            Description = request.Description
+                            Description = request.Description,
                         };
                     },
                     cancellationToken)

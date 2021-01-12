@@ -70,7 +70,7 @@ WHERE s.Id = @solutionId;";
                         email = contact.Email,
                         phoneNumber = contact.PhoneNumber,
                         department = contact.Department,
-                        lastUpdatedBy = Guid.Empty
+                        lastUpdatedBy = Guid.Empty,
                     })));
 
             await _dbConnector.ExecuteMultipleWithTransactionAsync(queries, cancellationToken);

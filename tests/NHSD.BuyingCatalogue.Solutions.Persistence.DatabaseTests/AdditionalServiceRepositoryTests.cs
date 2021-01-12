@@ -128,7 +128,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 CatalogueItemName = entity.catalogueItemEntity.Name,
                 Summary = entity.additionalServiceEntity.Summary,
                 SolutionId = entity.additionalServiceEntity.SolutionId,
-                SolutionName = solutionEntity.Name
+                SolutionName = solutionEntity.Name,
             };
         }
     }

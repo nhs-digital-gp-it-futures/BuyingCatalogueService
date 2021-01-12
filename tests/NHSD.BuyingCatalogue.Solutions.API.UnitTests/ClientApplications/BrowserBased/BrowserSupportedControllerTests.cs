@@ -140,7 +140,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
             var request = new UpdateBrowserBasedBrowsersSupportedViewModel()
             {
                 BrowsersSupported = new HashSet<string>() { "Edge"},
-                MobileResponsive = "yes"
+                MobileResponsive = "yes",
             };
 
             var result =

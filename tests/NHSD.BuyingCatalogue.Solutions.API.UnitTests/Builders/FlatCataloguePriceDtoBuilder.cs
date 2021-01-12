@@ -34,7 +34,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Builders
                 CatalogueItemId = _catalogueItemId,
                 CurrencyCode = _currencyCode,
                 Price = _price,
-                PricingUnit = PriceUnitDtoBuilder.Create().Build()
+                PricingUnit = PriceUnitDtoBuilder.Create().Build(),
             };
         }
     }

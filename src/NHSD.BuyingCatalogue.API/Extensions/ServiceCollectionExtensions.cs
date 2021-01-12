@@ -33,7 +33,7 @@ namespace NHSD.BuyingCatalogue.API.Extensions
                 {
                     Title = "Solutions API",
                     Version = "v1",
-                    Description = "NHS Digital GP IT Buying Catalogue HTTP API"
+                    Description = "NHS Digital GP IT Buying Catalogue HTTP API",
                 });
             });
 

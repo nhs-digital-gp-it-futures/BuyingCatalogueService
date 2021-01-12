@@ -1,4 +1,4 @@
-namespace NHSD.BuyingCatalogue.Infrastructure
+﻿namespace NHSD.BuyingCatalogue.Infrastructure
 {
     public static class BooleanExtensions
     {
@@ -7,7 +7,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure
             {
                 true => "Yes",
                 false => "No",
-                _ => null
+                _ => null,
             };
     }
 }

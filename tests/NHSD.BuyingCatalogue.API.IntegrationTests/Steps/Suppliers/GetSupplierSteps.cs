@@ -35,7 +35,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Suppliers
             var actualSupplier = new GetSupplierTable
             {
                 SupplierId = content.Value<string>("supplierId"),
-                Name = content.Value<string>("name")
+                Name = content.Value<string>("name"),
             };
 
             actualSupplier.Should().BeEquivalentTo(expectedSupplier);
@@ -59,7 +59,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Suppliers
                 Town = addressToken.Value<string>("town"),
                 County = addressToken.Value<string>("county"),
                 Postcode = addressToken.Value<string>("postcode"),
-                Country = addressToken.Value<string>("country")
+                Country = addressToken.Value<string>("country"),
             };
 
             actualSupplierAddress.Should().BeEquivalentTo(expectedSupplierAddress);
@@ -85,7 +85,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Suppliers
                 FirstName = primaryContactToken.Value<string>("firstName"),
                 LastName = primaryContactToken.Value<string>("lastName"),
                 EmailAddress = primaryContactToken.Value<string>("emailAddress"),
-                TelephoneNumber = primaryContactToken.Value<string>("telephoneNumber")
+                TelephoneNumber = primaryContactToken.Value<string>("telephoneNumber"),
             };
 
             actualSupplierContact.Should().BeEquivalentTo(expectedSupplierContact);

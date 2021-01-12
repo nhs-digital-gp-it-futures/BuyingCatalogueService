@@ -51,8 +51,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                 {
                     Summary = _summary,
                     Link = _url,
-                    RequiresHSCN = _requiresHscn
-                }
+                    RequiresHSCN = _requiresHscn,
+                },
             };
 
             _hostingJson = JsonConvert.SerializeObject(_hosting);

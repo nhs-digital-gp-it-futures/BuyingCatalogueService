@@ -16,7 +16,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
         {
             _entity = new MarketingContactEntity
             {
-                SolutionId = "Sup 1"
+                SolutionId = "Sup 1",
             };
         }
 

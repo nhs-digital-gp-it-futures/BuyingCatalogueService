@@ -20,7 +20,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
                     clientApplication.MobileOperatingSystems = new MobileOperatingSystems()
                     {
                         OperatingSystems = request.Data.OperatingSystems,
-                        OperatingSystemsDescription = request.Data.OperatingSystemsDescription
+                        OperatingSystemsDescription = request.Data.OperatingSystemsDescription,
                     };
                 }, cancellationToken).ConfigureAwait(false);
     }

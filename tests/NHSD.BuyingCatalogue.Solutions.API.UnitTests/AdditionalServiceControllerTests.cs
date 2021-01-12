@@ -52,7 +52,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             var expected = new AdditionalServiceListResult
             {
-                AdditionalServices = new List<AdditionalServiceModel>()
+                AdditionalServices = new List<AdditionalServiceModel>(),
             };
 
             actual.Should().BeEquivalentTo(expected);
@@ -112,9 +112,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     Summary = x.Summary,
                     Solution = new AdditionalServiceSolutionModel
                     {
-                        SolutionId = x.SolutionId, Name = x.SolutionName
-                    }
-                })
+                        SolutionId = x.SolutionId, Name = x.SolutionName,
+                    },
+                }),
             };
         }
     }

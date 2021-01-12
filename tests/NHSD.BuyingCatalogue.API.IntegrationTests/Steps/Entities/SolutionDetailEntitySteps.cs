@@ -66,7 +66,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 m.IntegrationsUrl,
                 m.ImplementationDetail,
                 ClientApplication = string.IsNullOrWhiteSpace(m.ClientApplication) ? null : JToken.Parse(m.ClientApplication).ToString(),
-                Hosting = string.IsNullOrWhiteSpace(m.Hosting) ? null : JToken.Parse(m.Hosting).ToString()
+                Hosting = string.IsNullOrWhiteSpace(m.Hosting) ? null : JToken.Parse(m.Hosting).ToString(),
             }).Should().BeEquivalentTo(expectedSolutionDetails);
         }
 

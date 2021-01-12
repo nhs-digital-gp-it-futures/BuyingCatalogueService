@@ -106,7 +106,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
                     MinimumMemoryRequirement = "1 bit",
                     StorageRequirementsDescription = "A description",
                     MinimumCpu = "1Hz",
-                    RecommendedResolution = "1000,00000,0000x1"
+                    RecommendedResolution = "1000,00000,0000x1",
                 };
 
                 var result =
@@ -136,7 +136,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
                     MinimumMemoryRequirement = "1 bit",
                     StorageRequirementsDescription = "A description",
                     MinimumCpu = "1Hz",
-                    RecommendedResolution = "1000,00000,0000x1"
+                    RecommendedResolution = "1000,00000,0000x1",
                 };
 
                 var result =

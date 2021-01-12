@@ -69,7 +69,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                         solutionId = updateCapabilityRequest.SolutionId,
                         newCapabilitiesReference = updateCapabilityRequest.NewCapabilitiesReference,
                         statusId = PassedFullCapabilityStatus,
-                        lastUpdatedBy = Guid.NewGuid()
+                        lastUpdatedBy = Guid.NewGuid(),
                     })
                 .ConfigureAwait(false);
         }

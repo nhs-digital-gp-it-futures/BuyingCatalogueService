@@ -35,7 +35,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
             return new GetCatalogueItemResult
             {
                 CatalogueItemId = catalogueItem?.CatalogueItemId,
-                Name = catalogueItem?.Name
+                Name = catalogueItem?.Name,
             };
         }
 

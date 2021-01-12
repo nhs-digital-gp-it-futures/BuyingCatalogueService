@@ -77,7 +77,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.AdditionalService
                 Name = x.Value<string>("name"),
                 Summary = x.Value<string>("summary"),
                 SolutionId = x.SelectToken(solutionToken).Value<string>("solutionId"),
-                SolutionName = x.SelectToken(solutionToken).Value<string>("name")
+                SolutionName = x.SelectToken(solutionToken).Value<string>("name"),
             });
 
             actual.Should().BeEquivalentTo(expected);

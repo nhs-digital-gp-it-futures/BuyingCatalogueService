@@ -53,7 +53,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Suppliers
                 supplierToken => new ListSuppliersTable
                 {
                     Id = supplierToken.SelectToken("supplierId").ToString(),
-                    SupplierName = supplierToken.SelectToken("name").ToString()
+                    SupplierName = supplierToken.SelectToken("name").ToString(),
                 });
 
             actualSuppliers.Should().BeEquivalentTo(expectedSuppliers);

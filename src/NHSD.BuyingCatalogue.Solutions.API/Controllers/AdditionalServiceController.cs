@@ -49,9 +49,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
                         Solution = new AdditionalServiceSolutionModel
                         {
                             SolutionId = additionalService.SolutionId,
-                            Name = additionalService.SolutionName
-                        }
-                    })
+                            Name = additionalService.SolutionName,
+                        },
+                    }),
             };
         }
     }

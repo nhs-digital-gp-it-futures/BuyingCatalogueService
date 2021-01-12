@@ -104,7 +104,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
             {
                 Summary = "New Summary",
                 Link = "New URL",
-                RequiresHSCNArray = new HashSet<string> {"New requires HSCN"}
+                RequiresHSCNArray = new HashSet<string> {"New requires HSCN"},
             };
 
             var result =
