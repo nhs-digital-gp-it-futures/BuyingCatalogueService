@@ -1,10 +1,10 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Capabilities.Contracts;
 
 namespace NHSD.BuyingCatalogue.Capabilities.API.ViewModels
 {
     /// <summary>
-    /// Provides the view representation for the <see cref="Capability"/> entity.
+    /// Provides the view representation for the <see cref="ICapability"/> entity.
     /// </summary>
     public sealed class CapabilityViewModel
     {
@@ -17,23 +17,23 @@ namespace NHSD.BuyingCatalogue.Capabilities.API.ViewModels
         }
 
         /// <summary>
-        /// Capability Reference
+        /// Gets the capability reference.
         /// </summary>
         [JsonProperty("reference")]
         public string CapabilityReference { get; }
 
         /// <summary>
-        /// Version of the Capability
+        /// Gets the version of the capability.
         /// </summary>
         public string Version { get; }
 
         /// <summary>
-        /// Name of the capability.
+        /// Gets the name of the capability.
         /// </summary>
         public string Name { get; }
 
         /// <summary>
-        /// A value to determine whether or not this instance is the criteria to form a foundation solution.
+        /// Gets a value indicating whether or not this instance is the criteria to form a foundation solution.
         /// </summary>
         public bool IsFoundation { get; }
     }
