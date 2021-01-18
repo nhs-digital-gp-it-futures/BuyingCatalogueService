@@ -3,12 +3,12 @@
     public interface ISolutionCapability
     {
         /// <summary>
-        /// Identifier of the capability.
+        /// Gets the ID of the capability.
         /// </summary>
         string CapabilityReference { get; }
 
         /// <summary>
-        /// Name of the capability.
+        /// Gets the name of the capability.
         /// </summary>
         string Name { get; }
     }

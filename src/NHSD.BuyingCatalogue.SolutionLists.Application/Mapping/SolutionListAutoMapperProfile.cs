@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using NHSD.BuyingCatalogue.SolutionLists.Application.Domain;
 using NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.SolutionLists.Contracts;
@@ -11,7 +11,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Mapping
     public sealed class SolutionListAutoMapperProfile : Profile
     {
         /// <summary>
-        /// Initialises a new instance of the <see cref="SolutionListAutoMapperProfile"/> class.
+        /// Initializes a new instance of the <see cref="SolutionListAutoMapperProfile"/> class.
         /// </summary>
         public SolutionListAutoMapperProfile()
         {

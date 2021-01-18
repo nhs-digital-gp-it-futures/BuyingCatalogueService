@@ -12,16 +12,18 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions
     /// </summary>
     internal sealed class ListSolutionsHandler : IRequestHandler<ListSolutionsQuery, ISolutionList>
     {
-        private readonly SolutionListReader _solutionListReader;
-        private readonly IMapper _mapper;
+        private readonly SolutionListReader solutionListReader;
+        private readonly IMapper mapper;
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="ListSolutionsHandler"/> class.
+        /// Initializes a new instance of the <see cref="ListSolutionsHandler"/> class.
         /// </summary>
+        /// <param name="solutionListReader">A <see cref="solutionListReader"/> instance.</param>
+        /// <param name="mapper">An <see cref="IMapper"/> instance.</param>
         public ListSolutionsHandler(SolutionListReader solutionListReader, IMapper mapper)
         {
-            _solutionListReader = solutionListReader;
-            _mapper = mapper;
+            this.solutionListReader = solutionListReader;
+            this.mapper = mapper;
         }
 
         /// <summary>
@@ -32,13 +34,13 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions
         /// <returns>The result of the query.</returns>
         public async Task<ISolutionList> Handle(ListSolutionsQuery request, CancellationToken cancellationToken)
         {
-            var solutionList = await _solutionListReader.ListAsync(
+            var solutionList = await solutionListReader.ListAsync(
                 request.Data.CapabilityReferences,
                 request.Data.IsFoundation,
                 request.Data.SupplierId,
                 cancellationToken);
 
-            return _mapper.Map<SolutionListDto>(solutionList);
+            return mapper.Map<SolutionListDto>(solutionList);
         }
     }
 }
