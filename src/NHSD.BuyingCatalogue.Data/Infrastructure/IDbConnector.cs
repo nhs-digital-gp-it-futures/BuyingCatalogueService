@@ -12,6 +12,8 @@ namespace NHSD.BuyingCatalogue.Data.Infrastructure
 
         Task ExecuteAsync(string sql, CancellationToken cancellationToken, object args = null);
 
-        Task ExecuteMultipleWithTransactionAsync(IEnumerable<(string sql, object args)> functions, CancellationToken cancellationToken);
+        Task ExecuteMultipleWithTransactionAsync(
+            IEnumerable<(string Sql, object Args)> functions,
+            CancellationToken cancellationToken);
     }
 }
