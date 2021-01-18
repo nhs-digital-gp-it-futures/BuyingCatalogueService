@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -9,24 +9,22 @@ using NHSD.BuyingCatalogue.Capabilities.Contracts;
 namespace NHSD.BuyingCatalogue.Capabilities.Application.Queries.ListCapabilities
 {
     /// <summary>
-	/// Defines the request handler for the <see cref="ListCapabilitiesQuery"/>.
-	/// </summary>
+    /// Defines the request handler for the <see cref="ListCapabilitiesQuery"/>.
+    /// </summary>
     internal sealed class ListCapabilitiesHandler : IRequestHandler<ListCapabilitiesQuery, IEnumerable<ICapability>>
     {
-        private readonly CapabilityReader _capabilityReader;
+        private readonly CapabilityReader capabilityReader;
+        private readonly IMapper mapper;
 
         /// <summary>
-        /// The mapper to convert one object into another type.
+        /// Initializes a new instance of the <see cref="ListCapabilitiesHandler"/> class.
         /// </summary>
-        private readonly IMapper _mapper;
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="ListCapabilitiesHandler"/> class.
-        /// </summary>
+        /// <param name="capabilityReader">The <see cref="CapabilityReader"/> instance.</param>
+        /// <param name="mapper">The <see cref="IMapper"/> instance.</param>
         public ListCapabilitiesHandler(CapabilityReader capabilityReader, IMapper mapper)
         {
-            _capabilityReader = capabilityReader;
-            _mapper = mapper;
+            this.capabilityReader = capabilityReader;
+            this.mapper = mapper;
         }
 
         /// <summary>
@@ -36,6 +34,6 @@ namespace NHSD.BuyingCatalogue.Capabilities.Application.Queries.ListCapabilities
         /// <param name="cancellationToken">Token to cancel the request.</param>
         /// <returns>The result of the query.</returns>
         public async Task<IEnumerable<ICapability>> Handle(ListCapabilitiesQuery request, CancellationToken cancellationToken) =>
-            _mapper.Map<IEnumerable<CapabilityDto>>(await _capabilityReader.ListAsync(cancellationToken).ConfigureAwait(false));
+            mapper.Map<IEnumerable<CapabilityDto>>(await capabilityReader.ListAsync(cancellationToken));
     }
 }
