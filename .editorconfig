@@ -213,6 +213,9 @@ dotnet_diagnostic.SX1101.severity = warning
 # SA1200: Using directives should be placed correctly
 dotnet_diagnostic.SA1200.severity = none
 
+# SA1503: Braces should not be omitted
+dotnet_diagnostic.SA1503.severity = none
+
 # CS1591: Missing XML comment for publicly visible type or member
 dotnet_diagnostic.CS1591.severity = none
 

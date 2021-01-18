@@ -13,20 +13,20 @@ namespace NHSD.BuyingCatalogue.Data.Infrastructure
 {
     internal sealed class DbConnector : IDbConnector
     {
-        private readonly IDbConnectionFactory _dbConnectionFactory;
-        private readonly ILogger<DbConnector> _logger;
+        private readonly IDbConnectionFactory dbConnectionFactory;
+        private readonly ILogger<DbConnector> logger;
 
         public DbConnector(IDbConnectionFactory dbConnectionFactory, ILogger<DbConnector> logger)
         {
-            _dbConnectionFactory = dbConnectionFactory;
-            _logger = logger;
+            this.dbConnectionFactory = dbConnectionFactory;
+            this.logger = logger;
         }
 
         public async Task<T> QueryFirstOrDefaultAsync<T>(string sql, CancellationToken cancellationToken, object param = null)
         {
             try
             {
-                using var databaseConnection = await _dbConnectionFactory.GetAsync(cancellationToken);
+                using var databaseConnection = await dbConnectionFactory.GetAsync(cancellationToken);
                 var result = await databaseConnection.QueryFirstOrDefaultAsync<T>(sql, param);
 
                 LogDatabaseWithStatistics(
@@ -40,7 +40,7 @@ namespace NHSD.BuyingCatalogue.Data.Infrastructure
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "ERROR - Query First Async or Default {@sql}", sql);
+                logger.LogError(e, "ERROR - Query First Async or Default {@sql}", sql);
                 throw;
             }
         }
@@ -49,17 +49,21 @@ namespace NHSD.BuyingCatalogue.Data.Infrastructure
         {
             try
             {
-                using var databaseConnection = await _dbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false);
-                var result = (await databaseConnection.QueryAsync<T>(sql, args).ConfigureAwait(false)).ToList();
+                using var databaseConnection = await dbConnectionFactory.GetAsync(cancellationToken);
+                var result = (await databaseConnection.QueryAsync<T>(sql, args)).ToList();
 
-                LogDatabaseWithStatistics(databaseConnection, LoggingEvents.GetItem,
+                LogDatabaseWithStatistics(
+                    databaseConnection,
+                    LoggingEvents.GetItem,
                     "Query {sql} with params: {@args} with ConnectionTime {ConnectionTime}ms, ExecutionTime is {ExecutionTime}",
-                    sql, args);
+                    sql,
+                    args);
+
                 return result;
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "ERROR - Query Async {@sql}", sql);
+                logger.LogError(e, "ERROR - Query Async {@sql}", sql);
                 throw;
             }
         }
@@ -68,54 +72,62 @@ namespace NHSD.BuyingCatalogue.Data.Infrastructure
         {
             try
             {
-                using var databaseConnection = await _dbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false);
-                await databaseConnection.ExecuteAsync(sql, args).ConfigureAwait(false);
+                using var databaseConnection = await dbConnectionFactory.GetAsync(cancellationToken);
+                await databaseConnection.ExecuteAsync(sql, args);
 
-                LogDatabaseWithStatistics(databaseConnection, LoggingEvents.UpdateItem,
+                LogDatabaseWithStatistics(
+                    databaseConnection,
+                    LoggingEvents.UpdateItem,
                     "Execute {sql} with params: {@args} with ConnectionTime {ConnectionTime}ms, ExecutionTime is {ExecutionTime}",
-                    sql, args);
+                    sql,
+                    args);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "ERROR - Execute Async {@sql}", sql);
+                logger.LogError(e, "ERROR - Execute Async {@sql}", sql);
                 throw;
             }
         }
 
-        public async Task ExecuteMultipleWithTransactionAsync(IEnumerable<(string sql, object args)> functions, CancellationToken cancellationToken)
+        public async Task ExecuteMultipleWithTransactionAsync(IEnumerable<(string Sql, object Args)> functions, CancellationToken cancellationToken)
         {
             try
             {
-                using var databaseConnection =
-                    await _dbConnectionFactory.GetAsync(cancellationToken).ConfigureAwait(false);
+                using var databaseConnection = await dbConnectionFactory.GetAsync(cancellationToken);
                 var transaction = databaseConnection.BeginTransaction();
-                foreach (var (sql, args) in functions)
+                foreach ((string sql, object args) in functions)
                 {
-                    await databaseConnection.ExecuteAsync(sql, args, transaction).ConfigureAwait(false);
+                    await databaseConnection.ExecuteAsync(sql, args, transaction);
                 }
 
                 transaction.Commit();
-                LogDatabaseWithStatistics(databaseConnection, LoggingEvents.UpdateWithMultipleDocuments,
+                LogDatabaseWithStatistics(
+                    databaseConnection,
+                    LoggingEvents.UpdateWithMultipleDocuments,
                     "Execute {sql}  {@functions} with ConnectionTime {ConnectionTime}ms, ExecutionTime is {ExecutionTime}",
-                    "Multiple", functions);
+                    "Multiple",
+                    functions);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "ERROR - ExecuteMultipleWithTransactions");
+                logger.LogError(e, "ERROR - ExecuteMultipleWithTransactions");
                 throw;
             }
         }
 
         private void LogDatabaseWithStatistics(IDbConnection databaseConnection, int logId, string messageTemplate, string sql, object args)
         {
-            IDictionary stats = null;
-            if (databaseConnection is SqlConnection sqlConnection)
-            {
-                stats = sqlConnection.RetrieveStatistics();
-                _logger.LogInformation(logId,
-                    messageTemplate,
-                    sql, args, stats["ConnectionTime"], stats["ExecutionTime"]);
-            }
+            if (databaseConnection is not SqlConnection sqlConnection)
+                return;
+
+            IDictionary stats = sqlConnection.RetrieveStatistics();
+            logger.LogInformation(
+                logId,
+                messageTemplate,
+                sql,
+                args,
+                stats["ConnectionTime"],
+                stats["ExecutionTime"]);
         }
     }
 }
