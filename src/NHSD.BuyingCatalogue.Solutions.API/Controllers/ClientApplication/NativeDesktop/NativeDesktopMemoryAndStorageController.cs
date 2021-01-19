@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Net;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.ClientApplications.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeDesktop.UpdateNativeDesktopMemoryAndStorage;
@@ -13,41 +13,38 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Nativ
 {
     [Route("api/v1/solutions")]
     [ApiController]
-    [Produces("application/json")]
-    [AllowAnonymous]
+    [Produces(MediaTypeNames.Application.Json)]
     public sealed class NativeDesktopMemoryAndStorageController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
         public NativeDesktopMemoryAndStorageController(IMediator mediator)
         {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         [HttpGet]
         [Route("{id}/sections/native-desktop-memory-and-storage")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> Get([FromRoute] [Required] string id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> Get([Required] string id)
         {
-            var clientApplication =
-                await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
+            var clientApplication = await mediator.Send(new GetClientApplicationBySolutionIdQuery(id));
 
             return Ok(new GetNativeDesktopMemoryAndStorageResult(clientApplication?.NativeDesktopMemoryAndStorage));
         }
 
         [HttpPut]
         [Route("{id}/sections/native-desktop-memory-and-storage")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> Update([FromRoute] [Required] string id,
-            [FromBody] [Required] UpdateNativeDesktopMemoryAndStorageViewModel viewModel)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> Update(
+            [Required] string id,
+            UpdateNativeDesktopMemoryAndStorageViewModel model)
         {
-            return (await _mediator.Send(
-                    new UpdateNativeDesktopMemoryAndStorageCommand(id, viewModel))
-                .ConfigureAwait(false)).ToActionResult();
+            return (await mediator.Send(new UpdateNativeDesktopMemoryAndStorageCommand(id, model))).ToActionResult();
         }
     }
 }

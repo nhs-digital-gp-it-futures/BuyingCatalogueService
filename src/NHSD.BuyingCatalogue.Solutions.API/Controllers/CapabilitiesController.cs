@@ -1,7 +1,7 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
@@ -11,25 +11,24 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 {
     [Route("api/v1/solutions")]
     [ApiController]
-    [Produces("application/json")]
-    [AllowAnonymous]
+    [Produces(MediaTypeNames.Application.Json)]
     public sealed class CapabilitiesController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
         public CapabilitiesController(IMediator mediator)
         {
-            _mediator = mediator;
+            this.mediator = mediator;
         }
 
         [HttpGet]
         [Route("{id}/sections/capabilities")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult GetAll([FromRoute][Required]string id)
+        public ActionResult GetAll([Required] string id)
         {
-            var result = new CapabilitiesResult() { SolutionId = id };
+            var result = new CapabilitiesResult { SolutionId = id };
 
             return Ok(result);
         }
@@ -37,17 +36,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         /// <summary>
         /// Updates the solution's capabilities.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="viewModel"></param>
-        /// <returns>A Task representing the operation to update the details of the capabilities section</returns>
+        /// <param name="id">A value to uniquely identify a solution.</param>
+        /// <param name="model">The details of the supported capabilities.</param>
+        /// <returns>A <see cref="Task"/> representing the operation to update the details of the capabilities section.</returns>
         [HttpPut]
         [Route("{id}/sections/capabilities")]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Update([FromRoute] [Required] string id,
-            [FromBody] [Required] UpdateCapabilitiesViewModel viewModel) =>
-            (await _mediator.Send(new UpdateCapabilitiesCommand(id, viewModel?.NewCapabilitiesReferences))
-                .ConfigureAwait(false)).ToActionResult();
+        public async Task<ActionResult> Update([Required] string id, UpdateCapabilitiesViewModel model) =>
+            (await mediator.Send(new UpdateCapabilitiesCommand(id, model?.NewCapabilitiesReferences))).ToActionResult();
     }
 }

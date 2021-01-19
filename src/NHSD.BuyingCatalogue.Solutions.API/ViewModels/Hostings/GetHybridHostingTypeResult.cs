@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;
 
@@ -6,6 +6,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Hostings
 {
     public sealed class GetHybridHostingTypeResult
     {
+        public GetHybridHostingTypeResult(IHybridHostingType hybridHostingType)
+        {
+            Summary = hybridHostingType?.Summary;
+            Link = hybridHostingType?.Link;
+            HostingModel = hybridHostingType?.HostingModel;
+            RequiresHSCN = hybridHostingType?.RequiresHSCN != null
+                ? new HashSet<string> { hybridHostingType.RequiresHSCN }
+                : new HashSet<string>();
+        }
+
         [JsonProperty("summary")]
         public string Summary { get; set; }
 
@@ -17,15 +27,5 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Hostings
 
         [JsonProperty("requires-hscn")]
         public HashSet<string> RequiresHSCN { get; }
-
-        public GetHybridHostingTypeResult(IHybridHostingType hybridHostingType)
-        {
-            Summary = hybridHostingType?.Summary;
-            Link = hybridHostingType?.Link;
-            HostingModel = hybridHostingType?.HostingModel;
-            RequiresHSCN = hybridHostingType?.RequiresHSCN != null
-                ? new HashSet<string> {hybridHostingType?.RequiresHSCN}
-                : new HashSet<string>();
-        }
     }
 }
