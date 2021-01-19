@@ -1,10 +1,18 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Hostings
 {
     public sealed class OnPremiseSectionAnswers
     {
+        public OnPremiseSectionAnswers(IOnPremise onPremise)
+        {
+            Summary = onPremise?.Summary;
+            Link = onPremise?.Link;
+            HostingModel = onPremise?.HostingModel;
+            RequiresHSCN = onPremise?.RequiresHSCN;
+        }
+
         [JsonProperty("summary")]
         public string Summary { get; set; }
 
@@ -18,17 +26,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Hostings
         public string RequiresHSCN { get; set; }
 
         [JsonIgnore]
-        public bool HasData => !string.IsNullOrWhiteSpace(Summary) ||
-                               !string.IsNullOrWhiteSpace(Link) ||
-                               !string.IsNullOrWhiteSpace(HostingModel) ||
-                               !string.IsNullOrWhiteSpace(RequiresHSCN);
-
-        public OnPremiseSectionAnswers(IOnPremise onPremise)
-        {
-            Summary = onPremise?.Summary;
-            Link = onPremise?.Link;
-            HostingModel = onPremise?.HostingModel;
-            RequiresHSCN = onPremise?.RequiresHSCN;
-        }
+        public bool HasData => !string.IsNullOrWhiteSpace(Summary)
+            || !string.IsNullOrWhiteSpace(Link)
+            || !string.IsNullOrWhiteSpace(HostingModel)
+            || !string.IsNullOrWhiteSpace(RequiresHSCN);
     }
 }
