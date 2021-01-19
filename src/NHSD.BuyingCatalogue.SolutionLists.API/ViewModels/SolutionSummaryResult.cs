@@ -7,21 +7,10 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.ViewModels
 {
     public sealed class SolutionSummaryResult
     {
-        public string Id { get; }
-
-        public string Name { get; }
-
-        public string Summary { get; }
-
-        public bool IsFoundation { get; }
-
-        public SolutionSupplierResult Supplier { get; }
-
-        public IEnumerable<SolutionCapabilityResult> Capabilities { get; }
-
         /// <summary>
-        /// Initialises a new instance of the <see cref="SolutionSummaryResult"/> class.
+        /// Initializes a new instance of the <see cref="SolutionSummaryResult"/> class.
         /// </summary>
+        /// <param name="summary">The solution summary.</param>
         public SolutionSummaryResult(ISolutionSummary summary)
         {
             if (summary is null)
@@ -36,5 +25,17 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.ViewModels
             Supplier = summary.Supplier != null ? new SolutionSupplierResult(summary.Supplier) : null;
             Capabilities = summary.Capabilities.Select(cap => new SolutionCapabilityResult(cap)).ToList();
         }
+
+        public string Id { get; }
+
+        public string Name { get; }
+
+        public string Summary { get; }
+
+        public bool IsFoundation { get; }
+
+        public SolutionSupplierResult Supplier { get; }
+
+        public IEnumerable<SolutionCapabilityResult> Capabilities { get; }
     }
 }

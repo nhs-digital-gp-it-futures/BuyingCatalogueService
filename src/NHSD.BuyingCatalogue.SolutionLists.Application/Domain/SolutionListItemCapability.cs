@@ -17,12 +17,12 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
         }
 
         /// <summary>
-        /// Identifier of the capability.
+        /// Gets the ID of the capability.
         /// </summary>
         public string CapabilityReference { get; }
 
         /// <summary>
-        /// Name of the capability.
+        /// Gets the name of the capability.
         /// </summary>
         public string Name { get; }
     }

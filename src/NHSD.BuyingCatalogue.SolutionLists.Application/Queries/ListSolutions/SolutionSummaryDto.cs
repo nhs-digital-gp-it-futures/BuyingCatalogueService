@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NHSD.BuyingCatalogue.SolutionLists.Contracts;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions
@@ -9,32 +9,32 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions
     internal sealed class SolutionSummaryDto : ISolutionSummary
     {
         /// <summary>
-        /// Identifier of the solution.
+        /// Gets or sets the ID of the solution.
         /// </summary>
         public string Id { get; set; }
 
         /// <summary>
-        /// Name of the solution.
+        /// Gets or sets the name of the solution.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Summary of the solution.
+        /// Gets or sets the summary of the solution.
         /// </summary>
         public string Summary { get; set; }
 
         /// <summary>
-        /// Determines whether this is a foundation solution.
+        /// Gets or sets a value indicating whether this is a foundation solution.
         /// </summary>
         public bool IsFoundation { get; set; }
 
         /// <summary>
-        /// Details of the supplier associated with the solution.
+        /// Gets or sets the details of the supplier associated with the solution.
         /// </summary>
         public ISolutionSupplier Supplier { get; set; }
 
         /// <summary>
-        /// List of capabilities linked with the solution.
+        /// Gets or sets the list of capabilities linked with the solution.
         /// </summary>
         public IEnumerable<ISolutionCapability> Capabilities { get; set; }
     }

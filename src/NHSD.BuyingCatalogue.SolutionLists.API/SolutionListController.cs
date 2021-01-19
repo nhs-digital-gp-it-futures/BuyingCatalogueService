@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +10,7 @@ using NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions;
 namespace NHSD.BuyingCatalogue.SolutionLists.API
 {
     /// <summary>
-    /// Provides an endpoint to manage the solution list
+    /// Provides an endpoint to manage the solution list.
     /// </summary>
     [Route("api/v1/solutions")]
     [ApiController]
@@ -19,25 +18,26 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API
     [AllowAnonymous]
     public sealed class SolutionListController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
         public SolutionListController(IMediator mediator)
         {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         /// <summary>
         /// Gets a list of solutions that includes information about the supplier and the associated capabilities.
         /// </summary>
-        /// <returns>A task representing an operation to retrieve a list of solutions that includes information about the supplier and the associated capabilities.</returns>
+        /// <param name="supplierId">The ID of the supplier.</param>
+        /// <returns>A task representing an operation to retrieve a list of solutions that includes information
+        /// about the supplier and the associated capabilities.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<ListSolutionsResult>> ListAsync(string supplierId)
         {
             return Ok(new ListSolutionsResult(
-                await _mediator.Send(
-                    new ListSolutionsQuery(new ListSolutionsFilterViewModel { SupplierId = supplierId }))));
+                await mediator.Send(new ListSolutionsQuery(new ListSolutionsFilterViewModel { SupplierId = supplierId }))));
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API
         public async Task<ActionResult<ListSolutionsResult>> ListFoundationAsync()
         {
             return Ok(new ListSolutionsResult(
-                await _mediator.Send(new ListSolutionsQuery(new ListSolutionsFilterViewModel { IsFoundation = true }))));
+                await mediator.Send(new ListSolutionsQuery(new ListSolutionsFilterViewModel { IsFoundation = true }))));
         }
 
         /// <summary>
@@ -62,9 +62,9 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ListSolutionsResult>> ListByFilterAsync([FromBody][Required]ListSolutionsFilterViewModel filter)
+        public async Task<ActionResult<ListSolutionsResult>> ListByFilterAsync(ListSolutionsFilterViewModel filter)
         {
-            return Ok(new ListSolutionsResult(await _mediator.Send(new ListSolutionsQuery(filter))));
+            return Ok(new ListSolutionsResult(await mediator.Send(new ListSolutionsQuery(filter))));
         }
     }
 }

@@ -13,10 +13,10 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Persistence
         /// <summary>
         /// Data access layer for the <see cref="SolutionList"/> entity.
         /// </summary>
-        private readonly ISolutionListRepository _solutionListRepository;
+        private readonly ISolutionListRepository solutionListRepository;
 
         public SolutionListReader(ISolutionListRepository solutionListRepository)
-            => _solutionListRepository = solutionListRepository;
+            => this.solutionListRepository = solutionListRepository;
 
         public async Task<SolutionList> ListAsync(
             IEnumerable<ICapabilityReference> capabilityReferences,
@@ -29,9 +29,9 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Persistence
                 throw new ArgumentNullException(nameof(capabilityReferences));
             }
 
-            return new SolutionList(capabilityReferences,
-                await _solutionListRepository.ListAsync(foundationOnly, supplierId, cancellationToken));
+            return new SolutionList(
+                capabilityReferences,
+                await solutionListRepository.ListAsync(foundationOnly, supplierId, cancellationToken));
         }
     }
 }
-

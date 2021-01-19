@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
+using NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.SolutionLists.Contracts;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.API.ViewModels
@@ -15,7 +16,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.ViewModels
         public IEnumerable<ICapabilityReference> CapabilityReferences { get => Capabilities; }
 
         /// <summary>
-        /// Filters to only foundation solutions
+        /// Gets or sets a value indicating whether to filter to foundation solutions only.
         /// </summary>
         public bool IsFoundation { get; set; }
 

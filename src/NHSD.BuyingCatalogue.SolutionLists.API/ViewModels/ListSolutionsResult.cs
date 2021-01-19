@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions;
 using NHSD.BuyingCatalogue.SolutionLists.Contracts;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.API.ViewModels
@@ -11,13 +12,9 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.ViewModels
     public sealed class ListSolutionsResult
     {
         /// <summary>
-        /// A list of solution summaries.
+        /// Initializes a new instance of the <see cref="ListSolutionsResult"/> class.
         /// </summary>
-        public IEnumerable<SolutionSummaryResult> Solutions { get; }
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="ListSolutionsResult"/> class.
-        /// </summary>
+        /// <param name="solutionList">The solution list.</param>
         public ListSolutionsResult(ISolutionList solutionList)
         {
             if (solutionList is null)
@@ -27,5 +24,10 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.ViewModels
 
             Solutions = solutionList.Solutions.Select(summary => new SolutionSummaryResult(summary)).ToList();
         }
+
+        /// <summary>
+        /// Gets a list of solution summaries.
+        /// </summary>
+        public IEnumerable<SolutionSummaryResult> Solutions { get; }
     }
 }

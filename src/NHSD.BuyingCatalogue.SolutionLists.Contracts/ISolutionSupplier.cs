@@ -1,14 +1,14 @@
-namespace NHSD.BuyingCatalogue.SolutionLists.Contracts
+﻿namespace NHSD.BuyingCatalogue.SolutionLists.Contracts
 {
     public interface ISolutionSupplier
     {
         /// <summary>
-        /// Identifier of supplier.
+        /// Gets the ID of supplier.
         /// </summary>
         string Id { get; }
 
         /// <summary>
-        /// Name of supplier.
+        /// Gets the name of supplier.
         /// </summary>
         string Name { get; }
     }

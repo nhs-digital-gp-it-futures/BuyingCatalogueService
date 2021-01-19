@@ -7,9 +7,9 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
 {
     internal sealed class SolutionList
     {
-        public List<SolutionListItem> Solutions { get; }
-
-        internal SolutionList(IEnumerable<ICapabilityReference> capabilityReferences, IEnumerable<ISolutionListResult> solutionListResults)
+        internal SolutionList(
+            IEnumerable<ICapabilityReference> capabilityReferences,
+            IEnumerable<ISolutionListResult> solutionListResults)
         {
             var uniqueCapabilityReferences = new HashSet<string>(capabilityReferences.Select(x => x.Reference));
             var solutions = new Dictionary<string, SolutionListItem>();
@@ -23,10 +23,16 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
                 solutions[result.SolutionId].Capabilities.Add(new SolutionListItemCapability(result));
             }
 
+            bool Predicate(SolutionListItem s) => s.Capabilities
+                .Select(c => c.CapabilityReference)
+                .Intersect(uniqueCapabilityReferences)
+                .Count() == uniqueCapabilityReferences.Count;
+
             Solutions = solutions.Values
-                .Where(s => s.Capabilities.Select(c => c.CapabilityReference).Intersect(uniqueCapabilityReferences).Count() ==
-                            uniqueCapabilityReferences.Count)
+                .Where(Predicate)
                 .ToList();
         }
+
+        public List<SolutionListItem> Solutions { get; }
     }
 }

@@ -9,11 +9,11 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions
     /// </summary>
     public sealed class ListSolutionsQuery : IRequest<ISolutionList>
     {
-        public IListSolutionsQueryData Data { get; }
-
         public ListSolutionsQuery(IListSolutionsQueryData data)
         {
             Data = data ?? throw new ArgumentNullException(nameof(data));
         }
+
+        public IListSolutionsQueryData Data { get; }
     }
 }
