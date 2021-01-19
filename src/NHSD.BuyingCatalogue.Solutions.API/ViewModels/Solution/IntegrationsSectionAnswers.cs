@@ -1,10 +1,16 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 {
     public sealed class IntegrationsSectionAnswers
     {
+        public IntegrationsSectionAnswers(IIntegrations integration)
+        {
+            IntegrationsUrl = integration?.Url;
+            DocumentName = integration?.DocumentName;
+        }
+
         [JsonProperty("link")]
         public string IntegrationsUrl { get; }
 
@@ -13,11 +19,5 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 
         [JsonIgnore]
         public bool HasData => !string.IsNullOrWhiteSpace(IntegrationsUrl) || !string.IsNullOrWhiteSpace(DocumentName);
-
-        public IntegrationsSectionAnswers(IIntegrations integration)
-        {
-            IntegrationsUrl = integration?.Url;
-            DocumentName = integration?.DocumentName;
-        }
     }
 }

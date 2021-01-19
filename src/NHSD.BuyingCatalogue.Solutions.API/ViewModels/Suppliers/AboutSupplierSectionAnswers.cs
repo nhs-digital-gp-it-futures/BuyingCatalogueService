@@ -5,6 +5,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers
 {
     public sealed class AboutSupplierSectionAnswers
     {
+        public AboutSupplierSectionAnswers(ISolutionSupplier solutionSupplier)
+        {
+            Description = solutionSupplier?.Summary;
+            Link = solutionSupplier?.Url;
+        }
+
         [JsonProperty("description")]
         public string Description { get; }
 
@@ -12,13 +18,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers
         public string Link { get; }
 
         [JsonIgnore]
-        public bool HasData => !string.IsNullOrWhiteSpace(Description) ||
-                               !string.IsNullOrWhiteSpace(Link);
-
-        public AboutSupplierSectionAnswers(ISolutionSupplier solutionSupplier)
-        {
-            Description = solutionSupplier?.Summary;
-            Link = solutionSupplier?.Url;
-        }
+        public bool HasData => !string.IsNullOrWhiteSpace(Description) || !string.IsNullOrWhiteSpace(Link);
     }
 }

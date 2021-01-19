@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.ClientApplications.BrowserBased;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.ClientApplications.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.ClientApplications.NativeMobile;
@@ -6,8 +6,23 @@ using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.ClientApplications
 {
-    public class ClientApplicationTypesSubSections
+    public sealed class ClientApplicationTypesSubSections
     {
+        public ClientApplicationTypesSubSections(IClientApplication clientApplication)
+        {
+            BrowserBased = clientApplication?.ClientApplicationTypes?.Contains("browser-based") == true ?
+                new BrowserBasedSection(clientApplication).IfPopulated() :
+                null;
+
+            NativeMobile = clientApplication?.ClientApplicationTypes?.Contains("native-mobile") == true
+                ? new NativeMobileSection(clientApplication).IfPopulated()
+                : null;
+
+            NativeDesktop = clientApplication?.ClientApplicationTypes?.Contains("native-desktop") == true
+                ? new NativeDesktopSection(clientApplication).IfPopulated()
+                : null;
+        }
+
         [JsonProperty("browser-based")]
         public BrowserBasedSection BrowserBased { get; }
 
@@ -18,19 +33,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.ClientApplicati
         public NativeDesktopSection NativeDesktop { get; }
 
         [JsonIgnore]
-        public bool HasData => BrowserBased != null || NativeMobile != null || NativeDesktop != null;
-
-        public ClientApplicationTypesSubSections(IClientApplication clientApplication)
-        {
-            BrowserBased = clientApplication?.ClientApplicationTypes?.Contains("browser-based") == true ?
-                new BrowserBasedSection(clientApplication).IfPopulated() :
-                null;
-            NativeMobile = clientApplication?.ClientApplicationTypes?.Contains("native-mobile") == true
-                ? new NativeMobileSection(clientApplication).IfPopulated()
-                : null;
-            NativeDesktop = clientApplication?.ClientApplicationTypes?.Contains("native-desktop") == true
-                ? new NativeDesktopSection(clientApplication).IfPopulated()
-                : null;
-        }
+        public bool HasData => BrowserBased is not null || NativeMobile is not null || NativeDesktop is not null;
     }
 }

@@ -1,10 +1,18 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.ClientApplications.NativeDesktop
 {
     public sealed class NativeDesktopMemoryAndStorageSectionAnswers
     {
+        public NativeDesktopMemoryAndStorageSectionAnswers(INativeDesktopMemoryAndStorage memoryAndStorage)
+        {
+            MinimumMemoryRequirement = memoryAndStorage?.MinimumMemoryRequirement;
+            StorageRequirementsDescription = memoryAndStorage?.StorageRequirementsDescription;
+            MinimumCpu = memoryAndStorage?.MinimumCpu;
+            RecommendedResolution = memoryAndStorage?.RecommendedResolution;
+        }
+
         [JsonProperty("minimum-memory-requirement")]
         public string MinimumMemoryRequirement { get; }
 
@@ -18,17 +26,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.ClientApplicati
         public string RecommendedResolution { get; }
 
         [JsonIgnore]
-        public bool HasData => !string.IsNullOrWhiteSpace(MinimumMemoryRequirement) ||
-                               !string.IsNullOrWhiteSpace(StorageRequirementsDescription) ||
-                               !string.IsNullOrWhiteSpace(MinimumCpu) ||
-                               !string.IsNullOrWhiteSpace(RecommendedResolution);
-
-        public NativeDesktopMemoryAndStorageSectionAnswers(INativeDesktopMemoryAndStorage memoryAndStorage)
-        {
-            MinimumMemoryRequirement = memoryAndStorage?.MinimumMemoryRequirement;
-            StorageRequirementsDescription = memoryAndStorage?.StorageRequirementsDescription;
-            MinimumCpu = memoryAndStorage?.MinimumCpu;
-            RecommendedResolution = memoryAndStorage?.RecommendedResolution;
-        }
+        public bool HasData => !string.IsNullOrWhiteSpace(MinimumMemoryRequirement)
+            || !string.IsNullOrWhiteSpace(StorageRequirementsDescription)
+            || !string.IsNullOrWhiteSpace(MinimumCpu)
+            || !string.IsNullOrWhiteSpace(RecommendedResolution);
     }
 }
