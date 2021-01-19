@@ -15,11 +15,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
     [Produces(MediaTypeNames.Application.Json)]
     public sealed class AdditionalServiceController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
         public AdditionalServiceController(IMediator mediator)
         {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         [HttpGet]
@@ -36,7 +36,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
                 return NotFound();
             }
 
-            var additionalServices = (await _mediator.Send(new GetAdditionalServiceBySolutionIdsQuery(solutionIds))).ToList();
+            var additionalServices = (await mediator.Send(new GetAdditionalServiceBySolutionIdsQuery(solutionIds))).ToList();
 
             return new AdditionalServiceListResult
             {

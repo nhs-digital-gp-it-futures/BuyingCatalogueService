@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
@@ -6,11 +6,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 {
     public sealed class FeaturesResult
     {
-        public IEnumerable<string> Listing { get; }
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="FeaturesResult"/> class.
-        /// </summary>
         public FeaturesResult(ISolution solution)
         {
             if (solution is null)
@@ -20,5 +15,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 
             Listing = solution.Features;
         }
+
+        public IEnumerable<string> Listing { get; }
     }
 }

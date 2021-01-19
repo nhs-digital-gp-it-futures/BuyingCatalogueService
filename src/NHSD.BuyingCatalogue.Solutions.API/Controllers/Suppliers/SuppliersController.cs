@@ -3,7 +3,6 @@ using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.QueryModels;
@@ -16,13 +15,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers
     [Route("api/v1/[controller]")]
     [ApiController]
     [Produces(MediaTypeNames.Application.Json)]
-    [AllowAnonymous]
     public sealed class SuppliersController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
-        public SuppliersController(IMediator mediator) =>
-            _mediator = mediator;
+        public SuppliersController(IMediator mediator) => this.mediator = mediator;
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetSuppliersModel>>> GetList([FromQuery] SupplierSearchQueryModel query)
@@ -32,7 +29,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers
                 query?.SolutionPublicationStatus,
                 query?.CatalogueItemType ?? CatalogueItemType.Solution);
 
-            var suppliers = await _mediator.Send(supplierQuery);
+            var suppliers = await mediator.Send(supplierQuery);
 
             return Ok(suppliers.Select(s => new GetSuppliersModel(s)));
         }
@@ -42,7 +39,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<GetSupplierModel>> Get(string supplierId)
         {
-            var supplier = await _mediator.Send(new GetSupplierByIdQuery(supplierId));
+            var supplier = await mediator.Send(new GetSupplierByIdQuery(supplierId));
             if (supplier is null)
                 return NotFound();
 

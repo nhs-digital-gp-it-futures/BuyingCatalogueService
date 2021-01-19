@@ -1,8 +1,8 @@
-using System.ComponentModel.DataAnnotations;
-using System.Net;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
@@ -15,18 +15,18 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
     /// </summary>
     [Route("api/v1/solutions")]
     [ApiController]
-    [Produces("application/json")]
-    [AllowAnonymous]
+    [Produces(MediaTypeNames.Application.Json)]
     public sealed class FeaturesController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="FeaturesController"/> class.
+        /// Initializes a new instance of the <see cref="FeaturesController"/> class.
         /// </summary>
+        /// <param name="mediator"> An <see cref="IMediator"/> instance.</param>
         public FeaturesController(IMediator mediator)
         {
-            _mediator = mediator;
+            this.mediator = mediator;
         }
 
         /// <summary>
@@ -36,12 +36,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         /// <returns>A task representing an operation to update the details of a solution.</returns>
         [HttpGet]
         [Route("{id}/sections/features")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> GetFeaturesAsync([FromRoute][Required]string id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> GetFeaturesAsync([Required] string id)
         {
-            var solution = await _mediator.Send(new GetSolutionByIdQuery(id)).ConfigureAwait(false);
+            var solution = await mediator.Send(new GetSolutionByIdQuery(id));
             return Ok(new FeaturesResult(solution));
         }
 
@@ -49,14 +49,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         /// Updates the features of a solution matching the supplied ID.
         /// </summary>
         /// <param name="id">A value to uniquely identify a solution.</param>
-        /// <param name="updateSolutionFeaturesViewModel">The features of a solution.</param>
+        /// <param name="model">The features of a solution.</param>
         /// <returns>A task representing an operation to update the features of a solution.</returns>
         [HttpPut]
         [Route("{id}/sections/features")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> UpdateFeaturesAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionFeaturesViewModel updateSolutionFeaturesViewModel) =>
-            (await _mediator.Send(new UpdateSolutionFeaturesCommand(id, updateSolutionFeaturesViewModel)).ConfigureAwait(false)).ToActionResult();
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> UpdateFeaturesAsync([Required] string id, UpdateSolutionFeaturesViewModel model) =>
+            (await mediator.Send(new UpdateSolutionFeaturesCommand(id, model))).ToActionResult();
     }
 }

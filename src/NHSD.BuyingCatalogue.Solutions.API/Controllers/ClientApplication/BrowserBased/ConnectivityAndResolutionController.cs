@@ -1,8 +1,8 @@
-using System.ComponentModel.DataAnnotations;
-using System.Net;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.ClientApplications.BrowserBased;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.BrowserBased.UpdateSolutionConnectivityAndResolution;
@@ -12,34 +12,37 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Brows
 {
     [Route("api/v1/solutions")]
     [ApiController]
-    [Produces("application/json")]
-    [AllowAnonymous]
-    public class ConnectivityAndResolutionController : ControllerBase
+    [Produces(MediaTypeNames.Application.Json)]
+    public sealed class ConnectivityAndResolutionController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
         public ConnectivityAndResolutionController(IMediator mediator)
         {
-            _mediator = mediator;
+            this.mediator = mediator;
         }
 
         [HttpGet]
         [Route("{id}/sections/browser-connectivity-and-resolution")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> GetConnectivityAndResolution([FromRoute][Required]string id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> GetConnectivityAndResolution([Required] string id)
         {
-            var clientApplication = await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
-            return Ok(new GetConnectivityAndResolutionResult(clientApplication?.MinimumConnectionSpeed, clientApplication?.MinimumDesktopResolution));
+            var clientApplication = await mediator.Send(new GetClientApplicationBySolutionIdQuery(id));
+            return Ok(new GetConnectivityAndResolutionResult(
+                clientApplication?.MinimumConnectionSpeed,
+                clientApplication?.MinimumDesktopResolution));
         }
 
         [HttpPut]
         [Route("{id}/sections/browser-connectivity-and-resolution")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> UpdateConnectivityAndResolutionAsync([FromRoute][Required]string id, [FromBody][Required] UpdateBrowserBasedConnectivityAndResolutionViewModel viewModel) =>
-            (await _mediator.Send(new UpdateSolutionConnectivityAndResolutionCommand(id, viewModel)).ConfigureAwait(false)).ToActionResult();
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> UpdateConnectivityAndResolutionAsync(
+            [Required] string id,
+            UpdateBrowserBasedConnectivityAndResolutionViewModel model) =>
+            (await mediator.Send(new UpdateSolutionConnectivityAndResolutionCommand(id, model))).ToActionResult();
     }
 }

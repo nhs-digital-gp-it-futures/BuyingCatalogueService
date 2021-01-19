@@ -1,24 +1,24 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 {
-    public class ContactAnswerSection
+    public sealed class ContactAnswerSection
     {
-        private readonly List<ContactInformationSection> _contacts;
+        private readonly List<ContactInformationSection> contacts;
 
         public ContactAnswerSection(IEnumerable<IContact> contacts)
-            => _contacts = contacts.Select(c => new ContactInformationSection(c)).ToList();
+            => this.contacts = contacts.Select(c => new ContactInformationSection(c)).ToList();
 
         [JsonProperty("contact-1")]
         public ContactInformationSection Contact1
-            => _contacts.FirstOrDefault()?.IfPopulated();
+            => contacts.FirstOrDefault()?.IfPopulated();
 
         [JsonProperty("contact-2")]
         public ContactInformationSection Contact2
-            => _contacts.Skip(1).FirstOrDefault()?.IfPopulated();
+            => contacts.Skip(1).FirstOrDefault()?.IfPopulated();
 
         public bool HasData()
             => Contact1?.IsPopulated() == true || Contact2?.IsPopulated() == true;

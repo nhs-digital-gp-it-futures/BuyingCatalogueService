@@ -10,11 +10,36 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 {
     public sealed class Sections
     {
+        public Sections(ISolution solution)
+        {
+            if (solution is null)
+            {
+                throw new ArgumentNullException(nameof(solution));
+            }
+
+            SolutionDescription = new SolutionDescriptionSection(solution).IfPopulated();
+            Features = new FeaturesSection(solution.Features).IfPopulated();
+            RoadMap = new RoadMapSection(solution.RoadMap).IfPopulated();
+            Integrations = new IntegrationsSection(solution.Integrations).IfPopulated();
+            ImplementationTimescales =
+                new ImplementationTimescalesSection(solution.ImplementationTimescales).IfPopulated();
+            ClientApplicationTypes = new ClientApplicationTypesSection(solution.ClientApplication).IfPopulated();
+            ContactDetails = new ContactDetailsSection(solution.Contacts).IfPopulated();
+            Capabilities = new CapabilitiesSection(solution.Capabilities).IfPopulated();
+            PublicCloud = new PublicCloudSection(solution.Hosting).IfPopulated();
+            PrivateCloud = new PrivateCloudSection(solution.Hosting).IfPopulated();
+            OnPremise = new OnPremiseSection(solution.Hosting).IfPopulated();
+            HybridHostingType = new HybridHostingTypeSection(solution.Hosting).IfPopulated();
+            AboutSupplier = new AboutSupplierSection(solution.Supplier).IfPopulated();
+            LearnMore = new LearnMoreSection(solution.SolutionDocument).IfPopulated();
+        }
+
         [JsonProperty("solution-description")]
         public SolutionDescriptionSection SolutionDescription { get; }
 
         public FeaturesSection Features { get; }
 
+        // ReSharper disable once StringLiteralTypo (published JSON contract)
         [JsonProperty("roadmap")]
         public RoadMapSection RoadMap { get; }
 
@@ -50,32 +75,5 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 
         [JsonProperty("about-supplier")]
         public AboutSupplierSection AboutSupplier { get; }
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="Sections" /> class.
-        /// </summary>
-        public Sections(ISolution solution)
-        {
-            if (solution is null)
-            {
-                throw new ArgumentNullException(nameof(solution));
-            }
-
-            SolutionDescription = new SolutionDescriptionSection(solution).IfPopulated();
-            Features = new FeaturesSection(solution.Features).IfPopulated();
-            RoadMap = new RoadMapSection(solution.RoadMap).IfPopulated();
-            Integrations = new IntegrationsSection(solution.Integrations).IfPopulated();
-            ImplementationTimescales =
-                new ImplementationTimescalesSection(solution.ImplementationTimescales).IfPopulated();
-            ClientApplicationTypes = new ClientApplicationTypesSection(solution.ClientApplication).IfPopulated();
-            ContactDetails = new ContactDetailsSection(solution.Contacts).IfPopulated();
-            Capabilities = new CapabilitiesSection(solution.Capabilities).IfPopulated();
-            PublicCloud = new PublicCloudSection(solution.Hosting).IfPopulated();
-            PrivateCloud = new PrivateCloudSection(solution.Hosting).IfPopulated();
-            OnPremise = new OnPremiseSection(solution.Hosting).IfPopulated();
-            HybridHostingType = new HybridHostingTypeSection(solution.Hosting).IfPopulated();
-            AboutSupplier = new AboutSupplierSection(solution.Supplier).IfPopulated();
-            LearnMore = new LearnMoreSection(solution.SolutionDocument).IfPopulated();
-        }
     }
 }
