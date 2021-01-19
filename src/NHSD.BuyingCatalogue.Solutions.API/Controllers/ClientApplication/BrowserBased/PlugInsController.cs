@@ -1,8 +1,8 @@
-using System.ComponentModel.DataAnnotations;
-using System.Net;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.ClientApplications.BrowserBased;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.BrowserBased.UpdateSolutionPlugins;
@@ -12,18 +12,18 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Brows
 {
     [Route("api/v1/solutions")]
     [ApiController]
-    [Produces("application/json")]
-    [AllowAnonymous]
-    public class PlugInsController : ControllerBase
+    [Produces(MediaTypeNames.Application.Json)]
+    public sealed class PlugInsController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="PlugInsController"/> class.
+        /// Initializes a new instance of the <see cref="PlugInsController"/> class.
         /// </summary>
+        /// <param name="mediator"> An <see cref="IMediator"/> instance.</param>
         public PlugInsController(IMediator mediator)
         {
-            _mediator = mediator;
+            this.mediator = mediator;
         }
 
         /// <summary>
@@ -33,12 +33,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Brows
         /// <returns>A task representing an operation to retrieve the details of the plug ins section.</returns>
         [HttpGet]
         [Route("{id}/sections/browser-plug-ins-or-extensions")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> GetPlugInsAsync([FromRoute][Required]string id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> GetPlugInsAsync([Required] string id)
         {
-            var clientApplication = await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
+            var clientApplication = await mediator.Send(new GetClientApplicationBySolutionIdQuery(id));
             return Ok(new GetPlugInsResult(clientApplication?.Plugins));
         }
 
@@ -46,14 +46,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Brows
         /// Updates the plug ins of a solution matching the supplied ID.
         /// </summary>
         /// <param name="id">A value to uniquely identify a solution.</param>
-        /// <param name="updateSolutionPlugInsViewModel">The details of the plug ins.</param>
+        /// <param name="model">The details of the plug ins.</param>
         /// <returns>A task representing an operation to update the details of the plug ins section.</returns>
         [HttpPut]
         [Route("{id}/sections/browser-plug-ins-or-extensions")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> UpdatePlugInsAsync([FromRoute][Required]string id, [FromBody][Required] UpdateBrowserBasedPluginsViewModel viewModel) =>
-            (await _mediator.Send(new UpdateSolutionPluginsCommand(id, viewModel)).ConfigureAwait(false)).ToActionResult();
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> UpdatePlugInsAsync([Required] string id, UpdateBrowserBasedPluginsViewModel model) =>
+            (await mediator.Send(new UpdateSolutionPluginsCommand(id, model))).ToActionResult();
     }
 }

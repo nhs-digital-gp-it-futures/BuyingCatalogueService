@@ -1,8 +1,8 @@
-using System.ComponentModel.DataAnnotations;
-using System.Net;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.ClientApplications.BrowserBased;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
@@ -11,18 +11,18 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Brows
 {
     [Route("api/v1/solutions")]
     [ApiController]
-    [Produces("application/json")]
-    [AllowAnonymous]
-    public class BrowserBasedController : ControllerBase
+    [Produces(MediaTypeNames.Application.Json)]
+    public sealed class BrowserBasedController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="BrowserBasedController"/> class.
+        /// Initializes a new instance of the <see cref="BrowserBasedController"/> class.
         /// </summary>
+        /// <param name="mediator"> An <see cref="IMediator"/> instance.</param>
         public BrowserBasedController(IMediator mediator)
         {
-            _mediator = mediator;
+            this.mediator = mediator;
         }
 
         /// <summary>
@@ -32,12 +32,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Brows
         /// <returns>A task representing an operation to update the details of a solution.</returns>
         [HttpGet]
         [Route("{id}/dashboards/browser-based")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> GetBrowserBasedAsync([FromRoute][Required]string id)
-        { 
-            var clientApplication = await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> GetBrowserBasedAsync([Required] string id)
+        {
+            var clientApplication = await mediator.Send(new GetClientApplicationBySolutionIdQuery(id));
             return Ok(new BrowserBasedResult(clientApplication));
         }
     }

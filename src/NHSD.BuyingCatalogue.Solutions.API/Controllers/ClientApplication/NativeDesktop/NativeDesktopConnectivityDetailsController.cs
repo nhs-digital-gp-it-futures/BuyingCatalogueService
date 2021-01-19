@@ -1,8 +1,8 @@
-using System.ComponentModel.DataAnnotations;
-using System.Net;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.ClientApplications.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeDesktop.UpdateSolutionConnectivityDetails;
@@ -12,39 +12,38 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Nativ
 {
     [Route("api/v1/solutions")]
     [ApiController]
-    [Produces("application/json")]
-    [AllowAnonymous]
+    [Produces(MediaTypeNames.Application.Json)]
     public sealed class NativeDesktopConnectivityDetailsController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
         public NativeDesktopConnectivityDetailsController(IMediator mediator) =>
-            _mediator = mediator;
+            this.mediator = mediator;
 
         [HttpGet]
         [Route("{id}/sections/native-desktop-connection-details")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> GetConnectivity([FromRoute] [Required] string id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> GetConnectivity([Required] string id)
         {
-            var clientApplication =
-                await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
+            var clientApplication = await mediator.Send(new GetClientApplicationBySolutionIdQuery(id));
 
             return Ok(new GetNativeDesktopConnectivityDetailsResult(clientApplication?.NativeDesktopMinimumConnectionSpeed));
         }
 
         [HttpPut]
         [Route("{id}/sections/native-desktop-connection-details")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> UpdatedConnectivity([FromRoute] [Required] string id,
-            [FromBody] [Required] UpdateNativeDesktopConnectivityDetailsViewModel viewModel)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> UpdatedConnectivity(
+            [Required] string id,
+            UpdateNativeDesktopConnectivityDetailsViewModel model)
         {
-            return (await _mediator
-                .Send(new UpdateSolutionNativeDesktopConnectivityDetailsCommand(id,
-                    viewModel?.NativeDesktopMinimumConnectionSpeed)).ConfigureAwait(false)).ToActionResult();
+            return (await mediator.Send(new UpdateSolutionNativeDesktopConnectivityDetailsCommand(
+                id,
+                model?.NativeDesktopMinimumConnectionSpeed))).ToActionResult();
         }
     }
 }

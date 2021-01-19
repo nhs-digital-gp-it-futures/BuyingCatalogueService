@@ -12,10 +12,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API
 
         public static bool IsNativeDesktopMemoryAndStorageComplete(this IClientApplication clientApplication) =>
             !string.IsNullOrWhiteSpace(clientApplication?.NativeDesktopMemoryAndStorage?.MinimumMemoryRequirement) &&
-            !string.IsNullOrWhiteSpace(clientApplication?.NativeDesktopMemoryAndStorage
+            !string.IsNullOrWhiteSpace(clientApplication.NativeDesktopMemoryAndStorage
                 ?.StorageRequirementsDescription) &&
-            !string.IsNullOrWhiteSpace(clientApplication?.NativeDesktopMemoryAndStorage?.MinimumCpu);
-        
+            !string.IsNullOrWhiteSpace(clientApplication.NativeDesktopMemoryAndStorage?.MinimumCpu);
+
         public static bool IsNativeDesktopThirdPartyComplete(this IClientApplication clientApplication) =>
             !string.IsNullOrWhiteSpace(clientApplication?.NativeDesktopThirdParty?.ThirdPartyComponents) ||
             !string.IsNullOrWhiteSpace(clientApplication?.NativeDesktopThirdParty?.DeviceCapabilities);
@@ -25,4 +25,4 @@ namespace NHSD.BuyingCatalogue.Solutions.API
             IsNativeDesktopConnectionDetailsComplete(clientApplication) &&
             IsNativeDesktopMemoryAndStorageComplete(clientApplication);
     }
-}
+}

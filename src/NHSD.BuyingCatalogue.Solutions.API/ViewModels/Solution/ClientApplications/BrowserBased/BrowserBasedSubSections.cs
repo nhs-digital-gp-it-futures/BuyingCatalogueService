@@ -1,10 +1,20 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.ClientApplications.BrowserBased
 {
-    public class BrowserBasedSubSections
+    public sealed class BrowserBasedSubSections
     {
+        internal BrowserBasedSubSections(IClientApplication clientApplication)
+        {
+            BrowsersSupported = new BrowsersSupportedSection(clientApplication);
+            PluginOrExtensionsSection = new PluginOrExtensionsSection(clientApplication);
+            BrowserHardwareRequirementsSection = new BrowserHardwareRequirementsSection(clientApplication);
+            BrowserAdditionalInformationSection = new BrowserAdditionalInformationSection(clientApplication);
+            BrowserConnectivityAndResolutionSection = new BrowserConnectivityAndResolutionSection(clientApplication);
+            BrowserMobileFirstSection = new BrowserMobileFirstSection(clientApplication);
+        }
+
         [JsonProperty("browser-browsers-supported")]
         public BrowsersSupportedSection BrowsersSupported { get; }
 
@@ -24,23 +34,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.ClientApplicati
         public BrowserMobileFirstSection BrowserMobileFirstSection { get; }
 
         [JsonIgnore]
-        public bool HasData => BrowsersSupported.Answers.HasData || PluginOrExtensionsSection.Answers.HasData ||
-                               BrowserHardwareRequirementsSection.Answers.HasData ||
-                               BrowserAdditionalInformationSection.Answers.HasData ||
-                               BrowserConnectivityAndResolutionSection.Answers.HasData ||
-                               BrowserMobileFirstSection.Answers.HasData;
-        
-        /// <summary>
-        /// Initialises a new instance of the <see cref="BrowserBasedSubSections"/> class.
-        /// </summary>
-        internal BrowserBasedSubSections(IClientApplication clientApplication)
-        {
-            BrowsersSupported = new BrowsersSupportedSection(clientApplication);
-            PluginOrExtensionsSection = new PluginOrExtensionsSection(clientApplication);
-            BrowserHardwareRequirementsSection = new BrowserHardwareRequirementsSection(clientApplication);
-            BrowserAdditionalInformationSection = new BrowserAdditionalInformationSection(clientApplication);
-            BrowserConnectivityAndResolutionSection = new BrowserConnectivityAndResolutionSection(clientApplication);
-            BrowserMobileFirstSection = new BrowserMobileFirstSection(clientApplication);
-        }
+        public bool HasData => BrowsersSupported.Answers.HasData
+            || PluginOrExtensionsSection.Answers.HasData
+            || BrowserHardwareRequirementsSection.Answers.HasData
+            || BrowserAdditionalInformationSection.Answers.HasData
+            || BrowserConnectivityAndResolutionSection.Answers.HasData
+            || BrowserMobileFirstSection.Answers.HasData;
     }
 }

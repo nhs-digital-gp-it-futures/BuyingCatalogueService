@@ -1,8 +1,7 @@
-using System.ComponentModel.DataAnnotations;
-using System.Net;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.ClientApplications.BrowserBased;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.BrowserBased.UpdateBrowserBasedAdditionalInformation;
@@ -13,36 +12,36 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Brows
     [Route("api/v1/solutions")]
     [ApiController]
     [Produces("application/json")]
-    [AllowAnonymous]
-    public class BrowserAdditionalInformationController : ControllerBase
+    public sealed class BrowserAdditionalInformationController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
         public BrowserAdditionalInformationController(IMediator mediator)
         {
-            _mediator = mediator;
+            this.mediator = mediator;
         }
 
         [HttpGet]
         [Route("{id}/sections/browser-additional-information")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> GetAdditionalInformationAsync([FromRoute] [Required] string id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> GetAdditionalInformationAsync([Required] string id)
         {
-            var clientApplication = await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
+            var clientApplication = await mediator.Send(new GetClientApplicationBySolutionIdQuery(id));
             return Ok(new GetBrowserAdditionalInformationResult(clientApplication?.AdditionalInformation));
         }
 
         [HttpPut]
         [Route("{id}/sections/browser-additional-information")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> UpdateAdditionalInformationAsync([FromRoute] [Required] string id,
-            [FromBody] [Required] UpdateBrowserBasedAdditionalInformationViewModel viewModel) =>
-            (await _mediator
-                .Send(new UpdateBrowserBasedAdditionalInformationCommand(id, viewModel?.AdditionalInformation))
-                .ConfigureAwait(false)).ToActionResult();
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> UpdateAdditionalInformationAsync(
+            [Required] string id,
+            UpdateBrowserBasedAdditionalInformationViewModel model) =>
+            (await mediator.Send(new UpdateBrowserBasedAdditionalInformationCommand(
+                id,
+                model?.AdditionalInformation))).ToActionResult();
     }
 }
