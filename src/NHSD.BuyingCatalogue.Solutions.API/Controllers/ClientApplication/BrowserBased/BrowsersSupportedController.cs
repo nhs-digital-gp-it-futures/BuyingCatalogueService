@@ -1,8 +1,8 @@
-using System.ComponentModel.DataAnnotations;
-using System.Net;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.ClientApplications.BrowserBased;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.BrowserBased.UpdateSolutionBrowsersSupported;
@@ -12,18 +12,18 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Brows
 {
     [Route("api/v1/solutions")]
     [ApiController]
-    [Produces("application/json")]
-    [AllowAnonymous]
-    public class BrowsersSupportedController : ControllerBase
+    [Produces(MediaTypeNames.Application.Json)]
+    public sealed class BrowsersSupportedController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="BrowsersSupportedController"/> class.
+        /// Initializes a new instance of the <see cref="BrowsersSupportedController"/> class.
         /// </summary>
+        /// <param name="mediator"> An <see cref="IMediator"/> instance.</param>
         public BrowsersSupportedController(IMediator mediator)
         {
-            _mediator = mediator;
+            this.mediator = mediator;
         }
 
         /// <summary>
@@ -33,12 +33,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Brows
         /// <returns>A task representing an operation to retrieve the details of the browsers supported section.</returns>
         [HttpGet]
         [Route("{id}/sections/browser-browsers-supported")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> GetBrowsersSupportedAsync([FromRoute][Required]string id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> GetBrowsersSupportedAsync([Required] string id)
         {
-            var clientApplication = await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
+            var clientApplication = await mediator.Send(new GetClientApplicationBySolutionIdQuery(id));
             return Ok(new GetBrowsersSupportedResult(clientApplication));
         }
 
@@ -46,16 +46,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Brows
         /// Updates the browsers supported of a solution matching the supplied ID.
         /// </summary>
         /// <param name="id">A value to uniquely identify a solution.</param>
-        /// <param name="updateSolutionBrowsersSupportedViewModel">The details of the supported browsers.</param>
+        /// <param name="model">The details of the supported browsers.</param>
         /// <returns>A task representing an operation to update the details of the browser supported section.</returns>
         [HttpPut]
         [Route("{id}/sections/browser-browsers-supported")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> UpdateBrowsersSupportedAsync([FromRoute] [Required] string id,
-            [FromBody] [Required] UpdateBrowserBasedBrowsersSupportedViewModel viewModel) =>
-            (await _mediator.Send(new UpdateSolutionBrowsersSupportedCommand(id, viewModel)).ConfigureAwait(false))
-            .ToActionResult();
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> UpdateBrowsersSupportedAsync(
+            [Required] string id,
+            UpdateBrowserBasedBrowsersSupportedViewModel model) =>
+            (await mediator.Send(new UpdateSolutionBrowsersSupportedCommand(id, model))).ToActionResult();
     }
 }

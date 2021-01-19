@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Net;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.ClientApplications.NativeMobile;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionNativeMobileHardwareRequirements;
@@ -13,43 +13,44 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Nativ
 {
     [Route("api/v1/solutions")]
     [ApiController]
-    [Produces("application/json")]
-    [AllowAnonymous]
+    [Produces(MediaTypeNames.Application.Json)]
     public sealed class HardwareRequirementsController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
         public HardwareRequirementsController(IMediator mediator)
         {
-            _mediator = mediator;
+            this.mediator = mediator;
         }
 
         [HttpGet]
         [Route("{id}/sections/native-mobile-hardware-requirements")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> GetHardwareRequirements([FromRoute][Required] string id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> GetHardwareRequirements([Required] string id)
         {
-            var clientApplication = await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
+            var clientApplication = await mediator.Send(new GetClientApplicationBySolutionIdQuery(id));
             return Ok(new GetHardwareRequirementsResult(clientApplication?.NativeMobileHardwareRequirements));
         }
 
         [HttpPut]
         [Route("{id}/sections/native-mobile-hardware-requirements")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> UpdateHardwareRequirements([FromRoute] [Required] string id, [FromBody] [Required] UpdateHardwareRequirementsRequest viewModel)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> UpdateHardwareRequirements(
+            [Required] string id,
+            UpdateHardwareRequirementsRequest model)
         {
-            if (viewModel is null)
+            if (model is null)
             {
-                throw new ArgumentNullException(nameof(viewModel));
+                throw new ArgumentNullException(nameof(model));
             }
 
-            return (await _mediator
-                .Send(new UpdateSolutionNativeMobileHardwareRequirementsCommand(id,
-                    viewModel.HardwareRequirements)).ConfigureAwait(false)).ToActionResult();
+            return (await mediator.Send(new UpdateSolutionNativeMobileHardwareRequirementsCommand(
+                id,
+                model.HardwareRequirements))).ToActionResult();
         }
     }
 }
