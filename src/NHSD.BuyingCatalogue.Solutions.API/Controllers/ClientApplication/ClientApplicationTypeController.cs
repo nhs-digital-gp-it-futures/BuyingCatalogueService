@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Net;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.ClientApplications;
@@ -16,18 +16,18 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication
     /// </summary>
     [Route("api/v1/solutions")]
     [ApiController]
-    [Produces("application/json")]
-    [AllowAnonymous]
+    [Produces(MediaTypeNames.Application.Json)]
     public sealed class ClientApplicationTypeController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="ClientApplicationTypeController"/> class.
+        /// Initializes a new instance of the <see cref="ClientApplicationTypeController"/> class.
         /// </summary>
+        /// <param name="mediator">An <see cref="IMediator"/> instance.</param>
         public ClientApplicationTypeController(IMediator mediator)
         {
-            _mediator = mediator;
+            this.mediator = mediator;
         }
 
         /// <summary>
@@ -37,12 +37,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication
         /// <returns>A task representing an operation to retrieve the details of the client application types section for a given solution.</returns>
         [HttpGet]
         [Route("{id}/sections/client-application-types")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> GetClientApplicationTypesAsync([FromRoute][Required]string id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> GetClientApplicationTypesAsync([Required] string id)
         {
-            var clientApplication = await _mediator.Send(new GetClientApplicationBySolutionIdQuery(id)).ConfigureAwait(false);
+            var clientApplication = await mediator.Send(new GetClientApplicationBySolutionIdQuery(id));
             return Ok(new GetClientApplicationTypesResult(clientApplication));
         }
 
@@ -50,17 +50,17 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication
         /// Updates the client application types of a solution matching the supplied ID.
         /// </summary>
         /// <param name="id">A value to uniquely identify a solution.</param>
-        /// <param name="updateSolutionClientApplicationTypesViewModel">The details of a client application type that includes any updated information.</param>
+        /// <param name="model">The details of a client application type that includes any updated information.</param>
         /// <returns>A task representing an operation to update the details of the client application types for a solution.</returns>
         [HttpPut]
         [Route("{id}/sections/client-application-types")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> UpdateClientApplicationTypesAsync(
-            [FromRoute][Required]string id,
-            [FromBody][Required]UpdateSolutionClientApplicationTypesViewModel updateSolutionClientApplicationTypesViewModel) =>
-            (await _mediator.Send(
-                new UpdateSolutionClientApplicationTypesCommand(id, updateSolutionClientApplicationTypesViewModel)).ConfigureAwait(false)).ToActionResult();
+            [Required] string id,
+            UpdateSolutionClientApplicationTypesViewModel model) =>
+            (await mediator.Send(
+                new UpdateSolutionClientApplicationTypesCommand(id, model))).ToActionResult();
     }
 }

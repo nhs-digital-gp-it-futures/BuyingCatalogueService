@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Net;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution;
@@ -18,18 +18,18 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
     /// </summary>
     [Route("api/v1/[controller]")]
     [ApiController]
-    [Produces("application/json")]
-    [AllowAnonymous]
+    [Produces(MediaTypeNames.Application.Json)]
     public sealed class SolutionsController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="SolutionsController"/> class.
+        /// Initializes a new instance of the <see cref="SolutionsController"/> class.
         /// </summary>
+        /// <param name="mediator"> An <see cref="IMediator"/> instance.</param>
         public SolutionsController(IMediator mediator)
         {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         /// <summary>
@@ -39,11 +39,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         /// <returns>A task representing an operation to retrieve the details of a Solution.</returns>
         [HttpGet]
         [Route("{id}")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<GetSolutionResult>> GetAsync(string id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<GetSolutionResult>> GetAsync([Required] string id)
         {
-            var result = await _mediator.Send(new GetSolutionByIdQuery(id));
+            var result = await mediator.Send(new GetSolutionByIdQuery(id));
             return new GetSolutionResult(result);
         }
 
@@ -54,12 +54,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         /// <returns>A task representing an operation to retrieve the details of a Solution.</returns>
         [HttpGet]
         [Route("{id}/Dashboard")]
-        [ProducesResponseType(typeof(SolutionDashboardResult), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<SolutionDashboardResult>> Dashboard([FromRoute][Required]string id)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<SolutionDashboardResult>> Dashboard([Required] string id)
         {
-            var result = await _mediator.Send(new GetSolutionByIdQuery(id)).ConfigureAwait(false);
+            var result = await mediator.Send(new GetSolutionByIdQuery(id));
             return Ok(new SolutionDashboardResult(result));
         }
 
@@ -70,12 +70,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         /// <returns>A task representing an operation of the Dashboard Authority.</returns>
         [HttpGet]
         [Route("{id}/Dashboard/Authority")]
-        [ProducesResponseType(typeof(SolutionAuthorityDashboardResult), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<SolutionAuthorityDashboardResult>> AuthorityDashboard([FromRoute][Required]string id)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<SolutionAuthorityDashboardResult>> AuthorityDashboard([Required] string id)
         {
-            var result = await _mediator.Send(new GetSolutionByIdQuery(id)).ConfigureAwait(false);
+            var result = await mediator.Send(new GetSolutionByIdQuery(id));
             return Ok(new SolutionAuthorityDashboardResult(result));
         }
 
@@ -86,12 +86,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         /// <returns>A task representing an operation to retrieve the details of a Solution.</returns>
         [HttpGet]
         [Route("{id}/Preview")]
-        [ProducesResponseType(typeof(SolutionResult), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<SolutionResult>> Preview([FromRoute][Required]string id)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<SolutionResult>> Preview([Required] string id)
         {
-            var result = await _mediator.Send(new GetSolutionByIdQuery(id)).ConfigureAwait(false);
+            var result = await mediator.Send(new GetSolutionByIdQuery(id));
             return Ok(new SolutionResult(result));
         }
 
@@ -102,13 +102,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         /// <returns>A task representing an operation to retrieve the details of a Solution.</returns>
         [HttpGet]
         [Route("{id}/Public")]
-        [ProducesResponseType(typeof(SolutionResult), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<SolutionResult>> Public([FromRoute][Required]string id)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<SolutionResult>> Public([Required] string id)
         {
-            var result = await _mediator.Send(new GetSolutionByIdQuery(id)).ConfigureAwait(false);
-            return result?.PublishedStatus != PublishedStatus.Published ? (ActionResult)new NotFoundResult() : Ok(new SolutionResult(result));
+            var result = await mediator.Send(new GetSolutionByIdQuery(id));
+            return result?.PublishedStatus != PublishedStatus.Published
+                ? (ActionResult)new NotFoundResult()
+                : Ok(new SolutionResult(result));
         }
 
         /// <summary>
@@ -118,13 +120,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         /// <returns>A task representing an operation to update the state of a solution to submitted for review.</returns>
         [HttpPut]
         [Route("{id}/SubmitForReview")]
-        [ProducesResponseType(typeof(SubmitSolutionForReviewResult), (int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> SubmitForReviewAsync([FromRoute][Required] string id)
+        [ProducesResponseType(typeof(SubmitSolutionForReviewResult), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> SubmitForReviewAsync([Required] string id)
         {
-            SubmitSolutionForReviewCommandResult result = await _mediator.Send(new SubmitSolutionForReviewCommand(id)).ConfigureAwait(false);
-            return result.IsSuccess ? NoContent() : (ActionResult)BadRequest(SubmitSolutionForReviewResult.Create(result.Errors));
+            SubmitSolutionForReviewCommandResult result = await mediator.Send(new SubmitSolutionForReviewCommand(id));
+            return result.IsSuccess
+                ? NoContent()
+                : (ActionResult)BadRequest(SubmitSolutionForReviewResult.Create(result.Errors));
         }
     }
 }

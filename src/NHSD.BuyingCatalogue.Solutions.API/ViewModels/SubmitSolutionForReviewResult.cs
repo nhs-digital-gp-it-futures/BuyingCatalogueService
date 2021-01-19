@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
@@ -6,7 +6,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 {
-    public class SubmitSolutionForReviewResult
+    public sealed class SubmitSolutionForReviewResult
     {
         private static readonly IDictionary<ValidationError, string> RequiredSectionMap = new Dictionary<ValidationError, string>
         {
@@ -17,16 +17,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
             { SubmitSolutionForReviewErrors.PluginRequirementIsRequired, "browser-based" },
         };
 
-        [JsonProperty("required")]
-        public HashSet<string> RequiredSections { get; }
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="SubmitSolutionForReviewResult"/> class.
-        /// </summary>
         private SubmitSolutionForReviewResult(HashSet<string> requiredSections)
         {
             RequiredSections = requiredSections;
         }
+
+        [JsonProperty("required")]
+        public HashSet<string> RequiredSections { get; }
 
         public static SubmitSolutionForReviewResult Create(IReadOnlyCollection<ValidationError> errors)
         {
@@ -40,18 +37,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 
         private static HashSet<string> Map(IReadOnlyCollection<ValidationError> errors)
         {
-            HashSet<string> requiredSectionList = null;
+            if (!errors.Any())
+                return null;
 
-            if (errors.Any())
+            var requiredSectionList = new HashSet<string>();
+
+            foreach (ValidationError error in errors)
             {
-                requiredSectionList = new HashSet<string>();
-
-                foreach (ValidationError error in errors)
+                if (RequiredSectionMap.TryGetValue(error, out string requiredSectionName))
                 {
-                    if (RequiredSectionMap.TryGetValue(error, out string requiredSectionName))
-                    {
-                        requiredSectionList.Add(requiredSectionName);
-                    }
+                    requiredSectionList.Add(requiredSectionName);
                 }
             }
 

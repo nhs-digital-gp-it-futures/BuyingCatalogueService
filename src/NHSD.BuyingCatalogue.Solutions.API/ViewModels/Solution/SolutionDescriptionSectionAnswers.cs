@@ -1,25 +1,11 @@
-using System;
+﻿using System;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 {
-    public class SolutionDescriptionSectionAnswers
+    public sealed class SolutionDescriptionSectionAnswers
     {
-        public string Summary { get; }
-
-        public string Description { get; }
-
-        public string Link { get; }
-
-        [JsonIgnore]
-        public bool HasData => !(string.IsNullOrWhiteSpace(Summary)
-                                 && string.IsNullOrWhiteSpace(Description)
-                                 && string.IsNullOrWhiteSpace(Link));
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="SolutionDescriptionSectionAnswers"/> class.
-        /// </summary>
         public SolutionDescriptionSectionAnswers(ISolution solution)
         {
             if (solution is null)
@@ -31,5 +17,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
             Description = solution.Description;
             Link = solution.AboutUrl;
         }
+
+        public string Summary { get; }
+
+        public string Description { get; }
+
+        public string Link { get; }
+
+        [JsonIgnore]
+        public bool HasData => !(string.IsNullOrWhiteSpace(Summary)
+            && string.IsNullOrWhiteSpace(Description)
+            && string.IsNullOrWhiteSpace(Link));
     }
 }

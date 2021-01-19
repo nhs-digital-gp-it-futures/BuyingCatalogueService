@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.ClientApplications.NativeDesktop
 {
@@ -6,6 +6,5 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.ClientApplications.Nativ
     {
         [JsonProperty("additional-information")]
         public string NativeDesktopAdditionalInformation { get; set; }
-
     }
 }

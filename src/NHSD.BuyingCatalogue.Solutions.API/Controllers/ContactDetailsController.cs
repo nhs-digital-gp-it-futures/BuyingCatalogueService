@@ -1,8 +1,8 @@
-using System.ComponentModel.DataAnnotations;
-using System.Net;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
@@ -12,15 +12,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 {
     [Route("api/v1/solutions")]
     [ApiController]
-    [Produces("application/json")]
-    [AllowAnonymous]
-    public class ContactDetailsController : ControllerBase
+    [Produces(MediaTypeNames.Application.Json)]
+    public sealed class ContactDetailsController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
         public ContactDetailsController(IMediator mediator)
         {
-            _mediator = mediator;
+            this.mediator = mediator;
         }
 
         /// <summary>
@@ -30,12 +29,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         /// <returns>A task representing an operation to retrieve the details of the contact details section.</returns>
         [HttpGet]
         [Route("{id}/sections/contact-details")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> GetContactDetailsAsync([FromRoute][Required]string id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> GetContactDetailsAsync([Required] string id)
         {
-            var contactDetails = await _mediator.Send(new GetContactDetailBySolutionIdQuery(id)).ConfigureAwait(false);
+            var contactDetails = await mediator.Send(new GetContactDetailBySolutionIdQuery(id));
             return Ok(new GetContactDetailsResult(contactDetails));
         }
 
@@ -43,14 +42,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         /// Updates the contact details of a solution matching the supplied ID.
         /// </summary>
         /// <param name="id">A value to uniquely identify a solution.</param>
-        /// <param name="updateSolutionContactDetailsViewModel">The details of the contact details.</param>
+        /// <param name="model">The details of the contact details.</param>
         /// <returns>A task representing an operation to update the details of the contact details section.</returns>
         [HttpPut]
         [Route("{id}/sections/contact-details")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> UpdateContactDetailsAsync([FromRoute][Required]string id, [FromBody][Required]UpdateSolutionContactDetailsViewModel updateSolutionContactDetailsViewModel) =>
-            (await _mediator.Send(new UpdateSolutionContactDetailsCommand(id, updateSolutionContactDetailsViewModel)).ConfigureAwait(false)).ToActionResult();
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> UpdateContactDetailsAsync(
+            [Required] string id,
+            UpdateSolutionContactDetailsViewModel model) =>
+            (await mediator.Send(new UpdateSolutionContactDetailsCommand(id, model))).ToActionResult();
     }
 }

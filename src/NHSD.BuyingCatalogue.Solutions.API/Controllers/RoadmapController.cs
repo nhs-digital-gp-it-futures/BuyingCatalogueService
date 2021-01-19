@@ -1,8 +1,8 @@
-using System.ComponentModel.DataAnnotations;
-using System.Net;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap;
@@ -12,45 +12,44 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
 {
     [Route("api/v1/solutions")]
     [ApiController]
-    [Produces("application/json")]
-    [AllowAnonymous]
-    public class RoadmapController : ControllerBase
+    [Produces(MediaTypeNames.Application.Json)]
+    public sealed class RoadMapController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
-        public RoadmapController(IMediator mediator)
+        public RoadMapController(IMediator mediator)
         {
-            _mediator = mediator;
+            this.mediator = mediator;
         }
 
         /// <summary>
-        /// Gets the roadmap section of a solution matching the supplied ID.
+        /// Gets the road map section of a solution matching the supplied ID.
         /// </summary>
         /// <param name="id">A value to uniquely identify a solution.</param>
-        /// <returns>A task representing an operation to retrieve the details of the roadmap section of a solution.</returns>
-        [HttpGet]
+        /// <returns>A task representing an operation to retrieve the details of the road map section of a solution.</returns>
+        [HttpGet] // ReSharper disable once StringLiteralTypo (published endpoint for road map)
         [Route("{id}/sections/roadmap")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> Get([FromRoute][Required]string id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> Get([Required] string id)
         {
-            var roadMap = await _mediator.Send(new GetRoadMapBySolutionIdQuery(id)).ConfigureAwait(false);
+            var roadMap = await mediator.Send(new GetRoadMapBySolutionIdQuery(id));
             return Ok(new RoadMapResult(roadMap?.Summary));
         }
 
         /// <summary>
-        /// Updates the roadmap details of a solution matching the supplied ID.
+        /// Updates the road map details of a solution matching the supplied ID.
         /// </summary>
         /// <param name="id">A value to uniquely identify a solution.</param>
-        /// <param name="viewModel">The details of the roadmap.</param>
-        /// <returns>A task representing an operation to update the details of the roadmap section.</returns>
-        [HttpPut]
+        /// <param name="model">The details of the road map.</param>
+        /// <returns>A task representing an operation to update the details of the road map section.</returns>
+        [HttpPut] // ReSharper disable once StringLiteralTypo
         [Route("{id}/sections/roadmap")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> Update([FromRoute][Required]string id, [FromBody][Required]UpdateRoadmapViewModel viewModel) =>
-            (await _mediator.Send(new UpdateRoadmapCommand(id, viewModel?.Summary)).ConfigureAwait(false)).ToActionResult();
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> Update([Required] string id, UpdateRoadmapViewModel model) =>
+            (await mediator.Send(new UpdateRoadmapCommand(id, model?.Summary))).ToActionResult();
     }
 }

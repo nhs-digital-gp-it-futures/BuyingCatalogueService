@@ -1,18 +1,15 @@
-using NHSD.BuyingCatalogue.Solutions.Contracts;
+﻿using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.ClientApplications
 {
-    public class ClientApplicationTypesSection
+    public sealed class ClientApplicationTypesSection
     {
-        public ClientApplicationTypesSubSections Sections { get; }
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="ClientApplicationTypesSection"/> class.
-        /// </summary>
         public ClientApplicationTypesSection(IClientApplication clientApplication)
         {
             Sections = new ClientApplicationTypesSubSections(clientApplication);
         }
+
+        public ClientApplicationTypesSubSections Sections { get; }
 
         public ClientApplicationTypesSection IfPopulated()
         {

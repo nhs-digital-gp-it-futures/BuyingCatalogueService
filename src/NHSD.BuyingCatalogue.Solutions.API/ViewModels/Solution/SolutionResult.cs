@@ -1,10 +1,24 @@
-using System;
+﻿using System;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 {
-    public class SolutionResult
+    public sealed class SolutionResult
     {
+        public SolutionResult(ISolution solution)
+        {
+            if (solution is null)
+                return;
+
+            Id = solution.Id;
+            Name = solution.Name;
+            SupplierName = solution.SupplierName;
+            LastUpdated = solution.LastUpdated;
+            IsFoundation = solution.IsFoundation;
+
+            Sections = new Sections(solution);
+        }
+
         public string Id { get; }
 
         public string Name { get; }
@@ -16,22 +30,5 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         public DateTime? LastUpdated { get; }
 
         public Sections Sections { get; }
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="SolutionResult"/> class.
-        /// </summary>
-        public SolutionResult(ISolution solution)
-        {
-            if (solution != null)
-            {
-                Id = solution.Id;
-                Name = solution.Name;
-                SupplierName = solution.SupplierName;
-                LastUpdated = solution.LastUpdated;
-                IsFoundation = solution.IsFoundation;
-
-                Sections = new Sections(solution);
-            }
-        }
     }
 }

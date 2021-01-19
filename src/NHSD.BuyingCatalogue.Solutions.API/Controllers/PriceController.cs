@@ -16,18 +16,18 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
     [Produces(MediaTypeNames.Application.Json)]
     public sealed class PriceController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
         public PriceController(IMediator mediator)
         {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         [HttpGet]
         [Route("{priceId}")]
         public async Task<ActionResult<PriceResult>> GetPriceAsync(int priceId)
         {
-            var pricing = await _mediator.Send(new GetPriceByPriceIdQuery(priceId));
+            var pricing = await mediator.Send(new GetPriceByPriceIdQuery(priceId));
             if (pricing is null)
                 return NotFound();
 
@@ -39,7 +39,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [HttpGet]
         public async Task<ActionResult<PricingResult>> GetPricesAsync(string catalogueItemId)
         {
-            var prices = (await _mediator.Send(new GetPricesQuery(catalogueItemId))).ToList();
+            var prices = (await mediator.Send(new GetPricesQuery(catalogueItemId))).ToList();
 
             return new PricingResult { Prices = prices.Select(GetPriceResult) };
         }

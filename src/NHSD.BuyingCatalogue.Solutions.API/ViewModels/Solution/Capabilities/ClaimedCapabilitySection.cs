@@ -8,14 +8,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Capabilities
 {
     public sealed class ClaimedCapabilitySection
     {
-        public string Name { get; }
-        public string Version { get; }
-        public string Description { get; }
-        public string Link { get; }
-
-        [JsonProperty("epic")]
-        public ClaimedCapabilityEpicSection EpicSection { get; }
-
         public ClaimedCapabilitySection(IClaimedCapability capability)
         {
             if (capability is null)
@@ -33,5 +25,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Capabilities
                 EpicSection = new ClaimedCapabilityEpicSection(capability.ClaimedEpics);
             }
         }
+
+        public string Name { get; }
+
+        public string Version { get; }
+
+        public string Description { get; }
+
+        public string Link { get; }
+
+        [JsonProperty("epic")]
+        public ClaimedCapabilityEpicSection EpicSection { get; }
     }
 }

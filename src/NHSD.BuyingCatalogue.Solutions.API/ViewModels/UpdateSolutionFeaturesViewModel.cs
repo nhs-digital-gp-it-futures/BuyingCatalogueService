@@ -6,7 +6,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
     public sealed class UpdateSolutionFeaturesViewModel : IUpdateSolutionFeatures
     {
         /// <summary>
-        /// Features of the solution.
+        /// Gets or sets the features of the solution.
         /// </summary>
         public IEnumerable<string> Listing { get; set; }
     }
