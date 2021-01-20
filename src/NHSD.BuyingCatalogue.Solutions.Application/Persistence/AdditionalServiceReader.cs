@@ -9,19 +9,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 {
     internal sealed class AdditionalServiceReader
     {
-        private readonly IAdditionalServiceRepository _additionalServiceRepository;
+        private readonly IAdditionalServiceRepository additionalServiceRepository;
 
         public AdditionalServiceReader(IAdditionalServiceRepository additionalServiceRepository)
         {
-            _additionalServiceRepository = additionalServiceRepository;
+            this.additionalServiceRepository = additionalServiceRepository;
         }
 
-        public async Task<IEnumerable<AdditionalService>> GetAdditionalServiceByAdditionalServiceIdAsync(IEnumerable<string> solutionIds,
+        public async Task<IEnumerable<AdditionalService>> GetAdditionalServiceByAdditionalServiceIdAsync(
+            IEnumerable<string> solutionIds,
             CancellationToken cancellationToken)
         {
-            var additionalService = await 
-                _additionalServiceRepository.GetAdditionalServiceBySolutionIdsAsync(solutionIds,
-                    cancellationToken);
+            var additionalService = await additionalServiceRepository.GetAdditionalServiceBySolutionIdsAsync(
+                solutionIds,
+                cancellationToken);
 
             return additionalService.Select(additionalServiceResult => new AdditionalService(additionalServiceResult));
         }

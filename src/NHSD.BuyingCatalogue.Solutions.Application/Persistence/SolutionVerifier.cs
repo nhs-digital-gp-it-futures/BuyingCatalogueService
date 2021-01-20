@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
@@ -8,17 +8,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 {
     internal sealed class SolutionVerifier
     {
-        private readonly ISolutionRepository _solutionRepository;
+        private readonly ISolutionRepository solutionRepository;
 
-        public SolutionVerifier(ISolutionRepository solutionRepository)
-         => _solutionRepository = solutionRepository;
+        public SolutionVerifier(ISolutionRepository solutionRepository) => this.solutionRepository = solutionRepository;
 
-        public async Task<bool> CheckExists(string solutionId, CancellationToken cancellationToken)
-            => await _solutionRepository.CheckExists(solutionId, cancellationToken).ConfigureAwait(false);
-        
+        public async Task<bool> CheckExists(string solutionId, CancellationToken cancellationToken) =>
+            await solutionRepository.CheckExists(solutionId, cancellationToken);
+
         public async Task ThrowWhenMissingAsync(string solutionId, CancellationToken cancellationToken)
         {
-            if (!await CheckExists(solutionId, cancellationToken).ConfigureAwait(false))
+            if (!await CheckExists(solutionId, cancellationToken))
             {
                 throw new NotFoundException(nameof(Solution), solutionId);
             }

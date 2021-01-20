@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
@@ -8,42 +8,38 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 {
     internal sealed class SolutionReader
     {
-        private readonly IMarketingContactRepository _contactRepository;
-        private readonly IDocumentRepository _documentRepository;
-        private readonly ISolutionEpicRepository _epicRepository;
+        private readonly IMarketingContactRepository contactRepository;
+        private readonly IDocumentRepository documentRepository;
+        private readonly ISolutionEpicRepository epicRepository;
 
-        private readonly ISolutionCapabilityRepository _solutionCapabilityRepository;
-        private readonly ISolutionRepository _solutionRepository;
+        private readonly ISolutionCapabilityRepository solutionCapabilityRepository;
+        private readonly ISolutionRepository solutionRepository;
 
-        private readonly ISupplierRepository _supplierRepository;
+        private readonly ISupplierRepository supplierRepository;
 
-        public SolutionReader(ISolutionRepository solutionRepository,
+        public SolutionReader(
+            ISolutionRepository solutionRepository,
             ISolutionCapabilityRepository solutionCapabilityRepository,
             IMarketingContactRepository contactRepository,
             ISupplierRepository supplierRepository,
             IDocumentRepository documentRepository,
             ISolutionEpicRepository epicRepository)
         {
-            _solutionRepository = solutionRepository;
-            _solutionCapabilityRepository = solutionCapabilityRepository;
-            _contactRepository = contactRepository;
-            _supplierRepository = supplierRepository;
-            _documentRepository = documentRepository;
-            _epicRepository = epicRepository;
+            this.solutionRepository = solutionRepository;
+            this.solutionCapabilityRepository = solutionCapabilityRepository;
+            this.contactRepository = contactRepository;
+            this.supplierRepository = supplierRepository;
+            this.documentRepository = documentRepository;
+            this.epicRepository = epicRepository;
         }
 
         public async Task<Solution> ByIdAsync(string id, CancellationToken cancellationToken) =>
-            new(await _solutionRepository.ByIdAsync(id, cancellationToken).ConfigureAwait(false)
-                         ?? throw new NotFoundException(nameof(Solution), id),
-                await _solutionCapabilityRepository.ListSolutionCapabilitiesAsync(id, cancellationToken)
-                    .ConfigureAwait(false),
-                await _contactRepository.BySolutionIdAsync(id, cancellationToken)
-                    .ConfigureAwait(false),
-                await _supplierRepository.GetSupplierBySolutionIdAsync(id, cancellationToken)
-                    .ConfigureAwait(false),
-                await _documentRepository.GetDocumentResultBySolutionIdAsync(id, cancellationToken)
-                    .ConfigureAwait(false),
-                await _epicRepository.ListSolutionEpicsAsync(id, cancellationToken).ConfigureAwait(false)
-            );
+            new(
+                await solutionRepository.ByIdAsync(id, cancellationToken) ?? throw new NotFoundException(nameof(Solution), id),
+                await solutionCapabilityRepository.ListSolutionCapabilitiesAsync(id, cancellationToken),
+                await contactRepository.BySolutionIdAsync(id, cancellationToken),
+                await supplierRepository.GetSupplierBySolutionIdAsync(id, cancellationToken),
+                await documentRepository.GetDocumentResultBySolutionIdAsync(id, cancellationToken),
+                await epicRepository.ListSolutionEpicsAsync(id, cancellationToken));
     }
 }
