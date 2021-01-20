@@ -6,12 +6,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview
 {
     internal sealed class SubmitSolutionForReviewValidator
     {
-        public Solution Solution { get; }
-
         public SubmitSolutionForReviewValidator(Solution solution)
         {
             Solution = solution ?? throw new ArgumentNullException(nameof(solution));
         }
+
+        public Solution Solution { get; }
 
         /// <summary>
         /// Validates the details of the current context.
@@ -26,46 +26,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview
             validationResult.Add(ValidateBrowserBased());
 
             return validationResult;
-        }
-
-        private ValidationResult ValidateSolutionSummary()
-        {
-            ValidationResult result = new ValidationResult();
-
-            if (string.IsNullOrWhiteSpace(Solution.Summary))
-            {
-                result.Add(SubmitSolutionForReviewErrors.SolutionSummaryIsRequired);
-            }
-
-            return result;
-        }
-
-        private ValidationResult ValidateClientApplicationTypes()
-        {
-            ValidationResult result = new ValidationResult();
-
-            var clientApplication = Solution.ClientApplication;
-            if (clientApplication == null || !clientApplication.ClientApplicationTypes.Any())
-            {
-                result.Add(SubmitSolutionForReviewErrors.ClientApplicationTypeIsRequired);
-            }
-
-            return result;
-        }
-
-        private ValidationResult ValidateBrowserBased()
-        {
-            ValidationResult result = new ValidationResult();
-
-            var clientApplication = Solution.ClientApplication;
-            if (clientApplication != null && clientApplication.ClientApplicationTypes.Contains("browser-based"))
-            {
-                result.Add(ValidateSupportedBrowsers(clientApplication))
-                      .Add(ValidateMobileResponsive(clientApplication))
-                      .Add(ValidateClientApplicationPlugins(clientApplication.Plugins));
-            }
-
-            return result;
         }
 
         private static ValidationResult ValidateSupportedBrowsers(ClientApplication clientApplication)
@@ -108,6 +68,46 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview
             if (clientApplicationPlugins?.Required == null)
             {
                 result.Add(SubmitSolutionForReviewErrors.PluginRequirementIsRequired);
+            }
+
+            return result;
+        }
+
+        private ValidationResult ValidateSolutionSummary()
+        {
+            ValidationResult result = new ValidationResult();
+
+            if (string.IsNullOrWhiteSpace(Solution.Summary))
+            {
+                result.Add(SubmitSolutionForReviewErrors.SolutionSummaryIsRequired);
+            }
+
+            return result;
+        }
+
+        private ValidationResult ValidateClientApplicationTypes()
+        {
+            ValidationResult result = new ValidationResult();
+
+            var clientApplication = Solution.ClientApplication;
+            if (clientApplication == null || !clientApplication.ClientApplicationTypes.Any())
+            {
+                result.Add(SubmitSolutionForReviewErrors.ClientApplicationTypeIsRequired);
+            }
+
+            return result;
+        }
+
+        private ValidationResult ValidateBrowserBased()
+        {
+            ValidationResult result = new ValidationResult();
+
+            var clientApplication = Solution.ClientApplication;
+            if (clientApplication != null && clientApplication.ClientApplicationTypes.Contains("browser-based"))
+            {
+                result.Add(ValidateSupportedBrowsers(clientApplication))
+                      .Add(ValidateMobileResponsive(clientApplication))
+                      .Add(ValidateClientApplicationPlugins(clientApplication.Plugins));
             }
 
             return result;

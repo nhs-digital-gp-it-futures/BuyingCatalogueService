@@ -7,14 +7,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
 {
     public sealed class UpdateSolutionNativeDesktopThirdPartyCommand : IRequest<ISimpleResult>
     {
-        public string SolutionId { get; }
-
-        public IUpdateNativeDesktopThirdPartyData Data { get; }
-
         public UpdateSolutionNativeDesktopThirdPartyCommand(string solutionId, IUpdateNativeDesktopThirdPartyData data)
         {
             SolutionId = solutionId ?? throw new ArgumentNullException(nameof(solutionId));
             Data = data ?? throw new ArgumentNullException(nameof(data));
         }
+
+        public string SolutionId { get; }
+
+        public IUpdateNativeDesktopThirdPartyData Data { get; }
     }
 }

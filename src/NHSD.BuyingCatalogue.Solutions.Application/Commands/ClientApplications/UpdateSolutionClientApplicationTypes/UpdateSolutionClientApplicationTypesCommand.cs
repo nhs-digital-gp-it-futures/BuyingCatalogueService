@@ -7,6 +7,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
 {
     public sealed class UpdateSolutionClientApplicationTypesCommand : IRequest<ISimpleResult>
     {
+        public UpdateSolutionClientApplicationTypesCommand(string solutionId, IUpdateSolutionClientApplicationTypes data)
+        {
+            SolutionId = solutionId ?? throw new ArgumentNullException(nameof(solutionId));
+            Data = data ?? throw new ArgumentNullException(nameof(data));
+        }
+
         /// <summary>
         /// Gets a value to uniquely identify a solution.
         /// </summary>
@@ -16,11 +22,5 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
         /// Gets the updated details of a solution.
         /// </summary>
         public IUpdateSolutionClientApplicationTypes Data { get; }
-
-        public UpdateSolutionClientApplicationTypesCommand(string solutionId, IUpdateSolutionClientApplicationTypes data)
-        {
-            SolutionId = solutionId ?? throw new ArgumentNullException(nameof(solutionId));
-            Data = data ?? throw new ArgumentNullException(nameof(data));
-        }
     }
 }

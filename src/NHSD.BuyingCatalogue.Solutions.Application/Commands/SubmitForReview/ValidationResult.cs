@@ -11,16 +11,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview
         private readonly List<ValidationError> errors;
 
         /// <summary>
-        /// Gets a read only list of errors.
-        /// </summary>
-        internal IReadOnlyCollection<ValidationError> Errors { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether or not this instance contains any errors.
-        /// </summary>
-        internal bool IsValid => !Errors.Any();
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ValidationResult"/> class.
         /// </summary>
         internal ValidationResult()
@@ -38,6 +28,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview
             this.errors = errors ?? throw new ArgumentNullException(nameof(errors));
             Errors = new ReadOnlyCollection<ValidationError>(this.errors);
         }
+
+        /// <summary>
+        /// Gets a read only list of errors.
+        /// </summary>
+        internal IReadOnlyCollection<ValidationError> Errors { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether or not this instance contains any errors.
+        /// </summary>
+        internal bool IsValid => !Errors.Any();
 
         internal ValidationResult Add(ValidationError validationError)
         {

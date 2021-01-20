@@ -5,16 +5,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 {
     public sealed class AdditionalService
     {
-        public string CatalogueItemId { get; set; }
-
-        public string Summary { get; set; }
-
-        public string CatalogueItemName { get; set; }
-
-        public string SolutionId { get; set; }
-
-        public string SolutionName { get; set; }
-
         public AdditionalService(IAdditionalServiceResult additionalServiceResult)
         {
             if (additionalServiceResult is null)
@@ -26,5 +16,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
             SolutionId = additionalServiceResult.SolutionId;
             SolutionName = additionalServiceResult.SolutionName;
         }
+
+        public string CatalogueItemId { get; set; }
+
+        public string Summary { get; set; }
+
+        public string CatalogueItemName { get; set; }
+
+        public string SolutionId { get; set; }
+
+        public string SolutionName { get; set; }
     }
 }

@@ -2,6 +2,11 @@
 {
     public abstract class CataloguePriceBase
     {
+        protected CataloguePriceBase(CataloguePriceType type)
+        {
+            CataloguePriceType = type;
+        }
+
         public int CataloguePriceId { get; set; }
 
         public string CatalogueItemName { get; set; }
@@ -17,10 +22,5 @@
         public TimeUnit TimeUnit { get; set; }
 
         public string CurrencyCode { get; set; }
-
-        protected CataloguePriceBase(CataloguePriceType type)
-        {
-            CataloguePriceType = type;
-        }
     }
 }

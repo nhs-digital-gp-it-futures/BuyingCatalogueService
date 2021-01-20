@@ -13,6 +13,73 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
     /// </summary>
     internal sealed class Solution
     {
+        public Solution()
+        {
+            SupplierStatus = SupplierStatus.Draft;
+            PublishedStatus = PublishedStatus.Draft;
+        }
+
+        internal Solution(
+            ISolutionResult solutionResult,
+            IEnumerable<ISolutionCapabilityListResult> solutionCapabilityListResult,
+            IEnumerable<IMarketingContactResult> contactResult,
+            ISolutionSupplierResult solutionSupplierResult,
+            IDocumentResult documentResult,
+            IEnumerable<ISolutionEpicListResult> solutionEpicListResults)
+        {
+            var contactResultList = contactResult.ToList();
+            var solutionEpicsByCapability = solutionEpicListResults?.ToLookup(e => e.CapabilityId);
+
+            Id = solutionResult.Id;
+            Name = solutionResult.Name;
+            LastUpdated = GetLatestLastUpdated(solutionResult, contactResultList);
+            Summary = solutionResult.Summary;
+            Description = solutionResult.Description;
+            Features = string.IsNullOrWhiteSpace(solutionResult.Features)
+                ? new List<string>()
+                : JsonConvert.DeserializeObject<IEnumerable<string>>(solutionResult.Features);
+
+            Integrations = new Integrations
+            {
+                Url = solutionResult.IntegrationsUrl,
+                DocumentName = documentResult?.IntegrationDocumentName,
+            };
+
+            ImplementationTimescales = new ImplementationTimescales
+            {
+                Description = solutionResult.ImplementationTimescales,
+            };
+
+            AboutUrl = solutionResult.AboutUrl;
+
+            RoadMap = new RoadMap
+            {
+                Summary = solutionResult.RoadMap,
+                DocumentName = documentResult?.RoadMapDocumentName,
+            };
+
+            ClientApplication = string.IsNullOrWhiteSpace(solutionResult.ClientApplication)
+                ? new ClientApplication()
+                : JsonConvert.DeserializeObject<ClientApplication>(solutionResult.ClientApplication);
+
+            IsFoundation = solutionResult.IsFoundation;
+            Capabilities = solutionCapabilityListResult.Select(
+                c => new ClaimedCapability(c, solutionEpicsByCapability?[c.CapabilityId]));
+
+            Contacts = contactResultList.Select(c => new Contact(c));
+            PublishedStatus = solutionResult.PublishedStatus;
+
+            Hosting = string.IsNullOrWhiteSpace(solutionResult.Hosting)
+                ? new Hosting()
+                : JsonConvert.DeserializeObject<Hosting>(solutionResult.Hosting);
+
+            Supplier = solutionSupplierResult != null
+                ? new SolutionSupplier(solutionSupplierResult)
+                : new SolutionSupplier();
+
+            SolutionDocument = new SolutionDocument(documentResult?.SolutionDocumentName);
+        }
+
         /// <summary>
         /// Gets or sets the id of the solution.
         /// </summary>
@@ -107,71 +174,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         /// Gets or sets the solution document for the solution.
         /// </summary>
         public SolutionDocument SolutionDocument { get; set; }
-
-        internal Solution(
-            ISolutionResult solutionResult,
-            IEnumerable<ISolutionCapabilityListResult> solutionCapabilityListResult,
-            IEnumerable<IMarketingContactResult> contactResult,
-            ISolutionSupplierResult solutionSupplierResult,
-            IDocumentResult documentResult,
-            IEnumerable<ISolutionEpicListResult> solutionEpicListResults)
-        {
-            var contactResultList = contactResult.ToList();
-            var solutionEpicsByCapability = solutionEpicListResults?.ToLookup(e => e.CapabilityId);
-
-            Id = solutionResult.Id;
-            Name = solutionResult.Name;
-            LastUpdated = GetLatestLastUpdated(solutionResult, contactResultList);
-            Summary = solutionResult.Summary;
-            Description = solutionResult.Description;
-            Features = string.IsNullOrWhiteSpace(solutionResult.Features)
-                ? new List<string>()
-                : JsonConvert.DeserializeObject<IEnumerable<string>>(solutionResult.Features);
-
-            Integrations = new Integrations
-            {
-                Url = solutionResult.IntegrationsUrl, DocumentName = documentResult?.IntegrationDocumentName,
-            };
-
-            ImplementationTimescales = new ImplementationTimescales
-            {
-                Description = solutionResult.ImplementationTimescales,
-            };
-
-            AboutUrl = solutionResult.AboutUrl;
-
-            RoadMap = new RoadMap
-            {
-                Summary = solutionResult.RoadMap, DocumentName = documentResult?.RoadMapDocumentName,
-            };
-
-            ClientApplication = string.IsNullOrWhiteSpace(solutionResult.ClientApplication)
-                ? new ClientApplication()
-                : JsonConvert.DeserializeObject<ClientApplication>(solutionResult.ClientApplication);
-
-            IsFoundation = solutionResult.IsFoundation;
-            Capabilities = solutionCapabilityListResult.Select(
-                c => new ClaimedCapability(c, solutionEpicsByCapability?[c.CapabilityId]));
-
-            Contacts = contactResultList.Select(c => new Contact(c));
-            PublishedStatus = solutionResult.PublishedStatus;
-
-            Hosting = string.IsNullOrWhiteSpace(solutionResult.Hosting)
-                ? new Hosting()
-                : JsonConvert.DeserializeObject<Hosting>(solutionResult.Hosting);
-
-            Supplier = solutionSupplierResult != null
-                ? new SolutionSupplier(solutionSupplierResult)
-                : new SolutionSupplier();
-
-            SolutionDocument = new SolutionDocument(documentResult?.SolutionDocumentName);
-        }
-
-        public Solution()
-        {
-            SupplierStatus = SupplierStatus.Draft;
-            PublishedStatus = PublishedStatus.Draft;
-        }
 
         private static DateTime GetLatestLastUpdated(
             ISolutionResult solutionResult,

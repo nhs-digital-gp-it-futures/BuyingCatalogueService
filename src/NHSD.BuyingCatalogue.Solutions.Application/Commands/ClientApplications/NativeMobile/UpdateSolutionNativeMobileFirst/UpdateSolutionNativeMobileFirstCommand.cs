@@ -6,14 +6,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
 {
     public sealed class UpdateSolutionNativeMobileFirstCommand : IRequest<ISimpleResult>
     {
-        public string SolutionId { get; }
-
-        public string MobileFirstDesign { get; }
-
         public UpdateSolutionNativeMobileFirstCommand(string solutionId, string mobileFirstDesign)
         {
             SolutionId = solutionId ?? throw new ArgumentNullException(nameof(solutionId));
             MobileFirstDesign = mobileFirstDesign;
         }
+
+        public string SolutionId { get; }
+
+        public string MobileFirstDesign { get; }
     }
 }

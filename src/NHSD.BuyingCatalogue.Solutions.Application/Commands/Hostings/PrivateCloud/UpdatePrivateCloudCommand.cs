@@ -7,14 +7,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PrivateCl
 {
     public sealed class UpdatePrivateCloudCommand : IRequest<ISimpleResult>
     {
-        public string Id { get; }
-
-        public IUpdatePrivateCloudData Data { get; }
-
         public UpdatePrivateCloudCommand(string id, IUpdatePrivateCloudData data)
         {
             Id = id ?? throw new ArgumentNullException(nameof(id));
             Data = data ?? throw new ArgumentNullException(nameof(data));
         }
+
+        public string Id { get; }
+
+        public IUpdatePrivateCloudData Data { get; }
     }
 }

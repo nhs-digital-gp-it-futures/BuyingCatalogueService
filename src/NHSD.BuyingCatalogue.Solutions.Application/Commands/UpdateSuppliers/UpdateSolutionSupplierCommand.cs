@@ -7,14 +7,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSuppliers
 {
     public sealed class UpdateSolutionSupplierCommand : IRequest<ISimpleResult>
     {
-        public string SolutionId { get; }
-
-        public IUpdateSupplierData Data { get; }
-
         public UpdateSolutionSupplierCommand(string solutionId, IUpdateSupplierData data)
         {
             SolutionId = solutionId ?? throw new ArgumentNullException(nameof(solutionId));
             Data = data ?? throw new ArgumentNullException(nameof(data));
         }
+
+        public string SolutionId { get; }
+
+        public IUpdateSupplierData Data { get; }
     }
 }
