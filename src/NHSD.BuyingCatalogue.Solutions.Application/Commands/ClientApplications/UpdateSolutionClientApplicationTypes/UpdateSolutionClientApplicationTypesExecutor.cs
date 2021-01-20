@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution;
@@ -8,13 +8,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
 {
     internal sealed class UpdateSolutionClientApplicationTypesExecutor : IExecutor<UpdateSolutionClientApplicationTypesCommand>
     {
-        private readonly ClientApplicationPartialUpdater _clientApplicationPartialUpdater;
+        private readonly ClientApplicationPartialUpdater clientApplicationPartialUpdater;
 
-        /// <summary>
-        /// Initialises a new instance of the <see cref="UpdateSolutionClientApplicationTypesHandler"/> class.
-        /// </summary>
         public UpdateSolutionClientApplicationTypesExecutor(ClientApplicationPartialUpdater clientApplicationPartialUpdater) =>
-            _clientApplicationPartialUpdater = clientApplicationPartialUpdater;
+            this.clientApplicationPartialUpdater = clientApplicationPartialUpdater;
 
         /// <summary>
         /// Executes the action of this command.
@@ -23,9 +20,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
         /// <param name="cancellationToken">Token to cancel the request.</param>
         /// <returns>A task representing an operation to get the result of this command.</returns>
         public async Task UpdateAsync(UpdateSolutionClientApplicationTypesCommand request, CancellationToken cancellationToken) =>
-            await _clientApplicationPartialUpdater.UpdateAsync(request.SolutionId,
-                    clientApplication => clientApplication.ClientApplicationTypes = new HashSet<string>(request.Data.FilteredClientApplicationTypes),
-                    cancellationToken)
-                .ConfigureAwait(false);
+            await clientApplicationPartialUpdater.UpdateAsync(
+                request.SolutionId,
+                clientApplication => clientApplication.ClientApplicationTypes = new HashSet<string>(request.Data.FilteredClientApplicationTypes),
+                cancellationToken);
     }
 }

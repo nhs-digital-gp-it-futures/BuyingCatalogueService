@@ -1,5 +1,4 @@
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
@@ -8,13 +7,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.OnPremise
 {
     internal sealed class UpdateOnPremiseExecutor : IExecutor<UpdateOnPremiseCommand>
     {
-        private readonly HostingPartialUpdater _hostingUpdater;
+        private readonly HostingPartialUpdater hostingUpdater;
 
         public UpdateOnPremiseExecutor(HostingPartialUpdater hostingUpdater) =>
-            _hostingUpdater = hostingUpdater;
+            this.hostingUpdater = hostingUpdater;
 
         public async Task UpdateAsync(UpdateOnPremiseCommand request, CancellationToken cancellationToken) =>
-            await _hostingUpdater.UpdateAsync(request.Id, hosting =>
+            await hostingUpdater.UpdateAsync(
+                request.Id,
+                hosting =>
                 {
                     hosting.OnPremise = new Domain.OnPremise
                     {
@@ -24,6 +25,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.OnPremise
                         RequiresHSCN = request.Data.RequiresHSCN,
                     };
                 },
-                cancellationToken).ConfigureAwait(false);
+                cancellationToken);
     }
 }

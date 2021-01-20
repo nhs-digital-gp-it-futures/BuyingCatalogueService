@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
@@ -8,21 +8,22 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
 {
     internal sealed class UpdateSolutionMobileConnectionDetailsExecutor : IExecutor<UpdateSolutionMobileConnectionDetailsCommand>
     {
-        private readonly ClientApplicationPartialUpdater _updater;
+        private readonly ClientApplicationPartialUpdater updater;
 
-        public UpdateSolutionMobileConnectionDetailsExecutor(ClientApplicationPartialUpdater updater) => _updater = updater;
+        public UpdateSolutionMobileConnectionDetailsExecutor(ClientApplicationPartialUpdater updater) => this.updater = updater;
 
         public async Task UpdateAsync(UpdateSolutionMobileConnectionDetailsCommand request, CancellationToken cancellationToken) =>
-            await _updater.UpdateAsync(request.SolutionId, application =>
+            await updater.UpdateAsync(
+                request.SolutionId,
+                application =>
+                {
+                    application.MobileConnectionDetails = new MobileConnectionDetails
                     {
-                        application.MobileConnectionDetails = new MobileConnectionDetails
-                        {
-                            MinimumConnectionSpeed = request.Data.MinimumConnectionSpeed,
-                            Description = request.Data.ConnectionRequirementsDescription,
-                            ConnectionType = request.Data.ConnectionType,
-                        };
-                    },
-                    cancellationToken)
-                .ConfigureAwait(false);
+                        MinimumConnectionSpeed = request.Data.MinimumConnectionSpeed,
+                        Description = request.Data.ConnectionRequirementsDescription,
+                        ConnectionType = request.Data.ConnectionType,
+                    };
+                },
+                cancellationToken);
     }
 }

@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution;
@@ -9,28 +9,26 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSumm
 {
     internal sealed class UpdateSolutionSummaryExecutor : IExecutor<UpdateSolutionSummaryCommand>
     {
-        private readonly SolutionReader _solutionReader;
-        private readonly SolutionSummaryUpdater _solutionSummaryUpdater;
-        private readonly IMapper _mapper;
+        private readonly SolutionReader solutionReader;
+        private readonly SolutionSummaryUpdater solutionSummaryUpdater;
+        private readonly IMapper mapper;
 
-        /// <summary>
-        /// Initialises a new instance of the <see cref="UpdateSolutionSummaryExecutor"/> class.
-        /// </summary>
-        public UpdateSolutionSummaryExecutor(SolutionReader solutionReader,
+        public UpdateSolutionSummaryExecutor(
+            SolutionReader solutionReader,
             SolutionSummaryUpdater solutionSummaryUpdater,
             IMapper mapper)
         {
-            _solutionReader = solutionReader;
-            _solutionSummaryUpdater = solutionSummaryUpdater;
-            _mapper = mapper;
+            this.solutionReader = solutionReader;
+            this.solutionSummaryUpdater = solutionSummaryUpdater;
+            this.mapper = mapper;
         }
 
         public async Task UpdateAsync(UpdateSolutionSummaryCommand request, CancellationToken cancellationToken) =>
-            await _solutionSummaryUpdater.UpdateSummaryAsync(
-                _mapper.Map(request.Data, await GetSolution(request, cancellationToken).ConfigureAwait(false)),
-                cancellationToken).ConfigureAwait(false);
+            await solutionSummaryUpdater.UpdateSummaryAsync(
+                mapper.Map(request.Data, await GetSolution(request, cancellationToken)),
+                cancellationToken);
 
         private async Task<Solution> GetSolution(UpdateSolutionSummaryCommand request, CancellationToken cancellationToken) =>
-            await _solutionReader.ByIdAsync(request.SolutionId, cancellationToken).ConfigureAwait(false);
+            await solutionReader.ByIdAsync(request.SolutionId, cancellationToken);
     }
 }

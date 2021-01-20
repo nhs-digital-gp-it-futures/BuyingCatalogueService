@@ -5,8 +5,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
 {
     internal sealed class UpdateSolutionContactDetailsHandler : Handler<UpdateSolutionContactDetailsCommand, ContactsMaxLengthResult>
     {
-        public UpdateSolutionContactDetailsHandler(IExecutor<UpdateSolutionContactDetailsCommand> updateSolutionContactDetailsExecutor,
-            IValidator<UpdateSolutionContactDetailsCommand, ContactsMaxLengthResult> updateSolutionContactDetailsValidator) : base(updateSolutionContactDetailsExecutor, updateSolutionContactDetailsValidator)
+        public UpdateSolutionContactDetailsHandler(
+            IExecutor<UpdateSolutionContactDetailsCommand> updateSolutionContactDetailsExecutor,
+            IValidator<UpdateSolutionContactDetailsCommand, ContactsMaxLengthResult> updateSolutionContactDetailsValidator)
+            : base(updateSolutionContactDetailsExecutor, updateSolutionContactDetailsValidator)
         {
         }
     }

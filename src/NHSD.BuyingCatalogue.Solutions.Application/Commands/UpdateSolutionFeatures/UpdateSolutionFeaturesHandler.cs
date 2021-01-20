@@ -5,8 +5,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeat
 {
     internal sealed class UpdateSolutionFeaturesHandler : Handler<UpdateSolutionFeaturesCommand, ISimpleResult>
     {
-        public UpdateSolutionFeaturesHandler(IExecutor<UpdateSolutionFeaturesCommand> updateSolutionFeaturesExecutor,
-            IValidator<UpdateSolutionFeaturesCommand, ISimpleResult> updateSolutionFeaturesValidator) : base(updateSolutionFeaturesExecutor, updateSolutionFeaturesValidator)
+        public UpdateSolutionFeaturesHandler(
+            IExecutor<UpdateSolutionFeaturesCommand> updateSolutionFeaturesExecutor,
+            IValidator<UpdateSolutionFeaturesCommand, ISimpleResult> updateSolutionFeaturesValidator)
+            : base(updateSolutionFeaturesExecutor, updateSolutionFeaturesValidator)
         {
         }
     }

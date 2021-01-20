@@ -5,8 +5,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSumm
 {
     internal sealed class UpdateSolutionSummaryHandler : Handler<UpdateSolutionSummaryCommand, ISimpleResult>
     {
-        public UpdateSolutionSummaryHandler(IExecutor<UpdateSolutionSummaryCommand> updateSolutionSummaryExecutor,
-            IValidator<UpdateSolutionSummaryCommand, ISimpleResult> updateSolutionSummaryValidator) : base(updateSolutionSummaryExecutor, updateSolutionSummaryValidator)
+        public UpdateSolutionSummaryHandler(
+            IExecutor<UpdateSolutionSummaryCommand> updateSolutionSummaryExecutor,
+            IValidator<UpdateSolutionSummaryCommand, ISimpleResult> updateSolutionSummaryValidator)
+            : base(updateSolutionSummaryExecutor, updateSolutionSummaryValidator)
         {
         }
     }

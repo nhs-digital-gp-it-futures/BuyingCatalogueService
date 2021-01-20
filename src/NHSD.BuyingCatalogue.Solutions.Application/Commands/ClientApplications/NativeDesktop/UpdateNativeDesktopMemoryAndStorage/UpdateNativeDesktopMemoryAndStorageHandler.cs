@@ -1,4 +1,4 @@
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution;
+﻿using NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeDesktop.UpdateNativeDesktopMemoryAndStorage
@@ -7,8 +7,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
     {
         public UpdateNativeDesktopMemoryAndStorageHandler(
             IExecutor<UpdateNativeDesktopMemoryAndStorageCommand> executor,
-            IValidator<UpdateNativeDesktopMemoryAndStorageCommand, ISimpleResult> validator) :
-            base(executor, validator)
+            IValidator<UpdateNativeDesktopMemoryAndStorageCommand, ISimpleResult> validator)
+            : base(executor, validator)
         {
         }
     }

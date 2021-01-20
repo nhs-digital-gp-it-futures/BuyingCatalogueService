@@ -1,20 +1,21 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
 {
-    internal class RequiredValidator
+    internal sealed class RequiredValidator
     {
-        private readonly RequiredResult _requiredResult;
+        private readonly RequiredResult requiredResult;
 
-        internal RequiredValidator() => _requiredResult = new RequiredResult();
+        internal RequiredValidator() => requiredResult = new RequiredResult();
 
         internal RequiredValidator Validate(string field, string fieldLabel)
         {
             if (string.IsNullOrWhiteSpace(field))
             {
-                _requiredResult.Required.Add(fieldLabel);
+                requiredResult.Required.Add(fieldLabel);
             }
+
             return this;
         }
 
@@ -22,11 +23,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
         {
             if (fields.All(string.IsNullOrWhiteSpace))
             {
-                _requiredResult.Required.Add(fieldLabel);
+                requiredResult.Required.Add(fieldLabel);
             }
+
             return this;
         }
 
-        internal RequiredResult Result() => _requiredResult;
+        internal RequiredResult Result() => requiredResult;
     }
 }

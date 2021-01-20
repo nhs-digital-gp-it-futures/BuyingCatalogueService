@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution;
@@ -9,18 +9,18 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeat
 {
     internal sealed class UpdateSolutionFeaturesExecutor : IExecutor<UpdateSolutionFeaturesCommand>
     {
-        private readonly SolutionReader _solutionReader;
-        private readonly SolutionFeaturesUpdater _solutionFeaturesUpdater;
-        private readonly IMapper _mapper;
+        private readonly SolutionReader solutionReader;
+        private readonly SolutionFeaturesUpdater solutionFeaturesUpdater;
+        private readonly IMapper mapper;
 
-        /// <summary>
-        /// Initialises a new instance of the <see cref="UpdateSolutionHandler"/> class.
-        /// </summary>
-        public UpdateSolutionFeaturesExecutor(SolutionReader solutionReader, SolutionFeaturesUpdater solutionFeaturesUpdater, IMapper mapper)
+        public UpdateSolutionFeaturesExecutor(
+            SolutionReader solutionReader,
+            SolutionFeaturesUpdater solutionFeaturesUpdater,
+            IMapper mapper)
         {
-            _solutionReader = solutionReader;
-            _solutionFeaturesUpdater = solutionFeaturesUpdater;
-            _mapper = mapper;
+            this.solutionReader = solutionReader;
+            this.solutionFeaturesUpdater = solutionFeaturesUpdater;
+            this.mapper = mapper;
         }
 
         /// <summary>
@@ -30,12 +30,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeat
         /// <param name="cancellationToken">Token to cancel the request.</param>
         /// <returns>A task representing an operation to get the result of this command.</returns>
         public async Task UpdateAsync(UpdateSolutionFeaturesCommand request, CancellationToken cancellationToken) =>
-            await _solutionFeaturesUpdater.UpdateAsync(
-                    _mapper.Map(request.Data,
-                        await GetSolution(request, cancellationToken).ConfigureAwait(false)), cancellationToken)
-                .ConfigureAwait(false);
+            await solutionFeaturesUpdater.UpdateAsync(
+                mapper.Map(request.Data, await GetSolution(request, cancellationToken)),
+                cancellationToken);
 
         private async Task<Solution> GetSolution(UpdateSolutionFeaturesCommand request, CancellationToken cancellationToken) =>
-            await _solutionReader.ByIdAsync(request.SolutionId, cancellationToken).ConfigureAwait(false);
+            await solutionReader.ByIdAsync(request.SolutionId, cancellationToken);
     }
 }
