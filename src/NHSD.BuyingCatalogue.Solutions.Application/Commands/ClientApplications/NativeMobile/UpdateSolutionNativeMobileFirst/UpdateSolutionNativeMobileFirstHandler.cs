@@ -9,25 +9,26 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
 {
     internal sealed class UpdateSolutionNativeMobileFirstHandler : IRequestHandler<UpdateSolutionNativeMobileFirstCommand, ISimpleResult>
     {
-        private readonly ClientApplicationPartialUpdater _clientApplicationPartialUpdater;
+        private readonly ClientApplicationPartialUpdater clientApplicationPartialUpdater;
+        private readonly UpdateSolutionNativeMobileFirstValidator updateSolutionNativeMobileFirstValidator;
 
-        private readonly UpdateSolutionNativeMobileFirstValidator _updateSolutionNativeMobileFirstValidator;
-
-        public UpdateSolutionNativeMobileFirstHandler(ClientApplicationPartialUpdater clientApplicationPartialUpdater, UpdateSolutionNativeMobileFirstValidator updateSolutionNativeMobileFirstValidator)
+        public UpdateSolutionNativeMobileFirstHandler(
+            ClientApplicationPartialUpdater clientApplicationPartialUpdater,
+            UpdateSolutionNativeMobileFirstValidator updateSolutionNativeMobileFirstValidator)
         {
-            _clientApplicationPartialUpdater = clientApplicationPartialUpdater;
-            _updateSolutionNativeMobileFirstValidator = updateSolutionNativeMobileFirstValidator;
+            this.clientApplicationPartialUpdater = clientApplicationPartialUpdater;
+            this.updateSolutionNativeMobileFirstValidator = updateSolutionNativeMobileFirstValidator;
         }
 
         public async Task<ISimpleResult> Handle(
             UpdateSolutionNativeMobileFirstCommand request,
             CancellationToken cancellationToken)
         {
-            var validationResult = _updateSolutionNativeMobileFirstValidator.Validate(request);
+            var validationResult = updateSolutionNativeMobileFirstValidator.Validate(request);
 
             if (validationResult.IsValid)
             {
-                await _clientApplicationPartialUpdater.UpdateAsync(
+                await clientApplicationPartialUpdater.UpdateAsync(
                     request.SolutionId,
                     clientApplication =>
                     {

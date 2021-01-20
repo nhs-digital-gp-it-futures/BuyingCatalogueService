@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
@@ -7,19 +7,19 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateIntegrations
 {
     internal sealed class UpdateIntegrationsExecutor : IExecutor<UpdateIntegrationsCommand>
     {
-        private readonly SolutionVerifier _verifier;
-        private readonly SolutionIntegrationsUpdater _updater;
+        private readonly SolutionVerifier verifier;
+        private readonly SolutionIntegrationsUpdater updater;
 
         public UpdateIntegrationsExecutor(SolutionVerifier verifier, SolutionIntegrationsUpdater updater)
         {
-            _verifier = verifier;
-            _updater = updater;
+            this.verifier = verifier;
+            this.updater = updater;
         }
 
         public async Task UpdateAsync(UpdateIntegrationsCommand request, CancellationToken cancellationToken)
         {
-            await _verifier.ThrowWhenMissingAsync(request.SolutionId, cancellationToken).ConfigureAwait(false);
-            await _updater.Update(request.SolutionId, request.Url, cancellationToken).ConfigureAwait(false);
+            await verifier.ThrowWhenMissingAsync(request.SolutionId, cancellationToken);
+            await updater.Update(request.SolutionId, request.Url, cancellationToken);
         }
     }
 }

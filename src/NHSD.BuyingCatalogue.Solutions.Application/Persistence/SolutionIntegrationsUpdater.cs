@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
@@ -10,14 +10,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
         /// <summary>
         /// Data access layer for the <see cref="Solution"/> entity.
         /// </summary>
-        private readonly ISolutionDetailRepository _solutionDetailRepository;
+        private readonly ISolutionDetailRepository solutionDetailRepository;
 
-        public SolutionIntegrationsUpdater(ISolutionDetailRepository solutionDetailRepository)
-            => _solutionDetailRepository = solutionDetailRepository;
+        public SolutionIntegrationsUpdater(ISolutionDetailRepository solutionDetailRepository) =>
+            this.solutionDetailRepository = solutionDetailRepository;
 
-        public async Task Update(string solutionId, string url, CancellationToken cancellationToken)
-            => await _solutionDetailRepository.UpdateIntegrationsAsync(
+        public async Task Update(string solutionId, string url, CancellationToken cancellationToken) =>
+            await solutionDetailRepository.UpdateIntegrationsAsync(
                 new UpdateIntegrationsRequest(solutionId, url),
-                cancellationToken).ConfigureAwait(false);
+                cancellationToken);
     }
 }

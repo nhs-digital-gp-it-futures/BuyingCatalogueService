@@ -10,16 +10,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 {
     internal sealed class SupplierReader
     {
-        private readonly ISupplierRepository _supplierRepository;
+        private readonly ISupplierRepository supplierRepository;
 
         public SupplierReader(ISupplierRepository supplierRepository)
         {
-            _supplierRepository = supplierRepository;
+            this.supplierRepository = supplierRepository;
         }
 
         public async Task<Supplier> ByIdAsync(string id, CancellationToken cancellationToken)
         {
-            var supplier = await _supplierRepository.GetSupplierById(id, cancellationToken);
+            var supplier = await supplierRepository.GetSupplierById(id, cancellationToken);
 
             return supplier is null ? null : new Supplier(supplier);
         }
@@ -30,7 +30,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
             CatalogueItemType? catalogueItemType,
             CancellationToken cancellationToken)
         {
-            var suppliers = await _supplierRepository.GetSuppliersByNameAsync(
+            var suppliers = await supplierRepository.GetSuppliersByNameAsync(
                 name,
                 solutionPublicationStatus,
                 catalogueItemType,
@@ -41,8 +41,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 
         public async Task<SolutionSupplier> BySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
         {
-            return new(await _supplierRepository.GetSupplierBySolutionIdAsync(solutionId, cancellationToken)
-                .ConfigureAwait(false));
+            return new(await supplierRepository.GetSupplierBySolutionIdAsync(solutionId, cancellationToken));
         }
     }
 }

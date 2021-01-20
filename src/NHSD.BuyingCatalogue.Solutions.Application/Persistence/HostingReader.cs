@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
@@ -9,17 +9,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 {
     internal sealed class HostingReader
     {
-        private readonly ISolutionDetailRepository _solutionDetailRepository;
+        private readonly ISolutionDetailRepository solutionDetailRepository;
 
         public HostingReader(ISolutionDetailRepository solutionDetailRepository)
         {
-            _solutionDetailRepository = solutionDetailRepository;
+            this.solutionDetailRepository = solutionDetailRepository;
         }
 
         public async Task<Hosting> BySolutionIdAsync(string id, CancellationToken cancellationToken)
         {
-            var hostingResult = await _solutionDetailRepository.GetHostingBySolutionIdAsync(id, cancellationToken).ConfigureAwait(false)
-                                ?? throw new NotFoundException(nameof(Solution), id);
+            var hostingResult = await solutionDetailRepository.GetHostingBySolutionIdAsync(id, cancellationToken)
+                ?? throw new NotFoundException(nameof(Solution), id);
 
             return string.IsNullOrWhiteSpace(hostingResult.Hosting)
                 ? new Hosting()

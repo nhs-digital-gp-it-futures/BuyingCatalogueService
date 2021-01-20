@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
@@ -9,17 +9,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 {
     internal sealed class ClientApplicationReader
     {
-        private readonly ISolutionDetailRepository _solutionDetailRepository;
+        private readonly ISolutionDetailRepository solutionDetailRepository;
 
         public ClientApplicationReader(ISolutionDetailRepository solutionDetailRepository)
         {
-            _solutionDetailRepository = solutionDetailRepository;
+            this.solutionDetailRepository = solutionDetailRepository;
         }
 
         public async Task<ClientApplication> BySolutionIdAsync(string id, CancellationToken cancellationToken)
         {
-            var clientApplicationResult = await _solutionDetailRepository.GetClientApplicationBySolutionIdAsync(id, cancellationToken).ConfigureAwait(false)
-                                 ?? throw new NotFoundException(nameof(Solution), id);
+            var clientApplicationResult = await solutionDetailRepository.GetClientApplicationBySolutionIdAsync(id, cancellationToken)
+                ?? throw new NotFoundException(nameof(Solution), id);
 
             return string.IsNullOrWhiteSpace(clientApplicationResult.ClientApplication)
                 ? new ClientApplication()

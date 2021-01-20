@@ -12,34 +12,35 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
 {
     internal class UpdateSolutionContactDetailsExecutor : IExecutor<UpdateSolutionContactDetailsCommand>
     {
-        private readonly SolutionVerifier _verifier;
-        private readonly SolutionContactDetailsUpdater _updater;
+        private readonly SolutionVerifier verifier;
+        private readonly SolutionContactDetailsUpdater updater;
 
         public UpdateSolutionContactDetailsExecutor(SolutionVerifier verifier, SolutionContactDetailsUpdater updater)
         {
-            _verifier = verifier;
-            _updater = updater;
+            this.verifier = verifier;
+            this.updater = updater;
         }
 
         public async Task UpdateAsync(UpdateSolutionContactDetailsCommand request, CancellationToken cancellationToken)
         {
-            await _verifier.ThrowWhenMissingAsync(request.SolutionId, cancellationToken).ConfigureAwait(false);
+            await verifier.ThrowWhenMissingAsync(request.SolutionId, cancellationToken);
 
-            await _updater.UpdateAsync(request.SolutionId, MapContacts(request.Data), cancellationToken).ConfigureAwait(false);
+            await updater.UpdateAsync(request.SolutionId, MapContacts(request.Data), cancellationToken);
         }
 
-        private static IEnumerable<IContact> MapContacts(IUpdateSolutionContactDetails details)
-            => new List<IContact> { ToContact(details.Contact1), ToContact(details.Contact2) }.Where(x => x != null);
+        private static IEnumerable<IContact> MapContacts(IUpdateSolutionContactDetails details) =>
+            new List<IContact> { ToContact(details.Contact1), ToContact(details.Contact2) }.Where(x => x != null);
 
         private static IContact ToContact(IUpdateSolutionContact contact) =>
-            contact?.HasData() == true ? new ContactDto
-            {
-                Department = contact.Department,
-                FirstName = contact.FirstName,
-                LastName = contact.LastName,
-                Email = contact.Email,
-                PhoneNumber = contact.PhoneNumber,
-            }
+            contact?.HasData() == true
+                ? new ContactDto
+                {
+                    Department = contact.Department,
+                    FirstName = contact.FirstName,
+                    LastName = contact.LastName,
+                    Email = contact.Email,
+                    PhoneNumber = contact.PhoneNumber,
+                }
                 : null;
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadMap;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
@@ -61,12 +61,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var validationModel = new Mock<ISimpleResult>();
             validationModel.Setup(s => s.IsValid).Returns(true);
 
-            mockMediator.Setup(m => m.Send(It.Is<UpdateRoadmapCommand>(q => q.SolutionId == SolutionId && q.Summary == expected), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
+            mockMediator.Setup(m => m.Send(It.Is<UpdateRoadMapCommand>(q => q.SolutionId == SolutionId && q.Summary == expected), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result = (await controller.Update(SolutionId, viewModel)) as NoContentResult;
 
             result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
-            mockMediator.Verify(m => m.Send(It.Is<UpdateRoadmapCommand>(q => q.SolutionId == SolutionId && q.Summary == expected), It.IsAny<CancellationToken>()), Times.Once);
+            mockMediator.Verify(m => m.Send(It.Is<UpdateRoadMapCommand>(q => q.SolutionId == SolutionId && q.Summary == expected), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
@@ -78,7 +78,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "description", "maxLength" } });
             validationModel.Setup(s => s.IsValid).Returns(false);
 
-            mockMediator.Setup(m => m.Send(It.Is<UpdateRoadmapCommand>(q => q.SolutionId == SolutionId), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
+            mockMediator.Setup(m => m.Send(It.Is<UpdateRoadMapCommand>(q => q.SolutionId == SolutionId), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
 
             var result = (await controller.Update(SolutionId, viewModel)) as BadRequestObjectResult;
 
@@ -87,7 +87,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             resultValue.Count.Should().Be(1);
             resultValue["description"].Should().Be("maxLength");
 
-            mockMediator.Verify(m => m.Send(It.Is<UpdateRoadmapCommand>(q => q.SolutionId == SolutionId && q.Summary == expected), It.IsAny<CancellationToken>()), Times.Once);
+            mockMediator.Verify(m => m.Send(It.Is<UpdateRoadMapCommand>(q => q.SolutionId == SolutionId && q.Summary == expected), It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }

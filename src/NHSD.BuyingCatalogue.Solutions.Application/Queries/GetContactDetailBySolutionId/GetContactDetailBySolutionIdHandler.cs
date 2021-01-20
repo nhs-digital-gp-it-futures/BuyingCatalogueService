@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -10,21 +10,26 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailByS
 {
     internal sealed class GetContactDetailBySolutionIdHandler : IRequestHandler<GetContactDetailBySolutionIdQuery, IEnumerable<IContact>>
     {
-        private readonly ContactDetailsReader _contactDetailsReader;
-        private readonly SolutionVerifier _solutionVerifier;
-        private readonly IMapper _mapper;
+        private readonly ContactDetailsReader contactDetailsReader;
+        private readonly SolutionVerifier solutionVerifier;
+        private readonly IMapper mapper;
 
-        public GetContactDetailBySolutionIdHandler(ContactDetailsReader contactDetailsReader, SolutionVerifier solutionVerifier, IMapper mapper)
+        public GetContactDetailBySolutionIdHandler(
+            ContactDetailsReader contactDetailsReader,
+            SolutionVerifier solutionVerifier,
+            IMapper mapper)
         {
-            _contactDetailsReader = contactDetailsReader;
-            _solutionVerifier = solutionVerifier;
-            _mapper = mapper;
+            this.contactDetailsReader = contactDetailsReader;
+            this.solutionVerifier = solutionVerifier;
+            this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<IContact>> Handle(GetContactDetailBySolutionIdQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<IContact>> Handle(
+            GetContactDetailBySolutionIdQuery request,
+            CancellationToken cancellationToken)
         {
-            await _solutionVerifier.ThrowWhenMissingAsync(request.Id, cancellationToken).ConfigureAwait(false);
-            return _mapper.Map<IEnumerable<IContact>>(await _contactDetailsReader.ByIdAsync(request.Id, cancellationToken).ConfigureAwait(false));
+            await solutionVerifier.ThrowWhenMissingAsync(request.Id, cancellationToken);
+            return mapper.Map<IEnumerable<IContact>>(await contactDetailsReader.ByIdAsync(request.Id, cancellationToken));
         }
     }
 }

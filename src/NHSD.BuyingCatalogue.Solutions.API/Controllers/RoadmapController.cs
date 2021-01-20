@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadMap;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
@@ -50,6 +50,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Update([Required] string id, UpdateRoadmapViewModel model) =>
-            (await mediator.Send(new UpdateRoadmapCommand(id, model?.Summary))).ToActionResult();
+            (await mediator.Send(new UpdateRoadMapCommand(id, model?.Summary))).ToActionResult();
     }
 }
