@@ -6,13 +6,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateImplementati
 {
     public sealed class UpdateImplementationTimescalesCommand : IRequest<ISimpleResult>
     {
-        public string SolutionId { get; }
-        public string Description { get; }
-
         public UpdateImplementationTimescalesCommand(string solutionId, string description)
         {
             SolutionId = solutionId ?? throw new ArgumentNullException(nameof(solutionId));
             Description = description;
         }
+
+        public string SolutionId { get; }
+
+        public string Description { get; }
     }
 }

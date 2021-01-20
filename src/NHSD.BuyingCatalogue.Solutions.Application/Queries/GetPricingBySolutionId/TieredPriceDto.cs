@@ -5,7 +5,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingBySolutio
     public sealed class TieredPriceDto : ITieredPrice
     {
         public int BandStart { get; set; }
+
         public int? BandEnd { get; set; }
+
         public decimal Price { get; set; }
     }
 }
