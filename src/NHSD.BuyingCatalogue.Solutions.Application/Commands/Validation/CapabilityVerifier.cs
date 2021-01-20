@@ -10,13 +10,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
 {
     internal sealed class CapabilityVerifier : IVerifier<UpdateCapabilitiesCommand, ISimpleResult>
     {
-        private readonly ISolutionCapabilityRepository _solutionCapabilityRepository;
-        private readonly VerifyCapabilityResult _verifyCapabilityResult;
+        private readonly ISolutionCapabilityRepository solutionCapabilityRepository;
+        private readonly VerifyCapabilityResult verifyCapabilityResult;
 
         public CapabilityVerifier(ISolutionCapabilityRepository solutionCapabilityRepository)
         {
-            _solutionCapabilityRepository = solutionCapabilityRepository;
-            _verifyCapabilityResult = new VerifyCapabilityResult();
+            this.solutionCapabilityRepository = solutionCapabilityRepository;
+            verifyCapabilityResult = new VerifyCapabilityResult();
         }
 
         public async Task<ISimpleResult> VerifyAsync(UpdateCapabilitiesCommand command)
@@ -26,19 +26,22 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
                 throw new ArgumentNullException(nameof(command));
             }
 
-            var result = await CheckCapabilityReferenceExists(command.NewCapabilitiesReferences, new CancellationToken()).ConfigureAwait(false);
+            var result = await CheckCapabilityReferenceExists(command.NewCapabilitiesReferences, CancellationToken.None);
             if (!result)
             {
-                _verifyCapabilityResult.ValidCapabilityList.Add("capabilities");
+                verifyCapabilityResult.ValidCapabilityList.Add("capabilities");
             }
-            return _verifyCapabilityResult;
+
+            return verifyCapabilityResult;
         }
 
-        public async Task<bool> CheckCapabilityReferenceExists(IEnumerable<string> capabilitiesToMatch,
+        public async Task<bool> CheckCapabilityReferenceExists(
+            IEnumerable<string> capabilitiesToMatch,
             CancellationToken cancellationToken)
         {
-            var count = await _solutionCapabilityRepository.GetMatchingCapabilitiesCountAsync(capabilitiesToMatch,
-                cancellationToken).ConfigureAwait(false);
+            var count = await solutionCapabilityRepository.GetMatchingCapabilitiesCountAsync(
+                capabilitiesToMatch,
+                cancellationToken);
 
             return count == capabilitiesToMatch.ToList().Count;
         }

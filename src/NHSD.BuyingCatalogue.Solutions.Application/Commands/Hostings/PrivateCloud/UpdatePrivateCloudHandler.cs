@@ -5,8 +5,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PrivateCl
 {
     internal sealed class UpdatePrivateCloudHandler : Handler<UpdatePrivateCloudCommand, ISimpleResult>
     {
-        public UpdatePrivateCloudHandler(IExecutor<UpdatePrivateCloudCommand> executor,
-            IValidator<UpdatePrivateCloudCommand, ISimpleResult> validator) : base(executor, validator)
+        public UpdatePrivateCloudHandler(
+            IExecutor<UpdatePrivateCloudCommand> executor,
+            IValidator<UpdatePrivateCloudCommand, ISimpleResult> validator)
+            : base(executor, validator)
         {
         }
     }

@@ -5,8 +5,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PublicClo
 {
     internal sealed class UpdatePublicCloudHandler : Handler<UpdatePublicCloudCommand, ISimpleResult>
     {
-        public UpdatePublicCloudHandler(IExecutor<UpdatePublicCloudCommand> executor,
-            IValidator<UpdatePublicCloudCommand, ISimpleResult> validator) : base(executor, validator)
+        public UpdatePublicCloudHandler(
+            IExecutor<UpdatePublicCloudCommand> executor,
+            IValidator<UpdatePublicCloudCommand, ISimpleResult> validator)
+            : base(executor, validator)
         {
         }
     }

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview
 {
-    internal class ValidationResult
+    internal sealed class ValidationResult
     {
-        private readonly List<ValidationError> _errors;
+        private readonly List<ValidationError> errors;
 
         /// <summary>
         /// Gets a read only list of errors.
@@ -15,24 +16,27 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview
         internal IReadOnlyCollection<ValidationError> Errors { get; }
 
         /// <summary>
-        /// Gets a value to indicate whether or not this instance contains any errors.
+        /// Gets a value indicating whether or not this instance contains any errors.
         /// </summary>
         internal bool IsValid => !Errors.Any();
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="ValidationResult"/> class.
+        /// Initializes a new instance of the <see cref="ValidationResult"/> class.
         /// </summary>
-        internal ValidationResult() : this(new List<ValidationError>())
+        internal ValidationResult()
+            : this(new List<ValidationError>())
         {
         }
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="ValidationResult"/> class.
+        /// Initializes a new instance of the <see cref="ValidationResult"/> class
+        /// with the specified <paramref name="errors"/>.
         /// </summary>
+        /// <param name="errors">A collection of errors (can be <see langword="null"/>).</param>
         internal ValidationResult(List<ValidationError> errors)
         {
-            _errors = errors ?? throw new ArgumentNullException(nameof(errors));
-            Errors = new ReadOnlyCollection<ValidationError>(_errors);
+            this.errors = errors ?? throw new ArgumentNullException(nameof(errors));
+            Errors = new ReadOnlyCollection<ValidationError>(this.errors);
         }
 
         internal ValidationResult Add(ValidationError validationError)
@@ -42,7 +46,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview
                 throw new ArgumentNullException(nameof(validationError));
             }
 
-            _errors.Add(validationError);
+            errors.Add(validationError);
             return this;
         }
 
@@ -56,11 +60,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview
             return Add(new[] { validationResult });
         }
 
+        [SuppressMessage("Maintainability", "CA1508:Avoid dead conditional code", Justification = "Params parameter can be null")]
         internal ValidationResult Add(params ValidationResult[] validationResults)
         {
-            if (validationResults is object)
+            if (validationResults is not null)
             {
-                _errors.AddRange(validationResults.Where(x => x != null && !x.IsValid).SelectMany(x => x.Errors));
+                errors.AddRange(validationResults.Where(x => x != null && !x.IsValid).SelectMany(x => x.Errors));
             }
 
             return this;

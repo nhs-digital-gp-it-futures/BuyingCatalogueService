@@ -1,5 +1,4 @@
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
@@ -8,13 +7,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PrivateCl
 {
     internal sealed class UpdatePrivateCloudExecutor : IExecutor<UpdatePrivateCloudCommand>
     {
-        private readonly HostingPartialUpdater _hostingUpdater;
+        private readonly HostingPartialUpdater hostingUpdater;
 
         public UpdatePrivateCloudExecutor(HostingPartialUpdater hostingUpdater) =>
-            _hostingUpdater = hostingUpdater;
+            this.hostingUpdater = hostingUpdater;
 
         public async Task UpdateAsync(UpdatePrivateCloudCommand request, CancellationToken cancellationToken) =>
-            await _hostingUpdater.UpdateAsync(request.Id, hosting =>
+            await hostingUpdater.UpdateAsync(
+                request.Id,
+                hosting =>
                 {
                     hosting.PrivateCloud = new Domain.PrivateCloud
                     {
@@ -24,6 +25,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PrivateCl
                         RequiresHSCN = request.Data.RequiresHSCN,
                     };
                 },
-                cancellationToken).ConfigureAwait(false);
+                cancellationToken);
     }
 }

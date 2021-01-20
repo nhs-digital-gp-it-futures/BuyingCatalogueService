@@ -11,15 +11,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
 {
     internal sealed class ClaimedEpicsVerifier : IVerifier<UpdateClaimedEpicsCommand, ISimpleResult>
     {
-        private readonly IEpicRepository _epicRepository;
-        private readonly ISolutionEpicStatusRepository _solutionEpicStatusRepository;
-        private readonly VerifyEpicsResult _verifyEpicsResult;
+        private readonly IEpicRepository epicRepository;
+        private readonly ISolutionEpicStatusRepository solutionEpicStatusRepository;
+        private readonly VerifyEpicsResult verifyEpicsResult;
 
         public ClaimedEpicsVerifier(IEpicRepository epicRepository, ISolutionEpicStatusRepository solutionEpicStatusRepository)
         {
-            _epicRepository = epicRepository;
-            _solutionEpicStatusRepository = solutionEpicStatusRepository;
-            _verifyEpicsResult = new VerifyEpicsResult();
+            this.epicRepository = epicRepository;
+            this.solutionEpicStatusRepository = solutionEpicStatusRepository;
+            verifyEpicsResult = new VerifyEpicsResult();
         }
 
         public async Task<ISimpleResult> VerifyAsync(UpdateClaimedEpicsCommand command)
@@ -33,45 +33,41 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
 
             if (CheckNoDuplicateEpicIds(epics.Select(x => x.EpicId)))
             {
-                _verifyEpicsResult.InvalidEpicsList.Add("epics");
-                return _verifyEpicsResult;
+                verifyEpicsResult.InvalidEpicsList.Add("epics");
+                return verifyEpicsResult;
             }
 
-            var result =
-                await CheckEpicsInformationExist(command.Data.Select(x => new ClaimedEpic(x.EpicId, x.StatusName)).ToHashSet(),
-                        new CancellationToken())
-                    .ConfigureAwait(false);
+            var result = await CheckEpicsInformationExist(
+                command.Data.Select(x => new ClaimedEpic(x.EpicId, x.StatusName)).ToHashSet(),
+                CancellationToken.None);
 
             if (!result)
             {
-                _verifyEpicsResult.InvalidEpicsList.Add("epics");
+                verifyEpicsResult.InvalidEpicsList.Add("epics");
             }
 
-            return _verifyEpicsResult;
+            return verifyEpicsResult;
         }
 
         public async Task<bool> CheckEpicsInformationExist(ISet<ClaimedEpic> epics, CancellationToken cancellationToken)
         {
-            var epicIdsCount = await CheckEpicIdsExist(epics.Select(x => x.EpicId).ToHashSet(), cancellationToken)
-                .ConfigureAwait(false);
+            var epicIdsCount = await CheckEpicIdsExist(epics.Select(x => x.EpicId).ToHashSet(), cancellationToken);
 
-            var doAllStatusExist =
-                await CheckStatusNamesExist(epics.Select(x => x.StatusName).ToHashSet(), cancellationToken)
-                    .ConfigureAwait(false);
+            var doAllStatusExist = await CheckStatusNamesExist(epics.Select(x => x.StatusName).ToHashSet(), cancellationToken);
 
             return epicIdsCount == epics.ToList().Count && doAllStatusExist;
         }
 
-        private async Task<int> CheckEpicIdsExist(ISet<string> epicIds, CancellationToken cancellationToken) =>
-            await _epicRepository
-                .CountMatchingEpicIdsAsync(epicIds, cancellationToken).ConfigureAwait(false);
+        private async Task<int> CheckEpicIdsExist(IEnumerable<string> epicIds, CancellationToken cancellationToken) =>
+            await epicRepository.CountMatchingEpicIdsAsync(epicIds, cancellationToken);
 
-        private async Task<bool> CheckStatusNamesExist(ISet<string> statusNames, CancellationToken cancellationToken)
+        private async Task<bool> CheckStatusNamesExist(IEnumerable<string> statusNames, CancellationToken cancellationToken)
         {
             IEnumerable<string> uniqueStatusNameList = statusNames.Distinct().ToList();
 
-            var statusNameCount = await _solutionEpicStatusRepository
-                .CountMatchingEpicStatusAsync(uniqueStatusNameList, cancellationToken).ConfigureAwait(false);
+            var statusNameCount = await solutionEpicStatusRepository.CountMatchingEpicStatusAsync(
+                uniqueStatusNameList,
+                cancellationToken);
 
             return statusNameCount == uniqueStatusNameList.Count();
         }

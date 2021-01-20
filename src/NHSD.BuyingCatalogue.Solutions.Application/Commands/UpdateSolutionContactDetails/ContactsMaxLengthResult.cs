@@ -5,7 +5,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails
 {
-    public class ContactsMaxLengthResult : IResult
+    public sealed class ContactsMaxLengthResult : IResult
     {
         public ContactsMaxLengthResult(ISimpleResult contact1Result, ISimpleResult contact2Result)
         {
@@ -22,8 +22,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
         public Dictionary<string, Dictionary<string, string>> ToDictionary() =>
             new Dictionary<string, Dictionary<string, string>>
             {
-                {"contact-1", Contact1Result.IsValid ? null : Contact1Result.ToDictionary()},
-                {"contact-2", Contact2Result.IsValid ? null : Contact2Result.ToDictionary()},
+                { "contact-1", Contact1Result.IsValid ? null : Contact1Result.ToDictionary() },
+                { "contact-2", Contact2Result.IsValid ? null : Contact2Result.ToDictionary() },
             }
             .FilterNulls();
     }
