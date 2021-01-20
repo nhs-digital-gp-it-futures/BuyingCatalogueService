@@ -10,22 +10,22 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 {
     internal sealed class PriceReader
     {
-        private readonly IPriceRepository _priceRepository;
+        private readonly IPriceRepository priceRepository;
 
         public PriceReader(IPriceRepository priceRepository)
         {
-            _priceRepository = priceRepository;
+            this.priceRepository = priceRepository;
         }
 
         public async Task<CataloguePriceBase> GetByPriceIdAsync(int priceId, CancellationToken cancellationToken)
         {
-            var priceItems = await _priceRepository.GetPriceByPriceIdQueryAsync(priceId, cancellationToken);
+            var priceItems = await priceRepository.GetPriceByPriceIdQueryAsync(priceId, cancellationToken);
             return ProcessPriceItems(priceItems).FirstOrDefault();
         }
 
         public async Task<IEnumerable<CataloguePriceBase>> GetPricesAsync(string catalogueItemId, CancellationToken cancellationToken)
         {
-            var prices = await _priceRepository.GetPricesAsync(catalogueItemId, cancellationToken);
+            var prices = await priceRepository.GetPricesAsync(catalogueItemId, cancellationToken);
             return ProcessPriceItems(prices);
         }
 
@@ -65,7 +65,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 
         private static void UpdateTierPrices(CataloguePriceTier tier, ICataloguePriceListResult price)
         {
-            tier.TieredPrices.Add(new TieredPrice(price.BandStart.GetValueOrDefault(), price.BandEnd,
+            tier.TieredPrices.Add(new TieredPrice(
+                price.BandStart.GetValueOrDefault(),
+                price.BandEnd,
                 price.TieredPrice.GetValueOrDefault()));
         }
 

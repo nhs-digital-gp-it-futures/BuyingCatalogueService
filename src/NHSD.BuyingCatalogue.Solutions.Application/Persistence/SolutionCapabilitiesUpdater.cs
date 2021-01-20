@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
@@ -11,16 +11,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
         /// <summary>
         /// Data access layer for the <see cref="Solution"/> entity.
         /// </summary>
-        private readonly ISolutionCapabilityRepository _solutionCapabilityRepository;
+        private readonly ISolutionCapabilityRepository solutionCapabilityRepository;
 
-        public SolutionCapabilitiesUpdater(ISolutionCapabilityRepository solutionCapabilityRepository)
-            => _solutionCapabilityRepository = solutionCapabilityRepository;
+        public SolutionCapabilitiesUpdater(ISolutionCapabilityRepository solutionCapabilityRepository) =>
+            this.solutionCapabilityRepository = solutionCapabilityRepository;
 
         public async Task UpdateAsync(string solutionId, IEnumerable<string> newCapabilitiesReferences, CancellationToken cancellationToken)
         {
-            await _solutionCapabilityRepository
-                .UpdateCapabilitiesAsync(new UpdateCapabilityRequest(solutionId, newCapabilitiesReferences),
-                    cancellationToken).ConfigureAwait(false);
+            await solutionCapabilityRepository.UpdateCapabilitiesAsync(
+                new UpdateCapabilityRequest(solutionId, newCapabilitiesReferences),
+                cancellationToken);
         }
     }
 }

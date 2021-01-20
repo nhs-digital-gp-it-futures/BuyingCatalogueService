@@ -7,24 +7,25 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence.Suppliers
 {
     internal sealed class SolutionSupplierPartialUpdater
     {
-        private readonly SupplierReader _supplierReader;
+        private readonly SupplierReader supplierReader;
         private readonly SolutionSupplierUpdater solutionSupplierUpdater;
 
-        public SolutionSupplierPartialUpdater(SupplierReader supplierReader, SolutionSupplierUpdater solutionSolutionSupplierUpdater)
+        public SolutionSupplierPartialUpdater(SupplierReader supplierReader, SolutionSupplierUpdater solutionSupplierUpdater)
         {
-            _supplierReader = supplierReader;
-            solutionSupplierUpdater = solutionSolutionSupplierUpdater;
+            this.supplierReader = supplierReader;
+            this.solutionSupplierUpdater = solutionSupplierUpdater;
         }
 
-        public async Task UpdateAsync(string solutionId, Action<SolutionSupplier> updateAction,
+        public async Task UpdateAsync(
+            string solutionId,
+            Action<SolutionSupplier> updateAction,
             CancellationToken cancellationToken)
         {
-            var supplier =
-                await _supplierReader.BySolutionIdAsync(solutionId, cancellationToken).ConfigureAwait(false);
+            var supplier = await supplierReader.BySolutionIdAsync(solutionId, cancellationToken);
 
             updateAction(supplier);
 
-            await solutionSupplierUpdater.UpdateBySolutionId(solutionId, supplier, cancellationToken).ConfigureAwait(false);
+            await solutionSupplierUpdater.UpdateBySolutionId(solutionId, supplier, cancellationToken);
         }
     }
 }
