@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
@@ -7,16 +7,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 {
     internal sealed class ClientApplicationPartialUpdater
     {
-        private readonly SolutionReader _solutionReader;
-        private readonly SolutionClientApplicationUpdater _solutionClientApplicationUpdater;
+        private readonly SolutionReader solutionReader;
+        private readonly SolutionClientApplicationUpdater solutionClientApplicationUpdater;
 
-        /// <summary>
-        /// Initialises a new instance of the <see cref="ClientApplicationPartialUpdater"/> class.
-        /// </summary>
-        public ClientApplicationPartialUpdater(SolutionReader solutionReader, SolutionClientApplicationUpdater solutionClientApplicationUpdater)
+        public ClientApplicationPartialUpdater(
+            SolutionReader solutionReader,
+            SolutionClientApplicationUpdater solutionClientApplicationUpdater)
         {
-            _solutionReader = solutionReader;
-            _solutionClientApplicationUpdater = solutionClientApplicationUpdater;
+            this.solutionReader = solutionReader;
+            this.solutionClientApplicationUpdater = solutionClientApplicationUpdater;
         }
 
         /// <summary>
@@ -28,11 +27,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
         /// <returns>A task representing an operation to get the result of this command.</returns>
         public async Task UpdateAsync(string solutionId, Action<ClientApplication> updateAction, CancellationToken cancellationToken)
         {
-            var clientApplication = (await _solutionReader.ByIdAsync(solutionId, cancellationToken).ConfigureAwait(false)).ClientApplication;
+            var clientApplication = (await solutionReader.ByIdAsync(solutionId, cancellationToken)).ClientApplication;
 
             updateAction(clientApplication);
 
-            await _solutionClientApplicationUpdater.UpdateAsync(clientApplication, solutionId, cancellationToken).ConfigureAwait(false);
+            await solutionClientApplicationUpdater.UpdateAsync(clientApplication, solutionId, cancellationToken);
         }
     }
 }

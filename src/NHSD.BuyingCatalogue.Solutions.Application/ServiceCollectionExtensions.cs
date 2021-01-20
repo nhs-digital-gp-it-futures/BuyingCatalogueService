@@ -22,13 +22,13 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.Upd
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.HybridHostingType;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.OnPremise;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PublicCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PrivateCloud;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateImplementationTimescales;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PublicCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateCapabilities;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateClaimedEpics;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateImplementationTimescales;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateIntegrations;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadMap;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
@@ -62,7 +62,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<SolutionFeaturesUpdater>()
                 .AddTransient<SolutionClientApplicationUpdater>()
                 .AddTransient<SolutionHostingUpdater>()
-                .AddTransient<SolutionRoadmapUpdater>()
+                .AddTransient<SolutionRoadMapUpdater>()
                 .AddTransient<SolutionIntegrationsUpdater>()
                 .AddTransient<SolutionImplementationTimescalesUpdater>()
                 .AddTransient<SolutionContactDetailsUpdater>()
@@ -82,7 +82,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<UpdateSolutionBrowserMobileFirstValidator>()
                 .AddTransient<UpdateSolutionMobileOperatingSystemsValidator>()
                 .AddTransient<UpdateSolutionMobileConnectionDetailsValidator>()
-				.AddTransient<UpdateSolutionNativeMobileFirstValidator>()
+                .AddTransient<UpdateSolutionNativeMobileFirstValidator>()
                 .AddTransient<UpdateSupplierValidator>()
 
                 .AddTransient<IExecutor<UpdateSolutionSummaryCommand>, UpdateSolutionSummaryExecutor>()
@@ -163,8 +163,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<IExecutor<UpdateHybridHostingTypeCommand>, UpdateHybridHostingTypeExecutor>()
                 .AddTransient<IValidator<UpdateHybridHostingTypeCommand, ISimpleResult>, UpdateHybridHostingTypeValidator>()
 
-                .AddTransient<IExecutor<UpdateRoadmapCommand>, UpdateRoadmapExecutor>()
-                .AddTransient<IValidator<UpdateRoadmapCommand, ISimpleResult>, UpdateRoadmapValidator>()
+                .AddTransient<IExecutor<UpdateRoadMapCommand>, UpdateRoadMapExecutor>()
+                .AddTransient<IValidator<UpdateRoadMapCommand, ISimpleResult>, UpdateRoadMapValidator>()
 
                 .AddTransient<IExecutor<UpdateSolutionSupplierCommand>, UpdateSolutionSupplierExecutor>()
                 .AddTransient<IValidator<UpdateSolutionSupplierCommand, ISimpleResult>, UpdateSupplierValidator>()
@@ -179,12 +179,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application
                 .AddTransient<IValidator<UpdateCapabilitiesCommand, ISimpleResult>, UpdateCapabilitiesValidator>()
 
                 .AddTransient<IVerifier<UpdateCapabilitiesCommand, ISimpleResult>, CapabilityVerifier>()
-                
+
                 .AddTransient<IExecutor<UpdateClaimedEpicsCommand>, UpdateClaimedEpicsExecutor>()
                 .AddTransient<IValidator<UpdateClaimedEpicsCommand, ISimpleResult>, UpdateClaimedEpicsValidator>()
 
-                .AddTransient<IVerifier<UpdateClaimedEpicsCommand, ISimpleResult>, ClaimedEpicsVerifier>()
-                ;
+                .AddTransient<IVerifier<UpdateClaimedEpicsCommand, ISimpleResult>, ClaimedEpicsVerifier>();
         }
     }
 }

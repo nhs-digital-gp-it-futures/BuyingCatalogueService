@@ -33,7 +33,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateCapabilities;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateClaimedEpics;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateImplementationTimescales;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateIntegrations;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadMap;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeatures;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSummary;
@@ -62,9 +62,9 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Suppliers;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 {
-    internal class TestContext
+    internal sealed class TestContext
     {
-        private readonly Scope _scope;
+        private readonly Scope scope;
 
         public TestContext()
         {
@@ -75,7 +75,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             {
                 Assembly.GetAssembly(typeof(SolutionAutoMapperProfile)),
             };
-            _scope = serviceCollection
+
+            scope = serviceCollection
                 .AddAutoMapper(myAssemblies)
                 .AddMediatR(myAssemblies)
                 .RegisterSolutionApplication()
@@ -84,6 +85,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
         }
 
         public Mock<ISolutionRepository> MockSolutionRepository { get; private set; }
+
         public Mock<ICatalogueItemRepository> MockCatalogueItemRepository { get; private set; }
 
         public Mock<ISolutionDetailRepository> MockSolutionDetailRepository { get; private set; }
@@ -106,132 +108,131 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
         
         public Mock<IAdditionalServiceRepository> MockAdditionalServiceRepository { get; private set; }
 
-        public GetSolutionByIdHandler GetSolutionByIdHandler => (GetSolutionByIdHandler)_scope.GetSolutionByIdHandler;
+        public GetSolutionByIdHandler GetSolutionByIdHandler => (GetSolutionByIdHandler)scope.GetSolutionByIdHandler;
 
-        public GetRoadMapBySolutionIdHandler GetRoadMapBySolutionIdHandler => (GetRoadMapBySolutionIdHandler)_scope.GetRoadMapBySolutionIdHandler;
+        public GetRoadMapBySolutionIdHandler GetRoadMapBySolutionIdHandler => (GetRoadMapBySolutionIdHandler)scope.GetRoadMapBySolutionIdHandler;
 
-        public GetIntegrationsBySolutionIdHandler GetIntegrationsBySolutionIdHandler => (GetIntegrationsBySolutionIdHandler)_scope.GetIntegrationsBySolutionIdHandler;
+        public GetIntegrationsBySolutionIdHandler GetIntegrationsBySolutionIdHandler => (GetIntegrationsBySolutionIdHandler)scope.GetIntegrationsBySolutionIdHandler;
 
-        public GetImplementationTimescalesBySolutionIdHandler GetImplementationTimescalesBySolutionIdHandler => (GetImplementationTimescalesBySolutionIdHandler)_scope.GetImplementationTimescalesBySolutionIdHandler;
+        public GetImplementationTimescalesBySolutionIdHandler GetImplementationTimescalesBySolutionIdHandler => (GetImplementationTimescalesBySolutionIdHandler)scope.GetImplementationTimescalesBySolutionIdHandler;
 
-        public GetClientApplicationBySolutionIdHandler GetClientApplicationBySolutionIdHandler => (GetClientApplicationBySolutionIdHandler)_scope.GetClientApplicationBySolutionIdHandler;
+        public GetClientApplicationBySolutionIdHandler GetClientApplicationBySolutionIdHandler => (GetClientApplicationBySolutionIdHandler)scope.GetClientApplicationBySolutionIdHandler;
 
-        public GetHostingBySolutionIdHandler GetHostingBySolutionIdHandler => (GetHostingBySolutionIdHandler)_scope.GetHostingBySolutionIdHandler;
+        public GetHostingBySolutionIdHandler GetHostingBySolutionIdHandler => (GetHostingBySolutionIdHandler)scope.GetHostingBySolutionIdHandler;
 
-        public GetSupplierBySolutionIdHandler GetSupplierBySolutionIdHandler => (GetSupplierBySolutionIdHandler)_scope.GetSupplierBySolutionIdHandler;
+        public GetSupplierBySolutionIdHandler GetSupplierBySolutionIdHandler => (GetSupplierBySolutionIdHandler)scope.GetSupplierBySolutionIdHandler;
 
-        public GetSupplierByIdHandler GetSupplierByIdHandler => (GetSupplierByIdHandler)_scope.GetSupplierByIdHandler;
+        public GetSupplierByIdHandler GetSupplierByIdHandler => (GetSupplierByIdHandler)scope.GetSupplierByIdHandler;
 
         public GetAdditionalServiceByCatalogueItemIdHandler GetAdditionalServiceBySolutionIdsHandler =>
-            (GetAdditionalServiceByCatalogueItemIdHandler)_scope.GetAdditionalServiceBySolutionIdsHandler;
+            (GetAdditionalServiceByCatalogueItemIdHandler)scope.GetAdditionalServiceBySolutionIdsHandler;
 
-        public GetSuppliersByNameHandler GetSuppliersByNameHandler => (GetSuppliersByNameHandler)_scope.GetSuppliersByNameHandler;
+        public GetSuppliersByNameHandler GetSuppliersByNameHandler => (GetSuppliersByNameHandler)scope.GetSuppliersByNameHandler;
 
-        public UpdateSolutionSummaryHandler UpdateSolutionSummaryHandler => (UpdateSolutionSummaryHandler)_scope.UpdateSolutionSummaryHandler;
+        public UpdateSolutionSummaryHandler UpdateSolutionSummaryHandler => (UpdateSolutionSummaryHandler)scope.UpdateSolutionSummaryHandler;
 
-        public UpdateSolutionFeaturesHandler UpdateSolutionFeaturesHandler => (UpdateSolutionFeaturesHandler)_scope.UpdateSolutionFeaturesHandler;
+        public UpdateSolutionFeaturesHandler UpdateSolutionFeaturesHandler => (UpdateSolutionFeaturesHandler)scope.UpdateSolutionFeaturesHandler;
 
-        public SubmitSolutionForReviewHandler SubmitSolutionForReviewHandler => (SubmitSolutionForReviewHandler)_scope.SubmitSolutionForReviewHandler;
+        public SubmitSolutionForReviewHandler SubmitSolutionForReviewHandler => (SubmitSolutionForReviewHandler)scope.SubmitSolutionForReviewHandler;
 
-        public UpdateSolutionClientApplicationTypesHandler UpdateSolutionClientApplicationTypesHandler => (UpdateSolutionClientApplicationTypesHandler)_scope.UpdateSolutionClientApplicationTypesHandler;
+        public UpdateSolutionClientApplicationTypesHandler UpdateSolutionClientApplicationTypesHandler => (UpdateSolutionClientApplicationTypesHandler)scope.UpdateSolutionClientApplicationTypesHandler;
 
-        public UpdateSolutionBrowsersSupportedHandler UpdateSolutionBrowsersSupportedHandler => (UpdateSolutionBrowsersSupportedHandler)_scope.UpdateSolutionBrowsersSupportedHandler;
+        public UpdateSolutionBrowsersSupportedHandler UpdateSolutionBrowsersSupportedHandler => (UpdateSolutionBrowsersSupportedHandler)scope.UpdateSolutionBrowsersSupportedHandler;
 
-        public UpdateSolutionContactDetailsHandler UpdateSolutionContactDetailsHandler => (UpdateSolutionContactDetailsHandler)_scope.UpdateSolutionContactDetailsHandler;
+        public UpdateSolutionContactDetailsHandler UpdateSolutionContactDetailsHandler => (UpdateSolutionContactDetailsHandler)scope.UpdateSolutionContactDetailsHandler;
 
         public GetContactDetailBySolutionIdHandler GetContactDetailBySolutionIdHandler =>
-            (GetContactDetailBySolutionIdHandler)_scope.GetContactDetailBySolutionIdHandler;
+            (GetContactDetailBySolutionIdHandler)scope.GetContactDetailBySolutionIdHandler;
 
         public UpdateSolutionPluginsHandler UpdateSolutionPluginsHandler =>
-            (UpdateSolutionPluginsHandler)_scope.UpdateSolutionPluginsHandler;
+            (UpdateSolutionPluginsHandler)scope.UpdateSolutionPluginsHandler;
 
         public UpdateSolutionBrowserHardwareRequirementsHandler UpdateSolutionBrowserHardwareRequirementsHandler =>
-            (UpdateSolutionBrowserHardwareRequirementsHandler)_scope.UpdateSolutionBrowserHardwareRequirementsHandler;
+            (UpdateSolutionBrowserHardwareRequirementsHandler)scope.UpdateSolutionBrowserHardwareRequirementsHandler;
 
         public UpdateSolutionConnectivityAndResolutionHandler UpdateSolutionConnectivityAndResolutionHandler =>
-            (UpdateSolutionConnectivityAndResolutionHandler)_scope.UpdateSolutionConnectivityAndResolutionHandler;
+            (UpdateSolutionConnectivityAndResolutionHandler)scope.UpdateSolutionConnectivityAndResolutionHandler;
 
         public UpdateBrowserBasedAdditionalInformationHandler UpdateSolutionBrowserAdditionalInformationHandler =>
-            (UpdateBrowserBasedAdditionalInformationHandler)_scope.UpdateSolutionBrowserAdditionalInformationHandler;
+            (UpdateBrowserBasedAdditionalInformationHandler)scope.UpdateSolutionBrowserAdditionalInformationHandler;
 
         public UpdateSolutionBrowserMobileFirstHandler UpdateSolutionBrowserMobileFirstHandler =>
-            (UpdateSolutionBrowserMobileFirstHandler)_scope.UpdateSolutionBrowserMobileFirstHandler;
+            (UpdateSolutionBrowserMobileFirstHandler)scope.UpdateSolutionBrowserMobileFirstHandler;
 
         public UpdateSolutionMobileOperatingSystemsHandler UpdateSolutionMobileOperatingSystemsHandler =>
-            (UpdateSolutionMobileOperatingSystemsHandler)_scope.UpdateSolutionMobileOperatingSystemsHandler;
+            (UpdateSolutionMobileOperatingSystemsHandler)scope.UpdateSolutionMobileOperatingSystemsHandler;
 
         public UpdateSolutionMobileConnectionDetailsHandler UpdateSolutionMobileConnectionDetailsHandler =>
-            (UpdateSolutionMobileConnectionDetailsHandler)_scope.UpdateSolutionMobileConnectionDetailsHandler;
+            (UpdateSolutionMobileConnectionDetailsHandler)scope.UpdateSolutionMobileConnectionDetailsHandler;
 
         public UpdateSolutionNativeMobileFirstHandler UpdateSolutionNativeMobileFirstHandler =>
-            (UpdateSolutionNativeMobileFirstHandler)_scope.UpdateSolutionNativeMobileFirstHandler;
+            (UpdateSolutionNativeMobileFirstHandler)scope.UpdateSolutionNativeMobileFirstHandler;
 
         public UpdateSolutionMobileMemoryStorageHandler UpdateSolutionMobileMemoryStorageHandler =>
-            (UpdateSolutionMobileMemoryStorageHandler)_scope.UpdateSolutionMobileMemoryStorageHandler;
+            (UpdateSolutionMobileMemoryStorageHandler)scope.UpdateSolutionMobileMemoryStorageHandler;
 
         public UpdateSolutionMobileThirdPartyHandler UpdateSolutionMobileThirdPartyHandler =>
-            (UpdateSolutionMobileThirdPartyHandler)_scope.UpdateSolutionMobileThirdHandler;
+            (UpdateSolutionMobileThirdPartyHandler)scope.UpdateSolutionMobileThirdHandler;
 
         public UpdateSolutionNativeMobileHardwareRequirementsHandler UpdateSolutionNativeMobileHardwareRequirementsHandler =>
-            (UpdateSolutionNativeMobileHardwareRequirementsHandler)_scope.UpdateSolutionNativeMobileHardwareRequirementsHandler;
+            (UpdateSolutionNativeMobileHardwareRequirementsHandler)scope.UpdateSolutionNativeMobileHardwareRequirementsHandler;
 
         public UpdateSolutionNativeMobileAdditionalInformationHandler UpdateSolutionNativeMobileAdditionalInformationHandler =>
-        (UpdateSolutionNativeMobileAdditionalInformationHandler)_scope.UpdateSolutionNativeMobileAdditionalInformationHandler;
+        (UpdateSolutionNativeMobileAdditionalInformationHandler)scope.UpdateSolutionNativeMobileAdditionalInformationHandler;
 
         public UpdateNativeDesktopHardwareRequirementsHandler UpdateNativeDesktopHardwareRequirementsHandler =>
-            (UpdateNativeDesktopHardwareRequirementsHandler)_scope.UpdateNativeDesktopHardwareRequirementsHandler;
+            (UpdateNativeDesktopHardwareRequirementsHandler)scope.UpdateNativeDesktopHardwareRequirementsHandler;
 
         public UpdateSolutionNativeDesktopOperatingSystemsHandler UpdateSolutionNativeDesktopOperatingSystemsHandler =>
-            (UpdateSolutionNativeDesktopOperatingSystemsHandler)_scope.UpdateSolutionNativeDesktopOperatingSystemsHandler;
+            (UpdateSolutionNativeDesktopOperatingSystemsHandler)scope.UpdateSolutionNativeDesktopOperatingSystemsHandler;
 
         public UpdateSolutionNativeDesktopThirdPartyHandler UpdateSolutionNativeDesktopThirdPartyHandler =>
-            (UpdateSolutionNativeDesktopThirdPartyHandler)_scope.UpdateSolutionNativeDesktopThirdPartyHandler;
+            (UpdateSolutionNativeDesktopThirdPartyHandler)scope.UpdateSolutionNativeDesktopThirdPartyHandler;
 
         public UpdateSolutionNativeDesktopConnectivityDetailsHandler
             UpdateSolutionNativeDesktopConnectivityDetailsHandler =>
-            (UpdateSolutionNativeDesktopConnectivityDetailsHandler)_scope
-                .UpdateSolutionNativeDesktopConnectivityDetailsHandler;
+            (UpdateSolutionNativeDesktopConnectivityDetailsHandler)scope.UpdateSolutionNativeDesktopConnectivityDetailsHandler;
 
         public UpdateNativeDesktopMemoryAndStorageHandler UpdateNativeDesktopMemoryAndStorageHandler =>
-            (UpdateNativeDesktopMemoryAndStorageHandler)_scope.UpdateNativeDesktopMemoryAndStorageHandler;
+            (UpdateNativeDesktopMemoryAndStorageHandler)scope.UpdateNativeDesktopMemoryAndStorageHandler;
 
         public UpdateNativeDesktopAdditionalInformationHandler UpdateNativeDesktopAdditionalInformationHandler =>
-            (UpdateNativeDesktopAdditionalInformationHandler)_scope.UpdateNativeDesktopAdditionalInformationHandler;
+            (UpdateNativeDesktopAdditionalInformationHandler)scope.UpdateNativeDesktopAdditionalInformationHandler;
 
         public UpdatePublicCloudHandler UpdatePublicCloudHandler =>
-            (UpdatePublicCloudHandler)_scope.UpdatePublicCloudHandler;
+            (UpdatePublicCloudHandler)scope.UpdatePublicCloudHandler;
 
         public UpdatePrivateCloudHandler UpdatePrivateCloudHandler =>
-            (UpdatePrivateCloudHandler)_scope.UpdatePrivateCloudHandler;
+            (UpdatePrivateCloudHandler)scope.UpdatePrivateCloudHandler;
 
         public UpdateOnPremiseHandler UpdateOnPremiseHandler =>
-            (UpdateOnPremiseHandler)_scope.UpdateOnPremiseHandler;
+            (UpdateOnPremiseHandler)scope.UpdateOnPremiseHandler;
 
         public UpdateHybridHostingTypeHandler UpdateHybridHostingTypeHandler =>
-            (UpdateHybridHostingTypeHandler)_scope.UpdateHybridHostingTypeHandler;
+            (UpdateHybridHostingTypeHandler)scope.UpdateHybridHostingTypeHandler;
 
-        public UpdateRoadmapHandler UpdateRoadmapHandler =>
-            (UpdateRoadmapHandler)_scope.UpdateRoadmapHandler;
+        public UpdateRoadMapHandler UpdateRoadMapHandler =>
+            (UpdateRoadMapHandler)scope.UpdateRoadmapHandler;
 
         public UpdateSolutionSupplierHandler UpdateSolutionSupplierHandler =>
-            (UpdateSolutionSupplierHandler)_scope.UpdateSupplierHandler;
+            (UpdateSolutionSupplierHandler)scope.UpdateSupplierHandler;
 
         public UpdateIntegrationsHandler UpdateIntegrationsHandler =>
-            (UpdateIntegrationsHandler)_scope.UpdateIntegrationsHandler;
+            (UpdateIntegrationsHandler)scope.UpdateIntegrationsHandler;
 
         public UpdateImplementationTimescalesHandler UpdateImplementationTimescalesHandler =>
-            (UpdateImplementationTimescalesHandler)_scope.UpdateImplementationTimescalesHandler;
+            (UpdateImplementationTimescalesHandler)scope.UpdateImplementationTimescalesHandler;
 
         public UpdateCapabilitiesHandler UpdateCapabilitiesHandler =>
-            (UpdateCapabilitiesHandler)_scope.UpdateCapabilitiesHandler;
+            (UpdateCapabilitiesHandler)scope.UpdateCapabilitiesHandler;
 
         public GetPricingByPriceIdHandler GetPricingByPriceIdHandler =>
-            (GetPricingByPriceIdHandler)_scope.GetPriceByPriceIdHandler;
+            (GetPricingByPriceIdHandler)scope.GetPriceByPriceIdHandler;
 
         public GetPricesHandler GetPricesHandler =>
-            (GetPricesHandler)_scope.GetPriceByCatalogueItemIdHandler;
+            (GetPricesHandler)scope.GetPriceByCatalogueItemIdHandler;
 
-        public UpdateClaimedEpicsHandler UpdateClaimedEpicsHandler => (UpdateClaimedEpicsHandler)_scope.UpdateClaimedEpicsHandler;
+        public UpdateClaimedEpicsHandler UpdateClaimedEpicsHandler => (UpdateClaimedEpicsHandler)scope.UpdateClaimedEpicsHandler;
 
         private void RegisterDependencies(IServiceCollection serviceCollection)
         {
@@ -261,7 +262,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             serviceCollection.AddSingleton(MockAdditionalServiceRepository.Object);
         }
 
-        private class Scope
+        private sealed class Scope
         {
             public Scope(IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
                 IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> getClientApplicationBySolutionIdHandler,
@@ -298,7 +299,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdatePrivateCloudCommand, ISimpleResult> updatePrivateCloudHandler,
                 IRequestHandler<UpdateOnPremiseCommand, ISimpleResult> updateOnPremiseHandler,
                 IRequestHandler<UpdateHybridHostingTypeCommand, ISimpleResult> updateHybridHostingTypeHandler,
-                IRequestHandler<UpdateRoadmapCommand, ISimpleResult> updateRoadmapHandler,
+                IRequestHandler<UpdateRoadMapCommand, ISimpleResult> updateRoadmapHandler,
                 IRequestHandler<GetRoadMapBySolutionIdQuery, IRoadMap> getRoadMapBySolutionIdHandler,
                 IRequestHandler<GetIntegrationsBySolutionIdQuery, IIntegrations> getIntegrationsBySolutionIdHandler,
                 IRequestHandler<GetImplementationTimescalesBySolutionIdQuery, IImplementationTimescales> getImplementationTimescalesBySolutionIdHandler,
@@ -436,7 +437,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public IRequestHandler<UpdateHybridHostingTypeCommand, ISimpleResult> UpdateHybridHostingTypeHandler { get; }
 
-            public IRequestHandler<UpdateRoadmapCommand, ISimpleResult> UpdateRoadmapHandler { get; }
+            public IRequestHandler<UpdateRoadMapCommand, ISimpleResult> UpdateRoadmapHandler { get; }
 
             public IRequestHandler<UpdateSolutionSupplierCommand, ISimpleResult> UpdateSupplierHandler { get; }
 

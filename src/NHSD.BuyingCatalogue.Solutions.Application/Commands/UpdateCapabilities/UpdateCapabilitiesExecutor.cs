@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution;
 using NHSD.BuyingCatalogue.Solutions.Application.Persistence;
@@ -7,19 +7,19 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateCapabilities
 {
     internal sealed class UpdateCapabilitiesExecutor : IExecutor<UpdateCapabilitiesCommand>
     {
-        private readonly SolutionVerifier _verifier;
-        private readonly SolutionCapabilitiesUpdater _updater;
+        private readonly SolutionVerifier verifier;
+        private readonly SolutionCapabilitiesUpdater updater;
 
         public UpdateCapabilitiesExecutor(SolutionVerifier verifier, SolutionCapabilitiesUpdater updater)
         {
-            _verifier = verifier;
-            _updater = updater;
+            this.verifier = verifier;
+            this.updater = updater;
         }
 
         public async Task UpdateAsync(UpdateCapabilitiesCommand request, CancellationToken cancellationToken)
         {
-            await _verifier.ThrowWhenMissingAsync(request.SolutionId, cancellationToken).ConfigureAwait(false);
-            await _updater.UpdateAsync(request.SolutionId, request.NewCapabilitiesReferences, cancellationToken).ConfigureAwait(false);
+            await verifier.ThrowWhenMissingAsync(request.SolutionId, cancellationToken);
+            await updater.UpdateAsync(request.SolutionId, request.NewCapabilitiesReferences, cancellationToken);
         }
     }
 }

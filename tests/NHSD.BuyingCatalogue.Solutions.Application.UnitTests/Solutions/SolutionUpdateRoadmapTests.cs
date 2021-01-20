@@ -1,9 +1,9 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadMap;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
@@ -11,35 +11,35 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 {
     [TestFixture]
-    public class SolutionUpdateRoadmapTests
+    public class SolutionUpdateRoadMapTests
     {
-        private TestContext _context;
-        private string _existingSolutionId = "Sln1";
-        private string _invalidSolutionId = "Sln123";
+        private const string ExistingSolutionId = "Sln1";
+        private const string InvalidSolutionId = "Sln123";
+
+        private TestContext context;
 
         [SetUp]
         public void Setup()
         {
-            _context = new TestContext();
-            _context.MockSolutionRepository.Setup(x => x.CheckExists(_existingSolutionId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
-            _context.MockSolutionRepository.Setup(x => x.CheckExists(_invalidSolutionId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
+            context = new TestContext();
+            context.MockSolutionRepository.Setup(x => x.CheckExists(ExistingSolutionId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
+            context.MockSolutionRepository.Setup(x => x.CheckExists(InvalidSolutionId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
         }
 
         [Test]
         public async Task ShouldUpdateSolutionRoadMap()
         {
-            var expected = "a description";
+            const string expected = "a description";
 
-            var validationResult = await UpdateRoadmapAsync(_existingSolutionId, expected)
-                .ConfigureAwait(false);
+            var validationResult = await UpdateRoadMapAsync(ExistingSolutionId, expected);
             validationResult.IsValid.Should().BeTrue();
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(0);
 
-            _context.MockSolutionRepository.Verify(r => r.CheckExists(_existingSolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            context.MockSolutionRepository.Verify(r => r.CheckExists(ExistingSolutionId, It.IsAny<CancellationToken>()), Times.Once());
 
-            _context.MockSolutionDetailRepository.Verify(r => r.UpdateRoadmapAsync(It.Is<IUpdateRoadmapRequest>(r =>
-                r.SolutionId == _existingSolutionId
+            context.MockSolutionDetailRepository.Verify(r => r.UpdateRoadmapAsync(It.Is<IUpdateRoadmapRequest>(r =>
+                r.SolutionId == ExistingSolutionId
                 && r.Description == expected
             ), It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -47,28 +47,26 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public async Task ShouldValidateSingleMaxLength()
         {
-            var validationResult = await UpdateRoadmapAsync(_existingSolutionId, new string('a', 1001))
-                .ConfigureAwait(false);
+            var validationResult = await UpdateRoadMapAsync(ExistingSolutionId, new string('a', 1001));
             validationResult.IsValid.Should().BeFalse();
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(1);
             results["summary"].Should().Be("maxLength");
 
-            _context.MockSolutionRepository.Verify(r => r.CheckExists(_existingSolutionId, It.IsAny<CancellationToken>()), Times.Never());
-            _context.MockSolutionDetailRepository.Verify(r => r.UpdateRoadmapAsync(It.IsAny<IUpdateRoadmapRequest>(), It.IsAny<CancellationToken>()), Times.Never);
+            context.MockSolutionRepository.Verify(r => r.CheckExists(ExistingSolutionId, It.IsAny<CancellationToken>()), Times.Never());
+            context.MockSolutionDetailRepository.Verify(r => r.UpdateRoadmapAsync(It.IsAny<IUpdateRoadmapRequest>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Test]
         public void ShouldThrowNotFoundExceptionWhenSolutionIsNotFound()
         {
-            Assert.ThrowsAsync<NotFoundException>(() => UpdateRoadmapAsync(_invalidSolutionId, "A description"));
+            Assert.ThrowsAsync<NotFoundException>(() => UpdateRoadMapAsync(InvalidSolutionId, "A description"));
         }
 
-        private async Task<ISimpleResult> UpdateRoadmapAsync(string solutionId, string description)
+        private async Task<ISimpleResult> UpdateRoadMapAsync(string solutionId, string description)
         {
-            var validationResult = await _context.UpdateRoadmapHandler.Handle(
-                    new UpdateRoadmapCommand(solutionId, description), new CancellationToken())
-                .ConfigureAwait(false);
+            var validationResult = await context.UpdateRoadMapHandler.Handle(
+                    new UpdateRoadMapCommand(solutionId, description), new CancellationToken());
             return validationResult;
         }
     }

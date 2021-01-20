@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
@@ -7,13 +7,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 {
     internal sealed class HostingPartialUpdater
     {
-        private readonly SolutionReader _solutionReader;
-        private readonly SolutionHostingUpdater _solutionHostingUpdater;
+        private readonly SolutionReader solutionReader;
+        private readonly SolutionHostingUpdater solutionHostingUpdater;
 
         public HostingPartialUpdater(SolutionReader solutionReader, SolutionHostingUpdater solutionHostingUpdater)
         {
-            _solutionReader = solutionReader;
-            _solutionHostingUpdater = solutionHostingUpdater;
+            this.solutionReader = solutionReader;
+            this.solutionHostingUpdater = solutionHostingUpdater;
         }
 
         /// <summary>
@@ -25,11 +25,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
         /// <returns>A task representing an operation to get the result of this command.</returns>
         public async Task UpdateAsync(string solutionId, Action<Hosting> updateAction, CancellationToken cancellationToken)
         {
-            var hosting = (await _solutionReader.ByIdAsync(solutionId, cancellationToken).ConfigureAwait(false)).Hosting;
+            var hosting = (await solutionReader.ByIdAsync(solutionId, cancellationToken)).Hosting;
 
             updateAction(hosting);
 
-            await _solutionHostingUpdater.UpdateAsync(hosting, solutionId, cancellationToken).ConfigureAwait(false);
+            await solutionHostingUpdater.UpdateAsync(hosting, solutionId, cancellationToken);
         }
     }
 }

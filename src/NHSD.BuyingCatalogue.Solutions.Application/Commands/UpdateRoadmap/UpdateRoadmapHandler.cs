@@ -1,13 +1,13 @@
 ﻿using NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
-namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap
+namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadMap
 {
-    internal sealed class UpdateRoadmapHandler : Handler<UpdateRoadmapCommand, ISimpleResult>
+    internal sealed class UpdateRoadMapHandler : Handler<UpdateRoadMapCommand, ISimpleResult>
     {
-        public UpdateRoadmapHandler(
-            IExecutor<UpdateRoadmapCommand> executor,
-            IValidator<UpdateRoadmapCommand, ISimpleResult> validator)
+        public UpdateRoadMapHandler(
+            IExecutor<UpdateRoadMapCommand> executor,
+            IValidator<UpdateRoadMapCommand, ISimpleResult> validator)
             : base(executor, validator)
         {
         }

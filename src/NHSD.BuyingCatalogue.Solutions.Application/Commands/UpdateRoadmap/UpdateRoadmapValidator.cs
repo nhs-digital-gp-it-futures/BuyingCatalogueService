@@ -1,12 +1,11 @@
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
+﻿using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
-namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadmap
+namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateRoadMap
 {
-    internal sealed class UpdateRoadmapValidator : IValidator<UpdateRoadmapCommand, ISimpleResult>
+    internal sealed class UpdateRoadMapValidator : IValidator<UpdateRoadMapCommand, ISimpleResult>
     {
-        public ISimpleResult Validate(UpdateRoadmapCommand command)
-            => new MaxLengthValidator()
-                    .Validate(command.Summary, 1000, "summary")
-                    .Result();
+        public ISimpleResult Validate(UpdateRoadMapCommand command) => new MaxLengthValidator()
+            .Validate(command.Summary, 1000, "summary")
+            .Result();
     }
 }
