@@ -1,10 +1,13 @@
-namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
+﻿namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 {
-    internal class PrivateCloud
+    internal sealed class PrivateCloud
     {
         public string Summary { get; set; }
+
         public string Link { get; set; }
+
         public string HostingModel { get; set; }
+
         public string RequiresHSCN { get; set; }
     }
 }

@@ -5,7 +5,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingBySolutio
     public sealed class PricingUnitDto : IPricingUnit
     {
         public string Name { get; set; }
+
         public string TierName { get; set; }
+
         public string Description { get; set; }
     }
 }
