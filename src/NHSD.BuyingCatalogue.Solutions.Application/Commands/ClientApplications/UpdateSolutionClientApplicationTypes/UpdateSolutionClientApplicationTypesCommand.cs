@@ -8,18 +8,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
     public sealed class UpdateSolutionClientApplicationTypesCommand : IRequest<ISimpleResult>
     {
         /// <summary>
-        /// A value to uniquely identify a solution.
+        /// Gets a value to uniquely identify a solution.
         /// </summary>
         public string SolutionId { get; }
 
         /// <summary>
-        /// Updated details of a solution.
+        /// Gets the updated details of a solution.
         /// </summary>
         public IUpdateSolutionClientApplicationTypes Data { get; }
 
-        /// <summary>
-        /// Initialises a new instance of the <see cref="UpdateSolutionClientApplicationTypesCommand"/> class.
-        /// </summary>
         public UpdateSolutionClientApplicationTypesCommand(string solutionId, IUpdateSolutionClientApplicationTypes data)
         {
             SolutionId = solutionId ?? throw new ArgumentNullException(nameof(solutionId));

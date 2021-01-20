@@ -30,7 +30,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Contracts
         ISolutionSupplier Supplier { get; }
 
         /// <summary>
-        /// Gets the the list of capabilities linked with the solution.
+        /// Gets the list of capabilities linked with the solution.
         /// </summary>
         IEnumerable<ISolutionCapability> Capabilities { get; }
     }

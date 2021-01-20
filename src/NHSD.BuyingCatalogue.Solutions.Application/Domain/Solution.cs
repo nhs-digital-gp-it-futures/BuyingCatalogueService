@@ -54,12 +54,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public Integrations Integrations { get; set; }
 
         /// <summary>
-        /// Gets or sets the a link to provide more information about a solution.
+        /// Gets or sets a link to provide more information about a solution.
         /// </summary>
         public string AboutUrl { get; set; }
 
         /// <summary>
-        /// Gets or sets the status of this instance in relation to the supplier.
+        /// Gets the status of this instance in relation to the supplier.
         /// </summary>
         public SupplierStatus SupplierStatus { get; }
 
@@ -79,22 +79,22 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public IEnumerable<ClaimedCapability> Capabilities { get; set; }
 
         /// <summary>
-        /// Gets or sets the the contacts for the solution.
+        /// Gets or sets the contacts for the solution.
         /// </summary>
         public IEnumerable<Contact> Contacts { get; set; }
 
         /// <summary>
-        /// Gets or sets the the publishing status of the solution.
+        /// Gets or sets the publishing status of the solution.
         /// </summary>
         public PublishedStatus PublishedStatus { get; set; }
 
         /// <summary>
-        /// Gets or sets the the hosting of the solution.
+        /// Gets or sets the hosting of the solution.
         /// </summary>
         public Hosting Hosting { get; set; }
 
         /// <summary>
-        /// Gets or sets the the supplier of the solution.
+        /// Gets or sets the supplier of the solution.
         /// </summary>
         public SolutionSupplier Supplier { get; set; }
 

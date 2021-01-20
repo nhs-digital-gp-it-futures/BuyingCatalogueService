@@ -28,7 +28,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
     public sealed class SolutionAutoMapperProfile : Profile
     {
         /// <summary>
-        /// Initialises a new instance of the <see cref="SolutionAutoMapperProfile" /> class.
+        /// Initializes a new instance of the <see cref="SolutionAutoMapperProfile" /> class.
         /// </summary>
         public SolutionAutoMapperProfile()
         {
