@@ -10,18 +10,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierBySoluti
 {
     internal sealed class GetSupplierBySolutionIdHandler : IRequestHandler<GetSupplierBySolutionIdQuery, ISolutionSupplier>
     {
-        private readonly SupplierReader _reader;
-        private readonly IMapper _mapper;
+        private readonly SupplierReader reader;
+        private readonly IMapper mapper;
 
         public GetSupplierBySolutionIdHandler(SupplierReader reader, IMapper mapper)
         {
-            _reader = reader;
-            _mapper = mapper;
+            this.reader = reader;
+            this.mapper = mapper;
         }
 
-        public async Task<ISolutionSupplier> Handle(GetSupplierBySolutionIdQuery request,
-            CancellationToken cancellationToken) =>
-            _mapper.Map<ISolutionSupplier>(await _reader.BySolutionIdAsync(request.SolutionId, cancellationToken)
-                .ConfigureAwait(false));
+        public async Task<ISolutionSupplier> Handle(
+            GetSupplierBySolutionIdQuery request,
+            CancellationToken cancellationToken)
+        {
+            return mapper.Map<ISolutionSupplier>(await reader.BySolutionIdAsync(request.SolutionId, cancellationToken));
+        }
     }
 }

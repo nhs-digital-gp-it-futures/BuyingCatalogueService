@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
 
@@ -21,7 +21,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicatio
         public string NativeDesktopHardwareRequirements { get; set; }
 
         public string AdditionalInformation { get; set; }
-        
+
         public string MinimumConnectionSpeed { get; set; }
 
         public string MinimumDesktopResolution { get; set; }

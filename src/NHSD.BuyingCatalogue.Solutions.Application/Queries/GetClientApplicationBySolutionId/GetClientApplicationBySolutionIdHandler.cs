@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
@@ -13,17 +13,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetClientApplicatio
     /// </summary>
     internal sealed class GetClientApplicationBySolutionIdHandler : IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication>
     {
-        private readonly ClientApplicationReader _reader;
-        private readonly IMapper _mapper;
+        private readonly ClientApplicationReader reader;
+        private readonly IMapper mapper;
 
         public GetClientApplicationBySolutionIdHandler(ClientApplicationReader reader, IMapper mapper)
         {
-            _reader = reader;
-            _mapper = mapper;
+            this.reader = reader;
+            this.mapper = mapper;
         }
 
-        public async Task<IClientApplication> Handle(GetClientApplicationBySolutionIdQuery request,
+        public async Task<IClientApplication> Handle(
+            GetClientApplicationBySolutionIdQuery request,
             CancellationToken cancellationToken)
-            => _mapper.Map<IClientApplication>(await _reader.BySolutionIdAsync(request.Id, cancellationToken).ConfigureAwait(false));
+        {
+            return mapper.Map<IClientApplication>(await reader.BySolutionIdAsync(request.Id, cancellationToken));
+        }
     }
 }

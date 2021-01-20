@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
@@ -10,22 +10,30 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetImplementationTi
 {
     internal sealed class GetImplementationTimescalesBySolutionIdHandler : IRequestHandler<GetImplementationTimescalesBySolutionIdQuery, IImplementationTimescales>
     {
-        private readonly ImplementationTimescalesReader _implementationTimescalesReader;
-        private readonly SolutionVerifier _verifier;
-        private readonly IMapper _mapper;
+        private readonly ImplementationTimescalesReader implementationTimescalesReader;
+        private readonly SolutionVerifier verifier;
+        private readonly IMapper mapper;
 
-        public GetImplementationTimescalesBySolutionIdHandler(ImplementationTimescalesReader implementationTimescalesReader, SolutionVerifier verifier, IMapper mapper)
+        public GetImplementationTimescalesBySolutionIdHandler(
+            ImplementationTimescalesReader implementationTimescalesReader,
+            SolutionVerifier verifier,
+            IMapper mapper)
         {
-            _implementationTimescalesReader = implementationTimescalesReader;
-            _verifier = verifier;
-            _mapper = mapper;
+            this.implementationTimescalesReader = implementationTimescalesReader;
+            this.verifier = verifier;
+            this.mapper = mapper;
         }
 
-        public async Task<IImplementationTimescales> Handle(GetImplementationTimescalesBySolutionIdQuery request, CancellationToken cancellationToken)
+        public async Task<IImplementationTimescales> Handle(
+            GetImplementationTimescalesBySolutionIdQuery request,
+            CancellationToken cancellationToken)
         {
-            await _verifier.ThrowWhenMissingAsync(request.Id, cancellationToken).ConfigureAwait(false);
-            var implementationTimescalesResult = (await _implementationTimescalesReader.BySolutionIdAsync(request.Id, cancellationToken).ConfigureAwait(false));
-            return _mapper.Map<IImplementationTimescales>(implementationTimescalesResult);
+            await verifier.ThrowWhenMissingAsync(request.Id, cancellationToken);
+            var implementationTimescalesResult = await implementationTimescalesReader.BySolutionIdAsync(
+                request.Id,
+                cancellationToken);
+
+            return mapper.Map<IImplementationTimescales>(implementationTimescalesResult);
         }
     }
 }
