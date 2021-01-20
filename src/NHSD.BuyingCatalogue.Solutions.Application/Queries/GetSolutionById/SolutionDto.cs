@@ -8,32 +8,32 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
     /// <summary>
     /// A product and/or service provided by a supplier.
     /// </summary>
-    internal class SolutionDto : ISolution
+    internal sealed class SolutionDto : ISolution
     {
         /// <summary>
-        /// Id of the solution.
+        /// Gets or sets the ID of the solution.
         /// </summary>
         public string Id { get; set; }
 
         /// <summary>
-        /// Name of the solution, as displayed to a user.
+        /// Gets or sets the name of the solution, as displayed to a user.
         /// </summary>
         public string Name { get; set; }
 
         public DateTime LastUpdated { get; set; }
 
         /// <summary>
-        /// Full description of the solution, as displayed to the user.
+        /// Gets or sets the full description of the solution, as displayed to the user.
         /// </summary>
         public string Description { get; set; }
 
         /// <summary>
-        /// Summary of the solution, as displayed to a user.
+        /// Gets or sets the summary of the solution, as displayed to a user.
         /// </summary>
         public string Summary { get; set; }
 
- 		/// <summary>
-        /// Name of the supplier, as displayed to a user.
+        /// <summary>
+        /// Gets or sets the name of the supplier, as displayed to a user.
         /// </summary>
         public string SupplierName { get; set; }
 
@@ -48,47 +48,47 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         public IRoadMap RoadMap { get; set; }
 
         /// <summary>
-        /// A link to provide more information about a solution.
+        /// Gets or sets a link to provide more information about a solution.
         /// </summary>
         public string AboutUrl { get; set; }
 
         /// <summary>
-        /// Status of this instance in relation to the supplier.
+        /// Gets or sets the status of this instance in relation to the supplier.
         /// </summary>
         public SupplierStatus SupplierStatus { get; set; }
 
         /// <summary>
-        /// Marketing information related to the clients application.
+        /// Gets or sets the marketing information related to the clients application.
         /// </summary>
         public IClientApplication ClientApplication { get; set; }
 
         /// <summary>
-        /// Marketing information related to the hosting.
+        /// Gets or sets the marketing information related to the hosting.
         /// </summary>
         public IHosting Hosting { get; set; }
 
         /// <summary>
-        /// Is this a foundation solution?
+        /// Gets or sets a value indicating whether this is a foundation solution.
         /// </summary>
         public bool IsFoundation { get; set; }
 
         /// <summary>
-        /// Capabilities claimed by the solution
+        /// Gets or sets the capabilities claimed by the solution.
         /// </summary>
         public IEnumerable<IClaimedCapability> Capabilities { get; set; }
 
         /// <summary>
-        /// The contacts for the solution
+        /// Gets or sets the contacts for the solution.
         /// </summary>
         public IEnumerable<IContact> Contacts { get; set; }
 
         /// <summary>
-        /// The publishing status of the solution
+        /// Gets or sets the publishing status of the solution.
         /// </summary>
         public PublishedStatus PublishedStatus { get; set; }
 
         /// <summary>
-        /// The supplier info for the solution
+        /// Gets or sets the supplier info for the solution.
         /// </summary>
         public ISolutionSupplier Supplier { get; set; }
 

@@ -13,18 +13,18 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingByPriceId
 {
     internal sealed class GetPricingByPriceIdHandler : IRequestHandler<GetPriceByPriceIdQuery, ICataloguePrice>
     {
-        private readonly PriceReader _pricingReader;
-        private readonly IMapper _mapper;
+        private readonly PriceReader pricingReader;
+        private readonly IMapper mapper;
 
         public GetPricingByPriceIdHandler(PriceReader pricingReader, IMapper mapper)
         {
-            _pricingReader = pricingReader;
-            _mapper = mapper;
+            this.pricingReader = pricingReader;
+            this.mapper = mapper;
         }
 
         public async Task<ICataloguePrice> Handle(GetPriceByPriceIdQuery request, CancellationToken cancellationToken)
         {
-            var price = await _pricingReader.GetByPriceIdAsync(request.PriceId, cancellationToken);
+            var price = await pricingReader.GetByPriceIdAsync(request.PriceId, cancellationToken);
 
             ICataloguePrice cataloguePrice = null;
 
@@ -38,8 +38,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingByPriceId
                     Type = price.CataloguePriceType.Name,
                     ProvisioningType = price.ProvisioningType.Name,
                     CurrencyCode = price.CurrencyCode,
-                    PricingUnit = _mapper.Map<IPricingUnit>(price.PricingUnit),
-                    TimeUnit = _mapper.Map<ITimeUnit>(price.TimeUnit),
+                    PricingUnit = mapper.Map<IPricingUnit>(price.PricingUnit),
+                    TimeUnit = mapper.Map<ITimeUnit>(price.TimeUnit),
                     Price = cataloguePriceFlat.Price,
                 };
             }
@@ -53,12 +53,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingByPriceId
                     Type = price.CataloguePriceType.Name,
                     ProvisioningType = price.ProvisioningType.Name,
                     CurrencyCode = price.CurrencyCode,
-                    PricingUnit = _mapper.Map<IPricingUnit>(price.PricingUnit),
-                    TimeUnit = _mapper.Map<ITimeUnit>(price.TimeUnit),
-                    TieredPrices = _mapper.Map<IEnumerable<ITieredPrice>>(cataloguePriceTier.TieredPrices),
+                    PricingUnit = mapper.Map<IPricingUnit>(price.PricingUnit),
+                    TimeUnit = mapper.Map<ITimeUnit>(price.TimeUnit),
+                    TieredPrices = mapper.Map<IEnumerable<ITieredPrice>>(cataloguePriceTier.TieredPrices),
                 };
             }
-           
+
             return cataloguePrice;
         }
     }

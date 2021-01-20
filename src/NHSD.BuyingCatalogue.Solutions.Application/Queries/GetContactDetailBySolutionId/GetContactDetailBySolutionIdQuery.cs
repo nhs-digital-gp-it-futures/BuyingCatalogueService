@@ -1,7 +1,7 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using MediatR;
+using NHSD.BuyingCatalogue.Solutions.Application.Domain;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
-using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailBySolutionId
 {
@@ -11,16 +11,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetContactDetailByS
     public sealed class GetContactDetailBySolutionIdQuery : IRequest<IEnumerable<IContact>>
     {
         /// <summary>
-        /// The key information to identify a <see cref="Solution"/>.
+        /// Initializes a new instance of the <see cref="GetContactDetailBySolutionIdQuery"/> class.
         /// </summary>
-        public string Id { get; }
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="GetSolutionByIdQuery"/> class.
-        /// </summary>
+        /// <param name="id">The solution ID.</param>
         public GetContactDetailBySolutionIdQuery(string id)
         {
             Id = id;
         }
+
+        /// <summary>
+        /// Gets the key information to identify a <see cref="Solution"/>.
+        /// </summary>
+        public string Id { get; }
     }
 }

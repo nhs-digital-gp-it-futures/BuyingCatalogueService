@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
@@ -10,22 +10,22 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetRoadMapBySolutio
 {
     internal sealed class GetRoadMapBySolutionIdHandler : IRequestHandler<GetRoadMapBySolutionIdQuery, IRoadMap>
     {
-        private readonly RoadMapReader _roadMapReader;
-        private readonly SolutionVerifier _verifier;
-        private readonly IMapper _mapper;
+        private readonly RoadMapReader roadMapReader;
+        private readonly SolutionVerifier verifier;
+        private readonly IMapper mapper;
 
         public GetRoadMapBySolutionIdHandler(RoadMapReader roadMapReader, SolutionVerifier verifier, IMapper mapper)
         {
-            _roadMapReader = roadMapReader;
-            _verifier = verifier;
-            _mapper = mapper;
+            this.roadMapReader = roadMapReader;
+            this.verifier = verifier;
+            this.mapper = mapper;
         }
 
         public async Task<IRoadMap> Handle(GetRoadMapBySolutionIdQuery request, CancellationToken cancellationToken)
         {
-            await _verifier.ThrowWhenMissingAsync(request.Id, cancellationToken).ConfigureAwait(false);
-            var roadMapResult = (await _roadMapReader.BySolutionIdAsync(request.Id, cancellationToken).ConfigureAwait(false));
-            return _mapper.Map<IRoadMap>(roadMapResult);
+            await verifier.ThrowWhenMissingAsync(request.Id, cancellationToken);
+            var roadMapResult = await roadMapReader.BySolutionIdAsync(request.Id, cancellationToken);
+            return mapper.Map<IRoadMap>(roadMapResult);
         }
     }
 }

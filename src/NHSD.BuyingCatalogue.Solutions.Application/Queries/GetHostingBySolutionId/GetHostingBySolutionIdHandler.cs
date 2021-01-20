@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
@@ -13,17 +13,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutio
     /// </summary>
     internal sealed class GetHostingBySolutionIdHandler : IRequestHandler<GetHostingBySolutionIdQuery, IHosting>
     {
-        private readonly HostingReader _reader;
-        private readonly IMapper _mapper;
+        private readonly HostingReader reader;
+        private readonly IMapper mapper;
 
         public GetHostingBySolutionIdHandler(HostingReader reader, IMapper mapper)
         {
-            _reader = reader;
-            _mapper = mapper;
+            this.reader = reader;
+            this.mapper = mapper;
         }
 
-        public async Task<IHosting> Handle(GetHostingBySolutionIdQuery request,
-            CancellationToken cancellationToken) =>
-            _mapper.Map<IHosting>(await _reader.BySolutionIdAsync(request.Id, cancellationToken).ConfigureAwait(false));
+        public async Task<IHosting> Handle(
+            GetHostingBySolutionIdQuery request,
+            CancellationToken cancellationToken)
+        {
+            return mapper.Map<IHosting>(await reader.BySolutionIdAsync(request.Id, cancellationToken));
+        }
     }
 }

@@ -8,14 +8,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetCatalogueItemByI
 {
     public sealed class GetCatalogueItemByIdQueryHandler : IRequestHandler<GetCatalogueItemByIdQuery, CatalogueItemDto>
     {
-        private readonly CatalogueItemReader _catalogueItemReader;
+        private readonly CatalogueItemReader catalogueItemReader;
 
         public GetCatalogueItemByIdQueryHandler(CatalogueItemReader catalogueItemReader)
         {
-            _catalogueItemReader = catalogueItemReader ?? throw new ArgumentNullException(nameof(catalogueItemReader));
+            this.catalogueItemReader = catalogueItemReader ?? throw new ArgumentNullException(nameof(catalogueItemReader));
         }
 
-        public async Task<CatalogueItemDto> Handle(GetCatalogueItemByIdQuery request, CancellationToken cancellationToken) => 
-            await _catalogueItemReader.GetByIdAsync(request?.CatalogueItemId, cancellationToken);
+        public async Task<CatalogueItemDto> Handle(GetCatalogueItemByIdQuery request, CancellationToken cancellationToken) =>
+            await catalogueItemReader.GetByIdAsync(request?.CatalogueItemId, cancellationToken);
     }
 }
