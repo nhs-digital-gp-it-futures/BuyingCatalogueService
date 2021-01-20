@@ -1,4 +1,4 @@
-using NHSD.BuyingCatalogue.Solutions.Application.Domain.Hostings;
+﻿using NHSD.BuyingCatalogue.Solutions.Application.Domain.Hostings;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 {
@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public PrivateCloud PrivateCloud { get; set; }
 
         public HybridHostingType HybridHostingType { get; set; }
-        
+
         public OnPremise OnPremise { get; set; }
     }
 }
