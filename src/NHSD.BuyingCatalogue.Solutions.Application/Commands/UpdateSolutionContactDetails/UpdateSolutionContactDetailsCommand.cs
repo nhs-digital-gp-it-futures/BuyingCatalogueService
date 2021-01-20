@@ -7,18 +7,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
     public class UpdateSolutionContactDetailsCommand : IRequest<ContactsMaxLengthResult>
     {
         /// <summary>
-        /// A value to uniquely identify a solution.
+        /// Gets a value to uniquely identify a solution.
         /// </summary>
         public string SolutionId { get; }
 
         /// <summary>
-        /// Updated contact details for a solution
+        /// Gets the updated contact details for a solution.
         /// </summary>
         public IUpdateSolutionContactDetails Data { get; }
 
-        /// <summary>
-        /// Initialises a new instance of the <see cref="UpdateSolutionContactDetailsCommand"/> class.
-        /// </summary>
         public UpdateSolutionContactDetailsCommand(string solutionId, IUpdateSolutionContactDetails data)
         {
             SolutionId = solutionId ?? throw new ArgumentNullException(nameof(solutionId));

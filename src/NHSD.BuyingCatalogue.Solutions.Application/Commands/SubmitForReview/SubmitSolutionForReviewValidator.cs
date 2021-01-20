@@ -1,16 +1,13 @@
-using System;
+﻿using System;
 using System.Linq;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview
 {
-    internal class SubmitSolutionForReviewValidator
+    internal sealed class SubmitSolutionForReviewValidator
     {
         public Solution Solution { get; }
 
-        /// <summary>
-        /// Initialises a new instance of the <see cref="SubmitSolutionForReviewValidator"/> class.
-        /// </summary>
         public SubmitSolutionForReviewValidator(Solution solution)
         {
             Solution = solution ?? throw new ArgumentNullException(nameof(solution));
@@ -83,7 +80,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview
             return result;
         }
 
-        private static ValidationResult ValidateMobileResponsive(Domain.ClientApplication clientApplication)
+        private static ValidationResult ValidateMobileResponsive(ClientApplication clientApplication)
         {
             ValidationResult result = new ValidationResult();
 

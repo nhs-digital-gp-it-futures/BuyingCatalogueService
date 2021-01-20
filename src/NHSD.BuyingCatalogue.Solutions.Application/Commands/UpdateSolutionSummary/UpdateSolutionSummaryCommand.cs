@@ -8,18 +8,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionSumm
     public sealed class UpdateSolutionSummaryCommand : IRequest<ISimpleResult>
     {
         /// <summary>
-        /// A value to uniquely identify a solution.
+        /// Gets a value to uniquely identify a solution.
         /// </summary>
         public string SolutionId { get; }
 
         /// <summary>
-        /// Updated details of a solution.
+        /// Gets the updated details of a solution.
         /// </summary>
         public IUpdateSolutionSummary Data { get; }
 
-        /// <summary>
-        /// Initialises a new instance of the <see cref="UpdateSolutionSummaryCommand"/> class.
-        /// </summary>
         public UpdateSolutionSummaryCommand(string solutionId, IUpdateSolutionSummary data)
         {
             SolutionId = solutionId ?? throw new ArgumentNullException(nameof(solutionId));

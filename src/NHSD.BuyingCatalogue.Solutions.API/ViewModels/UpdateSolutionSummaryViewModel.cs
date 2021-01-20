@@ -10,7 +10,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
         public string Description { get; set; }
 
         /// <summary>
-        /// Gets or sets the a link to more information regarding the solution.
+        /// Gets or sets a link to more information regarding the solution.
         /// </summary>
         public string Link { get; set; }
 

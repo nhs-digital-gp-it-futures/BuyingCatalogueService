@@ -19,8 +19,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
         /// <summary>
         /// Executes the action of this command.
         /// </summary>
-        /// <param name="solutionId">The ID of the solution to update</param>
-        /// <param name="updateAction">The action to run for updating the application</param>
+        /// <param name="solutionId">The ID of the solution to update.</param>
+        /// <param name="updateAction">The action to run for updating the application.</param>
         /// <param name="cancellationToken">Token to cancel the request.</param>
         /// <returns>A task representing an operation to get the result of this command.</returns>
         public async Task UpdateAsync(string solutionId, Action<Hosting> updateAction, CancellationToken cancellationToken)
