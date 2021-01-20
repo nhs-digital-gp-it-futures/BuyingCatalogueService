@@ -57,7 +57,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         public async Task ShouldUpdateValidationValid()
         {
             const string expected = "a description";
-            var viewModel = new UpdateRoadmapViewModel { Summary = expected };
+            var viewModel = new UpdateRoadMapViewModel { Summary = expected };
             var validationModel = new Mock<ISimpleResult>();
             validationModel.Setup(s => s.IsValid).Returns(true);
 
@@ -73,7 +73,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         public async Task ShouldUpdateValidationInvalid()
         {
             const string expected = "a description";
-            var viewModel = new UpdateRoadmapViewModel {Summary = expected};
+            var viewModel = new UpdateRoadMapViewModel {Summary = expected};
             var validationModel = new Mock<ISimpleResult>();
             validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "description", "maxLength" } });
             validationModel.Setup(s => s.IsValid).Returns(false);

@@ -49,7 +49,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Update([Required] string id, UpdateRoadmapViewModel model) =>
+        public async Task<ActionResult> Update([Required] string id, UpdateRoadMapViewModel model) =>
             (await mediator.Send(new UpdateRoadMapCommand(id, model?.Summary))).ToActionResult();
     }
 }
