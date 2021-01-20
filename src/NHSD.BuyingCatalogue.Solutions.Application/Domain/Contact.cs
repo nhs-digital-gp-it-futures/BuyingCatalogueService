@@ -1,9 +1,8 @@
-﻿using System;
-using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
+﻿using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 {
-    internal class Contact
+    internal sealed class Contact
     {
         public Contact(IMarketingContactResult contact)
         {
@@ -23,39 +22,39 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         }
 
         /// <summary>
-        /// The full name of the contact
+        /// Gets or sets the full name of the contact.
         /// </summary>
         public string FirstName { get; set; }
 
         /// <summary>
-        /// The full name of the contact
+        /// Gets or sets the full name of the contact.
         /// </summary>
         public string LastName { get; set; }
 
         /// <summary>
-        /// The full name of the contact
+        /// Gets the full name of the contact.
         /// </summary>
         public string Name => GetName();
 
         /// <summary>
-        /// The phone number of the contact
+        /// Gets or sets the phone number of the contact.
         /// </summary>
         public string PhoneNumber { get; set; }
 
         /// <summary>
-        /// The email address of the contact
+        /// Gets or sets the email address of the contact.
         /// </summary>
         public string Email { get; set; }
 
         /// <summary>
-        /// The department of the contact
+        /// Gets or sets the department of the contact.
         /// </summary>
         public string Department { get; set; }
 
         private string GetName()
         {
             var concatName = $"{FirstName} {LastName}".Trim();
-            return String.IsNullOrWhiteSpace(concatName) ? null : concatName;
+            return string.IsNullOrWhiteSpace(concatName) ? null : concatName;
         }
     }
 }

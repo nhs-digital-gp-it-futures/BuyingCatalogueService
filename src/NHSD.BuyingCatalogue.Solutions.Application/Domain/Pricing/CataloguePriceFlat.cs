@@ -2,10 +2,11 @@
 {
     public sealed class CataloguePriceFlat : CataloguePriceBase
     {
-        public decimal? Price { get; set; }
-
-        public CataloguePriceFlat() : base(CataloguePriceType.Flat)
+        public CataloguePriceFlat()
+            : base(CataloguePriceType.Flat)
         {
         }
+
+        public decimal? Price { get; set; }
     }
 }
