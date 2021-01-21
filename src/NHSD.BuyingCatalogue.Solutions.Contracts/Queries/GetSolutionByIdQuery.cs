@@ -8,11 +8,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Queries
     public sealed class GetSolutionByIdQuery : IRequest<ISolution>
     {
         /// <summary>
-        /// Gets the key information to identify a solution.
-        /// </summary>
-        public string Id { get; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="GetSolutionByIdQuery"/> class.
         /// </summary>
         /// <param name="id">The ID of the solution.</param>
@@ -20,5 +15,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Queries
         {
             Id = id;
         }
+
+        /// <summary>
+        /// Gets the key information to identify a solution.
+        /// </summary>
+        public string Id { get; }
     }
 }
