@@ -7,14 +7,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
 {
     public sealed class UpdateSolutionPluginsCommand : IRequest<ISimpleResult>
     {
-        public string SolutionId { get; }
-
-        public IUpdateBrowserBasedPluginsData Data { get; }
-
         public UpdateSolutionPluginsCommand(string solutionId, IUpdateBrowserBasedPluginsData data)
         {
             SolutionId = solutionId ?? throw new ArgumentNullException(nameof(solutionId));
             Data = data ?? throw new ArgumentNullException(nameof(data));
         }
+
+        public string SolutionId { get; }
+
+        public IUpdateBrowserBasedPluginsData Data { get; }
     }
 }

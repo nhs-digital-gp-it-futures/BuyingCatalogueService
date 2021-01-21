@@ -4,8 +4,14 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Commands;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails
 {
-    public class UpdateSolutionContactDetailsCommand : IRequest<ContactsMaxLengthResult>
+    public sealed class UpdateSolutionContactDetailsCommand : IRequest<ContactsMaxLengthResult>
     {
+        public UpdateSolutionContactDetailsCommand(string solutionId, IUpdateSolutionContactDetails data)
+        {
+            SolutionId = solutionId ?? throw new ArgumentNullException(nameof(solutionId));
+            Data = data ?? throw new ArgumentNullException(nameof(data));
+        }
+
         /// <summary>
         /// Gets a value to uniquely identify a solution.
         /// </summary>
@@ -15,11 +21,5 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
         /// Gets the updated contact details for a solution.
         /// </summary>
         public IUpdateSolutionContactDetails Data { get; }
-
-        public UpdateSolutionContactDetailsCommand(string solutionId, IUpdateSolutionContactDetails data)
-        {
-            SolutionId = solutionId ?? throw new ArgumentNullException(nameof(solutionId));
-            Data = data ?? throw new ArgumentNullException(nameof(data));
-        }
     }
 }

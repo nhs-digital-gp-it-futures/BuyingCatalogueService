@@ -7,6 +7,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeat
 {
     public sealed class UpdateSolutionFeaturesCommand : IRequest<ISimpleResult>
     {
+        public UpdateSolutionFeaturesCommand(string solutionId, IUpdateSolutionFeatures data)
+        {
+            SolutionId = solutionId ?? throw new ArgumentNullException(nameof(solutionId));
+            Data = data ?? throw new ArgumentNullException(nameof(data));
+        }
+
         /// <summary>
         /// Gets a value to uniquely identify a solution.
         /// </summary>
@@ -16,11 +22,5 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionFeat
         /// Gets the updated details of a solution.
         /// </summary>
         public IUpdateSolutionFeatures Data { get; }
-
-        public UpdateSolutionFeaturesCommand(string solutionId, IUpdateSolutionFeatures data)
-        {
-            SolutionId = solutionId ?? throw new ArgumentNullException(nameof(solutionId));
-            Data = data ?? throw new ArgumentNullException(nameof(data));
-        }
     }
 }

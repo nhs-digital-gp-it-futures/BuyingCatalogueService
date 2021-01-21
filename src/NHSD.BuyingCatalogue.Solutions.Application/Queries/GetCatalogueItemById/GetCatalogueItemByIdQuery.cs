@@ -4,11 +4,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetCatalogueItemByI
 {
     public sealed class GetCatalogueItemByIdQuery : IRequest<CatalogueItemDto>
     {
-        public string CatalogueItemId { get; }
-
         public GetCatalogueItemByIdQuery(string catalogueItemId)
         {
             CatalogueItemId = catalogueItemId;
         }
+
+        public string CatalogueItemId { get; }
     }
 }

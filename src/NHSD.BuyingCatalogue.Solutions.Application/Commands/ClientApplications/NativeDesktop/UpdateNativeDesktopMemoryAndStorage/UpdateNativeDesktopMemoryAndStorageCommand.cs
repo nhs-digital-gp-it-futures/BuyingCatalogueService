@@ -7,14 +7,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
 {
     public sealed class UpdateNativeDesktopMemoryAndStorageCommand : IRequest<ISimpleResult>
     {
-        public string SolutionId { get; }
-
-        public IUpdateNativeDesktopMemoryAndStorageData Data { get; }
-
         public UpdateNativeDesktopMemoryAndStorageCommand(string solutionId, IUpdateNativeDesktopMemoryAndStorageData data)
         {
             SolutionId = solutionId ?? throw new ArgumentNullException(nameof(solutionId));
             Data = data ?? throw new ArgumentNullException(nameof(data));
         }
+
+        public string SolutionId { get; }
+
+        public IUpdateNativeDesktopMemoryAndStorageData Data { get; }
     }
 }

@@ -18,12 +18,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
                 request.SolutionId,
                 clientApplication =>
                 clientApplication.NativeDesktopMemoryAndStorage = new NativeDesktopMemoryAndStorage
-                    {
-                        MinimumMemoryRequirement = request.Data.MinimumMemoryRequirement,
-                        StorageRequirementsDescription = request.Data.StorageRequirementsDescription,
-                        MinimumCpu = request.Data.MinimumCpu,
-                        RecommendedResolution = request.Data.RecommendedResolution,
-                    },
+                {
+                    MinimumMemoryRequirement = request.Data.MinimumMemoryRequirement,
+                    StorageRequirementsDescription = request.Data.StorageRequirementsDescription,
+                    MinimumCpu = request.Data.MinimumCpu,
+                    RecommendedResolution = request.Data.RecommendedResolution,
+                },
                 cancellationToken);
     }
 }

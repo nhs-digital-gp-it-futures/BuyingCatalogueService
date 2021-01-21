@@ -22,6 +22,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
             verifyEpicsResult = new VerifyEpicsResult();
         }
 
+        public static bool CheckNoDuplicateEpicIds(IEnumerable<string> epicIds)
+        {
+            return epicIds.GroupBy(x => x).Any(c => c.Count() > 1);
+        }
+
         public async Task<ISimpleResult> VerifyAsync(UpdateClaimedEpicsCommand command)
         {
             if (command is null)
@@ -70,11 +75,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
                 cancellationToken);
 
             return statusNameCount == uniqueStatusNameList.Count();
-        }
-
-        public static bool CheckNoDuplicateEpicIds(IEnumerable<string> epicIds)
-        {
-            return epicIds.GroupBy(x => x).Any(c => c.Count() > 1);
         }
     }
 }

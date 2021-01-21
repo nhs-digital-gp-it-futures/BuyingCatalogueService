@@ -7,14 +7,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.HybridHos
 {
     public sealed class UpdateHybridHostingTypeCommand : IRequest<ISimpleResult>
     {
-        public string Id { get; }
-
-        public IUpdateHybridHostingTypeData Data { get; }
-
         public UpdateHybridHostingTypeCommand(string id, IUpdateHybridHostingTypeData data)
         {
             Id = id ?? throw new ArgumentNullException(nameof(id));
             Data = data ?? throw new ArgumentNullException(nameof(data));
         }
+
+        public string Id { get; }
+
+        public IUpdateHybridHostingTypeData Data { get; }
     }
 }
