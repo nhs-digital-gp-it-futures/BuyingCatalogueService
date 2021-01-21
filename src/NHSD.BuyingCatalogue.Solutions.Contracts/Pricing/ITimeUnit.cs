@@ -3,6 +3,7 @@
     public interface ITimeUnit
     {
         string Name { get; }
+
         string Description { get; }
     }
 }

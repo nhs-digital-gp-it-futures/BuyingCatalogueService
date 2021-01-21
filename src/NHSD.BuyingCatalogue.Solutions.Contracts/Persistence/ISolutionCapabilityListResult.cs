@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
 {
@@ -11,6 +11,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         string CapabilityDescription { get; }
 
         string CapabilityVersion { get; }
+
         string CapabilitySourceUrl { get; }
     }
 }
