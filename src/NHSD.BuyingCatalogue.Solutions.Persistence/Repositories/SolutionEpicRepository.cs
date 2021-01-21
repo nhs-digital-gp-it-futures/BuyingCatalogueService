@@ -27,14 +27,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                                                   Where [Epic].Active = 1 and [SolutionEpic].SolutionId = @solutionId
                                                   Order By EpicId";
 
-        private readonly IDbConnector _dbConnector;
+        private readonly IDbConnector dbConnector;
 
         public SolutionEpicRepository(IDbConnector dbConnector) =>
-            _dbConnector = dbConnector;
+            this.dbConnector = dbConnector;
 
         public async Task<IEnumerable<ISolutionEpicListResult>> ListSolutionEpicsAsync(string solutionId, CancellationToken cancellationToken)
-            => await _dbConnector.QueryAsync<SolutionEpicListResult>(ListSolutionEpicsSql, cancellationToken, new { solutionId })
-                .ConfigureAwait(false);
+            => await dbConnector.QueryAsync<SolutionEpicListResult>(ListSolutionEpicsSql, cancellationToken, new { solutionId });
 
         public async Task UpdateSolutionEpicAsync(string solutionId, IUpdateClaimedEpicListRequest request, CancellationToken cancellationToken)
         {
@@ -43,7 +42,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 throw new ArgumentNullException(nameof(request));
             }
 
-            var lastUpdatedBy = new Guid();
+            var lastUpdatedBy = Guid.Empty;
 
             var queries = new List<(string, object)> { (DeleteSolutionEpicSql, new { solutionId }) };
 
@@ -57,7 +56,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                         lastUpdatedBy,
                     })));
 
-            await _dbConnector.ExecuteMultipleWithTransactionAsync(queries, cancellationToken).ConfigureAwait(false);
+            await dbConnector.ExecuteMultipleWithTransactionAsync(queries, cancellationToken);
         }
     }
 }

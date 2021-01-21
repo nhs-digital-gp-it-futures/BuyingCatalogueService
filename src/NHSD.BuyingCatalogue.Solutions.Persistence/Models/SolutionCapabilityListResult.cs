@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
@@ -12,6 +12,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
         public string CapabilityDescription { get; set; }
 
         public string CapabilityVersion { get; set; }
+
         public string CapabilitySourceUrl { get; set; }
     }
 }

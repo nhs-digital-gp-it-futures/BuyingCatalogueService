@@ -13,9 +13,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
     /// </summary>
     public sealed class SolutionDetailRepository : ISolutionDetailRepository
     {
-        private readonly IDbConnector _dbConnector;
+        private readonly IDbConnector dbConnector;
 
-        public SolutionDetailRepository(IDbConnector dbConnector) => _dbConnector = dbConnector;
+        public SolutionDetailRepository(IDbConnector dbConnector) => this.dbConnector = dbConnector;
 
         private const string UpdateTemplate = @"UPDATE s
    SET [Setters],
@@ -61,10 +61,14 @@ WHERE Id = @solutionId;";
                 throw new ArgumentNullException(nameof(updateSolutionSummaryRequest));
             }
 
-            await _dbConnector.ExecuteAsync(UpdateTemplate.Replace("[Setters]",
-                    @"s.FullDescription = @description,
-                        s.Summary = @summary,
-                        s.AboutUrl = @aboutUrl", StringComparison.InvariantCulture), cancellationToken,
+            const string setters =
+                @"s.FullDescription = @description,
+                  s.Summary = @summary,
+                  s.AboutUrl = @aboutUrl";
+
+            await dbConnector.ExecuteAsync(
+                UpdateTemplate.Replace("[Setters]", setters, StringComparison.InvariantCulture),
+                cancellationToken,
                 updateSolutionSummaryRequest);
         }
 
@@ -81,7 +85,8 @@ WHERE Id = @solutionId;";
                 throw new ArgumentNullException(nameof(updateSolutionFeaturesRequest));
             }
 
-            await _dbConnector.ExecuteAsync(UpdateTemplate.Replace("[Setters]", @"s.Features = @features", StringComparison.InvariantCulture),
+            await dbConnector.ExecuteAsync(
+                UpdateTemplate.Replace("[Setters]", @"s.Features = @features", StringComparison.InvariantCulture),
                 cancellationToken,
                 updateSolutionFeaturesRequest);
         }
@@ -99,13 +104,14 @@ WHERE Id = @solutionId;";
                 throw new ArgumentNullException(nameof(updateSolutionClientApplicationRequest));
             }
 
-            await _dbConnector.ExecuteAsync(UpdateTemplate.Replace("[Setters]", @"s.ClientApplication = @clientApplication", StringComparison.InvariantCulture),
+            await dbConnector.ExecuteAsync(
+                UpdateTemplate.Replace("[Setters]", @"s.ClientApplication = @clientApplication", StringComparison.InvariantCulture),
                 cancellationToken,
                 updateSolutionClientApplicationRequest);
         }
 
         public async Task<IClientApplicationResult> GetClientApplicationBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
-            => (await _dbConnector.QueryAsync<ClientApplicationResult>(GetClientApplicationBySolutionIdSql, cancellationToken, new { solutionId })).SingleOrDefault();
+            => (await dbConnector.QueryAsync<ClientApplicationResult>(GetClientApplicationBySolutionIdSql, cancellationToken, new { solutionId })).SingleOrDefault();
 
         /// <summary>
         /// Adds or updates the hosting details of a solution.
@@ -120,13 +126,14 @@ WHERE Id = @solutionId;";
                 throw new ArgumentNullException(nameof(updateSolutionHostingRequest));
             }
 
-            await _dbConnector.ExecuteAsync(UpdateTemplate.Replace("[Setters]", @"s.Hosting = @hosting", StringComparison.InvariantCulture),
+            await dbConnector.ExecuteAsync(
+                UpdateTemplate.Replace("[Setters]", @"s.Hosting = @hosting", StringComparison.InvariantCulture),
                 cancellationToken,
                 updateSolutionHostingRequest);
         }
 
         public async Task<IHostingResult> GetHostingBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
-            => (await _dbConnector.QueryAsync<HostingResult>(GetHostingBySolutionIdSql, cancellationToken, new { solutionId })).SingleOrDefault();
+            => (await dbConnector.QueryAsync<HostingResult>(GetHostingBySolutionIdSql, cancellationToken, new { solutionId })).SingleOrDefault();
 
         public async Task UpdateRoadMapAsync(IUpdateRoadMapRequest updateRoadMapRequest, CancellationToken cancellationToken)
         {
@@ -135,16 +142,17 @@ WHERE Id = @solutionId;";
                 throw new ArgumentNullException(nameof(updateRoadMapRequest));
             }
 
-            await _dbConnector.ExecuteAsync(UpdateTemplate.Replace("[Setters]", @"s.RoadMap = @description", StringComparison.InvariantCulture),
+            await dbConnector.ExecuteAsync(
+                UpdateTemplate.Replace("[Setters]", @"s.RoadMap = @description", StringComparison.InvariantCulture),
                 cancellationToken,
                 updateRoadMapRequest);
         }
 
         public async Task<IRoadMapResult> GetRoadMapBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
-            => (await _dbConnector.QueryAsync<RoadMapResult>(GetRoadMapBySolutionIdSql, cancellationToken, new { solutionId })).SingleOrDefault();
+            => (await dbConnector.QueryAsync<RoadMapResult>(GetRoadMapBySolutionIdSql, cancellationToken, new { solutionId })).SingleOrDefault();
 
         public async Task<IIntegrationsResult> GetIntegrationsBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
-            => (await _dbConnector.QueryAsync<IntegrationsResult>(GetIntegrationsBySolutionIdSql, cancellationToken, new { solutionId })).SingleOrDefault();
+            => (await dbConnector.QueryAsync<IntegrationsResult>(GetIntegrationsBySolutionIdSql, cancellationToken, new { solutionId })).SingleOrDefault();
 
         public async Task UpdateIntegrationsAsync(IUpdateIntegrationsRequest updateIntegrationsRequest, CancellationToken cancellationToken)
         {
@@ -153,13 +161,14 @@ WHERE Id = @solutionId;";
                 throw new ArgumentNullException(nameof(updateIntegrationsRequest));
             }
 
-            await _dbConnector.ExecuteAsync(UpdateTemplate.Replace("[Setters]", @"s.IntegrationsUrl = @url", StringComparison.InvariantCulture),
+            await dbConnector.ExecuteAsync(
+                UpdateTemplate.Replace("[Setters]", @"s.IntegrationsUrl = @url", StringComparison.InvariantCulture),
                 cancellationToken,
                 updateIntegrationsRequest);
         }
 
         public async Task<IImplementationTimescalesResult> GetImplementationTimescalesBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
-            => (await _dbConnector.QueryAsync<ImplementationTimescalesResult>(GetImplementationTimescalesBySolutionIdSql, cancellationToken, new { solutionId })).SingleOrDefault();
+            => (await dbConnector.QueryAsync<ImplementationTimescalesResult>(GetImplementationTimescalesBySolutionIdSql, cancellationToken, new { solutionId })).SingleOrDefault();
 
         public async Task UpdateImplementationTimescalesAsync(IUpdateImplementationTimescalesRequest updateImplementationTimescalesRequest, CancellationToken cancellationToken)
         {
@@ -168,7 +177,8 @@ WHERE Id = @solutionId;";
                 throw new ArgumentNullException(nameof(updateImplementationTimescalesRequest));
             }
 
-            await _dbConnector.ExecuteAsync(UpdateTemplate.Replace("[Setters]", @"s.ImplementationDetail = @description", StringComparison.InvariantCulture),
+            await dbConnector.ExecuteAsync(
+                UpdateTemplate.Replace("[Setters]", @"s.ImplementationDetail = @description", StringComparison.InvariantCulture),
                 cancellationToken,
                 updateImplementationTimescalesRequest);
         }

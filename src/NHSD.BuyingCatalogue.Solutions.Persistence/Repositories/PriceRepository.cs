@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 {
     public sealed class PriceRepository : IPriceRepository
     {
-        private readonly IDbConnector _dbConnector;
+        private readonly IDbConnector dbConnector;
 
         private const string ListCataloguePricesSql = @"
         SELECT  cp.CatalogueItemId,
@@ -55,22 +55,26 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         public PriceRepository(IDbConnector dbConnector)
         {
-            _dbConnector = dbConnector;
+            this.dbConnector = dbConnector;
         }
 
         public async Task<IEnumerable<ICataloguePriceListResult>> GetPricesAsync(string catalogueItemId, CancellationToken cancellationToken)
         {
-            return await _dbConnector.QueryAsync<CataloguePriceListResult>(ListCataloguePricesSql, cancellationToken,
+            return await dbConnector.QueryAsync<CataloguePriceListResult>(
+                ListCataloguePricesSql,
+                cancellationToken,
                 new { catalogueItemId });
         }
 
         public async Task<IEnumerable<ICataloguePriceListResult>> GetPriceByPriceIdQueryAsync(int priceId, CancellationToken cancellationToken)
         {
-            return (await _dbConnector.QueryAsync<CataloguePriceListResult>(CataloguePriceSql, cancellationToken,
+            return await dbConnector.QueryAsync<CataloguePriceListResult>(
+                CataloguePriceSql,
+                cancellationToken,
                 new
                 {
                     cataloguePriceId = priceId,
-                }));
+                });
         }
     }
 }

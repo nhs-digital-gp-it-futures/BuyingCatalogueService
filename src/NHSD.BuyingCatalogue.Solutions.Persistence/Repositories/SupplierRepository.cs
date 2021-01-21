@@ -83,17 +83,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         ELSE 1 END AS HasContact
    FROM SupplierDetails;";
 
-        private readonly IDbConnector _dbConnector;
+        private readonly IDbConnector dbConnector;
 
-        public SupplierRepository(IDbConnector dbConnector) => _dbConnector = dbConnector;
+        public SupplierRepository(IDbConnector dbConnector) => this.dbConnector = dbConnector;
 
         public async Task<ISolutionSupplierResult> GetSupplierBySolutionIdAsync(string solutionId, CancellationToken cancellationToken) =>
-            (await _dbConnector
+            (await dbConnector
                 .QueryAsync<SolutionSupplierResult>(GetSupplierBySolutionIdSql, cancellationToken, new { solutionId }))
             .SingleOrDefault();
 
         public async Task<ISupplierResult> GetSupplierById(string id, CancellationToken cancellationToken) =>
-            await _dbConnector.QueryFirstOrDefaultAsync<SupplierResult>(GetSupplierByIdSql, cancellationToken, new { id });
+            await dbConnector.QueryFirstOrDefaultAsync<SupplierResult>(GetSupplierByIdSql, cancellationToken, new { id });
 
         public async Task<IEnumerable<ISupplierResult>> GetSuppliersByNameAsync(
             string name,
@@ -108,7 +108,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 escapedName = regex.Replace(name, "[$1]");
             }
 
-            return await _dbConnector.QueryAsync<SupplierResult>(
+            return await dbConnector.QueryAsync<SupplierResult>(
                 GetSuppliersByNameSql,
                 cancellationToken,
                 new
@@ -126,7 +126,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                 throw new ArgumentNullException(nameof(updateSupplierRequest));
             }
 
-            await _dbConnector.ExecuteAsync(UpdateSupplierBySolutionIdSql, cancellationToken,
+            await dbConnector.ExecuteAsync(
+                UpdateSupplierBySolutionIdSql,
+                cancellationToken,
                 new
                 {
                     solutionId = updateSupplierRequest.SolutionId,

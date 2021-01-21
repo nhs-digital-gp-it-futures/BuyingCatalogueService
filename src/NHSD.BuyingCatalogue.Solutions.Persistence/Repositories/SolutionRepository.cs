@@ -12,9 +12,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
     /// </summary>
     public sealed class SolutionRepository : ISolutionRepository
     {
-        private readonly IDbConnector _dbConnector;
+        private readonly IDbConnector dbConnector;
 
-        public SolutionRepository(IDbConnector dbConnector) => _dbConnector = dbConnector;
+        public SolutionRepository(IDbConnector dbConnector) => this.dbConnector = dbConnector;
 
         private const string ByIdSql = @"SELECT s.Id,
        ci.[Name],
@@ -49,7 +49,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
         /// <returns>A task representing an operation to retrieve a <see cref="ISolutionResult"/> matching the specified ID.</returns>
         public async Task<ISolutionResult> ByIdAsync(string id, CancellationToken cancellationToken)
-            => (await _dbConnector.QueryAsync<SolutionResult>(ByIdSql, cancellationToken, new { id })).SingleOrDefault();
+            => (await dbConnector.QueryAsync<SolutionResult>(ByIdSql, cancellationToken, new { id })).SingleOrDefault();
 
         /// <summary>
         /// Updates the supplier status of the specified updateSolutionRequest in the data store.
@@ -63,14 +63,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         }
 
         /// <summary>
-        /// Checks if the solution exists
+        /// Checks if the solution exists.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>True if it exists</returns>
+        /// <param name="id">The ID of the solution.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the
+        /// task to complete.</param>
+        /// <returns>True if it exists.</returns>
         public async Task<bool> CheckExists(string id, CancellationToken cancellationToken)
         {
-            var solutionCount = await _dbConnector.QueryAsync<int>(
+            var solutionCount = await dbConnector.QueryAsync<int>(
                 DoesSolutionExist,
                 cancellationToken,
                 new

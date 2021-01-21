@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 {
     public sealed class AdditionalServiceRepository : IAdditionalServiceRepository
     {
-        private readonly IDbConnector _dbConnector;
+        private readonly IDbConnector dbConnector;
 
         private const string GetAdditionalService = @"
         SELECT  ad.Summary,
@@ -24,14 +24,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         public AdditionalServiceRepository(IDbConnector dbConnector)
         {
-            _dbConnector = dbConnector;
+            this.dbConnector = dbConnector;
         }
 
         public async Task<IEnumerable<IAdditionalServiceResult>> GetAdditionalServiceBySolutionIdsAsync(
             IEnumerable<string> solutionIds,
             CancellationToken cancellationToken)
         {
-            return await _dbConnector.QueryAsync<AdditionalServiceResult>(GetAdditionalService, cancellationToken,
+            return await dbConnector.QueryAsync<AdditionalServiceResult>(
+                GetAdditionalService,
+                cancellationToken,
                 new { solutionIds });
         }
     }

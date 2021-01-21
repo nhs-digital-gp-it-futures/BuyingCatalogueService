@@ -18,16 +18,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
     /// </summary>
     internal sealed class DocumentRepository : IDocumentRepository
     {
-        private readonly IDocumentsAPIClient _client;
-        private readonly ILogger<DocumentRepository> _logger;
-        private readonly ISettings _settings;
+        private readonly IDocumentsAPIClient client;
+        private readonly ILogger<DocumentRepository> logger;
+        private readonly ISettings settings;
 
         public DocumentRepository(IDocumentsAPIClient client, ISettings settings, ILogger<DocumentRepository> logger)
         {
-            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _client = client ?? throw new ArgumentNullException(nameof(client));
-            _client.BaseAddress = new Uri(settings.DocumentApiBaseUrl);
+            this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.client = client ?? throw new ArgumentNullException(nameof(client));
+            this.client.BaseAddress = new Uri(settings.DocumentApiBaseUrl);
         }
 
         public async Task<IDocumentResult> GetDocumentResultBySolutionIdAsync(
@@ -36,23 +36,23 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         {
             try
             {
-                var documents = await _client.DocumentsAsync(solutionId, cancellationToken).ConfigureAwait(false);
+                var documents = await client.DocumentsAsync(solutionId, cancellationToken).ConfigureAwait(false);
                 var sortedDocuments = documents.OrderByDescending(d => d).ToList();
 
                 return new DocumentResult
                 {
-                    RoadMapDocumentName = FindDocument(sortedDocuments, _settings.DocumentRoadMapIdentifier),
-                    IntegrationDocumentName = FindDocument(sortedDocuments, _settings.DocumentIntegrationIdentifier),
-                    SolutionDocumentName = FindDocument(sortedDocuments, _settings.DocumentSolutionIdentifier),
+                    RoadMapDocumentName = FindDocument(sortedDocuments, settings.DocumentRoadMapIdentifier),
+                    IntegrationDocumentName = FindDocument(sortedDocuments, settings.DocumentIntegrationIdentifier),
+                    SolutionDocumentName = FindDocument(sortedDocuments, settings.DocumentSolutionIdentifier),
                 };
             }
             catch (ApiException e)
             {
-                _logger.LogError(e, "Call to {baseAddress} failed with Api Error", _client.BaseAddress);
+                logger.LogError(e, "Call to {baseAddress} failed with Api Error", client.BaseAddress);
             }
             catch (HttpRequestException e)
             {
-                _logger.LogError(e, "Call to {baseAddress} failed with Http Request Error", _client.BaseAddress);
+                logger.LogError(e, "Call to {baseAddress} failed with Http Request Error", client.BaseAddress);
             }
 
             return new DocumentResult();

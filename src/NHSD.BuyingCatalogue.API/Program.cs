@@ -67,7 +67,7 @@ namespace NHSD.BuyingCatalogue.API
 		{
 			return new ConfigurationBuilder()
 				.SetBasePath(Directory.GetCurrentDirectory())
-				.AddJsonFile("appsettings.json")
+				.AddJsonFile("appSettings.json")
 				.AddUserSecrets(Assembly.GetExecutingAssembly())
 				.AddEnvironmentVariables()
 				.Build();
