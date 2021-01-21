@@ -6,7 +6,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
 {
     public interface IAdditionalServiceRepository
     {
-        Task<IEnumerable<IAdditionalServiceResult>> GetAdditionalServiceBySolutionIdsAsync(IEnumerable<string> solutionIds,
+        Task<IEnumerable<IAdditionalServiceResult>> GetAdditionalServiceBySolutionIdsAsync(
+            IEnumerable<string> solutionIds,
             CancellationToken cancellationToken);
     }
 }

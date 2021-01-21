@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
@@ -13,7 +13,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         /// </summary>
         /// <param name="id">The ID of the solution to look up.</param>
         /// <param name="cancellationToken">A token to notify if the task is cancelled.</param>
-        /// <returns>A task representing an operation to retrieve a <see cref="ISolutionListResult"/> matching the specified ID.</returns>
+        /// <returns>A task representing an operation to retrieve an <see cref="ISolutionResult"/> matching the specified ID.</returns>
         Task<ISolutionResult> ByIdAsync(string id, CancellationToken cancellationToken);
 
         /// <summary>
@@ -25,11 +25,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         Task UpdateSupplierStatusAsync(IUpdateSolutionSupplierStatusRequest updateSolutionSupplierStatusRequest, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Checks if the solution exists
+        /// Checks if the solution exists.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>True if it exists</returns>
+        /// <param name="id">The ID of the solution.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the
+        /// task to complete.</param>
+        /// <returns>True if it exists.</returns>
         Task<bool> CheckExists(string id, CancellationToken cancellationToken);
     }
 }

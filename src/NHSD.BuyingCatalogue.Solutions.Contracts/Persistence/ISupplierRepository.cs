@@ -15,19 +15,21 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         Task<ISupplierResult> GetSupplierById(string id, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Retrieve the Suppliers for a solution
+        /// Retrieve the Suppliers for a solution.
         /// </summary>
-        /// <param name="solutionId"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>A task containing the supplier data</returns>
+        /// <param name="solutionId">The ID of the solution.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the
+        /// task to complete.</param>
+        /// <returns>A task containing the supplier data.</returns>
         Task<ISolutionSupplierResult> GetSupplierBySolutionIdAsync(string solutionId, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Updates the Supplier for a solution
+        /// Updates the Supplier for a solution.
         /// </summary>
-        /// <param name="updateSupplierRequest"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>A task containing the supplier data</returns>
+        /// <param name="updateSupplierRequest">The ID of the solution.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the
+        /// task to complete.</param>
+        /// <returns>A task containing the supplier data.</returns>
         Task UpdateSupplierAsync(IUpdateSupplierRequest updateSupplierRequest, CancellationToken cancellationToken);
 
         /// <summary>

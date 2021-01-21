@@ -399,11 +399,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .Build()
                 .InsertAndSetCurrentForSolutionAsync();
 
-            var mockRequest = new Mock<IUpdateRoadmapRequest>();
+            var mockRequest = new Mock<IUpdateRoadMapRequest>();
             mockRequest.Setup(m => m.SolutionId).Returns(_solution1Id);
             mockRequest.Setup(m => m.Description).Returns(expectedResult);
 
-            await _solutionDetailRepository.UpdateRoadmapAsync(mockRequest.Object, new CancellationToken());
+            await _solutionDetailRepository.UpdateRoadMapAsync(mockRequest.Object, new CancellationToken());
 
             var solution = await SolutionEntity.GetByIdAsync(_solution1Id);
             solution.Id.Should().Be(_solution1Id);

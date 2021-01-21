@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 
 namespace NHSD.BuyingCatalogue.Solutions.Contracts.Queries
 {
@@ -8,13 +8,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Queries
     public sealed class GetSolutionByIdQuery : IRequest<ISolution>
     {
         /// <summary>
-        /// The key information to identify a <see cref="Solution"/>.
+        /// Gets the key information to identify a solution.
         /// </summary>
         public string Id { get; }
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="GetSolutionByIdQuery"/> class.
+        /// Initializes a new instance of the <see cref="GetSolutionByIdQuery"/> class.
         /// </summary>
+        /// <param name="id">The ID of the solution.</param>
         public GetSolutionByIdQuery(string id)
         {
             Id = id;

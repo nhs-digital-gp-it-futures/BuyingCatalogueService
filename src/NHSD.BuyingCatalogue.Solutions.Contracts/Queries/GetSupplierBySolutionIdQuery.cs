@@ -6,14 +6,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Queries
     public sealed class GetSupplierBySolutionIdQuery : IRequest<ISolutionSupplier>
     {
         /// <summary>
-        /// The Id of the <see cref="Solution"/> to retrieve Supplier for
+        /// Gets the ID of the solution to retrieve the supplier for.
         /// </summary>
         public string SolutionId { get; }
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="GetSupplierBySolutionIdQuery"/> class.
+        /// Initializes a new instance of the <see cref="GetSupplierBySolutionIdQuery"/> class.
         /// </summary>
-        /// <param name="id">The ID of the Solution to retrieve the Supplier</param>
+        /// <param name="solutionId">The ID of the solution to retrieve the supplier.</param>
         public GetSupplierBySolutionIdQuery(string solutionId)
         {
             SolutionId = solutionId;

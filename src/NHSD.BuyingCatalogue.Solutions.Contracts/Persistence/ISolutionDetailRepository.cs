@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
@@ -33,75 +33,75 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
         Task UpdateClientApplicationAsync(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Retrieve the client application details for a solution
+        /// Retrieve the client application details for a solution.
         /// </summary>
-        /// <param name="solutionId">The ID of the solution</param>
-        /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
-        /// <returns>A task containing the client application data</returns>
+        /// <param name="solutionId">The ID of the solution.</param>
+        /// <param name="cancellationToken">A token to notify if the task is cancelled.</param>
+        /// <returns>A task containing the client application data.</returns>
         Task<IClientApplicationResult> GetClientApplicationBySolutionIdAsync(string solutionId, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Update the hosting details for a solution
+        /// Update the hosting details for a solution.
         /// </summary>
-        /// <param name="updateSolutionHostingRequest">The updated details of solution hosting to save to the data store</param>
-        /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
-        /// <returns>A task containing the hosting data</returns>
+        /// <param name="updateSolutionHostingRequest">The updated details of solution hosting to save to the data store.</param>
+        /// <param name="cancellationToken">A token to notify if the task is cancelled.</param>
+        /// <returns>A task containing the hosting data.</returns>
         Task UpdateHostingAsync(IUpdateSolutionHostingRequest updateSolutionHostingRequest, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Retrieve the hosting details for a solution
+        /// Retrieve the hosting details for a solution.
         /// </summary>
-        /// <param name="solutionId">The ID of the solution</param>
-        /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
-        /// <returns>A task containing the hosting data</returns>
+        /// <param name="solutionId">The ID of the solution.</param>
+        /// <param name="cancellationToken">A token to notify if the task is cancelled.</param>
+        /// <returns>A task containing the hosting data.</returns>
         Task<IHostingResult> GetHostingBySolutionIdAsync(string solutionId, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Retrieve the roadmap details for a solution
+        /// Retrieve the road map details for a solution.
         /// </summary>
-        /// <param name="solutionId">The ID of the solution</param>
-        /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
-        /// <returns>A task containing the roadmap data</returns>
+        /// <param name="solutionId">The ID of the solution.</param>
+        /// <param name="cancellationToken">A token to notify if the task is cancelled.</param>
+        /// <returns>A task containing the road map data.</returns>
         Task<IRoadMapResult> GetRoadMapBySolutionIdAsync(string solutionId, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Update the roadmap details for a solution
+        /// Update the road map details for a solution.
         /// </summary>
-        /// <param name="updateRoadmapRequest">The updated details of solution roadmap to save to the data store</param>
-        /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
-        /// <returns>A task containing the roadmap data</returns>
-        Task UpdateRoadmapAsync(IUpdateRoadmapRequest updateRoadmapRequest, CancellationToken cancellationToken);
+        /// <param name="updateRoadMapRequest">The updated details of solution road map to save to the data store.</param>
+        /// <param name="cancellationToken">A token to notify if the task is cancelled.</param>
+        /// <returns>A task containing the road map data.</returns>
+        Task UpdateRoadMapAsync(IUpdateRoadMapRequest updateRoadMapRequest, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Retrieve the integrations details for a solution
+        /// Retrieve the integrations details for a solution.
         /// </summary>
-        /// <param name="solutionId">The ID of the solution</param>
-        /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
-        /// <returns>A task containing the integrations data</returns>
+        /// <param name="solutionId">The ID of the solution.</param>
+        /// <param name="cancellationToken">A token to notify if the task is cancelled.</param>
+        /// <returns>A task containing the integrations data.</returns>
         Task<IIntegrationsResult> GetIntegrationsBySolutionIdAsync(string solutionId, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Update the integrations details for a solution
+        /// Update the integrations details for a solution.
         /// </summary>
-        /// <param name="updateIntegrationsRequest">The updated details of solution integrations to save to the data store</param>
-        /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
-        /// <returns>A task containing the integrations data</returns>
+        /// <param name="updateIntegrationsRequest">The updated details of solution integrations to save to the data store.</param>
+        /// <param name="cancellationToken">A token to notify if the task is cancelled.</param>
+        /// <returns>A task containing the integrations data.</returns>
         Task UpdateIntegrationsAsync(IUpdateIntegrationsRequest updateIntegrationsRequest, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Retrieve the implementation timescales details for a solution
+        /// Retrieve the implementation timescales details for a solution.
         /// </summary>
-        /// <param name="solutionId">The ID of the solution</param>
-        /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
-        /// <returns>A task containing the implementation timescales data</returns>
+        /// <param name="solutionId">The ID of the solution.</param>
+        /// <param name="cancellationToken">A token to notify if the task is cancelled.</param>
+        /// <returns>A task containing the implementation timescales data.</returns>
         Task<IImplementationTimescalesResult> GetImplementationTimescalesBySolutionIdAsync(string solutionId, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Update the implementation timescales details for a solution
+        /// Update the implementation timescales details for a solution.
         /// </summary>
-        /// <param name="updateImplementationTimescalesRequest">The updated details of solution implementation timescales to save to the data store</param>
-        /// <param name="cancellationToken">A token to notify if the task is cancelled</param>
-        /// <returns>A task containing the implementation timescales data</returns>
+        /// <param name="updateImplementationTimescalesRequest">The updated details of solution implementation timescales to save to the data store.</param>
+        /// <param name="cancellationToken">A token to notify if the task is cancelled.</param>
+        /// <returns>A task containing the implementation timescales data.</returns>
         Task UpdateImplementationTimescalesAsync(
             IUpdateImplementationTimescalesRequest updateImplementationTimescalesRequest,
             CancellationToken cancellationToken);

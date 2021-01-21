@@ -1,21 +1,21 @@
-using MediatR;
+﻿using MediatR;
 
 namespace NHSD.BuyingCatalogue.Solutions.Contracts.Queries
 {
     /// <summary>
-    /// Represents the query parameters for the get client application by solution ID request
+    /// Represents the query parameters for the get client application by solution ID request.
     /// </summary>
     public sealed class GetClientApplicationBySolutionIdQuery : IRequest<IClientApplication>
     {
         /// <summary>
-        /// The key information to identify a <see cref="Solution"/>
+        /// Gets the key information to identify a solution.
         /// </summary>
         public string Id { get; }
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="GetClientApplicationBySolutionIdQuery"/> class.
+        /// Initializes a new instance of the <see cref="GetClientApplicationBySolutionIdQuery"/> class.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">The ID of the solution.</param>
         public GetClientApplicationBySolutionIdQuery(string id)
         {
             Id = id;

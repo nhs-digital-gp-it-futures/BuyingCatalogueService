@@ -38,7 +38,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             context.MockSolutionRepository.Verify(r => r.CheckExists(ExistingSolutionId, It.IsAny<CancellationToken>()), Times.Once());
 
-            context.MockSolutionDetailRepository.Verify(r => r.UpdateRoadmapAsync(It.Is<IUpdateRoadmapRequest>(r =>
+            context.MockSolutionDetailRepository.Verify(r => r.UpdateRoadMapAsync(It.Is<IUpdateRoadMapRequest>(r =>
                 r.SolutionId == ExistingSolutionId
                 && r.Description == expected
             ), It.IsAny<CancellationToken>()), Times.Once());
@@ -54,7 +54,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             results["summary"].Should().Be("maxLength");
 
             context.MockSolutionRepository.Verify(r => r.CheckExists(ExistingSolutionId, It.IsAny<CancellationToken>()), Times.Never());
-            context.MockSolutionDetailRepository.Verify(r => r.UpdateRoadmapAsync(It.IsAny<IUpdateRoadmapRequest>(), It.IsAny<CancellationToken>()), Times.Never);
+            context.MockSolutionDetailRepository.Verify(r => r.UpdateRoadMapAsync(It.IsAny<IUpdateRoadMapRequest>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Test]

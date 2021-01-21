@@ -2,9 +2,9 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 {
-    internal sealed class UpdateRoadmapRequest : IUpdateRoadmapRequest
+    internal sealed class UpdateRoadMapRequest : IUpdateRoadMapRequest
     {
-        public UpdateRoadmapRequest(string solutionId, string description)
+        public UpdateRoadMapRequest(string solutionId, string description)
         {
             SolutionId = solutionId;
             Description = description;
