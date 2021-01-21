@@ -1,4 +1,4 @@
-using NHSD.BuyingCatalogue.Infrastructure;
+﻿using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Solutions.Contracts
 {
@@ -10,10 +10,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         public static readonly SupplierStatus Draft = new(1, nameof(Draft));
         public static readonly SupplierStatus AuthorityReview = new(2, nameof(AuthorityReview));
 
-        /// <summary>
-        /// Initialises a new instance of the <see cref="SupplierStatus"/> class.
-        /// </summary>
-        private SupplierStatus(int id, string name) : base(id, name)
+        private SupplierStatus(int id, string name)
+            : base(id, name)
         {
         }
     }

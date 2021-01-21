@@ -3,17 +3,17 @@
     public interface IUpdateSolutionSummary
     {
         /// <summary>
-        /// Description of the solution.
+        /// Gets the description of the solution.
         /// </summary>
         string Description { get; }
 
         /// <summary>
-        /// A link to more information regarding the solution.
+        /// Gets a link to more information regarding the solution.
         /// </summary>
         string Link { get; }
 
         /// <summary>
-        /// Summary of the solution.
+        /// Gets the summary of the solution.
         /// </summary>
         string Summary { get; }
     }

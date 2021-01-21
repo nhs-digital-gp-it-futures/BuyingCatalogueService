@@ -7,100 +7,103 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
     public interface ISolution
     {
         /// <summary>
-        /// Id of the solution.
+        /// Gets the ID of the solution.
         /// </summary>
         string Id { get; }
 
         /// <summary>
-        /// Name of the solution, as displayed to a user.
+        /// Gets the name of the solution, as displayed to a user.
         /// </summary>
         string Name { get; }
 
         /// <summary>
-        /// Date when the solution was last modified, as displayed to the user
+        /// Gets the date when the solution was last modified, as displayed to the user.
         /// </summary>
         DateTime LastUpdated { get; }
 
         /// <summary>
-        /// Full description of the solution, as displayed to the user.
+        /// Gets the full description of the solution, as displayed to the user.
         /// </summary>
         string Description { get; }
 
         /// <summary>
-        /// Summary of the solution, as displayed to a user.
+        /// Gets the summary of the solution, as displayed to a user.
         /// </summary>
         string Summary { get; }
 
         /// <summary>
-        /// Name of the supplier, as displayed to a user.
+        /// Gets the name of the supplier, as displayed to a user.
         /// </summary>
         string SupplierName { get; }
 
         /// <summary>
-        /// Gets or sets a list of features.
+        /// Gets the list of features.
         /// </summary>
         IEnumerable<string> Features { get; }
 
         /// <summary>
-        /// Gets or sets the Road Map.
+        /// Gets the road map.
         /// </summary>
         IRoadMap RoadMap { get; }
 
         /// <summary>
-        /// A link to provide more information about a solution.
+        /// Gets a link to provide more information about a solution.
         /// </summary>
         string AboutUrl { get; }
 
         /// <summary>
-        /// Status of this instance in relation to the supplier.
+        /// Gets the status of this instance in relation to the supplier.
         /// </summary>
         SupplierStatus SupplierStatus { get; }
 
         /// <summary>
-        /// Marketing information related to the clients application.
+        /// Gets the marketing information related to the clients application.
         /// </summary>
         IClientApplication ClientApplication { get; }
 
         /// <summary>
-        /// Marketing information related to the hosting
+        /// Gets the marketing information related to the hosting.
         /// </summary>
         IHosting Hosting { get; }
 
         /// <summary>
-        /// Is this a foundation solution?
+        /// Gets a value indicating whether this is a foundation solution.
         /// </summary>
         bool IsFoundation { get; }
 
         /// <summary>
-        /// Capabilities claimed by the solution
+        /// Gets the capabilities claimed by the solution.
         /// </summary>
         IEnumerable<IClaimedCapability> Capabilities { get; }
 
         /// <summary>
-        /// The contacts for the solution
+        /// Gets the contacts for the solution.
         /// </summary>
         IEnumerable<IContact> Contacts { get; }
 
         /// <summary>
-        /// The publish status of the solution
+        /// Gets the publication status of the solution.
         /// </summary>
         PublishedStatus PublishedStatus { get;  }
 
         /// <summary>
-        /// Marketing information related to the supplier
+        /// Gets the marketing information related to the supplier.
         /// </summary>
         ISolutionSupplier Supplier { get; }
 
         /// <summary>
-        /// Gets or sets the integrations.
+        /// Gets the integrations.
         /// </summary>
         IIntegrations Integrations { get; }
 
         /// <summary>
-        /// Gets or sets the implementation timescales.
+        /// Gets the implementation timescales.
         /// </summary>
         IImplementationTimescales ImplementationTimescales { get; }
 
+        /// <summary>
+        /// Gets the solution document.
+        /// </summary>
         ISolutionDocument SolutionDocument { get; }
     }
 }

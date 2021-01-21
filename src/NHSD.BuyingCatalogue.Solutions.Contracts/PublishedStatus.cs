@@ -6,6 +6,6 @@
         Draft = 1,
         Unpublished = 2,
         Published = 3,
-        Withdrawn= 4,
+        Withdrawn = 4,
     }
 }

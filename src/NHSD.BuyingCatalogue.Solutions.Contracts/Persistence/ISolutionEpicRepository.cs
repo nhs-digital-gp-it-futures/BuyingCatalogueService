@@ -6,8 +6,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
 {
     public interface ISolutionEpicRepository
     {
-        Task<IEnumerable<ISolutionEpicListResult>> ListSolutionEpicsAsync(string solutionId, CancellationToken cancellationToken);
-        Task UpdateSolutionEpicAsync(string solutionId, IUpdateClaimedEpicListRequest request,
+        Task<IEnumerable<ISolutionEpicListResult>> ListSolutionEpicsAsync(
+            string solutionId,
+            CancellationToken cancellationToken);
+
+        Task UpdateSolutionEpicAsync(
+            string solutionId,
+            IUpdateClaimedEpicListRequest request,
             CancellationToken cancellationToken);
     }
 }

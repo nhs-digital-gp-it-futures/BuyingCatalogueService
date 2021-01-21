@@ -1,8 +1,9 @@
-namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
+﻿namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
 {
-    public interface IUpdateRoadmapRequest
+    public interface IUpdateRoadMapRequest
     {
         string SolutionId { get; }
+
         string Description { get; }
     }
 }

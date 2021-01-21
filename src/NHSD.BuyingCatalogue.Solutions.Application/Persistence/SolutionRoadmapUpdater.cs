@@ -16,8 +16,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
             this.solutionDetailRepository = solutionDetailRepository;
 
         public async Task Update(string solutionId, string description, CancellationToken cancellationToken) =>
-            await solutionDetailRepository.UpdateRoadmapAsync(
-                new UpdateRoadmapRequest(solutionId, description),
+            await solutionDetailRepository.UpdateRoadMapAsync(
+                new UpdateRoadMapRequest(solutionId, description),
                 cancellationToken);
     }
 }

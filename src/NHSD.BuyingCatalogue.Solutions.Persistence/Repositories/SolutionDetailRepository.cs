@@ -128,16 +128,16 @@ WHERE Id = @solutionId;";
         public async Task<IHostingResult> GetHostingBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
             => (await _dbConnector.QueryAsync<HostingResult>(GetHostingBySolutionIdSql, cancellationToken, new { solutionId })).SingleOrDefault();
 
-        public async Task UpdateRoadmapAsync(IUpdateRoadmapRequest updateRoadmapRequest, CancellationToken cancellationToken)
+        public async Task UpdateRoadMapAsync(IUpdateRoadMapRequest updateRoadMapRequest, CancellationToken cancellationToken)
         {
-            if (updateRoadmapRequest is null)
+            if (updateRoadMapRequest is null)
             {
-                throw new ArgumentNullException(nameof(updateRoadmapRequest));
+                throw new ArgumentNullException(nameof(updateRoadMapRequest));
             }
 
             await _dbConnector.ExecuteAsync(UpdateTemplate.Replace("[Setters]", @"s.RoadMap = @description", StringComparison.InvariantCulture),
                 cancellationToken,
-                updateRoadmapRequest);
+                updateRoadMapRequest);
         }
 
         public async Task<IRoadMapResult> GetRoadMapBySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
