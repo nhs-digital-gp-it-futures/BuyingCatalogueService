@@ -13,30 +13,33 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
     {
         private const int PassedFullCapabilityStatus = 1;
 
-        private const string Sql = @"SELECT Capability.Id as CapabilityId,
-                                        Capability.Name as CapabilityName,
-                                        Capability.Description as CapabilityDescription,
-                                        Capability.Version as CapabilityVersion,
-                                        Capability.SourceUrl as CapabilitySourceUrl
-                                FROM SolutionCapability
-                                     INNER JOIN Capability ON SolutionCapability.CapabilityId = Capability.Id
-                                     INNER JOIN SolutionCapabilityStatus ON SolutionCapabilityStatus.Id = SolutionCapability.StatusId
-                                WHERE SolutionCapability.SolutionId = @solutionId AND SolutionCapabilityStatus.Pass = 1
-                                ORDER BY Capability.Name;";
+        private const string Sql = @"
+            SELECT Capability.Id AS CapabilityId,
+                   Capability.Name AS CapabilityName,
+                   Capability.Description AS CapabilityDescription,
+                   Capability.Version AS CapabilityVersion,
+                   Capability.SourceUrl AS CapabilitySourceUrl
+              FROM dbo.SolutionCapability
+                   INNER JOIN dbo.Capability ON SolutionCapability.CapabilityId = Capability.Id
+                   INNER JOIN dbo.SolutionCapabilityStatus ON SolutionCapabilityStatus.Id = SolutionCapability.StatusId
+             WHERE SolutionCapability.SolutionId = @solutionId AND SolutionCapabilityStatus.Pass = 1
+          ORDER BY Capability.Name;";
 
-        private const string CheckCapabilitiesExist = @"SELECT COUNT(*)
-                                                        FROM
-                                                       (SELECT CapabilityRef
-                                                        FROM Capability
-                                                        WHERE CapabilityRef in @capabilitiesToMatch
-                                                        GROUP BY CapabilityRef) AS count;";
+        private const string CheckCapabilitiesExist = @"
+            SELECT COUNT(*)
+              FROM (SELECT CapabilityRef
+                     FROM dbo.Capability
+                    WHERE CapabilityRef in @capabilitiesToMatch
+                 GROUP BY CapabilityRef) AS count;";
 
-        private const string UpdateCapabilities = @"DELETE FROM SolutionCapability WHERE SolutionId = @solutionId
-                                                    INSERT INTO dbo.SolutionCapability
-                                                    (SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
-                                                    SELECT @solutionId AS SolutionId, Id, @statusId, GETUTCDATE(), @lastUpdatedBy
-                                                    FROM Capability
-                                                    WHERE CapabilityRef in @newCapabilitiesReference;";
+        private const string UpdateCapabilities = @"
+            DELETE FROM SolutionCapability
+                  WHERE SolutionId = @solutionId;
+
+            INSERT INTO dbo.SolutionCapability(SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
+                 SELECT @solutionId AS SolutionId, Id, @statusId, GETUTCDATE(), @lastUpdatedBy
+                   FROM dbo.Capability
+                  WHERE CapabilityRef in @newCapabilitiesReference;";
 
         private readonly IDbConnector dbConnector;
 
@@ -52,7 +55,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
             IEnumerable<string> capabilitiesToMatch,
             CancellationToken cancellationToken)
         {
-            return (await dbConnector.QueryAsync<int>(CheckCapabilitiesExist, cancellationToken, new { capabilitiesToMatch })).FirstOrDefault();
+            return (await dbConnector.QueryAsync<int>(
+                CheckCapabilitiesExist,
+                cancellationToken,
+                new { capabilitiesToMatch })).FirstOrDefault();
         }
 
         public async Task UpdateCapabilitiesAsync(

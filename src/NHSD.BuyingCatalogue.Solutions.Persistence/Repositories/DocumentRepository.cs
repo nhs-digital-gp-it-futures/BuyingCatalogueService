@@ -36,7 +36,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         {
             try
             {
-                var documents = await client.DocumentsAsync(solutionId, cancellationToken).ConfigureAwait(false);
+                var documents = await client.DocumentsAsync(solutionId, cancellationToken);
                 var sortedDocuments = documents.OrderByDescending(d => d).ToList();
 
                 return new DocumentResult

@@ -9,18 +9,18 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 {
     public sealed class AdditionalServiceRepository : IAdditionalServiceRepository
     {
-        private readonly IDbConnector dbConnector;
-
         private const string GetAdditionalService = @"
-        SELECT  ad.Summary,
-                ad.SolutionId,
-                ci.CatalogueItemId,
-                ci.[Name] AS CatalogueItemName, 
-                solution.[Name] AS SolutionName
-        FROM    dbo.AdditionalService AS ad
-                INNER JOIN dbo.CatalogueItem AS ci on ad.CatalogueItemId = ci.CatalogueItemId
-                INNER JOIN dbo.CatalogueItem AS solution on ad.SolutionId = solution.CatalogueItemId
-        WHERE   ad.SolutionId in @solutionIds";
+            SELECT ad.Summary,
+                   ad.SolutionId,
+                   ci.CatalogueItemId,
+                   ci.[Name] AS CatalogueItemName,
+                   solution.[Name] AS SolutionName
+              FROM dbo.AdditionalService AS ad
+                   INNER JOIN dbo.CatalogueItem AS ci on ad.CatalogueItemId = ci.CatalogueItemId
+                   INNER JOIN dbo.CatalogueItem AS solution on ad.SolutionId = solution.CatalogueItemId
+             WHERE ad.SolutionId in @solutionIds";
+
+        private readonly IDbConnector dbConnector;
 
         public AdditionalServiceRepository(IDbConnector dbConnector)
         {

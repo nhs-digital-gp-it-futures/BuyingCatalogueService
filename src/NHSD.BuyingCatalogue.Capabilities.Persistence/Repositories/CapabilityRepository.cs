@@ -12,15 +12,15 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.Repositories
     /// </summary>
     public sealed class CapabilityRepository : ICapabilityRepository
     {
-        private const string Sql =
-            @"SELECT c.CapabilityRef AS CapabilityReference,
-                     c.[Version],
-                     c.[Name],
-                     ISNULL(f.IsFoundation, 0) AS IsFoundation
-                FROM dbo.Capability AS c
-                LEFT OUTER JOIN dbo.FrameworkCapabilities AS f
-                     ON c.Id = f.CapabilityId
-            ORDER BY UPPER(c.[Name]);";
+        private const string Sql = @"
+            SELECT c.CapabilityRef AS CapabilityReference,
+                   c.[Version],
+                   c.[Name],
+                   ISNULL(f.IsFoundation, 0) AS IsFoundation
+              FROM dbo.Capability AS c
+              LEFT OUTER JOIN dbo.FrameworkCapabilities AS f
+                   ON c.Id = f.CapabilityId
+          ORDER BY UPPER(c.[Name]);";
 
         private readonly IDbConnector dbConnector;
 
@@ -32,7 +32,7 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.Repositories
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the
         /// task to complete.</param>
         /// <returns>A task representing an operation to retrieve a list of <see cref="ICapabilityListResult"/> objects.</returns>
-        public async Task<IEnumerable<ICapabilityListResult>> ListAsync(CancellationToken cancellationToken)
-            => await dbConnector.QueryAsync<CapabilityListResult>(Sql, cancellationToken);
+        public async Task<IEnumerable<ICapabilityListResult>> ListAsync(CancellationToken cancellationToken) =>
+            await dbConnector.QueryAsync<CapabilityListResult>(Sql, cancellationToken);
     }
 }

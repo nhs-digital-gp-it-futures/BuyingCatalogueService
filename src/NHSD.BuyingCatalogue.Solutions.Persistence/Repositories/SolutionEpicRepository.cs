@@ -12,30 +12,49 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
     public sealed class SolutionEpicRepository : ISolutionEpicRepository
     {
         private const string DeleteSolutionEpicSql = @"DELETE FROM dbo.SolutionEpic WHERE SolutionId = @solutionId";
-        private const string InsertSolutionEpicSql = @"INSERT INTO dbo.SolutionEpic (SolutionId, CapabilityId, EpicId, StatusId, LastUpdated, LastUpdatedBy) VALUES (@solutionId, (SELECT Epic.CapabilityId FROM Epic WHERE Epic.Id = @epicId), @epicId, (SELECT SolutionEpicStatus.Id FROM SolutionEpicStatus WHERE SolutionEpicStatus.Name = @statusName), GETUTCDATE(), @lastUpdatedBy)";
 
-        private const string ListSolutionEpicsSql = @"SELECT
-		                                               Epic.[Id] as EpicId
-                                                      ,Epic.[Name] as EpicName
-                                                      ,Epic.[CapabilityId] as CapabilityId              
-	                                                  ,CompliancyLevel.Name as EpicCompliancyLevel
-	                                                  ,SolutionEpicStatus.IsMet as IsMet
-                                                  FROM [Epic] 
-                                                      inner join [CompliancyLevel] on Epic.CompliancyLevelId = CompliancyLevel.Id
-                                                      inner join [SolutionEpic] on SolutionEpic.EpicId = Epic.Id and SolutionEpic.CapabilityId = Epic.CapabilityId
-                                                      inner join [SolutionEpicStatus] on SolutionEpicStatus.Id = SolutionEpic.StatusId
-                                                  Where [Epic].Active = 1 and [SolutionEpic].SolutionId = @solutionId
-                                                  Order By EpicId";
+        private const string InsertSolutionEpicSql = @"
+            INSERT INTO dbo.SolutionEpic (SolutionId, CapabilityId, EpicId, StatusId, LastUpdated, LastUpdatedBy)
+                 VALUES (@solutionId,
+                        (SELECT Epic.CapabilityId FROM dbo.Epic WHERE Epic.Id = @epicId), @epicId,
+                        (SELECT SolutionEpicStatus.Id FROM dbo.SolutionEpicStatus WHERE SolutionEpicStatus.Name = @statusName),
+                        GETUTCDATE(), @lastUpdatedBy);";
+
+        private const string ListSolutionEpicsSql = @"
+            SELECT Epic.Id AS EpicId,
+                   Epic.[Name] AS EpicName,
+                   Epic.CapabilityId AS CapabilityId,
+	               CompliancyLevel.[Name] AS EpicCompliancyLevel,
+	               SolutionEpicStatus.IsMet AS IsMet
+              FROM dbo.Epic
+                   INNER JOIN dbo.CompliancyLevel
+                           ON Epic.CompliancyLevelId = CompliancyLevel.Id
+                   INNER JOIN dbo.SolutionEpic
+                           ON SolutionEpic.EpicId = Epic.Id and SolutionEpic.CapabilityId = Epic.CapabilityId
+                   INNER JOIN dbo.SolutionEpicStatus
+                           ON SolutionEpicStatus.Id = SolutionEpic.StatusId
+             WHERE dbo.Epic.Active = 1 AND SolutionEpic.SolutionId = @solutionId
+          ORDER BY EpicId;";
 
         private readonly IDbConnector dbConnector;
 
         public SolutionEpicRepository(IDbConnector dbConnector) =>
             this.dbConnector = dbConnector;
 
-        public async Task<IEnumerable<ISolutionEpicListResult>> ListSolutionEpicsAsync(string solutionId, CancellationToken cancellationToken)
-            => await dbConnector.QueryAsync<SolutionEpicListResult>(ListSolutionEpicsSql, cancellationToken, new { solutionId });
+        public async Task<IEnumerable<ISolutionEpicListResult>> ListSolutionEpicsAsync(
+            string solutionId,
+            CancellationToken cancellationToken)
+        {
+            return await dbConnector.QueryAsync<SolutionEpicListResult>(
+                ListSolutionEpicsSql,
+                cancellationToken,
+                new { solutionId });
+        }
 
-        public async Task UpdateSolutionEpicAsync(string solutionId, IUpdateClaimedEpicListRequest request, CancellationToken cancellationToken)
+        public async Task UpdateSolutionEpicAsync(
+            string solutionId,
+            IUpdateClaimedEpicListRequest request,
+            CancellationToken cancellationToken)
         {
             if (request is null)
             {
