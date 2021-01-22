@@ -6,19 +6,19 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure
 {
     internal sealed class Settings : ISettings
     {
-        private readonly IConfiguration _configuration;
+        private readonly IConfiguration configuration;
 
         public Settings(IConfiguration configuration) =>
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 
-        public string ConnectionString => _configuration.GetConnectionString("BuyingCatalogue");
+        public string ConnectionString => configuration.GetConnectionString("BuyingCatalogue");
 
-        public string DocumentApiBaseUrl => _configuration["ApiClientSettings:DocumentApi:BaseUrl"];
+        public string DocumentApiBaseUrl => configuration["ApiClientSettings:DocumentApi:BaseUrl"];
 
-        public string DocumentRoadMapIdentifier => _configuration["ApiClientSettings:DocumentApi:DocumentRoadMapIdentifier"];
+        public string DocumentRoadMapIdentifier => configuration["ApiClientSettings:DocumentApi:DocumentRoadMapIdentifier"];
 
-        public string DocumentIntegrationIdentifier => _configuration["ApiClientSettings:DocumentApi:DocumentIntegrationIdentifier"];
+        public string DocumentIntegrationIdentifier => configuration["ApiClientSettings:DocumentApi:DocumentIntegrationIdentifier"];
 
-        public string DocumentSolutionIdentifier => _configuration["ApiClientSettings:DocumentApi:DocumentSolutionIdentifier"];
+        public string DocumentSolutionIdentifier => configuration["ApiClientSettings:DocumentApi:DocumentSolutionIdentifier"];
     }
 }

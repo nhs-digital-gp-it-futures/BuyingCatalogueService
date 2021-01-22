@@ -10,8 +10,8 @@ using Serilog.Events;
 namespace NHSD.BuyingCatalogue.API
 {
     public static class Program
-	{
-		public static int Main(string[] args)
+    {
+        public static int Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
@@ -38,7 +38,7 @@ namespace NHSD.BuyingCatalogue.API
             {
                 Log.CloseAndFlush();
             }
-		}
+        }
 
         /// <summary>
         /// Creates the host builder.
@@ -46,8 +46,8 @@ namespace NHSD.BuyingCatalogue.API
         /// <param name="args">A set of the application arguments.</param>
         /// <returns>An instance of the <see cref="IHostBuilder"/>.</returns>
         public static IHostBuilder CreateHostBuilder(string[] args)
-		{
-			IConfigurationRoot configurationRoot = GetConfiguration();
+        {
+            IConfigurationRoot configurationRoot = GetConfiguration();
 
             return Host.CreateDefaultBuilder(args)
                 .UseSerilog()
@@ -57,20 +57,20 @@ namespace NHSD.BuyingCatalogue.API
                     .UseConfiguration(configurationRoot)
                     .UseStartup<Startup>();
             });
-		}
+        }
 
-		/// <summary>
-		/// Gets the application configuration root.
-		/// </summary>
-		/// <returns>An instance of the <see cref="IConfigurationRoot"/>.</returns>
-		private static IConfigurationRoot GetConfiguration()
-		{
-			return new ConfigurationBuilder()
-				.SetBasePath(Directory.GetCurrentDirectory())
-				.AddJsonFile("appSettings.json")
-				.AddUserSecrets(Assembly.GetExecutingAssembly())
-				.AddEnvironmentVariables()
-				.Build();
-		}
-	}
+        /// <summary>
+        /// Gets the application configuration root.
+        /// </summary>
+        /// <returns>An instance of the <see cref="IConfigurationRoot"/>.</returns>
+        private static IConfigurationRoot GetConfiguration()
+        {
+            return new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appSettings.json")
+                .AddUserSecrets(Assembly.GetExecutingAssembly())
+                .AddEnvironmentVariables()
+                .Build();
+        }
+    }
 }

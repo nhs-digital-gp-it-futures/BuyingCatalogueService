@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-namespace NHSD.BuyingCatalogue.Solutions.Contracts.Commands.Hostings
+﻿namespace NHSD.BuyingCatalogue.Solutions.Contracts.Commands.Hostings
 {
     public interface IUpdatePrivateCloudData
     {

@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API
@@ -23,7 +23,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API
 
         public static bool IsNativeMobileMemoryAndStorageComplete(this IClientApplication clientApplication) =>
             !string.IsNullOrWhiteSpace(clientApplication?.MobileMemoryAndStorage?.MinimumMemoryRequirement) &&
-            !string.IsNullOrWhiteSpace(clientApplication?.MobileMemoryAndStorage?.Description);
+            !string.IsNullOrWhiteSpace(clientApplication.MobileMemoryAndStorage?.Description);
 
         public static bool IsMobileThirdPartyComplete(this IClientApplication clientApplication) =>
             !string.IsNullOrWhiteSpace(clientApplication?.MobileThirdParty?.ThirdPartyComponents) ||

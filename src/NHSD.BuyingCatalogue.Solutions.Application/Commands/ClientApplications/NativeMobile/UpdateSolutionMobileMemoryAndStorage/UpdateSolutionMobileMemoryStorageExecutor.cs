@@ -18,7 +18,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications
                 request.Id,
                 clientApplication =>
                 {
-                    clientApplication.MobileMemoryAndStorage = new MobileMemoryAndStorage()
+                    clientApplication.MobileMemoryAndStorage = new MobileMemoryAndStorage
                     {
                         MinimumMemoryRequirement = request.MinimumMemoryRequirement,
                         Description = request.Description,

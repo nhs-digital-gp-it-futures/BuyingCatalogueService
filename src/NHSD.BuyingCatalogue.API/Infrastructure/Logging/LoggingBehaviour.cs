@@ -9,11 +9,11 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.Logging
 {
     public sealed class LoggingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
-        private readonly ILogger<LoggingBehaviour<TRequest, TResponse>> _logger;
+        private readonly ILogger<LoggingBehaviour<TRequest, TResponse>> logger;
 
         public LoggingBehaviour(ILogger<LoggingBehaviour<TRequest, TResponse>> logger)
         {
-            _logger = logger;
+            this.logger = logger;
         }
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
@@ -28,16 +28,21 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.Logging
                 var stopWatch = new Stopwatch();
                 stopWatch.Start();
 
-                var response = await next().ConfigureAwait(false);
+                var response = await next();
+
                 stopWatch.Stop();
-                _logger.LogInformation(
+                logger.LogInformation(
                     "Handled {requestType} in {elapsedMilliseconds}ms with request: {@request} and response: {@response} ",
-                    typeof(TRequest).Name, stopWatch.ElapsedMilliseconds, request, response);
+                    typeof(TRequest).Name,
+                    stopWatch.ElapsedMilliseconds,
+                    request,
+                    response);
+
                 return response;
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "ERROR {@request}", request);
+                logger.LogError(e, "ERROR {@request}", request);
                 throw;
             }
         }

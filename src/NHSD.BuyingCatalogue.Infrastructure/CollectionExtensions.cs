@@ -1,11 +1,12 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace NHSD.BuyingCatalogue.Infrastructure
 {
     public static class CollectionExtensions
     {
-        public static Dictionary<string, string> ToConstantValueDictionary(this HashSet<string> keys, string name) => keys.ToDictionary(k => k, v => name);
+        public static Dictionary<string, string> ToConstantValueDictionary(this HashSet<string> keys, string name) =>
+            keys.ToDictionary(k => k, _ => name);
 
         public static Dictionary<TKey, T> Combine<TKey, T>(this List<Dictionary<TKey, T>> dictionaries) =>
             dictionaries

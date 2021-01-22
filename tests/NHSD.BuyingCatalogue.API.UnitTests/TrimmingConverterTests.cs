@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using FluentAssertions;
 using Moq;
 using Newtonsoft.Json;
@@ -34,7 +34,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         [Test]
         public void WriteJsonThrowsNotImplementedException()
         {
-            Assert.Throws<NotImplementedException>(() => _converter.WriteJson(null, null, null));
+            Assert.Throws<NotSupportedException>(() => _converter.WriteJson(null, null, null));
         }
 
         [Test]

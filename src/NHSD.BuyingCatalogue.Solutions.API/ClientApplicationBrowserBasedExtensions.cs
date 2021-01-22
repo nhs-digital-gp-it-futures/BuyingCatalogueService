@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API
@@ -6,7 +6,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API
     internal static class ClientApplicationBrowserBasedExtensions
     {
         public static bool IsBrowserSupportedComplete(this IClientApplication clientApplication) =>
-            clientApplication?.BrowsersSupported?.Any() == true && clientApplication?.MobileResponsive.HasValue == true;
+            clientApplication?.BrowsersSupported?.Any() == true && clientApplication.MobileResponsive.HasValue;
 
         public static bool IsBrowserMobileFirstComplete(this IClientApplication clientApplication) =>
             clientApplication?.MobileFirstDesign.HasValue == true;
