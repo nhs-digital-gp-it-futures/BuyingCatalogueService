@@ -9,10 +9,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 {
     public sealed class EpicRepository : IEpicRepository
     {
-        private const string CheckIdsExistSql =
-            @"SELECT COUNT(Id)
-                FROM dbo.Epic
-               WHERE Id in @epicIds;";
+        private const string CheckIdsExistSql = @"
+            SELECT COUNT(Id)
+              FROM dbo.Epic
+             WHERE Id in @epicIds;";
 
         private readonly IDbConnector dbConnector;
 
