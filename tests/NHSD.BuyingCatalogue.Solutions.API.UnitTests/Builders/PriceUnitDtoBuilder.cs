@@ -5,15 +5,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Builders
 {
     internal sealed class PriceUnitDtoBuilder
     {
-        private readonly string _name;
-        private readonly string _description;
-        private readonly string _tierName;
+        private readonly string name;
+        private readonly string description;
+        private readonly string tierName;
 
         private PriceUnitDtoBuilder()
         {
-            _name = "name";
-            _description = "desc";
-            _tierName = "tier";
+            name = "name";
+            description = "desc";
+            tierName = "tier";
         }
 
         internal static PriceUnitDtoBuilder Create() => new();
@@ -22,9 +22,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Builders
         {
             return new PricingUnitDto
             {
-                Name = _name,
-                Description = _description,
-                TierName = _tierName,
+                Name = name,
+                Description = description,
+                TierName = tierName,
             };
         }
     }

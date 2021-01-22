@@ -8,12 +8,12 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.AuthorityDashboard
 {
     [TestFixture]
-    public sealed class SolutionAuthorityDashboardSectionsTests
+    internal sealed class SolutionAuthorityDashboardSectionsTests
     {
         [Test]
         public void NullSolutionShouldThrowNullExceptionAuthorityDashboardSection()
         {
-            Assert.Throws<ArgumentNullException>(() => new SolutionAuthorityDashboardSections(null));
+            Assert.Throws<ArgumentNullException>(() => _ = new SolutionAuthorityDashboardSections(null));
         }
 
         [Test]

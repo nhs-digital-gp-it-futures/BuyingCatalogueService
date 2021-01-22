@@ -4,29 +4,17 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Builders
 {
     internal sealed class CatalogueItemDtoBuilder
     {
-        private string _catalogueItemId;
-        private string _name;
+        private readonly string catalogueItemId;
+        private readonly string name;
 
         private CatalogueItemDtoBuilder()
         {
-            _catalogueItemId = "Some catalogue item id";
-            _name = "Some catalogue item name";
+            catalogueItemId = "Some catalogue item id";
+            name = "Some catalogue item name";
         }
 
         public static CatalogueItemDtoBuilder Create() => new();
 
-        public CatalogueItemDtoBuilder WithCatalogueItemId(string catalogueItemId)
-        {
-            _catalogueItemId = catalogueItemId;
-            return this;
-        }
-
-        public CatalogueItemDtoBuilder WithName(string name)
-        {
-            _name = name;
-            return this;
-        }
-
-        public CatalogueItemDto Build() => new(_catalogueItemId, _name);
+        public CatalogueItemDto Build() => new(catalogueItemId, name);
     }
 }

@@ -1,7 +1,7 @@
-using System.Net;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
@@ -11,25 +11,26 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.AuthorityDashboard
 {
     [TestFixture]
-    public sealed class SolutionsControllerGetAuthorityDashboardTests
+    internal sealed class SolutionsControllerGetAuthorityDashboardTests
     {
-        private Mock<IMediator> _mockMediator;
-        private SolutionsController _solutionsController;
         private const string SolutionId = "Sln1";
+
+        private Mock<IMediator> mockMediator;
+        private SolutionsController solutionsController;
 
         [SetUp]
         public void SetUp()
         {
-            _mockMediator = new Mock<IMediator>();
-            _solutionsController = new SolutionsController(_mockMediator.Object);
+            mockMediator = new Mock<IMediator>();
+            solutionsController = new SolutionsController(mockMediator.Object);
         }
 
         [Test]
         public async Task ShouldReturnNotFound()
         {
-            var result = (await _solutionsController.AuthorityDashboard(SolutionId).ConfigureAwait(false)).Result as ObjectResult;
+            var result = (await solutionsController.AuthorityDashboard(SolutionId)).Result as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result?.StatusCode.Should().Be(StatusCodes.Status200OK);
             (result.Value as SolutionAuthorityDashboardResult).Id.Should().BeNull();
         }
     }
