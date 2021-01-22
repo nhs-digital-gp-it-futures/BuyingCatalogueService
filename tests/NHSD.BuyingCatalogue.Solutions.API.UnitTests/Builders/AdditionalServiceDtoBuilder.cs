@@ -5,38 +5,38 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Builders
 {
     internal sealed class AdditionalServiceDtoBuilder
     {
-        private readonly string _catalogueItemId;
-        private readonly string _summary;
-        private readonly string _catalogueItemName;
-        private string _solutionId;
-        private readonly string _solutionName;
+        private readonly string catalogueItemId;
+        private readonly string summary;
+        private readonly string catalogueItemName;
+        private readonly string solutionName;
+        private string solutionId;
 
         private AdditionalServiceDtoBuilder()
         {
-            _catalogueItemId = "cat";
-            _summary = "summary";
-            _catalogueItemName = "name";
-            _solutionId = "Sln1";
-            _solutionName = "sol name";
+            catalogueItemId = "cat";
+            summary = "summary";
+            catalogueItemName = "name";
+            solutionId = "Sln1";
+            solutionName = "sol name";
         }
-
-        internal static AdditionalServiceDtoBuilder Create() => new();
 
         public AdditionalServiceDtoBuilder WithSolutionId(string solutionId)
         {
-            _solutionId = solutionId;
+            this.solutionId = solutionId;
             return this;
         }
+
+        internal static AdditionalServiceDtoBuilder Create() => new();
 
         internal IAdditionalService Build()
         {
             return new AdditionalServiceDto
             {
-                CatalogueItemId = _catalogueItemId,
-                Summary = _summary,
-                CatalogueItemName = _catalogueItemName,
-                SolutionId = _solutionId,
-                SolutionName = _solutionName,
+                CatalogueItemId = catalogueItemId,
+                Summary = summary,
+                CatalogueItemName = catalogueItemName,
+                SolutionId = solutionId,
+                SolutionName = solutionName,
             };
         }
     }

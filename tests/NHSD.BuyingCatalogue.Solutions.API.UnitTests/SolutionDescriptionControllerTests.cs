@@ -1,9 +1,11 @@
+﻿using System;
 using System.Collections.Generic;
-using System.Net;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
@@ -17,37 +19,42 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 {
     [TestFixture]
-    public sealed class SolutionDescriptionControllerTests
+    internal sealed class SolutionDescriptionControllerTests
     {
-        private Mock<IMediator> _mockMediator;
-
-        private SolutionDescriptionController _solutionDescriptionController;
-
         private const string SolutionId = "Sln1";
+
+        private Mock<IMediator> mockMediator;
+        private SolutionDescriptionController solutionDescriptionController;
 
         [SetUp]
         public void Setup()
         {
-            _mockMediator = new Mock<IMediator>();
-            _solutionDescriptionController = new SolutionDescriptionController(_mockMediator.Object);
+            mockMediator = new Mock<IMediator>();
+            solutionDescriptionController = new SolutionDescriptionController(mockMediator.Object);
         }
 
         [Test]
         public async Task ShouldGetSolutionDescription()
         {
-            var solutionMock = Mock.Of<ISolution>(s => s.Summary == "summary" && s.Description == "desc" && s.AboutUrl == "test");
-            _mockMediator.Setup(m =>
-                        m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
-                        .ReturnsAsync(solutionMock);
+            Expression<Func<ISolution, bool>> solution = s =>
+                s.Summary == "summary"
+                && s.Description == "desc"
+                && s.AboutUrl == "test";
 
-            var result = (await _solutionDescriptionController.GetSolutionDescriptionAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
+            var solutionMock = Mock.Of(solution);
+            mockMediator.Setup(m => m.Send(
+                It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId),
+                It.IsAny<CancellationToken>()))
+                .ReturnsAsync(solutionMock);
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            var result = (await solutionDescriptionController.GetSolutionDescriptionAsync(SolutionId)) as ObjectResult;
+
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
             ((SolutionDescriptionResult)result.Value).Summary.Should().Be(solutionMock.Summary);
             ((SolutionDescriptionResult)result.Value).Description.Should().Be(solutionMock.Description);
             ((SolutionDescriptionResult)result.Value).Link.Should().Be(solutionMock.AboutUrl);
 
-            _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+            mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()));
         }
 
         [Test]
@@ -57,41 +64,60 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var validationModel = new Mock<ISimpleResult>();
             validationModel.Setup(s => s.IsValid).Returns(true);
 
-            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.Data == solutionSummaryUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
+            mockMediator.Setup(m => m.Send(
+                It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.Data == solutionSummaryUpdateViewModel),
+                It.IsAny<CancellationToken>()))
+                .ReturnsAsync(validationModel.Object);
 
-            var result =
-                (await _solutionDescriptionController.UpdateAsync(SolutionId, solutionSummaryUpdateViewModel).ConfigureAwait(false)) as
-                    NoContentResult;
+            var result = (await solutionDescriptionController.UpdateAsync(
+                SolutionId,
+                solutionSummaryUpdateViewModel)) as NoContentResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
-            _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.Data == solutionSummaryUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
+            result.StatusCode.Should().Be(StatusCodes.Status204NoContent);
+            mockMediator.Verify(m => m.Send(
+                It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.Data == solutionSummaryUpdateViewModel),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task ShouldUpdateValidationInvalid()
         {
-            var solutionSummaryUpdateViewModel = new UpdateSolutionSummaryViewModel()
+            var solutionSummaryUpdateViewModel = new UpdateSolutionSummaryViewModel
             {
                 Summary = string.Empty,
             };
 
+            var validationErrors = new Dictionary<string, string>
+            {
+                { "description", "maxLength" },
+                { "link", "maxLength" },
+                { "summary", "required" },
+            };
+
             var validationModel = new Mock<ISimpleResult>();
-            validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "description", "maxLength" }, { "link", "maxLength" }, { "summary", "required" } });
+            validationModel.Setup(s => s.ToDictionary()).Returns(validationErrors);
             validationModel.Setup(s => s.IsValid).Returns(false);
 
-            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.Data == solutionSummaryUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
+            mockMediator.Setup(m => m.Send(
+                It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.Data == solutionSummaryUpdateViewModel),
+                It.IsAny<CancellationToken>()))
+                .ReturnsAsync(validationModel.Object);
 
-            var result =
-                (await _solutionDescriptionController.UpdateAsync(SolutionId, solutionSummaryUpdateViewModel).ConfigureAwait(false)) as BadRequestObjectResult;
+            var result = (await solutionDescriptionController.UpdateAsync(
+                SolutionId,
+                solutionSummaryUpdateViewModel)) as BadRequestObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            result.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
+
             var resultValue = result.Value as Dictionary<string, string>;
             resultValue.Count.Should().Be(3);
             resultValue["summary"].Should().Be("required");
             resultValue["description"].Should().Be("maxLength");
             resultValue["link"].Should().Be("maxLength");
 
-            _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.Data == solutionSummaryUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
+            mockMediator.Verify(m => m.Send(
+                It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.Data == solutionSummaryUpdateViewModel),
+                It.IsAny<CancellationToken>()));
         }
     }
 }

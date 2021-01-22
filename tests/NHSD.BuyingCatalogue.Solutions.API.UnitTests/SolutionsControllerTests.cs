@@ -14,38 +14,37 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 {
     [TestFixture]
-    public sealed class SolutionsControllerTests
+    internal sealed class SolutionsControllerTests
     {
-        private Mock<IMediator> _mockMediator;
-
-        private SolutionsController _solutionsController;
-
         private const string SolutionId = "Sln1";
+
+        private Mock<IMediator> mockMediator;
+        private SolutionsController solutionsController;
 
         [SetUp]
         public void Setup()
         {
-            _mockMediator = new Mock<IMediator>();
-            _solutionsController = new SolutionsController(_mockMediator.Object);
+            mockMediator = new Mock<IMediator>();
+            solutionsController = new SolutionsController(mockMediator.Object);
         }
 
         [Test]
         public void NullMediatorShouldThrowNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new SolutionsController(null));
+            Assert.Throws<ArgumentNullException>(() => _ = new SolutionsController(null));
         }
 
         [Test]
         public async Task GetAsync_Solution_ReturnsExpectedGetSolutionResult()
         {
-            var solution = Mock.Of<ISolution>(
-                s => s.Id == SolutionId
+            var solution = Mock.Of<ISolution>(s =>
+                s.Id == SolutionId
                 && s.Name == "Some solution name"
                 && s.Summary == "Some solution summary");
 
             SetupMockMediator(solution);
 
-            var result = await _solutionsController.GetAsync(SolutionId);
+            var result = await solutionsController.GetAsync(SolutionId);
 
             var expected = new ActionResult<GetSolutionResult>(new GetSolutionResult(null)
             {
@@ -61,7 +60,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             SetupMockMediator(null);
 
-            var result = await _solutionsController.GetAsync(SolutionId);
+            var result = await solutionsController.GetAsync(SolutionId);
 
             var expected = new ActionResult<GetSolutionResult>(new GetSolutionResult(null));
             result.Should().BeEquivalentTo(expected);
@@ -69,9 +68,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
         private void SetupMockMediator(ISolution result)
         {
-            _mockMediator.Setup(m => m.Send(
-                    It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(() => result);
+            mockMediator.Setup(m => m.Send(
+                It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId),
+                It.IsAny<CancellationToken>()))
+                .ReturnsAsync(() => result);
         }
     }
 }

@@ -6,21 +6,21 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Builders
 {
     internal sealed class TieredCataloguePriceDtoBuilder
     {
-        private readonly int _cataloguePriceId;
-        private readonly string _type;
-        private readonly string _catalogueItemName;
-        private readonly string _catalogueItemId;
-        private readonly string _currencyCode;
-        private readonly List<ITieredPrice> _tieredPrices;
+        private readonly int cataloguePriceId;
+        private readonly string type;
+        private readonly string catalogueItemName;
+        private readonly string catalogueItemId;
+        private readonly string currencyCode;
+        private readonly List<ITieredPrice> tieredPrices;
 
         private TieredCataloguePriceDtoBuilder()
         {
-            _cataloguePriceId = 1;
-            _type = "Tiered";
-            _catalogueItemName = "Item Name";
-            _catalogueItemId = "Item Id";
-            _currencyCode = "USD";
-            _tieredPrices = new List<ITieredPrice>
+            cataloguePriceId = 1;
+            type = "Tiered";
+            catalogueItemName = "Item Name";
+            catalogueItemId = "Item Id";
+            currencyCode = "USD";
+            tieredPrices = new List<ITieredPrice>
             {
                 new TieredPriceDto { BandStart = 1, BandEnd = 5, Price = 753.78m },
                 new TieredPriceDto { BandStart = 6, Price = 546.32m },
@@ -33,12 +33,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Builders
         {
             return new TieredCataloguePriceDto
             {
-                CataloguePriceId = _cataloguePriceId,
-                Type = _type,
-                CatalogueItemName = _catalogueItemName,
-                CatalogueItemId = _catalogueItemId,
-                CurrencyCode = _currencyCode,
-                TieredPrices = _tieredPrices,
+                CataloguePriceId = cataloguePriceId,
+                Type = type,
+                CatalogueItemName = catalogueItemName,
+                CatalogueItemId = catalogueItemId,
+                CurrencyCode = currencyCode,
+                TieredPrices = tieredPrices,
                 PricingUnit = PriceUnitDtoBuilder.Create().Build(),
             };
         }

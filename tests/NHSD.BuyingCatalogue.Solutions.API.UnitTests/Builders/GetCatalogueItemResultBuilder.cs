@@ -1,38 +1,36 @@
 ﻿using NHSD.BuyingCatalogue.Solutions.API.ViewModels.CatalogueItems;
-using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetCatalogueItemById;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Builders
 {
     internal sealed class GetCatalogueItemResultBuilder
     {
-        private string _catalogueItemId;
-        private string _name;
+        private string catalogueItemId;
+        private string name;
 
         private GetCatalogueItemResultBuilder()
         {
-            _catalogueItemId = "Some catalogue item id";
-            _name = "Some catalogue item name";
+            catalogueItemId = "Some catalogue item id";
+            name = "Some catalogue item name";
         }
 
         public static GetCatalogueItemResultBuilder Create() => new();
 
-        public GetCatalogueItemResultBuilder WithCatalogueItemId(string catalogueItemId)
+        public GetCatalogueItemResultBuilder WithCatalogueItemId(string id)
         {
-            _catalogueItemId = catalogueItemId;
+            catalogueItemId = id;
             return this;
         }
 
-        public GetCatalogueItemResultBuilder WithName(string name)
+        public GetCatalogueItemResultBuilder WithName(string itemName)
         {
-            _name = name;
+            name = itemName;
             return this;
         }
 
-        public GetCatalogueItemResult Build() =>
-            new()
-            {
-                CatalogueItemId = _catalogueItemId,
-                Name = _name,
-            };
+        public GetCatalogueItemResult Build() => new()
+        {
+            CatalogueItemId = catalogueItemId,
+            Name = name,
+        };
     }
 }

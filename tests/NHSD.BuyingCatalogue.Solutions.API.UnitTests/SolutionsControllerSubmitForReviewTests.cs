@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -15,19 +16,18 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 {
     [TestFixture]
-    public sealed class SolutionsControllerSubmitForReviewTests
+    internal sealed class SolutionsControllerSubmitForReviewTests
     {
-        private Mock<IMediator> _mockMediator;
-
-        private SolutionsController _solutionsController;
-
         private const string SolutionId = "Sln1";
+
+        private Mock<IMediator> mockMediator;
+        private SolutionsController solutionsController;
 
         [SetUp]
         public void Setup()
         {
-            _mockMediator = new Mock<IMediator>();
-            _solutionsController = new SolutionsController(_mockMediator.Object);
+            mockMediator = new Mock<IMediator>();
+            solutionsController = new SolutionsController(mockMediator.Object);
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             SetupMockMediator(new SubmitSolutionForReviewCommandResult());
 
-            var result = await _solutionsController.SubmitForReviewAsync(SolutionId).ConfigureAwait(false) as NoContentResult;
+            var result = await solutionsController.SubmitForReviewAsync(SolutionId) as NoContentResult;
 
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(204);
@@ -44,12 +44,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task SubmitForReviewResultFailure()
         {
-            var expectedErrorList = new List<ValidationError>{ SubmitSolutionForReviewErrors.SolutionSummaryIsRequired };
+            var expectedErrorList = new List<ValidationError> { SubmitSolutionForReviewErrors.SolutionSummaryIsRequired };
 
             var expected = SubmitSolutionForReviewResult.Create(new ReadOnlyCollection<ValidationError>(expectedErrorList));
             SetupMockMediator(new SubmitSolutionForReviewCommandResult(expectedErrorList));
 
-            var result = await _solutionsController.SubmitForReviewAsync(SolutionId).ConfigureAwait(false) as BadRequestObjectResult;
+            var result = await solutionsController.SubmitForReviewAsync(SolutionId) as BadRequestObjectResult;
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(400);
 
@@ -66,9 +66,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
         private void SetupMockMediator(SubmitSolutionForReviewCommandResult result)
         {
-            _mockMediator.Setup(m =>
-                m.Send(It.Is<SubmitSolutionForReviewCommand>(q => q.SolutionId == SolutionId),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(result);
+            Expression<Func<IMediator, Task<SubmitSolutionForReviewCommandResult>>> expression = m => m.Send(
+                It.Is<SubmitSolutionForReviewCommand>(q => q.SolutionId == SolutionId),
+                It.IsAny<CancellationToken>());
+
+            mockMediator.Setup(expression).ReturnsAsync(result);
         }
     }
 }
