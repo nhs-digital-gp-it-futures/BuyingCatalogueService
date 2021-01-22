@@ -15,10 +15,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         /// <summary>
         /// Database connection factory to provide new connections.
         /// </summary>
-        private readonly IDbConnector _dbConnector;
+        private readonly IDbConnector dbConnector;
 
         public MarketingContactRepository(IDbConnector dbConnector)
-        => _dbConnector = dbConnector ?? throw new ArgumentNullException(nameof(dbConnector));
+        => this.dbConnector = dbConnector ?? throw new ArgumentNullException(nameof(dbConnector));
 
         private const string GetSql = @"SELECT m.Id,
        m.SolutionId,
@@ -54,7 +54,7 @@ WHERE s.Id = @solutionId;";
             @lastUpdatedBy);";
 
         public async Task<IEnumerable<IMarketingContactResult>> BySolutionIdAsync(string solutionId, CancellationToken cancellationToken)
-                => await _dbConnector.QueryAsync<MarketingContactResult>(GetSql, cancellationToken, new { solutionId });
+                => await dbConnector.QueryAsync<MarketingContactResult>(GetSql, cancellationToken, new { solutionId });
 
         public async Task ReplaceContactsForSolution(string solutionId, IEnumerable<IContact> newContacts, CancellationToken cancellationToken)
         {
@@ -73,7 +73,7 @@ WHERE s.Id = @solutionId;";
                         lastUpdatedBy = Guid.Empty,
                     })));
 
-            await _dbConnector.ExecuteMultipleWithTransactionAsync(queries, cancellationToken);
+            await dbConnector.ExecuteMultipleWithTransactionAsync(queries, cancellationToken);
         }
     }
 }
