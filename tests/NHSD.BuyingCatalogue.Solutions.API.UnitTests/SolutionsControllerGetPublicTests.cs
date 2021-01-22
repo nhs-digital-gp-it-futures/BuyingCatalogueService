@@ -559,6 +559,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             {
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections
                     .HardwareRequirementsSection.Answers.HardwareRequirements.Should().Be(requirements);
+
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections
                     .HardwareRequirementsSection.Answers.HasData.Should().BeTrue();
             }
@@ -596,8 +597,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             {
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections.MobileThirdPartySection
                     .Answers.ThirdPartyComponents.Should().Be(component);
+
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections.MobileThirdPartySection
                     .Answers.DeviceCapabilities.Should().Be(capability);
+
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections.MobileThirdPartySection
                     .Answers.HasData.Should().BeTrue();
             }
@@ -630,6 +633,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections
                     .MobileAdditionalInformationSection.Answers.NativeMobileAdditionalInformation.Should()
                     .Be(additionalInformation);
+
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections
                     .MobileAdditionalInformationSection.Answers.HasData.Should().BeTrue();
             }
@@ -659,6 +663,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             {
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
                     .OperatingSystemsSection.Answers.OperatingSystemsDescription.Should().Be(description);
+
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
                     .OperatingSystemsSection.Answers.HasData.Should().BeTrue();
             }
@@ -688,6 +693,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             {
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
                     .HardwareRequirementsSection.Answers.HardwareRequirements.Should().Be(requirements);
+
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
                     .HardwareRequirementsSection.Answers.HasData.Should().BeTrue();
             }
@@ -720,6 +726,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
                     .NativeDesktopConnectivityDetailsSection.Answers.NativeDesktopMinimumConnectionSpeed.Should()
                     .Be(minimumConnectionSpeed);
+
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
                     .NativeDesktopConnectivityDetailsSection.Answers.HasData.Should().BeTrue();
             }
@@ -760,9 +767,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
                     .NativeDesktopThirdPartySection
                     .Answers.ThirdPartyComponents.Should().Be(component);
+
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
                     .NativeDesktopThirdPartySection
                     .Answers.DeviceCapabilities.Should().Be(capability);
+
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
                     .NativeDesktopThirdPartySection
                     .Answers.HasData.Should().BeTrue();
@@ -815,15 +824,19 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
                     .NativeDesktopMemoryAndStorageSection
                     .Answers.MinimumMemoryRequirement.Should().Be(memory);
+
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
                     .NativeDesktopMemoryAndStorageSection
                     .Answers.StorageRequirementsDescription.Should().Be(storage);
+
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
                     .NativeDesktopMemoryAndStorageSection
                     .Answers.MinimumCpu.Should().Be(cpu);
+
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
                     .NativeDesktopMemoryAndStorageSection
                     .Answers.RecommendedResolution.Should().Be(resolution);
+
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
                     .NativeDesktopMemoryAndStorageSection
                     .Answers.HasData.Should().BeTrue();
@@ -857,6 +870,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
                     .NativeDesktopAdditionalInformationSection.Answers.NativeDesktopAdditionalInformation.Should()
                     .Be(additionalInformation);
+
                 publicResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
                     .NativeDesktopAdditionalInformationSection.Answers.HasData.Should().BeTrue();
             }
@@ -1282,6 +1296,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             contact.Sections.ContactDetails.Answers.Contact1.ContactName.Should().BeEquivalentTo(contacts[0].Name);
             contact.Sections.ContactDetails.Answers.Contact1.DepartmentName.Should()
                 .BeEquivalentTo(contacts[0].Department);
+
             contact.Sections.ContactDetails.Answers.Contact1.EmailAddress.Should().BeEquivalentTo(contacts[0].Email);
             contact.Sections.ContactDetails.Answers.Contact1.PhoneNumber.Should()
                 .BeEquivalentTo(contacts[0].PhoneNumber);
@@ -1289,6 +1304,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             contact.Sections.ContactDetails.Answers.Contact2.ContactName.Should().BeEquivalentTo(contacts[1].Name);
             contact.Sections.ContactDetails.Answers.Contact2.DepartmentName.Should()
                 .BeEquivalentTo(contacts[1].Department);
+
             contact.Sections.ContactDetails.Answers.Contact2.EmailAddress.Should().BeEquivalentTo(contacts[1].Email);
             contact.Sections.ContactDetails.Answers.Contact2.PhoneNumber.Should()
                 .BeEquivalentTo(contacts[1].PhoneNumber);
@@ -1337,6 +1353,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.PluginOrExtensionsSection
                 .Answers.Required
                 .Should().Be("Yes");
+
             publicResult.Sections.ClientApplicationTypes.Sections.BrowserBased.Sections.PluginOrExtensionsSection
                 .Answers.AdditionalInformation
                 .Should().Be("Plugin additional information");

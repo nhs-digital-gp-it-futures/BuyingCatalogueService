@@ -55,9 +55,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         public async Task ShouldReturnGetValues(string id, string name, string supplier)
         {
             Expression<Func<ISolution, bool>> solution = s =>
-                s.Id == id &&
-                s.Name == name &&
-                s.SupplierName == supplier;
+                s.Id == id
+                && s.Name == name
+                && s.SupplierName == supplier;
 
             var previewResult = await GetSolutionPreviewSectionAsync(Mock.Of(solution));
 
@@ -575,6 +575,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             {
                 previewResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections
                     .HardwareRequirementsSection.Answers.HardwareRequirements.Should().Be(requirements);
+
                 previewResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections
                     .HardwareRequirementsSection.Answers.HasData.Should().BeTrue();
             }
@@ -607,8 +608,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             {
                 previewResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections.MobileThirdPartySection
                     .Answers.ThirdPartyComponents.Should().Be(component);
+
                 previewResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections.MobileThirdPartySection
                     .Answers.DeviceCapabilities.Should().Be(capability);
+
                 previewResult.Sections.ClientApplicationTypes.Sections.NativeMobile.Sections.MobileThirdPartySection
                     .Answers.HasData.Should().BeTrue();
             }
@@ -733,6 +736,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             {
                 previewResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
                     .NativeDesktopConnectivityDetailsSection.Answers.NativeDesktopMinimumConnectionSpeed.Should().Be(minimumConnectionSpeed);
+
                 previewResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections
                     .NativeDesktopConnectivityDetailsSection.Answers.HasData.Should().BeTrue();
             }
@@ -767,10 +771,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             {
                 previewResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopThirdPartySection
                     .Answers.ThirdPartyComponents.Should().Be(component);
+
                 previewResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopThirdPartySection
-                            .Answers.DeviceCapabilities.Should().Be(capability);
+                    .Answers.DeviceCapabilities.Should().Be(capability);
+
                 previewResult.Sections.ClientApplicationTypes.Sections.NativeDesktop.Sections.NativeDesktopThirdPartySection
-                             .Answers.HasData.Should().BeTrue();
+                    .Answers.HasData.Should().BeTrue();
             }
             else
             {

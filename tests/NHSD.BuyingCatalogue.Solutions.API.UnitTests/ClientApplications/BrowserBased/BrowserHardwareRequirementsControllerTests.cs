@@ -1,10 +1,12 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.BrowserBased;
@@ -18,59 +20,59 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.BrowserBased
 {
     [TestFixture]
-    public sealed class BrowserHardwareRequirementsControllerTests
+    internal sealed class BrowserHardwareRequirementsControllerTests
     {
-        private Mock<IMediator> _mockMediator;
-        private BrowserHardwareRequirementsController _hardwareRequirementsController;
         private const string SolutionId = "Sln1";
-        private Mock<ISimpleResult> _simpleResultMock;
-        private Dictionary<string, string> _resultDictionary;
+
+        private Mock<IMediator> mockMediator;
+        private BrowserHardwareRequirementsController hardwareRequirementsController;
+        private Mock<ISimpleResult> simpleResultMock;
+        private Dictionary<string, string> resultDictionary;
 
         [SetUp]
         public void Setup()
         {
-            _mockMediator = new Mock<IMediator>();
-            _hardwareRequirementsController = new BrowserHardwareRequirementsController(_mockMediator.Object);
-            _simpleResultMock = new Mock<ISimpleResult>();
-            _simpleResultMock.Setup(x => x.IsValid).Returns(() => !_resultDictionary.Any());
-            _simpleResultMock.Setup(x => x.ToDictionary()).Returns(() => _resultDictionary);
-            _resultDictionary = new Dictionary<string, string>();
-            _mockMediator.Setup(x =>
-                    x.Send(It.IsAny<UpdateSolutionBrowserHardwareRequirementsCommand>(),
-                        It.IsAny<CancellationToken>()))
-                .ReturnsAsync(() => _simpleResultMock.Object);
+            mockMediator = new Mock<IMediator>();
+            hardwareRequirementsController = new BrowserHardwareRequirementsController(mockMediator.Object);
+            simpleResultMock = new Mock<ISimpleResult>();
+            simpleResultMock.Setup(x => x.IsValid).Returns(() => !resultDictionary.Any());
+            simpleResultMock.Setup(x => x.ToDictionary()).Returns(() => resultDictionary);
+            resultDictionary = new Dictionary<string, string>();
+            mockMediator
+                .Setup(m => m.Send(
+                    It.IsAny<UpdateSolutionBrowserHardwareRequirementsCommand>(),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(() => simpleResultMock.Object);
         }
 
         [TestCase(null)]
         [TestCase("Hardware Info")]
         public async Task ShouldGetBrowserHardwareRequirement(string requirement)
         {
-            _mockMediator.Setup(m =>
-                    m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
-                        It.IsAny<CancellationToken>()))
-                .ReturnsAsync(Mock.Of<IClientApplication>(c =>
-                    c.HardwareRequirements == requirement));
+            mockMediator
+                .Setup(m => m.Send(
+                    It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Mock.Of<IClientApplication>(c => c.HardwareRequirements == requirement));
 
-            var result =
-                (await _hardwareRequirementsController.GetHardwareRequirementsAsync(SolutionId)
-                    .ConfigureAwait(false)) as ObjectResult;
+            var result = (await hardwareRequirementsController.GetHardwareRequirementsAsync(SolutionId)) as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             var browserHardwareRequirements = result.Value as GetBrowserHardwareRequirementsResult;
 
             browserHardwareRequirements.HardwareRequirements.Should().Be(requirement);
-            _mockMediator.Verify(
-                m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()),
-                Times.Once);
+            mockMediator.Verify(m => m.Send(
+                It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task ShouldReturnEmpty()
         {
-            var result = (await _hardwareRequirementsController.GetHardwareRequirementsAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
+            var result = (await hardwareRequirementsController.GetHardwareRequirementsAsync(SolutionId)) as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
             var browserHardwareRequirements = result.Value as GetBrowserHardwareRequirementsResult;
             browserHardwareRequirements.HardwareRequirements.Should().BeNull();
         }
@@ -78,36 +80,46 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
         [Test]
         public async Task ShouldUpdateValidationValid()
         {
-            var request = new UpdateBrowserBasedHardwareRequirementViewModel { HardwareRequirements = "New Hardware Requirements" };
-            var result = (await _hardwareRequirementsController.UpdateHardwareRequirementsAsync(SolutionId, request).ConfigureAwait(false))
-                as NoContentResult;
-            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
-            _mockMediator.Verify(x => x.Send(
-                    It.Is<UpdateSolutionBrowserHardwareRequirementsCommand>(c =>
-                        c.HardwareRequirements == "New Hardware Requirements" &&
-                        c.SolutionId == SolutionId), It.IsAny<CancellationToken>()),
-                Times.Once);
+            var request = new UpdateBrowserBasedHardwareRequirementViewModel
+            {
+                HardwareRequirements = "New Hardware Requirements",
+            };
+
+            var result = (await hardwareRequirementsController.UpdateHardwareRequirementsAsync(
+                SolutionId,
+                request)) as NoContentResult;
+
+            Expression<Func<UpdateSolutionBrowserHardwareRequirementsCommand, bool>> match = c =>
+                c.HardwareRequirements == "New Hardware Requirements"
+                && c.SolutionId == SolutionId;
+
+            result.StatusCode.Should().Be(StatusCodes.Status204NoContent);
+            mockMediator.Verify(x => x.Send(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task ShouldUpdateValidationInvalid()
         {
-            _resultDictionary.Add("hardware-requirements-description", "maxLength");
-            var request = new UpdateBrowserBasedHardwareRequirementViewModel { HardwareRequirements = "New Hardware Requirements" };
-            var result =
-                (await _hardwareRequirementsController.UpdateHardwareRequirementsAsync(SolutionId, request)
-                    .ConfigureAwait(false)) as BadRequestObjectResult;
+            resultDictionary.Add("hardware-requirements-description", "maxLength");
+            var request = new UpdateBrowserBasedHardwareRequirementViewModel
+            {
+                HardwareRequirements = "New Hardware Requirements",
+            };
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            var result = (await hardwareRequirementsController.UpdateHardwareRequirementsAsync(
+                SolutionId,
+                request)) as BadRequestObjectResult;
+
+            result.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
             var validationResult = result.Value as Dictionary<string, string>;
             validationResult.Count.Should().Be(1);
             validationResult["hardware-requirements-description"].Should().Be("maxLength");
 
-            _mockMediator.Verify(x => x.Send(
-                    It.Is<UpdateSolutionBrowserHardwareRequirementsCommand>(c =>
-                        c.HardwareRequirements == "New Hardware Requirements" &&
-                        c.SolutionId == SolutionId), It.IsAny<CancellationToken>()),
-                Times.Once);
+            Expression<Func<UpdateSolutionBrowserHardwareRequirementsCommand, bool>> match = c =>
+                c.HardwareRequirements == "New Hardware Requirements"
+                && c.SolutionId == SolutionId;
+
+            mockMediator.Verify(x => x.Send(It.Is(match), It.IsAny<CancellationToken>()));
         }
     }
 }

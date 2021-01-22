@@ -1,10 +1,12 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.BrowserBased;
@@ -18,27 +20,29 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.BrowserBased
 {
     [TestFixture]
-    public sealed class ConnectivityAndResolutionControllerTests
+    internal sealed class ConnectivityAndResolutionControllerTests
     {
-        private Mock<IMediator> _mockMediator;
-        private ConnectivityAndResolutionController _controller;
         private const string SolutionId = "Sln1";
-        private Mock<ISimpleResult> _simpleResultMock;
-        private Dictionary<string, string> _resultDictionary;
+
+        private Mock<IMediator> mockMediator;
+        private ConnectivityAndResolutionController controller;
+        private Mock<ISimpleResult> simpleResultMock;
+        private Dictionary<string, string> resultDictionary;
 
         [SetUp]
         public void Setup()
         {
-            _mockMediator = new Mock<IMediator>();
-            _controller = new ConnectivityAndResolutionController(_mockMediator.Object);
-            _simpleResultMock = new Mock<ISimpleResult>();
-            _simpleResultMock.Setup(x => x.IsValid).Returns(() => !_resultDictionary.Any());
-            _simpleResultMock.Setup(x => x.ToDictionary()).Returns(() => _resultDictionary);
-            _resultDictionary = new Dictionary<string, string>();
-            _mockMediator.Setup(x =>
-                    x.Send(It.IsAny<UpdateSolutionConnectivityAndResolutionCommand>(),
-                        It.IsAny<CancellationToken>()))
-                .ReturnsAsync(() => _simpleResultMock.Object);
+            mockMediator = new Mock<IMediator>();
+            controller = new ConnectivityAndResolutionController(mockMediator.Object);
+            simpleResultMock = new Mock<ISimpleResult>();
+            simpleResultMock.Setup(x => x.IsValid).Returns(() => !resultDictionary.Any());
+            simpleResultMock.Setup(x => x.ToDictionary()).Returns(() => resultDictionary);
+            resultDictionary = new Dictionary<string, string>();
+            mockMediator
+                .Setup(m => m.Send(
+                    It.IsAny<UpdateSolutionConnectivityAndResolutionCommand>(),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(() => simpleResultMock.Object);
         }
 
         [Test]
@@ -46,39 +50,34 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
         {
             var request = new UpdateBrowserBasedConnectivityAndResolutionViewModel();
 
-            var result =
-                (await _controller.UpdateConnectivityAndResolutionAsync(SolutionId, request)
-                    .ConfigureAwait(false)) as NoContentResult;
-            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
-            _mockMediator.Verify(
-                x => x.Send(
-                    It.Is<UpdateSolutionConnectivityAndResolutionCommand>(c =>
-                        c.Id == SolutionId &&
-                        c.Data == request
-                    ),
-                    It.IsAny<CancellationToken>()), Times.Once);
+            var result = await controller.UpdateConnectivityAndResolutionAsync(SolutionId, request) as NoContentResult;
+
+            result.StatusCode.Should().Be(StatusCodes.Status204NoContent);
+            mockMediator.Verify(m => m.Send(
+                It.Is<UpdateSolutionConnectivityAndResolutionCommand>(c => c.Id == SolutionId && c.Data == request),
+                It.IsAny<CancellationToken>()));
         }
+
         [Test]
         public async Task InvalidRequiredResultForCommandReturnsValidationDetails()
         {
-            _resultDictionary.Add("minimum-connection-speed", "required");
+            resultDictionary.Add("minimum-connection-speed", "required");
             var request = new UpdateBrowserBasedConnectivityAndResolutionViewModel();
 
-            var result =
-                (await _controller.UpdateConnectivityAndResolutionAsync(SolutionId, request)
-                    .ConfigureAwait(false)) as BadRequestObjectResult;
+            var result = await controller.UpdateConnectivityAndResolutionAsync(SolutionId, request) as BadRequestObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            result.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
             var validationResult = result.Value as Dictionary<string, string>;
+
             validationResult.Count.Should().Be(1);
             validationResult["minimum-connection-speed"].Should().Be("required");
 
-            _mockMediator.Verify(x => x.Send(
-                    It.Is<UpdateSolutionConnectivityAndResolutionCommand>(c =>
-                        c.Data.MinimumConnectionSpeed == null &&
-                        c.Data.MinimumDesktopResolution == null &&
-                        c.Id == SolutionId), It.IsAny<CancellationToken>()),
-                Times.Once);
+            Expression<Func<UpdateSolutionConnectivityAndResolutionCommand, bool>> match = c =>
+                c.Data.MinimumConnectionSpeed == null
+                && c.Data.MinimumDesktopResolution == null
+                && c.Id == SolutionId;
+
+            mockMediator.Verify(m => m.Send(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
         [TestCase(null, null)]
@@ -87,32 +86,36 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
         [TestCase("Connection Speed", "Resolution")]
         public async Task ShouldGetConnectivityAndResolution(string connection, string resolution)
         {
-            _mockMediator.Setup(m => m
-                    .Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(Mock.Of<IClientApplication>(c =>
-                    c.MinimumConnectionSpeed == connection &&
-                    c.MinimumDesktopResolution == resolution));
+            Expression<Func<IClientApplication, bool>> clientApplication = c =>
+                c.MinimumConnectionSpeed == connection
+                && c.MinimumDesktopResolution == resolution;
 
-            var result = (await _controller.GetConnectivityAndResolution(SolutionId).ConfigureAwait(false)) as ObjectResult;
+            mockMediator
+                .Setup(m => m.Send(
+                    It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Mock.Of(clientApplication));
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            var result = await controller.GetConnectivityAndResolution(SolutionId) as ObjectResult;
 
-            var connectivityResult = (result.Value as GetConnectivityAndResolutionResult);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
+
+            var connectivityResult = result.Value as GetConnectivityAndResolutionResult;
 
             connectivityResult.MinimumConnectionSpeed.Should().Be(connection);
             connectivityResult.MinimumDesktopResolution.Should().Be(resolution);
 
-            _mockMediator.Verify(
-                m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
-                    It.IsAny<CancellationToken>()), Times.Once);
+            mockMediator.Verify(m => m.Send(
+                It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task GetInvalidSolutionReturnsEmpty()
         {
-            var result = await _controller.GetConnectivityAndResolution("unknownId").ConfigureAwait(false) as ObjectResult;
+            var result = await controller.GetConnectivityAndResolution("unknownId") as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
             (result.Value as GetConnectivityAndResolutionResult).MinimumConnectionSpeed.Should().BeNull();
             (result.Value as GetConnectivityAndResolutionResult).MinimumDesktopResolution.Should().BeNull();
         }

@@ -1,10 +1,12 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.BrowserBased;
@@ -18,58 +20,57 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.BrowserBased
 {
     [TestFixture]
-    public sealed class BrowserAdditionalInformationControllerTests
+    internal sealed class BrowserAdditionalInformationControllerTests
     {
-        private Mock<IMediator> _mediatorMock;
-        private BrowserAdditionalInformationController _browserAdditionalInformationController;
         private const string SolutionId = "Sln1";
-        private Mock<ISimpleResult> _simpleResultMock;
-        private Dictionary<string, string> _resultDictionary;
+
+        private Mock<IMediator> mediatorMock;
+        private BrowserAdditionalInformationController browserAdditionalInformationController;
+        private Mock<ISimpleResult> simpleResultMock;
+        private Dictionary<string, string> resultDictionary;
 
         [SetUp]
         public void Setup()
         {
-            _mediatorMock = new Mock<IMediator>();
-            _browserAdditionalInformationController = new BrowserAdditionalInformationController(_mediatorMock.Object);
-            _simpleResultMock = new Mock<ISimpleResult>();
-            _simpleResultMock.Setup(x => x.IsValid).Returns(() => !_resultDictionary.Any());
-            _simpleResultMock.Setup(x => x.ToDictionary()).Returns(() => _resultDictionary);
-            _resultDictionary = new Dictionary<string, string>();
-            _mediatorMock.Setup(x =>
-                    x.Send(It.IsAny<UpdateBrowserBasedAdditionalInformationCommand>(),
-                        It.IsAny<CancellationToken>()))
-                .ReturnsAsync(() => _simpleResultMock.Object);
+            mediatorMock = new Mock<IMediator>();
+            browserAdditionalInformationController = new BrowserAdditionalInformationController(mediatorMock.Object);
+            simpleResultMock = new Mock<ISimpleResult>();
+            simpleResultMock.Setup(x => x.IsValid).Returns(() => !resultDictionary.Any());
+            simpleResultMock.Setup(x => x.ToDictionary()).Returns(() => resultDictionary);
+            resultDictionary = new Dictionary<string, string>();
+            mediatorMock
+                .Setup(m => m.Send(
+                    It.IsAny<UpdateBrowserBasedAdditionalInformationCommand>(),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(() => simpleResultMock.Object);
         }
 
         [TestCase(null)]
         [TestCase("Some additional Information")]
         public async Task ShouldGetBrowserAdditionalInformation(string information)
         {
-            _mediatorMock
+            mediatorMock
                 .Setup(m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Mock.Of<IClientApplication>(c => c.AdditionalInformation == information));
 
-            var result = (await _browserAdditionalInformationController.GetAdditionalInformationAsync(SolutionId)
-                .ConfigureAwait(false)) as ObjectResult;
+            var result = (await browserAdditionalInformationController.GetAdditionalInformationAsync(SolutionId)) as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             var browserAdditionalInformation = result.Value as GetBrowserAdditionalInformationResult;
 
             browserAdditionalInformation.AdditionalInformation.Should().Be(information);
-            _mediatorMock.Verify(
-                m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()),
-                Times.Once);
+            mediatorMock.Verify(m => m.Send(
+                It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task ShouldReturnEmpty()
         {
-            var result =
-                (await _browserAdditionalInformationController.GetAdditionalInformationAsync(SolutionId)
-                    .ConfigureAwait(false)) as ObjectResult;
+            var result = (await browserAdditionalInformationController.GetAdditionalInformationAsync(SolutionId)) as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
             var browserAdditionalInformation = result.Value as GetBrowserAdditionalInformationResult;
             browserAdditionalInformation.AdditionalInformation.Should().BeNull();
         }
@@ -77,40 +78,40 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
         [Test]
         public async Task ShouldUpdateValidationValid()
         {
-            var request =
-                new UpdateBrowserBasedAdditionalInformationViewModel() { AdditionalInformation = "Some Additional Info" };
-            var result =
-                (await _browserAdditionalInformationController.UpdateAdditionalInformationAsync(SolutionId, request)
-                    .ConfigureAwait(false)) as NoContentResult;
-            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
-            _mediatorMock.Verify(
-                x => x.Send(
-                    It.Is<UpdateBrowserBasedAdditionalInformationCommand>(c =>
-                        c.SolutionId == SolutionId && c.AdditionalInformation == "Some Additional Info"),
-                    It.IsAny<CancellationToken>()), Times.Once);
+            var request = new UpdateBrowserBasedAdditionalInformationViewModel { AdditionalInformation = "Some Additional Info" };
+            var result = (await browserAdditionalInformationController.UpdateAdditionalInformationAsync(
+                SolutionId,
+                request)) as NoContentResult;
+
+            Expression<Func<UpdateBrowserBasedAdditionalInformationCommand, bool>> match = c =>
+                c.SolutionId == SolutionId
+                && c.AdditionalInformation == "Some Additional Info";
+
+            result.StatusCode.Should().Be(StatusCodes.Status204NoContent);
+            mediatorMock.Verify(m => m.Send(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task ShouldUpdateValidationInvalid()
         {
-            _resultDictionary.Add("additional-information", "maxLength");
-            var request =
-                new UpdateBrowserBasedAdditionalInformationViewModel { AdditionalInformation = new string('a', 500) };
+            resultDictionary.Add("additional-information", "maxLength");
+            var request = new UpdateBrowserBasedAdditionalInformationViewModel { AdditionalInformation = new string('a', 500) };
 
-            var result =
-                (await _browserAdditionalInformationController.UpdateAdditionalInformationAsync(SolutionId, request)
-                    .ConfigureAwait(false)) as BadRequestObjectResult;
+            var result = (await browserAdditionalInformationController.UpdateAdditionalInformationAsync(
+                SolutionId,
+                request)) as BadRequestObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            result.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
+
             var validationResult = result.Value as Dictionary<string, string>;
             validationResult.Count.Should().Be(1);
             validationResult["additional-information"].Should().Be("maxLength");
 
-            _mediatorMock.Verify(x => x.Send(
-                    It.Is<UpdateBrowserBasedAdditionalInformationCommand>(c =>
-                        c.AdditionalInformation == new string('a', 500) &&
-                        c.SolutionId == SolutionId), It.IsAny<CancellationToken>()),
-                Times.Once);
+            Expression<Func<UpdateBrowserBasedAdditionalInformationCommand, bool>> match = c =>
+                c.AdditionalInformation == new string('a', 500)
+                && c.SolutionId == SolutionId;
+
+            mediatorMock.Verify(m => m.Send(It.Is(match), It.IsAny<CancellationToken>()));
         }
     }
 }

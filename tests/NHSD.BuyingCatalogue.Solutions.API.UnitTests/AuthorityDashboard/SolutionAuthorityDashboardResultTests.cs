@@ -105,8 +105,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.AuthorityDashboard
         private async Task<SolutionAuthorityDashboardResult> GetSolutionAuthorityDashboardSectionAsync(
             ISolution solution)
         {
-            mockMediator.Setup(m =>
-                    m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
+            mockMediator
+                .Setup(m => m.Send(
+                    It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId),
+                    It.IsAny<CancellationToken>()))
                 .ReturnsAsync(solution);
 
             var result = (await solutionsController.AuthorityDashboard(SolutionId)).Result as ObjectResult;
