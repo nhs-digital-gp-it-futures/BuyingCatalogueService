@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -8,7 +9,6 @@ using Moq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateClaimedEpics;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
-using NHSD.BuyingCatalogue.Solutions.Application.Persistence.Epics;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Epics;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
@@ -16,19 +16,23 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 {
     [TestFixture]
-    public sealed class UpdateClaimedEpicsHandlerTests
+    internal sealed class UpdateClaimedEpicsHandlerTests
     {
         private const string ValidSolutionId = "Sln1";
         private const string InvalidSolutionId = "Sln123";
-        private TestContext _context;
+
+        private TestContext context;
 
         [SetUp]
         public void Setup()
         {
-            _context = new TestContext();
-            _context.MockSolutionRepository.Setup(x => x.CheckExists(ValidSolutionId, It.IsAny<CancellationToken>()))
+            context = new TestContext();
+            context.MockSolutionRepository
+                .Setup(r => r.CheckExists(ValidSolutionId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(true);
-            _context.MockSolutionRepository.Setup(x => x.CheckExists(InvalidSolutionId, It.IsAny<CancellationToken>()))
+
+            context.MockSolutionRepository
+                .Setup(r => r.CheckExists(InvalidSolutionId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(false);
         }
 
@@ -42,29 +46,35 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 Mock.Of<IClaimedEpic>(e => e.EpicId == "Epic1" && e.StatusName == "Passed"),
             };
 
-            _context.MockEpicRepository
+            context.MockEpicRepository
                 .Setup(e => e.CountMatchingEpicIdsAsync(It.IsAny<IEnumerable<string>>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(expectedEpicsCount);
 
-            _context.MockSolutionEpicStatusRepository
+            context.MockSolutionEpicStatusRepository
                 .Setup(e => e.CountMatchingEpicStatusAsync(It.IsAny<IEnumerable<string>>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(expectedEpicsCount);
 
-            var validationResult = await UpdateClaimedEpicsAsync(ValidSolutionId, claimedEpics).ConfigureAwait(false);
+            var validationResult = await UpdateClaimedEpicsAsync(ValidSolutionId, claimedEpics);
             validationResult.IsValid.Should().BeTrue();
 
-            _context.MockSolutionRepository.Verify(s => s.CheckExists(ValidSolutionId, It.IsAny<CancellationToken>()),
-                Times.Once);
+            context.MockSolutionRepository.Verify(s => s.CheckExists(ValidSolutionId, It.IsAny<CancellationToken>()));
 
-            var a = claimedEpics.Select(e => e.EpicId);
+            Expression<Func<IEnumerable<string>, bool>> epicIdMatch = s =>
+                s.SequenceEqual(claimedEpics.Select(e => e.EpicId));
 
-            _context.MockEpicRepository.Verify(
-                e => e.CountMatchingEpicIdsAsync(It.Is<IEnumerable<string>>(x => x.SequenceEqual(claimedEpics.Select(e => e.EpicId))), It.IsAny<CancellationToken>()), Times.Once);
-            _context.MockSolutionEpicStatusRepository.Verify(
-                e => e.CountMatchingEpicStatusAsync(It.Is<IEnumerable<string>>(x => x.SequenceEqual(claimedEpics.Select(e => e.StatusName))), It.IsAny<CancellationToken>()), Times.Once);
+            context.MockEpicRepository.Verify(
+                e => e.CountMatchingEpicIdsAsync(It.Is(epicIdMatch), It.IsAny<CancellationToken>()));
 
-            _context.MockSolutionEpicRepository.Verify(r => r.UpdateSolutionEpicAsync(ValidSolutionId,
-                It.IsAny<IUpdateClaimedEpicListRequest>(), It.IsAny<CancellationToken>()), Times.Once);
+            Expression<Func<IEnumerable<string>, bool>> epicStatusMatch = s =>
+                s.SequenceEqual(claimedEpics.Select(e => e.StatusName));
+
+            context.MockSolutionEpicStatusRepository.Verify(
+                e => e.CountMatchingEpicStatusAsync(It.Is(epicStatusMatch), It.IsAny<CancellationToken>()));
+
+            context.MockSolutionEpicRepository.Verify(r => r.UpdateSolutionEpicAsync(
+                ValidSolutionId,
+                It.IsAny<IUpdateClaimedEpicListRequest>(),
+                It.IsAny<CancellationToken>()));
         }
 
         [TestCase(null, null)]
@@ -83,7 +93,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public void ShouldThrowNotFoundExceptionWhenSolutionIsNotFound()
         {
-            Assert.ThrowsAsync<NotFoundException>(() => UpdateClaimedEpicsAsync(InvalidSolutionId, new HashSet<IClaimedEpic>()));
+            Assert.ThrowsAsync<NotFoundException>(() => UpdateClaimedEpicsAsync(
+                InvalidSolutionId,
+                new HashSet<IClaimedEpic>()));
         }
 
         [Test]
@@ -96,26 +108,33 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 Mock.Of<IClaimedEpic>(e => e.EpicId == "Epic1" && e.StatusName == "Passed"),
             };
 
-            var validationResult = await UpdateClaimedEpicsAsync(ValidSolutionId, claimedEpics).ConfigureAwait(false);
+            var validationResult = await UpdateClaimedEpicsAsync(ValidSolutionId, claimedEpics);
             validationResult.IsValid.Should().BeFalse();
 
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(1);
             results["epics"].Should().Be("epicsInvalid");
 
-            _context.MockEpicRepository.Verify(
-                e => e.CountMatchingEpicIdsAsync(It.IsAny<IEnumerable<string>>(), It.IsAny<CancellationToken>()), Times.Never);
-            _context.MockSolutionEpicStatusRepository.Verify(
-                e => e.CountMatchingEpicStatusAsync(It.IsAny<IEnumerable<string>>(), It.IsAny<CancellationToken>()), Times.Never);
+            context.MockEpicRepository.Verify(
+                e => e.CountMatchingEpicIdsAsync(It.IsAny<IEnumerable<string>>(), It.IsAny<CancellationToken>()),
+                Times.Never());
 
-            _context.MockSolutionEpicRepository.Verify(r => r.UpdateSolutionEpicAsync(ValidSolutionId,
-                It.IsAny<IUpdateClaimedEpicListRequest>(), It.IsAny<CancellationToken>()), Times.Never);
+            context.MockSolutionEpicStatusRepository.Verify(
+                e => e.CountMatchingEpicStatusAsync(It.IsAny<IEnumerable<string>>(), It.IsAny<CancellationToken>()),
+                Times.Never());
+
+            Expression<Func<ISolutionEpicRepository, Task>> expression = r => r.UpdateSolutionEpicAsync(
+                ValidSolutionId,
+                It.IsAny<IUpdateClaimedEpicListRequest>(),
+                It.IsAny<CancellationToken>());
+
+            context.MockSolutionEpicRepository.Verify(expression, Times.Never());
         }
 
         [Test]
         public async Task ShouldValidateCountIsCorrect()
         {
-            var expectedEpicsCount = 0;
+            const int expectedEpicsCount = 0;
 
             var claimedEpics = new HashSet<IClaimedEpic>
             {
@@ -123,34 +142,40 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 Mock.Of<IClaimedEpic>(e => e.EpicId == "Epic2" && e.StatusName == "Unknown"),
             };
 
-            _context.MockEpicRepository
+            context.MockEpicRepository
                 .Setup(e => e.CountMatchingEpicIdsAsync(It.IsAny<IEnumerable<string>>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(expectedEpicsCount);
-            _context.MockSolutionEpicStatusRepository
+
+            context.MockSolutionEpicStatusRepository
                 .Setup(e => e.CountMatchingEpicStatusAsync(It.IsAny<IEnumerable<string>>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(expectedEpicsCount);
 
-            var validationResult = await UpdateClaimedEpicsAsync(ValidSolutionId, claimedEpics).ConfigureAwait(false);
+            var validationResult = await UpdateClaimedEpicsAsync(ValidSolutionId, claimedEpics);
             validationResult.IsValid.Should().BeFalse();
 
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(1);
             results["epics"].Should().Be("epicsInvalid");
 
-            _context.MockEpicRepository.Verify(
-                e => e.CountMatchingEpicIdsAsync(It.IsAny<IEnumerable<string>>(), It.IsAny<CancellationToken>()), Times.Once);
-            _context.MockSolutionEpicStatusRepository.Verify(
-                e => e.CountMatchingEpicStatusAsync(It.IsAny<IEnumerable<string>>(), It.IsAny<CancellationToken>()), Times.Once);
+            context.MockEpicRepository.Verify(
+                e => e.CountMatchingEpicIdsAsync(It.IsAny<IEnumerable<string>>(), It.IsAny<CancellationToken>()));
 
-            _context.MockSolutionEpicRepository.Verify(r => r.UpdateSolutionEpicAsync(ValidSolutionId,
-                It.IsAny<IUpdateClaimedEpicListRequest>(), It.IsAny<CancellationToken>()), Times.Never);
+            context.MockSolutionEpicStatusRepository.Verify(
+                e => e.CountMatchingEpicStatusAsync(It.IsAny<IEnumerable<string>>(), It.IsAny<CancellationToken>()));
+
+            Expression<Func<ISolutionEpicRepository, Task>> expression = r => r.UpdateSolutionEpicAsync(
+                ValidSolutionId,
+                It.IsAny<IUpdateClaimedEpicListRequest>(),
+                It.IsAny<CancellationToken>());
+
+            context.MockSolutionEpicRepository.Verify(expression, Times.Never());
         }
 
-        private async Task<ISimpleResult> UpdateClaimedEpicsAsync(string solutionId, HashSet<IClaimedEpic> claimedEpics)
+        private async Task<ISimpleResult> UpdateClaimedEpicsAsync(string solutionId, IEnumerable<IClaimedEpic> claimedEpics)
         {
-            return await _context.UpdateClaimedEpicsHandler
-                .Handle(new UpdateClaimedEpicsCommand(solutionId, claimedEpics), new CancellationToken())
-                .ConfigureAwait(false);
+            return await context.UpdateClaimedEpicsHandler.Handle(
+                new UpdateClaimedEpicsCommand(solutionId, claimedEpics),
+                CancellationToken.None);
         }
     }
 }

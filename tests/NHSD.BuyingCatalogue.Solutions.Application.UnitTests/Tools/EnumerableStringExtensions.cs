@@ -5,7 +5,7 @@ using FluentAssertions;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Tools
 {
-    internal static class ListExtension
+    internal static class EnumerableStringExtensions
     {
         internal static IEnumerable<string> ShouldContainOnly(
             this IEnumerable<string> values,

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -9,77 +10,91 @@ using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 {
     [TestFixture]
-    public class SolutionUpdateContactDetailsTests
+    internal sealed class SolutionUpdateContactDetailsTests
     {
-        private TestContext _context;
-
-        private static readonly string _36CharacterString = new('a', 36);
-        private static readonly string _256CharacterString = new('a', 256);
-        private static readonly string _51CharacterString = new('a', 51);
-
-        private UpdateSolutionContactViewModel _contact1;
-        private UpdateSolutionContactViewModel _contact2;
-
         private const string ExistingSolutionId = "Sln1";
         private const string InvalidSolutionId = "Sln2";
+
+        private static readonly string CharacterStringLength36 = new('a', 36);
+        private static readonly string CharacterStringLength256 = new('a', 256);
+        private static readonly string CharacterStringLength51 = new('a', 51);
+
+        private TestContext context;
+        private UpdateSolutionContactViewModel contact1;
+        private UpdateSolutionContactViewModel contact2;
 
         [SetUp]
         public void SetUpFixture()
         {
-            _context = new TestContext();
-            _contact1 = new UpdateSolutionContactViewModel
+            context = new TestContext();
+            contact1 = new UpdateSolutionContactViewModel
             {
                 FirstName = "Bob",
+
+                // ReSharper disable once StringLiteralTypo
                 LastName = "Bobbington",
                 Department = "Bobbing",
                 Email = "bob@bob.bob",
                 PhoneNumber = "123",
             };
-            _contact2 = new UpdateSolutionContactViewModel
+
+            contact2 = new UpdateSolutionContactViewModel
             {
                 FirstName = "Betty",
+
+                // ReSharper disable once StringLiteralTypo
                 LastName = "Bettington",
                 Department = "Betting",
                 Email = "betty@betty.betty",
                 PhoneNumber = "321",
             };
-            _context.MockSolutionRepository.Setup(x => x.CheckExists(ExistingSolutionId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
-            _context.MockSolutionRepository.Setup(x => x.CheckExists(InvalidSolutionId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
+
+            context.MockSolutionRepository
+                .Setup(r => r.CheckExists(ExistingSolutionId, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(true);
+
+            context.MockSolutionRepository
+                .Setup(r => r.CheckExists(InvalidSolutionId, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(false);
         }
 
         [Test]
         public async Task ShouldUpdateContactDetails()
         {
-            var result = await CallHandle(ExistingSolutionId)
-                .ConfigureAwait(false);
+            var result = await CallHandle(ExistingSolutionId);
+
             result.IsValid.Should().BeTrue();
             result.Contact1Result.ToDictionary().Should().BeEmpty();
             result.Contact2Result.ToDictionary().Should().BeEmpty();
 
-            _context.MockMarketingContactRepository.Verify(x => x.ReplaceContactsForSolution(ExistingSolutionId, It.Is<IEnumerable<IContact>>(c => VerifyContacts(c)), It.IsAny<CancellationToken>()), Times.Once);
+            context.MockMarketingContactRepository.Verify(r => r.ReplaceContactsForSolution(
+                ExistingSolutionId,
+                It.Is<IEnumerable<IContact>>(c => VerifyContacts(c)),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task InvalidDataShouldReturnError()
         {
-            _contact1.FirstName = _36CharacterString;
-            _contact1.LastName = _36CharacterString;
-            _contact1.Department = _51CharacterString;
-            _contact1.PhoneNumber = _36CharacterString;
-            _contact1.Email = _256CharacterString;
+            contact1.FirstName = CharacterStringLength36;
+            contact1.LastName = CharacterStringLength36;
+            contact1.Department = CharacterStringLength51;
+            contact1.PhoneNumber = CharacterStringLength36;
+            contact1.Email = CharacterStringLength256;
 
-            _contact2.FirstName = _36CharacterString;
-            _contact2.LastName = _36CharacterString;
-            _contact2.Department = _51CharacterString;
-            _contact2.PhoneNumber = _36CharacterString;
-            _contact2.Email = _256CharacterString;
+            contact2.FirstName = CharacterStringLength36;
+            contact2.LastName = CharacterStringLength36;
+            contact2.Department = CharacterStringLength51;
+            contact2.PhoneNumber = CharacterStringLength36;
+            contact2.Email = CharacterStringLength256;
 
-            var result = await CallHandle(ExistingSolutionId).ConfigureAwait(false);
+            var result = await CallHandle(ExistingSolutionId);
             result.IsValid.Should().BeFalse();
 
             result.Contact1Result.IsValid.Should().BeFalse();
@@ -100,46 +115,57 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             contact2Result["department-name"].Should().Be("maxLength");
             contact2Result["phone-number"].Should().Be("maxLength");
 
-            _context.MockMarketingContactRepository.Verify(x => x.ReplaceContactsForSolution(ExistingSolutionId, It.IsAny<IEnumerable<IContact>>(), It.IsAny<CancellationToken>()), Times.Never);
+            Expression<Func<IMarketingContactRepository, Task>> expression = r => r.ReplaceContactsForSolution(
+                ExistingSolutionId,
+                It.IsAny<IEnumerable<IContact>>(),
+                It.IsAny<CancellationToken>());
+
+            context.MockMarketingContactRepository.Verify(expression, Times.Never());
         }
 
         [Test]
         public async Task NullDataShouldRemoveContacts()
         {
-            _contact1.FirstName = null;
-            _contact1.LastName = null;
-            _contact1.Department = null;
-            _contact1.PhoneNumber = null;
-            _contact1.Email = null;
+            contact1.FirstName = null;
+            contact1.LastName = null;
+            contact1.Department = null;
+            contact1.PhoneNumber = null;
+            contact1.Email = null;
 
-            _contact2.FirstName = null;
-            _contact2.LastName = null;
-            _contact2.Department = null;
-            _contact2.PhoneNumber = null;
-            _contact2.Email = null;
+            contact2.FirstName = null;
+            contact2.LastName = null;
+            contact2.Department = null;
+            contact2.PhoneNumber = null;
+            contact2.Email = null;
 
-            var result = await CallHandle(ExistingSolutionId)
-                .ConfigureAwait(false);
+            var result = await CallHandle(ExistingSolutionId);
+
             result.IsValid.Should().BeTrue();
             result.Contact1Result.ToDictionary().Should().BeEmpty();
             result.Contact2Result.ToDictionary().Should().BeEmpty();
 
-            _context.MockMarketingContactRepository.Verify(x => x.ReplaceContactsForSolution(ExistingSolutionId, It.Is<IEnumerable<IContact>>(c => !c.Any()), It.IsAny<CancellationToken>()), Times.Once);
+            context.MockMarketingContactRepository.Verify(r => r.ReplaceContactsForSolution(
+                ExistingSolutionId,
+                It.Is<IEnumerable<IContact>>(c => !c.Any()),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task NullContactsShouldRemoveContacts()
         {
-            _contact1 = null;
-            _contact2 = null;
+            contact1 = null;
+            contact2 = null;
 
-            var result = await CallHandle(ExistingSolutionId)
-                .ConfigureAwait(false);
+            var result = await CallHandle(ExistingSolutionId);
+
             result.IsValid.Should().BeTrue();
             result.Contact1Result.ToDictionary().Should().BeEmpty();
             result.Contact2Result.ToDictionary().Should().BeEmpty();
 
-            _context.MockMarketingContactRepository.Verify(x => x.ReplaceContactsForSolution(ExistingSolutionId, It.Is<IEnumerable<IContact>>(c => !c.Any()), It.IsAny<CancellationToken>()), Times.Once);
+            context.MockMarketingContactRepository.Verify(r => r.ReplaceContactsForSolution(
+                ExistingSolutionId,
+                It.Is<IEnumerable<IContact>>(c => !c.Any()),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
@@ -151,22 +177,31 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public void CommandWithBadParamsThrowsNullExceptions()
         {
-            Assert.Throws<ArgumentNullException>(() => new UpdateSolutionContactDetailsCommand(null, new UpdateSolutionContactDetailsViewModel()));
-            Assert.Throws<ArgumentNullException>(() => new UpdateSolutionContactDetailsCommand("Hello", null));
+            Assert.Throws<ArgumentNullException>(() => _ = new UpdateSolutionContactDetailsCommand(
+                null,
+                new UpdateSolutionContactDetailsViewModel()));
+
+            Assert.Throws<ArgumentNullException>(() => _ = new UpdateSolutionContactDetailsCommand("Hello", null));
         }
+
         private bool VerifyContacts(IEnumerable<IContact> contacts)
         {
-            contacts.Count().Should().Be(2);
-            contacts.First().Should().BeEquivalentTo(_contact1);
-            contacts.Last().Should().BeEquivalentTo(_contact2);
+            var contactList = contacts.ToList();
+
+            contactList.Count.Should().Be(2);
+            contactList.First().Should().BeEquivalentTo(contact1);
+            contactList.Last().Should().BeEquivalentTo(contact2);
+
             return true;
         }
 
         private async Task<ContactsMaxLengthResult> CallHandle(string solutionId)
         {
-            var command = new UpdateSolutionContactDetailsCommand(solutionId, new UpdateSolutionContactDetailsViewModel { Contact1 = _contact1, Contact2 = _contact2 });
-            return await _context.UpdateSolutionContactDetailsHandler.Handle(command, new CancellationToken())
-                .ConfigureAwait(false);
+            var command = new UpdateSolutionContactDetailsCommand(
+                solutionId,
+                new UpdateSolutionContactDetailsViewModel { Contact1 = contact1, Contact2 = contact2 });
+
+            return await context.UpdateSolutionContactDetailsHandler.Handle(command, CancellationToken.None);
         }
     }
 }

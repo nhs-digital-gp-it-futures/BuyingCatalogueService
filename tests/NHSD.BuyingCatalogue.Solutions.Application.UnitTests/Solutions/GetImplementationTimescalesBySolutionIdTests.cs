@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
@@ -13,27 +13,32 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
     [TestFixture]
     internal sealed class GetImplementationTimescalesBySolutionIdTests
     {
-        private TestContext _context;
-        private GetImplementationTimescalesBySolutionIdQuery _query;
-        private CancellationToken _cancellationToken;
-        private const string _solutionId = "Sln1";
-        private string _implementationTimescalesDescription = "Some implementation timescales description";
-        private Mock<IImplementationTimescalesResult> _mockResult;
-        private bool _solutionExists = true;
+        private const string SolutionId = "Sln1";
+
+        private TestContext context;
+        private GetImplementationTimescalesBySolutionIdQuery query;
+        private CancellationToken cancellationToken;
+        private string implementationTimescalesDescription = "Some implementation timescales description";
+        private Mock<IImplementationTimescalesResult> mockResult;
+        private bool solutionExists = true;
 
         [SetUp]
         public void SetUpFixture()
         {
-            _context = new TestContext();
-            _query = new GetImplementationTimescalesBySolutionIdQuery(_solutionId);
-            _cancellationToken = new CancellationToken();
+            context = new TestContext();
+            query = new GetImplementationTimescalesBySolutionIdQuery(SolutionId);
+            cancellationToken = CancellationToken.None;
 
-            _context.MockSolutionDetailRepository.Setup(r => r.GetImplementationTimescalesBySolutionIdAsync(_solutionId, _cancellationToken))
-            .ReturnsAsync(() => _mockResult.Object);
-            _context.MockSolutionRepository.Setup(r => r.CheckExists(_solutionId, _cancellationToken)).ReturnsAsync(() => _solutionExists);
+            context.MockSolutionDetailRepository
+                .Setup(r => r.GetImplementationTimescalesBySolutionIdAsync(SolutionId, cancellationToken))
+                .ReturnsAsync(() => mockResult.Object);
 
-            _mockResult = new Mock<IImplementationTimescalesResult>();
-            _mockResult.Setup(m => m.Description).Returns(() => _implementationTimescalesDescription);
+            context.MockSolutionRepository
+                .Setup(r => r.CheckExists(SolutionId, cancellationToken))
+                .ReturnsAsync(() => solutionExists);
+
+            mockResult = new Mock<IImplementationTimescalesResult>();
+            mockResult.Setup(m => m.Description).Returns(() => implementationTimescalesDescription);
         }
 
         [TestCase("Some description")]
@@ -42,18 +47,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [TestCase(null)]
         public async Task ShouldGetImplementationTimescalesDescription(string description)
         {
-            _implementationTimescalesDescription = description;
-            var result = await _context.GetImplementationTimescalesBySolutionIdHandler.Handle(_query, _cancellationToken).ConfigureAwait(false);
-            result.Description.Should().Be(_implementationTimescalesDescription);
+            implementationTimescalesDescription = description;
+            var result = await context.GetImplementationTimescalesBySolutionIdHandler.Handle(query, cancellationToken);
+            result.Description.Should().Be(implementationTimescalesDescription);
         }
 
         [Test]
         public async Task EmptyImplementationTimescalesResultReturnsDefaultImplementationTimescales()
         {
-            _implementationTimescalesDescription = null;
+            implementationTimescalesDescription = null;
 
-            var implementationTimescales = await _context.GetImplementationTimescalesBySolutionIdHandler.Handle(
-                new GetImplementationTimescalesBySolutionIdQuery(_solutionId), _cancellationToken).ConfigureAwait(false);
+            var implementationTimescales = await context.GetImplementationTimescalesBySolutionIdHandler.Handle(
+                new GetImplementationTimescalesBySolutionIdQuery(SolutionId),
+                cancellationToken);
+
             implementationTimescales.Should().NotBeNull();
             implementationTimescales.Should().BeEquivalentTo(new ImplementationTimescalesDto());
         }
@@ -61,12 +68,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public void ShouldThrowWhenSolutionNotPresent()
         {
-            _solutionExists = false;
-            var exception = Assert.ThrowsAsync<NotFoundException>( () => _context.GetImplementationTimescalesBySolutionIdHandler.Handle(_query, _cancellationToken));
+            solutionExists = false;
 
-            _context.MockSolutionRepository.Verify(r => r.CheckExists(_solutionId, _cancellationToken), Times.Once);
-            _context.MockSolutionRepository.VerifyNoOtherCalls();
-            _context.MockSolutionDetailRepository.VerifyNoOtherCalls();
+            Assert.ThrowsAsync<NotFoundException>(() => context.GetImplementationTimescalesBySolutionIdHandler.Handle(
+                query,
+                cancellationToken));
+
+            context.MockSolutionRepository.Verify(r => r.CheckExists(SolutionId, cancellationToken));
+            context.MockSolutionRepository.VerifyNoOtherCalls();
+            context.MockSolutionDetailRepository.VerifyNoOtherCalls();
         }
     }
 }

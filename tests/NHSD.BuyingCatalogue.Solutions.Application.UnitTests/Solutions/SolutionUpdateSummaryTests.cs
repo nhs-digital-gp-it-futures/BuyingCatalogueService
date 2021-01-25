@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
@@ -14,12 +16,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
     [TestFixture]
     internal sealed class SolutionUpdateSummaryTests
     {
-        private TestContext _context;
+        private TestContext context;
 
         [SetUp]
         public void SetUpFixture()
         {
-            _context = new TestContext();
+            context = new TestContext();
         }
 
         [Test]
@@ -28,20 +30,22 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var validationResult = await UpdateSolutionDescriptionAsync();
             validationResult.IsValid.Should().BeTrue();
 
-            _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+            context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
 
-            _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.Is<IUpdateSolutionSummaryRequest>(r =>
+            Expression<Func<IUpdateSolutionSummaryRequest, bool>> match = r =>
                 r.SolutionId == "Sln1"
                 && r.AboutUrl == "Link"
                 && r.Description == "Description"
-                && r.Summary == "Summary"
-                ), It.IsAny<CancellationToken>()), Times.Once());
+                && r.Summary == "Summary";
+
+            context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateSummaryAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
         [TestCase(null)]
         [TestCase("")]
-        [TestCase("	")]//tab
-        [TestCase(" ")]//space
+        [TestCase("\t")]
+        [TestCase(" ")]
         public async Task ShouldValidateForExistenceOfSummary(string summary)
         {
             var validationResult = await UpdateSolutionDescriptionAsync(summary);
@@ -51,8 +55,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             results.Count.Should().Be(1);
             results["summary"].Should().Be("required");
 
-            _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
-            _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+            context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
+            context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()),
+                Times.Never());
         }
 
         [Test]
@@ -65,8 +71,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             results.Count.Should().Be(1);
             results["description"].Should().Be("maxLength");
 
-            _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
-            _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+            context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
+            context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()),
+                Times.Never());
         }
 
         [Test]
@@ -79,8 +87,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             results.Count.Should().Be(1);
             results["link"].Should().Be("maxLength");
 
-            _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
-            _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+            context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
+            context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()),
+                Times.Never());
         }
 
         [Test]
@@ -93,15 +103,19 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             results.Count.Should().Be(1);
             results["summary"].Should().Be("maxLength");
 
-            _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
-            _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
-
+            context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
+            context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()),
+                Times.Never());
         }
 
         [Test]
         public async Task ShouldValidateCombinations()
         {
-            var validationResult = await UpdateSolutionDescriptionAsync("", new string('a', 1101), new string('a', 1001));
+            var validationResult = await UpdateSolutionDescriptionAsync(
+                string.Empty,
+                new string('a', 1101),
+                new string('a', 1001));
 
             validationResult.IsValid.Should().BeFalse();
             var results = validationResult.ToDictionary();
@@ -110,8 +124,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             results["description"].Should().Be("maxLength");
             results["link"].Should().Be("maxLength");
 
-            _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
-            _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+            context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
+            context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()),
+                Times.Never());
         }
 
         [Test]
@@ -123,8 +139,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(0);
 
-            _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
-            _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()), Times.Once());
+            context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
+            context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()));
         }
 
         [Test]
@@ -139,18 +156,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                     Summary = "Summary",
                 };
 
-                return _context.UpdateSolutionSummaryHandler.Handle(
+                return context.UpdateSolutionSummaryHandler.Handle(
                     new UpdateSolutionSummaryCommand("Sln1", summaryModel),
-                    new CancellationToken());
+                    CancellationToken.None);
             }
 
             Assert.ThrowsAsync<NotFoundException>(UpdateSummary);
 
-            _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+            context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
 
-            _context.MockSolutionDetailRepository.Verify(r => r.UpdateSummaryAsync(
-                It.IsAny<IUpdateSolutionSummaryRequest>(),
-                It.IsAny<CancellationToken>()),
+            context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()),
                 Times.Never());
         }
 
@@ -159,15 +175,19 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
 
-            _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
+            context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
 
-            var validationResult = await _context.UpdateSolutionSummaryHandler.Handle(new UpdateSolutionSummaryCommand("Sln1",
-                new UpdateSolutionSummaryViewModel
-                {
-                    Description = description,
-                    Link = link,
-                    Summary = summary,
-                }), new CancellationToken());
+            var updateSolutionSummaryModel = new UpdateSolutionSummaryViewModel
+            {
+                Description = description,
+                Link = link,
+                Summary = summary,
+            };
+
+            var validationResult = await context.UpdateSolutionSummaryHandler.Handle(
+                new UpdateSolutionSummaryCommand("Sln1", updateSolutionSummaryModel),
+                CancellationToken.None);
+
             return validationResult;
         }
     }

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -14,54 +16,64 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
     [TestFixture]
     internal sealed class ContactDetailsGetBySolutionIdTests
     {
-        private TestContext _context;
         private const string SolutionId = "Sln1";
-        private CancellationToken _cancellationToken;
-        private List<IMarketingContactResult> _marketingContactResult;
-        private bool _solutionExists;
 
-        private static readonly IMarketingContactResult MarketingContact1 = Mock.Of<IMarketingContactResult>(m => m.Id ==1 &&
-                                                                           m.SolutionId == SolutionId &&
-                                                                           m.FirstName == "Bob" &&
-                                                                           m.LastName == "Builder" &&
-                                                                           m.Email == "bob@builder.com" &&
-                                                                           m.Department == "building" &&
-                                                                           m.PhoneNumber == "12345678901");
+        private static readonly Expression<Func<IMarketingContactResult, bool>> ContactResult1 = m =>
+            m.Id == 1
+            && m.SolutionId == SolutionId
+            && m.FirstName == "Bob"
+            && m.LastName == "Builder"
+            && m.Email == "bob@builder.com"
+            && m.Department == "building"
+            && m.PhoneNumber == "12345678901";
 
-        private static readonly IMarketingContactResult MarketingContact2 = Mock.Of<IMarketingContactResult>(m => m.Id == 2 &&
-                                                                           m.SolutionId == SolutionId &&
-                                                                           m.FirstName == "Alice" &&
-                                                                           m.LastName == "Wonderland" &&
-                                                                           m.Email == "alice@wonderland.com" &&
-                                                                           m.Department == "prescription" &&
-                                                                           m.PhoneNumber == "0123412345");
+        private static readonly IMarketingContactResult MarketingContact1 = Mock.Of(ContactResult1);
+
+        private static readonly Expression<Func<IMarketingContactResult, bool>> ContactResult2 = m =>
+            m.Id == 2
+            && m.SolutionId == SolutionId
+            && m.FirstName == "Alice"
+            && m.LastName == "Wonderland"
+            && m.Email == "alice@wonderland.com"
+            && m.Department == "prescription"
+            && m.PhoneNumber == "0123412345";
+
+        private static readonly IMarketingContactResult MarketingContact2 = Mock.Of(ContactResult2);
+
+        private TestContext context;
+        private CancellationToken cancellationToken;
+        private List<IMarketingContactResult> marketingContactResult;
+        private bool solutionExists;
 
         [SetUp]
         public void Setup()
         {
-            _context = new TestContext();
-            _cancellationToken = new CancellationToken();
+            context = new TestContext();
+            cancellationToken = CancellationToken.None;
 
-            _solutionExists = true;
+            solutionExists = true;
 
-            _context.MockSolutionRepository
-                .Setup(r => r.CheckExists(SolutionId, _cancellationToken)).ReturnsAsync(() =>_solutionExists);
+            context.MockSolutionRepository
+                .Setup(r => r.CheckExists(SolutionId, cancellationToken))
+                .ReturnsAsync(() => solutionExists);
 
-            _context.MockMarketingContactRepository
-                .Setup(r => r.BySolutionIdAsync(SolutionId, _cancellationToken))
-                .ReturnsAsync(() => _marketingContactResult);
-            _marketingContactResult = new List<IMarketingContactResult>();
+            context.MockMarketingContactRepository
+                .Setup(r => r.BySolutionIdAsync(SolutionId, cancellationToken))
+                .ReturnsAsync(() => marketingContactResult);
+
+            marketingContactResult = new List<IMarketingContactResult>();
         }
 
         [Test]
         public async Task ShouldGetContactDetailsBySolutionId()
         {
-            _marketingContactResult.Add(MarketingContact1);
-            _marketingContactResult.Add(MarketingContact2);
+            marketingContactResult.Add(MarketingContact1);
+            marketingContactResult.Add(MarketingContact2);
 
-            var marketingContact = (await _context.GetContactDetailBySolutionIdHandler.Handle(
-                new GetContactDetailBySolutionIdQuery(SolutionId), _cancellationToken).ConfigureAwait(false)).ToArray();
-      
+            var marketingContact = (await context.GetContactDetailBySolutionIdHandler.Handle(
+                new GetContactDetailBySolutionIdQuery(SolutionId),
+                cancellationToken)).ToArray();
+
             marketingContact.Length.Should().Be(2);
 
             marketingContact[0].FirstName.Should().Be("Bob");
@@ -77,22 +89,22 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             marketingContact[1].PhoneNumber.Should().Be("0123412345");
         }
 
-
         [Test]
         public void SolutionCheckFailsThrowsException()
         {
-            _solutionExists = false;
+            solutionExists = false;
 
-            Assert.ThrowsAsync<NotFoundException>(() =>
-                _context.GetContactDetailBySolutionIdHandler.Handle(new GetContactDetailBySolutionIdQuery(SolutionId),
-                    _cancellationToken));
+            Assert.ThrowsAsync<NotFoundException>(() => context.GetContactDetailBySolutionIdHandler.Handle(
+                new GetContactDetailBySolutionIdQuery(SolutionId),
+                cancellationToken));
         }
 
         [Test]
         public async Task ContactDetailsAreEmptyList()
         {
-            var marketingContact = (await _context.GetContactDetailBySolutionIdHandler.Handle(
-                new GetContactDetailBySolutionIdQuery(SolutionId), _cancellationToken).ConfigureAwait(false)).ToArray();
+            var marketingContact = (await context.GetContactDetailBySolutionIdHandler.Handle(
+                new GetContactDetailBySolutionIdQuery(SolutionId),
+                cancellationToken)).ToArray();
 
             marketingContact.Length.Should().Be(0);
         }

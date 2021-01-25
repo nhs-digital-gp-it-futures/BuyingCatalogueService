@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
@@ -11,7 +13,7 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 {
     [TestFixture]
-    public class SolutionUpdateRoadMapTests
+    internal sealed class SolutionUpdateRoadMapTests
     {
         private const string ExistingSolutionId = "Sln1";
         private const string InvalidSolutionId = "Sln123";
@@ -22,8 +24,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         public void Setup()
         {
             context = new TestContext();
-            context.MockSolutionRepository.Setup(x => x.CheckExists(ExistingSolutionId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
-            context.MockSolutionRepository.Setup(x => x.CheckExists(InvalidSolutionId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
+            context.MockSolutionRepository
+                .Setup(r => r.CheckExists(ExistingSolutionId, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(true);
+
+            context.MockSolutionRepository
+                .Setup(r => r.CheckExists(InvalidSolutionId, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(false);
         }
 
         [Test]
@@ -36,12 +43,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(0);
 
-            context.MockSolutionRepository.Verify(r => r.CheckExists(ExistingSolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            context.MockSolutionRepository.Verify(r => r.CheckExists(ExistingSolutionId, It.IsAny<CancellationToken>()));
 
-            context.MockSolutionDetailRepository.Verify(r => r.UpdateRoadMapAsync(It.Is<IUpdateRoadMapRequest>(r =>
+            Expression<Func<IUpdateRoadMapRequest, bool>> match = r =>
                 r.SolutionId == ExistingSolutionId
-                && r.Description == expected
-            ), It.IsAny<CancellationToken>()), Times.Once());
+                && r.Description == expected;
+
+            context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateRoadMapAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
         [Test]
@@ -53,8 +62,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             results.Count.Should().Be(1);
             results["summary"].Should().Be("maxLength");
 
-            context.MockSolutionRepository.Verify(r => r.CheckExists(ExistingSolutionId, It.IsAny<CancellationToken>()), Times.Never());
-            context.MockSolutionDetailRepository.Verify(r => r.UpdateRoadMapAsync(It.IsAny<IUpdateRoadMapRequest>(), It.IsAny<CancellationToken>()), Times.Never);
+            context.MockSolutionRepository.Verify(
+                r => r.CheckExists(ExistingSolutionId, It.IsAny<CancellationToken>()),
+                Times.Never());
+
+            context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateRoadMapAsync(It.IsAny<IUpdateRoadMapRequest>(), It.IsAny<CancellationToken>()),
+                Times.Never());
         }
 
         [Test]
@@ -66,7 +80,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         private async Task<ISimpleResult> UpdateRoadMapAsync(string solutionId, string description)
         {
             var validationResult = await context.UpdateRoadMapHandler.Handle(
-                    new UpdateRoadMapCommand(solutionId, description), new CancellationToken());
+                new UpdateRoadMapCommand(solutionId, description),
+                CancellationToken.None);
+
             return validationResult;
         }
     }
