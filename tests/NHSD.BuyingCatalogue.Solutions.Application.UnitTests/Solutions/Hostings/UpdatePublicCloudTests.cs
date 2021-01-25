@@ -108,7 +108,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
 
             var calledBack = false;
 
-            void Action(IUpdateSolutionHostingRequest updateSolutionHostingRequest, CancellationToken _)
+            void Action(IUpdateSolutionHostingRequest updateSolutionHostingRequest, CancellationToken token)
             {
                 calledBack = true;
                 var json = JToken.Parse(updateSolutionHostingRequest.Hosting);
@@ -136,11 +136,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
         [TestCase(501, 1000, "summary")]
         [TestCase(500, 1001, "link")]
         [TestCase(501, 1001, "summary", "link")]
-        public async Task ShouldNotUpdateInvalidPublicCloud(int summary, int link, params string[] expected)
+        public async Task ShouldNotUpdateInvalidPublicCloud(int cloudSummary, int link, params string[] expected)
         {
             SetUpMockSolutionRepositoryGetByIdAsync(hostingJson);
 
-            this.summary = new string('a', summary);
+            summary = new string('a', cloudSummary);
             url = new string('a', link);
 
             SetUpMockSolutionRepositoryGetByIdAsync();

@@ -7,7 +7,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
 {
     internal abstract class HostingTestsBase
     {
-        protected TestContext Context;
+        protected TestContext Context { get; private set; }
 
         [SetUp]
         public void SetUpFixture()

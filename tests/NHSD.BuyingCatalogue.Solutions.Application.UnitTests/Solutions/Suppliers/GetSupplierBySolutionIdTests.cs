@@ -25,7 +25,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
         {
             context = new TestContext();
             solutionId = "Sln1";
-            cancellationToken = new CancellationToken();
+            cancellationToken = CancellationToken.None;
             context.MockSupplierRepository
                 .Setup(r => r.GetSupplierBySolutionIdAsync(solutionId, cancellationToken))
                 .ReturnsAsync(() => solutionSupplierResult);

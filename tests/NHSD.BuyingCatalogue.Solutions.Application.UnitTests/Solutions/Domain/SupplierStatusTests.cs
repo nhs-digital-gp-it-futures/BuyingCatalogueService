@@ -50,7 +50,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Domain
         [Test]
         public void FromValueGivenValueFourShouldThrow()
         {
-            var expectedValue = 4;
+            const int expectedValue = 4;
 
             var exception = Assert.Throws<InvalidOperationException>(() =>
             {
@@ -63,13 +63,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Domain
         [Test]
         public void FromNameGivenNameAuthorityReviewShouldBeEqual()
         {
-            Enumerator.FromName<SupplierStatus>("authorityreview").Should().Be(SupplierStatus.AuthorityReview);
+            Enumerator.FromName<SupplierStatus>("authorityReview").Should().Be(SupplierStatus.AuthorityReview);
         }
 
         [Test]
         public void FromNameGivenNameTestShouldThrow()
         {
-            var expectedName = "Test";
+            const string expectedName = "Test";
 
             var exception = Assert.Throws<InvalidOperationException>(() =>
             {

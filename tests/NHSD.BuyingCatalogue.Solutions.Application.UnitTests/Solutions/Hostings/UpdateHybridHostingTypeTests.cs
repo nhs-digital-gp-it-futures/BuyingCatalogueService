@@ -114,7 +114,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
 
             var calledBack = false;
 
-            void Action(IUpdateSolutionHostingRequest updateHostingRequest, CancellationToken _)
+            void Action(IUpdateSolutionHostingRequest updateHostingRequest, CancellationToken token)
             {
                 calledBack = true;
                 var json = JToken.Parse(updateHostingRequest.Hosting);

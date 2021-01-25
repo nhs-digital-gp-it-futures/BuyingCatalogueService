@@ -71,7 +71,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
                 {
                     ThirdPartyComponents = "Component",
                     DeviceCapabilities = "Capabilities",
-                }
+                },
             };
 
             var clientJson = JsonConvert.SerializeObject(clientApplication);
@@ -80,10 +80,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             var calledBack = false;
 
-            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            void Action(IUpdateSolutionClientApplicationRequest request, CancellationToken token)
             {
                 calledBack = true;
-                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                var json = JToken.Parse(request.ClientApplication);
                 var newClientApplication = JsonConvert.DeserializeObject<Application.Domain.ClientApplication>(json.ToString());
                 clientApplication.Should().BeEquivalentTo(newClientApplication, c => c.Excluding(m => m.NativeDesktopThirdParty));
 

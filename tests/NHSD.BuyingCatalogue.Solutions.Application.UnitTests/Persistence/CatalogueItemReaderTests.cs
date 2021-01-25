@@ -34,7 +34,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Persistence
 
             var catalogueItemRepositoryMock = new Mock<ICatalogueItemRepository>();
             catalogueItemRepositoryMock
-                .Setup(x => x.GetByIdAsync(It.IsAny<string>(), default))
+                .Setup(r => r.GetByIdAsync(It.IsAny<string>(), default))
                 .ReturnsAsync(() => catalogueItemResultMock.Object);
 
             var reader = new CatalogueItemReader(catalogueItemRepositoryMock.Object);
@@ -48,7 +48,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Persistence
         {
             var catalogueItemRepositoryMock = new Mock<ICatalogueItemRepository>();
             catalogueItemRepositoryMock
-                .Setup(x => x.GetByIdAsync(It.IsAny<string>(), default))
+                .Setup(r => r.GetByIdAsync(It.IsAny<string>(), default))
                 .ReturnsAsync(() => null);
 
             var reader = new CatalogueItemReader(catalogueItemRepositoryMock.Object);
@@ -67,14 +67,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Persistence
 
             var catalogueItemRepositoryMock = new Mock<ICatalogueItemRepository>();
             catalogueItemRepositoryMock
-                .Setup(x => x.GetByIdAsync(It.IsAny<string>(), default))
+                .Setup(r => r.GetByIdAsync(It.IsAny<string>(), default))
                 .ReturnsAsync(() => catalogueItemResultMock.Object);
 
             var reader = new CatalogueItemReader(catalogueItemRepositoryMock.Object);
             await reader.GetByIdAsync(catalogueItemId, CancellationToken.None);
 
-            catalogueItemRepositoryMock.Verify(x =>
-                x.GetByIdAsync(catalogueItemId, default), Times.Once);
+            catalogueItemRepositoryMock.Verify(r => r.GetByIdAsync(catalogueItemId, default));
         }
 
         [Test]

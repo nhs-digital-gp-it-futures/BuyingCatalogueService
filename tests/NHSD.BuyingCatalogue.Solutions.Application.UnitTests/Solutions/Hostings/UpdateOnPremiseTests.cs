@@ -113,7 +113,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
 
             var calledBack = false;
 
-            void Action(IUpdateSolutionHostingRequest updateHostingRequest, CancellationToken _)
+            void Action(IUpdateSolutionHostingRequest updateHostingRequest, CancellationToken token)
             {
                 calledBack = true;
                 var json = JToken.Parse(updateHostingRequest.Hosting);
@@ -157,8 +157,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                 r => r.ByIdAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
                 Times.Never());
 
-            Context.MockSolutionDetailRepository.Verify(r
-                => r.UpdateHostingAsync(It.IsAny<IUpdateSolutionHostingRequest>(), It.IsAny<CancellationToken>()),
+            Context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateHostingAsync(It.IsAny<IUpdateSolutionHostingRequest>(), It.IsAny<CancellationToken>()),
                 Times.Never());
 
             validationResult.IsValid.Should().BeFalse();
@@ -175,7 +175,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
         {
             Assert.ThrowsAsync<NotFoundException>(async () => await Update());
 
-            Context.MockSolutionRepository.Verify(x => x.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
             Context.MockSolutionDetailRepository.Verify(
                 r => r.UpdateHostingAsync(It.IsAny<IUpdateSolutionHostingRequest>(), It.IsAny<CancellationToken>()),
                 Times.Never());

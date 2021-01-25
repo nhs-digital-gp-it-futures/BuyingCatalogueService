@@ -5,68 +5,33 @@ using FluentAssertions;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Tools
 {
-    public static class ListExtension
+    internal static class ListExtension
     {
-        public static IEnumerable<string> ShouldContainAll(this IEnumerable<string> list, IEnumerable<string> values)
+        internal static IEnumerable<string> ShouldContainOnly(
+            this IEnumerable<string> values,
+            IEnumerable<string> expectation)
         {
-            if (values is null)
+            if (expectation is null)
             {
-                throw new ArgumentNullException(nameof(values));
+                throw new ArgumentNullException(nameof(expectation));
             }
 
-            foreach (string value in values)
-            {
-                list.Should().Contain(value);
-            }
-
-            return list;
+            return CheckCollection(values, l => l.Should().BeEquivalentTo(expectation, o => o.WithoutStrictOrdering()));
         }
 
-        public static IEnumerable<string> ShouldContainOnly(this IEnumerable<string> list, IEnumerable<string> values)
+        internal static IEnumerable<string> ShouldNotContain(this IEnumerable<string> values, string expectation)
         {
-            if (values is null)
-            {
-                throw new ArgumentNullException(nameof(values));
-            }
-
-            foreach (string value in values)
-            {
-                list.Should().Contain(value);
-            }
-
-            list.Should().HaveCount(values.Count());
-
-            return list;
+            return CheckCollection(values, l => l.Should().NotContain(expectation));
         }
 
-        public static IEnumerable<string> ShouldContain(this IEnumerable<string> list, string value)
+        private static IEnumerable<string> CheckCollection(
+            IEnumerable<string> collection,
+            Action<IEnumerable<string>> assertion)
         {
-            list.Should().Contain(value);
+            var items = collection?.ToList();
+            assertion(items);
 
-            return list;
-        }
-
-        public static IEnumerable<string> ShouldNotContainAnyOf(this IEnumerable<string> list, IEnumerable<string> values)
-        {
-            if (values is null)
-            {
-                throw new ArgumentNullException(nameof(values));
-            }
-
-            foreach (string value in values)
-            {
-                list.Should().NotContain(value);
-            }
-
-            return list;
-        }
-
-
-        public static IEnumerable<string> ShouldNotContain(this IEnumerable<string> list, string value)
-        {
-            list.Should().NotContain(value);
-
-            return list;
+            return items;
         }
     }
 }

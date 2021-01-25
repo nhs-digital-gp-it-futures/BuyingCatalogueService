@@ -18,7 +18,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Pricing
     {
         private const int PriceId = 1;
 
-        private static readonly Expression<Func<ICataloguePriceListResult, bool>> priceListResult = p =>
+        private static readonly Expression<Func<ICataloguePriceListResult, bool>> PriceListResult = p =>
             p.CataloguePriceId == PriceId
             && p.CatalogueItemName == "name"
             && p.CatalogueItemId == "id"
@@ -31,7 +31,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Pricing
             && p.TimeUnitId == 1
             && p.CurrencyCode == "GBP";
 
-        private static readonly ICataloguePriceListResult price1 = Mock.Of(priceListResult);
+        private static readonly ICataloguePriceListResult Price1 = Mock.Of(PriceListResult);
 
         private TestContext context;
         private CancellationToken cancellationToken;
@@ -41,7 +41,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Pricing
         public void Setup()
         {
             context = new TestContext();
-            cancellationToken = new CancellationToken();
+            cancellationToken = CancellationToken.None;
 
             context.MockPriceRepository
                 .Setup(r => r.GetPriceByPriceIdQueryAsync(PriceId, cancellationToken))
@@ -63,31 +63,31 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Pricing
         [Test]
         public async Task PriceIdExists_ReturnsResult()
         {
-            cataloguePriceResult.Add(price1);
+            cataloguePriceResult.Add(Price1);
 
             var price = await context.GetPricingByPriceIdHandler.Handle(
                 new GetPriceByPriceIdQuery(PriceId),
                 cancellationToken);
 
             price.CataloguePriceId.Should().Be(PriceId);
-            price.CatalogueItemId.Should().BeEquivalentTo(price1.CatalogueItemId);
-            price.CatalogueItemName.Should().BeEquivalentTo(price1.CatalogueItemName);
+            price.CatalogueItemId.Should().BeEquivalentTo(Price1.CatalogueItemId);
+            price.CatalogueItemName.Should().BeEquivalentTo(Price1.CatalogueItemName);
             price.Type.Should().BeEquivalentTo(
-                Enumerator.FromValue<CataloguePriceType>(price1.CataloguePriceTypeId).Name);
+                Enumerator.FromValue<CataloguePriceType>(Price1.CataloguePriceTypeId).Name);
 
             price.ProvisioningType.Should().BeEquivalentTo(
-                Enumerator.FromValue<ProvisioningType>(price1.CataloguePriceTypeId).Name);
+                Enumerator.FromValue<ProvisioningType>(Price1.CataloguePriceTypeId).Name);
 
-            price.PricingUnit.Name.Should().BeEquivalentTo(price1.PricingUnitName);
-            price.PricingUnit.Description.Should().BeEquivalentTo(price1.PricingUnitDescription);
-            price.PricingUnit.TierName.Should().BeEquivalentTo(price1.PricingUnitTierName);
+            price.PricingUnit.Name.Should().BeEquivalentTo(Price1.PricingUnitName);
+            price.PricingUnit.Description.Should().BeEquivalentTo(Price1.PricingUnitDescription);
+            price.PricingUnit.TierName.Should().BeEquivalentTo(Price1.PricingUnitTierName);
             price.TimeUnit.Name.Should().BeEquivalentTo(
-                price1.TimeUnitId is null ? null : Enumerator.FromValue<TimeUnit>(price1.TimeUnitId.Value).Name);
+                Price1.TimeUnitId is null ? null : Enumerator.FromValue<TimeUnit>(Price1.TimeUnitId.Value).Name);
 
             price.TimeUnit.Description.Should().BeEquivalentTo(
-                price1.TimeUnitId is null ? null : Enumerator.FromValue<TimeUnit>(price1.TimeUnitId.Value).Description);
+                Price1.TimeUnitId is null ? null : Enumerator.FromValue<TimeUnit>(Price1.TimeUnitId.Value).Description);
 
-            price.CurrencyCode.Should().BeEquivalentTo(price1.CurrencyCode);
+            price.CurrencyCode.Should().BeEquivalentTo(Price1.CurrencyCode);
         }
     }
 }

@@ -105,7 +105,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
         public Mock<ISolutionEpicStatusRepository> MockSolutionEpicStatusRepository { get; private set; }
 
         public Mock<IPriceRepository> MockPriceRepository { get; private set; }
-        
+
         public Mock<IAdditionalServiceRepository> MockAdditionalServiceRepository { get; private set; }
 
         public GetSolutionByIdHandler GetSolutionByIdHandler => (GetSolutionByIdHandler)scope.GetSolutionByIdHandler;
@@ -212,7 +212,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             (UpdateHybridHostingTypeHandler)scope.UpdateHybridHostingTypeHandler;
 
         public UpdateRoadMapHandler UpdateRoadMapHandler =>
-            (UpdateRoadMapHandler)scope.UpdateRoadmapHandler;
+            (UpdateRoadMapHandler)scope.UpdateRoadMapHandler;
 
         public UpdateSolutionSupplierHandler UpdateSolutionSupplierHandler =>
             (UpdateSolutionSupplierHandler)scope.UpdateSupplierHandler;
@@ -264,7 +264,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
         private sealed class Scope
         {
-            public Scope(IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
+            public Scope(
+                IRequestHandler<GetSolutionByIdQuery, ISolution> getSolutionByIdHandler,
                 IRequestHandler<GetClientApplicationBySolutionIdQuery, IClientApplication> getClientApplicationBySolutionIdHandler,
                 IRequestHandler<GetHostingBySolutionIdQuery, IHosting> getHostingBySolutionIdHandler,
                 IRequestHandler<GetSupplierBySolutionIdQuery, ISolutionSupplier> getSupplierBySolutionIdHandler,
@@ -293,13 +294,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 IRequestHandler<UpdateSolutionNativeDesktopConnectivityDetailsCommand, ISimpleResult> updateSolutionNativeDesktopConnectivityDetailsHandler,
                 IRequestHandler<UpdateSolutionNativeDesktopOperatingSystemsCommand, ISimpleResult> updateSolutionNativeDesktopOperatingSystemsHandler,
                 IRequestHandler<UpdateSolutionNativeDesktopThirdPartyCommand, ISimpleResult> updateSolutionNativeDesktopThirdPartyHandler,
-                IRequestHandler<UpdateNativeDesktopMemoryAndStorageCommand, ISimpleResult> updateNativeDestkopMemoryAndStorageHandler,
+                IRequestHandler<UpdateNativeDesktopMemoryAndStorageCommand, ISimpleResult> updateNativeDesktopMemoryAndStorageHandler,
                 IRequestHandler<UpdateNativeDesktopAdditionalInformationCommand, ISimpleResult> updateNativeDesktopAdditionalInformationHandler,
                 IRequestHandler<UpdatePublicCloudCommand, ISimpleResult> updatePublicCloudHandler,
                 IRequestHandler<UpdatePrivateCloudCommand, ISimpleResult> updatePrivateCloudHandler,
                 IRequestHandler<UpdateOnPremiseCommand, ISimpleResult> updateOnPremiseHandler,
                 IRequestHandler<UpdateHybridHostingTypeCommand, ISimpleResult> updateHybridHostingTypeHandler,
-                IRequestHandler<UpdateRoadMapCommand, ISimpleResult> updateRoadmapHandler,
+                IRequestHandler<UpdateRoadMapCommand, ISimpleResult> updateRoadMapHandler,
                 IRequestHandler<GetRoadMapBySolutionIdQuery, IRoadMap> getRoadMapBySolutionIdHandler,
                 IRequestHandler<GetIntegrationsBySolutionIdQuery, IIntegrations> getIntegrationsBySolutionIdHandler,
                 IRequestHandler<GetImplementationTimescalesBySolutionIdQuery, IImplementationTimescales> getImplementationTimescalesBySolutionIdHandler,
@@ -341,13 +342,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
                 UpdateSolutionNativeDesktopOperatingSystemsHandler = updateSolutionNativeDesktopOperatingSystemsHandler;
                 UpdateSolutionNativeDesktopConnectivityDetailsHandler = updateSolutionNativeDesktopConnectivityDetailsHandler;
                 UpdateSolutionNativeDesktopThirdPartyHandler = updateSolutionNativeDesktopThirdPartyHandler;
-                UpdateNativeDesktopMemoryAndStorageHandler = updateNativeDestkopMemoryAndStorageHandler;
+                UpdateNativeDesktopMemoryAndStorageHandler = updateNativeDesktopMemoryAndStorageHandler;
                 UpdateNativeDesktopAdditionalInformationHandler = updateNativeDesktopAdditionalInformationHandler;
                 UpdatePublicCloudHandler = updatePublicCloudHandler;
                 UpdatePrivateCloudHandler = updatePrivateCloudHandler;
                 UpdateOnPremiseHandler = updateOnPremiseHandler;
                 UpdateHybridHostingTypeHandler = updateHybridHostingTypeHandler;
-                UpdateRoadmapHandler = updateRoadmapHandler;
+                UpdateRoadMapHandler = updateRoadMapHandler;
                 GetRoadMapBySolutionIdHandler = getRoadMapBySolutionIdHandler;
                 GetIntegrationsBySolutionIdHandler = getIntegrationsBySolutionIdHandler;
                 GetImplementationTimescalesBySolutionIdHandler = getImplementationTimescalesBySolutionIdHandler;
@@ -437,7 +438,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
             public IRequestHandler<UpdateHybridHostingTypeCommand, ISimpleResult> UpdateHybridHostingTypeHandler { get; }
 
-            public IRequestHandler<UpdateRoadMapCommand, ISimpleResult> UpdateRoadmapHandler { get; }
+            public IRequestHandler<UpdateRoadMapCommand, ISimpleResult> UpdateRoadMapHandler { get; }
 
             public IRequestHandler<UpdateSolutionSupplierCommand, ISimpleResult> UpdateSupplierHandler { get; }
 
@@ -452,7 +453,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             public IRequestHandler<GetPriceByPriceIdQuery, ICataloguePrice> GetPriceByPriceIdHandler { get; }
 
             public IRequestHandler<GetPricesQuery, IEnumerable<ICataloguePrice>> GetPriceByCatalogueItemIdHandler { get; }
-            
+
             public IRequestHandler<GetAdditionalServiceBySolutionIdsQuery, IEnumerable<IAdditionalService>> GetAdditionalServiceBySolutionIdsHandler { get; }
         }
     }

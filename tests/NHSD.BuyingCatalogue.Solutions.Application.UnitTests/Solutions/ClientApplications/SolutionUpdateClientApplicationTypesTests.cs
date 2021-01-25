@@ -51,10 +51,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
             SetUpMockSolutionRepositoryGetByIdAsync(clientApplicationJson);
             var calledBack = false;
 
-            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            void Action(IUpdateSolutionClientApplicationRequest request, CancellationToken token)
             {
                 calledBack = true;
-                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                var json = JToken.Parse(request.ClientApplication);
 
                 json.ReadStringArray("ClientApplicationTypes")
                     .ShouldContainOnly(new List<string> { "native-mobile", "native-desktop" })
@@ -92,7 +92,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
             results.Count.Should().Be(1);
             results["client-application-types"].Should().Be("required");
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never);
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
 
             Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
                 It.IsAny<IUpdateSolutionClientApplicationRequest>(),
@@ -143,10 +143,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             var calledBack = false;
 
-            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            void Action(IUpdateSolutionClientApplicationRequest request, CancellationToken token)
             {
                 calledBack = true;
-                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                var json = JToken.Parse(request.ClientApplication);
 
                 json.ReadStringArray("ClientApplicationTypes").ShouldContainOnly(
                     new List<string> { "native-mobile", "native-desktop", "browser-based" });
@@ -184,21 +184,22 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         [Test]
         public async Task ShouldIgnoreUnknownClientApplicationTypesAndBrowsersSupportedRemainEmpty()
         {
-            const string clientapplicationtypesBrowserBasedNativeMobileBrowserssupported =
+            const string clientApplicationTypesBrowserBasedNativeMobileBrowsersSupported =
                 "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], "
                 + "'BrowsersSupported' : [ ]}";
 
-            SetUpMockSolutionRepositoryGetByIdAsync(clientapplicationtypesBrowserBasedNativeMobileBrowserssupported);
+            SetUpMockSolutionRepositoryGetByIdAsync(clientApplicationTypesBrowserBasedNativeMobileBrowsersSupported);
             var calledBack = false;
 
-            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            void Action(IUpdateSolutionClientApplicationRequest request, CancellationToken token)
             {
                 calledBack = true;
-                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                var json = JToken.Parse(request.ClientApplication);
 
-                json.ReadStringArray("ClientApplicationTypes")
-                    .ShouldContainOnly(new List<string> { "native-mobile", "native-desktop", "browser-based" })
-                    .ShouldNotContainAnyOf(new List<string> { "curry", "elephant", "anteater", "blue", string.Empty });
+                var clientAppTypes = json.ReadStringArray("ClientApplicationTypes").ToList();
+
+                clientAppTypes.Should().Contain(new List<string> { "native-mobile", "native-desktop", "browser-based" });
+                clientAppTypes.Should().NotContain(new List<string> { "curry", "elephant", "anteater", "blue", string.Empty });
 
                 json.ReadStringArray("BrowsersSupported").Should().BeEmpty();
                 json.SelectToken("MobileResponsive").Should().BeNullOrEmpty();

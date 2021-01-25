@@ -11,7 +11,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Domain
         [TestCase("Patient")]
         [TestCase("Declarative")]
         [TestCase("OnDemand")]
-        public void EnsureProvisioningTypeNamingMatchesOrdapi(string name)
+        public void EnsureProvisioningTypeNamingMatchesOrderingApi(string name)
         {
             ProvisioningType provisioningType = Enumerator.FromName<ProvisioningType>(name);
 

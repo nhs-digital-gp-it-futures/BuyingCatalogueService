@@ -29,7 +29,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Catalog
 
             var catalogueItemRepositoryMock = new Mock<ICatalogueItemRepository>();
             catalogueItemRepositoryMock
-                .Setup(x => x.GetByIdAsync(It.IsAny<string>(), default))
+                .Setup(r => r.GetByIdAsync(It.IsAny<string>(), default))
                 .ReturnsAsync(() => catalogueItemResultMock.Object);
 
             var handler = new GetCatalogueItemByIdQueryHandler(new CatalogueItemReader(catalogueItemRepositoryMock.Object));

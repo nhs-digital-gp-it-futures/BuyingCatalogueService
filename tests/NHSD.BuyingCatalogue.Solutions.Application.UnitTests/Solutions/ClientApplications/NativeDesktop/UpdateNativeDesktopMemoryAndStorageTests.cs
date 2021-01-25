@@ -104,7 +104,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         [Test]
         public async Task SomeMissingDataShouldReturnRequiredValidationResult()
         {
-            minimumMemoryRequirement = "";
+            minimumMemoryRequirement = string.Empty;
             storageRequirements = "a requirement";
             minimumCpu = null;
             SetUpMockSolutionRepositoryGetByIdAsync();
@@ -228,7 +228,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
             Expression<Func<ISolutionRepository, Task>> solutionRepositoryExpression = r =>
                 r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>());
 
-            Context.MockSolutionRepository.Verify(solutionRepositoryExpression, Times.Once());
+            Context.MockSolutionRepository.Verify(solutionRepositoryExpression);
 
             Expression<Func<ISolutionDetailRepository, Task>> solutionDetailRepositoryExpression = r =>
                 r.UpdateClientApplicationAsync(
