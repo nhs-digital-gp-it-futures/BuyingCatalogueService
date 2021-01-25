@@ -310,7 +310,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 Mock.Of(contact),
             };
 
-
             // ReSharper disable once PossibleUnintendedReferenceComparison (mock set-up)
             Expression<Func<ISolution, bool>> solution = s => s.Contacts == contactMock;
 

@@ -24,7 +24,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
     {
         private const string SolutionId = "Sln1";
 
-        private static readonly Expression<Func<IContact, bool>> bob = b =>
+        private static readonly Expression<Func<IContact, bool>> Bob = b =>
             b.FirstName == "Bob"
             && b.LastName == "Builder"
             && b.Name == "Bob Builder"
@@ -32,7 +32,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             && b.Department == "building"
             && b.PhoneNumber == "12345678901";
 
-        private static readonly Expression<Func<IContact, bool>> alice = a =>
+        private static readonly Expression<Func<IContact, bool>> Alice = a =>
             a.FirstName == "Alice"
             && a.LastName == "Wonderland"
             && a.Name == "Alice Wonderland"
@@ -40,7 +40,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             && a.Department == "prescription"
             && a.PhoneNumber == "0123412345";
 
-        private static readonly Expression<Func<IContact, bool>> fred = f =>
+        private static readonly Expression<Func<IContact, bool>> Fred = f =>
             f.FirstName == "Fred"
             && f.LastName == "Frog"
             && f.Name == "Fred Frog"
@@ -48,9 +48,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             && f.Department == "suppliers"
             && f.PhoneNumber == "04567891234";
 
-        private static readonly IContact Contact1 = Mock.Of(bob);
-        private static readonly IContact Contact2 = Mock.Of(alice);
-        private static readonly IContact Contact3 = Mock.Of(fred);
+        private static readonly IContact Contact1 = Mock.Of(Bob);
+        private static readonly IContact Contact2 = Mock.Of(Alice);
+        private static readonly IContact Contact3 = Mock.Of(Fred);
 
         private Mock<IMediator> mockMediator;
         private ContactDetailsController contactDetailsController;
