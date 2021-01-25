@@ -38,49 +38,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             solutionsController = new SolutionsController(mockMediator.Object);
         }
 
-        private static List<(IClaimedCapability Capability, ClaimedCapabilitySection Section)> GetClaimedCapabilityTestData()
-        {
-            var data = new List<(IClaimedCapability, ClaimedCapabilitySection)>();
-            for (int index = 1; index <= 5; index++)
-            {
-                var capabilityNumber = index;
-                var claimedEpics = new[]
-                {
-                    Mock.Of<IClaimedCapabilityEpic>(ce =>
-                        ce.EpicId == $"{capabilityNumber}E1"
-                        && ce.EpicName == $"Cap {capabilityNumber} Epic 1 Name"
-                        && ce.IsMet
-                        && ce.EpicCompliancyLevel == "MUST"),
-                    Mock.Of<IClaimedCapabilityEpic>(ce =>
-                        ce.EpicId == $"{capabilityNumber}E2"
-                        && ce.EpicName == $"Cap {capabilityNumber} Epic 2 Name"
-                        && ce.IsMet
-                        && ce.EpicCompliancyLevel == "MAY"),
-                    Mock.Of<IClaimedCapabilityEpic>(ce =>
-                        ce.EpicId == $"{capabilityNumber}E3"
-                        && ce.EpicName == $"Cap {capabilityNumber} Epic 3 Name"
-                        && ce.IsMet == false
-                        && ce.EpicCompliancyLevel == "MUST"),
-                    Mock.Of<IClaimedCapabilityEpic>(ce =>
-                        ce.EpicId == $"{capabilityNumber}E4"
-                        && ce.EpicName == $"Cap {capabilityNumber} Epic 4 Name"
-                        && ce.IsMet == false
-                        && ce.EpicCompliancyLevel == "MAY"),
-                };
-
-                var ccMock = Mock.Of<IClaimedCapability>(cc =>
-                    cc.Name == $"Capability {capabilityNumber}"
-                    && cc.Version == $"Version {capabilityNumber}"
-                    && cc.Description == $"Description {capabilityNumber}"
-                    && cc.Link == $"http://Capability.Link/{capabilityNumber}"
-                    && cc.ClaimedEpics == claimedEpics);
-
-                data.Add((ccMock, new ClaimedCapabilitySection(ccMock)));
-            }
-
-            return data;
-        }
-
         [TestCase(null, null, null, false)]
         [TestCase("Sln2", null, null, false)]
         [TestCase(null, "Bob", "Supplier1", false)]
@@ -1097,23 +1054,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             }
         }
 
-        private async Task<SolutionResult> GetSolutionPublicResultAsync(ISolution solution, string solutionId)
-        {
-            mockMediator
-                .Setup(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == solutionId), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(solution);
-
-            var result = (await solutionsController.Public(solutionId)).Result as ObjectResult;
-
-            Assert.NotNull(result);
-            result.StatusCode.Should().Be(StatusCodes.Status200OK);
-
-            mockMediator.Verify(
-                m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == solutionId), It.IsAny<CancellationToken>()));
-
-            return result.Value as SolutionResult;
-        }
-
         [Test]
         public async Task CapabilitiesIsNullForSolution()
         {
@@ -1475,6 +1415,66 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             mockMediator.Verify(
                 m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId1), It.IsAny<CancellationToken>()));
+        }
+
+        private static List<(IClaimedCapability Capability, ClaimedCapabilitySection Section)> GetClaimedCapabilityTestData()
+        {
+            var data = new List<(IClaimedCapability, ClaimedCapabilitySection)>();
+            for (int index = 1; index <= 5; index++)
+            {
+                var capabilityNumber = index;
+                var claimedEpics = new[]
+                {
+                    Mock.Of<IClaimedCapabilityEpic>(ce =>
+                        ce.EpicId == $"{capabilityNumber}E1"
+                        && ce.EpicName == $"Cap {capabilityNumber} Epic 1 Name"
+                        && ce.IsMet
+                        && ce.EpicCompliancyLevel == "MUST"),
+                    Mock.Of<IClaimedCapabilityEpic>(ce =>
+                        ce.EpicId == $"{capabilityNumber}E2"
+                        && ce.EpicName == $"Cap {capabilityNumber} Epic 2 Name"
+                        && ce.IsMet
+                        && ce.EpicCompliancyLevel == "MAY"),
+                    Mock.Of<IClaimedCapabilityEpic>(ce =>
+                        ce.EpicId == $"{capabilityNumber}E3"
+                        && ce.EpicName == $"Cap {capabilityNumber} Epic 3 Name"
+                        && ce.IsMet == false
+                        && ce.EpicCompliancyLevel == "MUST"),
+                    Mock.Of<IClaimedCapabilityEpic>(ce =>
+                        ce.EpicId == $"{capabilityNumber}E4"
+                        && ce.EpicName == $"Cap {capabilityNumber} Epic 4 Name"
+                        && ce.IsMet == false
+                        && ce.EpicCompliancyLevel == "MAY"),
+                };
+
+                var ccMock = Mock.Of<IClaimedCapability>(cc =>
+                    cc.Name == $"Capability {capabilityNumber}"
+                    && cc.Version == $"Version {capabilityNumber}"
+                    && cc.Description == $"Description {capabilityNumber}"
+                    && cc.Link == $"http://Capability.Link/{capabilityNumber}"
+                    && cc.ClaimedEpics == claimedEpics);
+
+                data.Add((ccMock, new ClaimedCapabilitySection(ccMock)));
+            }
+
+            return data;
+        }
+
+        private async Task<SolutionResult> GetSolutionPublicResultAsync(ISolution solution, string solutionId)
+        {
+            mockMediator
+                .Setup(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == solutionId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(solution);
+
+            var result = (await solutionsController.Public(solutionId)).Result as ObjectResult;
+
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
+
+            mockMediator.Verify(
+                m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == solutionId), It.IsAny<CancellationToken>()));
+
+            return result.Value as SolutionResult;
         }
     }
 }
