@@ -1,8 +1,8 @@
-using System;
+﻿using System;
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests.Models
 {
-    internal class CapabilityDetails
+    internal sealed class CapabilityDetails
     {
         public Guid Id { get; set; }
 

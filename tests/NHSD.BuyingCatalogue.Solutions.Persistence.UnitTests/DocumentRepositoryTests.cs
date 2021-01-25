@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Linq.Expressions;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,7 +13,8 @@ using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.UnitTests
 {
-    public sealed class DocumentRepositoryTests
+    [TestFixture]
+    internal sealed class DocumentRepositoryTests
     {
         private const string SampleUrl = "http://localhost/";
         private const string RoadMapIdentifier = "RoadMap";
@@ -20,25 +22,25 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.UnitTests
         private const string DocumentSolutionIdentifier = "Solution";
         private const string SolutionId = "Sln1";
 
-        private Mock<IDocumentsAPIClient> _apiClientMock;
-        private CancellationToken _cancellationToken;
-        private Mock<ILogger<DocumentRepository>> _loggerMock;
-        private Mock<ISettings> _settingsMock;
+        private Mock<IDocumentsAPIClient> apiClientMock;
+        private CancellationToken cancellationToken;
+        private Mock<ILogger<DocumentRepository>> loggerMock;
+        private Mock<ISettings> settingsMock;
 
         [SetUp]
         public void Setup()
         {
-            _apiClientMock = new Mock<IDocumentsAPIClient>();
-            _apiClientMock.SetupAllProperties();
+            apiClientMock = new Mock<IDocumentsAPIClient>();
+            apiClientMock.SetupAllProperties();
 
-            _settingsMock = new Mock<ISettings>();
-            _settingsMock.SetupGet(s => s.DocumentApiBaseUrl).Returns(SampleUrl);
-            _settingsMock.SetupGet(s => s.DocumentRoadMapIdentifier).Returns(RoadMapIdentifier);
-            _settingsMock.SetupGet(s => s.DocumentIntegrationIdentifier).Returns(DocumentIntegrationIdentifier);
-            _settingsMock.SetupGet(s => s.DocumentSolutionIdentifier).Returns(DocumentSolutionIdentifier);
+            settingsMock = new Mock<ISettings>();
+            settingsMock.SetupGet(s => s.DocumentApiBaseUrl).Returns(SampleUrl);
+            settingsMock.SetupGet(s => s.DocumentRoadMapIdentifier).Returns(RoadMapIdentifier);
+            settingsMock.SetupGet(s => s.DocumentIntegrationIdentifier).Returns(DocumentIntegrationIdentifier);
+            settingsMock.SetupGet(s => s.DocumentSolutionIdentifier).Returns(DocumentSolutionIdentifier);
 
-            _loggerMock = new Mock<ILogger<DocumentRepository>>();
-            _cancellationToken = new CancellationToken();
+            loggerMock = new Mock<ILogger<DocumentRepository>>();
+            cancellationToken = CancellationToken.None;
         }
 
         [TestCase(new[] { "RoadMap.pdf" }, "RoadMap.pdf", null, null)]
@@ -52,68 +54,72 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.UnitTests
             string integrationDocumentName,
             string solutionDocumentName)
         {
-            _apiClientMock.Setup(api => api.DocumentsAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            apiClientMock
+                .Setup(api => api.DocumentsAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(clientResult);
 
-            var sut = new DocumentRepository(_apiClientMock.Object, _settingsMock.Object, _loggerMock.Object);
+            var sut = new DocumentRepository(apiClientMock.Object, settingsMock.Object, loggerMock.Object);
 
-            var result = await sut.GetDocumentResultBySolutionIdAsync(SolutionId, _cancellationToken)
-                .ConfigureAwait(false);
+            var result = await sut.GetDocumentResultBySolutionIdAsync(SolutionId, cancellationToken);
 
             result.RoadMapDocumentName.Should().Be(roadMapDocumentName);
             result.IntegrationDocumentName.Should().Be(integrationDocumentName);
             result.SolutionDocumentName.Should().Be(solutionDocumentName);
 
-            _apiClientMock.Verify(api => api.DocumentsAsync(SolutionId, CancellationToken.None), Times.Once);
+            apiClientMock.Verify(api => api.DocumentsAsync(SolutionId, CancellationToken.None));
         }
 
         [Test]
         public void ShouldSetBaseUrl()
         {
-            var unused = new DocumentRepository(_apiClientMock.Object, _settingsMock.Object, _loggerMock.Object);
-            _apiClientMock.Object.BaseAddress.AbsoluteUri.Should().Be(SampleUrl);
+            var unused = new DocumentRepository(apiClientMock.Object, settingsMock.Object, loggerMock.Object);
+            apiClientMock.Object.BaseAddress.AbsoluteUri.Should().Be(SampleUrl);
         }
 
         [Test]
         public async Task ShouldLogErrorReturnEmptyResultOnApiException()
         {
-            _apiClientMock.Setup(api => api.DocumentsAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            apiClientMock
+                .Setup(api => api.DocumentsAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ThrowsAsync(new ApiException("Api Failure", 500, "Response", null, null));
-            var sut = new DocumentRepository(_apiClientMock.Object, _settingsMock.Object, _loggerMock.Object);
 
-            var result = await sut.GetDocumentResultBySolutionIdAsync(SolutionId, _cancellationToken)
-                .ConfigureAwait(false);
+            var sut = new DocumentRepository(apiClientMock.Object, settingsMock.Object, loggerMock.Object);
+
+            var result = await sut.GetDocumentResultBySolutionIdAsync(SolutionId, cancellationToken);
+
             result.RoadMapDocumentName.Should().BeNullOrEmpty();
 
-            _loggerMock.Verify(
-                x => x.Log(
-                    LogLevel.Error,
-                    It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((v, t) => true),
-                    It.IsAny<Exception>(),
-                    It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)),
-                Times.Once);
+            Expression<Action<ILogger<DocumentRepository>>> expression = l => l.Log(
+                LogLevel.Error,
+                It.IsAny<EventId>(),
+                It.Is<It.IsAnyType>((v, t) => true),
+                It.IsAny<Exception>(),
+                It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true));
+
+            loggerMock.Verify(expression);
         }
 
         [Test]
         public async Task ShouldLogErrorReturnEmptyResultOnHttpRequestException()
         {
-            _apiClientMock.Setup(api => api.DocumentsAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            apiClientMock
+                .Setup(api => api.DocumentsAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ThrowsAsync(new HttpRequestException("message"));
-            var sut = new DocumentRepository(_apiClientMock.Object, _settingsMock.Object, _loggerMock.Object);
 
-            var result = await sut.GetDocumentResultBySolutionIdAsync(SolutionId, _cancellationToken)
-                .ConfigureAwait(false);
+            var sut = new DocumentRepository(apiClientMock.Object, settingsMock.Object, loggerMock.Object);
+
+            var result = await sut.GetDocumentResultBySolutionIdAsync(SolutionId, cancellationToken);
+
             result.RoadMapDocumentName.Should().BeNullOrEmpty();
 
-            _loggerMock.Verify(
-                x => x.Log(
-                    LogLevel.Error,
-                    It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((v, t) => true),
-                    It.IsAny<Exception>(),
-                    It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)),
-                Times.Once);
+            Expression<Action<ILogger<DocumentRepository>>> expression = l => l.Log(
+                LogLevel.Error,
+                It.IsAny<EventId>(),
+                It.Is<It.IsAnyType>((v, t) => true),
+                It.IsAny<Exception>(),
+                It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true));
+
+            loggerMock.Verify(expression);
         }
     }
 }

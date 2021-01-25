@@ -46,9 +46,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
                 .ReturnsAsync(() => simpleResultMock.Object);
         }
 
-        [TestCase("Component", "Cabability")]
+        [TestCase("Component", "Capability")]
         [TestCase("Component", "")]
-        [TestCase("", "Cabability")]
+        [TestCase("", "Capability")]
         [TestCase("       ", "")]
         [TestCase("", "         ")]
         [TestCase(null, null)]

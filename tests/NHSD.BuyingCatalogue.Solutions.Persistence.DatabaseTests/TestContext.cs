@@ -10,31 +10,9 @@ using NHSD.BuyingCatalogue.Testing.Data;
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 {
-    internal class TestContext
+    internal sealed class TestContext
     {
-        private readonly Scope _scope;
-        public IMarketingContactRepository MarketingContactRepository => _scope.MarketingContactRepository;
-
-        public ISolutionCapabilityRepository SolutionCapabilityRepository => _scope.SolutionCapabilityRepository;
-        public ISolutionEpicRepository SolutionEpicRepository => _scope.SolutionEpicRepository;
-
-        public ISolutionDetailRepository SolutionDetailRepository => _scope.SolutionDetailRepository;
-
-        public ISolutionRepository SolutionRepository => _scope.SolutionRepository;
-
-        public ISupplierRepository SupplierRepository => _scope.SupplierRepository;
-
-        public IEpicRepository EpicRepository => _scope.EpicRepository;
-
-        public ISolutionEpicStatusRepository SolutionEpicStatusRepository => _scope.SolutionEpicStatusRepository;
-
-        public IPriceRepository PriceRepository => _scope.PriceRepository;
-
-        public IAdditionalServiceRepository AdditionalServiceRepository => _scope.AdditionalServiceRepository;
-
-        public ICatalogueItemRepository CatalogueItemRepository => _scope.CatalogueItemRepository;
-
-        public IDbConnector DbConnector => _scope.DbConnector;
+        private readonly Scope scope;
 
         public TestContext()
         {
@@ -50,35 +28,37 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             serviceCollection.AddSingleton(logger.Object);
             serviceCollection.AddSingleton<Scope>();
 
-            _scope = serviceCollection.BuildServiceProvider().GetService<Scope>();
+            scope = serviceCollection.BuildServiceProvider().GetService<Scope>();
         }
+
+        public IMarketingContactRepository MarketingContactRepository => scope.MarketingContactRepository;
+
+        public ISolutionCapabilityRepository SolutionCapabilityRepository => scope.SolutionCapabilityRepository;
+
+        public ISolutionEpicRepository SolutionEpicRepository => scope.SolutionEpicRepository;
+
+        public ISolutionDetailRepository SolutionDetailRepository => scope.SolutionDetailRepository;
+
+        public ISolutionRepository SolutionRepository => scope.SolutionRepository;
+
+        public ISupplierRepository SupplierRepository => scope.SupplierRepository;
+
+        public IEpicRepository EpicRepository => scope.EpicRepository;
+
+        public ISolutionEpicStatusRepository SolutionEpicStatusRepository => scope.SolutionEpicStatusRepository;
+
+        public IPriceRepository PriceRepository => scope.PriceRepository;
+
+        public IAdditionalServiceRepository AdditionalServiceRepository => scope.AdditionalServiceRepository;
+
+        public ICatalogueItemRepository CatalogueItemRepository => scope.CatalogueItemRepository;
+
+        public IDbConnector DbConnector => scope.DbConnector;
 
         private class Scope
         {
-            public IMarketingContactRepository MarketingContactRepository { get; }
-
-            public ISolutionCapabilityRepository SolutionCapabilityRepository { get; }
-            public ISolutionEpicRepository SolutionEpicRepository { get; }
-
-            public ISolutionDetailRepository SolutionDetailRepository { get; }
-
-            public ISolutionRepository SolutionRepository { get; }
-
-            public ISupplierRepository SupplierRepository { get; }
-
-            public IEpicRepository EpicRepository { get; }
-
-            public ISolutionEpicStatusRepository SolutionEpicStatusRepository { get; }
-
-            public IPriceRepository PriceRepository { get; }
-
-            public IAdditionalServiceRepository AdditionalServiceRepository { get; }
-
-            public ICatalogueItemRepository CatalogueItemRepository { get; }
-
-            public IDbConnector DbConnector { get; }
-
-            public Scope(IMarketingContactRepository marketingContactRepository,
+            public Scope(
+                IMarketingContactRepository marketingContactRepository,
                 ISolutionCapabilityRepository solutionCapabilityRepository,
                 ISolutionEpicRepository solutionEpicRepository,
                 ISolutionDetailRepository solutionDetailRepository,
@@ -104,6 +84,30 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 CatalogueItemRepository = catalogueItemRepository;
                 DbConnector = dbConnector;
             }
+
+            public IMarketingContactRepository MarketingContactRepository { get; }
+
+            public ISolutionCapabilityRepository SolutionCapabilityRepository { get; }
+
+            public ISolutionEpicRepository SolutionEpicRepository { get; }
+
+            public ISolutionDetailRepository SolutionDetailRepository { get; }
+
+            public ISolutionRepository SolutionRepository { get; }
+
+            public ISupplierRepository SupplierRepository { get; }
+
+            public IEpicRepository EpicRepository { get; }
+
+            public ISolutionEpicStatusRepository SolutionEpicStatusRepository { get; }
+
+            public IPriceRepository PriceRepository { get; }
+
+            public IAdditionalServiceRepository AdditionalServiceRepository { get; }
+
+            public ICatalogueItemRepository CatalogueItemRepository { get; }
+
+            public IDbConnector DbConnector { get; }
         }
     }
 }

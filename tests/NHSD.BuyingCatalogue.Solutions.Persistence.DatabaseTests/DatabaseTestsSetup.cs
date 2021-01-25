@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NUnit.Framework;
 
@@ -10,7 +10,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         [OneTimeSetUp]
         public async Task OneTimeSetUpAsync()
         {
-            await Database.AwaitDatabaseAsync().ConfigureAwait(false);
+            await Database.AwaitDatabaseAsync();
         }
     }
 }

@@ -14,14 +14,14 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 {
     [TestFixture]
-    public class SolutionDetailRepositoryTests
+    internal sealed class SolutionDetailRepositoryTests
     {
-        private readonly string _supplierId = "Sup 1";
+        private const string Solution1Id = "Sln1";
+        private const string Solution2Id = "Sln2";
 
-        private readonly string _solution1Id = "Sln1";
-        private readonly string _solution2Id = "Sln2";
+        private const string SupplierId = "Sup 1";
 
-        private ISolutionDetailRepository _solutionDetailRepository;
+        private ISolutionDetailRepository solutionDetailRepository;
 
         [SetUp]
         public async Task Setup()
@@ -29,12 +29,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             await Database.ClearAsync();
 
             await SupplierEntityBuilder.Create()
-                .WithId(_supplierId)
+                .WithId(SupplierId)
                 .Build()
                 .InsertAsync();
 
             TestContext testContext = new TestContext();
-            _solutionDetailRepository = testContext.SolutionDetailRepository;
+            solutionDetailRepository = testContext.SolutionDetailRepository;
         }
 
         [Test]
@@ -42,35 +42,37 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             await CatalogueItemEntityBuilder
                 .Create()
-                .WithCatalogueItemId(_solution1Id)
-                .WithName(_solution1Id)
+                .WithCatalogueItemId(Solution1Id)
+                .WithName(Solution1Id)
                 .WithPublishedStatusId((int)PublishedStatus.Published)
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(SupplierId)
                 .Build()
                 .InsertAsync();
 
             await SolutionEntityBuilder.Create()
-                .WithId(_solution1Id)
+                .WithId(Solution1Id)
                 .Build()
                 .InsertAsync();
 
             await SolutionDetailEntityBuilder.Create()
-                .WithSolutionId(_solution1Id)
+                .WithSolutionId(Solution1Id)
                 .WithAboutUrl("AboutUrl")
                 .WithFeatures("Features")
                 .Build()
                 .InsertAndSetCurrentForSolutionAsync();
 
             var mockUpdateSolutionFeaturesRequest = new Mock<IUpdateSolutionFeaturesRequest>();
-            mockUpdateSolutionFeaturesRequest.Setup(m => m.SolutionId).Returns(_solution1Id);
+            mockUpdateSolutionFeaturesRequest.Setup(m => m.SolutionId).Returns(Solution1Id);
             mockUpdateSolutionFeaturesRequest.Setup(m => m.Features).Returns("Features4");
 
-            await _solutionDetailRepository.UpdateFeaturesAsync(mockUpdateSolutionFeaturesRequest.Object, new CancellationToken());
+            await solutionDetailRepository.UpdateFeaturesAsync(
+                mockUpdateSolutionFeaturesRequest.Object,
+                CancellationToken.None);
 
-            var solution = await SolutionEntity.GetByIdAsync(_solution1Id);
-            solution.Id.Should().Be(_solution1Id);
+            var solution = await SolutionEntity.GetByIdAsync(Solution1Id);
+            solution.Id.Should().Be(Solution1Id);
 
-            var marketingData = await SolutionDetailEntity.GetBySolutionIdAsync(_solution1Id);
+            var marketingData = await SolutionDetailEntity.GetBySolutionIdAsync(Solution1Id);
             marketingData.AboutUrl.Should().Be("AboutUrl");
             marketingData.Features.Should().Be("Features4");
 
@@ -81,10 +83,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public void ShouldThrowOnUpdateFeaturesNotPresent()
         {
             var mockUpdateSolutionFeaturesRequest = new Mock<IUpdateSolutionFeaturesRequest>();
-            mockUpdateSolutionFeaturesRequest.Setup(m => m.SolutionId).Returns(_solution1Id);
+            mockUpdateSolutionFeaturesRequest.Setup(m => m.SolutionId).Returns(Solution1Id);
             mockUpdateSolutionFeaturesRequest.Setup(m => m.Features).Returns("Features4");
 
-            Assert.ThrowsAsync<SqlException>(() => _solutionDetailRepository.UpdateFeaturesAsync(mockUpdateSolutionFeaturesRequest.Object, new CancellationToken()));
+            Assert.ThrowsAsync<SqlException>(() => solutionDetailRepository.UpdateFeaturesAsync(
+                mockUpdateSolutionFeaturesRequest.Object,
+                CancellationToken.None));
         }
 
         [Test]
@@ -92,35 +96,37 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             await CatalogueItemEntityBuilder
                 .Create()
-                .WithCatalogueItemId(_solution1Id)
-                .WithName(_solution1Id)
+                .WithCatalogueItemId(Solution1Id)
+                .WithName(Solution1Id)
                 .WithPublishedStatusId((int)PublishedStatus.Published)
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(SupplierId)
                 .Build()
                 .InsertAsync();
 
             await SolutionEntityBuilder.Create()
-                .WithId(_solution1Id)
+                .WithId(Solution1Id)
                 .Build()
                 .InsertAsync();
 
             await SolutionDetailEntityBuilder.Create()
-                .WithSolutionId(_solution1Id)
+                .WithSolutionId(Solution1Id)
                 .WithAboutUrl("AboutUrl")
                 .WithClientApplication("Native-Desktop")
                 .Build()
                 .InsertAndSetCurrentForSolutionAsync();
 
             var mockUpdateSolutionClientApplicationRequest = new Mock<IUpdateSolutionClientApplicationRequest>();
-            mockUpdateSolutionClientApplicationRequest.Setup(m => m.SolutionId).Returns(_solution1Id);
+            mockUpdateSolutionClientApplicationRequest.Setup(m => m.SolutionId).Returns(Solution1Id);
             mockUpdateSolutionClientApplicationRequest.Setup(m => m.ClientApplication).Returns("Browser-based");
 
-            await _solutionDetailRepository.UpdateClientApplicationAsync(mockUpdateSolutionClientApplicationRequest.Object, new CancellationToken());
+            await solutionDetailRepository.UpdateClientApplicationAsync(
+                mockUpdateSolutionClientApplicationRequest.Object,
+                CancellationToken.None);
 
-            var solution = await SolutionEntity.GetByIdAsync(_solution1Id);
-            solution.Id.Should().Be(_solution1Id);
+            var solution = await SolutionEntity.GetByIdAsync(Solution1Id);
+            solution.Id.Should().Be(Solution1Id);
 
-            var marketingData = await SolutionDetailEntity.GetBySolutionIdAsync(_solution1Id);
+            var marketingData = await SolutionDetailEntity.GetBySolutionIdAsync(Solution1Id);
             marketingData.AboutUrl.Should().Be("AboutUrl");
             marketingData.ClientApplication.Should().Be("Browser-based");
 
@@ -131,10 +137,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public void ShouldThrowOnUpdateClientApplicationSolutionNotPresent()
         {
             var mockUpdateSolutionClientApplicationRequest = new Mock<IUpdateSolutionClientApplicationRequest>();
-            mockUpdateSolutionClientApplicationRequest.Setup(m => m.SolutionId).Returns(_solution1Id);
+            mockUpdateSolutionClientApplicationRequest.Setup(m => m.SolutionId).Returns(Solution1Id);
             mockUpdateSolutionClientApplicationRequest.Setup(m => m.ClientApplication).Returns("Browser-based");
 
-            Assert.ThrowsAsync<SqlException>(() => _solutionDetailRepository.UpdateClientApplicationAsync(mockUpdateSolutionClientApplicationRequest.Object, new CancellationToken()));
+            Assert.ThrowsAsync<SqlException>(() => solutionDetailRepository.UpdateClientApplicationAsync(
+                mockUpdateSolutionClientApplicationRequest.Object,
+                CancellationToken.None));
         }
 
         [Test]
@@ -142,34 +150,34 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             await CatalogueItemEntityBuilder
                 .Create()
-                .WithCatalogueItemId(_solution1Id)
-                .WithName(_solution1Id)
+                .WithCatalogueItemId(Solution1Id)
+                .WithName(Solution1Id)
                 .WithPublishedStatusId((int)PublishedStatus.Published)
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(SupplierId)
                 .Build()
                 .InsertAsync();
 
             await SolutionEntityBuilder.Create()
-                .WithId(_solution1Id)
+                .WithId(Solution1Id)
                 .Build()
                 .InsertAsync();
 
             await CatalogueItemEntityBuilder
                 .Create()
-                .WithCatalogueItemId(_solution2Id)
-                .WithName(_solution2Id)
+                .WithCatalogueItemId(Solution2Id)
+                .WithName(Solution2Id)
                 .WithPublishedStatusId((int)PublishedStatus.Published)
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(SupplierId)
                 .Build()
                 .InsertAsync();
 
             await SolutionEntityBuilder.Create()
-                .WithId(_solution2Id)
+                .WithId(Solution2Id)
                 .Build()
                 .InsertAsync();
 
             await SolutionDetailEntityBuilder.Create()
-                .WithSolutionId(_solution1Id)
+                .WithSolutionId(Solution1Id)
                 .WithAboutUrl("AboutUrl1")
                 .WithFeatures("Features")
                 .WithClientApplication("Browser-based")
@@ -177,25 +185,28 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .InsertAndSetCurrentForSolutionAsync();
 
             var mockUpdateSolutionSummaryRequest = new Mock<IUpdateSolutionSummaryRequest>();
-            mockUpdateSolutionSummaryRequest.Setup(m => m.SolutionId).Returns(_solution1Id);
+            mockUpdateSolutionSummaryRequest.Setup(m => m.SolutionId).Returns(Solution1Id);
             mockUpdateSolutionSummaryRequest.Setup(m => m.Summary).Returns("Sln4Summary");
             mockUpdateSolutionSummaryRequest.Setup(m => m.Description).Returns("Sln4Description");
             mockUpdateSolutionSummaryRequest.Setup(m => m.AboutUrl).Returns("AboutUrl4");
 
-            await _solutionDetailRepository.UpdateSummaryAsync(mockUpdateSolutionSummaryRequest.Object, new CancellationToken());
+            await solutionDetailRepository.UpdateSummaryAsync(
+                mockUpdateSolutionSummaryRequest.Object,
+                CancellationToken.None);
 
-            var solution = await SolutionEntity.GetByIdAsync(_solution1Id);
-            solution.Id.Should().Be(_solution1Id);
+            var solution = await SolutionEntity.GetByIdAsync(Solution1Id);
+            solution.Id.Should().Be(Solution1Id);
 
-            solution = await SolutionEntity.GetByIdAsync(_solution2Id);
-            solution.Id.Should().Be(_solution2Id);
+            solution = await SolutionEntity.GetByIdAsync(Solution2Id);
+            solution.Id.Should().Be(Solution2Id);
 
-            var solutionDetail = await SolutionDetailEntity.GetBySolutionIdAsync(_solution1Id);
+            var solutionDetail = await SolutionDetailEntity.GetBySolutionIdAsync(Solution1Id);
             solutionDetail.Summary.Should().Be("Sln4Summary");
             solutionDetail.FullDescription.Should().Be("Sln4Description");
             solutionDetail.AboutUrl.Should().Be("AboutUrl4");
             solutionDetail.Features.Should().Be("Features");
             solutionDetail.ClientApplication.Should().Be("Browser-based");
+
             (await solutionDetail.LastUpdated.SecondsFromNow()).Should().BeLessOrEqualTo(5);
         }
 
@@ -203,12 +214,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public void ShouldThrowOnUpdateSummarySolutionNotPresent()
         {
             var mockUpdateSolutionSummaryRequest = new Mock<IUpdateSolutionSummaryRequest>();
-            mockUpdateSolutionSummaryRequest.Setup(m => m.SolutionId).Returns(_solution1Id);
+            mockUpdateSolutionSummaryRequest.Setup(m => m.SolutionId).Returns(Solution1Id);
             mockUpdateSolutionSummaryRequest.Setup(m => m.Summary).Returns("Sln4Summary");
             mockUpdateSolutionSummaryRequest.Setup(m => m.Description).Returns("Sln4Description");
             mockUpdateSolutionSummaryRequest.Setup(m => m.AboutUrl).Returns("AboutUrl4");
 
-            Assert.ThrowsAsync<SqlException>(() => _solutionDetailRepository.UpdateSummaryAsync(mockUpdateSolutionSummaryRequest.Object, new CancellationToken()));
+            Assert.ThrowsAsync<SqlException>(() => solutionDetailRepository.UpdateSummaryAsync(
+                mockUpdateSolutionSummaryRequest.Object,
+                CancellationToken.None));
         }
 
         [Test]
@@ -218,15 +231,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await CatalogueItemEntityBuilder
                 .Create()
-                .WithCatalogueItemId(_solution1Id)
-                .WithName(_solution1Id)
+                .WithCatalogueItemId(Solution1Id)
+                .WithName(Solution1Id)
                 .WithPublishedStatusId((int)PublishedStatus.Published)
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(SupplierId)
                 .Build()
                 .InsertAsync();
 
             await SolutionEntityBuilder.Create()
-                .WithId(_solution1Id)
+                .WithId(Solution1Id)
                 .Build()
                 .InsertAsync();
 
@@ -235,7 +248,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .Build()
                 .InsertAndSetCurrentForSolutionAsync();
 
-            var result = await _solutionDetailRepository.GetClientApplicationBySolutionIdAsync(_solution1Id, new CancellationToken());
+            var result = await solutionDetailRepository.GetClientApplicationBySolutionIdAsync(
+                Solution1Id,
+                CancellationToken.None);
+
             result.ClientApplication.Should().Be(expectedClientApplication);
         }
 
@@ -244,45 +260,57 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             await CatalogueItemEntityBuilder
                 .Create()
-                .WithCatalogueItemId(_solution1Id)
-                .WithName(_solution1Id)
+                .WithCatalogueItemId(Solution1Id)
+                .WithName(Solution1Id)
                 .WithPublishedStatusId((int)PublishedStatus.Published)
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(SupplierId)
                 .Build()
                 .InsertAsync();
 
             await SolutionEntityBuilder.Create()
-                .WithId(_solution1Id)
+                .WithId(Solution1Id)
                 .Build()
                 .InsertAsync();
 
-            var result = await _solutionDetailRepository.GetClientApplicationBySolutionIdAsync(_solution1Id, new CancellationToken());
+            var result = await solutionDetailRepository.GetClientApplicationBySolutionIdAsync(
+                Solution1Id,
+                CancellationToken.None);
+
             result.ClientApplication.Should().BeNull();
         }
 
         [Test]
         public async Task ShouldRetrieveNullResultWhenSolutionDoesNotExist()
         {
-            var result = await _solutionDetailRepository.GetClientApplicationBySolutionIdAsync(_solution1Id, new CancellationToken());
+            var result = await solutionDetailRepository.GetClientApplicationBySolutionIdAsync(
+                Solution1Id,
+                CancellationToken.None);
+
             result.Should().BeNull();
         }
 
         [Test]
         public void ShouldThrowOnUpdateFeaturesNullRequest()
         {
-            Assert.ThrowsAsync<ArgumentNullException>(() => _solutionDetailRepository.UpdateFeaturesAsync(null, new CancellationToken()));
+            Assert.ThrowsAsync<ArgumentNullException>(() => solutionDetailRepository.UpdateFeaturesAsync(
+                null,
+                CancellationToken.None));
         }
 
         [Test]
         public void ShouldThrowOnUpdateClientApplicationNullRequest()
         {
-            Assert.ThrowsAsync<ArgumentNullException>(() => _solutionDetailRepository.UpdateClientApplicationAsync(null, new CancellationToken()));
+            Assert.ThrowsAsync<ArgumentNullException>(() => solutionDetailRepository.UpdateClientApplicationAsync(
+                null,
+                CancellationToken.None));
         }
 
         [Test]
         public void ShouldThrowOnUpdateSummaryNullRequest()
         {
-            Assert.ThrowsAsync<ArgumentNullException>(() => _solutionDetailRepository.UpdateSummaryAsync(null, new CancellationToken()));
+            Assert.ThrowsAsync<ArgumentNullException>(() => solutionDetailRepository.UpdateSummaryAsync(
+                null,
+                CancellationToken.None));
         }
 
         [Test]
@@ -292,34 +320,36 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await CatalogueItemEntityBuilder
                 .Create()
-                .WithCatalogueItemId(_solution1Id)
-                .WithName(_solution1Id)
+                .WithCatalogueItemId(Solution1Id)
+                .WithName(Solution1Id)
                 .WithPublishedStatusId((int)PublishedStatus.Published)
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(SupplierId)
                 .Build()
                 .InsertAsync();
 
             await SolutionEntityBuilder.Create()
-                .WithId(_solution1Id)
+                .WithId(Solution1Id)
                 .Build()
                 .InsertAsync();
 
             await SolutionDetailEntityBuilder.Create()
-                .WithSolutionId(_solution1Id)
+                .WithSolutionId(Solution1Id)
                 .WithHosting("{ 'Something': [] }")
                 .Build()
                 .InsertAndSetCurrentForSolutionAsync();
 
             var mockUpdateHostingRequest = new Mock<IUpdateSolutionHostingRequest>();
-            mockUpdateHostingRequest.Setup(m => m.SolutionId).Returns(_solution1Id);
+            mockUpdateHostingRequest.Setup(m => m.SolutionId).Returns(Solution1Id);
             mockUpdateHostingRequest.Setup(m => m.Hosting).Returns(expectedResult);
 
-            await _solutionDetailRepository.UpdateHostingAsync(mockUpdateHostingRequest.Object, new CancellationToken());
+            await solutionDetailRepository.UpdateHostingAsync(
+                mockUpdateHostingRequest.Object,
+                CancellationToken.None);
 
-            var solution = await SolutionEntity.GetByIdAsync(_solution1Id);
-            solution.Id.Should().Be(_solution1Id);
+            var solution = await SolutionEntity.GetByIdAsync(Solution1Id);
+            solution.Id.Should().Be(Solution1Id);
 
-            var marketingData = await SolutionDetailEntity.GetBySolutionIdAsync(_solution1Id);
+            var marketingData = await SolutionDetailEntity.GetBySolutionIdAsync(Solution1Id);
             marketingData.Hosting.Should().Be(expectedResult);
 
             (await marketingData.LastUpdated.SecondsFromNow()).Should().BeLessOrEqualTo(5);
@@ -332,15 +362,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await CatalogueItemEntityBuilder
                 .Create()
-                .WithCatalogueItemId(_solution1Id)
-                .WithName(_solution1Id)
+                .WithCatalogueItemId(Solution1Id)
+                .WithName(Solution1Id)
                 .WithPublishedStatusId((int)PublishedStatus.Published)
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(SupplierId)
                 .Build()
                 .InsertAsync();
 
             await SolutionEntityBuilder.Create()
-                .WithId(_solution1Id)
+                .WithId(Solution1Id)
                 .Build()
                 .InsertAsync();
 
@@ -349,7 +379,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .Build()
                 .InsertAndSetCurrentForSolutionAsync();
 
-            var result = await _solutionDetailRepository.GetHostingBySolutionIdAsync(_solution1Id, new CancellationToken());
+            var result = await solutionDetailRepository.GetHostingBySolutionIdAsync(
+                Solution1Id,
+                CancellationToken.None);
+
             result.Hosting.Should().Be(expectedHostingString);
         }
 
@@ -358,108 +391,117 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             await CatalogueItemEntityBuilder
                 .Create()
-                .WithCatalogueItemId(_solution1Id)
-                .WithName(_solution1Id)
+                .WithCatalogueItemId(Solution1Id)
+                .WithName(Solution1Id)
                 .WithPublishedStatusId((int)PublishedStatus.Published)
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(SupplierId)
                 .Build()
                 .InsertAsync();
 
             await SolutionEntityBuilder.Create()
-                .WithId(_solution1Id)
+                .WithId(Solution1Id)
                 .Build()
                 .InsertAsync();
 
-            var result = await _solutionDetailRepository.GetHostingBySolutionIdAsync(_solution1Id, new CancellationToken());
+            var result = await solutionDetailRepository.GetHostingBySolutionIdAsync(
+                Solution1Id,
+                CancellationToken.None);
+
             result.Hosting.Should().BeNull();
         }
 
         [Test]
-        public async Task ShouldUpdateRoadmap()
+        public async Task ShouldUpdateRoadMap()
         {
-            const string expectedResult = "some roadmap description";
+            const string expectedResult = "some road map description";
 
             await CatalogueItemEntityBuilder
                 .Create()
-                .WithCatalogueItemId(_solution1Id)
-                .WithName(_solution1Id)
+                .WithCatalogueItemId(Solution1Id)
+                .WithName(Solution1Id)
                 .WithPublishedStatusId((int)PublishedStatus.Published)
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(SupplierId)
                 .Build()
                 .InsertAsync();
 
             await SolutionEntityBuilder.Create()
-                .WithId(_solution1Id)
+                .WithId(Solution1Id)
                 .Build()
                 .InsertAsync();
 
             await SolutionDetailEntityBuilder.Create()
-                .WithSolutionId(_solution1Id)
+                .WithSolutionId(Solution1Id)
                 .WithRoadMap(expectedResult)
                 .Build()
                 .InsertAndSetCurrentForSolutionAsync();
 
             var mockRequest = new Mock<IUpdateRoadMapRequest>();
-            mockRequest.Setup(m => m.SolutionId).Returns(_solution1Id);
+            mockRequest.Setup(m => m.SolutionId).Returns(Solution1Id);
             mockRequest.Setup(m => m.Description).Returns(expectedResult);
 
-            await _solutionDetailRepository.UpdateRoadMapAsync(mockRequest.Object, new CancellationToken());
+            await solutionDetailRepository.UpdateRoadMapAsync(mockRequest.Object, CancellationToken.None);
 
-            var solution = await SolutionEntity.GetByIdAsync(_solution1Id);
-            solution.Id.Should().Be(_solution1Id);
+            var solution = await SolutionEntity.GetByIdAsync(Solution1Id);
+            solution.Id.Should().Be(Solution1Id);
 
-            var marketingData = await SolutionDetailEntity.GetBySolutionIdAsync(_solution1Id);
+            var marketingData = await SolutionDetailEntity.GetBySolutionIdAsync(Solution1Id);
             marketingData.RoadMap.Should().Be(expectedResult);
 
             (await marketingData.LastUpdated.SecondsFromNow()).Should().BeLessOrEqualTo(5);
         }
 
         [Test]
-        public async Task ShouldRetrieveRoadmapWhenPresent()
+        public async Task ShouldRetrieveRoadMapWhenPresent()
         {
-            const string expectedRoadmapString = "I am the roadmap string";
+            const string expectedRoadMapString = "I am the road map string";
 
             await CatalogueItemEntityBuilder
                 .Create()
-                .WithCatalogueItemId(_solution1Id)
-                .WithName(_solution1Id)
+                .WithCatalogueItemId(Solution1Id)
+                .WithName(Solution1Id)
                 .WithPublishedStatusId((int)PublishedStatus.Published)
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(SupplierId)
                 .Build()
                 .InsertAsync();
 
             await SolutionEntityBuilder.Create()
-                .WithId(_solution1Id)
+                .WithId(Solution1Id)
                 .Build()
                 .InsertAsync();
 
             await SolutionDetailEntityBuilder.Create()
-                .WithRoadMap(expectedRoadmapString)
+                .WithRoadMap(expectedRoadMapString)
                 .Build()
                 .InsertAndSetCurrentForSolutionAsync();
 
-            var result = await _solutionDetailRepository.GetRoadMapBySolutionIdAsync(_solution1Id, new CancellationToken());
-            result.Summary.Should().Be(expectedRoadmapString);
+            var result = await solutionDetailRepository.GetRoadMapBySolutionIdAsync(
+                Solution1Id,
+                CancellationToken.None);
+
+            result.Summary.Should().Be(expectedRoadMapString);
         }
 
         [Test]
-        public async Task ShouldRetrieveNullRoadmapWhenSolutionDetailDoesNotExist()
+        public async Task ShouldRetrieveNullRoadMapWhenSolutionDetailDoesNotExist()
         {
             await CatalogueItemEntityBuilder
                 .Create()
-                .WithCatalogueItemId(_solution1Id)
-                .WithName(_solution1Id)
+                .WithCatalogueItemId(Solution1Id)
+                .WithName(Solution1Id)
                 .WithPublishedStatusId((int)PublishedStatus.Published)
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(SupplierId)
                 .Build()
                 .InsertAsync();
 
             await SolutionEntityBuilder.Create()
-                .WithId(_solution1Id)
+                .WithId(Solution1Id)
                 .Build()
                 .InsertAsync();
 
-            var result = await _solutionDetailRepository.GetRoadMapBySolutionIdAsync(_solution1Id, new CancellationToken());
+            var result = await solutionDetailRepository.GetRoadMapBySolutionIdAsync(
+                Solution1Id,
+                CancellationToken.None);
+
             result.Summary.Should().BeNull();
         }
 
@@ -470,34 +512,36 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await CatalogueItemEntityBuilder
                 .Create()
-                .WithCatalogueItemId(_solution1Id)
-                .WithName(_solution1Id)
+                .WithCatalogueItemId(Solution1Id)
+                .WithName(Solution1Id)
                 .WithPublishedStatusId((int)PublishedStatus.Published)
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(SupplierId)
                 .Build()
                 .InsertAsync();
 
             await SolutionEntityBuilder.Create()
-                .WithId(_solution1Id)
+                .WithId(Solution1Id)
                 .Build()
                 .InsertAsync();
 
             await SolutionDetailEntityBuilder.Create()
-                .WithSolutionId(_solution1Id)
+                .WithSolutionId(Solution1Id)
                 .WithImplementationTimescales(expectedResult)
                 .Build()
                 .InsertAndSetCurrentForSolutionAsync();
 
             var mockRequest = new Mock<IUpdateImplementationTimescalesRequest>();
-            mockRequest.Setup(m => m.SolutionId).Returns(_solution1Id);
+            mockRequest.Setup(m => m.SolutionId).Returns(Solution1Id);
             mockRequest.Setup(m => m.Description).Returns(expectedResult);
 
-            await _solutionDetailRepository.UpdateImplementationTimescalesAsync(mockRequest.Object, new CancellationToken());
+            await solutionDetailRepository.UpdateImplementationTimescalesAsync(
+                mockRequest.Object,
+                CancellationToken.None);
 
-            var solution = await SolutionEntity.GetByIdAsync(_solution1Id);
-            solution.Id.Should().Be(_solution1Id);
+            var solution = await SolutionEntity.GetByIdAsync(Solution1Id);
+            solution.Id.Should().Be(Solution1Id);
 
-            var marketingData = await SolutionDetailEntity.GetBySolutionIdAsync(_solution1Id);
+            var marketingData = await SolutionDetailEntity.GetBySolutionIdAsync(Solution1Id);
             marketingData.ImplementationDetail.Should().Be(expectedResult);
 
             (await marketingData.LastUpdated.SecondsFromNow()).Should().BeLessOrEqualTo(5);
@@ -510,15 +554,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await CatalogueItemEntityBuilder
                 .Create()
-                .WithCatalogueItemId(_solution1Id)
-                .WithName(_solution1Id)
+                .WithCatalogueItemId(Solution1Id)
+                .WithName(Solution1Id)
                 .WithPublishedStatusId((int)PublishedStatus.Published)
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(SupplierId)
                 .Build()
                 .InsertAsync();
 
             await SolutionEntityBuilder.Create()
-                .WithId(_solution1Id)
+                .WithId(Solution1Id)
                 .Build()
                 .InsertAsync();
 
@@ -527,7 +571,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .Build()
                 .InsertAndSetCurrentForSolutionAsync();
 
-            var result = await _solutionDetailRepository.GetImplementationTimescalesBySolutionIdAsync(_solution1Id, new CancellationToken());
+            var result = await solutionDetailRepository.GetImplementationTimescalesBySolutionIdAsync(
+                Solution1Id,
+                CancellationToken.None);
+
             result.Description.Should().Be(expectedImplementationTimescalesString);
         }
 
@@ -536,19 +583,22 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             await CatalogueItemEntityBuilder
                 .Create()
-                .WithCatalogueItemId(_solution1Id)
-                .WithName(_solution1Id)
+                .WithCatalogueItemId(Solution1Id)
+                .WithName(Solution1Id)
                 .WithPublishedStatusId((int)PublishedStatus.Published)
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(SupplierId)
                 .Build()
                 .InsertAsync();
 
             await SolutionEntityBuilder.Create()
-                .WithId(_solution1Id)
+                .WithId(Solution1Id)
                 .Build()
                 .InsertAsync();
 
-            var result = await _solutionDetailRepository.GetImplementationTimescalesBySolutionIdAsync(_solution1Id, new CancellationToken());
+            var result = await solutionDetailRepository.GetImplementationTimescalesBySolutionIdAsync(
+                Solution1Id,
+                CancellationToken.None);
+
             result.Description.Should().BeNull();
         }
     }
