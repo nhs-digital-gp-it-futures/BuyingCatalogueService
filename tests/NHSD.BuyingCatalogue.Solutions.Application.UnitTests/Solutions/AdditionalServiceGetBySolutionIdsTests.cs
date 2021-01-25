@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -13,41 +15,45 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
     [TestFixture]
     internal sealed class AdditionalServiceGetBySolutionIdsTests
     {
-        private TestContext _context;
+        private static readonly Expression<Func<IAdditionalServiceResult, bool>> ServiceResult1 = a =>
+            a.CatalogueItemId == "cat1"
+            && a.SolutionId == "Sln1"
+            && a.CatalogueItemName == "cat name"
+            && a.SolutionName == "solution 1 name";
 
-        private List<string> _solutionIds = new();
-        private List<IAdditionalServiceResult> _additionalServiceResult;
+        private static readonly IAdditionalServiceResult AdditionalService1 = Mock.Of(ServiceResult1);
 
-        private static readonly IAdditionalServiceResult AdditionalService1 = Mock.Of<IAdditionalServiceResult>(a =>
-            a.CatalogueItemId == "cat1" &&
-            a.SolutionId == "Sln1" &&
-            a.CatalogueItemName == "cat name" &&
-            a.SolutionName == "solution 1 name");
+        private static readonly Expression<Func<IAdditionalServiceResult, bool>> ServiceResult2 = a =>
+            a.CatalogueItemId == "cat2"
+            && a.SolutionId == "Sln2"
+            && a.CatalogueItemName == "cat name 2"
+            && a.SolutionName == "solution 2 name";
 
-        private static readonly IAdditionalServiceResult AdditionalService2 = Mock.Of<IAdditionalServiceResult>(a =>
-            a.CatalogueItemId == "cat2" &&
-            a.SolutionId == "Sln2" &&
-            a.CatalogueItemName == "cat name 2" &&
-            a.SolutionName == "solution 2 name");
+        private static readonly IAdditionalServiceResult AdditionalService2 = Mock.Of(ServiceResult2);
+
+        private readonly List<string> solutionIds = new();
+
+        private TestContext context;
+        private List<IAdditionalServiceResult> additionalServiceResult;
 
         [SetUp]
         public void Setup()
         {
-            _context = new TestContext();
+            context = new TestContext();
 
-            _context.MockAdditionalServiceRepository
-                .Setup(r => r.GetAdditionalServiceBySolutionIdsAsync(_solutionIds, new CancellationToken()))
-                .ReturnsAsync(() => _additionalServiceResult);
+            context.MockAdditionalServiceRepository
+                .Setup(r => r.GetAdditionalServiceBySolutionIdsAsync(solutionIds, CancellationToken.None))
+                .ReturnsAsync(() => additionalServiceResult);
 
-            _additionalServiceResult = new List<IAdditionalServiceResult>();
+            additionalServiceResult = new List<IAdditionalServiceResult>();
         }
 
         [Test]
         public async Task EmptyAdditionalServiceResultReturnsDefaultAdditionalService()
         {
-            var additionalService =
-                await _context.GetAdditionalServiceBySolutionIdsHandler.Handle(
-                    new GetAdditionalServiceBySolutionIdsQuery(_solutionIds), new CancellationToken());
+            var additionalService = await context.GetAdditionalServiceBySolutionIdsHandler.Handle(
+                new GetAdditionalServiceBySolutionIdsQuery(solutionIds),
+                CancellationToken.None);
 
             additionalService.Should().BeEmpty();
         }
@@ -55,15 +61,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public async Task MultipleAdditionalServices_ReturnsResult()
         {
-            _additionalServiceResult.Add(AdditionalService1);
-            _additionalServiceResult.Add(AdditionalService2);
+            additionalServiceResult.Add(AdditionalService1);
+            additionalServiceResult.Add(AdditionalService2);
 
-            _solutionIds.Add(AdditionalService1.SolutionId);
-            _solutionIds.Add(AdditionalService2.SolutionId);
+            solutionIds.Add(AdditionalService1.SolutionId);
+            solutionIds.Add(AdditionalService2.SolutionId);
 
-            var additionalService =
-                (await _context.GetAdditionalServiceBySolutionIdsHandler.Handle(
-                    new GetAdditionalServiceBySolutionIdsQuery(_solutionIds), new CancellationToken())).ToList();
+            var additionalService = (await context.GetAdditionalServiceBySolutionIdsHandler.Handle(
+                    new GetAdditionalServiceBySolutionIdsQuery(solutionIds),
+                    CancellationToken.None)).ToList();
 
             additionalService.Count.Should().Be(2);
 

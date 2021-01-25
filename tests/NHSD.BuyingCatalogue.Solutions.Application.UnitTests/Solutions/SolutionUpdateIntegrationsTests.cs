@@ -1,3 +1,5 @@
+﻿using System;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -11,64 +13,78 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 {
     [TestFixture]
-    public sealed class SolutionUpdateIntegrationsTests
+    internal sealed class SolutionUpdateIntegrationsTests
     {
-        private TestContext _context;
-        private string _existingSolutionId = "Sln1";
-        private string _invalidSolutionId = "Sln123";
+        private const string ExistingSolutionId = "Sln1";
+        private const string InvalidSolutionId = "Sln123";
+
+        private TestContext context;
 
         [SetUp]
         public void Setup()
         {
-            _context = new TestContext();
-            _context.MockSolutionRepository.Setup(x => x.CheckExists(_existingSolutionId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
-            _context.MockSolutionRepository.Setup(x => x.CheckExists(_invalidSolutionId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
+            context = new TestContext();
+            context.MockSolutionRepository
+                .Setup(r => r.CheckExists(ExistingSolutionId, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(true);
+
+            context.MockSolutionRepository
+                .Setup(r => r.CheckExists(InvalidSolutionId, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(false);
         }
 
         [Test]
         public async Task ShouldUpdateSolutionIntegrations()
         {
-            var expected = "an integrations url";
+            const string expected = "an integrations url";
 
-            var validationResult = await UpdateIntegrationsAsync(_existingSolutionId, expected)
-                .ConfigureAwait(false);
+            var validationResult = await UpdateIntegrationsAsync(ExistingSolutionId, expected);
+
             validationResult.IsValid.Should().BeTrue();
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(0);
 
-            _context.MockSolutionRepository.Verify(r => r.CheckExists(_existingSolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            context.MockSolutionRepository.Verify(r => r.CheckExists(ExistingSolutionId, It.IsAny<CancellationToken>()));
 
-            _context.MockSolutionDetailRepository.Verify(r => r.UpdateIntegrationsAsync(It.Is<IUpdateIntegrationsRequest>(r =>
-                r.SolutionId == _existingSolutionId
-                && r.Url == expected
-            ), It.IsAny<CancellationToken>()), Times.Once());
+            Expression<Func<IUpdateIntegrationsRequest, bool>> match = r =>
+                r.SolutionId == ExistingSolutionId
+                && r.Url == expected;
+
+            context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateIntegrationsAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task ShouldValidateSingleMaxLength()
         {
-            var validationResult = await UpdateIntegrationsAsync(_existingSolutionId, new string('a', 1001))
-                .ConfigureAwait(false);
+            var validationResult = await UpdateIntegrationsAsync(ExistingSolutionId, new string('a', 1001));
+
             validationResult.IsValid.Should().BeFalse();
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(1);
             results["link"].Should().Be("maxLength");
 
-            _context.MockSolutionRepository.Verify(r => r.CheckExists(_existingSolutionId, It.IsAny<CancellationToken>()), Times.Never());
-            _context.MockSolutionDetailRepository.Verify(r => r.UpdateIntegrationsAsync(It.IsAny<IUpdateIntegrationsRequest>(), It.IsAny<CancellationToken>()), Times.Never);
+            context.MockSolutionRepository.Verify(
+                r => r.CheckExists(ExistingSolutionId, It.IsAny<CancellationToken>()),
+                Times.Never());
+
+            context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateIntegrationsAsync(It.IsAny<IUpdateIntegrationsRequest>(), It.IsAny<CancellationToken>()),
+                Times.Never());
         }
 
         [Test]
         public void ShouldThrowNotFoundExceptionWhenSolutionIsNotFound()
         {
-            Assert.ThrowsAsync<NotFoundException>(() => UpdateIntegrationsAsync(_invalidSolutionId, "A description"));
+            Assert.ThrowsAsync<NotFoundException>(() => UpdateIntegrationsAsync(InvalidSolutionId, "A description"));
         }
 
         private async Task<ISimpleResult> UpdateIntegrationsAsync(string solutionId, string url)
         {
-            var validationResult = await _context.UpdateIntegrationsHandler.Handle(
-                    new UpdateIntegrationsCommand(solutionId, url), new CancellationToken())
-                .ConfigureAwait(false);
+            var validationResult = await context.UpdateIntegrationsHandler.Handle(
+                new UpdateIntegrationsCommand(solutionId, url),
+                CancellationToken.None);
+
             return validationResult;
         }
     }

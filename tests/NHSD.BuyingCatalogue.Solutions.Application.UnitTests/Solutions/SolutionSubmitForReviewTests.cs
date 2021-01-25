@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -14,12 +15,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
     [TestFixture]
     internal sealed class SolutionSubmitForReviewTests
     {
-        private TestContext _context;
+        private TestContext context;
 
         [SetUp]
         public void SetUpFixture()
         {
-            _context = new TestContext();
+            context = new TestContext();
         }
 
         [Test]
@@ -28,19 +29,31 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
             existingSolution.Setup(s => s.Summary).Returns("Sln1 summary");
-            existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], 'MobileResponsive': false, 'Plugins': { 'Required': false } }");
 
-            _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
+            const string clientApplicationJson = "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], "
+                + "'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], "
+                + "'MobileResponsive': false, "
+                + "'Plugins': { 'Required': false } }";
 
-            await _context.SubmitSolutionForReviewHandler.Handle(new SubmitSolutionForReviewCommand("Sln1"), new CancellationToken())
-                .ConfigureAwait(false);
+            existingSolution.Setup(s => s.ClientApplication).Returns(clientApplicationJson);
 
-            _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+            context.MockSolutionRepository
+                .Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()))
+                .ReturnsAsync(existingSolution.Object);
 
-            _context.MockSolutionRepository.Verify(r => r.UpdateSupplierStatusAsync(It.Is<IUpdateSolutionSupplierStatusRequest>(r =>
+            await context.SubmitSolutionForReviewHandler.Handle(
+                new SubmitSolutionForReviewCommand("Sln1"),
+                CancellationToken.None);
+
+            context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
+
+            Expression<Func<IUpdateSolutionSupplierStatusRequest, bool>> match = r =>
                 r.Id == "Sln1"
-                && r.SupplierStatusId == 2
-                ), It.IsAny<CancellationToken>()), Times.Once());
+                && r.SupplierStatusId == 2;
+
+            context.MockSolutionRepository.Verify(r => r.UpdateSupplierStatusAsync(
+                It.Is(match),
+                It.IsAny<CancellationToken>()));
         }
 
         [TestCase(null, new[] { "SolutionSummaryIsRequired" })]
@@ -50,109 +63,143 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
             existingSolution.Setup(s => s.Summary).Returns(summary);
-            existingSolution.Setup(s => s.ClientApplication).Returns("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], 'MobileResponsive': false, 'Plugins': { 'Required': false } }");
 
-            _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
+            const string clientApplicationJson = "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], "
+                + "'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], "
+                + "'MobileResponsive': false, "
+                + "'Plugins': { 'Required': false } }";
 
-            var result = await _context.SubmitSolutionForReviewHandler.Handle(new SubmitSolutionForReviewCommand("Sln1"), new CancellationToken())
-                .ConfigureAwait(false);
+            existingSolution.Setup(s => s.ClientApplication).Returns(clientApplicationJson);
+
+            context.MockSolutionRepository
+                .Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()))
+                .ReturnsAsync(existingSolution.Object);
+
+            var result = await context.SubmitSolutionForReviewHandler.Handle(
+                new SubmitSolutionForReviewCommand("Sln1"),
+                CancellationToken.None);
 
             result.IsFailure.Should().BeTrue();
             result.Errors.Select(s => s.Id).Should().BeEquivalentTo(errorList);
 
-            _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+            context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
         }
 
         [TestCase(null, new[] { "ClientApplicationTypeIsRequired" })]
         [TestCase("", new[] { "ClientApplicationTypeIsRequired" })]
         [TestCase("{ 'ClientApplicationTypes' : [] }", new[] { "ClientApplicationTypeIsRequired" })]
-        public async Task ShouldNotSubmitSolutionForReviewWhenClientApplicationTypesAreMissing(string clientApplication, string[] errorList)
+        public async Task ShouldNotSubmitSolutionForReviewWhenClientApplicationTypesAreMissing(
+            string clientApplication,
+            string[] errorList)
         {
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
             existingSolution.Setup(s => s.Summary).Returns("Sln1 summary");
             existingSolution.Setup(s => s.ClientApplication).Returns(clientApplication);
 
-            _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
+            context.MockSolutionRepository
+                .Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()))
+                .ReturnsAsync(existingSolution.Object);
 
-            var result = await _context.SubmitSolutionForReviewHandler.Handle(new SubmitSolutionForReviewCommand("Sln1"), new CancellationToken())
-                .ConfigureAwait(false);
+            var result = await context.SubmitSolutionForReviewHandler.Handle(
+                new SubmitSolutionForReviewCommand("Sln1"),
+                CancellationToken.None);
 
             result.IsFailure.Should().BeTrue();
             result.Errors.Select(s => s.Id).Should().BeEquivalentTo(errorList);
 
-            _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+            context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
         }
 
         [TestCase("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'MobileResponsive': false, 'Plugins': { 'Required': false } }", new[] { "SupportedBrowserIsRequired" })]
         [TestCase("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [], 'MobileResponsive': false, 'Plugins': { 'Required': false } }", new[] { "SupportedBrowserIsRequired" })]
-        public async Task ShouldNotSubmitSolutionForReviewWhenBrowserSupportedIsMissing(string clientApplication, string[] errorList)
+        public async Task ShouldNotSubmitSolutionForReviewWhenBrowserSupportedIsMissing(
+            string clientApplication,
+            string[] errorList)
         {
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
             existingSolution.Setup(s => s.Summary).Returns("Sln1 summary");
             existingSolution.Setup(s => s.ClientApplication).Returns(clientApplication);
 
-            _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
+            context.MockSolutionRepository
+                .Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()))
+                .ReturnsAsync(existingSolution.Object);
 
-            var result = await _context.SubmitSolutionForReviewHandler.Handle(new SubmitSolutionForReviewCommand("Sln1"), new CancellationToken())
-                .ConfigureAwait(false);
+            var result = await context.SubmitSolutionForReviewHandler.Handle(
+                new SubmitSolutionForReviewCommand("Sln1"),
+                CancellationToken.None);
 
             result.IsFailure.Should().BeTrue();
             result.Errors.Select(s => s.Id).Should().BeEquivalentTo(errorList);
 
-            _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+            context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
         }
 
         [TestCase("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], 'Plugins': { 'Required': false } }", new[] { "MobileResponsiveIsRequired" })]
-        public async Task ShouldNotSubmitSolutionForReviewWhenMobileResponsiveIsMissing(string clientApplication, string[] errorList)
+        public async Task ShouldNotSubmitSolutionForReviewWhenMobileResponsiveIsMissing(
+            string clientApplication,
+            string[] errorList)
         {
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
             existingSolution.Setup(s => s.Summary).Returns("Sln1 summary");
             existingSolution.Setup(s => s.ClientApplication).Returns(clientApplication);
 
-            _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
+            context.MockSolutionRepository
+                .Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()))
+                .ReturnsAsync(existingSolution.Object);
 
-            var result = await _context.SubmitSolutionForReviewHandler.Handle(new SubmitSolutionForReviewCommand("Sln1"), new CancellationToken())
-                .ConfigureAwait(false);
+            var result = await context.SubmitSolutionForReviewHandler.Handle(
+                new SubmitSolutionForReviewCommand("Sln1"),
+                CancellationToken.None);
 
             result.IsFailure.Should().BeTrue();
             result.Errors.Select(s => s.Id).Should().BeEquivalentTo(errorList);
 
-            _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+            context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
         }
 
         [TestCase("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], 'MobileResponsive': false }", new[] { "PluginRequirementIsRequired" })]
         [TestCase("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], 'MobileResponsive': false, 'Plugins': { } }", new[] { "PluginRequirementIsRequired" })]
         [TestCase("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], 'MobileResponsive': false, 'Plugins': { 'Required': null } }", new[] { "PluginRequirementIsRequired" })]
-        public async Task ShouldNotSubmitSolutionForReviewWhenPluginRequirementIsMissing(string clientApplication, string[] errorList)
+        public async Task ShouldNotSubmitSolutionForReviewWhenPluginRequirementIsMissing(
+            string clientApplication,
+            string[] errorList)
         {
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns("Sln1");
             existingSolution.Setup(s => s.Summary).Returns("Sln1 summary");
             existingSolution.Setup(s => s.ClientApplication).Returns(clientApplication);
 
-            _context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
+            context.MockSolutionRepository
+                .Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()))
+                .ReturnsAsync(existingSolution.Object);
 
-            var result = await _context.SubmitSolutionForReviewHandler.Handle(new SubmitSolutionForReviewCommand("Sln1"), new CancellationToken())
-                .ConfigureAwait(false);
+            var result = await context.SubmitSolutionForReviewHandler.Handle(
+                new SubmitSolutionForReviewCommand("Sln1"),
+                CancellationToken.None);
 
             result.IsFailure.Should().BeTrue();
             result.Errors.Select(s => s.Id).Should().BeEquivalentTo(errorList);
 
-            _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+            context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public void ShouldThrowWhenSolutionNotPresent()
         {
-            Assert.ThrowsAsync<NotFoundException>(() =>
-                _context.SubmitSolutionForReviewHandler.Handle(new SubmitSolutionForReviewCommand("Sln1"), new CancellationToken()));
+            Assert.ThrowsAsync<NotFoundException>(() => context.SubmitSolutionForReviewHandler.Handle(
+                new SubmitSolutionForReviewCommand("Sln1"),
+                CancellationToken.None));
 
-            _context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+            context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
 
-            _context.MockSolutionRepository.Verify(r => r.UpdateSupplierStatusAsync(It.IsAny<IUpdateSolutionSupplierStatusRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+            Expression<Func<ISolutionRepository, Task>> expression = r => r.UpdateSupplierStatusAsync(
+                It.IsAny<IUpdateSolutionSupplierStatusRequest>(),
+                It.IsAny<CancellationToken>());
+
+            context.MockSolutionRepository.Verify(expression, Times.Never());
         }
 
         [TestCase("")]
@@ -160,7 +207,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [TestCase("   ")]
         public void ShouldThrowWhenSolutionIdNotPresent(string blanks)
         {
-            Assert.Throws<ArgumentException>(() => new SubmitSolutionForReviewCommand(blanks));
+            Assert.Throws<ArgumentException>(() => _ = new SubmitSolutionForReviewCommand(blanks));
         }
     }
 }

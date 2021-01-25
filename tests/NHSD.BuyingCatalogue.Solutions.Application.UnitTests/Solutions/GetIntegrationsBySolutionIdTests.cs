@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
@@ -13,27 +13,32 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
     [TestFixture]
     internal sealed class GetIntegrationsBySolutionIdTests
     {
-        private TestContext _context;
-        private GetIntegrationsBySolutionIdQuery _query;
-        private CancellationToken _cancellationToken;
-        private const string _solutionId = "Sln1";
-        private string _integrationsUrl = "Some integrations url";
-        private Mock<IIntegrationsResult> _mockResult;
-        private bool _solutionExists = true;
+        private const string SolutionId = "Sln1";
+
+        private TestContext context;
+        private GetIntegrationsBySolutionIdQuery query;
+        private CancellationToken cancellationToken;
+        private string integrationsUrl = "Some integrations url";
+        private Mock<IIntegrationsResult> mockResult;
+        private bool solutionExists = true;
 
         [SetUp]
         public void SetUpFixture()
         {
-            _context = new TestContext();
-            _query = new GetIntegrationsBySolutionIdQuery(_solutionId);
-            _cancellationToken = new CancellationToken();
+            context = new TestContext();
+            query = new GetIntegrationsBySolutionIdQuery(SolutionId);
+            cancellationToken = CancellationToken.None;
 
-            _context.MockSolutionDetailRepository.Setup(r => r.GetIntegrationsBySolutionIdAsync(_solutionId, _cancellationToken))
-            .ReturnsAsync(() => _mockResult.Object);
-            _context.MockSolutionRepository.Setup(r => r.CheckExists(_solutionId, _cancellationToken)).ReturnsAsync(() => _solutionExists);
+            context.MockSolutionDetailRepository
+                .Setup(r => r.GetIntegrationsBySolutionIdAsync(SolutionId, cancellationToken))
+                .ReturnsAsync(() => mockResult.Object);
 
-            _mockResult = new Mock<IIntegrationsResult>();
-            _mockResult.Setup(m => m.IntegrationsUrl).Returns(() => _integrationsUrl);
+            context.MockSolutionRepository
+                .Setup(r => r.CheckExists(SolutionId, cancellationToken))
+                .ReturnsAsync(() => solutionExists);
+
+            mockResult = new Mock<IIntegrationsResult>();
+            mockResult.Setup(m => m.IntegrationsUrl).Returns(() => integrationsUrl);
         }
 
         [TestCase("Some url")]
@@ -42,18 +47,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [TestCase(null)]
         public async Task ShouldGetIntegrationsUrl(string url)
         {
-            _integrationsUrl = url;
-            var result = await _context.GetIntegrationsBySolutionIdHandler.Handle(_query, _cancellationToken).ConfigureAwait(false);
-            result.Url.Should().Be(_integrationsUrl);
+            integrationsUrl = url;
+            var result = await context.GetIntegrationsBySolutionIdHandler.Handle(query, cancellationToken);
+            result.Url.Should().Be(integrationsUrl);
         }
 
         [Test]
         public async Task EmptyIntegrationsResultReturnsDefaultIntegration()
         {
-            _integrationsUrl = null;
+            integrationsUrl = null;
 
-            var integrations = await _context.GetIntegrationsBySolutionIdHandler.Handle(
-                new GetIntegrationsBySolutionIdQuery(_solutionId), _cancellationToken).ConfigureAwait(false);
+            var integrations = await context.GetIntegrationsBySolutionIdHandler.Handle(
+                new GetIntegrationsBySolutionIdQuery(SolutionId),
+                cancellationToken);
+
             integrations.Should().NotBeNull();
             integrations.Should().BeEquivalentTo(new IntegrationsDto());
         }
@@ -61,12 +68,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public void ShouldThrowWhenSolutionNotPresent()
         {
-            _solutionExists = false;
-            var exception = Assert.ThrowsAsync<NotFoundException>( () => _context.GetIntegrationsBySolutionIdHandler.Handle(_query, _cancellationToken));
+            solutionExists = false;
 
-            _context.MockSolutionRepository.Verify(r => r.CheckExists(_solutionId, _cancellationToken), Times.Once);
-            _context.MockSolutionRepository.VerifyNoOtherCalls();
-            _context.MockSolutionDetailRepository.VerifyNoOtherCalls();
+            Assert.ThrowsAsync<NotFoundException>(() => context.GetIntegrationsBySolutionIdHandler.Handle(
+                query,
+                cancellationToken));
+
+            context.MockSolutionRepository.Verify(r => r.CheckExists(SolutionId, cancellationToken));
+            context.MockSolutionRepository.VerifyNoOtherCalls();
+            context.MockSolutionDetailRepository.VerifyNoOtherCalls();
         }
     }
 }

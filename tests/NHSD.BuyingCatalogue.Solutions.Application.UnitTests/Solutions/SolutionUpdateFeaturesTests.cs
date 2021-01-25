@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -16,14 +18,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
     [TestFixture]
     internal sealed class SolutionUpdateFeaturesTests
     {
-        private TestContext _context;
-
         private const string SolutionId = "Sln1";
+
+        private TestContext context;
 
         [SetUp]
         public void SetUpFixture()
         {
-            _context = new TestContext();
+            context = new TestContext();
         }
 
         [Test]
@@ -31,39 +33,54 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         {
             var listing = new List<string> { "sheep", "cow", "donkey" };
 
-            var validationResult = await UpdateSolutionFeaturesAsync(listing)
-                .ConfigureAwait(false);
+            var validationResult = await UpdateSolutionFeaturesAsync(listing);
+
             validationResult.IsValid.Should().BeTrue();
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(0);
 
-            _context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            _context.MockSolutionDetailRepository.Verify(r => r.UpdateFeaturesAsync(It.Is<IUpdateSolutionFeaturesRequest>(r =>
+            Expression<Func<IUpdateSolutionFeaturesRequest, bool>> match = r =>
                 r.SolutionId == SolutionId
-                && r.Features == JsonConvert.SerializeObject(listing)
-                ), It.IsAny<CancellationToken>()), Times.Once());
+                && r.Features == JsonConvert.SerializeObject(listing);
+
+            context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateFeaturesAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task ShouldValidateSingleMaxLength()
         {
-            var validationResult = await UpdateSolutionFeaturesAsync(new List<string>() { new('a', 101), "test" })
-                .ConfigureAwait(false);
+            var validationResult = await UpdateSolutionFeaturesAsync(new List<string> { new('a', 101), "test" });
+
             validationResult.IsValid.Should().BeFalse();
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(1);
             results["listing-1"].Should().Be("maxLength");
 
-            _context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Never());
-            _context.MockSolutionDetailRepository.Verify(r => r.UpdateFeaturesAsync(It.IsAny<IUpdateSolutionFeaturesRequest>(), It.IsAny<CancellationToken>()), Times.Never);
+            context.MockSolutionRepository.Verify(
+                r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()),
+                Times.Never());
+
+            context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateFeaturesAsync(It.IsAny<IUpdateSolutionFeaturesRequest>(), It.IsAny<CancellationToken>()),
+                Times.Never());
         }
 
         [Test]
         public async Task ShouldValidateMultipleMaxLength()
         {
-            var validationResult = await UpdateSolutionFeaturesAsync(new List<string>() { new('a', 101), "test", new('b', 200), "test", "test", new('c', 105) })
-                .ConfigureAwait(false);
+            var validationResult = await UpdateSolutionFeaturesAsync(new List<string>
+            {
+                new('a', 101),
+                "test",
+                new('b', 200),
+                "test",
+                "test",
+                new('c', 105),
+            });
+
             validationResult.IsValid.Should().BeFalse();
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(3);
@@ -71,8 +88,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             results["listing-3"].Should().Be("maxLength");
             results["listing-6"].Should().Be("maxLength");
 
-            _context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Never());
-            _context.MockSolutionDetailRepository.Verify(r => r.UpdateFeaturesAsync(It.IsAny<IUpdateSolutionFeaturesRequest>(), It.IsAny<CancellationToken>()), Times.Never);
+            context.MockSolutionRepository.Verify(
+                r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()),
+                Times.Never());
+
+            context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateFeaturesAsync(It.IsAny<IUpdateSolutionFeaturesRequest>(), It.IsAny<CancellationToken>()),
+                Times.Never());
         }
 
         [Test]
@@ -82,16 +104,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             Task UpdateFeatures()
             {
-                return _context.UpdateSolutionFeaturesHandler.Handle(
+                return context.UpdateSolutionFeaturesHandler.Handle(
                     new UpdateSolutionFeaturesCommand(SolutionId, new UpdateSolutionFeaturesViewModel { Listing = listing }),
-                    new CancellationToken());
+                    CancellationToken.None);
             }
 
             Assert.ThrowsAsync<NotFoundException>(UpdateFeatures);
 
-            _context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            _context.MockSolutionDetailRepository.Verify(
+            context.MockSolutionDetailRepository.Verify(
                 r => r.UpdateFeaturesAsync(It.IsAny<IUpdateSolutionFeaturesRequest>(), It.IsAny<CancellationToken>()),
                 Times.Never());
         }
@@ -101,12 +123,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             var existingSolution = new Mock<ISolutionResult>();
             existingSolution.Setup(s => s.Id).Returns(SolutionId);
 
-            _context.MockSolutionRepository.Setup(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
+            context.MockSolutionRepository
+                .Setup(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(existingSolution.Object);
 
-            var validationResult = await _context.UpdateSolutionFeaturesHandler.Handle(
+            var validationResult = await context.UpdateSolutionFeaturesHandler.Handle(
                 new UpdateSolutionFeaturesCommand(SolutionId, new UpdateSolutionFeaturesViewModel { Listing = listing }),
-                new CancellationToken())
-                .ConfigureAwait(false);
+                CancellationToken.None);
 
             return validationResult;
         }

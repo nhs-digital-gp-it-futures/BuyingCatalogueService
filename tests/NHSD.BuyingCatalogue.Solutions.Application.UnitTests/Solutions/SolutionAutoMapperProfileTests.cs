@@ -32,9 +32,9 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 {
     [TestFixture]
-    public sealed class SolutionAutoMapperProfileTests
+    internal sealed class SolutionAutoMapperProfileTests
     {
-        private SolutionAutoMapperProfile _solutionAutoMapperProfile;
+        private SolutionAutoMapperProfile solutionAutoMapperProfile;
 
         public static IEnumerable<KeyValuePair<Type, Type>> SupportedMappings()
         {
@@ -102,15 +102,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [SetUp]
         public void SetUp()
         {
-            _solutionAutoMapperProfile = new SolutionAutoMapperProfile();
+            solutionAutoMapperProfile = new SolutionAutoMapperProfile();
         }
 
         [Test]
         public void ProfileMatchesMapping()
         {
-            var configs = ((IProfileConfiguration)_solutionAutoMapperProfile).TypeMapConfigs;
+            var typeMapConfigurations = ((IProfileConfiguration)solutionAutoMapperProfile).TypeMapConfigs;
 
-            var mappings = configs.Select(tmc => new KeyValuePair<Type, Type>(tmc.SourceType, tmc.DestinationType));
+            var mappings = typeMapConfigurations.Select(tmc => new KeyValuePair<Type, Type>(
+                tmc.SourceType,
+                tmc.DestinationType));
 
             SupportedMappings().Should().BeEquivalentTo(mappings);
         }

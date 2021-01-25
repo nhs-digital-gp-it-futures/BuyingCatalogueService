@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
@@ -13,27 +13,31 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
     [TestFixture]
     internal sealed class GetRoadMapBySolutionIdTests
     {
-        private TestContext _context;
-        private GetRoadMapBySolutionIdQuery _query;
-        private CancellationToken _cancellationToken;
-        private const string _solutionId = "Sln1";
-        private string _roadMapDescription = "Some roadmap description";
-        private Mock<IRoadMapResult> _mockResult;
-        private bool _solutionExists = true;
+        private const string SolutionId = "Sln1";
+        private TestContext context;
+        private GetRoadMapBySolutionIdQuery query;
+        private CancellationToken cancellationToken;
+        private string roadMapDescription = "Some road map description";
+        private Mock<IRoadMapResult> mockResult;
+        private bool solutionExists = true;
 
         [SetUp]
         public void SetUpFixture()
         {
-            _context = new TestContext();
-            _query = new GetRoadMapBySolutionIdQuery(_solutionId);
-            _cancellationToken = new CancellationToken();
+            context = new TestContext();
+            query = new GetRoadMapBySolutionIdQuery(SolutionId);
+            cancellationToken = CancellationToken.None;
 
-            _context.MockSolutionDetailRepository.Setup(r => r.GetRoadMapBySolutionIdAsync(_solutionId, _cancellationToken))
-                .ReturnsAsync(() => _mockResult.Object);
-            _context.MockSolutionRepository.Setup(r => r.CheckExists(_solutionId, _cancellationToken)).ReturnsAsync(() => _solutionExists);
+            context.MockSolutionDetailRepository
+                .Setup(r => r.GetRoadMapBySolutionIdAsync(SolutionId, cancellationToken))
+                .ReturnsAsync(() => mockResult.Object);
 
-            _mockResult = new Mock<IRoadMapResult>();
-            _mockResult.Setup(m => m.Summary).Returns(() => _roadMapDescription);
+            context.MockSolutionRepository
+                .Setup(r => r.CheckExists(SolutionId, cancellationToken))
+                .ReturnsAsync(() => solutionExists);
+
+            mockResult = new Mock<IRoadMapResult>();
+            mockResult.Setup(m => m.Summary).Returns(() => roadMapDescription);
         }
 
         [TestCase("Some description")]
@@ -42,18 +46,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [TestCase(null)]
         public async Task ShouldGetRoadMapDescription(string description)
         {
-            _roadMapDescription = description;
-            var result = await _context.GetRoadMapBySolutionIdHandler.Handle(_query, _cancellationToken).ConfigureAwait(false);
-            result.Summary.Should().Be(_roadMapDescription);
+            roadMapDescription = description;
+            var result = await context.GetRoadMapBySolutionIdHandler.Handle(query, cancellationToken);
+            result.Summary.Should().Be(roadMapDescription);
         }
 
         [Test]
-        public async Task EmptyRoadmapResultReturnsDefaultRoadMap()
+        public async Task EmptyRoadMapResultReturnsDefaultRoadMap()
         {
-            _roadMapDescription = null;
+            roadMapDescription = null;
 
-            var roadMap = await _context.GetRoadMapBySolutionIdHandler.Handle(
-                new GetRoadMapBySolutionIdQuery(_solutionId), _cancellationToken).ConfigureAwait(false);
+            var roadMap = await context.GetRoadMapBySolutionIdHandler.Handle(
+                new GetRoadMapBySolutionIdQuery(SolutionId),
+                cancellationToken);
+
             roadMap.Should().NotBeNull();
             roadMap.Should().BeEquivalentTo(new RoadMapDto());
         }
@@ -61,12 +67,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
         [Test]
         public void ShouldThrowWhenSolutionNotPresent()
         {
-            _solutionExists = false;
-            var exception = Assert.ThrowsAsync<NotFoundException>( () => _context.GetRoadMapBySolutionIdHandler.Handle(_query, _cancellationToken));
+            solutionExists = false;
 
-            _context.MockSolutionRepository.Verify(r => r.CheckExists(_solutionId, _cancellationToken), Times.Once);
-            _context.MockSolutionRepository.VerifyNoOtherCalls();
-            _context.MockSolutionDetailRepository.VerifyNoOtherCalls();
+            Assert.ThrowsAsync<NotFoundException>(() => context.GetRoadMapBySolutionIdHandler.Handle(
+               query,
+               cancellationToken));
+
+            context.MockSolutionRepository.Verify(r => r.CheckExists(SolutionId, cancellationToken));
+            context.MockSolutionRepository.VerifyNoOtherCalls();
+            context.MockSolutionDetailRepository.VerifyNoOtherCalls();
         }
     }
 }
