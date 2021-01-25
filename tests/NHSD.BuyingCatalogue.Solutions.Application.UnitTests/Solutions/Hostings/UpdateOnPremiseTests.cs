@@ -1,5 +1,5 @@
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -25,19 +25,19 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
         private const string HostingModelToken = "OnPremise.HostingModel";
         private const string RequiresHscnToken = "OnPremise.RequiresHSCN";
 
-        private Mock<IUpdateOnPremiseData> _dataMock;
-        private string _updatedSummary;
-        private string _updatedLink;
-        private string _updatedHostingModel;
-        private string _updatedRequiresHscn;
+        private Mock<IUpdateOnPremiseData> dataMock;
+        private string updatedSummary;
+        private string updatedLink;
+        private string updatedHostingModel;
+        private string updatedRequiresHscn;
 
-        private Hosting _initialHosting;
-        private string _initialHostingJson;
+        private Hosting initialHosting;
+        private string initialHostingJson;
 
         [SetUp]
         public void Setup()
         {
-            _initialHosting = new Hosting
+            initialHosting = new Hosting
             {
                 OnPremise = new OnPremise
                 {
@@ -48,87 +48,94 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                 },
             };
 
-            _initialHostingJson = JsonConvert.SerializeObject(_initialHosting);
+            initialHostingJson = JsonConvert.SerializeObject(initialHosting);
 
-            _updatedSummary = "A summary";
-            _updatedLink = "A link";
-            _updatedHostingModel = "A _initialHosting model";
-            _updatedRequiresHscn = "A requires string";
+            updatedSummary = "A summary";
+            updatedLink = "A link";
+            updatedHostingModel = "A _initialHosting model";
+            updatedRequiresHscn = "A requires string";
 
-        _dataMock = new Mock<IUpdateOnPremiseData>();
-            _dataMock.Setup(x => x.Summary).Returns(() => _updatedSummary);
-            _dataMock.Setup(x => x.Link).Returns(() => _updatedLink);
-            _dataMock.Setup(x => x.HostingModel).Returns(() => _updatedHostingModel);
-            _dataMock.Setup(x => x.RequiresHSCN).Returns(() => _updatedRequiresHscn);
+            dataMock = new Mock<IUpdateOnPremiseData>();
+            dataMock.Setup(d => d.Summary).Returns(() => updatedSummary);
+            dataMock.Setup(d => d.Link).Returns(() => updatedLink);
+            dataMock.Setup(d => d.HostingModel).Returns(() => updatedHostingModel);
+            dataMock.Setup(d => d.RequiresHSCN).Returns(() => updatedRequiresHscn);
         }
 
         [Test]
         public async Task ValidDataShouldUpdateOnPremise()
         {
-            SetUpMockSolutionRepositoryGetByIdAsync(_initialHostingJson);
-            var validationResult = await Update().ConfigureAwait(false);
+            SetUpMockSolutionRepositoryGetByIdAsync(initialHostingJson);
+            var validationResult = await Update();
 
-            Context.MockSolutionRepository.Verify(x => x.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once);
-            Context.MockSolutionDetailRepository.Verify(x => x.UpdateHostingAsync(It.Is<IUpdateSolutionHostingRequest>(
-                c =>
-                    c.SolutionId == SolutionId &&
-                        JToken.Parse(c.Hosting).SelectToken(SummaryToken).Value<string>() == _updatedSummary &&
-                        JToken.Parse(c.Hosting).SelectToken(LinkToken).Value<string>() == _updatedLink &&
-                        JToken.Parse(c.Hosting).SelectToken(HostingModelToken).Value<string>() == _updatedHostingModel &&
-                        JToken.Parse(c.Hosting).SelectToken(RequiresHscnToken).Value<string>() == _updatedRequiresHscn
-                ), It.IsAny<CancellationToken>()), Times.Once);
+            Expression<Func<IUpdateSolutionHostingRequest, bool>> match = r =>
+                r.SolutionId == SolutionId
+                && JToken.Parse(r.Hosting).SelectToken(SummaryToken).Value<string>() == updatedSummary
+                && JToken.Parse(r.Hosting).SelectToken(LinkToken).Value<string>() == updatedLink
+                && JToken.Parse(r.Hosting).SelectToken(HostingModelToken).Value<string>() == updatedHostingModel
+                && JToken.Parse(r.Hosting).SelectToken(RequiresHscnToken).Value<string>() == updatedRequiresHscn;
+
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
+            Context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateHostingAsync(It.Is(match), It.IsAny<CancellationToken>()));
+
             validationResult.IsValid.Should().BeTrue();
         }
 
         [Test]
         public async Task NullDataShouldUpdateOnPremise()
         {
-            SetUpMockSolutionRepositoryGetByIdAsync(_initialHostingJson);
+            SetUpMockSolutionRepositoryGetByIdAsync(initialHostingJson);
 
-            _updatedSummary = null;
-            _updatedLink = null;
-            _updatedHostingModel = null;
-            _updatedRequiresHscn = null;
+            updatedSummary = null;
+            updatedLink = null;
+            updatedHostingModel = null;
+            updatedRequiresHscn = null;
 
-            var validationResult = await Update().ConfigureAwait(false);
+            var validationResult = await Update();
 
-            Context.MockSolutionRepository.Verify(x => x.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once);
-            Context.MockSolutionDetailRepository.Verify(x => x.UpdateHostingAsync(It.Is<IUpdateSolutionHostingRequest>(
-                c =>
-                    c.SolutionId == SolutionId &&
-                    JToken.Parse(c.Hosting).SelectToken("Hosting") == null
-            ), It.IsAny<CancellationToken>()), Times.Once);
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
+
+            Expression<Func<IUpdateSolutionHostingRequest, bool>> match = r =>
+                r.SolutionId == SolutionId
+                && JToken.Parse(r.Hosting).SelectToken("Hosting") == null;
+
+            Context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateHostingAsync(It.Is(match), It.IsAny<CancellationToken>()));
+
             validationResult.IsValid.Should().BeTrue();
         }
 
         [Test]
         public async Task ShouldUpdateOnPremiseAndNothingElse()
         {
-            SetUpMockSolutionRepositoryGetByIdAsync(_initialHostingJson);
+            SetUpMockSolutionRepositoryGetByIdAsync(initialHostingJson);
 
             var calledBack = false;
 
-            Context.MockSolutionDetailRepository
-                .Setup(r => r.UpdateHostingAsync(It.IsAny<IUpdateSolutionHostingRequest>(),
-                    It.IsAny<CancellationToken>()))
-                .Callback((IUpdateSolutionHostingRequest updateHostingRequest,
-                    CancellationToken cancellationToken) =>
-                {
-                    calledBack = true;
-                    var json = JToken.Parse(updateHostingRequest.Hosting);
-                    var newHosting = JsonConvert.DeserializeObject<Hosting>(json.ToString());
-                    newHosting.Should().BeEquivalentTo(_initialHosting, c =>
-                        c.Excluding(m => m.OnPremise));
+            void Action(IUpdateSolutionHostingRequest updateHostingRequest, CancellationToken _)
+            {
+                calledBack = true;
+                var json = JToken.Parse(updateHostingRequest.Hosting);
+                var newHosting = JsonConvert.DeserializeObject<Hosting>(json.ToString());
+                newHosting.Should().BeEquivalentTo(initialHosting, o => o.Excluding(m => m.OnPremise));
 
-                    newHosting.OnPremise.Summary.Should().Be(_updatedSummary);
-                    newHosting.OnPremise.Link.Should().Be(_updatedLink);
-                    newHosting.OnPremise.HostingModel.Should().Be(_updatedHostingModel);
-                    newHosting.OnPremise.RequiresHSCN.Should().BeEquivalentTo(_updatedRequiresHscn);
-                });
-            var validationResult = await Update().ConfigureAwait(false);
+                newHosting.OnPremise.Summary.Should().Be(updatedSummary);
+                newHosting.OnPremise.Link.Should().Be(updatedLink);
+                newHosting.OnPremise.HostingModel.Should().Be(updatedHostingModel);
+                newHosting.OnPremise.RequiresHSCN.Should().BeEquivalentTo(updatedRequiresHscn);
+            }
+
+            Context.MockSolutionDetailRepository
+                .Setup(r => r.UpdateHostingAsync(
+                    It.IsAny<IUpdateSolutionHostingRequest>(),
+                    It.IsAny<CancellationToken>()))
+                .Callback<IUpdateSolutionHostingRequest, CancellationToken>(Action);
+
+            var validationResult = await Update();
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
             calledBack.Should().BeTrue();
         }
@@ -139,41 +146,46 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
         [TestCase(501, 1001, 1001, "summary", "link", "hosting-model")]
         public async Task MissingDataShouldReturnRequiredValidationResult(int summary, int link, int hosting, params string[] expected)
         {
-            _updatedSummary = new string('a', summary);
-            _updatedLink = new string('a', link);
-            _updatedHostingModel = new string('a', hosting);
+            updatedSummary = new string('a', summary);
+            updatedLink = new string('a', link);
+            updatedHostingModel = new string('a', hosting);
 
             SetUpMockSolutionRepositoryGetByIdAsync();
-            var validationResult = await Update().ConfigureAwait(false);
+            var validationResult = await Update();
 
-            Context.MockSolutionRepository.Verify(x => x.ByIdAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
-                Times.Never);
-            Context.MockSolutionDetailRepository.Verify(
-                x => x.UpdateHostingAsync(It.IsAny<IUpdateSolutionHostingRequest>(),
-                    It.IsAny<CancellationToken>()), Times.Never);
+            Context.MockSolutionRepository.Verify(
+                r => r.ByIdAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
+                Times.Never());
+
+            Context.MockSolutionDetailRepository.Verify(r
+                => r.UpdateHostingAsync(It.IsAny<IUpdateSolutionHostingRequest>(), It.IsAny<CancellationToken>()),
+                Times.Never());
 
             validationResult.IsValid.Should().BeFalse();
             validationResult.Should().BeOfType<MaxLengthResult>();
+
             var maxLengthResult = validationResult as MaxLengthResult;
+
+            Assert.NotNull(maxLengthResult);
             maxLengthResult.MaxLength.Should().BeEquivalentTo(expected);
         }
 
         [Test]
         public void InvalidSolutionIdShouldThrowNotFound()
         {
-            Assert.ThrowsAsync<NotFoundException>(async () => await Update().ConfigureAwait(false));
-            Context.MockSolutionRepository.Verify(x => x.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()),
-                Times.Once);
+            Assert.ThrowsAsync<NotFoundException>(async () => await Update());
+
+            Context.MockSolutionRepository.Verify(x => x.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
             Context.MockSolutionDetailRepository.Verify(
-                x => x.UpdateHostingAsync(It.IsAny<IUpdateSolutionHostingRequest>(),
-                    It.IsAny<CancellationToken>()), Times.Never);
+                r => r.UpdateHostingAsync(It.IsAny<IUpdateSolutionHostingRequest>(), It.IsAny<CancellationToken>()),
+                Times.Never());
         }
 
         private async Task<ISimpleResult> Update()
         {
             return await Context.UpdateOnPremiseHandler.Handle(
-                new UpdateOnPremiseCommand(SolutionId, _dataMock.Object),
-                new CancellationToken()).ConfigureAwait(false);
+                new UpdateOnPremiseCommand(SolutionId, dataMock.Object),
+                CancellationToken.None);
         }
     }
 }

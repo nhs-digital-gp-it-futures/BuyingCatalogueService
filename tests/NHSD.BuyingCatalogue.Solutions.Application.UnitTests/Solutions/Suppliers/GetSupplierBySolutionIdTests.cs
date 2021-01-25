@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
@@ -11,23 +13,24 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Suppliers
 {
     [TestFixture]
-    public sealed class GetSupplierBySolutionIdTests
+    internal sealed class GetSupplierBySolutionIdTests
     {
-        private TestContext _context;
-        private string _solutionId;
-        private CancellationToken _cancellationToken;
+        private TestContext context;
+        private string solutionId;
+        private CancellationToken cancellationToken;
         private ISolutionSupplierResult solutionSupplierResult;
 
         [SetUp]
         public void SetUpFixture()
         {
-            _context = new TestContext();
-            _solutionId = "Sln1";
-            _cancellationToken = new CancellationToken();
-            _context.MockSupplierRepository
-                .Setup(r => r.GetSupplierBySolutionIdAsync(_solutionId, _cancellationToken))
+            context = new TestContext();
+            solutionId = "Sln1";
+            cancellationToken = new CancellationToken();
+            context.MockSupplierRepository
+                .Setup(r => r.GetSupplierBySolutionIdAsync(solutionId, cancellationToken))
                 .ReturnsAsync(() => solutionSupplierResult);
         }
+
         [Test]
         public async Task ShouldGetAboutSupplierById()
         {
@@ -38,15 +41,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
                 Url = "Some Url",
             };
 
-            solutionSupplierResult = Mock.Of<ISolutionSupplierResult>(r =>
-                r.SolutionId == _solutionId &&
-                r.Name == originalSupplier.Name &&
-                r.Summary == originalSupplier.Summary &&
-                r.Url == originalSupplier.Url
-                );
+            Expression<Func<ISolutionSupplierResult, bool>> resultExpression = r =>
+                r.SolutionId == solutionId
+                && r.Name == originalSupplier.Name
+                && r.Summary == originalSupplier.Summary
+                && r.Url == originalSupplier.Url;
 
-            var newSupplier = await _context.GetSupplierBySolutionIdHandler.Handle(
-                new GetSupplierBySolutionIdQuery(_solutionId), _cancellationToken).ConfigureAwait(false);
+            solutionSupplierResult = Mock.Of(resultExpression);
+
+            var newSupplier = await context.GetSupplierBySolutionIdHandler.Handle(
+                new GetSupplierBySolutionIdQuery(solutionId),
+                cancellationToken);
 
             newSupplier.Should().BeEquivalentTo(originalSupplier);
         }
@@ -54,15 +59,18 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
         [Test]
         public async Task EmptySupplierResultReturnsDefaultSupplier()
         {
-            solutionSupplierResult = Mock.Of<ISolutionSupplierResult>(r =>
-                r.SolutionId == _solutionId &&
-                r.Name == null &&
-                r.Summary == null &&
-                r.Url == null
-                );
+            Expression<Func<ISolutionSupplierResult, bool>> resultExpression = r =>
+                r.SolutionId == solutionId
+                && r.Name == null
+                && r.Summary == null
+                && r.Url == null;
 
-            var supplier = await _context.GetSupplierBySolutionIdHandler.Handle(
-                new GetSupplierBySolutionIdQuery(_solutionId), _cancellationToken).ConfigureAwait(false);
+            solutionSupplierResult = Mock.Of(resultExpression);
+
+            var supplier = await context.GetSupplierBySolutionIdHandler.Handle(
+                new GetSupplierBySolutionIdQuery(solutionId),
+                cancellationToken);
+
             supplier.Should().NotBeNull();
             supplier.Should().BeEquivalentTo(new SolutionSupplierDto());
         }

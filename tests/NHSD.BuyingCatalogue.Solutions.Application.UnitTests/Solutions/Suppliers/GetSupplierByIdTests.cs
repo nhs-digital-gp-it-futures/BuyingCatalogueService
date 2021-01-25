@@ -11,7 +11,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
     [TestFixture]
     internal sealed class GetSupplierByIdTests
     {
-        private readonly TestContext _context = new();
+        private readonly TestContext context = new();
 
         [Test]
         public async Task Handle_ReturnsExpectedResults()
@@ -29,11 +29,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
             var cancellationToken = default(CancellationToken);
             var expectedSupplier = mockResult.Object;
 
-            _context.MockSupplierRepository
+            context.MockSupplierRepository
                 .Setup(r => r.GetSupplierById(supplier, cancellationToken))
                 .ReturnsAsync(expectedSupplier);
 
-            var actualResult = await _context.GetSupplierByIdHandler.Handle(
+            var actualResult = await context.GetSupplierByIdHandler.Handle(
                 new GetSupplierByIdQuery(supplier),
                 cancellationToken);
 

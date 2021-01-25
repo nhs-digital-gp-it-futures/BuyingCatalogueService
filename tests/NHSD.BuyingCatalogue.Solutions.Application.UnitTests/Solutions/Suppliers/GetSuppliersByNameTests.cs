@@ -12,7 +12,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
     [TestFixture]
     internal sealed class GetSuppliersByNameTests
     {
-        private readonly TestContext _context = new();
+        private readonly TestContext context = new();
 
         [Test]
         public async Task Handle_ReturnsExpectedResults()
@@ -37,11 +37,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
                 MockSupplierNameResult("2", "Supplier 2"),
             };
 
-            _context.MockSupplierRepository
+            context.MockSupplierRepository
                 .Setup(r => r.GetSuppliersByNameAsync(supplier, solutionStatus, itemType, cancellationToken))
                 .ReturnsAsync(expectedResult);
 
-            var actualResult = await _context.GetSuppliersByNameHandler.Handle(
+            var actualResult = await context.GetSuppliersByNameHandler.Handle(
                 new GetSuppliersByNameQuery(supplier, solutionStatus, itemType),
                 cancellationToken);
 

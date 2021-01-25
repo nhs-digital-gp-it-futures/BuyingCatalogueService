@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
@@ -23,7 +23,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
 
             existingSolution.Setup(s => s.Hosting).Returns(hostingJson);
 
-            Context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
+            Context.MockSolutionRepository
+                .Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()))
+                .ReturnsAsync(existingSolution.Object);
         }
     }
 }

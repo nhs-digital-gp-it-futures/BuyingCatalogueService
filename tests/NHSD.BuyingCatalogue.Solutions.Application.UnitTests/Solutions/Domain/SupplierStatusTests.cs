@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using FluentAssertions;
 using NHSD.BuyingCatalogue.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Domain
 {
     [TestFixture]
-    public sealed class SupplierStatusTests
+    internal sealed class SupplierStatusTests
     {
         [Test]
         public void GivenSameValuesShouldBeEqual()
@@ -54,7 +54,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Domain
 
             var exception = Assert.Throws<InvalidOperationException>(() =>
             {
-                var actual = Enumerator.FromValue<SupplierStatus>(expectedValue);
+                _ = Enumerator.FromValue<SupplierStatus>(expectedValue);
             });
 
             exception.Message.Should().Be($"'{expectedValue}' is not a valid value in {typeof(SupplierStatus)}");
@@ -73,7 +73,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Domain
 
             var exception = Assert.Throws<InvalidOperationException>(() =>
             {
-                var actual = Enumerator.FromName<SupplierStatus>(expectedName);
+                _ = Enumerator.FromName<SupplierStatus>(expectedName);
             });
 
             exception.Message.Should().Be($"'{expectedName}' is not a valid name in {typeof(SupplierStatus)}");

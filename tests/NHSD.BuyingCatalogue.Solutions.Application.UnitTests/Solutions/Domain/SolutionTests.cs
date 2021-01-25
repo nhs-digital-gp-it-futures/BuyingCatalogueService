@@ -1,4 +1,4 @@
-using FluentAssertions;
+﻿using FluentAssertions;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NUnit.Framework;
@@ -6,18 +6,15 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Domain
 {
     [TestFixture]
-	public class SolutionTests
-	{
+    internal sealed class SolutionTests
+    {
         [Test]
         public void GivenSolutionCheckSupplierStatusShouldBeEqualToDraft()
         {
-            //Arrange
             var expected = SupplierStatus.Draft;
 
-            //Act
             var solution = new Solution();
 
-            //Assert
             solution.SupplierStatus.Should().Be(expected);
         }
     }
