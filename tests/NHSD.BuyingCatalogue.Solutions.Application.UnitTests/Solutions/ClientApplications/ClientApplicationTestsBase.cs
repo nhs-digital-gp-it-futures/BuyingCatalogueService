@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NUnit.Framework;
@@ -7,7 +7,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 {
     internal abstract class ClientApplicationTestsBase
     {
-        protected TestContext Context;
+        protected TestContext Context { get; private set; }
 
         [SetUp]
         public void SetUpFixture()
@@ -23,7 +23,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             existingSolution.Setup(s => s.ClientApplication).Returns(clientApplicationJson);
 
-            Context.MockSolutionRepository.Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>())).ReturnsAsync(existingSolution.Object);
+            Context.MockSolutionRepository
+                .Setup(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()))
+                .ReturnsAsync(existingSolution.Object);
         }
     }
 }

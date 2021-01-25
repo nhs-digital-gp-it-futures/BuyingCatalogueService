@@ -1,3 +1,5 @@
+﻿using System;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -21,16 +23,21 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateMemoryAndStorage("1GB", "A description").ConfigureAwait(false);
+            var validationResult = await UpdateMemoryAndStorage("1GB", "A description");
 
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once);
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
+
+            Expression<Func<IUpdateSolutionClientApplicationRequest, bool>> match = r =>
                 r.SolutionId == SolutionId
                 && JToken.Parse(r.ClientApplication).SelectToken("MobileMemoryAndStorage.Description").Value<string>() == "A description"
-                && JToken.Parse(r.ClientApplication).SelectToken("MobileMemoryAndStorage.MinimumMemoryRequirement").Value<string>() == "1GB"
-            ), It.IsAny<CancellationToken>()), Times.Once);
+                && JToken.Parse(r.ClientApplication)
+                    .SelectToken("MobileMemoryAndStorage.MinimumMemoryRequirement")
+                    .Value<string>() == "1GB";
+
+            Context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateClientApplicationAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
         [TestCase(false)]
@@ -41,20 +48,22 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             var description = isDescriptionValid ? "Some Description" : new string('a', 301);
 
-            var validationResult = await UpdateMemoryAndStorage("1GB", description).ConfigureAwait(false);
+            var validationResult = await UpdateMemoryAndStorage("1GB", description);
 
             if (isDescriptionValid)
             {
-                validationResult.IsValid.Should().Be(true);
-                Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+                validationResult.IsValid.Should().BeTrue();
+                Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
             }
             else
             {
-                validationResult.IsValid.Should().Be(false);
+                validationResult.IsValid.Should().BeFalse();
                 var results = validationResult.ToDictionary();
                 results.Count.Should().Be(1);
                 results["storage-requirements-description"].Should().Be("maxLength");
-                Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never);
+                Context.MockSolutionRepository.Verify(
+                    r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()),
+                    Times.Never());
             }
         }
 
@@ -65,13 +74,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateMemoryAndStorage("1GB", description).ConfigureAwait(false);
+            var validationResult = await UpdateMemoryAndStorage("1GB", description);
 
-            validationResult.IsValid.Should().Be(false);
+            validationResult.IsValid.Should().BeFalse();
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(1);
             results["storage-requirements-description"].Should().Be("required");
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never);
+            Context.MockSolutionRepository.Verify(
+                r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()),
+                Times.Never());
         }
 
         [TestCase(null)]
@@ -81,14 +92,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateMemoryAndStorage(minimumMemoryRequirement, "description").ConfigureAwait(false);
+            var validationResult = await UpdateMemoryAndStorage(minimumMemoryRequirement, "description");
 
-            validationResult.IsValid.Should().Be(false);
+            validationResult.IsValid.Should().BeFalse();
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(1);
             results["minimum-memory-requirement"].Should().Be("required");
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never);
+            Context.MockSolutionRepository.Verify(
+                r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()),
+                Times.Never());
         }
 
         [Test]
@@ -96,15 +109,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateMemoryAndStorage(null, null).ConfigureAwait(false);
+            var validationResult = await UpdateMemoryAndStorage(null, null);
 
-            validationResult.IsValid.Should().Be(false);
+            validationResult.IsValid.Should().BeFalse();
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(2);
             results["minimum-memory-requirement"].Should().Be("required");
             results["storage-requirements-description"].Should().Be("required");
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never);
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
         }
 
         [Test]
@@ -112,18 +125,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             Assert.ThrowsAsync<NotFoundException>(() => UpdateMemoryAndStorage("1GB", "Desc"));
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()),
-                Times.Once);
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            Context.MockSolutionDetailRepository.Verify(
-                r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(),
-                    It.IsAny<CancellationToken>()), Times.Never());
+            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+                It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                It.IsAny<CancellationToken>());
+
+            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
         }
 
         private async Task<ISimpleResult> UpdateMemoryAndStorage(string minimumMemoryRequirement, string description)
         {
             return await Context.UpdateSolutionMobileMemoryStorageHandler.Handle(
-                new UpdateSolutionMobileMemoryStorageCommand(SolutionId, minimumMemoryRequirement, description), CancellationToken.None).ConfigureAwait(false);
+                new UpdateSolutionMobileMemoryStorageCommand(SolutionId, minimumMemoryRequirement, description),
+                CancellationToken.None);
         }
     }
 }

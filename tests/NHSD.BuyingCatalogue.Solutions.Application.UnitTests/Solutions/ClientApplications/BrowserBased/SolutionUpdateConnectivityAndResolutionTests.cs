@@ -1,3 +1,5 @@
+﻿using System;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -15,52 +17,62 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
     [TestFixture]
     internal class SolutionUpdateConnectivityAndResolutionTests : ClientApplicationTestsBase
     {
-        private string _solutionId = "Sln1";
+        private const string SolutionId = "Sln1";
 
         [Test]
         public async Task ValidValuesAreValidAndSentToDatabase()
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateConnectivityAndResult("New Speed", "New Resolution").ConfigureAwait(false);
+            var validationResult = await UpdateConnectivityAndResult("New Speed", "New Resolution");
             validationResult.IsValid.Should().Be(true);
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
 
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
-                r.SolutionId == _solutionId
+            Expression<Func<IUpdateSolutionClientApplicationRequest, bool>> match = r =>
+                r.SolutionId == SolutionId
                 && JToken.Parse(r.ClientApplication).Value<string>("MinimumConnectionSpeed") == "New Speed"
-                && JToken.Parse(r.ClientApplication).Value<string>("MinimumDesktopResolution") == "New Resolution"
-            ), It.IsAny<CancellationToken>()), Times.Once());
+                && JToken.Parse(r.ClientApplication).Value<string>("MinimumDesktopResolution") == "New Resolution";
+
+            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(
+                It.Is(match),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task ValidOnlyConnectionSpeedAreValidAndSentToDatabase()
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
-            var validationResult = await UpdateConnectivityAndResult("Speed").ConfigureAwait(false);
+            var validationResult = await UpdateConnectivityAndResult("Speed");
             validationResult.IsValid.Should().Be(true);
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
 
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
-                r.SolutionId == _solutionId
+            Expression<Func<IUpdateSolutionClientApplicationRequest, bool>> match = r =>
+                r.SolutionId == SolutionId
                 && JToken.Parse(r.ClientApplication).Value<string>("MinimumConnectionSpeed") == "Speed"
-                && JToken.Parse(r.ClientApplication).Value<string>("MinimumDesktopResolution") == null
-            ), It.IsAny<CancellationToken>()), Times.Once());
+                && JToken.Parse(r.ClientApplication).Value<string>("MinimumDesktopResolution") == null;
+
+            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(
+                It.Is(match),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task EmptyValuesIsInvalidAndNotSentToDatabase()
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
-            var validationResult = await UpdateConnectivityAndResult().ConfigureAwait(false);
+            var validationResult = await UpdateConnectivityAndResult();
             validationResult.IsValid.Should().Be(false);
             validationResult.ToDictionary()["minimum-connection-speed"].Should().Be("required");
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(_solutionId, It.IsAny<CancellationToken>()), Times.Never);
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Never);
 
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+                It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                It.IsAny<CancellationToken>());
+
+            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
         }
 
         [Test]
@@ -68,20 +80,25 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             Assert.ThrowsAsync<NotFoundException>(() => UpdateConnectivityAndResult("Speed", "Resolution"));
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(_solutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+                It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                It.IsAny<CancellationToken>());
+
+            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
         }
 
-        private async Task<ISimpleResult> UpdateConnectivityAndResult(string connectionSpeed = null,
+        private async Task<ISimpleResult> UpdateConnectivityAndResult(
+            string connectionSpeed = null,
             string resolution = null)
         {
-            var data = Mock.Of<IUpdateBrowserBasedConnectivityAndResolutionData>(c =>
-                c.MinimumConnectionSpeed == connectionSpeed && c.MinimumDesktopResolution == resolution);
+            var data = Mock.Of<IUpdateBrowserBasedConnectivityAndResolutionData>(
+                c => c.MinimumConnectionSpeed == connectionSpeed && c.MinimumDesktopResolution == resolution);
 
-            return await Context.UpdateSolutionConnectivityAndResolutionHandler
-                .Handle(new UpdateSolutionConnectivityAndResolutionCommand(_solutionId, data), new CancellationToken())
-                .ConfigureAwait(false);
+            return await Context.UpdateSolutionConnectivityAndResolutionHandler.Handle(
+                new UpdateSolutionConnectivityAndResolutionCommand(SolutionId, data),
+                CancellationToken.None);
         }
     }
 }

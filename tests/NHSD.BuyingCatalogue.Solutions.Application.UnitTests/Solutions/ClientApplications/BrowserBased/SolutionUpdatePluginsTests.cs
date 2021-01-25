@@ -1,3 +1,5 @@
+﻿using System;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -22,39 +24,48 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdatePlugins("yes", "This is some information").ConfigureAwait(false);
+            var validationResult = await UpdatePlugins("yes", "This is some information");
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once);
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
+            Expression<Func<IUpdateSolutionClientApplicationRequest, bool>> match = r =>
                 r.SolutionId == SolutionId
-                && JToken.Parse(r.ClientApplication).SelectToken("Plugins.Required").Value<bool>() == true
-                && JToken.Parse(r.ClientApplication).SelectToken("Plugins.AdditionalInformation").Value<string>() == "This is some information"
-                ), It.IsAny<CancellationToken>()), Times.Once);
+                && JToken.Parse(r.ClientApplication).SelectToken("Plugins.Required").Value<bool>()
+                && JToken.Parse(r.ClientApplication).SelectToken("Plugins.AdditionalInformation").Value<string>() == "This is some information";
+
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
+            Context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateClientApplicationAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task ShouldUpdatePluginsAndNothingElse()
         {
-            SetUpMockSolutionRepositoryGetByIdAsync("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], 'MobileResponsive': false, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' } }");
+            const string clientApplicationJson = "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], "
+                + "'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], "
+                + "'MobileResponsive': false, "
+                + "'Plugins' : {'Required' : true, 'AdditionalInformation': 'lorem ipsum' } }";
+
+            SetUpMockSolutionRepositoryGetByIdAsync(clientApplicationJson);
 
             var calledBack = false;
 
+            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            {
+                calledBack = true;
+                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+
+                json.SelectToken("Plugins.Required")?.Value<bool>().Should().BeTrue();
+                json.SelectToken("Plugins.AdditionalInformation")?.Value<string>().Should().Contain("lorem ipsum");
+            }
+
             Context.MockSolutionDetailRepository
                 .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()))
-                .Callback((IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken cancellationToken) =>
-                {
-                    calledBack = true;
-                    var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                .Callback<IUpdateSolutionClientApplicationRequest, CancellationToken>(Action);
 
-                    json.SelectToken("Plugins.Required").Value<bool>().Should().BeTrue();
-                    json.SelectToken("Plugins.AdditionalInformation").Value<string>().Should().Contain("orem ipsum");
-                });
-
-            var validationResult = await UpdatePlugins("yes", "orem ipsum").ConfigureAwait(false);
+            var validationResult = await UpdatePlugins("yes", "lorem ipsum");
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
 
             calledBack.Should().BeTrue();
         }
@@ -62,25 +73,32 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         [Test]
         public async Task ShouldUpdatePluginsNullAdditionalInformation()
         {
-            SetUpMockSolutionRepositoryGetByIdAsync("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], 'MobileResponsive': false, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' } }");
+            const string clientApplicationJson = "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], "
+                + "'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], "
+                + "'MobileResponsive': false, "
+                + "'Plugins' : {'Required' : true, 'AdditionalInformation': 'lorem ipsum' } }";
+
+            SetUpMockSolutionRepositoryGetByIdAsync(clientApplicationJson);
 
             var calledBack = false;
 
+            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            {
+                calledBack = true;
+                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+
+                json.SelectToken("Plugins.Required")?.Value<bool>().Should().BeTrue();
+                json.SelectToken("Plugins.AdditionalInformation").Should().BeNullOrEmpty();
+            }
+
             Context.MockSolutionDetailRepository
                 .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()))
-                .Callback((IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken cancellationToken) =>
-                {
-                    calledBack = true;
-                    var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                .Callback<IUpdateSolutionClientApplicationRequest, CancellationToken>(Action);
 
-                    json.SelectToken("Plugins.Required").Value<bool>().Should().BeTrue();
-                    json.SelectToken("Plugins.AdditionalInformation").Should().BeNullOrEmpty();
-                });
-
-            var validationResult = await UpdatePlugins("yes", null).ConfigureAwait(false);
+            var validationResult = await UpdatePlugins("yes");
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
 
             calledBack.Should().BeTrue();
         }
@@ -90,15 +108,22 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdatePlugins(null, new string('a', 501)).ConfigureAwait(false);
+            var validationResult = await UpdatePlugins(null, new string('a', 501));
+
             validationResult.IsValid.Should().Be(false);
+
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(2);
             results["plugins-required"].Should().Be("required");
             results["plugins-detail"].Should().Be("maxLength");
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Never);
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never);
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Never());
+
+            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+                It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                It.IsAny<CancellationToken>());
+
+            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
         }
 
         [Test]
@@ -106,9 +131,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             Assert.ThrowsAsync<NotFoundException>(() => UpdatePlugins("yes", "This is some information"));
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+                It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                It.IsAny<CancellationToken>());
+
+            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
         }
 
         private async Task<ISimpleResult> UpdatePlugins(string required = null, string additionalInformation = null)
@@ -116,9 +145,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
             var data = Mock.Of<IUpdateBrowserBasedPluginsData>(p =>
                 p.Required == required && p.AdditionalInformation == additionalInformation);
 
-            return await Context.UpdateSolutionPluginsHandler
-                .Handle(new UpdateSolutionPluginsCommand(SolutionId, data), CancellationToken.None)
-                .ConfigureAwait(false);
+            return await Context.UpdateSolutionPluginsHandler.Handle(
+                new UpdateSolutionPluginsCommand(SolutionId, data),
+                CancellationToken.None);
         }
     }
 }

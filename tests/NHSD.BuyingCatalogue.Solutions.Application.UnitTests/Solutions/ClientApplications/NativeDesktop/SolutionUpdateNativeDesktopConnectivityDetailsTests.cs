@@ -1,3 +1,5 @@
+﻿using System;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -21,15 +23,18 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateNativeDesktopConnectivityDetails("2 Mbps").ConfigureAwait(false);
+            var validationResult = await UpdateNativeDesktopConnectivityDetails("2 Mbps");
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
-                r.SolutionId == SolutionId
-                && JToken.Parse(r.ClientApplication).SelectToken("NativeDesktopMinimumConnectionSpeed").Value<string>() == "2 Mbps"
-            ), It.IsAny<CancellationToken>()), Times.Once());
+            Expression<Func<IUpdateSolutionClientApplicationRequest, bool>> match = r =>
+                r.SolutionId == SolutionId && JToken.Parse(r.ClientApplication)
+                    .SelectToken("NativeDesktopMinimumConnectionSpeed")
+                    .Value<string>() == "2 Mbps";
+
+            Context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateClientApplicationAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
         [Test]
@@ -37,7 +42,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{ }");
 
-            var validationResult = await UpdateNativeDesktopConnectivityDetails().ConfigureAwait(false);
+            var validationResult = await UpdateNativeDesktopConnectivityDetails();
             validationResult.IsValid.Should().BeFalse();
             validationResult.ToDictionary()["minimum-connection-speed"].Should().Be("required");
         }
@@ -52,24 +57,30 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             var calledBack = false;
 
-            Context.MockSolutionDetailRepository
-                .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(),
-                    It.IsAny<CancellationToken>()))
-                .Callback((IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest,
-                    CancellationToken cancellationToken) =>
-                {
-                    calledBack = true;
-                    var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
-                    var newClientApplication = JsonConvert.DeserializeObject<Application.Domain.ClientApplication>(json.ToString());
-                    clientApplication.Should().BeEquivalentTo(newClientApplication, c =>
-                        c.Excluding(m => m.NativeDesktopMinimumConnectionSpeed));
+            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            {
+                calledBack = true;
+                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                var newClientApplication = JsonConvert.DeserializeObject<Application.Domain.ClientApplication>(
+                    json.ToString());
 
-                    newClientApplication.NativeDesktopMinimumConnectionSpeed.Should().Be("6Mbps");
-                });
-            var validationResult = await UpdateNativeDesktopConnectivityDetails("6Mbps").ConfigureAwait(false);
+                clientApplication.Should().BeEquivalentTo(
+                    newClientApplication,
+                    c => c.Excluding(m => m.NativeDesktopMinimumConnectionSpeed));
+
+                newClientApplication.NativeDesktopMinimumConnectionSpeed.Should().Be("6Mbps");
+            }
+
+            Context.MockSolutionDetailRepository
+                .Setup(r => r.UpdateClientApplicationAsync(
+                    It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                    It.IsAny<CancellationToken>()))
+                .Callback<IUpdateSolutionClientApplicationRequest, CancellationToken>(Action);
+
+            var validationResult = await UpdateNativeDesktopConnectivityDetails("6Mbps");
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
             calledBack.Should().BeTrue();
         }
@@ -79,17 +90,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             Assert.ThrowsAsync<NotFoundException>(() => UpdateNativeDesktopConnectivityDetails("3Mbps"));
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+                It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                It.IsAny<CancellationToken>());
+
+            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
         }
 
         private async Task<ISimpleResult> UpdateNativeDesktopConnectivityDetails(string connectivityDetails = null)
         {
             return await Context.UpdateSolutionNativeDesktopConnectivityDetailsHandler.Handle(
-                new UpdateSolutionNativeDesktopConnectivityDetailsCommand(SolutionId, connectivityDetails), 
-                new CancellationToken()).ConfigureAwait(false);
+                new UpdateSolutionNativeDesktopConnectivityDetailsCommand(SolutionId, connectivityDetails),
+                CancellationToken.None);
         }
-
     }
 }

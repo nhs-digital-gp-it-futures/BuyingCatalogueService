@@ -1,3 +1,5 @@
+﻿using System;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -21,15 +23,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateBrowserHardwareRequirements("New hardware").ConfigureAwait(false);
+            var validationResult = await UpdateBrowserHardwareRequirements("New hardware");
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
+            Expression<Func<IUpdateSolutionClientApplicationRequest, bool>> match = r =>
                 r.SolutionId == SolutionId
-                && JToken.Parse(r.ClientApplication).SelectToken("HardwareRequirements").Value<string>() == "New hardware"
-            ), It.IsAny<CancellationToken>()), Times.Once());
+                && JToken.Parse(r.ClientApplication).SelectToken("HardwareRequirements").Value<string>() == "New hardware";
+
+            Context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateClientApplicationAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
         [Test]
@@ -39,20 +43,22 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             var calledBack = false;
 
+            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            {
+                calledBack = true;
+                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+
+                json.SelectToken("HardwareRequirements").Should().BeNullOrEmpty();
+            }
+
             Context.MockSolutionDetailRepository
                 .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()))
-                .Callback((IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken cancellationToken) =>
-                {
-                    calledBack = true;
-                    var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                .Callback<IUpdateSolutionClientApplicationRequest, CancellationToken>(Action);
 
-                    json.SelectToken("HardwareRequirements").Should().BeNullOrEmpty();
-                });
-
-            var validationResult = await UpdateBrowserHardwareRequirements(null).ConfigureAwait(false);
+            var validationResult = await UpdateBrowserHardwareRequirements(null);
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
             calledBack.Should().BeTrue();
         }
@@ -60,27 +66,33 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         [Test]
         public async Task ShouldUpdateSolutionBrowserHardwareRequirementAndNothingElse()
         {
-            SetUpMockSolutionRepositoryGetByIdAsync("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], 'MobileResponsive': false, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' } }");
+            const string clientApplicationJson = "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], "
+                + "'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], "
+                + "'MobileResponsive': false, "
+                + "'Plugins' : {'Required' : true, 'AdditionalInformation': 'lorem ipsum' } }";
+
+            SetUpMockSolutionRepositoryGetByIdAsync(clientApplicationJson);
 
             var calledBack = false;
 
+            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            {
+                calledBack = true;
+                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+
+                json.SelectToken("HardwareRequirements")?.Value<string>().Should().Be("Updated hardware");
+            }
+
             Context.MockSolutionDetailRepository
-                .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                .Setup(r => r.UpdateClientApplicationAsync(
+                    It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                     It.IsAny<CancellationToken>()))
-                .Callback((IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest,
-                    CancellationToken cancellationToken) =>
-                {
-                    calledBack = true;
-                    var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                .Callback<IUpdateSolutionClientApplicationRequest, CancellationToken>(Action);
 
-                    json.SelectToken("HardwareRequirements").Value<string>().Should()
-                        .Be("Updated hardware");
-                });
-
-            var validationResult = await UpdateBrowserHardwareRequirements("Updated hardware").ConfigureAwait(false);
+            var validationResult = await UpdateBrowserHardwareRequirements("Updated hardware");
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
             calledBack.Should().BeTrue();
         }
@@ -90,7 +102,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateBrowserHardwareRequirements(new string('a', 501)).ConfigureAwait(false);
+            var validationResult = await UpdateBrowserHardwareRequirements(new string('a', 501));
             validationResult.IsValid.Should().BeFalse();
             validationResult.ToDictionary()["hardware-requirements-description"].Should().Be("maxLength");
         }
@@ -100,17 +112,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             Assert.ThrowsAsync<NotFoundException>(() => UpdateBrowserHardwareRequirements("New hardware"));
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+                It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                It.IsAny<CancellationToken>());
+
+            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
         }
 
-        private async Task<ISimpleResult> UpdateBrowserHardwareRequirements(
-            string hardwareRequirements)
+        private async Task<ISimpleResult> UpdateBrowserHardwareRequirements(string hardwareRequirements)
         {
             return await Context.UpdateSolutionBrowserHardwareRequirementsHandler.Handle(
                 new UpdateSolutionBrowserHardwareRequirementsCommand(SolutionId, hardwareRequirements),
-                new CancellationToken()).ConfigureAwait(false);
+                CancellationToken.None);
         }
     }
 }

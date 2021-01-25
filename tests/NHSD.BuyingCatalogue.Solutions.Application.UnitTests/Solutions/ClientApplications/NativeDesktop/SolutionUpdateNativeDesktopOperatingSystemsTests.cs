@@ -1,3 +1,5 @@
+﻿using System;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -20,55 +22,79 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         public async Task ShouldUpdateSolutionNativeDesktopOperatingSystems()
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
-            var validationResult = await UpdateNativeDesktopOperatingSystems("New Description").ConfigureAwait(false);
+            var validationResult = await UpdateNativeDesktopOperatingSystems("New Description");
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
+            Expression<Func<IUpdateSolutionClientApplicationRequest, bool>> match = r =>
                 r.SolutionId == SolutionId
-                && JToken.Parse(r.ClientApplication).SelectToken("NativeDesktopOperatingSystemsDescription").Value<string>() == "New Description"
-            ), It.IsAny<CancellationToken>()), Times.Once());
+                && JToken.Parse(r.ClientApplication)
+                    .SelectToken("NativeDesktopOperatingSystemsDescription")
+                    .Value<string>() == "New Description";
+
+            Context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateClientApplicationAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task ShouldNotUpdateSolutionNativeDesktopOperatingSystemsToNull()
         {
-            SetUpMockSolutionRepositoryGetByIdAsync("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile', 'native-desktop' ], 'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], 'MobileResponsive': false, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'lorem ipsum' }, 'NativeDesktopOperatingSystemsDescription': 'old description' }");
+            const string clientApplicationJson =
+                "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile', 'native-desktop' ], "
+                + "'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], "
+                + "'MobileResponsive': false, "
+                + "'Plugins' : {'Required' : true, 'AdditionalInformation': 'lorem ipsum' }, "
+                + "'NativeDesktopOperatingSystemsDescription': 'old description' }";
 
-            var validationResult = await UpdateNativeDesktopOperatingSystems(null).ConfigureAwait(false);
+            SetUpMockSolutionRepositoryGetByIdAsync(clientApplicationJson);
+
+            var validationResult = await UpdateNativeDesktopOperatingSystems(null);
             validationResult.IsValid.Should().BeFalse();
 
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
+            Expression<Func<IUpdateSolutionClientApplicationRequest, bool>> match = r =>
                 r.SolutionId == SolutionId
-                && JToken.Parse(r.ClientApplication).SelectToken("NativeMobileHardwareRequirements").Value<string>() == "old description"
-            ), It.IsAny<CancellationToken>()), Times.Never());
+                && JToken.Parse(r.ClientApplication).SelectToken("NativeMobileHardwareRequirements").Value<string>() == "old description";
+
+            Context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateClientApplicationAsync(It.Is(match), It.IsAny<CancellationToken>()),
+                Times.Never());
         }
 
         [Test]
         public async Task ShouldUpdateSolutionNativeDesktopOperatingSystemsAndNothingElse()
         {
-            SetUpMockSolutionRepositoryGetByIdAsync("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile', 'native-desktop' ], 'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], 'MobileResponsive': false, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'lorem ipsum' }, 'NativeDesktopOperatingSystemsDescription': 'old description' }");
+            const string clientApplicationJson =
+                "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile', 'native-desktop' ], "
+                + "'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], "
+                + "'MobileResponsive': false, "
+                + "'Plugins' : {'Required' : true, 'AdditionalInformation': 'lorem ipsum' }, "
+                + "'NativeDesktopOperatingSystemsDescription': 'old description' }";
+
+            SetUpMockSolutionRepositoryGetByIdAsync(clientApplicationJson);
 
             var calledBack = false;
+
+            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            {
+                calledBack = true;
+                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+
+                json.SelectToken("NativeDesktopOperatingSystemsDescription")?
+                    .Value<string>()
+                    .Should()
+                    .Be("New Description");
+            }
 
             Context.MockSolutionDetailRepository
                 .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                     It.IsAny<CancellationToken>()))
-                .Callback((IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest,
-                    CancellationToken cancellationToken) =>
-                {
-                    calledBack = true;
-                    var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                .Callback<IUpdateSolutionClientApplicationRequest, CancellationToken>(Action);
 
-                    json.SelectToken("NativeDesktopOperatingSystemsDescription").Value<string>().Should()
-                        .Be("New Description");
-                });
-
-            var validationResult = await UpdateNativeDesktopOperatingSystems("New Description").ConfigureAwait(false);
+            var validationResult = await UpdateNativeDesktopOperatingSystems("New Description");
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
             calledBack.Should().BeTrue();
         }
@@ -80,16 +106,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateNativeDesktopOperatingSystems(description).ConfigureAwait(false);
+            var validationResult = await UpdateNativeDesktopOperatingSystems(description);
             validationResult.IsValid.Should().BeFalse();
             validationResult.ToDictionary()["operating-systems-description"].Should().Be("required");
         }
+
         [Test]
         public async Task ShouldNotUpdateInvalidMaxLengthNativeDesktopOperatingSystems()
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateNativeDesktopOperatingSystems(new string(c: 'd', count: 1001)).ConfigureAwait(false);
+            var validationResult = await UpdateNativeDesktopOperatingSystems(new string('d', 1001));
             validationResult.IsValid.Should().BeFalse();
             validationResult.ToDictionary()["operating-systems-description"].Should().Be("maxLength");
         }
@@ -99,18 +126,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             Assert.ThrowsAsync<NotFoundException>(() => UpdateNativeDesktopOperatingSystems("New description"));
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+                It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                It.IsAny<CancellationToken>());
+
+            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
         }
 
-        private async Task<ISimpleResult> UpdateNativeDesktopOperatingSystems(
-            string description)
+        private async Task<ISimpleResult> UpdateNativeDesktopOperatingSystems(string description)
         {
             return await Context.UpdateSolutionNativeDesktopOperatingSystemsHandler.Handle(
                  new UpdateSolutionNativeDesktopOperatingSystemsCommand(SolutionId, description),
-                 new CancellationToken()).ConfigureAwait(false);
+                 CancellationToken.None);
         }
-
     }
 }

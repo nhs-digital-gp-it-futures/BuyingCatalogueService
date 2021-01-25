@@ -1,4 +1,6 @@
+﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -23,15 +25,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateBrowserAdditionalInformation("Some info").ConfigureAwait(false);
+            var validationResult = await UpdateBrowserAdditionalInformation("Some info");
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
+            Expression<Func<IUpdateSolutionClientApplicationRequest, bool>> match = r =>
                 r.SolutionId == SolutionId
-                && JToken.Parse(r.ClientApplication).SelectToken("AdditionalInformation").Value<string>() == "Some info"
-            ), It.IsAny<CancellationToken>()), Times.Once());
+                && JToken.Parse(r.ClientApplication).SelectToken("AdditionalInformation").Value<string>() == "Some info";
+
+            Context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateClientApplicationAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
         [Test]
@@ -41,20 +45,22 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             var calledBack = false;
 
+            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            {
+                calledBack = true;
+                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+
+                json.SelectToken("AdditionalInformation").Should().BeNullOrEmpty();
+            }
+
             Context.MockSolutionDetailRepository
                 .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()))
-                .Callback((IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken cancellationToken) =>
-                {
-                    calledBack = true;
-                    var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                .Callback<IUpdateSolutionClientApplicationRequest, CancellationToken>(Action);
 
-                    json.SelectToken("AdditionalInformation").Should().BeNullOrEmpty();
-                });
-
-            var validationResult = await UpdateBrowserAdditionalInformation(null).ConfigureAwait(false);
+            var validationResult = await UpdateBrowserAdditionalInformation();
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
             calledBack.Should().BeTrue();
         }
@@ -62,36 +68,42 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         [Test]
         public async Task ShouldUpdateSolutionBrowserAdditionalInformationAndNothingElse()
         {
-            SetUpMockSolutionRepositoryGetByIdAsync("{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], 'MobileResponsive': false, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' } }");
+            const string clientAppJson = "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], "
+                + "'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], "
+                + "'MobileResponsive': false, "
+                + "'Plugins' : {'Required' : true, 'AdditionalInformation': 'lorem ipsum' } }";
+
+            SetUpMockSolutionRepositoryGetByIdAsync(clientAppJson);
 
             var calledBack = false;
 
+            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            {
+                calledBack = true;
+                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+
+                json.SelectToken("AdditionalInformation")?.Value<string>().Should().Be("Updated Additional Info");
+                json.ReadStringArray("ClientApplicationTypes")
+                    .ShouldContainOnly(new List<string> { "browser-based", "native-mobile" });
+
+                json.ReadStringArray("BrowsersSupported")
+                    .ShouldContainOnly(new List<string> { "Mozilla Firefox", "Edge" });
+
+                json.SelectToken("MobileResponsive")?.Value<bool>().Should().BeFalse();
+                json.SelectToken("Plugins.Required")?.Value<bool>().Should().BeTrue();
+                json.SelectToken("Plugins.AdditionalInformation")?.Value<string>().Should().Be("lorem ipsum");
+            }
+
             Context.MockSolutionDetailRepository
-                .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                .Setup(r => r.UpdateClientApplicationAsync(
+                    It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                     It.IsAny<CancellationToken>()))
-                .Callback((IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest,
-                    CancellationToken cancellationToken) =>
-                {
-                    calledBack = true;
-                    var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                .Callback<IUpdateSolutionClientApplicationRequest, CancellationToken>(Action);
 
-                    json.SelectToken("AdditionalInformation").Value<string>().Should()
-                        .Be("Updated Additional Info");
-
-                    json.ReadStringArray("ClientApplicationTypes")
-                        .ShouldContainOnly(new List<string> { "browser-based", "native-mobile" });
-                    json.ReadStringArray("BrowsersSupported")
-                        .ShouldContainOnly(new List<string> { "Mozilla Firefox", "Edge" });
-                    json.SelectToken("MobileResponsive").Value<bool>()
-                        .Should().BeFalse();
-                    json.SelectToken("Plugins.Required").Value<bool>().Should().BeTrue();
-                    json.SelectToken("Plugins.AdditionalInformation").Value<string>().Should().Be("orem ipsum");
-                });
-
-            var validationResult = await UpdateBrowserAdditionalInformation("Updated Additional Info").ConfigureAwait(false);
+            var validationResult = await UpdateBrowserAdditionalInformation("Updated Additional Info");
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
             calledBack.Should().BeTrue();
         }
@@ -101,8 +113,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateBrowserAdditionalInformation(new string('a', 501)).ConfigureAwait(false);
+            var validationResult = await UpdateBrowserAdditionalInformation(new string('a', 501));
             validationResult.IsValid.Should().BeFalse();
+
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(1);
             results["additional-information"].Should().Be("maxLength");
@@ -113,17 +126,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             Assert.ThrowsAsync<NotFoundException>(() => UpdateBrowserAdditionalInformation("New Additional Info"));
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+                It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                It.IsAny<CancellationToken>());
+
+            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
         }
 
-        private async Task<ISimpleResult> UpdateBrowserAdditionalInformation(
-            string additionalInformation = null)
+        private async Task<ISimpleResult> UpdateBrowserAdditionalInformation(string additionalInformation = null)
         {
             return await Context.UpdateSolutionBrowserAdditionalInformationHandler.Handle(
                 new UpdateBrowserBasedAdditionalInformationCommand(SolutionId, additionalInformation),
-                new CancellationToken()).ConfigureAwait(false);
+                CancellationToken.None);
         }
     }
 }

@@ -1,5 +1,7 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -26,18 +28,25 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
             var validationResult = await UpdateConnectionDetails(
-                new HashSet<string>() { "Pigeon" }, "A description", "1GBps"
-                ).ConfigureAwait(false);
+                new HashSet<string> { "Pigeon" }, "A description", "1GBps");
 
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once);
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
+
+            Expression<Func<IUpdateSolutionClientApplicationRequest, bool>> match = r =>
                 r.SolutionId == SolutionId
-                && JToken.Parse(r.ClientApplication).ReadStringArray("MobileConnectionDetails.ConnectionType").ShouldContainOnly(new List<string> { "Pigeon" }).Count() == 1
+                && JToken.Parse(r.ClientApplication)
+                    .ReadStringArray("MobileConnectionDetails.ConnectionType")
+                    .ShouldContainOnly(new List<string> { "Pigeon" })
+                    .Count() == 1
                 && JToken.Parse(r.ClientApplication).SelectToken("MobileConnectionDetails.Description").Value<string>() == "A description"
-                && JToken.Parse(r.ClientApplication).SelectToken("MobileConnectionDetails.MinimumConnectionSpeed").Value<string>() == "1GBps"
-            ), It.IsAny<CancellationToken>()), Times.Once);
+                && JToken.Parse(r.ClientApplication)
+                    .SelectToken("MobileConnectionDetails.MinimumConnectionSpeed")
+                    .Value<string>() == "1GBps";
+
+            Context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateClientApplicationAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
         [TestCase(false, false)]
@@ -48,7 +57,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             var description = isDescriptionValid ? "Some Description" : new string('a', 1001);
 
-            var validationResult = await UpdateConnectionDetails(new HashSet<string>() { "Pigeon" }, description, "1GBps").ConfigureAwait(false);
+            var validationResult = await UpdateConnectionDetails(new HashSet<string> { "Pigeon" }, description, "1GBps");
             validationResult.IsValid.Should().Be(isValid);
 
             if (!isDescriptionValid)
@@ -58,39 +67,46 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             if (isValid)
             {
-                Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
-
+                Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
             }
             else
             {
-                Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()),
-                    Times.Never);
+                Context.MockSolutionRepository.Verify(
+                    r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()),
+                    Times.Never());
             }
         }
 
         [Test]
         public void ShouldThrowWhenNotPresent()
         {
-            Assert.ThrowsAsync<NotFoundException>(() =>
-                UpdateConnectionDetails(new HashSet<string>() { "Windows" }, "Desc", "1GBps"));
+            Assert.ThrowsAsync<NotFoundException>(
+                () => UpdateConnectionDetails(new HashSet<string> { "Windows" }, "Desc", "1GBps"));
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()),
-                Times.Once);
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            Context.MockSolutionDetailRepository.Verify(
-                r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(),
-                    It.IsAny<CancellationToken>()), Times.Never());
+            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+                It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                It.IsAny<CancellationToken>());
 
+            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
         }
 
-        private async Task<ISimpleResult> UpdateConnectionDetails(HashSet<string> connectionType, string description, string connectionSpeed)
+        private async Task<ISimpleResult> UpdateConnectionDetails(
+            HashSet<string> connectionType,
+            string description,
+            string connectionSpeed)
         {
-            var data = Mock.Of<IUpdateNativeMobileConnectionDetailsData>(c =>
-                c.ConnectionType == connectionType && c.ConnectionRequirementsDescription == description &&
-                c.MinimumConnectionSpeed == connectionSpeed);
+            Expression<Func<IUpdateNativeMobileConnectionDetailsData, bool>> updateNativeMobileConnectionDetailsData = c =>
+                c.ConnectionType == connectionType
+                && c.ConnectionRequirementsDescription == description
+                && c.MinimumConnectionSpeed == connectionSpeed;
+
+            var data = Mock.Of(updateNativeMobileConnectionDetailsData);
 
             return await Context.UpdateSolutionMobileConnectionDetailsHandler.Handle(
-                new UpdateSolutionMobileConnectionDetailsCommand(SolutionId, data), CancellationToken.None).ConfigureAwait(false);
+                new UpdateSolutionMobileConnectionDetailsCommand(SolutionId, data),
+                CancellationToken.None);
         }
     }
 }
