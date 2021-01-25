@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using FluentAssertions.Equivalency;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
@@ -17,15 +18,15 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 {
     [TestFixture]
-    public sealed class MarketingContactsRepositoryTests
+    internal sealed class MarketingContactsRepositoryTests
     {
-        private readonly string _supplierId = "Sup 1";
-        private readonly string _solutionId1 = "Sln1";
-        private readonly string _solutionId2 = "Sln2";
+        private const string SupplierId = "Sup 1";
+        private const string SolutionId1 = "Sln1";
+        private const string SolutionId2 = "Sln2";
 
-        private IMarketingContactRepository _marketingContactRepository;
+        private IMarketingContactRepository marketingContactRepository;
 
-        private TestContext _testContext;
+        private TestContext testContext;
 
         [SetUp]
         public async Task Setup()
@@ -33,41 +34,41 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             await Database.ClearAsync();
 
             await SupplierEntityBuilder.Create()
-                .WithId(_supplierId)
+                .WithId(SupplierId)
                 .Build()
                 .InsertAsync();
 
             await CatalogueItemEntityBuilder
                 .Create()
-                .WithCatalogueItemId(_solutionId1)
-                .WithName(_solutionId1)
+                .WithCatalogueItemId(SolutionId1)
+                .WithName(SolutionId1)
                 .WithPublishedStatusId((int)PublishedStatus.Published)
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(SupplierId)
                 .Build()
                 .InsertAsync();
 
             await SolutionEntityBuilder.Create()
-                .WithId(_solutionId1)
+                .WithId(SolutionId1)
                 .Build()
                 .InsertAsync();
 
-            _testContext = new TestContext();
+            testContext = new TestContext();
 
-            _marketingContactRepository = _testContext.MarketingContactRepository;
+            marketingContactRepository = testContext.MarketingContactRepository;
         }
 
         [Test]
         public void NullConnectorThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => new MarketingContactRepository(null));
+            Assert.Throws<ArgumentNullException>(() => _ = new MarketingContactRepository(null));
         }
 
         [Test]
         public async Task SingleContactShouldReturnAllDetails()
         {
-            var expected = await InsertContact(_solutionId1);
+            var expected = await InsertContact(SolutionId1);
 
-            var result = (await _marketingContactRepository.BySolutionIdAsync(_solutionId1, new CancellationToken())).ToList();
+            var result = (await marketingContactRepository.BySolutionIdAsync(SolutionId1, CancellationToken.None)).ToList();
             result.Count.Should().Be(1);
             AssertEquivalent(expected, result.First());
         }
@@ -75,10 +76,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         [Test]
         public async Task MultipleContactsShouldReturnAll()
         {
-            var expected1 = await InsertContact(_solutionId1);
-            var expected2 = await InsertContact(_solutionId1);
+            var expected1 = await InsertContact(SolutionId1);
+            var expected2 = await InsertContact(SolutionId1);
 
-            var result = (await _marketingContactRepository.BySolutionIdAsync(_solutionId1, new CancellationToken())).ToList();
+            var result = (await marketingContactRepository.BySolutionIdAsync(SolutionId1, CancellationToken.None)).ToList();
             result.Count.Should().Be(2);
 
             AssertEquivalent(expected1, result.First());
@@ -90,25 +91,25 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             await CatalogueItemEntityBuilder
                 .Create()
-                .WithCatalogueItemId(_solutionId2)
-                .WithName(_solutionId2)
+                .WithCatalogueItemId(SolutionId2)
+                .WithName(SolutionId2)
                 .WithPublishedStatusId((int)PublishedStatus.Published)
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(SupplierId)
                 .Build()
                 .InsertAsync();
 
             await SolutionEntityBuilder.Create()
-                .WithId(_solutionId2)
+                .WithId(SolutionId2)
                 .Build()
                 .InsertAsync();
 
-            var expected1 = await InsertContact(_solutionId1);
-            var expected2 = await InsertContact(_solutionId2);
+            var expected1 = await InsertContact(SolutionId1);
+            var expected2 = await InsertContact(SolutionId2);
 
-            var result = (await _marketingContactRepository.BySolutionIdAsync(_solutionId1, new CancellationToken())).ToList();
+            var result = (await marketingContactRepository.BySolutionIdAsync(SolutionId1, CancellationToken.None)).ToList();
             result.Count.Should().Be(1);
             AssertEquivalent(expected1, result.First());
-            result = (await _marketingContactRepository.BySolutionIdAsync(_solutionId2, new CancellationToken())).ToList();
+            result = (await marketingContactRepository.BySolutionIdAsync(SolutionId2, CancellationToken.None)).ToList();
             result.Count.Should().Be(1);
             AssertEquivalent(expected2, result.First());
         }
@@ -116,14 +117,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         [Test]
         public async Task NoContactsShouldReturnNothing()
         {
-            var result = (await _marketingContactRepository.BySolutionIdAsync(_solutionId1, new CancellationToken())).ToList();
+            var result = (await marketingContactRepository.BySolutionIdAsync(SolutionId1, CancellationToken.None)).ToList();
             result.Count.Should().Be(0);
         }
 
         [Test]
         public async Task RequestNonExistentSolutionIdShouldReturnNothing()
         {
-            var result = (await _marketingContactRepository.BySolutionIdAsync("IAmNotAnId", new CancellationToken())).ToList();
+            var result = (await marketingContactRepository.BySolutionIdAsync("IAmNotAnId", CancellationToken.None)).ToList();
             result.Count.Should().Be(0);
         }
 
@@ -131,20 +132,21 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         public async Task ShouldReturnCorrectId()
         {
             await MarketingContactEntityBuilder.Create()
-                .WithSolutionId(_solutionId1)
+                .WithSolutionId(SolutionId1)
                 .WithFirstName("FirstName1")
                 .Build()
                 .InsertAsync();
 
             await MarketingContactEntityBuilder.Create()
-                .WithSolutionId(_solutionId1)
+                .WithSolutionId(SolutionId1)
                 .WithFirstName("FirstName2")
                 .Build()
                 .InsertAsync();
 
-            var result = (await _marketingContactRepository.BySolutionIdAsync(_solutionId1, new CancellationToken())).ToList();
+            var result = (await marketingContactRepository.BySolutionIdAsync(SolutionId1, CancellationToken.None)).ToList();
 
-            var id = (await _testContext.DbConnector.QueryAsync<int>("SELECT Id FROM dbo.MarketingContact WHERE FirstName = 'FirstName2';", new CancellationToken())).Single();
+            var id = (await testContext.DbConnector.QueryAsync<int>(
+                "SELECT Id FROM dbo.MarketingContact WHERE FirstName = 'FirstName2';", CancellationToken.None)).Single();
 
             result.Single(m => m.FirstName == "FirstName2").Id.Should().Be(id);
         }
@@ -152,40 +154,72 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         [Test]
         public async Task InsertingContactsReplacesCurrent()
         {
-            await InsertContact(_solutionId1);
-            await InsertContact(_solutionId1);
+            await InsertContact(SolutionId1);
+            await InsertContact(SolutionId1);
 
             var expectedContacts = new List<IContact> { Mock.Of<IContact>(c => c.FirstName == "BillyBob") };
-            await _marketingContactRepository.ReplaceContactsForSolution(_solutionId1, expectedContacts, new CancellationToken());
+            await marketingContactRepository.ReplaceContactsForSolution(
+                SolutionId1,
+                expectedContacts,
+                CancellationToken.None);
 
-            var newContacts = (await _marketingContactRepository.BySolutionIdAsync(_solutionId1, new CancellationToken())).ToList();
+            var newContacts = (await marketingContactRepository.BySolutionIdAsync(
+                SolutionId1,
+                CancellationToken.None)).ToList();
+
             newContacts.Should().BeEquivalentTo(expectedContacts, config => config.Excluding(e => e.Name));
 
-            newContacts.ForEach(async x => (await x.LastUpdated.SecondsFromNow()).Should().BeLessOrEqualTo(5));
+            newContacts.ForEach(async r => (await r.LastUpdated.SecondsFromNow()).Should().BeLessOrEqualTo(5));
         }
 
         [Test]
         public async Task InsertingZeroContactsRemovesCurrent()
         {
-            await InsertContact(_solutionId1);
-            await InsertContact(_solutionId1);
-            var expectedContacts = new List<IContact>();
+            await InsertContact(SolutionId1);
+            await InsertContact(SolutionId1);
 
-            await _marketingContactRepository.ReplaceContactsForSolution(_solutionId1, expectedContacts, new CancellationToken());
-            var newContacts = (await _marketingContactRepository.BySolutionIdAsync(_solutionId1, new CancellationToken())).ToList();
+            await marketingContactRepository.ReplaceContactsForSolution(
+                SolutionId1,
+                Array.Empty<IContact>(),
+                CancellationToken.None);
+
+            var newContacts = (await marketingContactRepository.BySolutionIdAsync(
+                SolutionId1,
+                CancellationToken.None)).ToList();
+
             newContacts.Count.Should().Be(0);
         }
 
         [Test]
         public async Task InsertingBadDataThrowsAndDoesNotUpdate()
         {
-            var expectedContacts = new List<MarketingContactEntity> { await InsertContact(_solutionId1).ConfigureAwait(false), await InsertContact(_solutionId1) };
-            var badData = new List<IContact> { Mock.Of<IContact>(c => c.FirstName == "IAmLongerThan35CharactersAndSoIShouldFail") };
+            var expectedContacts = new List<MarketingContactEntity>
+            {
+                await InsertContact(SolutionId1),
+                await InsertContact(SolutionId1),
+            };
 
-            Assert.ThrowsAsync<SqlException>(() => _marketingContactRepository.ReplaceContactsForSolution(_solutionId1, badData, new CancellationToken()));
-            var newContacts = (await _marketingContactRepository.BySolutionIdAsync(_solutionId1, new CancellationToken())).ToList();
+            var badData = new List<IContact>
+            {
+                Mock.Of<IContact>(c => c.FirstName == "IAmLongerThan35CharactersAndSoIShouldFail"),
+            };
 
-            newContacts.Should().BeEquivalentTo(expectedContacts, config => config.Excluding(c => c.LastUpdated).Excluding(c => c.LastUpdatedBy));
+            Assert.ThrowsAsync<SqlException>(() => marketingContactRepository.ReplaceContactsForSolution(
+                SolutionId1,
+                badData,
+                CancellationToken.None));
+
+            var newContacts = (await marketingContactRepository.BySolutionIdAsync(
+                SolutionId1,
+                CancellationToken.None)).ToList();
+
+            static EquivalencyAssertionOptions<MarketingContactEntity> AssertionConfig(
+                EquivalencyAssertionOptions<MarketingContactEntity> config)
+            {
+                return config.Excluding(c => c.LastUpdated).Excluding(c => c.LastUpdatedBy);
+            }
+
+            newContacts.Should().BeEquivalentTo(expectedContacts, AssertionConfig);
         }
 
         private static async Task<MarketingContactEntity> InsertContact(string solutionId)
@@ -206,9 +240,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
         private static void AssertEquivalent(MarketingContactEntity expected, IMarketingContactResult actual)
         {
-            actual.Should().BeEquivalentTo(expected, config => config
-                .Excluding(x => x.LastUpdatedBy)
-                .Excluding(x => x.LastUpdated));
+            static EquivalencyAssertionOptions<MarketingContactEntity> AssertionConfig(
+                EquivalencyAssertionOptions<MarketingContactEntity> config)
+            {
+                return config.Excluding(c => c.LastUpdatedBy).Excluding(c => c.LastUpdated);
+            }
+
+            actual.Should().BeEquivalentTo(expected, AssertionConfig);
         }
     }
 }

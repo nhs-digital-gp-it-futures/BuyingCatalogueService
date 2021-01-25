@@ -14,24 +14,25 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
     [TestFixture]
     public sealed class SupplierRepositoryTests
     {
-        private ISupplierRepository _supplierRepository;
+        private const string SupplierId = "Sup 1";
+        private const string SolutionId = "Sln1";
+        private const string Description = "some description";
+        private const string Link = "www.someLink.com";
+        private const string NewDescription = "new description";
+        private const string NewLink = "www.newLink.com";
+        private const string SupplierName = "some supplier name";
 
-        private readonly string _supplierId = "Sup 1";
-        private readonly string _solutionId = "Sln1";
+        private const string SupplierAddress = " { \"line1\": \"123 Line 1\", \"line2\": \"Line 2\", "
+            + "\"line3\": \"Line 3\", \"line4\": \"Line 4\", \"line5\": \"Line 5\", "
+            + "\"city\": \"Some town\", \"county\": \"Some county\", "
+            + "\"postcode\": \"LS15 1BS\", \"country\": \"Some country\" }";
 
-        private readonly string _description = "some description";
-        private readonly string _link = "www.someLink.com";
+        private const string SupplierContactFirstName = "Bill";
+        private const string SupplierContactLastName = "Smith";
+        private const string SupplierContactEmail = "billsmith@email.com";
+        private const string SupplierContactPhoneNumber = "0123456789";
 
-        private readonly string _newDescription = "new description";
-        private readonly string _newLink = "www.newLink.com";
-
-        private readonly string _supplierName = "some supplier name";
-        private readonly string _supplierAddress = " { \"line1\": \"123 Line 1\", \"line2\": \"Line 2\", \"line3\": \"Line 3\", \"line4\": \"Line 4\", \"line5\": \"Line 5\", \"city\": \"Some town\", \"county\": \"Some county\", \"postcode\": \"LS15 1BS\", \"country\": \"Some country\" }";
-
-        private readonly string _supplierContactFirstName = "Bill";
-        private readonly string _supplierContactLastName = "Smith";
-        private readonly string _supplierContactEmail = "billsmith@email.com";
-        private readonly string _supplierContactPhoneNumber = "0123456789";
+        private ISupplierRepository supplierRepository;
 
         [SetUp]
         public async Task SetUp()
@@ -39,7 +40,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             await Database.ClearAsync();
 
             TestContext testContext = new TestContext();
-            _supplierRepository = testContext.SupplierRepository;
+            supplierRepository = testContext.SupplierRepository;
         }
 
         [Test]
@@ -47,17 +48,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             await InsertSupplier();
 
-            var result = await _supplierRepository.GetSupplierBySolutionIdAsync(_solutionId, new CancellationToken());
+            var result = await supplierRepository.GetSupplierBySolutionIdAsync(SolutionId, CancellationToken.None);
 
-            result.SolutionId.Should().Be(_solutionId);
-            result.Summary.Should().Be(_description);
-            result.Url.Should().Be(_link);
+            result.SolutionId.Should().Be(SolutionId);
+            result.Summary.Should().Be(Description);
+            result.Url.Should().Be(Link);
         }
 
         [Test]
         public async Task IfSolutionDoesNotExistThenReturnNull()
         {
-            var result = (await _supplierRepository.GetSupplierBySolutionIdAsync(_solutionId, new CancellationToken()));
+            var result = await supplierRepository.GetSupplierBySolutionIdAsync(SolutionId, CancellationToken.None);
 
             result.Should().BeNull();
         }
@@ -68,14 +69,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             await InsertSupplier();
 
             var supplierRequest = Mock.Of<IUpdateSupplierRequest>(s =>
-                s.SolutionId == _solutionId && s.Description == _newDescription && s.Link == _newLink);
+                s.SolutionId == SolutionId && s.Description == NewDescription && s.Link == NewLink);
 
-            await _supplierRepository.UpdateSupplierAsync(supplierRequest, new CancellationToken());
+            await supplierRepository.UpdateSupplierAsync(supplierRequest, CancellationToken.None);
 
-            var supplier = await _supplierRepository.GetSupplierBySolutionIdAsync(_solutionId, new CancellationToken());
-            supplier.SolutionId.Should().Be(_solutionId);
-            supplier.Summary.Should().Be(_newDescription);
-            supplier.Url.Should().Be(_newLink);
+            var supplier = await supplierRepository.GetSupplierBySolutionIdAsync(SolutionId, CancellationToken.None);
+            supplier.SolutionId.Should().Be(SolutionId);
+            supplier.Summary.Should().Be(NewDescription);
+            supplier.Url.Should().Be(NewLink);
         }
 
         [Test]
@@ -84,7 +85,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             await InsertSupplier();
 
             Assert.ThrowsAsync<ArgumentNullException>(() =>
-                _supplierRepository.UpdateSupplierAsync(null, new CancellationToken()));
+                supplierRepository.UpdateSupplierAsync(null, CancellationToken.None));
         }
 
         [Test]
@@ -92,12 +93,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             await InsertSupplier();
 
-            var result = await _supplierRepository.GetSupplierById(_supplierId, CancellationToken.None);
+            var result = await supplierRepository.GetSupplierById(SupplierId, CancellationToken.None);
 
             var expected = new
             {
-                Id = _supplierId,
-                Name = _supplierName,
+                Id = SupplierId,
+                Name = SupplierName,
                 AddressLine1 = "123 Line 1",
                 AddressLine2 = "Line 2",
                 AddressLine3 = "Line 3",
@@ -108,10 +109,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 Postcode = "LS15 1BS",
                 Country = "Some country",
                 HasAddress = true,
-                PrimaryContactFirstName = _supplierContactFirstName,
-                PrimaryContactLastName = _supplierContactLastName,
-                PrimaryContactEmailAddress = _supplierContactEmail,
-                PrimaryContactTelephone = _supplierContactPhoneNumber,
+                PrimaryContactFirstName = SupplierContactFirstName,
+                PrimaryContactLastName = SupplierContactLastName,
+                PrimaryContactEmailAddress = SupplierContactEmail,
+                PrimaryContactTelephone = SupplierContactPhoneNumber,
                 HasContact = true,
             };
 
@@ -123,7 +124,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             await InsertSupplier();
 
-            var suppliers = await _supplierRepository.GetSuppliersByNameAsync(
+            var suppliers = await supplierRepository.GetSuppliersByNameAsync(
                 "Invisible",
                 null,
                 null,
@@ -144,13 +145,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             await InsertSupplier();
 
-            var suppliers = await _supplierRepository.GetSuppliersByNameAsync(
+            var suppliers = await supplierRepository.GetSuppliersByNameAsync(
                 supplierName,
                 solutionPublicationStatus,
                 catalogueItemType,
                 CancellationToken.None);
 
-            suppliers.Should().BeEquivalentTo(new { Id = _supplierId, Name = _supplierName });
+            suppliers.Should().BeEquivalentTo(new { Id = SupplierId, Name = SupplierName });
         }
 
         [TestCase("Supplier", PublishedStatus.Draft, null)]
@@ -165,7 +166,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         {
             await InsertSupplier();
 
-            var suppliers = await _supplierRepository.GetSuppliersByNameAsync(
+            var suppliers = await supplierRepository.GetSuppliersByNameAsync(
                 supplierName,
                 solutionPublicationStatus,
                 catalogueItemType,
@@ -174,38 +175,38 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             suppliers.Should().BeEmpty();
         }
 
-        private async Task InsertSupplier(PublishedStatus solutionPublicationStatus = PublishedStatus.Published)
+        private static async Task InsertSupplier(PublishedStatus solutionPublicationStatus = PublishedStatus.Published)
         {
             await SupplierEntityBuilder.Create()
-                .WithId(_supplierId)
-                .WithName(_supplierName)
-                .WithSummary(_description)
-                .WithSupplierUrl(_link)
-                .WithAddress(_supplierAddress)
+                .WithId(SupplierId)
+                .WithName(SupplierName)
+                .WithSummary(Description)
+                .WithSupplierUrl(Link)
+                .WithAddress(SupplierAddress)
                 .Build()
                 .InsertAsync();
 
             await SupplierContactEntityBuilder.Create()
                 .WithId(Guid.NewGuid())
-                .WithSupplierId(_supplierId)
-                .WithFirstName(_supplierContactFirstName)
-                .WithLastName(_supplierContactLastName)
-                .WithEmail(_supplierContactEmail)
-                .WithPhoneNumber(_supplierContactPhoneNumber)
+                .WithSupplierId(SupplierId)
+                .WithFirstName(SupplierContactFirstName)
+                .WithLastName(SupplierContactLastName)
+                .WithEmail(SupplierContactEmail)
+                .WithPhoneNumber(SupplierContactPhoneNumber)
                 .Build()
                 .InsertAsync();
 
             await CatalogueItemEntityBuilder
                 .Create()
-                .WithCatalogueItemId(_solutionId)
-                .WithName(_solutionId)
-                .WithSupplierId(_supplierId)
+                .WithCatalogueItemId(SolutionId)
+                .WithName(SolutionId)
+                .WithSupplierId(SupplierId)
                 .WithPublishedStatusId((int)solutionPublicationStatus)
                 .Build()
                 .InsertAsync();
 
             await SolutionEntityBuilder.Create()
-                .WithId(_solutionId)
+                .WithId(SolutionId)
                 .Build()
                 .InsertAsync();
         }

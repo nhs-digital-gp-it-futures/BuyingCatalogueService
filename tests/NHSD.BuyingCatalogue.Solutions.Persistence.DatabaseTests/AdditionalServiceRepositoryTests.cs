@@ -15,9 +15,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
     [TestFixture]
     internal sealed class AdditionalServiceRepositoryTests
     {
-        private IAdditionalServiceRepository _additionalServiceRepository;
-
         private const string SupplierId = "Sup1";
+
+        private IAdditionalServiceRepository additionalServiceRepository;
 
         [SetUp]
         public async Task SetUp()
@@ -30,15 +30,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .InsertAsync();
 
             TestContext testContext = new TestContext();
-            _additionalServiceRepository = testContext.AdditionalServiceRepository;
+            additionalServiceRepository = testContext.AdditionalServiceRepository;
         }
 
         [Test]
         public async Task GetAdditionalServiceByCatalogueItemIdAsync_InvalidSolutionId_ReturnsEmptyList()
         {
-            var request =
-                await _additionalServiceRepository.GetAdditionalServiceBySolutionIdsAsync(
-                    new List<string> { "INVALID" }, CancellationToken.None);
+            var request = await additionalServiceRepository.GetAdditionalServiceBySolutionIdsAsync(
+                new List<string> { "INVALID" },
+                CancellationToken.None);
 
             request.Count().Should().Be(0);
         }
@@ -53,9 +53,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             var expected = ConvertEntityToResult(entity, solutionEntity);
 
-            var request =
-                (await _additionalServiceRepository.GetAdditionalServiceBySolutionIdsAsync(
-                    new List<string> { solutionId }, CancellationToken.None)).ToList();
+            var request = (await additionalServiceRepository.GetAdditionalServiceBySolutionIdsAsync(
+                new List<string> { solutionId },
+                CancellationToken.None)).ToList();
 
             request.Count.Should().Be(1);
             request.First().Should().BeEquivalentTo(expected);
@@ -75,9 +75,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             var expected1 = ConvertEntityToResult(entity1, solutionEntity1);
             var expected2 = ConvertEntityToResult(entity2, solutionEntity2);
 
-            var request =
-                (await _additionalServiceRepository.GetAdditionalServiceBySolutionIdsAsync(
-                    new List<string> { solutionId1, solutionId2 }, CancellationToken.None)).ToList();
+            var request = (await additionalServiceRepository.GetAdditionalServiceBySolutionIdsAsync(
+                new List<string> { solutionId1, solutionId2 },
+                CancellationToken.None)).ToList();
 
             request.Count.Should().Be(2);
             request.First().Should().BeEquivalentTo(expected1);
@@ -102,7 +102,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             return solutionCatalogueEntity;
         }
 
-        private static async Task<(CatalogueItemEntity, AdditionalServiceEntity)> CreateAdditionalService(string catalogueItemId, string solutionId)
+        private static async Task<(CatalogueItemEntity CatalogueItem, AdditionalServiceEntity AdditionalService)> CreateAdditionalService(
+            string catalogueItemId,
+            string solutionId)
         {
             var catalogueItemEntity = CatalogueItemEntityBuilder.Create()
                 .WithCatalogueItemId(catalogueItemId)
@@ -120,14 +122,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         }
 
         private static IAdditionalServiceResult ConvertEntityToResult(
-            (CatalogueItemEntity catalogueItemEntity, AdditionalServiceEntity additionalServiceEntity) entity, CatalogueItemEntity solutionEntity)
+            (CatalogueItemEntity CatalogueItemEntity, AdditionalServiceEntity AdditionalServiceEntity) entity,
+            CatalogueItemEntity solutionEntity)
         {
+            (CatalogueItemEntity catalogueItem, AdditionalServiceEntity additionalService) = entity;
+
             return new AdditionalServiceResult
             {
-                CatalogueItemId = entity.catalogueItemEntity.CatalogueItemId,
-                CatalogueItemName = entity.catalogueItemEntity.Name,
-                Summary = entity.additionalServiceEntity.Summary,
-                SolutionId = entity.additionalServiceEntity.SolutionId,
+                CatalogueItemId = catalogueItem.CatalogueItemId,
+                CatalogueItemName = catalogueItem.Name,
+                Summary = additionalService.Summary,
+                SolutionId = additionalService.SolutionId,
                 SolutionName = solutionEntity.Name,
             };
         }

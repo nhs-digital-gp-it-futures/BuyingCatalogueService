@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -15,21 +16,21 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 {
     [TestFixture]
-    public class SolutionCapabilityRepositoryTests
+    internal sealed class SolutionCapabilityRepositoryTests
     {
         private const string Solution1Id = "Sln1";
         private const string Solution2Id = "Sln2";
 
         private const string SupplierId = "Sup 1";
 
-        private readonly List<CapabilityDetails> _capDetails = new()
+        private readonly List<CapabilityDetails> capDetails = new()
         {
             CreateCapability("Cap1", "Desc1", "Ref1", "1.0.0", "http://cap1.link"),
             CreateCapability("Cap2", "Desc2", "Ref2", "1.0.0", "http://cap2.link"),
             CreateCapability("Cap3", "Desc3", "Ref3", "1.0.0", "http://cap3.link"),
         };
 
-        private ISolutionCapabilityRepository _solutionCapabilityRepository;
+        private ISolutionCapabilityRepository solutionCapabilityRepository;
 
         [SetUp]
         public async Task Setup()
@@ -56,36 +57,38 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .InsertAsync();
 
             TestContext testContext = new TestContext();
-            _solutionCapabilityRepository = testContext.SolutionCapabilityRepository;
+            solutionCapabilityRepository = testContext.SolutionCapabilityRepository;
         }
 
         [Test]
         public async Task ShouldHaveOneCapabilityAsync()
         {
-            await InsertCapabilityAsync(_capDetails[0]);
+            await InsertCapabilityAsync(capDetails[0]);
 
-            await InsertSolutionCapabilityAsync(Solution1Id, _capDetails[0].Id);
+            await InsertSolutionCapabilityAsync(Solution1Id, capDetails[0].Id);
 
-            var solutionCapabilityRequest =
-                await _solutionCapabilityRepository.ListSolutionCapabilitiesAsync(Solution1Id, CancellationToken.None);
+            var solutionCapabilityRequest = await solutionCapabilityRepository.ListSolutionCapabilitiesAsync(
+                Solution1Id,
+                CancellationToken.None);
 
             var solutionCapability = solutionCapabilityRequest.Should().ContainSingle().Subject;
-            solutionCapability.CapabilityId.Should().Be(_capDetails[0].Id);
-            solutionCapability.CapabilityName.Should().Be(_capDetails[0].Name);
-            solutionCapability.CapabilityDescription.Should().Be(_capDetails[0].Desc);
+            solutionCapability.CapabilityId.Should().Be(capDetails[0].Id);
+            solutionCapability.CapabilityName.Should().Be(capDetails[0].Name);
+            solutionCapability.CapabilityDescription.Should().Be(capDetails[0].Desc);
         }
 
         [Test]
         public async Task ShouldHaveMultipleCapabilitiesAsync()
         {
-            foreach (var capability in _capDetails)
+            foreach (var capability in capDetails)
             {
                 await InsertCapabilityAsync(capability);
                 await InsertSolutionCapabilityAsync(Solution1Id, capability.Id);
             }
 
-            var solutionCapabilityResponse =
-                await _solutionCapabilityRepository.ListSolutionCapabilitiesAsync(Solution1Id, CancellationToken.None);
+            var solutionCapabilityResponse = await solutionCapabilityRepository.ListSolutionCapabilitiesAsync(
+                Solution1Id,
+                CancellationToken.None);
 
             solutionCapabilityResponse.Count().Should().Be(3);
         }
@@ -107,34 +110,37 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .Build()
                 .InsertAsync();
 
-            await InsertCapabilityAsync(_capDetails[0]);
-            await InsertCapabilityAsync(_capDetails[1]);
+            await InsertCapabilityAsync(capDetails[0]);
+            await InsertCapabilityAsync(capDetails[1]);
 
-            await InsertSolutionCapabilityAsync(Solution1Id, _capDetails[0].Id);
-            await InsertSolutionCapabilityAsync(Solution2Id, _capDetails[1].Id);
+            await InsertSolutionCapabilityAsync(Solution1Id, capDetails[0].Id);
+            await InsertSolutionCapabilityAsync(Solution2Id, capDetails[1].Id);
 
-            var solutionCapabilityResponseSolution1 =
-                await _solutionCapabilityRepository.ListSolutionCapabilitiesAsync(Solution1Id, CancellationToken.None);
+            var solutionCapabilityResponseSolution1 = await solutionCapabilityRepository.ListSolutionCapabilitiesAsync(
+                Solution1Id,
+                CancellationToken.None);
 
-            var solutionCapabilityResponseSolution2 =
-                await _solutionCapabilityRepository.ListSolutionCapabilitiesAsync(Solution2Id, CancellationToken.None);
+            var solutionCapabilityResponseSolution2 = await solutionCapabilityRepository.ListSolutionCapabilitiesAsync(
+                Solution2Id,
+                CancellationToken.None);
 
             var solutionCapability1 = solutionCapabilityResponseSolution1.Should().ContainSingle().Subject;
-            solutionCapability1.CapabilityId.Should().Be(_capDetails[0].Id);
-            solutionCapability1.CapabilityName.Should().Be(_capDetails[0].Name);
-            solutionCapability1.CapabilityDescription.Should().Be(_capDetails[0].Desc);
+            solutionCapability1.CapabilityId.Should().Be(capDetails[0].Id);
+            solutionCapability1.CapabilityName.Should().Be(capDetails[0].Name);
+            solutionCapability1.CapabilityDescription.Should().Be(capDetails[0].Desc);
 
             var solutionCapability2 = solutionCapabilityResponseSolution2.Should().ContainSingle().Subject;
-            solutionCapability2.CapabilityId.Should().Be(_capDetails[1].Id);
-            solutionCapability2.CapabilityName.Should().Be(_capDetails[1].Name);
-            solutionCapability2.CapabilityDescription.Should().Be(_capDetails[1].Desc);
+            solutionCapability2.CapabilityId.Should().Be(capDetails[1].Id);
+            solutionCapability2.CapabilityName.Should().Be(capDetails[1].Name);
+            solutionCapability2.CapabilityDescription.Should().Be(capDetails[1].Desc);
         }
 
         [Test]
         public async Task NoCapabilitiesAsync()
         {
-            var solutionCapabilityResponse =
-                await _solutionCapabilityRepository.ListSolutionCapabilitiesAsync(Solution1Id, CancellationToken.None);
+            var solutionCapabilityResponse = await solutionCapabilityRepository.ListSolutionCapabilitiesAsync(
+                Solution1Id,
+                CancellationToken.None);
 
             solutionCapabilityResponse.Should().BeEmpty();
         }
@@ -142,26 +148,26 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         [Test]
         public async Task NoFailedCapabilitiesAsync()
         {
-            await InsertCapabilityAsync(_capDetails[0]);
-            await InsertCapabilityAsync(_capDetails[1]);
+            await InsertCapabilityAsync(capDetails[0]);
+            await InsertCapabilityAsync(capDetails[1]);
 
-            await InsertSolutionCapabilityAsync(Solution1Id, _capDetails[0].Id);
-            await InsertSolutionCapabilityAsync(Solution1Id, _capDetails[1].Id, false);
+            await InsertSolutionCapabilityAsync(Solution1Id, capDetails[0].Id);
+            await InsertSolutionCapabilityAsync(Solution1Id, capDetails[1].Id, false);
 
             var solutionCapabilityResponseSolution1 =
-                await _solutionCapabilityRepository.ListSolutionCapabilitiesAsync(Solution1Id, CancellationToken.None);
+                await solutionCapabilityRepository.ListSolutionCapabilitiesAsync(Solution1Id, CancellationToken.None);
 
             var solutionCapability1 = solutionCapabilityResponseSolution1.Should().ContainSingle().Subject;
-            solutionCapability1.CapabilityId.Should().Be(_capDetails[0].Id);
-            solutionCapability1.CapabilityName.Should().Be(_capDetails[0].Name);
-            solutionCapability1.CapabilityDescription.Should().Be(_capDetails[0].Desc);
+            solutionCapability1.CapabilityId.Should().Be(capDetails[0].Id);
+            solutionCapability1.CapabilityName.Should().Be(capDetails[0].Name);
+            solutionCapability1.CapabilityDescription.Should().Be(capDetails[0].Desc);
         }
 
         [Test]
         public async Task NoSolutionsAsync()
         {
             var solutionCapabilityResponse =
-                await _solutionCapabilityRepository.ListSolutionCapabilitiesAsync(Solution2Id, CancellationToken.None);
+                await solutionCapabilityRepository.ListSolutionCapabilitiesAsync(Solution2Id, CancellationToken.None);
 
             solutionCapabilityResponse.Should().BeEmpty();
         }
@@ -169,77 +175,87 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         [Test]
         public async Task UpdateSolutionWithOneCapabilityAsync()
         {
-            await InsertCapabilityAsync(_capDetails[0]);
-            await InsertSolutionCapabilityAsync(Solution1Id, _capDetails[0].Id);
+            await InsertCapabilityAsync(capDetails[0]);
+            await InsertSolutionCapabilityAsync(Solution1Id, capDetails[0].Id);
 
-            await InsertCapabilityAsync(_capDetails[1]);
+            await InsertCapabilityAsync(capDetails[1]);
 
-            IEnumerable<string> capabilityReferences = new List<string> { _capDetails[1].Reference };
+            IEnumerable<string> capabilityReferences = new List<string> { capDetails[1].Reference };
 
-            await _solutionCapabilityRepository
-                .UpdateCapabilitiesAsync(
-                    Mock.Of<IUpdateCapabilityRequest>(c =>
-                        c.SolutionId == Solution1Id && c.NewCapabilitiesReference == capabilityReferences),
-                    new CancellationToken());
+            // ReSharper disable once PossibleUnintendedReferenceComparison
+            Expression<Func<IUpdateCapabilityRequest, bool>> match = r =>
+                r.SolutionId == Solution1Id
+                && r.NewCapabilitiesReference == capabilityReferences;
 
-            var solutionCapabilities =
-                (await _solutionCapabilityRepository.ListSolutionCapabilitiesAsync(Solution1Id, CancellationToken.None)).ToList();
+            await solutionCapabilityRepository.UpdateCapabilitiesAsync(Mock.Of(match), CancellationToken.None);
+
+            var solutionCapabilities = (await solutionCapabilityRepository.ListSolutionCapabilitiesAsync(
+                Solution1Id,
+                CancellationToken.None)).ToList();
 
             solutionCapabilities.Count.Should().Be(1);
 
-            solutionCapabilities[0].CapabilityId.Should().Be(_capDetails[1].Id);
-            solutionCapabilities[0].CapabilityName.Should().Be(_capDetails[1].Name);
-            solutionCapabilities[0].CapabilityDescription.Should().Be(_capDetails[1].Desc);
+            solutionCapabilities[0].CapabilityId.Should().Be(capDetails[1].Id);
+            solutionCapabilities[0].CapabilityName.Should().Be(capDetails[1].Name);
+            solutionCapabilities[0].CapabilityDescription.Should().Be(capDetails[1].Desc);
         }
 
         [Test]
         public async Task UpdateSolutionWithMultipleCapabilitiesAsync()
         {
-            await InsertCapabilityAsync(_capDetails[0]);
-            await InsertSolutionCapabilityAsync(Solution1Id, _capDetails[0].Id);
+            await InsertCapabilityAsync(capDetails[0]);
+            await InsertSolutionCapabilityAsync(Solution1Id, capDetails[0].Id);
 
-            await InsertCapabilityAsync(_capDetails[1]);
-            await InsertCapabilityAsync(_capDetails[2]);
+            await InsertCapabilityAsync(capDetails[1]);
+            await InsertCapabilityAsync(capDetails[2]);
 
-            IEnumerable<string> capabilityReferences = new List<string> { _capDetails[1].Reference, _capDetails[2].Reference };
+            IEnumerable<string> capabilityReferences = new List<string>
+            {
+                capDetails[1].Reference,
+                capDetails[2].Reference,
+            };
 
-            await _solutionCapabilityRepository
-                .UpdateCapabilitiesAsync(
-                    Mock.Of<IUpdateCapabilityRequest>(c =>
-                        c.SolutionId == Solution1Id && c.NewCapabilitiesReference == capabilityReferences),
-                    new CancellationToken());
+            // ReSharper disable once PossibleUnintendedReferenceComparison
+            Expression<Func<IUpdateCapabilityRequest, bool>> match = r =>
+                r.SolutionId == Solution1Id
+                && r.NewCapabilitiesReference == capabilityReferences;
 
-            var solutionCapabilities =
-                (await _solutionCapabilityRepository.ListSolutionCapabilitiesAsync(Solution1Id, CancellationToken.None)).ToList();
+            await solutionCapabilityRepository.UpdateCapabilitiesAsync(Mock.Of(match), CancellationToken.None);
+
+            var solutionCapabilities = (await solutionCapabilityRepository.ListSolutionCapabilitiesAsync(
+                Solution1Id,
+                CancellationToken.None)).ToList();
 
             solutionCapabilities.Count.Should().Be(2);
 
-            solutionCapabilities[0].CapabilityId.Should().Be(_capDetails[1].Id);
-            solutionCapabilities[0].CapabilityName.Should().Be(_capDetails[1].Name);
-            solutionCapabilities[0].CapabilityDescription.Should().Be(_capDetails[1].Desc);
+            solutionCapabilities[0].CapabilityId.Should().Be(capDetails[1].Id);
+            solutionCapabilities[0].CapabilityName.Should().Be(capDetails[1].Name);
+            solutionCapabilities[0].CapabilityDescription.Should().Be(capDetails[1].Desc);
 
-            solutionCapabilities[1].CapabilityId.Should().Be(_capDetails[2].Id);
-            solutionCapabilities[1].CapabilityName.Should().Be(_capDetails[2].Name);
-            solutionCapabilities[1].CapabilityDescription.Should().Be(_capDetails[2].Desc);
+            solutionCapabilities[1].CapabilityId.Should().Be(capDetails[2].Id);
+            solutionCapabilities[1].CapabilityName.Should().Be(capDetails[2].Name);
+            solutionCapabilities[1].CapabilityDescription.Should().Be(capDetails[2].Desc);
         }
 
         [Test]
         public void ShouldThrowIfCapabilityRequestIsNull()
         {
-            Assert.ThrowsAsync<ArgumentNullException>(() =>
-                _solutionCapabilityRepository.UpdateCapabilitiesAsync(null, new CancellationToken()));
+            Assert.ThrowsAsync<ArgumentNullException>(() => solutionCapabilityRepository.UpdateCapabilitiesAsync(
+                null,
+                CancellationToken.None));
         }
 
         [Test]
         public async Task ValidationIfOneCapabilityRefDoesNotExistThenCountIsZero()
         {
-            await InsertCapabilityAsync(_capDetails[0]);
-            await InsertSolutionCapabilityAsync(Solution1Id, _capDetails[0].Id);
+            await InsertCapabilityAsync(capDetails[0]);
+            await InsertSolutionCapabilityAsync(Solution1Id, capDetails[0].Id);
 
-            IEnumerable<string> capabilityReferences = new List<string> { _capDetails[1].Reference };
+            IEnumerable<string> capabilityReferences = new List<string> { capDetails[1].Reference };
 
-            var count = await _solutionCapabilityRepository
-                .GetMatchingCapabilitiesCountAsync(capabilityReferences, new CancellationToken());
+            var count = await solutionCapabilityRepository.GetMatchingCapabilitiesCountAsync(
+                capabilityReferences,
+                CancellationToken.None);
 
             count.Should().Be(0);
         }
@@ -247,16 +263,22 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         [Test]
         public async Task ValidationIfASingleCapabilityRefInAListOfThreeDoesNotExistThenCountIsTwo()
         {
-            await InsertCapabilityAsync(_capDetails[0]);
-            await InsertSolutionCapabilityAsync(Solution1Id, _capDetails[0].Id);
+            await InsertCapabilityAsync(capDetails[0]);
+            await InsertSolutionCapabilityAsync(Solution1Id, capDetails[0].Id);
 
-            await InsertCapabilityAsync(_capDetails[2]);
-            await InsertSolutionCapabilityAsync(Solution1Id, _capDetails[2].Id);
+            await InsertCapabilityAsync(capDetails[2]);
+            await InsertSolutionCapabilityAsync(Solution1Id, capDetails[2].Id);
 
-            IEnumerable<string> capabilityReferences = new List<string> { _capDetails[0].Reference, _capDetails[1].Reference, _capDetails[2].Reference };
+            IEnumerable<string> capabilityReferences = new List<string>
+            {
+                capDetails[0].Reference,
+                capDetails[1].Reference,
+                capDetails[2].Reference,
+            };
 
-            var count = await _solutionCapabilityRepository
-                .GetMatchingCapabilitiesCountAsync(capabilityReferences, new CancellationToken());
+            var count = await solutionCapabilityRepository.GetMatchingCapabilitiesCountAsync(
+                capabilityReferences,
+                CancellationToken.None);
 
             count.Should().Be(2);
         }
@@ -264,18 +286,24 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         [Test]
         public async Task ValidationIfNoCapabilityRefsThenCountIsZero()
         {
-            await InsertCapabilityAsync(_capDetails[0]);
-            await InsertSolutionCapabilityAsync(Solution1Id, _capDetails[0].Id);
+            await InsertCapabilityAsync(capDetails[0]);
+            await InsertSolutionCapabilityAsync(Solution1Id, capDetails[0].Id);
 
             IEnumerable<string> capabilityReferences = new List<string>();
 
-            var count = await _solutionCapabilityRepository
-                .GetMatchingCapabilitiesCountAsync(capabilityReferences, new CancellationToken());
+            var count = await solutionCapabilityRepository.GetMatchingCapabilitiesCountAsync(
+                capabilityReferences,
+                CancellationToken.None);
 
             count.Should().Be(0);
         }
 
-        private static CapabilityDetails CreateCapability(string name, string desc, string reference, string version, string sourceUrl)
+        private static CapabilityDetails CreateCapability(
+            string name,
+            string desc,
+            string reference,
+            string version,
+            string sourceUrl)
         {
             return new()
             {

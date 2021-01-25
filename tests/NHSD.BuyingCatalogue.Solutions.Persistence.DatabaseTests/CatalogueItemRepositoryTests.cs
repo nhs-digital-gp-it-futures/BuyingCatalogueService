@@ -15,10 +15,29 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
     [TestFixture]
     internal sealed class CatalogueItemRepositoryTests
     {
-        private ICatalogueItemRepository catalogueItemRepository;
         private const string SupplierId1 = "Sup1";
         private const string SupplierId2 = "Sup2";
-        
+
+        private ICatalogueItemRepository catalogueItemRepository;
+
+        public static async Task<CatalogueItemEntity> CreateCatalogueItemEntity(
+            string catalogueItemId,
+            string supplierId,
+            CatalogueItemType catalogueItemType,
+            PublishedStatus publishedStatus = PublishedStatus.Published)
+        {
+            var catalogueItem = CatalogueItemEntityBuilder
+                .Create()
+                .WithCatalogueItemId(catalogueItemId)
+                .WithSupplierId(supplierId)
+                .WithCatalogueItemTypeId((int)catalogueItemType)
+                .WithPublishedStatusId((int)publishedStatus)
+                .Build();
+
+            await catalogueItem.InsertAsync();
+            return catalogueItem;
+        }
+
         [SetUp]
         public async Task SetUp()
         {
@@ -94,7 +113,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             bool MatchesSupplier(CatalogueItemEntity item) => supplierId is null || item.SupplierId == supplierId;
             bool MatchesCatalogueItemType(CatalogueItemEntity item) => catalogueItemType is null || item.CatalogueItemTypeId == (int)catalogueItemType;
             bool MatchesPublishedStatus(CatalogueItemEntity item) => publishedStatus is null || item.PublishedStatusId == (int)publishedStatus;
-            bool MatchesFilters(CatalogueItemEntity item) => MatchesSupplier(item) 
+            bool MatchesFilters(CatalogueItemEntity item) => MatchesSupplier(item)
                 && MatchesCatalogueItemType(item)
                 && MatchesPublishedStatus(item);
 
@@ -103,24 +122,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             var expected = filteredExpected.Select(i => new { i.CatalogueItemId, i.Name });
 
             request.Should().BeEquivalentTo(expected);
-        }
-
-        public static async Task<CatalogueItemEntity> CreateCatalogueItemEntity(
-            string catalogueItemId,
-            string supplierId,
-            CatalogueItemType catalogueItemType,
-            PublishedStatus publishedStatus = PublishedStatus.Published)
-        {
-            var catalogueItem = CatalogueItemEntityBuilder
-                .Create()
-                .WithCatalogueItemId(catalogueItemId)
-                .WithSupplierId(supplierId)
-                .WithCatalogueItemTypeId((int)catalogueItemType)
-                .WithPublishedStatusId((int)publishedStatus)
-                .Build();
-
-            await catalogueItem.InsertAsync();
-            return catalogueItem;
         }
     }
 }

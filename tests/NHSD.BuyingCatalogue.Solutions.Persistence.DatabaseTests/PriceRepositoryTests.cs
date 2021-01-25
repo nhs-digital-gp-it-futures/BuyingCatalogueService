@@ -12,10 +12,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
     [TestFixture]
     internal sealed class PriceRepositoryTests
     {
-        private IPriceRepository _priceRepository;
-        private int _priceId = -1;
-        private const string _solutionId = "Sln1";
-        private const string _supplierId = "Sup1";
+        private const string SolutionId = "Sln1";
+        private const string SupplierId = "Sup1";
+
+        private IPriceRepository priceRepository;
 
         [SetUp]
         public async Task SetUp()
@@ -23,32 +23,32 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             await Database.ClearAsync();
 
             await SupplierEntityBuilder.Create()
-                .WithId(_supplierId)
+                .WithId(SupplierId)
                 .Build()
                 .InsertAsync();
-            
+
             await CatalogueItemEntityBuilder
                 .Create()
-                .WithCatalogueItemId(_solutionId)
-                .WithSupplierId(_supplierId)
+                .WithCatalogueItemId(SolutionId)
+                .WithSupplierId(SupplierId)
                 .Build()
                 .InsertAsync();
 
             await SolutionEntityBuilder.Create()
-                .WithId(_solutionId)
+                .WithId(SolutionId)
                 .Build()
                 .InsertAsync();
 
-            _priceId = await InsertPriceAsync(_solutionId);
+            await InsertPriceAsync(SolutionId);
 
             TestContext testContext = new TestContext();
-            _priceRepository = testContext.PriceRepository;
+            priceRepository = testContext.PriceRepository;
         }
 
         [Test]
         public async Task GetPriceByPriceIdQueryAsync_InvalidPriceId_ReturnsEmptyList()
         {
-            var request = await _priceRepository.GetPriceByPriceIdQueryAsync(-999, CancellationToken.None);
+            var request = await priceRepository.GetPriceByPriceIdQueryAsync(-999, CancellationToken.None);
 
             request.Should().BeEmpty();
         }
@@ -56,9 +56,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         [Test]
         public async Task GetPricingByPriceIdQueryAsync_ValidPriceIdAndFlatPrice_ReturnsPriceListResult()
         {
-            int validPriceId = await InsertPriceAsync(_solutionId);
+            int validPriceId = await InsertPriceAsync(SolutionId);
 
-            var request = await _priceRepository.GetPriceByPriceIdQueryAsync(validPriceId, CancellationToken.None);
+            var request = await priceRepository.GetPriceByPriceIdQueryAsync(validPriceId, CancellationToken.None);
 
             request.Count().Should().Be(1);
         }
@@ -66,10 +66,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
         [Test]
         public async Task GetPricingByPriceIdQueryAsync_ValidPriceIdAndTiredPrice_ReturnsTieredPriceResult()
         {
-            int validPriceId = await InsertTieredPriceAsync(_solutionId);
+            int validPriceId = await InsertTieredPriceAsync(SolutionId);
             await InsertCataloguePriceTier(validPriceId, 1, 2, 1.0m);
             await InsertCataloguePriceTier(validPriceId, 3, 4, 1.50m);
-            var response = await _priceRepository.GetPriceByPriceIdQueryAsync(validPriceId, CancellationToken.None);
+            var response = await priceRepository.GetPriceByPriceIdQueryAsync(validPriceId, CancellationToken.None);
             response.Count(t => t.CataloguePriceTypeId == 2).Should().Be(2);
         }
 
