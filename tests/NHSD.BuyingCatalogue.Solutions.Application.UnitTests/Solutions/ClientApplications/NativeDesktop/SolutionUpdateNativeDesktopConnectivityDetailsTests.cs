@@ -57,10 +57,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             var calledBack = false;
 
-            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            void Action(IUpdateSolutionClientApplicationRequest request, CancellationToken token)
             {
                 calledBack = true;
-                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                var json = JToken.Parse(request.ClientApplication);
                 var newClientApplication = JsonConvert.DeserializeObject<Application.Domain.ClientApplication>(
                     json.ToString());
 

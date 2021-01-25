@@ -122,7 +122,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Supplie
         {
             return await context.UpdateSolutionSupplierHandler.Handle(
                 new UpdateSolutionSupplierCommand(SolutionId, dataMock.Object),
-                new CancellationToken());
+                CancellationToken.None);
         }
 
         private void SetupMockSolutionCheckExists(bool solutionExists = true)

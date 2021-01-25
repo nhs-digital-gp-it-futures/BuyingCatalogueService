@@ -19,7 +19,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Pricing
     {
         private const string CatalogueItemId = "Sln1-A99";
 
-        private static readonly Expression<Func<ICataloguePriceListResult, bool>> priceListResult1 = p =>
+        private static readonly Expression<Func<ICataloguePriceListResult, bool>> PriceListResult1 = p =>
             p.CataloguePriceId == 0
             && p.CatalogueItemId == CatalogueItemId
             && p.CatalogueItemName == "name"
@@ -31,9 +31,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Pricing
             && p.TimeUnitId == 1
             && p.CurrencyCode == "GBP";
 
-        private static readonly ICataloguePriceListResult price1 = Mock.Of(priceListResult1);
+        private static readonly ICataloguePriceListResult Price1 = Mock.Of(PriceListResult1);
 
-        private static readonly Expression<Func<ICataloguePriceListResult, bool>> priceLIstResult2 = p =>
+        private static readonly Expression<Func<ICataloguePriceListResult, bool>> PriceLIstResult2 = p =>
             p.CataloguePriceId == 1
             && p.CatalogueItemId == "Sln1"
             && p.CatalogueItemName == "name"
@@ -45,7 +45,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Pricing
             && p.TimeUnitId == 1
             && p.CurrencyCode == "GBP";
 
-        private static readonly ICataloguePriceListResult Price2 = Mock.Of(priceLIstResult2);
+        private static readonly ICataloguePriceListResult Price2 = Mock.Of(PriceLIstResult2);
 
         private TestContext context;
         private CancellationToken cancellationToken;
@@ -55,7 +55,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Pricing
         public void Setup()
         {
             context = new TestContext();
-            cancellationToken = new CancellationToken();
+            cancellationToken = CancellationToken.None;
             cataloguePriceResult = new List<ICataloguePriceListResult>();
         }
 
@@ -72,30 +72,30 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Pricing
         [Test]
         public async Task GetPrices_ByCatalogueItemId_ReturnsPriceForThatCatalogueItem()
         {
-            cataloguePriceResult.Add(price1);
+            cataloguePriceResult.Add(Price1);
 
             SetUpMockPriceRepository(CatalogueItemId);
             var prices = (await context.GetPricesHandler.Handle(
                 new GetPricesQuery(CatalogueItemId),
-                new CancellationToken())).ToList();
+                CancellationToken.None)).ToList();
 
             prices.Count.Should().Be(1);
             var price = prices.First();
 
-            price.Should().BeEquivalentTo(TransformResultToDto(price1));
+            price.Should().BeEquivalentTo(TransformResultToDto(Price1));
         }
 
         [Test]
         public async Task GetPrices_Filter_ReturnsAllPrices()
         {
-            cataloguePriceResult.Add(price1);
+            cataloguePriceResult.Add(Price1);
             cataloguePriceResult.Add(Price2);
 
             SetUpMockPriceRepository(null);
 
             var prices = (await context.GetPricesHandler.Handle(
                 new GetPricesQuery(null),
-                new CancellationToken())).ToList();
+                CancellationToken.None)).ToList();
 
             prices.Count.Should().Be(2);
 

@@ -45,16 +45,18 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             var calledBack = false;
 
-            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            void Action(IUpdateSolutionClientApplicationRequest request, CancellationToken token)
             {
                 calledBack = true;
-                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                var json = JToken.Parse(request.ClientApplication);
 
                 json.SelectToken("NativeMobileAdditionalInformation").Should().BeNullOrEmpty();
             }
 
             Context.MockSolutionDetailRepository
-                .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.UpdateClientApplicationAsync(
+                    It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                    It.IsAny<CancellationToken>()))
                 .Callback<IUpdateSolutionClientApplicationRequest, CancellationToken>(Action);
 
             var validationResult = await UpdateNativeMobileAdditionalInformation();
@@ -79,10 +81,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             var calledBack = false;
 
-            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            void Action(IUpdateSolutionClientApplicationRequest request, CancellationToken token)
             {
                 calledBack = true;
-                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                var json = JToken.Parse(request.ClientApplication);
 
                 json.SelectToken("NativeMobileAdditionalInformation")?
                     .Value<string>()
@@ -107,7 +109,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
             }
 
             Context.MockSolutionDetailRepository
-                .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                .Setup(r => r.UpdateClientApplicationAsync(
+                    It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                     It.IsAny<CancellationToken>()))
                 .Callback<IUpdateSolutionClientApplicationRequest, CancellationToken>(Action);
 

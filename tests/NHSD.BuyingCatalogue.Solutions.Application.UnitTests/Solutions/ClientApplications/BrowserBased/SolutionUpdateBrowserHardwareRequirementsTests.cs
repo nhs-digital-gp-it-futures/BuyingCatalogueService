@@ -43,16 +43,18 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             var calledBack = false;
 
-            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            void Action(IUpdateSolutionClientApplicationRequest request, CancellationToken token)
             {
                 calledBack = true;
-                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                var json = JToken.Parse(request.ClientApplication);
 
                 json.SelectToken("HardwareRequirements").Should().BeNullOrEmpty();
             }
 
             Context.MockSolutionDetailRepository
-                .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.UpdateClientApplicationAsync(
+                    It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                    It.IsAny<CancellationToken>()))
                 .Callback<IUpdateSolutionClientApplicationRequest, CancellationToken>(Action);
 
             var validationResult = await UpdateBrowserHardwareRequirements(null);
@@ -75,10 +77,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             var calledBack = false;
 
-            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            void Action(IUpdateSolutionClientApplicationRequest request, CancellationToken token)
             {
                 calledBack = true;
-                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                var json = JToken.Parse(request.ClientApplication);
 
                 json.SelectToken("HardwareRequirements")?.Value<string>().Should().Be("Updated hardware");
             }

@@ -19,7 +19,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Persistence
 
             var mockResult = new Mock<ISupplierResult>();
             mockResult.Setup(r => r.Id).Returns(supplier);
+
+            // ReSharper disable StringLiteralTypo
             mockResult.Setup(r => r.Name).Returns("Kool Korp");
+
+            // ReSharper restore StringLiteralTypo
             mockResult.Setup(r => r.AddressLine1).Returns("Address line 1");
             mockResult.Setup(r => r.PrimaryContactFirstName).Returns("Bob");
             mockResult.Setup(r => r.HasAddress).Returns(true);
@@ -27,13 +31,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Persistence
 
             var expectedSupplier = mockResult.Object;
 
-            var mockRepo = new Mock<ISupplierRepository>();
-            mockRepo.Setup(r => r.GetSupplierById(supplier, It.IsAny<CancellationToken>()))
+            var mockRepository = new Mock<ISupplierRepository>();
+            mockRepository
+                .Setup(r => r.GetSupplierById(supplier, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(expectedSupplier);
 
-            var reader = new SupplierReader(mockRepo.Object);
+            var reader = new SupplierReader(mockRepository.Object);
 
-            var actualSupplier = await reader.ByIdAsync(supplier, new CancellationToken());
+            var actualSupplier = await reader.ByIdAsync(supplier, CancellationToken.None);
 
             actualSupplier.Id.Should().BeEquivalentTo(expectedSupplier.Id);
             actualSupplier.Name.Should().BeEquivalentTo(expectedSupplier.Name);
@@ -63,14 +68,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Persistence
                 MockSupplierNameResult("2", "Supplier 2"),
             };
 
-            var mockRepo = new Mock<ISupplierRepository>();
-            mockRepo.Setup(
-                r => r.GetSuppliersByNameAsync(supplierName, solutionStatus, itemType, It.IsAny<CancellationToken>()))
+            var mockRepository = new Mock<ISupplierRepository>();
+            mockRepository
+                .Setup(r => r.GetSuppliersByNameAsync(supplierName, solutionStatus, itemType, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(expectedSuppliers);
 
-            var reader = new SupplierReader(mockRepo.Object);
+            var reader = new SupplierReader(mockRepository.Object);
 
-            var actualSuppliers = await reader.ByNameAsync(supplierName, solutionStatus, itemType, new CancellationToken());
+            var actualSuppliers = await reader.ByNameAsync(supplierName, solutionStatus, itemType, CancellationToken.None);
 
             actualSuppliers.Should().BeEquivalentTo(expectedSuppliers, config => config.ExcludingMissingMembers());
         }

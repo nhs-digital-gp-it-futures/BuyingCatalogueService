@@ -49,17 +49,19 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             var calledBack = false;
 
-            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            void Action(IUpdateSolutionClientApplicationRequest request, CancellationToken token)
             {
                 calledBack = true;
-                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                var json = JToken.Parse(request.ClientApplication);
 
                 json.SelectToken("Plugins.Required")?.Value<bool>().Should().BeTrue();
                 json.SelectToken("Plugins.AdditionalInformation")?.Value<string>().Should().Contain("lorem ipsum");
             }
 
             Context.MockSolutionDetailRepository
-                .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.UpdateClientApplicationAsync(
+                    It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                    It.IsAny<CancellationToken>()))
                 .Callback<IUpdateSolutionClientApplicationRequest, CancellationToken>(Action);
 
             var validationResult = await UpdatePlugins("yes", "lorem ipsum");
@@ -82,17 +84,19 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             var calledBack = false;
 
-            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            void Action(IUpdateSolutionClientApplicationRequest request, CancellationToken token)
             {
                 calledBack = true;
-                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                var json = JToken.Parse(request.ClientApplication);
 
                 json.SelectToken("Plugins.Required")?.Value<bool>().Should().BeTrue();
                 json.SelectToken("Plugins.AdditionalInformation").Should().BeNullOrEmpty();
             }
 
             Context.MockSolutionDetailRepository
-                .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.UpdateClientApplicationAsync(
+                    It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                    It.IsAny<CancellationToken>()))
                 .Callback<IUpdateSolutionClientApplicationRequest, CancellationToken>(Action);
 
             var validationResult = await UpdatePlugins("yes");
@@ -117,7 +121,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
             results["plugins-required"].Should().Be("required");
             results["plugins-detail"].Should().Be("maxLength");
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Never());
+            Context.MockSolutionRepository.Verify(
+                r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Never());
 
             Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
                 It.IsAny<IUpdateSolutionClientApplicationRequest>(),

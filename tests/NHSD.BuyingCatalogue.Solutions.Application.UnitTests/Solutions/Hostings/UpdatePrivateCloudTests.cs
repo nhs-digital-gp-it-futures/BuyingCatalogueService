@@ -38,7 +38,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
         public void Setup()
         {
             initialHosting = new Hosting
-
             {
                 PrivateCloud = new PrivateCloud
                 {
@@ -115,7 +114,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
 
             var calledBack = false;
 
-            void Action(IUpdateSolutionHostingRequest updateHostingRequest, CancellationToken _)
+            void Action(IUpdateSolutionHostingRequest updateHostingRequest, CancellationToken token)
             {
                 calledBack = true;
                 var json = JToken.Parse(updateHostingRequest.Hosting);

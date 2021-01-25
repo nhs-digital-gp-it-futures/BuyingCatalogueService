@@ -46,7 +46,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
             validationResult.IsValid.Should().BeFalse();
             validationResult.ToDictionary()["mobile-first-design"].Should().Be("required");
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
+            Context.MockSolutionRepository.Verify(
+                r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
 
             Expression<Func<ISolutionDetailRepository, Task>> expression = r =>
                 r.UpdateClientApplicationAsync(
@@ -71,10 +72,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             var calledBack = false;
 
-            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            void Action(IUpdateSolutionClientApplicationRequest request, CancellationToken token)
             {
                 calledBack = true;
-                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                var json = JToken.Parse(request.ClientApplication);
 
                 json.SelectToken("MobileFirstDesign")?.Value<bool>().Should().BeFalse();
 

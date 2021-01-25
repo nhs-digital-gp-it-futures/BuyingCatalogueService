@@ -66,7 +66,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
             validationResult.IsValid.Should().Be(false);
             validationResult.ToDictionary()["minimum-connection-speed"].Should().Be("required");
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Never);
+            Context.MockSolutionRepository.Verify(
+                r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()),
+                Times.Never());
 
             Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
                 It.IsAny<IUpdateSolutionClientApplicationRequest>(),
