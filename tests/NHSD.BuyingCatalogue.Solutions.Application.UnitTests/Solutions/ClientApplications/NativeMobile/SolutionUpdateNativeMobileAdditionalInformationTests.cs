@@ -1,4 +1,6 @@
+﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -23,15 +25,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateNativeMobileAdditionalInformation("Some info").ConfigureAwait(false);
+            var validationResult = await UpdateNativeMobileAdditionalInformation("Some info");
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
+            Expression<Func<IUpdateSolutionClientApplicationRequest, bool>> match = r =>
                 r.SolutionId == SolutionId
-                && JToken.Parse(r.ClientApplication).SelectToken("NativeMobileAdditionalInformation").Value<string>() == "Some info"
-            ), It.IsAny<CancellationToken>()), Times.Once());
+                && JToken.Parse(r.ClientApplication).SelectToken("NativeMobileAdditionalInformation").Value<string>() == "Some info";
+
+            Context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateClientApplicationAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
         [Test]
@@ -41,20 +45,22 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             var calledBack = false;
 
+            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            {
+                calledBack = true;
+                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+
+                json.SelectToken("NativeMobileAdditionalInformation").Should().BeNullOrEmpty();
+            }
+
             Context.MockSolutionDetailRepository
                 .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()))
-                .Callback((IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken cancellationToken) =>
-                {
-                    calledBack = true;
-                    var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                .Callback<IUpdateSolutionClientApplicationRequest, CancellationToken>(Action);
 
-                    json.SelectToken("NativeMobileAdditionalInformation").Should().BeNullOrEmpty();
-                });
-
-            var validationResult = await UpdateNativeMobileAdditionalInformation(null).ConfigureAwait(false);
+            var validationResult = await UpdateNativeMobileAdditionalInformation();
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
             calledBack.Should().BeTrue();
         }
@@ -62,37 +68,53 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         [Test]
         public async Task ShouldUpdateSolutionNativeMobileAdditionalInformationAndNothingElse()
         {
-            SetUpMockSolutionRepositoryGetByIdAsync("{'ClientApplicationTypes' : [ 'native-mobile' ], 'NativeMobileFirstDesign': true, 'MobileOperatingSystems': { 'OperatingSystems': ['Windows', 'Linux'], 'OperatingSystemsDescription': 'For windows only version 10' }, 'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, 'MobileMemoryAndStorage': { 'Description': 'A description', 'MinimumMemoryRequirement': '1GB' }, 'NativeMobileAdditionalInformation': 'native mobile additional info' }");
+            const string clientApplicationJson = "{'ClientApplicationTypes' : [ 'native-mobile' ], "
+                + "'NativeMobileFirstDesign': true, "
+                + "'MobileOperatingSystems': { 'OperatingSystems': ['Windows', 'Linux'], 'OperatingSystemsDescription': 'For windows only version 10' }, "
+                + "'MobileConnectionDetails': { 'ConnectionType': ['3G', '4G'], 'Description': 'A description', 'MinimumConnectionSpeed': '1GBps' }, "
+                + "'MobileMemoryAndStorage': { 'Description': 'A description', 'MinimumMemoryRequirement': '1GB' }, "
+                + "'NativeMobileAdditionalInformation': 'native mobile additional info' }";
+
+            SetUpMockSolutionRepositoryGetByIdAsync(clientApplicationJson);
 
             var calledBack = false;
+
+            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            {
+                calledBack = true;
+                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+
+                json.SelectToken("NativeMobileAdditionalInformation")?
+                    .Value<string>()
+                    .Should()
+                    .Be("Updated Additional Info");
+
+                json.ReadStringArray("ClientApplicationTypes").ShouldContainOnly(new List<string> { "native-mobile" });
+                json.SelectToken("NativeMobileFirstDesign")?.Value<bool>().Should().BeTrue();
+                json.ReadStringArray("MobileOperatingSystems.OperatingSystems").ShouldContainOnly(
+                    new List<string> { "Windows", "Linux" });
+
+                json.SelectToken("MobileOperatingSystems.OperatingSystemsDescription")?.Value<string>().Should().Be(
+                    "For windows only version 10");
+
+                json.ReadStringArray("MobileConnectionDetails.ConnectionType").ShouldContainOnly(
+                    new List<string> { "3G", "4G" });
+
+                json.SelectToken("MobileConnectionDetails.Description")?.Value<string>().Should().Be("A description");
+                json.SelectToken("MobileConnectionDetails.MinimumConnectionSpeed")?.Value<string>().Should().Be("1GBps");
+                json.SelectToken("MobileMemoryAndStorage.Description")?.Value<string>().Should().Be("A description");
+                json.SelectToken("MobileMemoryAndStorage.MinimumMemoryRequirement")?.Value<string>().Should().Be("1GB");
+            }
 
             Context.MockSolutionDetailRepository
                 .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                     It.IsAny<CancellationToken>()))
-                .Callback((IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest,
-                    CancellationToken cancellationToken) =>
-                {
-                    calledBack = true;
-                    var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                .Callback<IUpdateSolutionClientApplicationRequest, CancellationToken>(Action);
 
-                    json.SelectToken("NativeMobileAdditionalInformation").Value<string>().Should()
-                        .Be("Updated Additional Info");
-
-                    json.ReadStringArray("ClientApplicationTypes").ShouldContainOnly(new List<string> { "native-mobile" });
-                    json.SelectToken("NativeMobileFirstDesign").Value<bool>().Should().BeTrue();
-                    json.ReadStringArray("MobileOperatingSystems.OperatingSystems").ShouldContainOnly(new List<string> { "Windows", "Linux" });
-                    json.SelectToken("MobileOperatingSystems.OperatingSystemsDescription").Value<string>().Should().Be("For windows only version 10");
-                    json.ReadStringArray("MobileConnectionDetails.ConnectionType").ShouldContainOnly(new List<string> { "3G", "4G" });
-                    json.SelectToken("MobileConnectionDetails.Description").Value<string>().Should().Be("A description");
-                    json.SelectToken("MobileConnectionDetails.MinimumConnectionSpeed").Value<string>().Should().Be("1GBps");
-                    json.SelectToken("MobileMemoryAndStorage.Description").Value<string>().Should().Be("A description");
-                    json.SelectToken("MobileMemoryAndStorage.MinimumMemoryRequirement").Value<string>().Should().Be("1GB");
-                });
-
-            var validationResult = await UpdateNativeMobileAdditionalInformation("Updated Additional Info").ConfigureAwait(false);
+            var validationResult = await UpdateNativeMobileAdditionalInformation("Updated Additional Info");
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
             calledBack.Should().BeTrue();
         }
@@ -102,7 +124,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateNativeMobileAdditionalInformation(new string('a', 501)).ConfigureAwait(false);
+            var validationResult = await UpdateNativeMobileAdditionalInformation(new string('a', 501));
             validationResult.IsValid.Should().BeFalse();
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(1);
@@ -114,17 +136,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             Assert.ThrowsAsync<NotFoundException>(() => UpdateNativeMobileAdditionalInformation("New Additional Info"));
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+                It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                It.IsAny<CancellationToken>());
+
+            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
         }
 
-        private async Task<ISimpleResult> UpdateNativeMobileAdditionalInformation(
-            string additionalInformation = null)
+        private async Task<ISimpleResult> UpdateNativeMobileAdditionalInformation(string additionalInformation = null)
         {
             return await Context.UpdateSolutionNativeMobileAdditionalInformationHandler.Handle(
                 new UpdateSolutionNativeMobileAdditionalInformationCommand(SolutionId, additionalInformation),
-                new CancellationToken()).ConfigureAwait(false);
+                CancellationToken.None);
         }
     }
 }

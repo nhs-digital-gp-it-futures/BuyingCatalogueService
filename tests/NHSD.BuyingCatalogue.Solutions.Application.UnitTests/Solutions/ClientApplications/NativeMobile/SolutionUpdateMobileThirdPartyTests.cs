@@ -1,3 +1,5 @@
+﻿using System;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -23,44 +25,46 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateMobileThirdParty("component", "capabilities").ConfigureAwait(false);
+            var validationResult = await UpdateMobileThirdParty("component", "capabilities");
             validationResult.IsValid.Should().BeTrue();
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()),
-                Times.Once);
-            Context.MockSolutionDetailRepository.Verify(r =>
-                r.UpdateClientApplicationAsync(
-                    It.Is<IUpdateSolutionClientApplicationRequest>(r => r.SolutionId == SolutionId
-                                                                        && JToken.Parse(r.ClientApplication)
-                                                                            .SelectToken(ThirdPartyToken)
-                                                                            .Value<string>() == "component"
-                                                                        && JToken.Parse(r.ClientApplication)
-                                                                            .SelectToken(DeviceToken)
-                                                                            .Value<string>() == "capabilities"),
-                    It.IsAny<CancellationToken>()), Times.Once);
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
+
+            Expression<Func<IUpdateSolutionClientApplicationRequest, bool>> match = r =>
+                r.SolutionId == SolutionId
+                && JToken.Parse(r.ClientApplication).SelectToken(ThirdPartyToken).Value<string>() == "component"
+                && JToken.Parse(r.ClientApplication).SelectToken(DeviceToken).Value<string>() == "capabilities";
+
+            Context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateClientApplicationAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task ShouldUpdateNull()
         {
-            SetUpMockSolutionRepositoryGetByIdAsync("{'ClientApplicationTypes' : [ 'native-mobile' ], 'MobileThirdParty': { 'ThirdPartyComponents': 'component', 'DeviceCapabilities': 'capabilities' } }");
+            const string clientApplicationJson = "{'ClientApplicationTypes' : [ 'native-mobile' ], "
+                + "'MobileThirdParty': { 'ThirdPartyComponents': 'component', 'DeviceCapabilities': 'capabilities' } }";
+
+            SetUpMockSolutionRepositoryGetByIdAsync(clientApplicationJson);
 
             var calledBack = false;
 
+            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            {
+                calledBack = true;
+                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+
+                json.SelectToken(ThirdPartyToken).Should().BeNullOrEmpty();
+                json.SelectToken(DeviceToken).Should().BeNullOrEmpty();
+            }
+
             Context.MockSolutionDetailRepository
                 .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()))
-                .Callback((IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken cancellationToken) =>
-                {
-                    calledBack = true;
-                    var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                .Callback<IUpdateSolutionClientApplicationRequest, CancellationToken>(Action);
 
-                    json.SelectToken(ThirdPartyToken).Should().BeNullOrEmpty();
-                    json.SelectToken(DeviceToken).Should().BeNullOrEmpty();
-                });
-
-            var validationResult = await UpdateMobileThirdParty().ConfigureAwait(false);
+            var validationResult = await UpdateMobileThirdParty();
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
             calledBack.Should().BeTrue();
         }
@@ -70,14 +74,22 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateMobileThirdParty(new string('a', 501)).ConfigureAwait(false);
-            validationResult.IsValid.Should().Be(false);
+            var validationResult = await UpdateMobileThirdParty(new string('a', 501));
+            validationResult.IsValid.Should().BeFalse();
+
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(1);
             results["third-party-components"].Should().Be("maxLength");
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Never);
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never);
+            Context.MockSolutionRepository.Verify(
+                r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()),
+                Times.Never());
+
+            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+                It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                It.IsAny<CancellationToken>());
+
+            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
         }
 
         [Test]
@@ -85,14 +97,21 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateMobileThirdParty(null, new string('a', 501)).ConfigureAwait(false);
-            validationResult.IsValid.Should().Be(false);
+            var validationResult = await UpdateMobileThirdParty(null, new string('a', 501));
+            validationResult.IsValid.Should().BeFalse();
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(1);
             results["device-capabilities"].Should().Be("maxLength");
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Never);
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never);
+            Context.MockSolutionRepository.Verify(
+                r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()),
+                Times.Never());
+
+            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+                It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                It.IsAny<CancellationToken>());
+
+            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
         }
 
         [Test]
@@ -100,24 +119,38 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateMobileThirdParty(new string('a', 501), new string('a', 501)).ConfigureAwait(false);
-            validationResult.IsValid.Should().Be(false);
+            var validationResult = await UpdateMobileThirdParty(new string('a', 501), new string('a', 501));
+            validationResult.IsValid.Should().BeFalse();
+
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(2);
             results["third-party-components"].Should().Be("maxLength");
             results["device-capabilities"].Should().Be("maxLength");
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Never);
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never);
+            Context.MockSolutionRepository.Verify(
+                r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()),
+                Times.Never());
+
+            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+                It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                It.IsAny<CancellationToken>());
+
+            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
         }
 
-        private async Task<ISimpleResult> UpdateMobileThirdParty(string thirdPartyComponents = null, string deviceCapabilities = null)
+        private async Task<ISimpleResult> UpdateMobileThirdParty(
+            string thirdPartyComponents = null,
+            string deviceCapabilities = null)
         {
-            var data = Mock.Of<IUpdateNativeMobileThirdPartyData>(n =>
-                n.ThirdPartyComponents == thirdPartyComponents && n.DeviceCapabilities == deviceCapabilities);
+            Expression<Func<IUpdateNativeMobileThirdPartyData, bool>> updateNativeMobileThirdPartyData = t =>
+                t.ThirdPartyComponents == thirdPartyComponents
+                && t.DeviceCapabilities == deviceCapabilities;
+
+            var data = Mock.Of(updateNativeMobileThirdPartyData);
+
             return await Context.UpdateSolutionMobileThirdPartyHandler.Handle(
-                new UpdateSolutionMobileThirdPartyCommand(SolutionId, data), CancellationToken.None)
-                .ConfigureAwait(false);
+                new UpdateSolutionMobileThirdPartyCommand(SolutionId, data),
+                CancellationToken.None);
         }
     }
 }

@@ -1,3 +1,5 @@
+﻿using System;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -21,15 +23,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateNativeDesktopAdditionalInformation("Some info").ConfigureAwait(false);
+            var validationResult = await UpdateNativeDesktopAdditionalInformation("Some info");
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
+            Expression<Func<IUpdateSolutionClientApplicationRequest, bool>> match = r =>
                 r.SolutionId == SolutionId
-                && JToken.Parse(r.ClientApplication).SelectToken("NativeDesktopAdditionalInformation").Value<string>() == "Some info"
-            ), It.IsAny<CancellationToken>()), Times.Once());
+                && JToken.Parse(r.ClientApplication).SelectToken("NativeDesktopAdditionalInformation").Value<string>() == "Some info";
+
+            Context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateClientApplicationAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
         [Test]
@@ -39,20 +43,22 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             var calledBack = false;
 
+            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            {
+                calledBack = true;
+                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+
+                json.SelectToken("NativeDesktopAdditionalInformation").Should().BeNullOrEmpty();
+            }
+
             Context.MockSolutionDetailRepository
                 .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()))
-                .Callback((IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken cancellationToken) =>
-                {
-                    calledBack = true;
-                    var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                .Callback<IUpdateSolutionClientApplicationRequest, CancellationToken>(Action);
 
-                    json.SelectToken("NativeDesktopAdditionalInformation").Should().BeNullOrEmpty();
-                });
-
-            var validationResult = await UpdateNativeDesktopAdditionalInformation(null).ConfigureAwait(false);
+            var validationResult = await UpdateNativeDesktopAdditionalInformation();
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
             calledBack.Should().BeTrue();
         }
@@ -60,31 +66,41 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         [Test]
         public async Task ShouldUpdateNativeDesktopAdditionalInformationAndNothingElse()
         {
-            var clientApplication = new Application.Domain.ClientApplication { NativeDesktopAdditionalInformation = "Some old info" };
+            var clientApplication = new Application.Domain.ClientApplication
+            {
+                NativeDesktopAdditionalInformation = "Some old info",
+            };
+
             var clientJson = JsonConvert.SerializeObject(clientApplication);
 
             SetUpMockSolutionRepositoryGetByIdAsync(clientJson);
 
             var calledBack = false;
 
-            Context.MockSolutionDetailRepository
-                .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(),
-                    It.IsAny<CancellationToken>()))
-                .Callback((IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest,
-                    CancellationToken cancellationToken) =>
-                {
-                    calledBack = true;
-                    var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
-                    var newClientApplication = JsonConvert.DeserializeObject<Application.Domain.ClientApplication>(json.ToString());
-                    clientApplication.Should().BeEquivalentTo(newClientApplication, c =>
-                        c.Excluding(m => m.NativeDesktopAdditionalInformation));
+            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            {
+                calledBack = true;
+                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                var newClientApplication = JsonConvert.DeserializeObject<Application.Domain.ClientApplication>(
+                    json.ToString());
 
-                    newClientApplication.NativeDesktopAdditionalInformation.Should().Be("Some new info");
-                });
-            var validationResult = await UpdateNativeDesktopAdditionalInformation("Some new info").ConfigureAwait(false);
+                clientApplication.Should().BeEquivalentTo(
+                    newClientApplication,
+                    c => c.Excluding(m => m.NativeDesktopAdditionalInformation));
+
+                newClientApplication.NativeDesktopAdditionalInformation.Should().Be("Some new info");
+            }
+
+            Context.MockSolutionDetailRepository
+                .Setup(r => r.UpdateClientApplicationAsync(
+                    It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                    It.IsAny<CancellationToken>()))
+                .Callback<IUpdateSolutionClientApplicationRequest, CancellationToken>(Action);
+
+            var validationResult = await UpdateNativeDesktopAdditionalInformation("Some new info");
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
             calledBack.Should().BeTrue();
         }
@@ -94,7 +110,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateNativeDesktopAdditionalInformation(new string('a', 501)).ConfigureAwait(false);
+            var validationResult = await UpdateNativeDesktopAdditionalInformation(new string('a', 501));
             validationResult.IsValid.Should().BeFalse();
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(1);
@@ -106,17 +122,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             Assert.ThrowsAsync<NotFoundException>(() => UpdateNativeDesktopAdditionalInformation("New Additional Info"));
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+                It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                It.IsAny<CancellationToken>());
+
+            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
         }
 
-        private async Task<ISimpleResult> UpdateNativeDesktopAdditionalInformation(
-            string additionalInformation = null)
+        private async Task<ISimpleResult> UpdateNativeDesktopAdditionalInformation(string additionalInformation = null)
         {
             return await Context.UpdateNativeDesktopAdditionalInformationHandler.Handle(
                 new UpdateNativeDesktopAdditionalInformationCommand(SolutionId, additionalInformation),
-                new CancellationToken()).ConfigureAwait(false);
+                CancellationToken.None);
         }
     }
 }

@@ -1,4 +1,6 @@
+﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -23,14 +25,18 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateNativeMobileFirst("yes").ConfigureAwait(false);
+            var validationResult = await UpdateNativeMobileFirst("yes");
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
-                r.SolutionId == SolutionId
-                && JToken.Parse(r.ClientApplication).SelectToken("NativeMobileFirstDesign").Value<bool>() == true
-            ), It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
+
+            Expression<Func<IUpdateSolutionClientApplicationRequest, bool>> match = r =>
+                r.SolutionId == SolutionId && JToken.Parse(r.ClientApplication)
+                    .SelectToken("NativeMobileFirstDesign")
+                    .Value<bool>();
+
+            Context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateClientApplicationAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
         [Test]
@@ -38,50 +44,67 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateNativeMobileFirst().ConfigureAwait(false);
+            var validationResult = await UpdateNativeMobileFirst();
             validationResult.IsValid.Should().BeFalse();
             var results = validationResult.ToDictionary();
             results.Count.Should().Be(1);
             results["mobile-first-design"].Should().Be("required");
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
 
-            Context.MockSolutionDetailRepository.Verify(
-                r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(),
-                    It.IsAny<CancellationToken>()), Times.Never());
+            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+                It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                It.IsAny<CancellationToken>());
+
+            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
         }
 
         [Test]
         public async Task ShouldUpdateSolutionNativeMobileFirstAndNothingElse()
         {
+            const string clientApplicationJson = "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], "
+                + "'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], "
+                + "'MobileResponsive': false, "
+                + "'Plugins' : {'Required' : true, 'AdditionalInformation': 'lorem ipsum' }, "
+                + "'HardwareRequirements': 'New Hardware', "
+                + "'AdditionalInformation': 'New Additional Info', "
+                + "'MobileFirstDesign': true, "
+                + "'NativeMobileFirstDesign': true }";
+
             SetUpMockSolutionRepositoryGetByIdAsync(
-                "{ 'ClientApplicationTypes' : [ 'browser-based', 'native-mobile' ], 'BrowsersSupported' : [ 'Mozilla Firefox', 'Edge' ], 'MobileResponsive': false, 'Plugins' : {'Required' : true, 'AdditionalInformation': 'orem ipsum' }, 'HardwareRequirements': 'New Hardware', 'AdditionalInformation': 'New Additional Info', 'MobileFirstDesign': true, 'NativeMobileFirstDesign': true }");
+                clientApplicationJson);
 
             var calledBack = false;
 
+            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            {
+                calledBack = true;
+                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+
+                json.ReadStringArray("ClientApplicationTypes").ShouldContainOnly(
+                    new List<string> { "browser-based", "native-mobile" });
+
+                json.ReadStringArray("BrowsersSupported").ShouldContainOnly(
+                    new List<string> { "Mozilla Firefox", "Edge" });
+
+                json.SelectToken("MobileResponsive")?.Value<bool>().Should().BeFalse();
+                json.SelectToken("Plugins.Required")?.Value<bool>().Should().BeTrue();
+                json.SelectToken("Plugins.AdditionalInformation")?.Value<string>().Should().Be("lorem ipsum");
+                json.SelectToken("HardwareRequirements")?.Value<string>().Should().Be("New Hardware");
+                json.SelectToken("AdditionalInformation")?.Value<string>().Should().Be("New Additional Info");
+                json.SelectToken("MobileFirstDesign")?.Value<bool>().Should().BeTrue();
+                json.SelectToken("NativeMobileFirstDesign")?.Value<bool>().Should().BeFalse();
+            }
+
             Context.MockSolutionDetailRepository
-                .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                .Setup(r => r.UpdateClientApplicationAsync(
+                    It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                     It.IsAny<CancellationToken>()))
-                .Callback((IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest,
-                    CancellationToken cancellationToken) =>
-                {
-                    calledBack = true;
-                    var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                .Callback<IUpdateSolutionClientApplicationRequest, CancellationToken>(Action);
 
-                    json.ReadStringArray("ClientApplicationTypes").ShouldContainOnly(new List<string> { "browser-based", "native-mobile" });
-                    json.ReadStringArray("BrowsersSupported").ShouldContainOnly(new List<string> { "Mozilla Firefox", "Edge" });
-                    json.SelectToken("MobileResponsive").Value<bool>().Should().BeFalse();
-                    json.SelectToken("Plugins.Required").Value<bool>().Should().BeTrue();
-                    json.SelectToken("Plugins.AdditionalInformation").Value<string>().Should().Be("orem ipsum");
-                    json.SelectToken("HardwareRequirements").Value<string>().Should().Be("New Hardware");
-                    json.SelectToken("AdditionalInformation").Value<string>().Should().Be("New Additional Info");
-                    json.SelectToken("MobileFirstDesign").Value<bool>().Should().BeTrue();
-                    json.SelectToken("NativeMobileFirstDesign").Value<bool>().Should().BeFalse();
-                });
-
-            var validationResult = await UpdateNativeMobileFirst("no").ConfigureAwait(false);
+            var validationResult = await UpdateNativeMobileFirst("no");
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
             calledBack.Should().BeTrue();
         }
@@ -91,18 +114,20 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             Assert.ThrowsAsync<NotFoundException>(() => UpdateNativeMobileFirst("yes"));
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
 
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+                It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                It.IsAny<CancellationToken>());
+
+            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
         }
 
-        private async Task<ISimpleResult> UpdateNativeMobileFirst(
-            string mobileFirstDesign = null)
+        private async Task<ISimpleResult> UpdateNativeMobileFirst(string mobileFirstDesign = null)
         {
-            return await Context.UpdateSolutionNativeMobileFirstHandler
-                .Handle(
-                    new UpdateSolutionNativeMobileFirstCommand(SolutionId, mobileFirstDesign),
-                    new CancellationToken()).ConfigureAwait(false);
+            return await Context.UpdateSolutionNativeMobileFirstHandler.Handle(
+                new UpdateSolutionNativeMobileFirstCommand(SolutionId, mobileFirstDesign),
+                CancellationToken.None);
         }
     }
 }

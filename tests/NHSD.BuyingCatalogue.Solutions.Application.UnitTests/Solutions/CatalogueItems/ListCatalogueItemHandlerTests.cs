@@ -32,13 +32,17 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Catalog
 
             var catalogueItemRepositoryMock = new Mock<ICatalogueItemRepository>();
             catalogueItemRepositoryMock
-                .Setup(r => r.ListAsync(It.IsAny<string>(), It.IsAny<CatalogueItemType?>(), It.IsAny<PublishedStatus?>(), default))
+                .Setup(r => r.ListAsync(
+                    It.IsAny<string>(),
+                    It.IsAny<CatalogueItemType?>(),
+                    It.IsAny<PublishedStatus?>(),
+                    default))
                 .ReturnsAsync(() => catalogueItemsResult);
 
             var handler = new ListCatalogueItemHandler(new CatalogueItemReader(catalogueItemRepositoryMock.Object));
             var actual = await handler.Handle(null, default);
 
-            var expected = catalogueItemsResult.Select(x => new CatalogueItemDto(x.CatalogueItemId, x.Name));
+            var expected = catalogueItemsResult.Select(r => new CatalogueItemDto(r.CatalogueItemId, r.Name));
 
             actual.Should().BeEquivalentTo(expected);
         }

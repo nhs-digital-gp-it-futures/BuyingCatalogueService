@@ -1,3 +1,5 @@
+﻿using System;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -23,16 +25,22 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateNativeDesktopThirdParty("New Component", "New Capability").ConfigureAwait(false);
+            var validationResult = await UpdateNativeDesktopThirdParty("New Component", "New Capability");
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
+            Expression<Func<IUpdateSolutionClientApplicationRequest, bool>> match = r =>
                 r.SolutionId == SolutionId
-                && JToken.Parse(r.ClientApplication).SelectToken("NativeDesktopThirdParty.ThirdPartyComponents").Value<string>() == "New Component"
-                && JToken.Parse(r.ClientApplication).SelectToken("NativeDesktopThirdParty.DeviceCapabilities").Value<string>() == "New Capability"
-            ), It.IsAny<CancellationToken>()), Times.Once());
+                && JToken.Parse(r.ClientApplication)
+                    .SelectToken("NativeDesktopThirdParty.ThirdPartyComponents")
+                    .Value<string>() == "New Component"
+                && JToken.Parse(r.ClientApplication)
+                    .SelectToken("NativeDesktopThirdParty.DeviceCapabilities")
+                    .Value<string>() == "New Capability";
+
+            Context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateClientApplicationAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
         [Test]
@@ -40,51 +48,59 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{ }");
 
-            var validationResult = await UpdateNativeDesktopThirdParty().ConfigureAwait(false);
+            var validationResult = await UpdateNativeDesktopThirdParty();
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(r =>
+            Expression<Func<IUpdateSolutionClientApplicationRequest, bool>> match = r =>
                 r.SolutionId == SolutionId
                 && JToken.Parse(r.ClientApplication).SelectToken("NativeDesktopThirdParty.ThirdPartyComponents") == null
-                && JToken.Parse(r.ClientApplication).SelectToken("NativeDesktopThirdParty.DeviceCapabilities") == null
-            ), It.IsAny<CancellationToken>()), Times.Once());
+                && JToken.Parse(r.ClientApplication).SelectToken("NativeDesktopThirdParty.DeviceCapabilities") == null;
+
+            Context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateClientApplicationAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task ShouldUpdateSolutionNativeDesktopThirdPartyAndNothingElse()
         {
-            var clientApplication = new Application.Domain.ClientApplication { NativeDesktopThirdParty = new NativeDesktopThirdParty()
+            var clientApplication = new Application.Domain.ClientApplication
             {
-                ThirdPartyComponents = "Component",
-                DeviceCapabilities = "Capabilities",
-            }};
+                NativeDesktopThirdParty = new NativeDesktopThirdParty
+                {
+                    ThirdPartyComponents = "Component",
+                    DeviceCapabilities = "Capabilities",
+                }
+            };
+
             var clientJson = JsonConvert.SerializeObject(clientApplication);
 
             SetUpMockSolutionRepositoryGetByIdAsync(clientJson);
 
             var calledBack = false;
 
-            Context.MockSolutionDetailRepository
-                .Setup(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(),
-                    It.IsAny<CancellationToken>()))
-                .Callback((IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest,
-                    CancellationToken cancellationToken) =>
-                {
-                    calledBack = true;
-                    var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
-                    var newClientApplication = JsonConvert.DeserializeObject<Application.Domain.ClientApplication>(json.ToString());
-                    clientApplication.Should().BeEquivalentTo(newClientApplication, c =>
-                        c.Excluding(m => m.NativeDesktopThirdParty));
+            void Action(IUpdateSolutionClientApplicationRequest updateSolutionClientApplicationRequest, CancellationToken _)
+            {
+                calledBack = true;
+                var json = JToken.Parse(updateSolutionClientApplicationRequest.ClientApplication);
+                var newClientApplication = JsonConvert.DeserializeObject<Application.Domain.ClientApplication>(json.ToString());
+                clientApplication.Should().BeEquivalentTo(newClientApplication, c => c.Excluding(m => m.NativeDesktopThirdParty));
 
-                    newClientApplication.NativeDesktopThirdParty.ThirdPartyComponents.Should().Be("New Component");
-                    newClientApplication.NativeDesktopThirdParty.DeviceCapabilities.Should().Be("New Capability");
-                });
-            var validationResult = await UpdateNativeDesktopThirdParty("New Component", "New Capability").ConfigureAwait(false);
+                newClientApplication.NativeDesktopThirdParty.ThirdPartyComponents.Should().Be("New Component");
+                newClientApplication.NativeDesktopThirdParty.DeviceCapabilities.Should().Be("New Capability");
+            }
+
+            Context.MockSolutionDetailRepository
+                .Setup(r => r.UpdateClientApplicationAsync(
+                    It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                    It.IsAny<CancellationToken>()))
+                .Callback<IUpdateSolutionClientApplicationRequest, CancellationToken>(Action);
+
+            var validationResult = await UpdateNativeDesktopThirdParty("New Component", "New Capability");
             validationResult.IsValid.Should().BeTrue();
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
             calledBack.Should().BeTrue();
         }
@@ -94,15 +110,21 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             SetUpMockSolutionRepositoryGetByIdAsync("{}");
 
-            var validationResult = await UpdateNativeDesktopThirdParty(new string('a', 501), new string('a', 501))
-                .ConfigureAwait(false);
+            var validationResult = await UpdateNativeDesktopThirdParty(new string('a', 501), new string('a', 501));
             validationResult.IsValid.Should().Be(false);
 
             var maxLengthResult = validationResult as MaxLengthResult;
+
+            Assert.NotNull(maxLengthResult);
             maxLengthResult.MaxLength.Should().BeEquivalentTo("third-party-components", "device-capabilities");
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Never);
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never);
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Never());
+
+            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+                It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                It.IsAny<CancellationToken>());
+
+            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
         }
 
         [Test]
@@ -110,9 +132,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         {
             Assert.ThrowsAsync<NotFoundException>(() => UpdateNativeDesktopThirdParty("Component", "Capability"));
 
-            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once());
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+                It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                It.IsAny<CancellationToken>());
+
+            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
         }
 
         private async Task<ISimpleResult> UpdateNativeDesktopThirdParty(string components = null, string capabilities = null)
@@ -122,7 +148,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             return await Context.UpdateSolutionNativeDesktopThirdPartyHandler.Handle(
                 new UpdateSolutionNativeDesktopThirdPartyCommand(SolutionId, data),
-                new CancellationToken()).ConfigureAwait(false);
+                CancellationToken.None);
         }
     }
 }

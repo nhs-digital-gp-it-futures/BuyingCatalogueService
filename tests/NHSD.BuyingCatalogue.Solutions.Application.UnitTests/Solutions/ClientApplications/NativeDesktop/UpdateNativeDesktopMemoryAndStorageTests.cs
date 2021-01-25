@@ -1,3 +1,5 @@
+﻿using System;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -21,41 +23,44 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         private const string MinimumCpuToken = "NativeDesktopMemoryAndStorage.MinimumCpu";
         private const string RecommendedResolutionToken = "NativeDesktopMemoryAndStorage.RecommendedResolution";
 
-        private Mock<IUpdateNativeDesktopMemoryAndStorageData> _dataMock;
-        private string _minimumMemoryRequirement;
-        private string _storageRequirements;
-        private string _minimumCpu;
-        private string _recommendedResolution;
+        private Mock<IUpdateNativeDesktopMemoryAndStorageData> dataMock;
+        private string minimumMemoryRequirement;
+        private string storageRequirements;
+        private string minimumCpu;
+        private string recommendedResolution;
 
         [SetUp]
         public void Setup()
         {
-            _minimumMemoryRequirement = "1MB";
-            _storageRequirements = "A requirement";
-            _minimumCpu = "1Hz";
-            _recommendedResolution = "1x1";
-            _dataMock = new Mock<IUpdateNativeDesktopMemoryAndStorageData>();
-            _dataMock.Setup(x => x.MinimumMemoryRequirement).Returns(() => _minimumMemoryRequirement);
-            _dataMock.Setup(x => x.StorageRequirementsDescription).Returns(() => _storageRequirements);
-            _dataMock.Setup(x => x.MinimumCpu).Returns(() => _minimumCpu);
-            _dataMock.Setup(x => x.RecommendedResolution).Returns(() => _recommendedResolution);
+            minimumMemoryRequirement = "1MB";
+            storageRequirements = "A requirement";
+            minimumCpu = "1Hz";
+            recommendedResolution = "1x1";
+            dataMock = new Mock<IUpdateNativeDesktopMemoryAndStorageData>();
+            dataMock.Setup(d => d.MinimumMemoryRequirement).Returns(() => minimumMemoryRequirement);
+            dataMock.Setup(d => d.StorageRequirementsDescription).Returns(() => storageRequirements);
+            dataMock.Setup(d => d.MinimumCpu).Returns(() => minimumCpu);
+            dataMock.Setup(d => d.RecommendedResolution).Returns(() => recommendedResolution);
         }
 
         [Test]
         public async Task ValidDataShouldUpdateNativeDesktopMemoryAndStorage()
         {
-            SetUpMockSolutionRepositoryGetByIdAsync("");
-            var validationResult = await UpdateNativeDesktopMemoryAndStorage().ConfigureAwait(false);
+            SetUpMockSolutionRepositoryGetByIdAsync(string.Empty);
+            var validationResult = await UpdateNativeDesktopMemoryAndStorage();
 
-            Context.MockSolutionRepository.Verify(x => x.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()), Times.Once);
-            Context.MockSolutionDetailRepository.Verify(x => x.UpdateClientApplicationAsync(It.Is<IUpdateSolutionClientApplicationRequest>(
-                c => 
-                    c.SolutionId == SolutionId &&
-                        JToken.Parse(c.ClientApplication).SelectToken(MinimumMemoryToken).Value<string>() == _minimumMemoryRequirement &&
-                        JToken.Parse(c.ClientApplication).SelectToken(StorageRequirementsToken).Value<string>() == _storageRequirements &&
-                        JToken.Parse(c.ClientApplication).SelectToken(MinimumCpuToken).Value<string>() == _minimumCpu &&
-                        JToken.Parse(c.ClientApplication).SelectToken(RecommendedResolutionToken).Value<string>() == _recommendedResolution
-                ), It.IsAny<CancellationToken>()), Times.Once);
+            Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
+
+            Expression<Func<IUpdateSolutionClientApplicationRequest, bool>> match = r =>
+                r.SolutionId == SolutionId
+                && JToken.Parse(r.ClientApplication).SelectToken(MinimumMemoryToken).Value<string>() == minimumMemoryRequirement
+                && JToken.Parse(r.ClientApplication).SelectToken(StorageRequirementsToken).Value<string>() == storageRequirements
+                && JToken.Parse(r.ClientApplication).SelectToken(MinimumCpuToken).Value<string>() == minimumCpu
+                && JToken.Parse(r.ClientApplication).SelectToken(RecommendedResolutionToken).Value<string>() == recommendedResolution;
+
+            Context.MockSolutionDetailRepository.Verify(
+                r => r.UpdateClientApplicationAsync(It.Is(match), It.IsAny<CancellationToken>()));
+
             validationResult.IsValid.Should().BeTrue();
         }
 
@@ -65,117 +70,179 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
         [TestCase("", " ", null)]
         public async Task MissingDataShouldReturnRequiredValidationResult(string memory, string storage, string cpu)
         {
-            _minimumMemoryRequirement = memory;
-            _storageRequirements = storage;
-            _minimumCpu = cpu;
+            minimumMemoryRequirement = memory;
+            storageRequirements = storage;
+            minimumCpu = cpu;
             SetUpMockSolutionRepositoryGetByIdAsync();
-            var validationResult = await UpdateNativeDesktopMemoryAndStorage().ConfigureAwait(false);
-            
-            Context.MockSolutionRepository.Verify(x => x.ByIdAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
-                Times.Never);
-            Context.MockSolutionDetailRepository.Verify(
-                x => x.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(),
-                    It.IsAny<CancellationToken>()), Times.Never);
+            var validationResult = await UpdateNativeDesktopMemoryAndStorage();
+
+            Expression<Func<ISolutionRepository, Task>> solutionRepositoryExpression = r => r.ByIdAsync(
+                It.IsAny<string>(),
+                It.IsAny<CancellationToken>());
+
+            Context.MockSolutionRepository.Verify(solutionRepositoryExpression, Times.Never());
+
+            Expression<Func<ISolutionDetailRepository, Task>> solutionDetailRepositoryExpression = r =>
+                r.UpdateClientApplicationAsync(
+                    It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                    It.IsAny<CancellationToken>());
+
+            Context.MockSolutionDetailRepository.Verify(solutionDetailRepositoryExpression, Times.Never());
+
             validationResult.IsValid.Should().BeFalse();
             validationResult.Should().BeOfType<RequiredMaxLengthResult>();
+
             var reqMaxLengthResult = validationResult as RequiredMaxLengthResult;
-            reqMaxLengthResult.Required.Should().BeEquivalentTo("minimum-memory-requirement", "storage-requirements-description", "minimum-cpu");
+
+            Assert.NotNull(reqMaxLengthResult);
+            reqMaxLengthResult.Required.Should().BeEquivalentTo(
+                "minimum-memory-requirement",
+                "storage-requirements-description",
+                "minimum-cpu");
         }
 
         [Test]
         public async Task SomeMissingDataShouldReturnRequiredValidationResult()
         {
-            _minimumMemoryRequirement = "";
-            _storageRequirements = "a requirement";
-            _minimumCpu = null;
+            minimumMemoryRequirement = "";
+            storageRequirements = "a requirement";
+            minimumCpu = null;
             SetUpMockSolutionRepositoryGetByIdAsync();
-            var validationResult = await UpdateNativeDesktopMemoryAndStorage().ConfigureAwait(false);
+            var validationResult = await UpdateNativeDesktopMemoryAndStorage();
 
-            Context.MockSolutionRepository.Verify(x => x.ByIdAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
-                Times.Never);
-            Context.MockSolutionDetailRepository.Verify(
-                x => x.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(),
-                    It.IsAny<CancellationToken>()), Times.Never);
+            Expression<Func<ISolutionRepository, Task>> solutionRepositoryExpression = r => r.ByIdAsync(
+                It.IsAny<string>(),
+                It.IsAny<CancellationToken>());
+
+            Context.MockSolutionRepository.Verify(solutionRepositoryExpression, Times.Never());
+
+            Expression<Func<ISolutionDetailRepository, Task>> solutionDetailRepositoryExpression = r =>
+                r.UpdateClientApplicationAsync(
+                    It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                    It.IsAny<CancellationToken>());
+
+            Context.MockSolutionDetailRepository.Verify(solutionDetailRepositoryExpression, Times.Never());
+
             validationResult.IsValid.Should().BeFalse();
             validationResult.Should().BeOfType<RequiredMaxLengthResult>();
+
             var reqMaxLengthResult = validationResult as RequiredMaxLengthResult;
+
+            Assert.NotNull(reqMaxLengthResult);
             reqMaxLengthResult.Required.Should().BeEquivalentTo("minimum-memory-requirement", "minimum-cpu");
         }
 
         [Test]
         public async Task TooLongDataForStorageRequirementsShouldReturnMaxLengthValidationResult()
         {
-            _storageRequirements = new string('a', 301);
+            storageRequirements = new string('a', 301);
             SetUpMockSolutionRepositoryGetByIdAsync();
-            var validationResult = await UpdateNativeDesktopMemoryAndStorage().ConfigureAwait(false);
+            var validationResult = await UpdateNativeDesktopMemoryAndStorage();
 
-            Context.MockSolutionRepository.Verify(x => x.ByIdAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
-                Times.Never);
-            Context.MockSolutionDetailRepository.Verify(
-                x => x.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(),
-                    It.IsAny<CancellationToken>()), Times.Never);
+            Expression<Func<ISolutionRepository, Task>> solutionRepositoryExpression = r => r.ByIdAsync(
+                It.IsAny<string>(),
+                It.IsAny<CancellationToken>());
+
+            Context.MockSolutionRepository.Verify(solutionRepositoryExpression, Times.Never());
+
+            Expression<Func<ISolutionDetailRepository, Task>> solutionDetailRepositoryExpression = r =>
+                r.UpdateClientApplicationAsync(
+                    It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                    It.IsAny<CancellationToken>());
+
+            Context.MockSolutionDetailRepository.Verify(solutionDetailRepositoryExpression, Times.Never());
 
             validationResult.IsValid.Should().BeFalse();
             validationResult.Should().BeOfType<RequiredMaxLengthResult>();
+
             var reqMaxLengthResult = validationResult as RequiredMaxLengthResult;
+
+            Assert.NotNull(reqMaxLengthResult);
             reqMaxLengthResult.MaxLength.Should().BeEquivalentTo("storage-requirements-description");
         }
 
         [Test]
         public async Task TooLongDataForMinimumCpuShouldReturnMaxLengthValidationResult()
         {
-            _minimumCpu = new string('b', 301);
+            minimumCpu = new string('b', 301);
             SetUpMockSolutionRepositoryGetByIdAsync();
-            var validationResult = await UpdateNativeDesktopMemoryAndStorage().ConfigureAwait(false);
+            var validationResult = await UpdateNativeDesktopMemoryAndStorage();
 
-            Context.MockSolutionRepository.Verify(x => x.ByIdAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
-                Times.Never);
-            Context.MockSolutionDetailRepository.Verify(
-                x => x.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(),
-                    It.IsAny<CancellationToken>()), Times.Never);
+            Expression<Func<ISolutionRepository, Task>> solutionRepositoryExpression = r => r.ByIdAsync(
+                It.IsAny<string>(),
+                It.IsAny<CancellationToken>());
+
+            Context.MockSolutionRepository.Verify(solutionRepositoryExpression, Times.Never());
+
+            Expression<Func<ISolutionDetailRepository, Task>> solutionDetailRepositoryExpression = r =>
+                r.UpdateClientApplicationAsync(
+                    It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                    It.IsAny<CancellationToken>());
+
+            Context.MockSolutionDetailRepository.Verify(solutionDetailRepositoryExpression, Times.Never());
 
             validationResult.IsValid.Should().BeFalse();
             validationResult.Should().BeOfType<RequiredMaxLengthResult>();
+
             var reqMaxLengthResult = validationResult as RequiredMaxLengthResult;
+
+            Assert.NotNull(reqMaxLengthResult);
             reqMaxLengthResult.MaxLength.Should().BeEquivalentTo("minimum-cpu");
         }
 
         [Test]
         public async Task TooLongDataForMultipleFieldsShouldReturnMaxLengthValidationResult()
         {
-            _storageRequirements = new string('a', 301);
-            _minimumCpu = new string('b', 301);
+            storageRequirements = new string('a', 301);
+            minimumCpu = new string('b', 301);
             SetUpMockSolutionRepositoryGetByIdAsync();
-            var validationResult = await UpdateNativeDesktopMemoryAndStorage().ConfigureAwait(false);
+            var validationResult = await UpdateNativeDesktopMemoryAndStorage();
 
-            Context.MockSolutionRepository.Verify(x => x.ByIdAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
-                Times.Never);
-            Context.MockSolutionDetailRepository.Verify(
-                x => x.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(),
-                    It.IsAny<CancellationToken>()), Times.Never);
+            Expression<Func<ISolutionRepository, Task>> solutionRepositoryExpression = r => r.ByIdAsync(
+                It.IsAny<string>(),
+                It.IsAny<CancellationToken>());
+
+            Context.MockSolutionRepository.Verify(solutionRepositoryExpression, Times.Never());
+
+            Expression<Func<ISolutionDetailRepository, Task>> solutionDetailRepositoryExpression = r =>
+                r.UpdateClientApplicationAsync(
+                    It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                    It.IsAny<CancellationToken>());
+
+            Context.MockSolutionDetailRepository.Verify(solutionDetailRepositoryExpression, Times.Never());
 
             validationResult.IsValid.Should().BeFalse();
             validationResult.Should().BeOfType<RequiredMaxLengthResult>();
+
             var reqMaxLengthResult = validationResult as RequiredMaxLengthResult;
+
+            Assert.NotNull(reqMaxLengthResult);
             reqMaxLengthResult.MaxLength.Should().BeEquivalentTo("storage-requirements-description", "minimum-cpu");
         }
 
         [Test]
         public void InvalidSolutionIdShouldThrowNotFound()
         {
-            Assert.ThrowsAsync<NotFoundException>(async () => await UpdateNativeDesktopMemoryAndStorage().ConfigureAwait(false));
-            Context.MockSolutionRepository.Verify(x => x.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()),
-                Times.Once);
-            Context.MockSolutionDetailRepository.Verify(
-                x => x.UpdateClientApplicationAsync(It.IsAny<IUpdateSolutionClientApplicationRequest>(),
-                    It.IsAny<CancellationToken>()), Times.Never);
+            Assert.ThrowsAsync<NotFoundException>(async () => await UpdateNativeDesktopMemoryAndStorage());
+
+            Expression<Func<ISolutionRepository, Task>> solutionRepositoryExpression = r =>
+                r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>());
+
+            Context.MockSolutionRepository.Verify(solutionRepositoryExpression, Times.Once());
+
+            Expression<Func<ISolutionDetailRepository, Task>> solutionDetailRepositoryExpression = r =>
+                r.UpdateClientApplicationAsync(
+                    It.IsAny<IUpdateSolutionClientApplicationRequest>(),
+                    It.IsAny<CancellationToken>());
+
+            Context.MockSolutionDetailRepository.Verify(solutionDetailRepositoryExpression, Times.Never());
         }
 
         private async Task<ISimpleResult> UpdateNativeDesktopMemoryAndStorage()
         {
             return await Context.UpdateNativeDesktopMemoryAndStorageHandler.Handle(
-                new UpdateNativeDesktopMemoryAndStorageCommand(SolutionId, _dataMock.Object),
-                new CancellationToken()).ConfigureAwait(false);
+                new UpdateNativeDesktopMemoryAndStorageCommand(SolutionId, dataMock.Object),
+                CancellationToken.None);
         }
     }
 }
