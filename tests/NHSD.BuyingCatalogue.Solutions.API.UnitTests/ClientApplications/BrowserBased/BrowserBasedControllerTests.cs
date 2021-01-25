@@ -36,9 +36,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
         {
             var result = (await browserBasedController.GetBrowserBasedAsync(SolutionId)) as ObjectResult;
 
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
             var browserBasedResult = result.Value as BrowserBasedResult;
 
+            Assert.NotNull(browserBasedResult);
             browserBasedResult.Should().NotBeNull();
             browserBasedResult.BrowserBasedDashboardSections.Should().NotBeNull();
 
@@ -241,6 +243,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
                 .ReturnsAsync(clientApplication);
 
             var result = (await browserBasedController.GetBrowserBasedAsync(SolutionId)) as ObjectResult;
+
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             mockMediator.Verify(m => m.Send(

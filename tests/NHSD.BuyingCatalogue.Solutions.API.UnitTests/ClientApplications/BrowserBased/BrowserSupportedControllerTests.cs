@@ -35,8 +35,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
             mockMediator = new Mock<IMediator>();
             browserSupportedController = new BrowsersSupportedController(mockMediator.Object);
             simpleResultMock = new Mock<ISimpleResult>();
-            simpleResultMock.Setup(x => x.IsValid).Returns(() => !resultDictionary.Any());
-            simpleResultMock.Setup(x => x.ToDictionary()).Returns(() => resultDictionary);
+            simpleResultMock.Setup(m => m.IsValid).Returns(() => !resultDictionary.Any());
+            simpleResultMock.Setup(m => m.ToDictionary()).Returns(() => resultDictionary);
             resultDictionary = new Dictionary<string, string>();
             mockMediator
                 .Setup(m => m.Send(
@@ -60,10 +60,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
 
             var result = await browserSupportedController.GetBrowsersSupportedAsync(SolutionId) as ObjectResult;
 
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             var browsersSupported = result.Value as GetBrowsersSupportedResult;
 
+            Assert.NotNull(browsersSupported);
             browsersSupported.BrowsersSupported.Should().BeEquivalentTo("Chrome", "Edge");
             browsersSupported.MobileResponsive.Should().Be("Yes");
 
@@ -83,10 +85,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
 
             var result = await browserSupportedController.GetBrowsersSupportedAsync(SolutionId) as ObjectResult;
 
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             var browsersSupported = result.Value as GetBrowsersSupportedResult;
 
+            Assert.NotNull(browsersSupported);
             browsersSupported.BrowsersSupported.Should().BeEmpty();
             browsersSupported.MobileResponsive.Should().Be("Yes");
 
@@ -107,9 +111,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
                 .ReturnsAsync(Mock.Of<IClientApplication>(c => c.MobileResponsive == mobileResponsive));
 
             var result = await browserSupportedController.GetBrowsersSupportedAsync(SolutionId) as ObjectResult;
+
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             var browsersSupported = result.Value as GetBrowsersSupportedResult;
+
+            Assert.NotNull(browsersSupported);
             browsersSupported.MobileResponsive.Should().Be(expectedMobileResponsive);
 
             mockMediator.Verify(m => m.Send(
@@ -127,9 +135,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
                 .ReturnsAsync(() => null);
 
             var result = await browserSupportedController.GetBrowsersSupportedAsync(SolutionId) as ObjectResult;
+
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             var browsersSupported = result.Value as GetBrowsersSupportedResult;
+
+            Assert.NotNull(browsersSupported);
             browsersSupported.MobileResponsive.Should().BeNull();
             browsersSupported.BrowsersSupported.Count().Should().Be(0);
         }
@@ -139,9 +151,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
         {
             var result = await browserSupportedController.GetBrowsersSupportedAsync(SolutionId) as ObjectResult;
 
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
-            (result.Value as GetBrowsersSupportedResult).MobileResponsive.Should().BeNull();
-            (result.Value as GetBrowsersSupportedResult).BrowsersSupported.Should().BeEmpty();
+
+            result.Value.Should().BeOfType<GetBrowsersSupportedResult>();
+            result.Value.As<GetBrowsersSupportedResult>().MobileResponsive.Should().BeNull();
+            result.Value.As<GetBrowsersSupportedResult>().BrowsersSupported.Should().BeEmpty();
         }
 
         [Test]
@@ -162,7 +177,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
                 && c.Data.BrowsersSupported.All(s => s == "Edge")
                 && c.Data.MobileResponsive == "yes";
 
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status204NoContent);
+
             mockMediator.Verify(m => m.Send(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
@@ -177,8 +194,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
                 SolutionId,
                 request) as BadRequestObjectResult;
 
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
+
             var validationResult = result.Value as Dictionary<string, string>;
+
+            Assert.NotNull(validationResult);
             validationResult.Count.Should().Be(2);
             validationResult["supported-browsers"].Should().Be("required");
             validationResult["mobile-responsive"].Should().Be("required");

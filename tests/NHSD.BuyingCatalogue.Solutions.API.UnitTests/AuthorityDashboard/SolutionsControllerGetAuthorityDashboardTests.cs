@@ -30,8 +30,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.AuthorityDashboard
         {
             var result = (await solutionsController.AuthorityDashboard(SolutionId)).Result as ObjectResult;
 
-            result?.StatusCode.Should().Be(StatusCodes.Status200OK);
-            (result.Value as SolutionAuthorityDashboardResult).Id.Should().BeNull();
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
+
+            result.Value.Should().BeOfType<SolutionAuthorityDashboardResult>();
+            result.Value.As<SolutionAuthorityDashboardResult>().Id.Should().BeNull();
         }
     }
 }

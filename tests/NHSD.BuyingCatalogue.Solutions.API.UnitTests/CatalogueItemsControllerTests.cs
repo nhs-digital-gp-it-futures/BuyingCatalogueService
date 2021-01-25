@@ -63,8 +63,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             await context.Controller.GetAsync(catalogueItemId);
 
-            context.MediatorMock.Verify(x =>
-                x.Send(It.IsNotNull<GetCatalogueItemByIdQuery>(), default), Times.Once);
+            context.MediatorMock.Verify(m => m.Send(It.IsNotNull<GetCatalogueItemByIdQuery>(), default));
         }
 
         [Test]
@@ -136,24 +135,26 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 ListCatalogueItemsDtoResult = new List<CatalogueItemDto>();
 
                 MediatorMock = new Mock<IMediator>();
-                MediatorMock.Setup(x => x.Send(It.IsAny<GetCatalogueItemByIdQuery>(), default)).ReturnsAsync(() => GetCatalogueItemDtoResult);
+                MediatorMock
+                    .Setup(m => m.Send(It.IsAny<GetCatalogueItemByIdQuery>(), default))
+                    .ReturnsAsync(() => GetCatalogueItemDtoResult);
 
-                MediatorMock.Setup(x => x.Send(It.IsAny<ListCatalogueItemQuery>(), default)).ReturnsAsync(() =>
-                    ListCatalogueItemsDtoResult);
+                MediatorMock
+                    .Setup(m => m.Send(It.IsAny<ListCatalogueItemQuery>(), default))
+                    .ReturnsAsync(() => ListCatalogueItemsDtoResult);
 
                 Controller = new CatalogueItemsController(MediatorMock.Object);
             }
 
             internal CatalogueItemDto GetCatalogueItemDtoResult { get; set; }
 
-            internal List<CatalogueItemDto> ListCatalogueItemsDtoResult { get; set; }
+            internal List<CatalogueItemDto> ListCatalogueItemsDtoResult { get; }
 
             internal Mock<IMediator> MediatorMock { get; }
 
             internal CatalogueItemsController Controller { get; }
 
-            internal static CatalogueItemsControllerTestContext Create() =>
-                new();
+            internal static CatalogueItemsControllerTestContext Create() => new();
         }
     }
 }

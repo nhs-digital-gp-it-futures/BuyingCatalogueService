@@ -38,8 +38,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var result = (await solutionsController.Dashboard(SolutionId)).Result as ObjectResult;
 
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
-            (result.Value as SolutionDashboardResult).Id.Should().BeNull();
+
+            result.Value.Should().BeOfType<SolutionDashboardResult>();
+            result.Value.As<SolutionDashboardResult>().Id.Should().BeNull();
         }
 
         [Test]
@@ -272,6 +275,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 Mock.Of(contact),
             };
 
+            // ReSharper disable once PossibleUnintendedReferenceComparison (mock set-up)
             Expression<Func<ISolution, bool>> solution = s => s.Contacts == contactMock;
 
             var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of(solution));
@@ -284,6 +288,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         public async Task ShouldGetDashboardWithNoContacts()
         {
             var contactMock = new List<IContact>();
+
+            // ReSharper disable once PossibleUnintendedReferenceComparison (mock set-up)
             Expression<Func<ISolution, bool>> solution = s => s.Contacts == contactMock;
 
             var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of(solution));
@@ -304,6 +310,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 Mock.Of(contact),
             };
 
+
+            // ReSharper disable once PossibleUnintendedReferenceComparison (mock set-up)
             Expression<Func<ISolution, bool>> solution = s => s.Contacts == contactMock;
 
             var dashboardResult = await GetSolutionDashboardSectionAsync(Mock.Of(solution));
@@ -611,6 +619,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 .ReturnsAsync(solution);
 
             var result = (await solutionsController.Dashboard(SolutionId)).Result as ObjectResult;
+
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             mockMediator.Verify(

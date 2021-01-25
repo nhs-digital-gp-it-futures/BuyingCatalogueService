@@ -1,10 +1,12 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers.Hostings;
@@ -19,28 +21,28 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
 {
     [TestFixture]
-    public sealed class PublicCloudHostingControllerTests
+    internal sealed class PublicCloudHostingControllerTests
     {
-        private Mock<IMediator> _mediatorMock;
-        private PublicCloudHostingController _publicCloudHostingController;
-        private readonly string _solutionId = "Sln1";
-        private Mock<ISimpleResult> _simpleResultMock;
-        private Dictionary<string, string> _resultDictionary;
+        private const string SolutionId = "Sln1";
+
+        private Mock<IMediator> mediatorMock;
+        private PublicCloudHostingController publicCloudHostingController;
+        private Mock<ISimpleResult> simpleResultMock;
+        private Dictionary<string, string> resultDictionary;
 
         [SetUp]
         public void Setup()
         {
-            _mediatorMock = new Mock<IMediator>();
-            _publicCloudHostingController = new PublicCloudHostingController(_mediatorMock.Object);
+            mediatorMock = new Mock<IMediator>();
+            publicCloudHostingController = new PublicCloudHostingController(mediatorMock.Object);
 
-            _simpleResultMock = new Mock<ISimpleResult>();
-            _simpleResultMock.Setup(x => x.IsValid).Returns(() => !_resultDictionary.Any());
-            _simpleResultMock.Setup(x => x.ToDictionary()).Returns(() => _resultDictionary);
-            _resultDictionary = new Dictionary<string, string>();
-            _mediatorMock.Setup(x =>
-                    x.Send(It.IsAny<UpdatePublicCloudCommand>(),
-                        It.IsAny<CancellationToken>()))
-                .ReturnsAsync(() => _simpleResultMock.Object);
+            simpleResultMock = new Mock<ISimpleResult>();
+            simpleResultMock.Setup(r => r.IsValid).Returns(() => !resultDictionary.Any());
+            simpleResultMock.Setup(r => r.ToDictionary()).Returns(() => resultDictionary);
+            resultDictionary = new Dictionary<string, string>();
+            mediatorMock
+                .Setup(m => m.Send(It.IsAny<UpdatePublicCloudCommand>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(() => simpleResultMock.Object);
         }
 
         [TestCase("Some summary", "Some link", "'Tis required")]
@@ -52,21 +54,28 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
         [TestCase("Some summary", "Some link", null)]
         [TestCase(null, null, "'Tis required")]
         [TestCase(null, null, null)]
-
         public async Task PopulatedPublicCloudShouldReturnCorrectPublicCloud(string summary, string link, string requiresHscn)
         {
-            _mediatorMock.Setup(m => m.Send(It.Is<GetHostingBySolutionIdQuery>(q => q.Id == _solutionId),
+            Expression<Func<IPublicCloud, bool>> publicCloud = p =>
+                p.Summary == summary
+                && p.Link == link
+                && p.RequiresHSCN == requiresHscn;
+
+            mediatorMock
+                .Setup(m => m.Send(
+                    It.Is<GetHostingBySolutionIdQuery>(q => q.Id == SolutionId),
                     It.IsAny<CancellationToken>()))
-                .ReturnsAsync(Mock.Of<IHosting>(h => h.PublicCloud == Mock.Of<IPublicCloud>(p =>
-                                                         p.Summary == summary &&
-                                                         p.Link == link &&
-                                                         p.RequiresHSCN == requiresHscn)));
-            var result = await _publicCloudHostingController.GetPublicCloudHosting(_solutionId).ConfigureAwait(false) as ObjectResult;
-            result.Should().NotBeNull();
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+                .ReturnsAsync(Mock.Of<IHosting>(h => h.PublicCloud == Mock.Of(publicCloud)));
+
+            var result = await publicCloudHostingController.GetPublicCloudHosting(SolutionId) as ObjectResult;
+
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
             result.Value.Should().BeOfType<GetPublicCloudResult>();
 
             var publicCloudData = result.Value as GetPublicCloudResult;
+
+            Assert.NotNull(publicCloudData);
             publicCloudData.Summary.Should().Be(summary);
             publicCloudData.Link.Should().Be(link);
 
@@ -83,15 +92,21 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
         [Test]
         public async Task NullHostingShouldReturnNull()
         {
-            _mediatorMock.Setup(m => m.Send(It.Is<GetHostingBySolutionIdQuery>(q => q.Id == _solutionId),
+            mediatorMock
+                .Setup(m => m.Send(
+                    It.Is<GetHostingBySolutionIdQuery>(q => q.Id == SolutionId),
                     It.IsAny<CancellationToken>()))
                 .ReturnsAsync(null as IHosting);
 
-            var result = await _publicCloudHostingController.GetPublicCloudHosting(_solutionId).ConfigureAwait(false) as ObjectResult;
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            var result = await publicCloudHostingController.GetPublicCloudHosting(SolutionId) as ObjectResult;
+
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
             result.Value.Should().BeOfType<GetPublicCloudResult>();
 
             var publicCloudData = result.Value as GetPublicCloudResult;
+
+            Assert.NotNull(publicCloudData);
             publicCloudData.Summary.Should().BeNull();
             publicCloudData.Link.Should().BeNull();
             publicCloudData.RequiredHscn.Should().BeEmpty();
@@ -100,49 +115,49 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
         [Test]
         public async Task UpdateValidPublicCloud()
         {
-            var request = new UpdatePublicCloudViewModel()
+            var request = new UpdatePublicCloudViewModel
             {
                 Summary = "New Summary",
                 Link = "New URL",
-                RequiresHSCNArray = new HashSet<string> {"New requires HSCN"},
+                RequiresHSCNArray = new HashSet<string> { "New requires HSCN" },
             };
 
-            var result =
-                (await _publicCloudHostingController.UpdatePublicCloudHosting(_solutionId, request)
-                    .ConfigureAwait(false)) as NoContentResult;
-            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
-            _mediatorMock.Verify(
-                x => x.Send(
-                    It.Is<UpdatePublicCloudCommand>(c =>
-                        c.SolutionId == _solutionId &&
-                        c.Data == request),
-                    It.IsAny<CancellationToken>()), Times.Once);
+            var result = await publicCloudHostingController.UpdatePublicCloudHosting(SolutionId, request) as NoContentResult;
+
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status204NoContent);
+
+            mediatorMock.Verify(m => m.Send(
+                It.Is<UpdatePublicCloudCommand>(c => c.SolutionId == SolutionId && c.Data == request),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task UpdateInvalidReturnsBadRequestWithValidationDetails()
         {
-            _resultDictionary.Add("summary", "maxLength");
-            _resultDictionary.Add("link", "maxLength");
+            resultDictionary.Add("summary", "maxLength");
+            resultDictionary.Add("link", "maxLength");
             var request = new UpdatePublicCloudViewModel();
 
-            var result =
-                (await _publicCloudHostingController.UpdatePublicCloudHosting(_solutionId, request)
-                    .ConfigureAwait(false)) as BadRequestObjectResult;
+            var result = await publicCloudHostingController.UpdatePublicCloudHosting(SolutionId, request) as BadRequestObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
+
             var validationResult = result.Value as Dictionary<string, string>;
+
+            Assert.NotNull(validationResult);
             validationResult.Count.Should().Be(2);
             validationResult["summary"].Should().Be("maxLength");
             validationResult["link"].Should().Be("maxLength");
 
-            _mediatorMock.Verify(x => x.Send(
-                    It.Is<UpdatePublicCloudCommand>(c =>
-                        c.Data.Summary == request.Summary &&
-                        c.Data.Link == request.Link &&
-                        c.Data.RequiresHSCN == request.RequiresHSCN &&
-                        c.SolutionId == _solutionId), It.IsAny<CancellationToken>()),
-                Times.Once);
+            Expression<Func<UpdatePublicCloudCommand, bool>> match = c =>
+                c.Data.Summary == request.Summary
+                && c.Data.Link == request.Link
+                && c.Data.RequiresHSCN == request.RequiresHSCN
+                && c.SolutionId == SolutionId;
+
+            mediatorMock.Verify(m => m.Send(It.Is(match), It.IsAny<CancellationToken>()));
         }
     }
 }

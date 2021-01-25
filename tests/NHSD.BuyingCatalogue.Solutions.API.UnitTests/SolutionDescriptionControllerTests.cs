@@ -48,8 +48,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     It.IsAny<CancellationToken>()))
                 .ReturnsAsync(solutionMock);
 
-            var result = (await solutionDescriptionController.GetSolutionDescriptionAsync(SolutionId)) as ObjectResult;
+            var result = await solutionDescriptionController.GetSolutionDescriptionAsync(SolutionId) as ObjectResult;
 
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
             ((SolutionDescriptionResult)result.Value).Summary.Should().Be(solutionMock.Summary);
             ((SolutionDescriptionResult)result.Value).Description.Should().Be(solutionMock.Description);
@@ -70,11 +71,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 It.IsAny<CancellationToken>()))
                 .ReturnsAsync(validationModel.Object);
 
-            var result = (await solutionDescriptionController.UpdateAsync(
+            var result = await solutionDescriptionController.UpdateAsync(
                 SolutionId,
-                solutionSummaryUpdateViewModel)) as NoContentResult;
+                solutionSummaryUpdateViewModel) as NoContentResult;
 
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status204NoContent);
+
             mockMediator.Verify(m => m.Send(
                 It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.Data == solutionSummaryUpdateViewModel),
                 It.IsAny<CancellationToken>()));
@@ -105,13 +108,16 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                     It.IsAny<CancellationToken>()))
                 .ReturnsAsync(validationModel.Object);
 
-            var result = (await solutionDescriptionController.UpdateAsync(
+            var result = await solutionDescriptionController.UpdateAsync(
                 SolutionId,
-                solutionSummaryUpdateViewModel)) as BadRequestObjectResult;
+                solutionSummaryUpdateViewModel) as BadRequestObjectResult;
 
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
 
             var resultValue = result.Value as Dictionary<string, string>;
+
+            Assert.NotNull(resultValue);
             resultValue.Count.Should().Be(3);
             resultValue["summary"].Should().Be("required");
             resultValue["description"].Should().Be("maxLength");

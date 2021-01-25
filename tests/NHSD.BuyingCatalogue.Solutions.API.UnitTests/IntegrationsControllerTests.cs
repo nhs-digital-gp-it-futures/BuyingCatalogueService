@@ -1,10 +1,10 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
@@ -18,83 +18,96 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 {
     [TestFixture]
-    public sealed class IntegrationsControllerTests
+    internal sealed class IntegrationsControllerTests
     {
-        private Mock<IMediator> _mediatorMock;
-        private IntegrationsController _controller;
         private const string SolutionId = "Sln1";
-        private Mock<ISimpleResult> _simpleResultMock;
-        private Dictionary<string, string> _resultDictionary;
+
+        private Mock<IMediator> mediatorMock;
+        private IntegrationsController controller;
+        private Mock<ISimpleResult> simpleResultMock;
+        private Dictionary<string, string> resultDictionary;
 
         [SetUp]
         public void Setup()
         {
-            _mediatorMock = new Mock<IMediator>();
-            _controller = new IntegrationsController(_mediatorMock.Object);
-            _simpleResultMock = new Mock<ISimpleResult>();
-            _simpleResultMock.Setup(x => x.IsValid).Returns(() => !_resultDictionary.Any());
-            _simpleResultMock.Setup(x => x.ToDictionary()).Returns(() => _resultDictionary);
-            _resultDictionary = new Dictionary<string, string>();
-            _mediatorMock.Setup(x =>
-                    x.Send(It.IsAny<UpdateIntegrationsCommand>(),
-                        It.IsAny<CancellationToken>()))
-                .ReturnsAsync(() => _simpleResultMock.Object);
+            mediatorMock = new Mock<IMediator>();
+            controller = new IntegrationsController(mediatorMock.Object);
+            simpleResultMock = new Mock<ISimpleResult>();
+            simpleResultMock.Setup(r => r.IsValid).Returns(() => !resultDictionary.Any());
+            simpleResultMock.Setup(r => r.ToDictionary()).Returns(() => resultDictionary);
+            resultDictionary = new Dictionary<string, string>();
+            mediatorMock
+                .Setup(m => m.Send(It.IsAny<UpdateIntegrationsCommand>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(() => simpleResultMock.Object);
         }
 
         [TestCase("Some integrations url")]
         [TestCase(null)]
         public async Task ShouldGetIntegrations(string url)
         {
-            _mediatorMock.Setup(m => m.Send(It.Is<GetIntegrationsBySolutionIdQuery>(r => r.Id == SolutionId), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(Mock.Of<IIntegrations>(m => m.Url == url));
+            mediatorMock
+                .Setup(m => m.Send(
+                    It.Is<GetIntegrationsBySolutionIdQuery>(q => q.Id == SolutionId),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Mock.Of<IIntegrations>(i => i.Url == url));
 
-            var result = await _controller.Get(SolutionId).ConfigureAwait(false);
+            var result = await controller.Get(SolutionId);
             result.Should().BeOfType<OkObjectResult>();
             result.Should().NotBeNull();
 
             var objectResult = result as OkObjectResult;
+
+            Assert.NotNull(objectResult);
             objectResult.Value.Should().BeOfType<IntegrationsResult>();
 
             var integrationsResult = objectResult.Value as IntegrationsResult;
-            integrationsResult.Should().NotBeNull();
+            Assert.NotNull(integrationsResult);
             integrationsResult.Url.Should().Be(url);
 
-            _mediatorMock.Verify(m => m.Send(It.Is<GetIntegrationsBySolutionIdQuery>(r => r.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
-            _mediatorMock.VerifyNoOtherCalls();
+            mediatorMock.Verify(m => m.Send(
+                It.Is<GetIntegrationsBySolutionIdQuery>(q => q.Id == SolutionId),
+                It.IsAny<CancellationToken>()));
+
+            mediatorMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public async Task ShouldUpdateValidationValid()
         {
-            var expected = "an integrations url";
-            var viewModel = new UpdateIntegrationsViewModel { Url = expected };
+            const string expected = "an integrations url";
+            var model = new UpdateIntegrationsViewModel { Url = expected };
 
-            var result =
-                (await _controller.Update(SolutionId, viewModel).ConfigureAwait(false)) as
-                NoContentResult;
+            var result = await controller.Update(SolutionId, model) as NoContentResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
-            _mediatorMock.Verify(m => m.Send(It.Is<UpdateIntegrationsCommand>(q => q.SolutionId == SolutionId && q.Url == expected), It.IsAny<CancellationToken>()), Times.Once);
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status204NoContent);
+
+            mediatorMock.Verify(m => m.Send(
+                It.Is<UpdateIntegrationsCommand>(c => c.SolutionId == SolutionId && c.Url == expected),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task ShouldUpdateValidationInvalid()
         {
-            var expected = "an integrations url";
-            var viewModel = new UpdateIntegrationsViewModel { Url = expected };
-            _resultDictionary.Add("link", "maxLength");
+            const string expected = "an integrations url";
+            var model = new UpdateIntegrationsViewModel { Url = expected };
+            resultDictionary.Add("link", "maxLength");
 
-            var result =
-                (await _controller.Update(SolutionId, viewModel).ConfigureAwait(false)) as BadRequestObjectResult;
+            var result = await controller.Update(SolutionId, model) as BadRequestObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
+
             var resultValue = result.Value as Dictionary<string, string>;
+
+            Assert.NotNull(resultValue);
             resultValue.Count.Should().Be(1);
             resultValue["link"].Should().Be("maxLength");
 
-            _mediatorMock.Verify(m => m.Send(
+            mediatorMock.Verify(m => m.Send(
                 It.Is<UpdateIntegrationsCommand>(q => q.SolutionId == SolutionId && q.Url == expected),
-                It.IsAny<CancellationToken>()), Times.Once);
+                It.IsAny<CancellationToken>()));
         }
     }
 }

@@ -20,9 +20,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Builders
             solutionName = "sol name";
         }
 
-        public AdditionalServiceDtoBuilder WithSolutionId(string solutionId)
+        public AdditionalServiceDtoBuilder WithSolutionId(string id)
         {
-            this.solutionId = solutionId;
+            solutionId = id;
             return this;
         }
 

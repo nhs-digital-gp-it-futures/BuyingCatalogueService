@@ -35,8 +35,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
             mockMediator = new Mock<IMediator>();
             controller = new ConnectivityAndResolutionController(mockMediator.Object);
             simpleResultMock = new Mock<ISimpleResult>();
-            simpleResultMock.Setup(x => x.IsValid).Returns(() => !resultDictionary.Any());
-            simpleResultMock.Setup(x => x.ToDictionary()).Returns(() => resultDictionary);
+            simpleResultMock.Setup(m => m.IsValid).Returns(() => !resultDictionary.Any());
+            simpleResultMock.Setup(m => m.ToDictionary()).Returns(() => resultDictionary);
             resultDictionary = new Dictionary<string, string>();
             mockMediator
                 .Setup(m => m.Send(
@@ -52,7 +52,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
 
             var result = await controller.UpdateConnectivityAndResolutionAsync(SolutionId, request) as NoContentResult;
 
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status204NoContent);
+
             mockMediator.Verify(m => m.Send(
                 It.Is<UpdateSolutionConnectivityAndResolutionCommand>(c => c.Id == SolutionId && c.Data == request),
                 It.IsAny<CancellationToken>()));
@@ -66,9 +68,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
 
             var result = await controller.UpdateConnectivityAndResolutionAsync(SolutionId, request) as BadRequestObjectResult;
 
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
+
             var validationResult = result.Value as Dictionary<string, string>;
 
+            Assert.NotNull(validationResult);
             validationResult.Count.Should().Be(1);
             validationResult["minimum-connection-speed"].Should().Be("required");
 
@@ -98,10 +103,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
 
             var result = await controller.GetConnectivityAndResolution(SolutionId) as ObjectResult;
 
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             var connectivityResult = result.Value as GetConnectivityAndResolutionResult;
 
+            Assert.NotNull(connectivityResult);
             connectivityResult.MinimumConnectionSpeed.Should().Be(connection);
             connectivityResult.MinimumDesktopResolution.Should().Be(resolution);
 
@@ -115,9 +122,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
         {
             var result = await controller.GetConnectivityAndResolution("unknownId") as ObjectResult;
 
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
-            (result.Value as GetConnectivityAndResolutionResult).MinimumConnectionSpeed.Should().BeNull();
-            (result.Value as GetConnectivityAndResolutionResult).MinimumDesktopResolution.Should().BeNull();
+
+            result.Value.Should().BeOfType<GetConnectivityAndResolutionResult>();
+            result.Value.As<GetConnectivityAndResolutionResult>().MinimumConnectionSpeed.Should().BeNull();
+            result.Value.As<GetConnectivityAndResolutionResult>().MinimumDesktopResolution.Should().BeNull();
         }
     }
 }

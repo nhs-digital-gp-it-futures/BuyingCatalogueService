@@ -1,9 +1,11 @@
+﻿using System;
 using System.Collections.Generic;
-using System.Net;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication;
@@ -18,19 +20,18 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 {
     [TestFixture]
-    public sealed class ClientApplicationTypeControllerTests
+    internal sealed class ClientApplicationTypeControllerTests
     {
-        private Mock<IMediator> _mockMediator;
-
-        private ClientApplicationTypeController _clientApplicationTypeController;
-
         private const string SolutionId = "Sln1";
+
+        private Mock<IMediator> mockMediator;
+        private ClientApplicationTypeController clientApplicationTypeController;
 
         [SetUp]
         public void Setup()
         {
-            _mockMediator = new Mock<IMediator>();
-            _clientApplicationTypeController = new ClientApplicationTypeController(_mockMediator.Object);
+            mockMediator = new Mock<IMediator>();
+            clientApplicationTypeController = new ClientApplicationTypeController(mockMediator.Object);
         }
 
         [TestCase(false)]
@@ -41,81 +42,121 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 ? new HashSet<string> { "browser-based", "native-desktop" }
                 : null;
 
-            _mockMediator.Setup(m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(Mock.Of<IClientApplication>(c =>
-                    c.ClientApplicationTypes == applicationTypes));
+            mockMediator
+                .Setup(m => m.Send(
+                    It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Mock.Of<IClientApplication>(c => c.ClientApplicationTypes == applicationTypes));
 
-            var result = (await _clientApplicationTypeController.GetClientApplicationTypesAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
+            var result = await clientApplicationTypeController.GetClientApplicationTypesAsync(SolutionId) as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            (result.Value as GetClientApplicationTypesResult).ClientApplicationTypes.Should().BeEquivalentTo(hasClientApplicationTypes ? (new HashSet<string> { "browser-based", "native-desktop" }) : new HashSet<string>());
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
-            _mockMediator.Verify(m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+            result.Value.Should().BeOfType<GetClientApplicationTypesResult>();
+            result.Value.As<GetClientApplicationTypesResult>().ClientApplicationTypes.Should().BeEquivalentTo(
+                hasClientApplicationTypes ? new HashSet<string> { "browser-based", "native-desktop" } : new HashSet<string>());
+
+            mockMediator.Verify(m => m.Send(
+                It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task ShouldGetEmptyClientApplicationTypes()
         {
-            _mockMediator.Setup(m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
+            mockMediator
+                .Setup(m => m.Send(
+                    It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                    It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Mock.Of<IClientApplication>());
 
-            var result = (await _clientApplicationTypeController.GetClientApplicationTypesAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
+            var result = await clientApplicationTypeController.GetClientApplicationTypesAsync(SolutionId) as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            (result.Value as GetClientApplicationTypesResult).ClientApplicationTypes.Should().BeEmpty();
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
-            _mockMediator.Verify(m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+            result.Value.Should().BeOfType<GetClientApplicationTypesResult>();
+            result.Value.As<GetClientApplicationTypesResult>().ClientApplicationTypes.Should().BeEmpty();
+
+            mockMediator.Verify(m => m.Send(
+                It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task ShouldReturnEmpty()
         {
-            var result = (await _clientApplicationTypeController.GetClientApplicationTypesAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
+            var result = await clientApplicationTypeController.GetClientApplicationTypesAsync(SolutionId) as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            (result.Value as GetClientApplicationTypesResult).ClientApplicationTypes.Should().BeEmpty();
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
+
+            result.Value.Should().BeOfType<GetClientApplicationTypesResult>();
+            result.Value.As<GetClientApplicationTypesResult>().ClientApplicationTypes.Should().BeEmpty();
         }
 
         [Test]
         public async Task ShouldUpdateValidationValid()
         {
-            var clientApplicationUpdateViewModel = new UpdateSolutionClientApplicationTypesViewModel(null);
+            var clientApplicationUpdateModel = new UpdateSolutionClientApplicationTypesViewModel(null);
 
             var validationModel = new Mock<ISimpleResult>();
             validationModel.Setup(s => s.IsValid).Returns(true);
 
-            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionClientApplicationTypesCommand>(q => q.SolutionId == SolutionId && q.Data == clientApplicationUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
+            Expression<Func<UpdateSolutionClientApplicationTypesCommand, bool>> match = c =>
+                c.SolutionId == SolutionId
+                && c.Data == clientApplicationUpdateModel;
 
-            var result =
-                (await _clientApplicationTypeController.UpdateClientApplicationTypesAsync(SolutionId,
-                    clientApplicationUpdateViewModel).ConfigureAwait(false)) as NoContentResult;
+            mockMediator
+                .Setup(m => m.Send(It.Is(match), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(validationModel.Object);
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
-            _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionClientApplicationTypesCommand>(q => q.SolutionId == SolutionId && q.Data == clientApplicationUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
+            var result = await clientApplicationTypeController.UpdateClientApplicationTypesAsync(
+                SolutionId,
+                clientApplicationUpdateModel) as NoContentResult;
+
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status204NoContent);
+
+            mockMediator.Verify(m => m.Send(It.Is(match), It.IsAny<CancellationToken>()));
         }
-
 
         [Test]
         public async Task ShouldUpdateValidationInvalid()
         {
-            var clientApplicationUpdateViewModel = new UpdateSolutionClientApplicationTypesViewModel(null);
+            var clientApplicationUpdateModel = new UpdateSolutionClientApplicationTypesViewModel(null);
 
             var validationModel = new Mock<ISimpleResult>();
-            validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "client-application-types", "required" } });
+            validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string>
+            {
+                { "client-application-types", "required" },
+            });
+
             validationModel.Setup(s => s.IsValid).Returns(false);
 
-            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionClientApplicationTypesCommand>(q => q.SolutionId == SolutionId && q.Data == clientApplicationUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
+            Expression<Func<UpdateSolutionClientApplicationTypesCommand, bool>> match = c =>
+                c.SolutionId == SolutionId
+                && c.Data == clientApplicationUpdateModel;
 
-            var result =
-                (await _clientApplicationTypeController.UpdateClientApplicationTypesAsync(SolutionId,
-                    clientApplicationUpdateViewModel).ConfigureAwait(false)) as BadRequestObjectResult;
+            mockMediator
+                .Setup(m => m.Send(It.Is(match), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(validationModel.Object);
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            var result = await clientApplicationTypeController.UpdateClientApplicationTypesAsync(
+                SolutionId,
+                clientApplicationUpdateModel) as BadRequestObjectResult;
+
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
+
             var resultValue = result.Value as Dictionary<string, string>;
+
+            Assert.NotNull(resultValue);
             resultValue.Count.Should().Be(1);
             resultValue["client-application-types"].Should().Be("required");
 
-            _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionClientApplicationTypesCommand>(q => q.SolutionId == SolutionId && q.Data == clientApplicationUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
+            mockMediator.Verify(m => m.Send(It.Is(match), It.IsAny<CancellationToken>()));
         }
     }
 }

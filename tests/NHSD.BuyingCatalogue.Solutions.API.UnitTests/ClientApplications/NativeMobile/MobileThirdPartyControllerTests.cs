@@ -1,10 +1,12 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.NativeMobile;
@@ -18,27 +20,27 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.NativeMobile
 {
     [TestFixture]
-    public sealed class MobileThirdPartyControllerTests
+    internal sealed class MobileThirdPartyControllerTests
     {
-        private Mock<IMediator> _mockMediator;
-        private MobileThirdPartyController _mobileThirdPartyController;
         private const string SolutionId = "Sln1";
-        private Mock<ISimpleResult> _simpleResultMock;
-        private Dictionary<string, string> _resultDictionary;
+
+        private Mock<IMediator> mockMediator;
+        private MobileThirdPartyController mobileThirdPartyController;
+        private Mock<ISimpleResult> simpleResultMock;
+        private Dictionary<string, string> resultDictionary;
 
         [SetUp]
         public void Setup()
         {
-            _mockMediator = new Mock<IMediator>();
-            _mobileThirdPartyController = new MobileThirdPartyController(_mockMediator.Object);
-            _simpleResultMock = new Mock<ISimpleResult>();
-            _simpleResultMock.Setup(x => x.IsValid).Returns(() => !_resultDictionary.Any());
-            _simpleResultMock.Setup(x => x.ToDictionary()).Returns(() => _resultDictionary);
-            _resultDictionary = new Dictionary<string, string>();
-            _mockMediator.Setup(x =>
-                    x.Send(It.IsAny<UpdateSolutionMobileThirdPartyCommand>(),
-                        It.IsAny<CancellationToken>()))
-                .ReturnsAsync(() => _simpleResultMock.Object);
+            mockMediator = new Mock<IMediator>();
+            mobileThirdPartyController = new MobileThirdPartyController(mockMediator.Object);
+            simpleResultMock = new Mock<ISimpleResult>();
+            simpleResultMock.Setup(m => m.IsValid).Returns(() => !resultDictionary.Any());
+            simpleResultMock.Setup(m => m.ToDictionary()).Returns(() => resultDictionary);
+            resultDictionary = new Dictionary<string, string>();
+            mockMediator
+                .Setup(m => m.Send(It.IsAny<UpdateSolutionMobileThirdPartyCommand>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(() => simpleResultMock.Object);
         }
 
         [TestCase(null, null)]
@@ -47,42 +49,52 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
         [TestCase("Components", "Capabilities")]
         public async Task ShouldGetMobileThirdParty(string thirdPartyComponents, string deviceCapabilities)
         {
-            _mockMediator.Setup(m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
-                It.IsAny<CancellationToken>())).ReturnsAsync(Mock.Of<IClientApplication>(c =>
-                c.MobileThirdParty == Mock.Of<IMobileThirdParty>(m =>
-                    m.ThirdPartyComponents == thirdPartyComponents && m.DeviceCapabilities == deviceCapabilities)));
+            Expression<Func<IMobileThirdParty, bool>> mobileThirdPartyInstance = m =>
+                m.ThirdPartyComponents == thirdPartyComponents
+                && m.DeviceCapabilities == deviceCapabilities;
 
-            var result = (await _mobileThirdPartyController.GetNativeMobileThirdParty(SolutionId)
-                .ConfigureAwait(false)) as ObjectResult;
+            Expression<Func<IClientApplication, bool>> clientApplication = c =>
+                c.MobileThirdParty == Mock.Of(mobileThirdPartyInstance);
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            mockMediator
+                .Setup(m => m.Send(
+                    It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Mock.Of(clientApplication));
+
+            var result = await mobileThirdPartyController.GetNativeMobileThirdParty(SolutionId) as ObjectResult;
+
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             var mobileThirdParty = result.Value as GetMobileThirdPartyResult;
 
+            Assert.NotNull(mobileThirdParty);
             mobileThirdParty.ThirdPartyComponents.Should().Be(thirdPartyComponents);
             mobileThirdParty.DeviceCapabilities.Should().Be(deviceCapabilities);
 
-            _mockMediator.Verify(
-                m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
-                    It.IsAny<CancellationToken>()), Times.Once);
+            mockMediator.Verify(m => m.Send(
+                It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                It.IsAny<CancellationToken>()));
         }
-
 
         [Test]
         public async Task ShouldGetClientApplicationIsNull()
         {
-            _mockMediator.Setup(m =>
-                    m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
-                        It.IsAny<CancellationToken>()))
+            mockMediator
+                .Setup(m => m.Send(
+                    It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                    It.IsAny<CancellationToken>()))
                 .ReturnsAsync(() => null);
 
-            var result =
-                (await _mobileThirdPartyController.GetNativeMobileThirdParty(SolutionId).ConfigureAwait(false)) as
-                ObjectResult;
+            var result = await mobileThirdPartyController.GetNativeMobileThirdParty(SolutionId) as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
-            var mobileThirdParty = (result.Value as GetMobileThirdPartyResult);
+            var mobileThirdParty = result.Value as GetMobileThirdPartyResult;
+
+            Assert.NotNull(mobileThirdParty);
             mobileThirdParty.ThirdPartyComponents.Should().BeNull();
             mobileThirdParty.DeviceCapabilities.Should().BeNull();
         }
@@ -90,12 +102,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
         [Test]
         public async Task ShouldReturnEmpty()
         {
-            var result =
-                (await _mobileThirdPartyController.GetNativeMobileThirdParty(SolutionId).ConfigureAwait(false)) as
-                ObjectResult;
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            var result = await mobileThirdPartyController.GetNativeMobileThirdParty(SolutionId) as ObjectResult;
 
-            var mobileThirdParty = (result.Value as GetMobileThirdPartyResult);
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
+
+            var mobileThirdParty = result.Value as GetMobileThirdPartyResult;
+
+            Assert.NotNull(mobileThirdParty);
             mobileThirdParty.ThirdPartyComponents.Should().BeNull();
             mobileThirdParty.DeviceCapabilities.Should().BeNull();
         }
@@ -104,38 +118,44 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
         public async Task ShouldUpdateValidationValid()
         {
             var request = new UpdateNativeMobileThirdPartyViewModel();
-            var result = await _mobileThirdPartyController.UpdateNativeMobileThirdParty(SolutionId, request)
-                .ConfigureAwait(false) as NoContentResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+            var result = await mobileThirdPartyController.UpdateNativeMobileThirdParty(
+                SolutionId,
+                request) as NoContentResult;
 
-            _mockMediator.Verify(
-                m => m.Send(
-                    It.Is<UpdateSolutionMobileThirdPartyCommand>(q => q.Id == SolutionId && q.Data == request),
-                    It.IsAny<CancellationToken>()), Times.Once);
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status204NoContent);
+
+            mockMediator.Verify(m => m.Send(
+                It.Is<UpdateSolutionMobileThirdPartyCommand>(c => c.Id == SolutionId && c.Data == request),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task ShouldUpdateValidationInvalid()
         {
-            _resultDictionary.Add("third-party-components", "maxLength");
-            _resultDictionary.Add("device-capabilities", "maxLength");
+            resultDictionary.Add("third-party-components", "maxLength");
+            resultDictionary.Add("device-capabilities", "maxLength");
 
             var request = new UpdateNativeMobileThirdPartyViewModel();
-            var result = await _mobileThirdPartyController.UpdateNativeMobileThirdParty(SolutionId, request)
-                .ConfigureAwait(false) as BadRequestObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            var result = await mobileThirdPartyController.UpdateNativeMobileThirdParty(
+                SolutionId,
+                request) as BadRequestObjectResult;
+
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
 
             var resultValue = result.Value as Dictionary<string, string>;
+
+            Assert.NotNull(resultValue);
             resultValue.Count.Should().Be(2);
             resultValue["third-party-components"].Should().Be("maxLength");
             resultValue["device-capabilities"].Should().Be("maxLength");
 
-            _mockMediator.Verify(
-                m => m.Send(
-                    It.Is<UpdateSolutionMobileThirdPartyCommand>(q => q.Id == SolutionId && q.Data == request),
-                    It.IsAny<CancellationToken>()), Times.Once);
+            mockMediator.Verify(m => m.Send(
+                It.Is<UpdateSolutionMobileThirdPartyCommand>(c => c.Id == SolutionId && c.Data == request),
+                It.IsAny<CancellationToken>()));
         }
     }
 }
