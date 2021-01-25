@@ -1,3 +1,5 @@
+﻿using System;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -14,22 +16,22 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hostings
 {
     [TestFixture]
-    class GetHostingBySolutionIdTests
+    internal sealed class GetHostingBySolutionIdTests
     {
-        private TestContext _context;
-        private string _solutionId;
-        private CancellationToken _cancellationToken;
-        private IHostingResult _hostingResult;
+        private TestContext context;
+        private string solutionId;
+        private CancellationToken cancellationToken;
+        private IHostingResult hostingResult;
 
         [SetUp]
         public void SetUpFixture()
         {
-            _context = new TestContext();
-            _solutionId = "Sln1";
-            _cancellationToken = new CancellationToken();
-            _context.MockSolutionDetailRepository
-                .Setup(r => r.GetHostingBySolutionIdAsync(_solutionId, _cancellationToken))
-                .ReturnsAsync(() => _hostingResult);
+            context = new TestContext();
+            solutionId = "Sln1";
+            cancellationToken = CancellationToken.None;
+            context.MockSolutionDetailRepository
+                .Setup(r => r.GetHostingBySolutionIdAsync(solutionId, cancellationToken))
+                .ReturnsAsync(() => hostingResult);
         }
 
         [Test]
@@ -66,13 +68,14 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                 },
             };
 
-        _hostingResult = Mock.Of<IHostingResult>(r =>
-                r.Id == _solutionId &&
-                r.Hosting == JsonConvert.SerializeObject(originalHosting)
-                );
+            Expression<Func<IHostingResult, bool>> hostingResultExpression = r =>
+                r.Id == solutionId
+                && r.Hosting == JsonConvert.SerializeObject(originalHosting);
 
-            var newHosting = await _context.GetHostingBySolutionIdHandler.Handle(
-                new GetHostingBySolutionIdQuery(_solutionId), _cancellationToken).ConfigureAwait(false);
+            hostingResult = Mock.Of(hostingResultExpression);
+
+            var newHosting = await context.GetHostingBySolutionIdHandler.Handle(
+                new GetHostingBySolutionIdQuery(solutionId), cancellationToken);
 
             newHosting.Should().BeEquivalentTo(originalHosting);
         }
@@ -80,13 +83,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
         [Test]
         public async Task EmptyHostingResultReturnsDefaultHosting()
         {
-            _hostingResult = Mock.Of<IHostingResult>(r =>
-                r.Id == _solutionId &&
-                r.Hosting == null
-                );
+            hostingResult = Mock.Of<IHostingResult>(r => r.Id == solutionId && r.Hosting == null);
 
-            var hosting = await _context.GetHostingBySolutionIdHandler.Handle(
-                new GetHostingBySolutionIdQuery(_solutionId), _cancellationToken).ConfigureAwait(false);
+            var hosting = await context.GetHostingBySolutionIdHandler.Handle(
+                new GetHostingBySolutionIdQuery(solutionId), cancellationToken);
+
             hosting.Should().NotBeNull();
             hosting.Should().BeEquivalentTo(new HostingDto());
         }
@@ -94,11 +95,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
         [Test]
         public void NullHostingResultThrowsNotFoundException()
         {
-            _hostingResult = null;
+            hostingResult = null;
 
-            Assert.ThrowsAsync<NotFoundException>(() =>
-                _context.GetHostingBySolutionIdHandler.Handle(
-                new GetHostingBySolutionIdQuery(_solutionId), _cancellationToken));
+            Assert.ThrowsAsync<NotFoundException>(() => context.GetHostingBySolutionIdHandler.Handle(
+                new GetHostingBySolutionIdQuery(solutionId),
+                cancellationToken));
         }
     }
 }
