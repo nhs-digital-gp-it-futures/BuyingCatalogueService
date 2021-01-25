@@ -1,10 +1,12 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.NativeDesktop;
@@ -18,149 +20,159 @@ using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.NativeDesktop
 {
-    namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.NativeDesktop
+    [TestFixture]
+    public sealed class NativeDesktopMemoryAndStorageControllerTests
     {
-        [TestFixture]
-        public sealed class NativeDesktopThirdPartyControllerTests
+        private const string SolutionId = "Sln1";
+
+        private Mock<IMediator> mediatorMock;
+        private NativeDesktopMemoryAndStorageController controller;
+        private Mock<ISimpleResult> simpleResultMock;
+        private Dictionary<string, string> resultDictionary;
+
+        [SetUp]
+        public void Setup()
         {
-            private Mock<IMediator> _mediatorMock;
-            private NativeDesktopMemoryAndStorageController _controller;
-            private readonly string _solutionId = "Sln1";
-            private Mock<ISimpleResult> _simpleResultMock;
-            private Dictionary<string, string> _resultDictionary;
+            mediatorMock = new Mock<IMediator>();
+            controller = new NativeDesktopMemoryAndStorageController(mediatorMock.Object);
+            simpleResultMock = new Mock<ISimpleResult>();
+            simpleResultMock.Setup(r => r.IsValid).Returns(() => !resultDictionary.Any());
+            simpleResultMock.Setup(r => r.ToDictionary()).Returns(() => resultDictionary);
+            resultDictionary = new Dictionary<string, string>();
+            mediatorMock
+                .Setup(m => m.Send(It.IsAny<UpdateNativeDesktopMemoryAndStorageCommand>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(() => simpleResultMock.Object);
+        }
 
-            [SetUp]
-            public void Setup()
+        [TestCase("512TB", "1024TB", "1Hz", "1x1 px")]
+        [TestCase(null, "1024TB", "1Hz", "1x1 px")]
+        [TestCase("512TB", null, "1Hz", "1x1 px")]
+        [TestCase("512TB", "1024TB", null, "1x1 px")]
+        [TestCase("512TB", "1024TB", "1Hz", null)]
+        [TestCase(null, "1024TB", "1Hz", null)]
+        [TestCase("512TB", null, null, "1x1 px")]
+        [TestCase("512TB", null, null, "1x1 px")]
+        [TestCase(null, "1024TB", "1Hz", null)]
+        [TestCase(null, "1024TB", null, null)]
+        [TestCase(null, null, null, "1x1 px")]
+        [TestCase("512TB", null, null, null)]
+        [TestCase(null, null, "1Hz", null)]
+        [TestCase(null, null, null, null)]
+        public async Task PopulatedDataShouldReturnCorrectData(string memory, string storage, string minimumCpu, string resolution)
+        {
+            Expression<Func<INativeDesktopMemoryAndStorage, bool>> nativeDesktopMemoryAndStorage = d =>
+                d.MinimumMemoryRequirement == memory
+                && d.StorageRequirementsDescription == storage
+                && d.MinimumCpu == minimumCpu
+                && d.RecommendedResolution == resolution;
+
+            Expression<Func<IClientApplication, bool>> clientApplication = c =>
+                c.NativeDesktopMemoryAndStorage == Mock.Of(nativeDesktopMemoryAndStorage);
+
+            mediatorMock
+                .Setup(m => m.Send(
+                    It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Mock.Of(clientApplication));
+
+            var result = await controller.Get(SolutionId) as ObjectResult;
+
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
+            result.Value.Should().BeOfType<GetNativeDesktopMemoryAndStorageResult>();
+
+            var memoryAndStorageResult = result.Value as GetNativeDesktopMemoryAndStorageResult;
+
+            Assert.NotNull(memoryAndStorageResult);
+            memoryAndStorageResult.MinimumMemoryRequirement.Should().Be(memory);
+            memoryAndStorageResult.StorageRequirementsDescription.Should().Be(storage);
+            memoryAndStorageResult.MinimumCpu.Should().Be(minimumCpu);
+            memoryAndStorageResult.RecommendedResolution.Should().Be(resolution);
+        }
+
+        [Test]
+        public async Task NullClientApplicationShouldReturnNull()
+        {
+            mediatorMock
+                .Setup(m => m.Send(
+                    It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(null as IClientApplication);
+
+            var result = await controller.Get(SolutionId) as ObjectResult;
+
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
+            result.Value.Should().BeOfType<GetNativeDesktopMemoryAndStorageResult>();
+
+            var memoryAndStorageResult = result.Value as GetNativeDesktopMemoryAndStorageResult;
+
+            Assert.NotNull(memoryAndStorageResult);
+            memoryAndStorageResult.MinimumMemoryRequirement.Should().BeNull();
+            memoryAndStorageResult.StorageRequirementsDescription.Should().BeNull();
+            memoryAndStorageResult.MinimumCpu.Should().BeNull();
+            memoryAndStorageResult.RecommendedResolution.Should().BeNull();
+        }
+
+        [Test]
+        public async Task UpdateValidMemoryAndStorageDetails()
+        {
+            var request = new UpdateNativeDesktopMemoryAndStorageViewModel
             {
-                _mediatorMock = new Mock<IMediator>();
-                _controller = new NativeDesktopMemoryAndStorageController(_mediatorMock.Object);
-                _simpleResultMock = new Mock<ISimpleResult>();
-                _simpleResultMock.Setup(x => x.IsValid).Returns(() => !_resultDictionary.Any());
-                _simpleResultMock.Setup(x => x.ToDictionary()).Returns(() => _resultDictionary);
-                _resultDictionary = new Dictionary<string, string>();
-                _mediatorMock.Setup(x =>
-                        x.Send(It.IsAny<UpdateNativeDesktopMemoryAndStorageCommand>(),
-                            It.IsAny<CancellationToken>()))
-                    .ReturnsAsync(() => _simpleResultMock.Object);
-            }
+                MinimumMemoryRequirement = "1 bit",
+                StorageRequirementsDescription = "A description",
+                MinimumCpu = "1Hz",
+                RecommendedResolution = "1000,00000,0000x1",
+            };
 
-            [TestCase("512TB", "1024TB", "1Hz", "1x1 px")]
-            [TestCase(null, "1024TB", "1Hz", "1x1 px")]
-            [TestCase("512TB", null, "1Hz", "1x1 px")]
-            [TestCase("512TB", "1024TB", null, "1x1 px")]
-            [TestCase("512TB", "1024TB", "1Hz", null)]
-            [TestCase(null, "1024TB", "1Hz", null)]
-            [TestCase("512TB", null, null, "1x1 px")]
-            [TestCase("512TB", null, null, "1x1 px")]
-            [TestCase(null, "1024TB", "1Hz", null)]
-            [TestCase(null, "1024TB", null, null)]
-            [TestCase(null, null, null, "1x1 px")]
-            [TestCase("512TB", null, null, null)]
-            [TestCase(null, null, "1Hz", null)]
-            [TestCase(null, null, null, null)]
-            public async Task PopulatedDataShouldReturnCorrectData(string memory, string storage, string minimumCpu, string resolution)
+            var result = await controller.Update(SolutionId, request) as NoContentResult;
+
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status204NoContent);
+
+            Expression<Func<UpdateNativeDesktopMemoryAndStorageCommand, bool>> match = c =>
+                c.SolutionId == SolutionId
+                && c.Data.MinimumMemoryRequirement == request.MinimumMemoryRequirement
+                && c.Data.StorageRequirementsDescription == request.StorageRequirementsDescription
+                && c.Data.MinimumCpu == request.MinimumCpu
+                && c.Data.RecommendedResolution == request.RecommendedResolution;
+
+            mediatorMock.Verify(m => m.Send(It.Is(match), It.IsAny<CancellationToken>()));
+        }
+
+        [Test]
+        public async Task UpdateInvalidReturnsBadRequestWithValidationDetails()
+        {
+            resultDictionary.Add("minimum-memory-requirement", "required");
+            resultDictionary.Add("storage-requirements-description", "maxLength");
+
+            var request = new UpdateNativeDesktopMemoryAndStorageViewModel
             {
-                _mediatorMock.Setup(x => x.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == _solutionId),
-                        It.IsAny<CancellationToken>()))
-                    .ReturnsAsync(Mock.Of<IClientApplication>(c =>
-                        c.NativeDesktopMemoryAndStorage == Mock.Of<INativeDesktopMemoryAndStorage>(t =>
-                            t.MinimumMemoryRequirement == memory &&
-                            t.StorageRequirementsDescription == storage &&
-                            t.MinimumCpu == minimumCpu &&
-                            t.RecommendedResolution == resolution)));
+                MinimumMemoryRequirement = "1 bit",
+                StorageRequirementsDescription = "A description",
+                MinimumCpu = "1Hz",
+                RecommendedResolution = "1000,00000,0000x1",
+            };
 
-                var result = await _controller.Get(_solutionId).ConfigureAwait(false) as ObjectResult;
-                result.Should().NotBeNull();
-                result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-                result.Value.Should().BeOfType<GetNativeDesktopMemoryAndStorageResult>();
-                var memoryAndStorageResult = result.Value as GetNativeDesktopMemoryAndStorageResult;
-                memoryAndStorageResult.MinimumMemoryRequirement.Should().Be(memory);
-                memoryAndStorageResult.StorageRequirementsDescription.Should().Be(storage);
-                memoryAndStorageResult.MinimumCpu.Should().Be(minimumCpu);
-                memoryAndStorageResult.RecommendedResolution.Should().Be(resolution);
-            }
+            var result = await controller.Update(SolutionId, request) as BadRequestObjectResult;
 
-            [Test]
-            public async Task NullClientApplicationShouldReturnNull()
-            {
-                _mediatorMock.Setup(x => x.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == _solutionId), It.IsAny<CancellationToken>()))
-                    .ReturnsAsync(null as IClientApplication);
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
+            var validationResult = result.Value as Dictionary<string, string>;
 
-                var result = (await _controller.Get(_solutionId).ConfigureAwait(false)) as ObjectResult;
+            Assert.NotNull(validationResult);
+            validationResult.Count.Should().Be(2);
+            validationResult["minimum-memory-requirement"].Should().Be("required");
+            validationResult["storage-requirements-description"].Should().Be("maxLength");
 
-                result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-                result.Value.Should().BeOfType<GetNativeDesktopMemoryAndStorageResult>();
-                var memoryAndStorageResult = result.Value as GetNativeDesktopMemoryAndStorageResult;
-                memoryAndStorageResult.MinimumMemoryRequirement.Should().BeNull();
-                memoryAndStorageResult.StorageRequirementsDescription.Should().BeNull();
-                memoryAndStorageResult.MinimumCpu.Should().BeNull();
-                memoryAndStorageResult.RecommendedResolution.Should().BeNull();
-            }
+            Expression<Func<UpdateNativeDesktopMemoryAndStorageCommand, bool>> match = c =>
+                c.SolutionId == SolutionId
+                && c.Data.MinimumMemoryRequirement == request.MinimumMemoryRequirement
+                && c.Data.StorageRequirementsDescription == request.StorageRequirementsDescription
+                && c.Data.MinimumCpu == request.MinimumCpu
+                && c.Data.RecommendedResolution == request.RecommendedResolution;
 
-
-            [Test]
-            public async Task UpdateValidMemoryAndStorageDetails()
-            {
-                var request = new UpdateNativeDesktopMemoryAndStorageViewModel
-                {
-                    MinimumMemoryRequirement = "1 bit",
-                    StorageRequirementsDescription = "A description",
-                    MinimumCpu = "1Hz",
-                    RecommendedResolution = "1000,00000,0000x1",
-                };
-
-                var result =
-                    (await _controller.Update(_solutionId, request)
-                        .ConfigureAwait(false)) as NoContentResult;
-                result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
-                _mediatorMock.Verify(
-                    x => x.Send(
-                        It.Is<UpdateNativeDesktopMemoryAndStorageCommand>(c =>
-                            c.SolutionId == _solutionId &&
-                            c.Data.MinimumMemoryRequirement == request.MinimumMemoryRequirement &&
-                            c.Data.StorageRequirementsDescription == request.StorageRequirementsDescription &&
-                            c.Data.MinimumCpu == request.MinimumCpu &&
-                            c.Data.RecommendedResolution == request.RecommendedResolution
-                        ),
-                        It.IsAny<CancellationToken>()), Times.Once);
-            }
-
-            [Test]
-            public async Task UpdateInvalidReturnsBadRequestWithValidationDetails()
-            {
-                _resultDictionary.Add("minimum-memory-requirement", "required");
-                _resultDictionary.Add("storage-requirements-description", "maxLength");
-
-                var request = new UpdateNativeDesktopMemoryAndStorageViewModel
-                {
-                    MinimumMemoryRequirement = "1 bit",
-                    StorageRequirementsDescription = "A description",
-                    MinimumCpu = "1Hz",
-                    RecommendedResolution = "1000,00000,0000x1",
-                };
-
-                var result =
-                    (await _controller.Update(_solutionId, request)
-                        .ConfigureAwait(false)) as BadRequestObjectResult;
-
-                result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
-                var validationResult = result.Value as Dictionary<string, string>;
-                validationResult.Count.Should().Be(2);
-                validationResult["minimum-memory-requirement"].Should().Be("required");
-                validationResult["storage-requirements-description"].Should().Be("maxLength");
-
-                _mediatorMock.Verify(
-                    x => x.Send(
-                        It.Is<UpdateNativeDesktopMemoryAndStorageCommand>(c =>
-                            c.SolutionId == _solutionId &&
-                            c.Data.MinimumMemoryRequirement == request.MinimumMemoryRequirement &&
-                            c.Data.StorageRequirementsDescription == request.StorageRequirementsDescription &&
-                            c.Data.MinimumCpu == request.MinimumCpu &&
-                            c.Data.RecommendedResolution == request.RecommendedResolution
-                        ),
-                        It.IsAny<CancellationToken>()), Times.Once);
-            }
+            mediatorMock.Verify(m => m.Send(It.Is(match), It.IsAny<CancellationToken>()));
         }
     }
 }
-

@@ -19,36 +19,33 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
     [TestFixture]
     internal sealed class AdditionalServiceControllerTests
     {
-        private Mock<IMediator> _mockMediator;
-        private AdditionalServiceController _controller;
+        private Mock<IMediator> mockMediator;
+        private AdditionalServiceController controller;
 
         [SetUp]
         public void Setup()
         {
-            _mockMediator = new Mock<IMediator>();
-            _controller = new AdditionalServiceController(_mockMediator.Object);
+            mockMediator = new Mock<IMediator>();
+            controller = new AdditionalServiceController(mockMediator.Object);
         }
 
         [Test]
         public void Constructor_MediatorIsNull_Throws()
         {
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                var _ = new AdditionalServiceController(null);
-            });
+            Assert.Throws<ArgumentNullException>(() => _ = new AdditionalServiceController(null));
         }
 
         [Test]
         public async Task GetAsync_NoSolutionIds_ReturnsNotFound()
         {
-            var response = await _controller.GetAsync(null);
+            var response = await controller.GetAsync(null);
             response.Result.Should().BeOfType<NotFoundResult>();
         }
 
         [Test]
         public async Task GetAsync_SolutionDoesNotExist_ReturnsEmptyList()
         {
-            var actual = (await _controller.GetAsync(new List<string> { "INVALID", "ANOTHER INVALID ID" })).Value;
+            var actual = (await controller.GetAsync(new List<string> { "INVALID", "ANOTHER INVALID ID" })).Value;
 
             var expected = new AdditionalServiceListResult
             {
@@ -66,13 +63,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var additionalService1 = AdditionalServiceDtoBuilder.Create().WithSolutionId(solutionId).Build();
             IEnumerable<IAdditionalService> additionalServiceResult = new List<IAdditionalService> { additionalService1 };
 
-            _mockMediator
+            mockMediator
                 .Setup(m => m.Send(
                     It.IsNotNull<GetAdditionalServiceBySolutionIdsQuery>(),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(() => additionalServiceResult);
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(() => additionalServiceResult);
 
             IEnumerable<string> solutionIds = new List<string> { solutionId };
-            var response = await _controller.GetAsync(solutionIds);
+            var response = await controller.GetAsync(solutionIds);
 
             var expected = GetAdditionalServicesResult(additionalServiceResult);
             response.Value.Should().BeEquivalentTo(expected);
@@ -89,13 +87,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             List<IAdditionalService> additionalServiceResult = new List<IAdditionalService> { additionalService1, additionalService2 };
 
-            _mockMediator
+            mockMediator
                 .Setup(m => m.Send(
                     It.IsNotNull<GetAdditionalServiceBySolutionIdsQuery>(),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(additionalServiceResult);
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(additionalServiceResult);
 
             var solutionIds = new List<string> { solutionId1, solutionId2 };
-            var response = await _controller.GetAsync(solutionIds);
+            var response = await controller.GetAsync(solutionIds);
 
             var expected = GetAdditionalServicesResult(additionalServiceResult);
             response.Value.Should().BeEquivalentTo(expected);
@@ -105,14 +104,15 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             return new()
             {
-                AdditionalServices = additionalServices.Select(x => new AdditionalServiceModel
+                AdditionalServices = additionalServices.Select(a => new AdditionalServiceModel
                 {
-                    CatalogueItemId = x.CatalogueItemId,
-                    Name = x.CatalogueItemName,
-                    Summary = x.Summary,
+                    CatalogueItemId = a.CatalogueItemId,
+                    Name = a.CatalogueItemName,
+                    Summary = a.Summary,
                     Solution = new AdditionalServiceSolutionModel
                     {
-                        SolutionId = x.SolutionId, Name = x.SolutionName,
+                        SolutionId = a.SolutionId,
+                        Name = a.SolutionName,
                     },
                 }),
             };

@@ -20,32 +20,29 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
     [TestFixture]
     internal sealed class PriceControllerTests
     {
-        private Mock<IMediator> _mockMediator;
-        private PriceController _controller;
+        private const string SolutionId = "Sln1";
+        private const int PriceId = 1;
 
-        private const string _solutionId = "Sln1";
-        private const int _priceId = 1;
+        private Mock<IMediator> mockMediator;
+        private PriceController controller;
 
         [SetUp]
         public void Setup()
         {
-            _mockMediator = new Mock<IMediator>();
-            _controller = new PriceController(_mockMediator.Object);
+            mockMediator = new Mock<IMediator>();
+            controller = new PriceController(mockMediator.Object);
         }
 
         [Test]
         public void Constructor_NullRepository_Throws()
         {
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                var _ = new PriceController(null);
-            });
+            Assert.Throws<ArgumentNullException>(() => { _ = new PriceController(null); });
         }
 
         [Test]
         public async Task GetPriceAsync_PriceIdDoesNotExist_ReturnNotFound()
         {
-            var response = await _controller.GetPriceAsync(-1);
+            var response = await controller.GetPriceAsync(-1);
             response.Result.Should().BeOfType<NotFoundResult>();
         }
 
@@ -56,11 +53,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             var priceResult = CreatePrice(flatPricing);
 
-            _mockMediator.Setup(m =>
-                    m.Send(It.Is<GetPriceByPriceIdQuery>(q => q.PriceId == _priceId), It.IsAny<CancellationToken>()))
+            mockMediator
+                .Setup(m => m.Send(
+                    It.Is<GetPriceByPriceIdQuery>(q => q.PriceId == PriceId),
+                    It.IsAny<CancellationToken>()))
                 .ReturnsAsync(flatPricing);
 
-            var response = await _controller.GetPriceAsync(_priceId);
+            var response = await controller.GetPriceAsync(PriceId);
             response.Value.Should().BeEquivalentTo(priceResult);
         }
 
@@ -70,12 +69,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var tieredPricing = TieredCataloguePriceDtoBuilder.Create().Build();
 
             var priceResult = CreatePrice(tieredPricing);
-            
-            _mockMediator.Setup(m =>
-                    m.Send(It.Is<GetPriceByPriceIdQuery>(q => q.PriceId == _priceId), It.IsAny<CancellationToken>()))
+
+            mockMediator
+                .Setup(m => m.Send(It.Is<GetPriceByPriceIdQuery>(q => q.PriceId == PriceId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(tieredPricing);
 
-            var response = await _controller.GetPriceAsync(_priceId);
+            var response = await controller.GetPriceAsync(PriceId);
             response.Value.Should().BeEquivalentTo(priceResult);
         }
 
@@ -87,11 +86,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             var priceResult = CreatePricesForQueryingByCatalogueItemId(cataloguePriceList);
 
-            _mockMediator.Setup(m =>
-                    m.Send(It.Is<GetPricesQuery>(q => q.CatalogueItemId == _solutionId), It.IsAny<CancellationToken>()))
+            mockMediator
+                .Setup(m => m.Send(It.Is<GetPricesQuery>(q => q.CatalogueItemId == SolutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(cataloguePriceList);
 
-            var response = (await _controller.GetPricesAsync(_solutionId));
+            var response = await controller.GetPricesAsync(SolutionId);
+
             response.Value.Should().BeEquivalentTo(priceResult);
         }
 
@@ -103,11 +103,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             var priceResult = CreatePricesForQueryingByCatalogueItemId(cataloguePriceList);
 
-            _mockMediator.Setup(m =>
-                    m.Send(It.Is<GetPricesQuery>(q => q.CatalogueItemId == _solutionId), It.IsAny<CancellationToken>()))
+            mockMediator
+                .Setup(m => m.Send(It.Is<GetPricesQuery>(q => q.CatalogueItemId == SolutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(cataloguePriceList);
 
-            var response = (await _controller.GetPricesAsync(_solutionId));
+            var response = await controller.GetPricesAsync(SolutionId);
+
             response.Value.Should().BeEquivalentTo(priceResult);
         }
 
@@ -120,11 +121,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             var priceResult = CreatePricesForQueryingByCatalogueItemId(cataloguePriceList);
 
-            _mockMediator.Setup(m =>
-                    m.Send(It.Is<GetPricesQuery>(q => q.CatalogueItemId == _solutionId), It.IsAny<CancellationToken>()))
+            mockMediator
+                .Setup(m => m.Send(It.Is<GetPricesQuery>(q => q.CatalogueItemId == SolutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(cataloguePriceList);
 
-            var response = await _controller.GetPricesAsync(_solutionId);
+            var response = await controller.GetPricesAsync(SolutionId);
+
             response.Value.Should().BeEquivalentTo(priceResult);
         }
 
@@ -135,21 +137,19 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 PriceId = cataloguePrice.CataloguePriceId,
                 Type = cataloguePrice.Type,
                 CurrencyCode = cataloguePrice.CurrencyCode,
-                ItemUnit =
-                    new ItemUnitResult
+                ItemUnit = new ItemUnitResult
+                {
+                    Name = cataloguePrice.PricingUnit.Name,
+                    Description = cataloguePrice.PricingUnit.Description,
+                    TierName = cataloguePrice.PricingUnit.TierName,
+                },
+                TimeUnit = cataloguePrice.TimeUnit is null
+                    ? null
+                    : new TimeUnitResult
                     {
-                        Name = cataloguePrice.PricingUnit.Name,
-                        Description = cataloguePrice.PricingUnit.Description,
-                        TierName = cataloguePrice.PricingUnit.TierName,
+                        Name = cataloguePrice.TimeUnit.Name,
+                        Description = cataloguePrice.TimeUnit.Description,
                     },
-                TimeUnit =
-                    cataloguePrice.TimeUnit is null
-                        ? null
-                        : new TimeUnitResult
-                        {
-                            Name = cataloguePrice.TimeUnit.Name,
-                            Description = cataloguePrice.TimeUnit.Description,
-                        },
                 Price = (cataloguePrice as FlatCataloguePriceDto)?.Price,
                 Tiers = (cataloguePrice as TieredCataloguePriceDto)?.TieredPrices.Select(x => new TierResult
                 {
@@ -160,20 +160,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             };
         }
 
-        private static PricingResult CreatePrices(IEnumerable<ICataloguePrice> cataloguePrice)
-        {
-            var pricingResult = new PricingResult
-            {
-                Id = _solutionId,
-                Name = "Item Name",
-                Prices = cataloguePrice.Select(CreatePrice),
-            };
-
-            return pricingResult;
-        }
-
         private static PricingResult CreatePricesForQueryingByCatalogueItemId(IEnumerable<ICataloguePrice> cataloguePrice)
-        => new()
-            { Prices = cataloguePrice.Select(CreatePrice) };
+        {
+            return new() { Prices = cataloguePrice.Select(CreatePrice) };
+        }
     }
 }

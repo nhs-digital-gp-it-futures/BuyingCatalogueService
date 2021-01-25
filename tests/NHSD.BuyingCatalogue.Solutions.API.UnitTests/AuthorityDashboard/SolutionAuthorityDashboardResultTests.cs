@@ -51,6 +51,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.AuthorityDashboard
                 claimedCapabilities.Add(claimedCapabilityMock.Object);
             }
 
+            // ReSharper disable once PossibleUnintendedReferenceComparison (mock set-up)
             var dashboardAuthorityResult = await GetSolutionAuthorityDashboardSectionAsync(
                 Mock.Of<ISolution>(s => s.Capabilities == claimedCapabilities));
 
@@ -78,10 +79,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.AuthorityDashboard
                     claimedCapabilityEpics.Add(claimedCapabilityEpicMock.Object);
                 }
 
-                claimedCapabilityMock.SetupGet(x => x.ClaimedEpics).Returns(claimedCapabilityEpics);
+                claimedCapabilityMock.SetupGet(c => c.ClaimedEpics).Returns(claimedCapabilityEpics);
                 claimedCapabilities.Add(claimedCapabilityMock.Object);
             }
 
+            // ReSharper disable once PossibleUnintendedReferenceComparison (mock set-up)
             var dashboardAuthorityResult = await GetSolutionAuthorityDashboardSectionAsync(
                 Mock.Of<ISolution>(s => s.Capabilities == claimedCapabilities));
 
@@ -113,7 +115,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.AuthorityDashboard
 
             var result = (await solutionsController.AuthorityDashboard(SolutionId)).Result as ObjectResult;
 
-            result.Should().NotBeNull();
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             mockMediator.Verify(

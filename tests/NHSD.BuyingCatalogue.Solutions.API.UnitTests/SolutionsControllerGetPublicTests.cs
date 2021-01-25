@@ -146,6 +146,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var feature = hasFeature ? new List<string> { "feature1", "feature2" } : new List<string>();
 
+            // ReSharper disable once PossibleUnintendedReferenceComparison (mock set-up)
             Expression<Func<ISolution, bool>> solution = s =>
                 s.Id == SolutionId1
                 && s.Features == feature
@@ -328,6 +329,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             var capabilities = hasCapability ? capabilityData.Select(c => c.Capability) : Array.Empty<IClaimedCapability>();
 
+            // ReSharper disable once PossibleUnintendedReferenceComparison (mock set-up)
             Expression<Func<ISolution, bool>> solution = s =>
                 s.Id == SolutionId1
                 && s.Capabilities == capabilities
@@ -378,8 +380,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 return;
             }
 
-            connectivitySection.Should().NotBeNull();
-            connectivitySection.Answers.HasData.Should().Be(hasData);
+            Assert.NotNull(connectivitySection);
+            connectivitySection.Answers.HasData.Should().BeTrue();
             connectivitySection.Answers.MinimumConnectionSpeed.Should().Be(connectivity);
             connectivitySection.Answers.MinimumDesktopResolution.Should().Be(resolution);
         }
@@ -416,7 +418,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 return;
             }
 
-            operatingSystemResult.Should().NotBeNull();
+            Assert.NotNull(operatingSystemResult);
             operatingSystemResult.Answers.HasData.Should().BeTrue();
             operatingSystemResult.Answers.OperatingSystemsDescription.Should().Be(description);
             operatingSystemResult.Answers.OperatingSystems.Should().BeEquivalentTo(operatingSystem);
@@ -465,7 +467,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 return;
             }
 
-            mobileConnectionDetailsResult.Should().NotBeNull();
+            Assert.NotNull(mobileConnectionDetailsResult);
             mobileConnectionDetailsResult.Answers.HasData.Should().BeTrue();
             mobileConnectionDetailsResult.Answers.Description.Should().Be(description);
             mobileConnectionDetailsResult.Answers.MinimumConnectionSpeed.Should().Be(minimumConnectionSpeed);
@@ -504,7 +506,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 return;
             }
 
-            mobileMemoryStorageResult.Should().NotBeNull();
+            Assert.NotNull(mobileMemoryStorageResult);
             mobileMemoryStorageResult.Answers.HasData.Should().BeTrue();
             mobileMemoryStorageResult.Answers.MinimumMemoryRequirement.Should().Be(minMemoryManagement);
             mobileMemoryStorageResult.Answers.Description.Should().Be(description);
@@ -535,7 +537,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 return;
             }
 
-            mobileFirstSection.Should().NotBeNull();
+            Assert.NotNull(mobileFirstSection);
             mobileFirstSection.Answers.MobileFirstDesign.Should().Be(result);
         }
 
@@ -1102,7 +1104,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 .ReturnsAsync(solution);
 
             var result = (await solutionsController.Public(solutionId)).Result as ObjectResult;
-            result.Should().NotBeNull();
+
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             mockMediator.Verify(
@@ -1146,6 +1149,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 Mock.Of(contact2),
             };
 
+            // ReSharper disable once PossibleUnintendedReferenceComparison (mock set-up)
             Expression<Func<ISolution, bool>> solution = s =>
                 s.Id == SolutionId1
                 && s.Contacts == contacts
@@ -1198,11 +1202,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var solution1Capabilities = capabilityData.Take(2);
             var solution2Capabilities = capabilityData.Skip(2).Take(3);
 
+            // ReSharper disable once PossibleUnintendedReferenceComparison (mock set-up)
             Expression<Func<ISolution, bool>> solution1 = s =>
                 s.Id == SolutionId1
                 && s.Capabilities == solution1Capabilities.Select(c => c.Capability)
                 && s.PublishedStatus == PublishedStatus.Published;
 
+            // ReSharper disable once PossibleUnintendedReferenceComparison (mock set-up)
             Expression<Func<ISolution, bool>> solution2 = s =>
                 s.Id == SolutionId2
                 && s.Capabilities == solution2Capabilities.Select(c => c.Capability)
@@ -1225,7 +1231,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         {
             var result = (await solutionsController.Public(SolutionId1)).Result as NotFoundResult;
 
-            result.Should().NotBeNull();
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status404NotFound);
 
             mockMediator.Verify(
@@ -1248,7 +1254,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public void NullSolutionShouldThrowNullExceptionSolutionDescriptionPublicAnswers()
         {
-            Assert.Throws<ArgumentNullException>(() => new SolutionDescriptionSectionAnswers(null));
+            Assert.Throws<ArgumentNullException>(() => _ = new SolutionDescriptionSectionAnswers(null));
         }
 
         [Test]
@@ -1284,6 +1290,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 Mock.Of(contact2),
             };
 
+            // ReSharper disable once PossibleUnintendedReferenceComparison (mock set-up)
             Expression<Func<ISolution, bool>> solution = s =>
                 s.Id == SolutionId1
                 && s.Contacts == contacts
@@ -1430,6 +1437,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 Mock.Of(contact2),
             };
 
+            // ReSharper disable once PossibleUnintendedReferenceComparison (mock set-up)
             Expression<Func<ISolution, bool>> solution = s =>
                 s.Id == SolutionId1
                 && s.Contacts == contacts
@@ -1462,7 +1470,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             var result = (await solutionsController.Public(SolutionId1)).Result as NotFoundResult;
 
-            result.Should().NotBeNull();
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status404NotFound);
 
             mockMediator.Verify(

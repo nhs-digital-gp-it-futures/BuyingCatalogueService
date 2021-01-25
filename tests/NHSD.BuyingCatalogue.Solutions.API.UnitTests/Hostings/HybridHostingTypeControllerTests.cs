@@ -1,10 +1,12 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers.Hostings;
@@ -19,27 +21,27 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
 {
     [TestFixture]
-    public sealed class HybridHostingTypeControllerTests
+    internal sealed class HybridHostingTypeControllerTests
     {
-        private Mock<IMediator> _mediatorMock;
-        private HybridHostingTypeController _hybridHostingTypeController;
-        private readonly string _solutionId = "Sln1";
-        private Mock<ISimpleResult> _simpleResultMock;
-        private Dictionary<string, string> _resultDictionary;
+        private const string SolutionId = "Sln1";
+
+        private Mock<IMediator> mediatorMock;
+        private HybridHostingTypeController hybridHostingTypeController;
+        private Mock<ISimpleResult> simpleResultMock;
+        private Dictionary<string, string> resultDictionary;
 
         [SetUp]
         public void Setup()
         {
-            _mediatorMock = new Mock<IMediator>();
-            _hybridHostingTypeController = new HybridHostingTypeController(_mediatorMock.Object);
-            _simpleResultMock = new Mock<ISimpleResult>();
-            _simpleResultMock.Setup(x => x.IsValid).Returns(() => !_resultDictionary.Any());
-            _simpleResultMock.Setup(x => x.ToDictionary()).Returns(() => _resultDictionary);
-            _resultDictionary = new Dictionary<string, string>();
-            _mediatorMock.Setup(x =>
-                    x.Send(It.IsAny<UpdateHybridHostingTypeCommand>(),
-                        It.IsAny<CancellationToken>()))
-                .ReturnsAsync(() => _simpleResultMock.Object);
+            mediatorMock = new Mock<IMediator>();
+            hybridHostingTypeController = new HybridHostingTypeController(mediatorMock.Object);
+            simpleResultMock = new Mock<ISimpleResult>();
+            simpleResultMock.Setup(m => m.IsValid).Returns(() => !resultDictionary.Any());
+            simpleResultMock.Setup(m => m.ToDictionary()).Returns(() => resultDictionary);
+            resultDictionary = new Dictionary<string, string>();
+            mediatorMock
+                .Setup(m => m.Send(It.IsAny<UpdateHybridHostingTypeCommand>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(() => simpleResultMock.Object);
         }
 
         [TestCase("Some summary", "Some link", "Some hosting model", "'Tis required")]
@@ -57,51 +59,65 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
         [TestCase(null, null, "Some hosting model", null)]
         [TestCase(null, null, null, "'Tis required")]
         [TestCase(null, null, null, null)]
-        public async Task ShouldReturnCorrectHybridHostingTypeResultWhenHybridHostingTypeIsPopulated(string summary, string link, string hostingModel, string requiresHSCN)
+        public async Task ShouldReturnCorrectHybridHostingTypeResultWhenHybridHostingTypeIsPopulated(
+            string summary,
+            string link,
+            string hostingModel,
+            string requiresHscn)
         {
-            _mediatorMock.Setup(m => m.Send(It.Is<GetHostingBySolutionIdQuery>(q => q.Id == _solutionId),
-                    It.IsAny<CancellationToken>()))
-                .ReturnsAsync(Mock.Of<IHosting>(h => h.HybridHostingType == Mock.Of<IHybridHostingType>(p =>
-                                                         p.Summary == summary
-                                                         && p.Link == link
-                                                         && p.HostingModel == hostingModel
-                                                         && p.RequiresHSCN == requiresHSCN)));
+            Expression<Func<IHybridHostingType, bool>> hybridHostingType = h =>
+                h.Summary == summary
+                && h.Link == link
+                && h.HostingModel == hostingModel
+                && h.RequiresHSCN == requiresHscn;
 
-            var response = await _hybridHostingTypeController.Get(_solutionId).ConfigureAwait(false) as ObjectResult;
-            response.Should().NotBeNull();
-            response.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            mediatorMock
+                .Setup(m => m.Send(
+                    It.Is<GetHostingBySolutionIdQuery>(q => q.Id == SolutionId),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Mock.Of<IHosting>(h => h.HybridHostingType == Mock.Of(hybridHostingType)));
+
+            var response = await hybridHostingTypeController.Get(SolutionId) as ObjectResult;
+
+            Assert.NotNull(response);
+            response.StatusCode.Should().Be(StatusCodes.Status200OK);
             response.Value.Should().BeOfType<GetHybridHostingTypeResult>();
 
             var result = response.Value as GetHybridHostingTypeResult;
-            result.Should().NotBeNull();
+
+            Assert.NotNull(result);
             result.Summary.Should().Be(summary);
             result.Link.Should().Be(link);
             result.HostingModel.Should().Be(hostingModel);
 
-            if (requiresHSCN == null)
+            if (requiresHscn == null)
             {
                 result.RequiresHSCN.Should().BeEmpty();
             }
             else
             {
-                result.RequiresHSCN.Should().BeEquivalentTo(requiresHSCN);
+                result.RequiresHSCN.Should().BeEquivalentTo(requiresHscn);
             }
         }
 
         [Test]
         public async Task NullHostingShouldReturnNull()
         {
-            _mediatorMock.Setup(m => m.Send(It.Is<GetHostingBySolutionIdQuery>(q => q.Id == _solutionId),
+            mediatorMock
+                .Setup(m => m.Send(
+                    It.Is<GetHostingBySolutionIdQuery>(q => q.Id == SolutionId),
                     It.IsAny<CancellationToken>()))
                 .ReturnsAsync(null as IHosting);
 
-            var response = await _hybridHostingTypeController.Get(_solutionId).ConfigureAwait(false) as ObjectResult;
-            response.Should().NotBeNull();
-            response.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            var response = await hybridHostingTypeController.Get(SolutionId) as ObjectResult;
+
+            Assert.NotNull(response);
+            response.StatusCode.Should().Be(StatusCodes.Status200OK);
             response.Value.Should().BeOfType<GetHybridHostingTypeResult>();
 
             var result = response.Value as GetHybridHostingTypeResult;
-            result.Should().NotBeNull();
+
+            Assert.NotNull(result);
             result.Summary.Should().BeNull();
             result.Link.Should().BeNull();
             result.HostingModel.Should().BeNull();
@@ -113,47 +129,43 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hostings
         {
             var request = new UpdateHybridHostingTypeViewModel();
 
-            var result =
-                (await _hybridHostingTypeController.Update(_solutionId, request)
-                    .ConfigureAwait(false)) as NoContentResult;
-            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
-            _mediatorMock.Verify(
-                x => x.Send(
-                    It.Is<UpdateHybridHostingTypeCommand>(c =>
-                        c.Id == _solutionId &&
-                        c.Data == request
-                    ),
-                    It.IsAny<CancellationToken>()), Times.Once);
-            _mediatorMock.VerifyNoOtherCalls();
+            var result = await hybridHostingTypeController.Update(SolutionId, request) as NoContentResult;
+
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status204NoContent);
+
+            mediatorMock.Verify(m => m.Send(
+                It.Is<UpdateHybridHostingTypeCommand>(c => c.Id == SolutionId && c.Data == request),
+                It.IsAny<CancellationToken>()));
+
+            mediatorMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public async Task UpdateInvalidReturnsBadRequestWithValidationDetails()
         {
-            _resultDictionary.Add("summary", "maxLength");
-            _resultDictionary.Add("link", "maxLength");
-            _resultDictionary.Add("hosting-model", "maxLength");
+            resultDictionary.Add("summary", "maxLength");
+            resultDictionary.Add("link", "maxLength");
+            resultDictionary.Add("hosting-model", "maxLength");
 
             var request = new UpdateHybridHostingTypeViewModel();
 
-            var result =
-                (await _hybridHostingTypeController.Update(_solutionId, request)
-                    .ConfigureAwait(false)) as BadRequestObjectResult;
+            var result = await hybridHostingTypeController.Update(SolutionId, request) as BadRequestObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
+
             var validationResult = result.Value as Dictionary<string, string>;
+
+            Assert.NotNull(validationResult);
             validationResult.Count.Should().Be(3);
             validationResult["summary"].Should().Be("maxLength");
             validationResult["link"].Should().Be("maxLength");
             validationResult["hosting-model"].Should().Be("maxLength");
 
-            _mediatorMock.Verify(
-                x => x.Send(
-                    It.Is<UpdateHybridHostingTypeCommand>(c =>
-                        c.Id == _solutionId &&
-                        c.Data == request
-                    ),
-                    It.IsAny<CancellationToken>()), Times.Once);
+            mediatorMock.Verify(m => m.Send(
+                It.Is<UpdateHybridHostingTypeCommand>(c => c.Id == SolutionId && c.Data == request),
+                It.IsAny<CancellationToken>()));
         }
     }
 }

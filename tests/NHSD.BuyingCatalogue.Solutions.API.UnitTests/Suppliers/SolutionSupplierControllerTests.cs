@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers.Suppliers;
@@ -18,27 +18,29 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
 {
     [TestFixture]
-    public sealed class SolutionSupplierControllerTests
+    internal sealed class SolutionSupplierControllerTests
     {
-        private Mock<IMediator> _mediatorMock;
-        private SolutionSupplierController _solutionSupplierController;
-        private readonly string _solutionId = "Sln1";
-        private Mock<ISimpleResult> _simpleResultMock;
-        private Dictionary<string, string> _resultDictionary;
+        private const string SolutionId = "Sln1";
+
+        private Mock<IMediator> mediatorMock;
+        private SolutionSupplierController solutionSupplierController;
+        private Mock<ISimpleResult> simpleResultMock;
+        private Dictionary<string, string> resultDictionary;
 
         [SetUp]
         public void Setup()
         {
-            _mediatorMock = new Mock<IMediator>();
-            _solutionSupplierController = new SolutionSupplierController(_mediatorMock.Object);
-            _simpleResultMock = new Mock<ISimpleResult>();
-            _simpleResultMock.Setup(x => x.IsValid).Returns(() => !_resultDictionary.Any());
-            _simpleResultMock.Setup(x => x.ToDictionary()).Returns(() => _resultDictionary);
-            _resultDictionary = new Dictionary<string, string>();
-            _mediatorMock.Setup(x =>
-                    x.Send(It.IsAny<UpdateSolutionSupplierCommand>(),
-                        It.IsAny<CancellationToken>()))
-                .ReturnsAsync(() => _simpleResultMock.Object);
+            mediatorMock = new Mock<IMediator>();
+            solutionSupplierController = new SolutionSupplierController(mediatorMock.Object);
+            simpleResultMock = new Mock<ISimpleResult>();
+            simpleResultMock.Setup(r => r.IsValid).Returns(() => !resultDictionary.Any());
+            simpleResultMock.Setup(r => r.ToDictionary()).Returns(() => resultDictionary);
+            resultDictionary = new Dictionary<string, string>();
+            mediatorMock
+                .Setup(m => m.Send(
+                    It.IsAny<UpdateSolutionSupplierCommand>(),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(() => simpleResultMock.Object);
         }
 
         [TestCase("Some description", "Some link")]
@@ -47,15 +49,21 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
         [TestCase(null, null)]
         public async Task PopulatedAboutSupplierShouldReturnCorrectDetails(string summary, string url)
         {
-            _mediatorMock.Setup(m => m.Send(It.Is<GetSupplierBySolutionIdQuery>(q => q.SolutionId == _solutionId),
+            mediatorMock
+                .Setup(m => m.Send(
+                    It.Is<GetSupplierBySolutionIdQuery>(q => q.SolutionId == SolutionId),
                     It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Mock.Of<ISolutionSupplier>(s => s.Summary == summary && s.Url == url));
-            var result = await _solutionSupplierController.Get(_solutionId).ConfigureAwait(false) as ObjectResult;
-            result.Should().NotBeNull();
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+
+            var result = await solutionSupplierController.Get(SolutionId) as ObjectResult;
+
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
             result.Value.Should().BeOfType<GetSolutionSupplierResult>();
 
             var aboutSupplierResult = result.Value as GetSolutionSupplierResult;
+
+            Assert.NotNull(aboutSupplierResult);
             aboutSupplierResult.Description.Should().Be(summary);
             aboutSupplierResult.Link.Should().Be(url);
         }
@@ -63,15 +71,21 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
         [Test]
         public async Task NullAboutSupplierShouldReturnNull()
         {
-            _mediatorMock.Setup(m => m.Send(It.Is<GetSupplierBySolutionIdQuery>(q => q.SolutionId == _solutionId),
+            mediatorMock
+                .Setup(m => m.Send(
+                    It.Is<GetSupplierBySolutionIdQuery>(q => q.SolutionId == SolutionId),
                     It.IsAny<CancellationToken>()))
                 .ReturnsAsync(null as ISolutionSupplier);
 
-            var result = await _solutionSupplierController.Get(_solutionId).ConfigureAwait(false) as ObjectResult;
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            var result = await solutionSupplierController.Get(SolutionId) as ObjectResult;
+
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
             result.Value.Should().BeOfType<GetSolutionSupplierResult>();
 
             var aboutSupplierResult = result.Value as GetSolutionSupplierResult;
+
+            Assert.NotNull(aboutSupplierResult);
             aboutSupplierResult.Description.Should().BeNull();
             aboutSupplierResult.Link.Should().BeNull();
         }
@@ -81,45 +95,39 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
         {
             var request = new UpdateSolutionSupplierViewModel();
 
-            var result =
-                (await _solutionSupplierController.Update(_solutionId, request)
-                    .ConfigureAwait(false)) as NoContentResult;
-            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
-            _mediatorMock.Verify(
-                x => x.Send(
-                    It.Is<UpdateSolutionSupplierCommand>(c =>
-                        c.SolutionId == _solutionId &&
-                        c.Data == request
-                    ),
-                    It.IsAny<CancellationToken>()), Times.Once);
+            var result = await solutionSupplierController.Update(SolutionId, request) as NoContentResult;
+
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status204NoContent);
+
+            mediatorMock.Verify(m => m.Send(
+                It.Is<UpdateSolutionSupplierCommand>(c => c.SolutionId == SolutionId && c.Data == request),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task UpdateInvalidReturnsBadRequestWithValidationDetails()
         {
-            _resultDictionary.Add("description", "maxLength");
-            _resultDictionary.Add("link", "maxLength");
+            resultDictionary.Add("description", "maxLength");
+            resultDictionary.Add("link", "maxLength");
 
             var request = new UpdateSolutionSupplierViewModel();
 
-            var result =
-                (await _solutionSupplierController.Update(_solutionId, request)
-                    .ConfigureAwait(false)) as BadRequestObjectResult;
+            var result = await solutionSupplierController.Update(SolutionId, request) as BadRequestObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
+
             var validationResult = result.Value as Dictionary<string, string>;
+
+            Assert.NotNull(validationResult);
             validationResult.Count.Should().Be(2);
             validationResult["description"].Should().Be("maxLength");
             validationResult["link"].Should().Be("maxLength");
 
-            _mediatorMock.Verify(
-                x => x.Send(
-                    It.Is<UpdateSolutionSupplierCommand>(c =>
-                        c.SolutionId == _solutionId &&
-                        c.Data == request
-                    ),
-                    It.IsAny<CancellationToken>()), Times.Once);
+            mediatorMock.Verify(m => m.Send(
+                It.Is<UpdateSolutionSupplierCommand>(c => c.SolutionId == SolutionId && c.Data == request),
+                It.IsAny<CancellationToken>()));
         }
     }
 }
-

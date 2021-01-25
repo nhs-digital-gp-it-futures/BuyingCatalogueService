@@ -35,8 +35,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
             mockMediator = new Mock<IMediator>();
             plugInsController = new PlugInsController(mockMediator.Object);
             simpleResultMock = new Mock<ISimpleResult>();
-            simpleResultMock.Setup(x => x.IsValid).Returns(() => !resultDictionary.Any());
-            simpleResultMock.Setup(x => x.ToDictionary()).Returns(() => resultDictionary);
+            simpleResultMock.Setup(m => m.IsValid).Returns(() => !resultDictionary.Any());
+            simpleResultMock.Setup(m => m.ToDictionary()).Returns(() => resultDictionary);
             resultDictionary = new Dictionary<string, string>();
             mockMediator
                 .Setup(m => m.Send(
@@ -59,9 +59,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
                 .ReturnsAsync(Mock.Of<IClientApplication>(s => s.Plugins == Mock.Of(plugins)));
 
             var result = await plugInsController.GetPlugInsAsync(SolutionId) as ObjectResult;
+
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             var plugin = result.Value as GetPlugInsResult;
+
+            Assert.NotNull(plugin);
             plugin.PlugIns.Should().Be("Yes");
             plugin.AdditionalInformation.Should().Be("Additional Information");
 
@@ -88,9 +92,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
                 .ReturnsAsync(Mock.Of<IClientApplication>(s => s.Plugins == Mock.Of(plugins)));
 
             var result = await plugInsController.GetPlugInsAsync(SolutionId) as ObjectResult;
+
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             var plugin = result.Value as GetPlugInsResult;
+
+            Assert.NotNull(plugin);
             plugin.PlugIns.Should().Be(expectedPlugin);
             plugin.AdditionalInformation.Should().Be(additionalInfo);
 
@@ -112,9 +120,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
                 .ReturnsAsync(clientMock.Object);
 
             var result = await plugInsController.GetPlugInsAsync(SolutionId) as ObjectResult;
+
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             var plugin = result.Value as GetPlugInsResult;
+
+            Assert.NotNull(plugin);
             plugin.AdditionalInformation.Should().BeNull();
             plugin.PlugIns.Should().BeNull();
         }
@@ -123,9 +135,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
         public async Task ShouldReturnEmpty()
         {
             var result = await plugInsController.GetPlugInsAsync(SolutionId) as ObjectResult;
+
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             var plugin = result.Value as GetPlugInsResult;
+
+            Assert.NotNull(plugin);
             plugin.AdditionalInformation.Should().BeNull();
             plugin.PlugIns.Should().BeNull();
         }
@@ -156,9 +172,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Browse
 
             var result = await plugInsController.UpdatePlugInsAsync(SolutionId, request) as BadRequestObjectResult;
 
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
 
             var validationResult = result.Value as Dictionary<string, string>;
+
+            Assert.NotNull(validationResult);
             validationResult.Count.Should().Be(2);
             validationResult["plugins-required"].Should().Be("required");
             validationResult["plugins-detail"].Should().Be("maxLength");

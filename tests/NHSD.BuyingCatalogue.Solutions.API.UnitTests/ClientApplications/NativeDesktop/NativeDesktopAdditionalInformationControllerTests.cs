@@ -1,9 +1,11 @@
+﻿using System;
 using System.Collections.Generic;
-using System.Net;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.NativeDesktop;
@@ -17,19 +19,18 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.NativeDesktop
 {
     [TestFixture]
-    public sealed class NativeDesktopAdditionalInformationControllerTests
+    internal sealed class NativeDesktopAdditionalInformationControllerTests
     {
-        private Mock<IMediator> _mockMediator;
-
-        private NativeDesktopAdditionalInformationController _nativeDesktopAdditionalInformationController;
-
         private const string SolutionId = "Sln1";
+
+        private Mock<IMediator> mockMediator;
+        private NativeDesktopAdditionalInformationController nativeDesktopAdditionalInformationController;
 
         [SetUp]
         public void Setup()
         {
-            _mockMediator = new Mock<IMediator>();
-            _nativeDesktopAdditionalInformationController = new NativeDesktopAdditionalInformationController(_mockMediator.Object);
+            mockMediator = new Mock<IMediator>();
+            nativeDesktopAdditionalInformationController = new NativeDesktopAdditionalInformationController(mockMediator.Object);
         }
 
         [TestCase(null)]
@@ -38,88 +39,101 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
         [TestCase(" Some additional tabbed Information  ")]
         public async Task ShouldGetNativeDesktopAdditionalInformation(string information)
         {
-            _mockMediator
-                .Setup(m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
+            mockMediator
+                .Setup(m => m.Send(
+                    It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                    It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Mock.Of<IClientApplication>(c => c.NativeDesktopAdditionalInformation == information));
 
-            var response = (await _nativeDesktopAdditionalInformationController.GetAsync(SolutionId)
-                .ConfigureAwait(false)) as ObjectResult;
+            var response = await nativeDesktopAdditionalInformationController.GetAsync(SolutionId) as ObjectResult;
 
-            response.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            Assert.NotNull(response);
+            response.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             var result = response.Value as GetNativeDesktopAdditionalInformationResult;
 
+            Assert.NotNull(result);
             result.NativeDesktopAdditionalInformation.Should().Be(information);
-            _mockMediator.Verify(
-                m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()),
-                Times.Once);
+
+            mockMediator.Verify(m => m.Send(
+                It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task ShouldReturnNull()
         {
-            var response =
-                (await _nativeDesktopAdditionalInformationController.GetAsync(SolutionId)
-                    .ConfigureAwait(false)) as ObjectResult;
+            var response = await nativeDesktopAdditionalInformationController.GetAsync(SolutionId) as ObjectResult;
 
-            response.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            Assert.NotNull(response);
+            response.StatusCode.Should().Be(StatusCodes.Status200OK);
+
             var result = response.Value as GetNativeDesktopAdditionalInformationResult;
+
+            Assert.NotNull(result);
             result.NativeDesktopAdditionalInformation.Should().BeNull();
-        }
-
-        [Test]
-        public async Task ShouldUpdateValidationValid()
-        {
-            var viewModel = new UpdateNativeDesktopAdditionalInformationViewModel();
-
-            var validationResult = new Mock<ISimpleResult>();
-            validationResult.Setup(s => s.IsValid).Returns(true);
-
-            _mockMediator
-                .Setup(m => m.Send(
-                    It.Is<UpdateNativeDesktopAdditionalInformationCommand>(q =>
-                        q.SolutionId == SolutionId && q.AdditionalInformation == viewModel.NativeDesktopAdditionalInformation),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(validationResult.Object);
-
-            var response = await _nativeDesktopAdditionalInformationController.UpdateAdditionalInformationAsync(SolutionId, viewModel)
-                .ConfigureAwait(false) as NoContentResult;
-
-            response.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
-            _mockMediator.Verify(
-                m => m.Send(
-                    It.Is<UpdateNativeDesktopAdditionalInformationCommand>(q =>
-                        q.SolutionId == SolutionId && q.AdditionalInformation ==
-                        viewModel.NativeDesktopAdditionalInformation), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
         public async Task ShouldUpdateValidationInvalid()
         {
-            var viewModel = new UpdateNativeDesktopAdditionalInformationViewModel();
+            var model = new UpdateNativeDesktopAdditionalInformationViewModel();
 
             var validationResult = new Mock<ISimpleResult>();
-            validationResult.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "additional-information", "maxLength" } });
+            validationResult
+                .Setup(s => s.ToDictionary())
+                .Returns(new Dictionary<string, string> { { "additional-information", "maxLength" } });
+
             validationResult.Setup(s => s.IsValid).Returns(false);
 
-            _mockMediator
-                .Setup(m => m.Send(
-                    It.Is<UpdateNativeDesktopAdditionalInformationCommand>(q =>
-                        q.SolutionId == SolutionId && q.AdditionalInformation == viewModel.NativeDesktopAdditionalInformation),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(validationResult.Object);
+            Expression<Func<UpdateNativeDesktopAdditionalInformationCommand, bool>> match = c =>
+                c.SolutionId == SolutionId
+                && c.AdditionalInformation == model.NativeDesktopAdditionalInformation;
 
-            var response = await _nativeDesktopAdditionalInformationController.UpdateAdditionalInformationAsync(SolutionId, viewModel)
-                .ConfigureAwait(false) as BadRequestObjectResult;
+            mockMediator
+                .Setup(m => m.Send(It.Is(match), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(validationResult.Object);
 
-            response.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            var response = await nativeDesktopAdditionalInformationController.UpdateAdditionalInformationAsync(
+                    SolutionId,
+                    model) as BadRequestObjectResult;
+
+            Assert.NotNull(response);
+            response.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
+
             var result = response.Value as Dictionary<string, string>;
+
+            Assert.NotNull(result);
             result.Count.Should().Be(1);
             result["additional-information"].Should().Be("maxLength");
 
-            _mockMediator.Verify(
-                m => m.Send(
-                    It.Is<UpdateNativeDesktopAdditionalInformationCommand>(q =>
-                        q.SolutionId == SolutionId && q.AdditionalInformation ==
-                        viewModel.NativeDesktopAdditionalInformation), It.IsAny<CancellationToken>()), Times.Once);
+            mockMediator.Verify(m => m.Send(It.Is(match), It.IsAny<CancellationToken>()));
+        }
+
+        [Test]
+        public async Task ShouldUpdateValidationValid()
+        {
+            var model = new UpdateNativeDesktopAdditionalInformationViewModel();
+
+            var validationResult = new Mock<ISimpleResult>();
+            validationResult.Setup(s => s.IsValid).Returns(true);
+
+            Expression<Func<UpdateNativeDesktopAdditionalInformationCommand, bool>> match = c =>
+                c.SolutionId == SolutionId
+                && c.AdditionalInformation == model.NativeDesktopAdditionalInformation;
+
+            mockMediator
+                .Setup(m => m.Send(It.Is(match), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(validationResult.Object);
+
+            var response = await nativeDesktopAdditionalInformationController.UpdateAdditionalInformationAsync(
+                    SolutionId,
+                    model) as NoContentResult;
+
+            Assert.NotNull(response);
+            response.StatusCode.Should().Be(StatusCodes.Status204NoContent);
+
+            mockMediator.Verify(m => m.Send(It.Is(match), It.IsAny<CancellationToken>()));
         }
     }
 }

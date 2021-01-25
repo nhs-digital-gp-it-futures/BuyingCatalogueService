@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
@@ -18,87 +18,113 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 {
     [TestFixture]
-    public sealed class FeaturesControllerTests
+    internal sealed class FeaturesControllerTests
     {
-        private Mock<IMediator> _mockMediator;
-
-        private FeaturesController _featuresController;
-
         private const string SolutionId = "Sln1";
+
+        private Mock<IMediator> mockMediator;
+        private FeaturesController featuresController;
 
         [SetUp]
         public void Setup()
         {
-            _mockMediator = new Mock<IMediator>();
-            _featuresController = new FeaturesController(_mockMediator.Object);
+            mockMediator = new Mock<IMediator>();
+            featuresController = new FeaturesController(mockMediator.Object);
         }
 
         [Test]
         public async Task ShouldGetFeatures()
         {
-            var expected = new List<string>() { "a", "b", "c" };
+            var expected = new List<string> { "a", "b", "c" };
 
-            _mockMediator.Setup(m =>
-                    m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
+            // ReSharper disable once PossibleUnintendedReferenceComparison (mock set-up)
+            mockMediator
+                .Setup(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Mock.Of<ISolution>(s => s.Features == expected));
 
-            var result = (await _featuresController.GetFeaturesAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
+            var result = await featuresController.GetFeaturesAsync(SolutionId) as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            (result.Value as FeaturesResult).Listing.Should().BeEquivalentTo(expected);
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
-            _mockMediator.Verify(m => m.Send(It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+            result.Value.Should().BeOfType<FeaturesResult>();
+            result.Value.As<FeaturesResult>().Listing.Should().BeEquivalentTo(expected);
+
+            mockMediator.Verify(m => m.Send(
+                It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task ShouldUpdateValidationInvalid()
         {
-            var featuresUpdateViewModel = new UpdateSolutionFeaturesViewModel()
+            var featuresUpdateModel = new UpdateSolutionFeaturesViewModel
             {
-                Listing = new List<string>() { new('a', 200) },
+                Listing = new List<string> { new('a', 200) },
             };
 
             var validationModel = new Mock<ISimpleResult>();
-            validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "listing-1", "maxLength" } });
+            validationModel
+                .Setup(s => s.ToDictionary())
+                .Returns(new Dictionary<string, string> { { "listing-1", "maxLength" } });
+
             validationModel.Setup(s => s.IsValid).Returns(false);
 
-            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionFeaturesCommand>(q => q.SolutionId == SolutionId && q.Data == featuresUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
-            var result =
-                (await _featuresController.UpdateFeaturesAsync(SolutionId, featuresUpdateViewModel).ConfigureAwait(false)) as
-                    BadRequestObjectResult;
+            mockMediator
+                .Setup(m => m.Send(
+                    It.Is<UpdateSolutionFeaturesCommand>(c => c.SolutionId == SolutionId && c.Data == featuresUpdateModel),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(validationModel.Object);
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            var result = await featuresController.UpdateFeaturesAsync(
+                SolutionId,
+                featuresUpdateModel) as BadRequestObjectResult;
+
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
+
             var resultValue = result.Value as Dictionary<string, string>;
+
+            Assert.NotNull(resultValue);
             resultValue.Count.Should().Be(1);
             resultValue["listing-1"].Should().Be("maxLength");
 
-            _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionFeaturesCommand>(q => q.SolutionId == SolutionId && q.Data == featuresUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
+            mockMediator.Verify(m => m.Send(
+                It.Is<UpdateSolutionFeaturesCommand>(c => c.SolutionId == SolutionId && c.Data == featuresUpdateModel),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task ShouldUpdateValidationValid()
         {
-            var featuresUpdateViewModel = new UpdateSolutionFeaturesViewModel()
+            var featuresUpdateModel = new UpdateSolutionFeaturesViewModel
             {
-                Listing = new List<string>() { "test", "test2" },
+                Listing = new List<string> { "test", "test2" },
             };
 
             var validationModel = new Mock<ISimpleResult>();
             validationModel.Setup(s => s.IsValid).Returns(true);
 
-            _mockMediator.Setup(m => m.Send(It.Is<UpdateSolutionFeaturesCommand>(q => q.SolutionId == SolutionId && q.Data == featuresUpdateViewModel), It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
-            var result =
-                (await _featuresController.UpdateFeaturesAsync(SolutionId, featuresUpdateViewModel).ConfigureAwait(false)) as NoContentResult;
+            mockMediator
+                .Setup(m => m.Send(
+                    It.Is<UpdateSolutionFeaturesCommand>(c => c.SolutionId == SolutionId && c.Data == featuresUpdateModel),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(validationModel.Object);
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
-            _mockMediator.Verify(m => m.Send(It.Is<UpdateSolutionFeaturesCommand>(q => q.SolutionId == SolutionId && q.Data == featuresUpdateViewModel), It.IsAny<CancellationToken>()), Times.Once);
+            var result = await featuresController.UpdateFeaturesAsync(SolutionId, featuresUpdateModel) as NoContentResult;
+
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status204NoContent);
+
+            mockMediator.Verify(m => m.Send(
+                It.Is<UpdateSolutionFeaturesCommand>(c => c.SolutionId == SolutionId && c.Data == featuresUpdateModel),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public void NullSolutionShouldThrowNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new FeaturesResult(null));
+            Assert.Throws<ArgumentNullException>(() => _ = new FeaturesResult(null));
         }
-
     }
 }

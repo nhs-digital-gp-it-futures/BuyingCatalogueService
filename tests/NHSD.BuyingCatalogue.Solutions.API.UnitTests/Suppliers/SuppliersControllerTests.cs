@@ -25,7 +25,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
             const string id = "1";
 
             var mockMediator = new Mock<IMediator>();
-            mockMediator.Setup(m => m.Send(It.IsNotNull<IRequest<ISupplier>>(), It.IsAny<CancellationToken>()))
+            mockMediator
+                .Setup(m => m.Send(It.IsNotNull<IRequest<ISupplier>>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync((ISupplier)null);
 
             var controller = new SuppliersController(mockMediator.Object);
@@ -70,7 +71,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
             };
 
             var mockMediator = new Mock<IMediator>();
-            mockMediator.Setup(m => m.Send(It.IsNotNull<IRequest<IEnumerable<ISupplier>>>(), It.IsAny<CancellationToken>()))
+            mockMediator
+                .Setup(m => m.Send(It.IsNotNull<IRequest<IEnumerable<ISupplier>>>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new[] { supplier1, supplier2 });
 
             var controller = new SuppliersController(mockMediator.Object);
@@ -87,7 +89,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
             var expectedSuppliers = Array.Empty<GetSupplierModel>();
 
             var mockMediator = new Mock<IMediator>();
-            mockMediator.Setup(m => m.Send(It.IsNotNull<IRequest<IEnumerable<ISupplier>>>(), It.IsAny<CancellationToken>()))
+            mockMediator
+                .Setup(m => m.Send(It.IsNotNull<IRequest<IEnumerable<ISupplier>>>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Array.Empty<ISupplier>());
 
             var controller = new SuppliersController(mockMediator.Object);
@@ -104,8 +107,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
             GetSuppliersByNameQuery actualQuery = null;
 
             var mockMediator = new Mock<IMediator>();
-            mockMediator.Setup(m => m.Send(It.IsNotNull<IRequest<IEnumerable<ISupplier>>>(), It.IsAny<CancellationToken>()))
-                .Callback<IRequest<IEnumerable<ISupplier>>, CancellationToken>((q, t) => actualQuery = (GetSuppliersByNameQuery)q)
+            mockMediator
+                .Setup(m => m.Send(It.IsNotNull<IRequest<IEnumerable<ISupplier>>>(), It.IsAny<CancellationToken>()))
+                .Callback<IRequest<IEnumerable<ISupplier>>, CancellationToken>((q, _) => actualQuery = (GetSuppliersByNameQuery)q)
                 .ReturnsAsync(Array.Empty<ISupplier>());
 
             const string expectedName = "Supplier Name";
@@ -133,8 +137,9 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Suppliers
             GetSuppliersByNameQuery actualQuery = null;
 
             var mockMediator = new Mock<IMediator>();
-            mockMediator.Setup(m => m.Send(It.IsNotNull<IRequest<IEnumerable<ISupplier>>>(), It.IsAny<CancellationToken>()))
-                .Callback<IRequest<IEnumerable<ISupplier>>, CancellationToken>((q, t) => actualQuery = (GetSuppliersByNameQuery)q)
+            mockMediator
+                .Setup(m => m.Send(It.IsNotNull<IRequest<IEnumerable<ISupplier>>>(), It.IsAny<CancellationToken>()))
+                .Callback<IRequest<IEnumerable<ISupplier>>, CancellationToken>((q, _) => actualQuery = (GetSuppliersByNameQuery)q)
                 .ReturnsAsync(Array.Empty<ISupplier>());
 
             const string expectedName = "Supplier Name";

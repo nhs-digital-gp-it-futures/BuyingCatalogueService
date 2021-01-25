@@ -28,7 +28,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             builderServices.Should().Equal(serviceCollection);
 
             var options = serviceCollection.BuildServiceProvider().GetService<IConfigureOptions<MvcOptions>>();
-            options.Should().NotBeNull();
+            Assert.NotNull(options);
 
             var action = ((ConfigureNamedOptions<MvcOptions>)options).Action;
             action(new MvcOptions());

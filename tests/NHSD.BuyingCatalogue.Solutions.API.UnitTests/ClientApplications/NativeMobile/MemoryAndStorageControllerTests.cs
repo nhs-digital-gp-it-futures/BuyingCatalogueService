@@ -1,9 +1,11 @@
+﻿using System;
 using System.Collections.Generic;
-using System.Net;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.NativeMobile;
@@ -18,44 +20,50 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.NativeMobile
 {
     [TestFixture]
-    public sealed class MemoryAndStorageControllerTests
+    internal sealed class MemoryAndStorageControllerTests
     {
-        private Mock<IMediator> _mockMediator;
-
-        private MemoryAndStorageController _memoryAndStorageController;
-
         private const string SolutionId = "Sln1";
+
+        private Mock<IMediator> mockMediator;
+        private MemoryAndStorageController memoryAndStorageController;
 
         [SetUp]
         public void Setup()
         {
-            _mockMediator = new Mock<IMediator>();
-            _memoryAndStorageController = new MemoryAndStorageController(_mockMediator.Object);
+            mockMediator = new Mock<IMediator>();
+            memoryAndStorageController = new MemoryAndStorageController(mockMediator.Object);
         }
 
         [Test]
         public async Task ShouldGetMemoryAndStorage()
         {
-            _mockMediator
-                .Setup(m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(Mock.Of<IClientApplication>(c =>
-                    c.MobileMemoryAndStorage == Mock.Of<IMobileMemoryAndStorage>(m =>
-                        m.MinimumMemoryRequirement == "1GB" &&
-                        m.Description == "desc")));
+            Expression<Func<IMobileMemoryAndStorage, bool>> mobileMemoryAndStorage = m =>
+                m.MinimumMemoryRequirement == "1GB"
+                && m.Description == "desc";
 
-            var result =
-                (await _memoryAndStorageController.GetMemoryAndStorageAsync(SolutionId)
-                    .ConfigureAwait(false)) as ObjectResult;
+            Expression<Func<IClientApplication, bool>> clientApplication = c =>
+                c.MobileMemoryAndStorage == Mock.Of(mobileMemoryAndStorage);
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            mockMediator
+                .Setup(m => m.Send(
+                    It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Mock.Of(clientApplication));
+
+            var result = await memoryAndStorageController.GetMemoryAndStorageAsync(SolutionId) as ObjectResult;
+
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             var memoryAndStorage = result.Value as GetSolutionMemoryAndStorageResult;
+
+            Assert.NotNull(memoryAndStorage);
             memoryAndStorage.MinimumMemoryRequirement.Should().Be("1GB");
             memoryAndStorage.Description.Should().Be("desc");
 
-            _mockMediator.Verify(
-                m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
-                    It.IsAny<CancellationToken>()), Times.Once);
+            mockMediator.Verify(m => m.Send(
+                It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
@@ -64,17 +72,20 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
             var clientMock = new Mock<IClientApplication>();
             clientMock.Setup(c => c.MobileOperatingSystems).Returns<IMobileMemoryAndStorage>(null);
 
-            _mockMediator
-                .Setup(m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(clientMock.Object);
+            mockMediator
+                .Setup(m => m.Send(
+                    It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(clientMock.Object);
 
-            var result =
-                (await _memoryAndStorageController.GetMemoryAndStorageAsync(SolutionId)
-                    .ConfigureAwait(false)) as ObjectResult;
+            var result = await memoryAndStorageController.GetMemoryAndStorageAsync(SolutionId) as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
-            var memoryAndStorage = (result.Value as GetSolutionMemoryAndStorageResult);
+            var memoryAndStorage = result.Value as GetSolutionMemoryAndStorageResult;
+
+            Assert.NotNull(memoryAndStorage);
             memoryAndStorage.MinimumMemoryRequirement.Should().BeNull();
             memoryAndStorage.Description.Should().BeNull();
         }
@@ -82,12 +93,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
         [Test]
         public async Task ShouldReturnEmpty()
         {
-            var result =
-                (await _memoryAndStorageController.GetMemoryAndStorageAsync(SolutionId)
-                    .ConfigureAwait(false)) as ObjectResult;
+            var result = await memoryAndStorageController.GetMemoryAndStorageAsync(SolutionId) as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            var memoryAndStorage = (result.Value as GetSolutionMemoryAndStorageResult);
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
+
+            var memoryAndStorage = result.Value as GetSolutionMemoryAndStorageResult;
+
+            Assert.NotNull(memoryAndStorage);
             memoryAndStorage.MinimumMemoryRequirement.Should().BeNull();
             memoryAndStorage.Description.Should().BeNull();
         }
@@ -95,61 +108,70 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
         [Test]
         public async Task ShouldUpdateValidationValid()
         {
-            var viewModel = new UpdateSolutionMemoryAndStorageRequest();
+            var model = new UpdateSolutionMemoryAndStorageRequest();
 
             var validationModel = new Mock<ISimpleResult>();
             validationModel.Setup(s => s.IsValid).Returns(true);
 
-            _mockMediator
-                .Setup(m => m.Send(
-                    It.Is<UpdateSolutionMobileMemoryStorageCommand>(q =>
-                        q.Id == SolutionId && q.MinimumMemoryRequirement == viewModel.MinimumMemoryRequirement &&
-                        q.Description == viewModel.Description), It.IsAny<CancellationToken>()))
+            Expression<Func<UpdateSolutionMobileMemoryStorageCommand, bool>> match = c =>
+                c.Id == SolutionId
+                && c.MinimumMemoryRequirement == model.MinimumMemoryRequirement
+                && c.Description == model.Description;
+
+            mockMediator
+                .Setup(m => m.Send(It.Is(match), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(validationModel.Object);
 
-            var result =
-                (await _memoryAndStorageController.UpdateMemoryAndStorageAsync(SolutionId, viewModel)
-                    .ConfigureAwait(false)) as NoContentResult;
+            var result = await memoryAndStorageController.UpdateMemoryAndStorageAsync(
+                SolutionId,
+                model) as NoContentResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status204NoContent);
 
-            _mockMediator.Verify(
-                m => m.Send(
-                    It.Is<UpdateSolutionMobileMemoryStorageCommand>(q =>
-                        q.Id == SolutionId && q.MinimumMemoryRequirement == viewModel.MinimumMemoryRequirement &&
-                        q.Description == viewModel.Description), It.IsAny<CancellationToken>()), Times.Once);
+            mockMediator.Verify(m => m.Send(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task ShouldUpdateValidationInvalid()
         {
-            var viewModel = new UpdateSolutionMemoryAndStorageRequest();
+            var model = new UpdateSolutionMemoryAndStorageRequest();
 
             var validationModel = new Mock<ISimpleResult>();
-            validationModel.Setup(s => s.ToDictionary()).Returns(new Dictionary<string, string> { { "minimum-memory-requirement", "required" }, { "storage-requirements-description", "maxLength" } });
+            validationModel
+                .Setup(s => s.ToDictionary())
+                .Returns(new Dictionary<string, string>
+                {
+                    { "minimum-memory-requirement", "required" },
+                    { "storage-requirements-description", "maxLength" },
+                });
+
             validationModel.Setup(s => s.IsValid).Returns(false);
 
-            _mockMediator.Setup(m =>
-                m.Send(
-                    It.Is<UpdateSolutionMobileMemoryStorageCommand>(q =>
-                        q.Id == SolutionId && q.MinimumMemoryRequirement == viewModel.MinimumMemoryRequirement &&
-                        q.Description == viewModel.Description),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(validationModel.Object);
+            Expression<Func<UpdateSolutionMobileMemoryStorageCommand, bool>> match = c =>
+                c.Id == SolutionId
+                && c.MinimumMemoryRequirement == model.MinimumMemoryRequirement
+                && c.Description == model.Description;
 
-            var result = (await _memoryAndStorageController.UpdateMemoryAndStorageAsync(SolutionId, viewModel).ConfigureAwait(false)) as BadRequestObjectResult;
+            mockMediator
+                .Setup(m => m.Send(It.Is(match), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(validationModel.Object);
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            var result = await memoryAndStorageController.UpdateMemoryAndStorageAsync(
+                SolutionId,
+                model) as BadRequestObjectResult;
+
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
+
             var validationResult = result.Value as Dictionary<string, string>;
+
+            Assert.NotNull(validationResult);
             validationResult.Count.Should().Be(2);
             validationResult["minimum-memory-requirement"].Should().Be("required");
             validationResult["storage-requirements-description"].Should().Be("maxLength");
 
-            _mockMediator.Verify(
-                m => m.Send(
-                    It.Is<UpdateSolutionMobileMemoryStorageCommand>(q =>
-                        q.Id == SolutionId && q.MinimumMemoryRequirement ==
-                        viewModel.MinimumMemoryRequirement && q.Description == viewModel.Description),
-                    It.IsAny<CancellationToken>()), Times.Once);
+            mockMediator.Verify(m => m.Send(It.Is(match), It.IsAny<CancellationToken>()));
         }
     }
 }

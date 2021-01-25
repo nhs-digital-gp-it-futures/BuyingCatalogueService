@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
@@ -19,71 +20,82 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 {
     [TestFixture]
-    public class ContactDetailsControllerTests
+    internal sealed class ContactDetailsControllerTests
     {
-        private Mock<IMediator> _mockMediator;
-
-        private ContactDetailsController _contactDetailsController;
-
-        private ContactsMaxLengthResult _validationResult;
-
         private const string SolutionId = "Sln1";
-        private List<IContact> _returnedContacts;
 
-        private static readonly IContact Contact1 = Mock.Of<IContact>(m => m.FirstName == "Bob" &&
-                                                                           m.LastName == "Builder" &&
-                                                                           m.Name == "Bob Builder" &&
-                                                                           m.Email == "bob@builder.com" &&
-                                                                           m.Department == "building" &&
-                                                                           m.PhoneNumber == "12345678901");
+        private static readonly Expression<Func<IContact, bool>> bob = b =>
+            b.FirstName == "Bob"
+            && b.LastName == "Builder"
+            && b.Name == "Bob Builder"
+            && b.Email == "bob@builder.com"
+            && b.Department == "building"
+            && b.PhoneNumber == "12345678901";
 
-        private static readonly IContact Contact2 = Mock.Of<IContact>(m => m.FirstName == "Alice" &&
-                                                                          m.LastName == "Wonderland" &&
-                                                                          m.Name == "Alice Wonderland" &&
-                                                                          m.Email == "alice@wonderland.com" &&
-                                                                          m.Department == "prescription" &&
-                                                                          m.PhoneNumber == "0123412345");
+        private static readonly Expression<Func<IContact, bool>> alice = a =>
+            a.FirstName == "Alice"
+            && a.LastName == "Wonderland"
+            && a.Name == "Alice Wonderland"
+            && a.Email == "alice@wonderland.com"
+            && a.Department == "prescription"
+            && a.PhoneNumber == "0123412345";
 
-        private static readonly IContact Contact3 = Mock.Of<IContact>(m => m.FirstName == "Fred" &&
-                                                                          m.LastName == "Frog" &&
-                                                                          m.Name == "Fred Frog" &&
-                                                                          m.Email == "fred@frog.com" &&
-                                                                          m.Department == "suppliers" &&
-                                                                          m.PhoneNumber == "04567891234");
+        private static readonly Expression<Func<IContact, bool>> fred = f =>
+            f.FirstName == "Fred"
+            && f.LastName == "Frog"
+            && f.Name == "Fred Frog"
+            && f.Email == "fred@frog.com"
+            && f.Department == "suppliers"
+            && f.PhoneNumber == "04567891234";
+
+        private static readonly IContact Contact1 = Mock.Of(bob);
+        private static readonly IContact Contact2 = Mock.Of(alice);
+        private static readonly IContact Contact3 = Mock.Of(fred);
+
+        private Mock<IMediator> mockMediator;
+        private ContactDetailsController contactDetailsController;
+        private ContactsMaxLengthResult validationResult;
+        private List<IContact> returnedContacts;
 
         [SetUp]
         public void Setup()
         {
-            _mockMediator = new Mock<IMediator>();
-            _contactDetailsController = new ContactDetailsController(_mockMediator.Object);
-            _mockMediator.Setup(m => m.Send(It.Is<GetContactDetailBySolutionIdQuery>(q => q.Id == SolutionId),
+            mockMediator = new Mock<IMediator>();
+            contactDetailsController = new ContactDetailsController(mockMediator.Object);
+            mockMediator
+                .Setup(m => m.Send(
+                    It.Is<GetContactDetailBySolutionIdQuery>(q => q.Id == SolutionId),
                     It.IsAny<CancellationToken>()))
-                .ReturnsAsync(() => _returnedContacts);
+                .ReturnsAsync(() => returnedContacts);
 
-            _mockMediator.Setup(m =>
-                m.Send(It.Is<UpdateSolutionContactDetailsCommand>(q => q.SolutionId == SolutionId),
-                    It.IsAny<CancellationToken>())).ReturnsAsync(() => _validationResult);
+            mockMediator
+                .Setup(m => m.Send(
+                    It.Is<UpdateSolutionContactDetailsCommand>(q => q.SolutionId == SolutionId),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(() => validationResult);
 
-            _validationResult = GetContactsMaxLengthResult(Array.Empty<string>(), Array.Empty<string>());
-            _returnedContacts = new List<IContact>();
+            validationResult = GetContactsMaxLengthResult(Array.Empty<string>(), Array.Empty<string>());
+            returnedContacts = new List<IContact>();
         }
 
         [TestCase(false)]
         [TestCase(true)]
         public async Task ShouldGetContactDetails(bool hasThirdContact)
         {
-            _returnedContacts.Add(Contact1);
-            _returnedContacts.Add(Contact2);
+            returnedContacts.Add(Contact1);
+            returnedContacts.Add(Contact2);
 
             if (hasThirdContact)
-                _returnedContacts.Add(Contact3);
+                returnedContacts.Add(Contact3);
 
-            var result = (await _contactDetailsController.GetContactDetailsAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
+            var result = await contactDetailsController.GetContactDetailsAsync(SolutionId) as ObjectResult;
 
-            result.StatusCode.Should().Be(200);
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             var contact = result.Value as GetContactDetailsResult;
 
+            Assert.NotNull(contact);
             contact.Contact1.FirstName.Should().BeEquivalentTo(Contact1.FirstName);
             contact.Contact1.LastName.Should().BeEquivalentTo(Contact1.LastName);
             contact.Contact1.DepartmentName.Should().BeEquivalentTo(Contact1.Department);
@@ -96,76 +108,101 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             contact.Contact2.EmailAddress.Should().BeEquivalentTo(Contact2.Email);
             contact.Contact2.PhoneNumber.Should().BeEquivalentTo(Contact2.PhoneNumber);
 
-            _mockMediator.Verify(m => m.Send(It.Is<GetContactDetailBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+            mockMediator.Verify(m => m.Send(
+                It.Is<GetContactDetailBySolutionIdQuery>(q => q.Id == SolutionId),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task ShouldGetOneContactDetails()
         {
-            _returnedContacts.Add(Contact1);
+            returnedContacts.Add(Contact1);
 
-            var result = (await _contactDetailsController.GetContactDetailsAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
+            var result = await contactDetailsController.GetContactDetailsAsync(SolutionId) as ObjectResult;
 
-            result.StatusCode.Should().Be(200);
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             var contact = result.Value as GetContactDetailsResult;
 
+            Assert.NotNull(contact);
             contact.Contact1.FirstName.Should().BeEquivalentTo(Contact1.FirstName);
             contact.Contact1.LastName.Should().BeEquivalentTo(Contact1.LastName);
             contact.Contact1.DepartmentName.Should().BeEquivalentTo(Contact1.Department);
             contact.Contact1.EmailAddress.Should().BeEquivalentTo(Contact1.Email);
             contact.Contact1.PhoneNumber.Should().BeEquivalentTo(Contact1.PhoneNumber);
 
-            _mockMediator.Verify(m => m.Send(It.Is<GetContactDetailBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+            mockMediator.Verify(m => m.Send(
+                It.Is<GetContactDetailBySolutionIdQuery>(q => q.Id == SolutionId),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task ContactDetailsReturnEmptyWhenContactsIsNull()
         {
-            _returnedContacts = null;
-            var result = (await _contactDetailsController.GetContactDetailsAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
+            returnedContacts = null;
+            var result = await contactDetailsController.GetContactDetailsAsync(SolutionId) as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            (result.Value as GetContactDetailsResult).Contact1.Should().BeNull();
-            (result.Value as GetContactDetailsResult).Contact2.Should().BeNull();
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
+
+            result.Value.Should().BeOfType<GetContactDetailsResult>();
+            result.Value.As<GetContactDetailsResult>().Contact1.Should().BeNull();
+            result.Value.As<GetContactDetailsResult>().Contact2.Should().BeNull();
         }
 
         [Test]
         public async Task TwoNullContactFromEmptyList()
         {
-            var result = (await _contactDetailsController.GetContactDetailsAsync(SolutionId).ConfigureAwait(false)) as ObjectResult;
+            var result = await contactDetailsController.GetContactDetailsAsync(SolutionId) as ObjectResult;
 
-            result.StatusCode.Should().Be(200);
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             var contact = result.Value as GetContactDetailsResult;
 
+            Assert.NotNull(contact);
             contact.Contact1.Should().BeNull();
             contact.Contact2.Should().BeNull();
 
-            _mockMediator.Verify(m => m.Send(It.Is<GetContactDetailBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()), Times.Once);
+            mockMediator.Verify(m => m.Send(
+                It.Is<GetContactDetailBySolutionIdQuery>(q => q.Id == SolutionId),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task UpdateContactDetailsSuccessReturnsNoErrors()
         {
             var sentModel = new UpdateSolutionContactDetailsViewModel();
-            var result = await _contactDetailsController.UpdateContactDetailsAsync(SolutionId, sentModel).ConfigureAwait(false) as NoContentResult;
-            result.Should().NotBeNull();
-            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
-            _mockMediator.Verify(x => x.Send(It.Is<UpdateSolutionContactDetailsCommand>(x => x.SolutionId == SolutionId && x.Data == sentModel), It.IsAny<CancellationToken>()));
+            var result = await contactDetailsController.UpdateContactDetailsAsync(
+                SolutionId,
+                sentModel) as NoContentResult;
+
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status204NoContent);
+
+            mockMediator.Verify(x => x.Send(
+                It.Is<UpdateSolutionContactDetailsCommand>(c => c.SolutionId == SolutionId && c.Data == sentModel),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task SubmitForReviewResultFailure()
         {
-            _validationResult = GetContactsMaxLengthResult(new[] { "first-name", "last-name" }, new[] { "email-address", "last-name", "phone-number" });
+            validationResult = GetContactsMaxLengthResult(
+                new[] { "first-name", "last-name" },
+                new[] { "email-address", "last-name", "phone-number" });
 
-            var result = await _contactDetailsController.UpdateContactDetailsAsync(SolutionId, new UpdateSolutionContactDetailsViewModel()).ConfigureAwait(false) as BadRequestObjectResult;
-            result.Should().NotBeNull();
-            result.StatusCode.Should().Be(400);
+            var result = await contactDetailsController.UpdateContactDetailsAsync(
+                SolutionId,
+                new UpdateSolutionContactDetailsViewModel()) as BadRequestObjectResult;
+
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
 
             var actual = result.Value as Dictionary<string, Dictionary<string, string>>;
-            actual.Should().NotBeNull();
+
+            Assert.NotNull(actual);
             actual.Count.Should().Be(2);
             actual["contact-1"].Count.Should().Be(2);
             actual["contact-1"]["first-name"].Should().Be("maxLength");
@@ -180,14 +217,20 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task ShouldNotReportAsInvalidValidContact1()
         {
-            _validationResult = GetContactsMaxLengthResult(Array.Empty<string>(), new[] { "email-address", "last-name", "phone-number" } );
- 
-            var result = await _contactDetailsController.UpdateContactDetailsAsync(SolutionId, new UpdateSolutionContactDetailsViewModel()).ConfigureAwait(false) as BadRequestObjectResult;
-            result.Should().NotBeNull();
-            result.StatusCode.Should().Be(400);
+            validationResult = GetContactsMaxLengthResult(
+                Array.Empty<string>(),
+                new[] { "email-address", "last-name", "phone-number" });
+
+            var result = await contactDetailsController.UpdateContactDetailsAsync(
+                SolutionId,
+                new UpdateSolutionContactDetailsViewModel()) as BadRequestObjectResult;
+
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
 
             var actual = result.Value as Dictionary<string, Dictionary<string, string>>;
-            actual.Should().NotBeNull();
+
+            Assert.NotNull(actual);
             actual.Count.Should().Be(1);
 
             actual["contact-2"].Count.Should().Be(3);
@@ -199,25 +242,34 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task ShouldNotReportAsInvalidValidContact2()
         {
-            _validationResult = GetContactsMaxLengthResult(new []{ "first-name", "last-name" }, Array.Empty<string>());
+            validationResult = GetContactsMaxLengthResult(new[] { "first-name", "last-name" }, Array.Empty<string>());
 
-            var result = await _contactDetailsController.UpdateContactDetailsAsync(SolutionId, new UpdateSolutionContactDetailsViewModel()).ConfigureAwait(false) as BadRequestObjectResult;
-            result.Should().NotBeNull();
-            result.StatusCode.Should().Be(400);
+            var result = await contactDetailsController.UpdateContactDetailsAsync(
+                SolutionId,
+                new UpdateSolutionContactDetailsViewModel()) as BadRequestObjectResult;
+
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
 
             var actual = result.Value as Dictionary<string, Dictionary<string, string>>;
-            actual.Should().NotBeNull();
+
+            Assert.NotNull(actual);
             actual.Count.Should().Be(1);
             actual["contact-1"].Count.Should().Be(2);
             actual["contact-1"]["first-name"].Should().Be("maxLength");
             actual["contact-1"]["last-name"].Should().Be("maxLength");
         }
 
-        private static ContactsMaxLengthResult GetContactsMaxLengthResult(string[] contact1Errors, string[] contact2Errors)
+        private static ContactsMaxLengthResult GetContactsMaxLengthResult(
+            IEnumerable<string> contact1Errors,
+            IEnumerable<string> contact2Errors)
         {
-            var contact1Dict = contact1Errors.ToDictionary(k => k, v => "maxLength");
-            var contact2Dict = contact2Errors.ToDictionary(k => k, v => "maxLength");
-            return new ContactsMaxLengthResult(Mock.Of<ISimpleResult>(s => s.ToDictionary() == contact1Dict && s.IsValid == (contact1Dict.Count == 0)), Mock.Of<ISimpleResult>(s => s.ToDictionary() == contact2Dict && s.IsValid == (contact2Dict.Count == 0)));
+            var contact1Dict = contact1Errors.ToDictionary(k => k, _ => "maxLength");
+            var contact2Dict = contact2Errors.ToDictionary(k => k, _ => "maxLength");
+
+            return new ContactsMaxLengthResult(
+                Mock.Of<ISimpleResult>(s => s.ToDictionary() == contact1Dict && s.IsValid == (contact1Dict.Count == 0)),
+                Mock.Of<ISimpleResult>(s => s.ToDictionary() == contact2Dict && s.IsValid == (contact2Dict.Count == 0)));
         }
     }
 }

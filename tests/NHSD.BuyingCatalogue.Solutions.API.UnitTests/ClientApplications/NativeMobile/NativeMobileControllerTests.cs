@@ -35,11 +35,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
         [Test]
         public async Task ShouldReturnEmpty()
         {
-            var result = (await nativeMobileController.GetNativeMobileAsync(SolutionId)) as ObjectResult;
+            var result = await nativeMobileController.GetNativeMobileAsync(SolutionId) as ObjectResult;
 
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             var nativeMobileResult = result.Value as NativeMobileResult;
+
+            Assert.NotNull(nativeMobileResult);
             nativeMobileResult.Should().NotBeNull();
             nativeMobileResult.NativeMobileSections.Should().NotBeNull();
 
@@ -226,7 +229,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
                 m => m.Send(It.Is<GetClientApplicationBySolutionIdQuery>(q => q.Id == SolutionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(clientApplication);
 
-            var result = (await nativeMobileController.GetNativeMobileAsync(SolutionId)) as ObjectResult;
+            var result = await nativeMobileController.GetNativeMobileAsync(SolutionId) as ObjectResult;
             result?.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             mockMediator.Verify(

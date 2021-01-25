@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
@@ -37,8 +38,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             var result = await solutionsController.SubmitForReviewAsync(SolutionId) as NoContentResult;
 
-            result.Should().NotBeNull();
-            result.StatusCode.Should().Be(204);
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status204NoContent);
         }
 
         [Test]
@@ -50,11 +51,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             SetupMockMediator(new SubmitSolutionForReviewCommandResult(expectedErrorList));
 
             var result = await solutionsController.SubmitForReviewAsync(SolutionId) as BadRequestObjectResult;
-            result.Should().NotBeNull();
-            result.StatusCode.Should().Be(400);
+
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
 
             var actual = result.Value as SubmitSolutionForReviewResult;
-            actual.Should().NotBeNull();
+
+            Assert.NotNull(actual);
             actual.RequiredSections.Should().BeEquivalentTo(expected.RequiredSections);
         }
 
