@@ -42,9 +42,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 && s.AboutUrl == "test";
 
             var solutionMock = Mock.Of(solution);
-            mockMediator.Setup(m => m.Send(
-                It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId),
-                It.IsAny<CancellationToken>()))
+            mockMediator
+                .Setup(m => m.Send(
+                    It.Is<GetSolutionByIdQuery>(q => q.Id == SolutionId),
+                    It.IsAny<CancellationToken>()))
                 .ReturnsAsync(solutionMock);
 
             var result = (await solutionDescriptionController.GetSolutionDescriptionAsync(SolutionId)) as ObjectResult;
@@ -98,9 +99,10 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             validationModel.Setup(s => s.ToDictionary()).Returns(validationErrors);
             validationModel.Setup(s => s.IsValid).Returns(false);
 
-            mockMediator.Setup(m => m.Send(
-                It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.Data == solutionSummaryUpdateViewModel),
-                It.IsAny<CancellationToken>()))
+            mockMediator
+                .Setup(m => m.Send(
+                    It.Is<UpdateSolutionSummaryCommand>(q => q.SolutionId == SolutionId && q.Data == solutionSummaryUpdateViewModel),
+                    It.IsAny<CancellationToken>()))
                 .ReturnsAsync(validationModel.Object);
 
             var result = (await solutionDescriptionController.UpdateAsync(
