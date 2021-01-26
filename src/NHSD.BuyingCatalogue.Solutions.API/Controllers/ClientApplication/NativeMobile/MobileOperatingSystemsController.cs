@@ -13,7 +13,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Nativ
     [Route("api/v1/solutions")]
     [ApiController]
     [Produces(MediaTypeNames.Application.Json)]
-    public class MobileOperatingSystemsController : ControllerBase
+    public sealed class MobileOperatingSystemsController : ControllerBase
     {
         private readonly IMediator mediator;
 

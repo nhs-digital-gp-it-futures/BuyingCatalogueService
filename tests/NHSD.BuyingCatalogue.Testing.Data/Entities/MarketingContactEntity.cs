@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 {
-    public class MarketingContactEntity : EntityBase
+    public sealed class MarketingContactEntity : EntityBase
     {
         public string SolutionId { get; set; }
 

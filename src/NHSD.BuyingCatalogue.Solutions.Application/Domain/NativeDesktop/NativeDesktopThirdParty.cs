@@ -1,6 +1,6 @@
-namespace NHSD.BuyingCatalogue.Solutions.Application.Domain.NativeDesktop
+﻿namespace NHSD.BuyingCatalogue.Solutions.Application.Domain.NativeDesktop
 {
-    internal class NativeDesktopThirdParty
+    internal sealed class NativeDesktopThirdParty
     {
         public string ThirdPartyComponents { get; set; }
 

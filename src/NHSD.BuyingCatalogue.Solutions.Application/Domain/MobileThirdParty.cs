@@ -1,6 +1,6 @@
-namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
+﻿namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 {
-    internal class MobileThirdParty
+    internal sealed class MobileThirdParty
     {
         public string ThirdPartyComponents { get; set; }
 

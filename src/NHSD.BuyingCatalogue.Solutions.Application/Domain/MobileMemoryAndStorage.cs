@@ -1,6 +1,6 @@
-namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
+﻿namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 {
-    internal class MobileMemoryAndStorage
+    internal sealed class MobileMemoryAndStorage
     {
         public string MinimumMemoryRequirement { get; set; }
 

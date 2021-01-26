@@ -10,7 +10,7 @@ using TechTalk.SpecFlow.Assist;
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.ContactDetails
 {
     [Binding]
-    internal class ContactDetailsUpdateSteps
+    internal sealed class ContactDetailsUpdateSteps
     {
         private const string ContactDetailsUrl = "http://localhost:5200/api/v1/solutions/{0}/sections/contact-details";
 

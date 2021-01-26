@@ -1,8 +1,9 @@
+﻿using System.Diagnostics.CodeAnalysis;
 using NHSD.BuyingCatalogue.Capabilities.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Capabilities.Persistence.Models
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1812:Avoid uninstantiated internal classes", Justification = "False Positive")]
+    [SuppressMessage("Design", "CA1812:Avoid uninstantiated internal classes", Justification = "Instantiated by Dapper")]
     internal sealed class CapabilityListResult : ICapabilityListResult
     {
         public string CapabilityReference { get; set; }

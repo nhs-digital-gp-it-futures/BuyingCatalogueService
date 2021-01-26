@@ -2,7 +2,7 @@
 
 namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 {
-    public class MarketingContactEntityBuilder
+    public sealed class MarketingContactEntityBuilder
     {
         private readonly MarketingContactEntity entity;
 

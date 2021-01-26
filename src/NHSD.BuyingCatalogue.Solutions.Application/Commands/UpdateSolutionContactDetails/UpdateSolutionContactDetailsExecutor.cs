@@ -10,7 +10,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Commands;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionContactDetails
 {
-    internal class UpdateSolutionContactDetailsExecutor : IExecutor<UpdateSolutionContactDetailsCommand>
+    internal sealed class UpdateSolutionContactDetailsExecutor : IExecutor<UpdateSolutionContactDetailsCommand>
     {
         private readonly SolutionVerifier verifier;
         private readonly SolutionContactDetailsUpdater updater;

@@ -6,7 +6,7 @@ using NHSD.BuyingCatalogue.Solutions.Contracts.Commands;
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 {
     [SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "Serializer supplied by framework")]
-    public class UpdateSolutionContactViewModelConverter : JsonConverter<IUpdateSolutionContact>
+    public sealed class UpdateSolutionContactViewModelConverter : JsonConverter<IUpdateSolutionContact>
     {
         public override IUpdateSolutionContact ReadJson(
             JsonReader reader,

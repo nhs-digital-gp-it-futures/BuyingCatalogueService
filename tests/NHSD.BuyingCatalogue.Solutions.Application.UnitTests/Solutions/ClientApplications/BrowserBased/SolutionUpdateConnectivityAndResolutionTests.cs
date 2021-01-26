@@ -15,7 +15,7 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientApplications.BrowserBased
 {
     [TestFixture]
-    internal class SolutionUpdateConnectivityAndResolutionTests : ClientApplicationTestsBase
+    internal sealed class SolutionUpdateConnectivityAndResolutionTests : ClientApplicationTestsBase
     {
         private const string SolutionId = "Sln1";
 

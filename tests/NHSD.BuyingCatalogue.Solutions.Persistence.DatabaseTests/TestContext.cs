@@ -55,7 +55,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
         public IDbConnector DbConnector => scope.DbConnector;
 
-        private class Scope
+        private sealed class Scope
         {
             public Scope(
                 IMarketingContactRepository marketingContactRepository,
