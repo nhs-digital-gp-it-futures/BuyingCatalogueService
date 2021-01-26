@@ -12,23 +12,23 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
 {
     [TestFixture]
-    public class CapabilityRepositoryTests
+    internal sealed class CapabilityRepositoryTests
     {
-        private ICapabilityRepository _capabilityRepository;
+        private ICapabilityRepository capabilityRepository;
 
         [SetUp]
         public async Task Setup()
         {
-            await Database.ClearAsync().ConfigureAwait(false);
+            await Database.ClearAsync();
 
             TestContext testContext = new TestContext();
-            _capabilityRepository = testContext.CapabilityRepository;
+            capabilityRepository = testContext.CapabilityRepository;
         }
 
         [Test]
         public async Task ShouldReadCapabilitiesNoCapabilities()
         {
-            var capabilities = await _capabilityRepository.ListAsync(new CancellationToken()).ConfigureAwait(false);
+            var capabilities = await capabilityRepository.ListAsync(CancellationToken.None);
 
             capabilities.Should().BeEmpty();
         }
@@ -44,10 +44,10 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
 
             foreach (var capabilityEntity in capabilityEntities)
             {
-                await capabilityEntity.InsertAsync().ConfigureAwait(false);
+                await capabilityEntity.InsertAsync();
             }
 
-            var capabilities = await _capabilityRepository.ListAsync(new CancellationToken()).ConfigureAwait(false);
+            var capabilities = await capabilityRepository.ListAsync(CancellationToken.None);
 
             capabilities.Should().BeEquivalentTo(capabilityEntities.Select(ce => new
             {
@@ -70,13 +70,22 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
 
             foreach (var capabilityEntity in capabilityEntities)
             {
-                await capabilityEntity.InsertAsync().ConfigureAwait(false);
+                await capabilityEntity.InsertAsync();
             }
 
-            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Cap1").Id).WithIsFoundation(false).Build().InsertAsync().ConfigureAwait(false);
-            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Cap2").Id).WithIsFoundation(true).Build().InsertAsync().ConfigureAwait(false);
+            await FrameworkCapabilitiesEntityBuilder.Create()
+                .WithCapabilityId(capabilityEntities.First(c => c.Name == "Cap1").Id)
+                .WithIsFoundation(false)
+                .Build()
+                .InsertAsync();
 
-            var capabilities = await _capabilityRepository.ListAsync(new CancellationToken()).ConfigureAwait(false);
+            await FrameworkCapabilitiesEntityBuilder.Create()
+                .WithCapabilityId(capabilityEntities.First(c => c.Name == "Cap2").Id)
+                .WithIsFoundation(true)
+                .Build()
+                .InsertAsync();
+
+            var capabilities = await capabilityRepository.ListAsync(CancellationToken.None);
 
             capabilities.Should().BeEquivalentTo(capabilityEntities.Select(ce => new
             {
@@ -100,13 +109,22 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
 
             foreach (var capabilityEntity in capabilityEntities)
             {
-                await capabilityEntity.InsertAsync().ConfigureAwait(false);
+                await capabilityEntity.InsertAsync();
             }
 
-            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Charlie").Id).WithIsFoundation(true).Build().InsertAsync().ConfigureAwait(false);
-            await FrameworkCapabilitiesEntityBuilder.Create().WithCapabilityId(capabilityEntities.First(c => c.Name == "Delta").Id).WithIsFoundation(true).Build().InsertAsync().ConfigureAwait(false);
+            await FrameworkCapabilitiesEntityBuilder.Create()
+                .WithCapabilityId(capabilityEntities.First(c => c.Name == "Charlie").Id)
+                .WithIsFoundation(true)
+                .Build()
+                .InsertAsync();
 
-            var capabilities = (await _capabilityRepository.ListAsync(new CancellationToken()).ConfigureAwait(false)).ToList();
+            await FrameworkCapabilitiesEntityBuilder.Create()
+                .WithCapabilityId(capabilityEntities.First(c => c.Name == "Delta").Id)
+                .WithIsFoundation(true)
+                .Build()
+                .InsertAsync();
+
+            var capabilities = (await capabilityRepository.ListAsync(CancellationToken.None)).ToList();
 
             Assert.That(capabilities[0].Name, Is.EqualTo("Alpha"));
             Assert.That(capabilities[1].Name, Is.EqualTo("Bravo"));

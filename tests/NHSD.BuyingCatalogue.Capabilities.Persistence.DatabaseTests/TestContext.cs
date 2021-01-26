@@ -1,4 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NHSD.BuyingCatalogue.Capabilities.Contracts.Persistence;
@@ -9,11 +9,9 @@ using NHSD.BuyingCatalogue.Testing.Data;
 
 namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
 {
-    internal class TestContext
+    internal sealed class TestContext
     {
-        public ICapabilityRepository CapabilityRepository => _scope.CapabilityRepository;
-
-        private readonly Scope _scope;
+        private readonly Scope scope;
 
         public TestContext()
         {
@@ -29,17 +27,19 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
             serviceCollection.AddSingleton(logger.Object);
             serviceCollection.AddSingleton<Scope>();
 
-            _scope = serviceCollection.BuildServiceProvider().GetService<Scope>();
+            scope = serviceCollection.BuildServiceProvider().GetService<Scope>();
         }
-        
-        private class Scope
-        {
-            public ICapabilityRepository CapabilityRepository { get; }
 
+        public ICapabilityRepository CapabilityRepository => scope.CapabilityRepository;
+
+        private sealed class Scope
+        {
             public Scope(ICapabilityRepository capabilityRepository)
             {
                 CapabilityRepository = capabilityRepository;
             }
+
+            public ICapabilityRepository CapabilityRepository { get; }
         }
     }
 }

@@ -1,10 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Net;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NHSD.BuyingCatalogue.Capabilities.API.ViewModels;
@@ -14,34 +15,51 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Capabilities.API.UnitTests
 {
     [TestFixture]
-	public sealed class CapabilitiesControllerTests
+    internal sealed class CapabilitiesControllerTests
     {
-        private Mock<IMediator> _mockMediator;
+        private Mock<IMediator> mockMediator;
 
-        private CapabilitiesController _capabilitiesController;
+        private CapabilitiesController capabilitiesController;
 
         [SetUp]
         public void Setup()
         {
-            _mockMediator = new Mock<IMediator>();
-            _capabilitiesController = new CapabilitiesController(_mockMediator.Object);
+            mockMediator = new Mock<IMediator>();
+            capabilitiesController = new CapabilitiesController(mockMediator.Object);
         }
-        
+
         [Test]
         public async Task ShouldListCapabilities()
         {
+            Expression<Func<ICapability, bool>> capability1 = c =>
+                c.IsFoundation
+                && c.CapabilityReference == "C5"
+                && c.Version == "1.0.1"
+                && c.Name == "Name1";
+
+            Expression<Func<ICapability, bool>> capability2 = c =>
+                c.IsFoundation == false
+                && c.CapabilityReference == "C27"
+                && c.Version == "1.0.1"
+                && c.Name == "Name2";
+
             var capabilities = new List<ICapability>
             {
-                Mock.Of<ICapability>(c => c.IsFoundation == true && c.CapabilityReference == "C5" && c.Version == "1.0.1" && c.Name == "Name1"),
-                Mock.Of<ICapability>(c => c.IsFoundation == false && c.CapabilityReference == "C27" && c.Version == "1.0.1" && c.Name == "Name2"),
+                Mock.Of(capability1),
+                Mock.Of(capability2),
             };
 
-            _mockMediator.Setup(m => m.Send(It.IsAny<ListCapabilitiesQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(capabilities);
+            mockMediator
+                .Setup(m => m.Send(It.IsAny<ListCapabilitiesQuery>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(capabilities);
 
-            var result = (await _capabilitiesController.ListAsync().ConfigureAwait(false)).Result as ObjectResult;
+            var result = (await capabilitiesController.ListAsync()).Result as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            (result.Value as ListCapabilitiesResult).Capabilities.Should().BeEquivalentTo(capabilities);
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
+
+            result.Value.Should().BeOfType<ListCapabilitiesResult>();
+            result.Value.As<ListCapabilitiesResult>().Capabilities.Should().BeEquivalentTo(capabilities);
         }
     }
 }

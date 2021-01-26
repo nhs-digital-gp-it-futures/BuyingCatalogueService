@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,21 +11,24 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Capabilities.Application.UnitTests
 {
     [TestFixture]
-    public class CapabilityListTests
+    internal sealed class CapabilityListTests
     {
-        private TestContext _context;
+        private TestContext context;
 
         [SetUp]
         public void SetUpFixture()
         {
-            _context = new TestContext();
+            context = new TestContext();
         }
 
         [Test]
         public async Task ShouldReadAllCapabilities()
         {
-            var capabilityData = GetCapabilities();
-            _context.MockCapabilityRepository.Setup(r => r.ListAsync(It.IsAny<CancellationToken>())).ReturnsAsync(capabilityData);
+            var capabilityData = GetCapabilities().ToList();
+
+            context.MockCapabilityRepository
+                .Setup(r => r.ListAsync(It.IsAny<CancellationToken>()))
+                .ReturnsAsync(capabilityData);
 
             var expectedCapabilities = capabilityData.Select(t => new
             {
@@ -36,16 +38,24 @@ namespace NHSD.BuyingCatalogue.Capabilities.Application.UnitTests
                 t.IsFoundation,
             });
 
-            var capabilities = await _context.ListCapabilitiesHandler.Handle(new ListCapabilitiesQuery(), new CancellationToken()).ConfigureAwait(false);
+            var capabilities = await context.ListCapabilitiesHandler.Handle(
+                new ListCapabilitiesQuery(),
+                CancellationToken.None);
+
             capabilities.Should().BeEquivalentTo(expectedCapabilities);
         }
 
         [Test]
         public async Task ShouldReadAllCapabilitiesEmpty()
         {
-            _context.MockCapabilityRepository.Setup(r => r.ListAsync(It.IsAny<CancellationToken>())).ReturnsAsync(new List<ICapabilityListResult>());
+            context.MockCapabilityRepository
+                .Setup(r => r.ListAsync(It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new List<ICapabilityListResult>());
 
-            var capabilities = await _context.ListCapabilitiesHandler.Handle(new ListCapabilitiesQuery(), new CancellationToken()).ConfigureAwait(false);
+            var capabilities = await context.ListCapabilitiesHandler.Handle(
+                new ListCapabilitiesQuery(),
+                CancellationToken.None);
+
             capabilities.Should().BeEmpty();
         }
 
@@ -53,10 +63,12 @@ namespace NHSD.BuyingCatalogue.Capabilities.Application.UnitTests
         public async Task ShouldCallRepository()
         {
             var capabilityData = GetCapabilities();
-            _context.MockCapabilityRepository.Setup(r => r.ListAsync(It.IsAny<CancellationToken>())).ReturnsAsync(capabilityData);
+            context.MockCapabilityRepository
+                .Setup(r => r.ListAsync(It.IsAny<CancellationToken>()))
+                .ReturnsAsync(capabilityData);
 
-            var capabilities = await _context.ListCapabilitiesHandler.Handle(new ListCapabilitiesQuery(), new CancellationToken()).ConfigureAwait(false);
-            _context.MockCapabilityRepository.Verify(r => r.ListAsync(It.IsAny<CancellationToken>()), Times.Once);
+            await context.ListCapabilitiesHandler.Handle(new ListCapabilitiesQuery(), CancellationToken.None);
+            context.MockCapabilityRepository.Verify(r => r.ListAsync(It.IsAny<CancellationToken>()));
         }
 
         private static IEnumerable<ICapabilityListResult> GetCapabilities()
@@ -69,7 +81,11 @@ namespace NHSD.BuyingCatalogue.Capabilities.Application.UnitTests
             };
         }
 
-        private static ICapabilityListResult GetCapability(string capabilityReference, string version, string name, bool isFoundation)
+        private static ICapabilityListResult GetCapability(
+            string capabilityReference,
+            string version,
+            string name,
+            bool isFoundation)
         {
             var capability = new Mock<ICapabilityListResult>();
             capability.Setup(c => c.CapabilityReference).Returns(capabilityReference);
