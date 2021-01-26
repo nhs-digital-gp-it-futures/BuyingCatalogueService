@@ -92,7 +92,7 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
                 CapabilityReference = ce.CapabilityRef,
                 ce.Version,
                 ce.Name,
-                IsFoundation = (ce.Name == "Cap2"),
+                IsFoundation = ce.Name == "Cap2",
             }));
         }
 

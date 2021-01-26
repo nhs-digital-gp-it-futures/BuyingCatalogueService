@@ -151,11 +151,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                         Description = cataloguePrice.TimeUnit.Description,
                     },
                 Price = (cataloguePrice as FlatCataloguePriceDto)?.Price,
-                Tiers = (cataloguePrice as TieredCataloguePriceDto)?.TieredPrices.Select(x => new TierResult
+                Tiers = (cataloguePrice as TieredCataloguePriceDto)?.TieredPrices.Select(t => new TierResult
                 {
-                    Start = x.BandStart,
-                    End = x.BandEnd,
-                    Price = x.Price,
+                    Start = t.BandStart,
+                    End = t.BandEnd,
+                    Price = t.Price,
                 }),
             };
         }
