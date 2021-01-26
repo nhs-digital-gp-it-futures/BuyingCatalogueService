@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,8 +12,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public string Version { get; set; }
 
-        public string PreviousVersion { get; set; }
-
         public int StatusId { get; set; }
 
         public string Name { get; set; }
@@ -26,44 +24,48 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public int CategoryId { get; set; }
 
-        protected override string InsertSql => $@"
-        INSERT INTO [dbo].[Capability]
-        ([Id]
-        ,[CapabilityRef]
-        ,[Version]
-        ,[PreviousVersion]
-        ,[StatusId]
-        ,[Name]
-        ,[Description]
-        ,[SourceUrl]
-        ,[EffectiveDate]
-        ,[CategoryId])
-
-        VALUES
-            (@Id
-            ,@CapabilityRef
-            ,@Version
-            ,@PreviousVersion
-            ,@StatusId
-            ,@Name
-            ,@Description
-            ,@SourceUrl
-            ,@EffectiveDate
-            ,@CategoryId)";
+        protected override string InsertSql => @"
+            INSERT INTO dbo.Capability
+            (
+                Id,
+                CapabilityRef,
+                [Version],
+                StatusId,
+                [Name],
+                [Description],
+                SourceUrl,
+                EffectiveDate,
+                CategoryId
+            )
+            VALUES
+            (
+                @Id,
+                @CapabilityRef,
+                @Version,
+                @StatusId,
+                @Name,
+                @Description,
+                @SourceUrl,
+                @EffectiveDate,
+                @CategoryId
+            );";
 
         public static async Task<IEnumerable<CapabilityEntity>> FetchAllAsync()
         {
-            return await SqlRunner.FetchAllAsync<CapabilityEntity>($@"SELECT [Id]
-                                ,[CapabilityRef]
-                                ,[Version]
-                                ,[PreviousVersion]
-                                ,[StatusId]
-                                ,[Name]
-                                ,[Description]
-                                ,[SourceUrl]
-                                ,[EffectiveDate]
-                                ,[CategoryId]
-                                FROM Capability").ConfigureAwait(false);
+            const string selectSql = @"
+                SELECT Id,
+                       CapabilityRef,
+                       [Version],
+                       PreviousVersion,
+                       StatusId,
+                       [Name],
+                       [Description],
+                       SourceUrl,
+                       EffectiveDate,
+                       CategoryId
+                  FROM dbo.Capability;";
+
+            return await SqlRunner.FetchAllAsync<CapabilityEntity>(selectSql);
         }
     }
 }

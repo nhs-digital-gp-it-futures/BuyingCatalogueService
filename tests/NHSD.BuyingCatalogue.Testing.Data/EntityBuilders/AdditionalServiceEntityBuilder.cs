@@ -5,27 +5,27 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 {
     public sealed class AdditionalServiceEntityBuilder
     {
-        private string _catalogueItemId;
-        private string _summary;
-        private string _solutionId;
+        private string catalogueItemId;
+        private string summary;
+        private string solutionId;
 
         public static AdditionalServiceEntityBuilder Create() => new();
 
-        public AdditionalServiceEntityBuilder WithCatalogueItemId(string catalogueItemId)
+        public AdditionalServiceEntityBuilder WithCatalogueItemId(string id)
         {
-            _catalogueItemId = catalogueItemId;
+            catalogueItemId = id;
             return this;
         }
 
-        public AdditionalServiceEntityBuilder WithSummary(string summary)
+        public AdditionalServiceEntityBuilder WithSummary(string text)
         {
-            _summary = summary;
+            summary = text;
             return this;
         }
 
-        public AdditionalServiceEntityBuilder WithSolutionId(string solutionId)
+        public AdditionalServiceEntityBuilder WithSolutionId(string id)
         {
-            _solutionId = solutionId;
+            solutionId = id;
             return this;
         }
 
@@ -33,9 +33,9 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
         {
             return new()
             {
-                CatalogueItemId = _catalogueItemId,
-                Summary = _summary,
-                SolutionId = _solutionId,
+                CatalogueItemId = catalogueItemId,
+                Summary = summary,
+                SolutionId = solutionId,
                 LastUpdated = DateTime.UtcNow,
                 LastUpdatedBy = Guid.NewGuid(),
             };

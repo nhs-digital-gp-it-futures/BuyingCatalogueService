@@ -13,29 +13,23 @@ namespace NHSD.BuyingCatalogue.Testing.Data
         {
             var sqlCommands = sql.Split("GO");
 
-            using (var sqlConnection = new SqlConnection(connectionString))
+            await using var sqlConnection = new SqlConnection(connectionString);
+            foreach (var command in sqlCommands)
             {
-                foreach (var command in sqlCommands)
-                {
-                    await sqlConnection.ExecuteAsync(command).ConfigureAwait(false);
-                }
+                await sqlConnection.ExecuteAsync(command);
             }
         }
 
         internal static async Task ExecuteAsync<T>(string connectionString, string sql, T instance)
         {
-            using (IDbConnection databaseConnection = new SqlConnection(connectionString))
-            {
-                await databaseConnection.ExecuteAsync(sql, instance).ConfigureAwait(false);
-            }
+            using IDbConnection databaseConnection = new SqlConnection(connectionString);
+            await databaseConnection.ExecuteAsync(sql, instance);
         }
 
         internal static async Task<IEnumerable<T>> FetchAllAsync<T>(string selectSql, object param = null)
         {
-            using (IDbConnection databaseConnection = new SqlConnection(ConnectionStrings.GPitFuturesSetup))
-            {
-                return (await databaseConnection.QueryAsync<T>(selectSql, param).ConfigureAwait(false)).ToList();
-            }
+            using IDbConnection databaseConnection = new SqlConnection(ConnectionStrings.GPitFuturesSetup);
+            return (await databaseConnection.QueryAsync<T>(selectSql, param)).ToList();
         }
 
         internal static async Task<T> QueryFirstAsync<T>(string sql, object parameters = null)

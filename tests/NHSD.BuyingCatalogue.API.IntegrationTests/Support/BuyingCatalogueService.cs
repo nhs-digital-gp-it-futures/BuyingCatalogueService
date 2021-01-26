@@ -20,7 +20,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
 
         internal static async Task AwaitApiRunningAsync(string url)
         {
-            var started = await HttpClientAwaiter.WaitForGetAsync(url, TestTimeout);
+            var started = await AwaitHttpClient.WaitForGetAsync(url, TestTimeout);
             if (!started)
             {
                 throw new TimeoutException(

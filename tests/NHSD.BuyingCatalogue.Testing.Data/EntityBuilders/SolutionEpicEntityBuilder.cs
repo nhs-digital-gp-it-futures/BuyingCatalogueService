@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
@@ -6,11 +7,11 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
     public sealed class SolutionEpicEntityBuilder
     {
         private const int PassedStatusId = 1;
-        private readonly SolutionEpicEntity _solutionEpicEntity;
+        private readonly SolutionEpicEntity solutionEpicEntity;
 
         public SolutionEpicEntityBuilder()
         {
-            _solutionEpicEntity = new SolutionEpicEntity
+            solutionEpicEntity = new SolutionEpicEntity
             {
                 SolutionId = "SolutionId",
                 CapabilityId = Guid.NewGuid(),
@@ -21,9 +22,13 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 
         public enum SolutionEpicStatus
         {
+            // ReSharper disable once UnusedMember.Global (CA1008: enums should have zero value)
             Undefined = 0,
+
             Passed = 1,
-            NotEvidenced = 3,
+
+            [UsedImplicitly]
+            NotEvidenced = 2,
         }
 
         public static SolutionEpicEntityBuilder Create()
@@ -33,31 +38,31 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 
         public SolutionEpicEntityBuilder WithSolutionId(string solutionId)
         {
-            _solutionEpicEntity.SolutionId = solutionId;
+            solutionEpicEntity.SolutionId = solutionId;
             return this;
         }
 
         public SolutionEpicEntityBuilder WithCapabilityId(Guid capabilityId)
         {
-            _solutionEpicEntity.CapabilityId = capabilityId;
+            solutionEpicEntity.CapabilityId = capabilityId;
             return this;
         }
 
         public SolutionEpicEntityBuilder WithEpicId(string epicId)
         {
-            _solutionEpicEntity.EpicId = epicId;
+            solutionEpicEntity.EpicId = epicId;
             return this;
         }
 
         public SolutionEpicEntityBuilder WithStatus(SolutionEpicStatus status)
         {
-            _solutionEpicEntity.StatusId = (int)status;
+            solutionEpicEntity.StatusId = (int)status;
             return this;
         }
 
         public SolutionEpicEntity Build()
         {
-            return _solutionEpicEntity;
+            return solutionEpicEntity;
         }
     }
 }

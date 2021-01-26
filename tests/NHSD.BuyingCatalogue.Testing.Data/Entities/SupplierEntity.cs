@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,55 +18,49 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public string Address { get; set; }
 
-        public string OdsCode { get; set; }
-
-        public Guid? CrmRef { get; set; }
-
         public bool Deleted { get; set; }
 
-        protected override string InsertSql => $@"
-            INSERT INTO [dbo].[Supplier]
-            ([Id]
-            ,[Name]
-            ,[LegalName]
-            ,[Summary]
-            ,[SupplierUrl]
-            ,[Address]
-            ,[OdsCode]
-            ,[CrmRef]
-            ,[Deleted]
-            ,[LastUpdated]
-            ,[LastUpdatedBy])
-            VALUES
-            (@Id
-            ,@Name
-            ,@LegalName
-            ,@Summary
-            ,@SupplierUrl
-            ,@Address
-            ,@OdsCode
-            ,@CrmRef
-            ,@Deleted
-            ,@LastUpdated
-            ,@LastUpdatedBy
+        protected override string InsertSql => @"
+            INSERT INTO dbo.Supplier
+            (
+                Id,
+                [Name],
+                LegalName,
+                Summary,
+                SupplierUrl,
+                [Address],
+                Deleted,
+                LastUpdated,
+                LastUpdatedBy
             )
-        ";
+            VALUES
+            (
+                @Id,
+                @Name,
+                @LegalName,
+                @Summary,
+                @SupplierUrl,
+                @Address,
+                @Deleted,
+                @LastUpdated,
+                @LastUpdatedBy
+            );";
 
         public static async Task<IEnumerable<SupplierEntity>> FetchAllAsync()
         {
-            return await SqlRunner.FetchAllAsync<SupplierEntity>($@"SELECT
-                                [Id],
-                                [Summary],
-                                [SupplierUrl],
-	                            [LastUpdated]
-                                FROM Supplier").ConfigureAwait(false);
+            const string selectSql = @"
+                SELECT Id,
+                       Summary,
+                       SupplierUrl,
+                       LastUpdated
+                  FROM dbo.Supplier;";
+
+            return await SqlRunner.FetchAllAsync<SupplierEntity>(selectSql);
         }
 
         public static async Task<SupplierEntity> GetByIdAsync(string supplierId)
         {
-            return (await FetchAllAsync().ConfigureAwait(false)).First(item => supplierId == item.Id);
+            return (await FetchAllAsync()).First(item => supplierId == item.Id);
         }
     }
 }
-
-

@@ -1,12 +1,12 @@
-using System;
+﻿using System;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Testing.Data
 {
-    internal static class ConnectionAwaiter
+    internal static class AwaitConnection
     {
-        public static async Task AwaitConnectionAsync(string connectionString, int timeout = 30)
+        public static async Task AwaitAsync(string connectionString, int timeout = 30)
         {
             var now = DateTime.Now;
 
@@ -14,15 +14,13 @@ namespace NHSD.BuyingCatalogue.Testing.Data
             {
                 try
                 {
-                    using (var sqlConnection = new SqlConnection(connectionString))
-                    {
-                        await sqlConnection.OpenAsync().ConfigureAwait(false);
-                        return;
-                    }
+                    await using var sqlConnection = new SqlConnection(connectionString);
+                    await sqlConnection.OpenAsync();
+                    return;
                 }
                 catch (SqlException)
                 {
-                    await Task.Delay(1000).ConfigureAwait(false);
+                    await Task.Delay(1000);
                 }
             }
 

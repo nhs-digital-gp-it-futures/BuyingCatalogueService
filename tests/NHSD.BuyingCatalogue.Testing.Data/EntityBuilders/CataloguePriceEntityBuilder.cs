@@ -5,11 +5,11 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 {
     public sealed class CataloguePriceEntityBuilder
     {
-        private readonly CataloguePriceEntity _cataloguePriceEntity;
+        private readonly CataloguePriceEntity cataloguePriceEntity;
 
         private CataloguePriceEntityBuilder()
         {
-            _cataloguePriceEntity = new CataloguePriceEntity
+            cataloguePriceEntity = new CataloguePriceEntity
             {
                 ProvisioningTypeId = 1,
                 CataloguePriceTypeId = 1,
@@ -23,49 +23,49 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 
         public CataloguePriceEntityBuilder WithCatalogueItemId(string itemId)
         {
-            _cataloguePriceEntity.CatalogueItemId = itemId;
+            cataloguePriceEntity.CatalogueItemId = itemId;
             return this;
         }
 
         public CataloguePriceEntityBuilder WithCurrencyCode(string code)
         {
-            _cataloguePriceEntity.CurrencyCode = code;
+            cataloguePriceEntity.CurrencyCode = code;
             return this;
         }
 
         public CataloguePriceEntityBuilder WithPrice(decimal? price)
         {
-            _cataloguePriceEntity.Price = price;
+            cataloguePriceEntity.Price = price;
             return this;
         }
 
         public CataloguePriceEntityBuilder WithPricingUnitId(Guid pricingUnitId)
         {
-            _cataloguePriceEntity.PricingUnitId = pricingUnitId;
+            cataloguePriceEntity.PricingUnitId = pricingUnitId;
             return this;
         }
 
         public CataloguePriceEntityBuilder WithTimeUnit(int? timeUnitId)
         {
-            _cataloguePriceEntity.TimeUnitId = timeUnitId;
+            cataloguePriceEntity.TimeUnitId = timeUnitId;
             return this;
         }
 
         public CataloguePriceEntityBuilder WithPriceTypeId(int typeId)
         {
-            _cataloguePriceEntity.CataloguePriceTypeId = typeId;
+            cataloguePriceEntity.CataloguePriceTypeId = typeId;
             return this;
         }
 
         public CataloguePriceEntityBuilder WithProvisioningTypeId(int typeId)
         {
-            _cataloguePriceEntity.ProvisioningTypeId = typeId;
+            cataloguePriceEntity.ProvisioningTypeId = typeId;
             return this;
         }
 
         public CataloguePriceEntity Build()
         {
-            return _cataloguePriceEntity;
+            return cataloguePriceEntity;
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.Entities
@@ -20,41 +19,37 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         public string SupplierId { get; set; }
 
         protected override string InsertSql => @"
-        INSERT INTO dbo.CatalogueItem
-        (
-            CatalogueItemId,
-            [Name],
-            Created,
-            CatalogueItemTypeId,
-            SupplierId,
-            PublishedStatusId
-        )
-        VALUES
-        (
-            @CatalogueItemId,
-            @Name,
-            @Created,
-            @CatalogueItemTypeId,
-            @SupplierId,
-            @PublishedStatusId
-        );";
+            INSERT INTO dbo.CatalogueItem
+            (
+                CatalogueItemId,
+                [Name],
+                Created,
+                CatalogueItemTypeId,
+                SupplierId,
+                PublishedStatusId
+            )
+            VALUES
+            (
+                @CatalogueItemId,
+                @Name,
+                @Created,
+                @CatalogueItemTypeId,
+                @SupplierId,
+                @PublishedStatusId
+            );";
 
         public static async Task<IEnumerable<CatalogueItemEntity>> FetchAllAsync()
         {
-            return await SqlRunner.FetchAllAsync<CatalogueItemEntity>($@"
-            SELECT  CatalogueItemId,
-                    [Name],
-                    Created,
-                    CatalogueItemTypeId,
-                    SupplierId,
-                    PublishedStatusId
-            FROM    CatalogueItem");
-        }
+            const string selectSql = @"
+                SELECT CatalogueItemId,
+                       [Name],
+                       Created,
+                       CatalogueItemTypeId,
+                       SupplierId,
+                       PublishedStatusId
+                  FROM dbo.CatalogueItem;";
 
-        public static async Task<CatalogueItemEntity> GetByIdAsync(string catalogueItemId)
-        {
-            return (await FetchAllAsync()).First(item => 
-                string.Equals(item.CatalogueItemId, catalogueItemId, StringComparison.Ordinal));
+            return await SqlRunner.FetchAllAsync<CatalogueItemEntity>(selectSql);
         }
     }
 }
