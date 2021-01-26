@@ -1,4 +1,4 @@
-using FluentAssertions;
+﻿using FluentAssertions;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Infrastructure.Tests
@@ -32,7 +32,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
         [TestCase("Y")]
         [TestCase("N")]
         [TestCase("Yup")]
-        [TestCase("Nooaaa")]
+        [TestCase("Nope")]
         [TestCase("Aye")]
         [TestCase("War and Peace")]
         public void ShouldMapAnythingElseToOther(string other)

@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Data.Tests
 {
     [TestFixture]
-    public sealed class ServiceCollectionExtensionsTests
+    internal sealed class ServiceCollectionExtensionsTests
     {
         [Test]
         public void ShouldRegisterRepositories()

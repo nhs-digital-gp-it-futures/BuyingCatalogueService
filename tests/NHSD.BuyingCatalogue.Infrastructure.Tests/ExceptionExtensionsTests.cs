@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Infrastructure.Tests
 {
     [TestFixture]
-    public sealed class ExceptionExtensionsTests
+    internal sealed class ExceptionExtensionsTests
     {
         [Test]
         public void ShouldReturnStatusCode404()
