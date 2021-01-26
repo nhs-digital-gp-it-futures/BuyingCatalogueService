@@ -1,16 +1,16 @@
-using System;
+﻿using System;
 using FluentAssertions;
 using NUnit.Framework;
 
 namespace NHSD.BuyingCatalogue.Infrastructure.Tests
 {
     [TestFixture]
-    public class EnumeratorTests
+    internal sealed class EnumeratorTests
     {
         [Test]
         public void GivenSameValuesShouldBeEqual()
         {
-            SizeType.Small.Equals(SizeType.Small);
+            SizeType.Small.Should().Be(SizeType.Small);
         }
 
         [Test]
@@ -22,8 +22,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
         [Test]
         public void GivenNullValuesShouldNotBeEqual()
         {
-            SizeType nullValue = null;
-            SizeType.Small.Equals(nullValue).Should().BeFalse();
+            SizeType.Small.Equals(null).Should().BeFalse();
         }
 
         [Test]
@@ -62,12 +61,10 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
         [Test]
         public void FromValueGivenValueFourShouldThrow()
         {
-            var expectedValue = 4;
+            const int expectedValue = 4;
 
-            var exception = Assert.Throws<InvalidOperationException>(() =>
-            {
-                var actual = Enumerator.FromValue<SizeType>(expectedValue);
-            });
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => _ = Enumerator.FromValue<SizeType>(expectedValue));
 
             exception.Message.Should().Be($"'{expectedValue}' is not a valid value in {typeof(SizeType)}");
         }
@@ -81,12 +78,10 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
         [Test]
         public void FromNameGivenNameExtraLargeShouldThrow()
         {
-            var expectedName = "extra large";
+            const string expectedName = "extra large";
 
-            var exception = Assert.Throws<InvalidOperationException>(() =>
-            {
-                _ = Enumerator.FromName<SizeType>(expectedName);
-            });
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => _ = Enumerator.FromName<SizeType>(expectedName));
 
             exception.Message.Should().Be($"'{expectedName}' is not a valid name in {typeof(SizeType)}");
         }
@@ -105,11 +100,14 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
 
         private sealed class SizeType : Enumerator
         {
-            public static SizeType Small = new(1, "Small");
-            public static SizeType Medium = new(2, "Medium");
-            public static SizeType Large = new(3, "Large");
+            public static readonly SizeType Small = new(1, "Small");
 
-            private SizeType(int id, string name) : base(id, name)
+            public static readonly SizeType Medium = new(2, "Medium");
+
+            public static readonly SizeType Large = new(3, "Large");
+
+            private SizeType(int id, string name)
+                : base(id, name)
             {
             }
         }
