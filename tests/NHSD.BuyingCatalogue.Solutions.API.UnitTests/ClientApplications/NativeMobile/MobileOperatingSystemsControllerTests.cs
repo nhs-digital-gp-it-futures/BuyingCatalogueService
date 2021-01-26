@@ -39,7 +39,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.ClientApplications.Native
             simpleResultMock.Setup(m => m.ToDictionary()).Returns(() => resultDictionary);
             resultDictionary = new Dictionary<string, string>();
             mockMediator
-                .Setup(x => x.Send(
+                .Setup(m => m.Send(
                     It.IsAny<UpdateSolutionMobileOperatingSystemsCommand>(),
                     It.IsAny<CancellationToken>()))
                 .ReturnsAsync(() => simpleResultMock.Object);

@@ -181,7 +181,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status204NoContent);
 
-            mockMediator.Verify(x => x.Send(
+            mockMediator.Verify(m => m.Send(
                 It.Is<UpdateSolutionContactDetailsCommand>(c => c.SolutionId == SolutionId && c.Data == sentModel),
                 It.IsAny<CancellationToken>()));
         }

@@ -1,4 +1,4 @@
-using FluentAssertions;
+﻿using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using NHSD.BuyingCatalogue.API.Infrastructure;
@@ -13,7 +13,7 @@ namespace NHSD.BuyingCatalogue.API.UnitTests
         public void ShouldReadConnectionString()
         {
             var configuration = new Mock<IConfiguration>();
-            configuration.Setup(x => x.GetSection("ConnectionStrings")["BuyingCatalogue"]).Returns("SomeConnectionString");
+            configuration.Setup(c => c.GetSection("ConnectionStrings")["BuyingCatalogue"]).Returns("SomeConnectionString");
 
             var settings = new Settings(configuration.Object);
             settings.ConnectionString.Should().Be("SomeConnectionString");
