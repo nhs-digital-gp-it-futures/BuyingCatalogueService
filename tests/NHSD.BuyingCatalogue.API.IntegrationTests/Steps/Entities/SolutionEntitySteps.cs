@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using JetBrains.Annotations;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
@@ -13,7 +14,7 @@ using TechTalk.SpecFlow.Assist;
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
 {
     [Binding]
-    public sealed class SolutionEntitySteps
+    internal sealed class SolutionEntitySteps
     {
         private const int PassedSolutionCapabilityStatusId = 1;
         private const int FailedSolutionCapabilityStatusId = 3;
@@ -84,7 +85,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         public static async Task GivenASolutionSlnDoesNotExist(string solutionId)
         {
             var solutionList = await SolutionEntity.FetchAllAsync();
-            solutionList.Select(x => x.Id).Should().NotContain(solutionId);
+            solutionList.Select(s => s.Id).Should().NotContain(solutionId);
         }
 
         [Then(@"Solutions exist")]
@@ -106,66 +107,61 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             (await contact.LastUpdated.SecondsFromNow()).Should().BeLessOrEqualTo(5);
         }
 
-        private class SolutionTable
+        [UsedImplicitly(ImplicitUseTargetFlags.Members)]
+        private sealed class SolutionTable
         {
-            public string SolutionId { get; set; }
+            public string SolutionId { get; init; }
 
-            public string SolutionName { get; set; }
+            public string SolutionName { get; init; }
 
-            public int SupplierStatusId { get; set; } = 1;
+            public string SupplierId { get; init; }
 
-            public string SupplierId { get; set; }
+            // TODO: check if set in any features
+            public PublishedStatus PublishedStatus { get; init; } = PublishedStatus.Published;
 
-            public string Version { get; set; }
+            public string SummaryDescription { get; init; }
 
-            public PublishedStatus PublishedStatus { get; set; } = PublishedStatus.Published;
+            public string FullDescription { get; init; }
 
-            public string SummaryDescription { get; set; }
+            public string Features { get; init; }
 
-            public string FullDescription { get; set; }
+            public string ClientApplication { get; init; }
 
-            public string Features { get; set; }
+            public string Hosting { get; init; }
 
-            public string ClientApplication { get; set; }
+            public string RoadMap { get; init; }
 
-            public string Hosting { get; set; }
+            public string IntegrationsUrl { get; init; }
 
-            public string ImplementationDetail { get; set; }
+            public string AboutUrl { get; init; }
 
-            public string RoadMap { get; set; }
-
-            public string IntegrationsUrl { get; set; }
-
-            public string AboutUrl { get; set; }
-
-            public string ServiceLevelAgreement { get; set; }
-
-            public string WorkOfPlan { get; set; }
-
-            public DateTime LastUpdated { get; set; }
+            public DateTime LastUpdated { get; init; }
         }
 
-        private class SolutionCapabilityTable
+        [UsedImplicitly(ImplicitUseTargetFlags.Members)]
+        private sealed class SolutionCapabilityTable
         {
-            public string Solution { get; set; }
+            public string Solution { get; init; }
 
-            public List<string> Capability { get; set; }
+            public List<string> Capability { get; init; }
 
-            public bool Pass { get; set; } = true;
+            public bool Pass { get; init; } = true;
         }
 
-        private class SolutionUpdatedTable
+        [UsedImplicitly(ImplicitUseTargetFlags.Members)]
+        private sealed class SolutionUpdatedTable
         {
-            public string SolutionId { get; set; }
+            public string SolutionId { get; init; }
 
-            public string SolutionName { get; set; }
+            public string SolutionName { get; init; }
         }
 
-        private class SolutionCapabilityReferenceTable
+        [UsedImplicitly(ImplicitUseTargetFlags.Members)]
+        private sealed class SolutionCapabilityReferenceTable
         {
-            public string SolutionId { get; set; }
+            public string SolutionId { get; init; }
 
-            public List<string> CapabilityRefs { get; set; }
+            public List<string> CapabilityRefs { get; init; }
         }
     }
 }

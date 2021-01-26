@@ -1,6 +1,7 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
+using NUnit.Framework;
 using TechTalk.SpecFlow;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
@@ -8,17 +9,17 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
     [Binding]
     internal sealed class ResponseValidationSteps
     {
-        private readonly Response _response;
+        private readonly Response response;
 
-        public ResponseValidationSteps(Response response) => _response = response;
+        public ResponseValidationSteps(Response response) => this.response = response;
 
         [Then(@"the (.*) field value is the validation failure (required|maxLength|capabilityInvalid|epicsInvalid)")]
         public async Task ThenTheFieldContainsValidationResult(string token, string validationError)
         {
-            var content = await _response.ReadBody().ConfigureAwait(false);
+            var content = await response.ReadBody();
             JToken selectedToken = content.SelectToken(token);
 
-            selectedToken.Should().NotBeNull();
+            Assert.NotNull(selectedToken);
             selectedToken.ToString().Should().Be(validationError);
         }
     }

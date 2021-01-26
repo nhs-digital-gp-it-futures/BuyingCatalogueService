@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using JetBrains.Annotations;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using TechTalk.SpecFlow;
@@ -15,17 +16,17 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Capability
     {
         private const string ListCapabilitiesUrl = "http://localhost:5200/api/v1/Capabilities";
 
-        private readonly Response _response;
+        private readonly Response response;
 
         public CapabilitySteps(Response response)
         {
-            _response = response;
+            this.response = response;
         }
 
         [When(@"a GET request is made for the capability list")]
-        public async Task WhenAGETRequestIsMadeForTheCapabilityList()
+        public async Task WhenAGetRequestIsMadeForTheCapabilityList()
         {
-            _response.Result = await Client.GetAsync(ListCapabilitiesUrl).ConfigureAwait(false);
+            response.Result = await Client.GetAsync(ListCapabilitiesUrl);
         }
 
         [Then(@"the capabilities are returned ordered by Capability Name containing the values")]
@@ -33,34 +34,35 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Capability
         {
             var expectedCapabilities = table.CreateSet<CapabilityTable>().Select(t => new
             {
-                CapabilityRef = t.CapabilityRef,
-                Version = t.Version,
+                t.CapabilityRef,
+                t.Version,
                 Name = t.CapabilityName,
-                IsFoundation = t.IsFoundation,
+                t.IsFoundation,
             });
 
-            var capabilities = (await _response.ReadBody().ConfigureAwait(false))
-                .SelectToken("capabilities")
+            var capabilities = (await response.ReadBody())
+                .SelectToken("capabilities")?
                 .Select(t => new
                 {
-                    CapabilityRef = t.SelectToken("reference").ToString(),
-                    Version = t.SelectToken("version").ToString(),
-                    Name = t.SelectToken("name").ToString(),
-                    IsFoundation = Convert.ToBoolean(t.SelectToken("isFoundation").ToString(), CultureInfo.InvariantCulture),
+                    CapabilityRef = t.SelectToken("reference")?.ToString(),
+                    Version = t.SelectToken("version")?.ToString(),
+                    Name = t.SelectToken("name")?.ToString(),
+                    IsFoundation = Convert.ToBoolean(t.SelectToken("isFoundation")?.ToString(), CultureInfo.InvariantCulture),
                 });
 
             capabilities.Should().BeEquivalentTo(expectedCapabilities, options => options.WithStrictOrdering());
         }
 
-        private class CapabilityTable
+        [UsedImplicitly(ImplicitUseTargetFlags.Members)]
+        private sealed class CapabilityTable
         {
-            public string CapabilityRef { get; set; }
+            public string CapabilityRef { get; init; }
 
-            public string Version { get; set; }
+            public string Version { get; init; }
 
-            public string CapabilityName { get; set; }
+            public string CapabilityName { get; init; }
 
-            public bool IsFoundation { get; set; }
+            public bool IsFoundation { get; init; }
         }
     }
 }

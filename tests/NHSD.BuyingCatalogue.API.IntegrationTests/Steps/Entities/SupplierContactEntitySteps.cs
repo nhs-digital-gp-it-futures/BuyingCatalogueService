@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
+using JetBrains.Annotations;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
@@ -15,7 +15,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         {
             foreach (var supplier in table.CreateSet<SupplierContactTable>())
             {
-                await InsertSupplierContactAsync(supplier).ConfigureAwait(false);
+                await InsertSupplierContactAsync(supplier);
             }
         }
 
@@ -29,23 +29,23 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 .WithEmail(supplierTable.Email)
                 .WithPhoneNumber(supplierTable.PhoneNumber)
                 .Build()
-                .InsertAsync()
-                .ConfigureAwait(false);
+                .InsertAsync();
         }
 
+        [UsedImplicitly(ImplicitUseTargetFlags.Members)]
         private sealed class SupplierContactTable
         {
-            public Guid Id { get; set; }
+            public Guid Id { get; init; }
 
-            public string SupplierId { get; set; }
+            public string SupplierId { get; init; }
 
-            public string FirstName { get; set; }
+            public string FirstName { get; init; }
 
-            public string LastName { get; set; }
+            public string LastName { get; init; }
 
-            public string Email { get; set; }
+            public string Email { get; init; }
 
-            public string PhoneNumber { get; set; }
+            public string PhoneNumber { get; init; }
         }
     }
 }

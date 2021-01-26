@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using FluentAssertions;
 using Flurl;
+using JetBrains.Annotations;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using TechTalk.SpecFlow;
@@ -14,15 +15,15 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Suppliers
     {
         private const string RootSuppliersUrl = "http://localhost:5200/api/v1/suppliers";
 
-        private readonly ScenarioContext _context;
-        private readonly Response _response;
+        private readonly ScenarioContext context;
+        private readonly Response response;
 
         public ListSupplierSteps(ScenarioContext context, Response response)
         {
-            _context = context;
-            _response = response;
+            this.context = context;
+            this.response = response;
 
-            _context.Set(new Url(RootSuppliersUrl));
+            this.context.Set(new Url(RootSuppliersUrl));
         }
 
         [Given(@"the user has searched for suppliers matching '([\w\W\s]*)'")]
@@ -40,36 +41,36 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Suppliers
         [When(@"a GET request is made for suppliers")]
         public async Task GetSuppliers()
         {
-            var url = _context.Get<Url>();
-            _response.Result = await Client.GetAsync(url.ToString());
+            var url = context.Get<Url>();
+            response.Result = await Client.GetAsync(url.ToString());
         }
 
         [Then(@"a list of suppliers is returned with the following values")]
         public async Task AListOfSuppliersIsReturnedWithTheFollowingValues(Table table)
         {
             var expectedSuppliers = table.CreateSet<ListSuppliersTable>();
-            var content = await _response.ReadBody();
-            var actualSuppliers = content.Select(
-                supplierToken => new ListSuppliersTable
-                {
-                    Id = supplierToken.SelectToken("supplierId").ToString(),
-                    SupplierName = supplierToken.SelectToken("name").ToString(),
-                });
+            var content = await response.ReadBody();
+            var actualSuppliers = content.Select(supplierToken => new ListSuppliersTable
+            {
+                Id = supplierToken.SelectToken("supplierId")?.ToString(),
+                SupplierName = supplierToken.SelectToken("name")?.ToString(),
+            });
 
             actualSuppliers.Should().BeEquivalentTo(expectedSuppliers);
         }
 
         private void GivenTheQueryParameter<T>(string name, T value)
         {
-            var url = _context.Get<Url>();
+            var url = context.Get<Url>();
             url.SetQueryParam(name, value);
         }
 
+        [UsedImplicitly(ImplicitUseTargetFlags.Members)]
         private sealed class ListSuppliersTable
         {
-            public string Id { get; set; }
+            public string Id { get; init; }
 
-            public string SupplierName { get; set; }
+            public string SupplierName { get; init; }
         }
     }
 }

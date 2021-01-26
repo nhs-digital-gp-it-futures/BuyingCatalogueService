@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using JetBrains.Annotations;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
@@ -17,7 +18,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         {
             foreach (var supplier in table.CreateSet<SupplierTable>())
             {
-                await InsertSupplierAsync(supplier).ConfigureAwait(false);
+                await InsertSupplierAsync(supplier);
             }
         }
 
@@ -31,7 +32,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 SupplierUrl = string.IsNullOrWhiteSpace(s.SupplierUrl) ? null : s.SupplierUrl,
             });
 
-            var suppliers = await SupplierEntity.FetchAllAsync().ConfigureAwait(false);
+            var suppliers = await SupplierEntity.FetchAllAsync();
             suppliers.Select(s => new
             {
                 s.Id,
@@ -43,15 +44,15 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         [Then(@"Last Updated has updated on the Supplier for supplier (.*)")]
         public static async Task LastUpdatedHasUpdatedOnSupplier(string supplierId)
         {
-            var supplier = await SupplierEntity.GetByIdAsync(supplierId).ConfigureAwait(false);
-            (await supplier.LastUpdated.SecondsFromNow().ConfigureAwait(false)).Should().BeLessOrEqualTo(5);
+            var supplier = await SupplierEntity.GetByIdAsync(supplierId);
+            (await supplier.LastUpdated.SecondsFromNow()).Should().BeLessOrEqualTo(5);
         }
 
         [Given(@"a Supplier (.*) does not exist")]
         public static async Task GivenASolutionSlnDoesNotExist(string supplierId)
         {
             var supplierList = await SupplierEntity.FetchAllAsync();
-            supplierList.Select(x => x.Id).Should().NotContain(supplierId);
+            supplierList.Select(s => s.Id).Should().NotContain(supplierId);
         }
 
         private static async Task InsertSupplierAsync(SupplierTable supplierTable)
@@ -63,21 +64,21 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 .WithSupplierUrl(supplierTable.SupplierUrl)
                 .WithAddress(supplierTable.Address)
                 .Build()
-                .InsertAsync()
-                .ConfigureAwait(false);
+                .InsertAsync();
         }
 
+        [UsedImplicitly(ImplicitUseTargetFlags.Members)]
         private sealed class SupplierTable
         {
-            public string Id { get; set; }
+            public string Id { get; init; }
 
-            public string SupplierName { get; set; }
+            public string SupplierName { get; init; }
 
-            public string Summary { get; set; }
+            public string Summary { get; init; }
 
-            public string SupplierUrl { get; set; }
-            
-            public string Address { get; set; }
+            public string SupplierUrl { get; init; }
+
+            public string Address { get; init; }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FluentAssertions;
+using JetBrains.Annotations;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using TechTalk.SpecFlow;
@@ -13,22 +14,22 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.CatalogueItems
     {
         private const string GetCatalogueItemUrlTemplate = "http://localhost:5200/api/v1/catalogue-items";
 
-        private readonly Response _response;
+        private readonly Response response;
 
         public GetCatalogueItemSteps(Response response)
         {
-            _response = response ?? throw new ArgumentNullException(nameof(response));
+            this.response = response ?? throw new ArgumentNullException(nameof(response));
         }
 
         [When(@"a GET request is made to retrieve a catalogue item with ID '(.*)'")]
-        public async Task WhenAGetRequestIsMadeToRetrieveACatalogueItemWithId(string catalogueItemId)
-            => _response.Result = await Client.GetAsync(GetCatalogueItemUrl(catalogueItemId));
+        public async Task WhenAGetRequestIsMadeToRetrieveACatalogueItemWithId(string catalogueItemId) =>
+            response.Result = await Client.GetAsync(GetCatalogueItemUrl(catalogueItemId));
 
         [Then(@"the response contains the catalogue item details")]
         public async Task ThenTheResponseContainsTheCatalogueItemDetails(Table table)
         {
             var expectedCatalogueItem = table.CreateInstance<GetCatalogueItemResponseTable>();
-            var content = await _response.ReadBody();
+            var content = await response.ReadBody();
 
             var actualCatalogueItem = new GetCatalogueItemResponseTable
             {
@@ -39,14 +40,15 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.CatalogueItems
             actualCatalogueItem.Should().BeEquivalentTo(expectedCatalogueItem);
         }
 
-        private static string GetCatalogueItemUrl(string catalogueItemId)
-            => $"{GetCatalogueItemUrlTemplate}/{catalogueItemId}";
+        private static string GetCatalogueItemUrl(string catalogueItemId) =>
+            $"{GetCatalogueItemUrlTemplate}/{catalogueItemId}";
 
+        [UsedImplicitly(ImplicitUseTargetFlags.Members)]
         private sealed class GetCatalogueItemResponseTable
         {
-            public string CatalogueItemId { get; set; }
+            public string CatalogueItemId { get; init; }
 
-            public string Name { get; set; }
+            public string Name { get; init; }
         }
     }
 }

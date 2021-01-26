@@ -1,4 +1,5 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using JetBrains.Annotations;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
@@ -6,14 +7,14 @@ using TechTalk.SpecFlow.Assist;
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
 {
     [Binding]
-    public sealed class CapabilityEntitySteps
+    internal sealed class CapabilityEntitySteps
     {
         [Given(@"Capabilities exist")]
         public static async Task GivenCapabilitiesExist(Table table)
         {
             foreach (var capability in table.CreateSet<CapabilityTable>())
             {
-                await InsertCapabilityAsync(capability).ConfigureAwait(false);
+                await InsertCapabilityAsync(capability);
             }
         }
 
@@ -26,29 +27,29 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 .WithDescription(capabilityTable.Description)
                 .WithSourceUrl(capabilityTable.SourceUrl)
                 .Build();
-            await capability.InsertAsync().ConfigureAwait(false);
+            await capability.InsertAsync();
 
             await FrameworkCapabilitiesEntityBuilder.Create()
                 .WithCapabilityId(capability.Id)
                 .WithIsFoundation(capabilityTable.IsFoundation)
                 .Build()
-                .InsertAsync().ConfigureAwait(false);
+                .InsertAsync();
         }
 
-
+        [UsedImplicitly(ImplicitUseTargetFlags.Members)]
         private class CapabilityTable
         {
-            public string CapabilityName { get; set; }
+            public string CapabilityName { get; init; }
 
-            public string CapabilityRef { get; set; } = "Ref";
+            public string CapabilityRef { get; init; } = "Ref";
 
-            public bool IsFoundation { get; set; }
+            public bool IsFoundation { get; init; }
 
-            public string Version { get; set; } = "1.0";
+            public string Version { get; init; } = "1.0";
 
-            public string Description { get; set; } = "Capability Description";
+            public string Description { get; init; } = "Capability Description";
 
-            public string SourceUrl { get; set; } = "http://source.url";
+            public string SourceUrl { get; init; } = "http://source.url";
         }
     }
 }

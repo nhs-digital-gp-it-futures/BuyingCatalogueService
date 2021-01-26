@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Flurl;
+using JetBrains.Annotations;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
@@ -94,10 +95,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.CatalogueItems
                 Name = catalogueItem.Value<string>("name"),
             });
 
-            var expected = filteredExpected?.Select(x => new CatalogueItemResponseTable
+            var expected = filteredExpected?.Select(c => new CatalogueItemResponseTable
             {
-                CatalogueItemId = x.CatalogueItemId,
-                Name = x.Name,
+                CatalogueItemId = c.CatalogueItemId,
+                Name = c.Name,
             });
 
             actual.Should().BeEquivalentTo(expected);
@@ -106,28 +107,30 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.CatalogueItems
         [Then(@"an empty catalogue items list is returned")]
         public async Task ThenAnEmptySolutionIsReturned()
         {
-            var catalogueItem = (await response.ReadBody());
+            var catalogueItem = await response.ReadBody();
             catalogueItem.Count().Should().Be(0);
         }
 
+        [UsedImplicitly(ImplicitUseTargetFlags.Members)]
         private sealed class CatalogueItemTable
         {
-            public string CatalogueItemId { get; set; }
+            public string CatalogueItemId { get; init; }
 
-            public string Name { get; set; }
+            public string Name { get; init; }
 
-            public CatalogueItemType CatalogueItemType { get; set; }
+            public CatalogueItemType CatalogueItemType { get; init; }
 
-            public string SupplierId { get; set; }
+            public string SupplierId { get; init; }
 
-            public PublishedStatus PublishedStatus { get; set; }
+            public PublishedStatus PublishedStatus { get; init; }
         }
 
+        [UsedImplicitly(ImplicitUseTargetFlags.Members)]
         private sealed class CatalogueItemResponseTable
         {
-            public string CatalogueItemId { get; set; }
+            public string CatalogueItemId { get; init; }
 
-            public string Name { get; set; }
+            public string Name { get; init; }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using JetBrains.Annotations;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
@@ -13,13 +14,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.AdditionalService
     [Binding]
     internal sealed class AdditionalServiceSteps
     {
-        private readonly Response _response;
-
         private const string AdditionalServiceUrl = "http://localhost:5200/api/v1/additional-services";
+
+        private readonly Response response;
 
         public AdditionalServiceSteps(Response response)
         {
-            _response = response;
+            this.response = response;
         }
 
         [Given(@"AdditionalService exist")]
@@ -47,17 +48,17 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.AdditionalService
         [When(@"a Get request is made to retrieve the additional services with solutionIds")]
         public async Task WhenAGetRequestIsMadeToRetrieveTheAdditionalServicesWithSolutionIds(Table table)
         {
-            var solutionIds = table.CreateSet<SolutionIdTable>().Select(x => $"solutionIds={x.SolutionId}").ToList();
+            var solutionIds = table.CreateSet<SolutionIdTable>().Select(t => $"solutionIds={t.SolutionId}").ToList();
 
             if (solutionIds.Count is 0)
             {
-                _response.Result = await Client.GetAsync(AdditionalServiceUrl);
+                response.Result = await Client.GetAsync(AdditionalServiceUrl);
             }
             else
             {
                 var query = string.Join("&", solutionIds);
 
-                _response.Result = await Client.GetAsync($"{AdditionalServiceUrl}?{query}");
+                response.Result = await Client.GetAsync($"{AdditionalServiceUrl}?{query}");
             }
         }
 
@@ -68,16 +69,16 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.AdditionalService
 
             const string solutionToken = "solution";
 
-            var responseBody = await _response.ReadBody();
+            var responseBody = await response.ReadBody();
             var additionalServicesToken = responseBody.SelectToken("additionalServices");
 
-            var actual = additionalServicesToken.Select(x => new ExpectedAdditionalServiceTable
+            var actual = additionalServicesToken?.Select(t => new ExpectedAdditionalServiceTable
             {
-                CatalogueItemId = x.Value<string>("catalogueItemId"),
-                Name = x.Value<string>("name"),
-                Summary = x.Value<string>("summary"),
-                SolutionId = x.SelectToken(solutionToken).Value<string>("solutionId"),
-                SolutionName = x.SelectToken(solutionToken).Value<string>("name"),
+                CatalogueItemId = t.Value<string>("catalogueItemId"),
+                Name = t.Value<string>("name"),
+                Summary = t.Value<string>("summary"),
+                SolutionId = t.SelectToken(solutionToken)?.Value<string>("solutionId"),
+                SolutionName = t.SelectToken(solutionToken)?.Value<string>("name"),
             });
 
             actual.Should().BeEquivalentTo(expected);
@@ -86,33 +87,44 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.AdditionalService
         [Then(@"no additional services are returned")]
         public async Task ThenNoAdditionalServicesAreReturned()
         {
-            var responseBody = await _response.ReadBody();
+            var responseBody = await response.ReadBody();
             var additionalServicesToken = responseBody.SelectToken("additionalServices");
 
             additionalServicesToken.Should().BeEmpty();
         }
 
+        [UsedImplicitly(ImplicitUseTargetFlags.Members)]
         private sealed class AdditionalServiceTable
         {
-            public string CatalogueItemId { get; set; }
-            public string CatalogueItemName { get; set; }
-            public string CatalogueSupplierId { get; set; }
-            public string Summary { get; set; }
-            public string SolutionId { get; set; }
+            public string CatalogueItemId { get; init; }
+
+            public string CatalogueItemName { get; init; }
+
+            public string CatalogueSupplierId { get; init; }
+
+            public string Summary { get; init; }
+
+            public string SolutionId { get; init; }
         }
 
+        [UsedImplicitly(ImplicitUseTargetFlags.Members)]
         private sealed class SolutionIdTable
         {
-            public string SolutionId { get; set; }
+            public string SolutionId { get; init; }
         }
 
+        [UsedImplicitly(ImplicitUseTargetFlags.Members)]
         private sealed class ExpectedAdditionalServiceTable
         {
-            public string CatalogueItemId { get; set; }
-            public string Name { get; set; }
-            public string Summary { get; set; }
-            public string SolutionId { get; set; }
-            public string SolutionName { get; set; }
+            public string CatalogueItemId { get; init; }
+
+            public string Name { get; init; }
+
+            public string Summary { get; init; }
+
+            public string SolutionId { get; init; }
+
+            public string SolutionName { get; init; }
         }
     }
 }
