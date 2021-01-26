@@ -1,4 +1,4 @@
-using System.Reflection;
+﻿using System.Reflection;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,13 +10,9 @@ using NHSD.BuyingCatalogue.SolutionLists.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
 {
-    internal class TestContext
+    internal sealed class TestContext
     {
-        public Mock<ISolutionListRepository> MockSolutionListRepository { get; private set; }
-
-        public ListSolutionsHandler ListSolutionsHandler => (ListSolutionsHandler)_scope.ListSolutionsHandler;
-
-        private readonly Scope _scope;
+        private readonly Scope scope;
 
         public TestContext()
         {
@@ -27,28 +23,34 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             {
                 Assembly.GetAssembly(typeof(SolutionListAutoMapperProfile)),
             };
-            _scope = serviceCollection
+
+            scope = serviceCollection
                 .AddAutoMapper(myAssemblies)
                 .AddMediatR(myAssemblies)
                 .RegisterSolutionListApplication()
                 .AddSingleton<Scope>()
-                .BuildServiceProvider().GetService<Scope>();
+                .BuildServiceProvider()
+                .GetService<Scope>();
         }
 
-        private void RegisterDependencies(ServiceCollection serviceCollection)
+        public Mock<ISolutionListRepository> MockSolutionListRepository { get; private set; }
+
+        public ListSolutionsHandler ListSolutionsHandler => (ListSolutionsHandler)scope.ListSolutionsHandler;
+
+        private void RegisterDependencies(IServiceCollection serviceCollection)
         {
             MockSolutionListRepository = new Mock<ISolutionListRepository>();
-            serviceCollection.AddSingleton<ISolutionListRepository>(MockSolutionListRepository.Object);
+            serviceCollection.AddSingleton(MockSolutionListRepository.Object);
         }
 
-        private class Scope
+        private sealed class Scope
         {
-            public IRequestHandler<ListSolutionsQuery, ISolutionList> ListSolutionsHandler { get; }
-
             public Scope(IRequestHandler<ListSolutionsQuery, ISolutionList> listSolutionsHandler)
             {
                 ListSolutionsHandler = listSolutionsHandler;
             }
+
+            public IRequestHandler<ListSolutionsQuery, ISolutionList> ListSolutionsHandler { get; }
         }
     }
 }

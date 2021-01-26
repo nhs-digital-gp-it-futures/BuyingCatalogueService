@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper.Configuration;
@@ -12,15 +12,9 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
 {
     [TestFixture]
-    public sealed class SolutionListAutoMapperProfileTests
+    internal sealed class SolutionListAutoMapperProfileTests
     {
-        private SolutionListAutoMapperProfile _solutionListAutoMapperProfile;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _solutionListAutoMapperProfile = new SolutionListAutoMapperProfile();
-        }
+        private SolutionListAutoMapperProfile solutionListAutoMapperProfile;
 
         public static IEnumerable<KeyValuePair<Type, Type>> SupportedMappings()
         {
@@ -34,12 +28,19 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             yield return new KeyValuePair<Type, Type>(typeof(SolutionListItemSupplier), typeof(ISolutionSupplier));
         }
 
+        [SetUp]
+        public void SetUp()
+        {
+            solutionListAutoMapperProfile = new SolutionListAutoMapperProfile();
+        }
+
         [Test]
         public void ProfileMatchesMapping()
         {
-            var configs = ((IProfileConfiguration)_solutionListAutoMapperProfile).TypeMapConfigs;
+            var typeMapConfigurations = ((IProfileConfiguration)solutionListAutoMapperProfile).TypeMapConfigs;
 
-            var mappings = configs.Select(tmc => new KeyValuePair<Type, Type>(tmc.SourceType, tmc.DestinationType));
+            var mappings = typeMapConfigurations.Select(
+                tmc => new KeyValuePair<Type, Type>(tmc.SourceType, tmc.DestinationType));
 
             SupportedMappings().Should().BeEquivalentTo(mappings);
         }

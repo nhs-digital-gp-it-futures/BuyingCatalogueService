@@ -11,23 +11,22 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
 {
     [TestFixture]
-    public class SolutionListRepositoryTests
+    internal sealed class SolutionListRepositoryTests
     {
         private const string Solution1Id = "Sln1";
         private const string Solution2Id = "Sln2";
         private const string Solution3Id = "Sln3";
         private const string Solution4Id = "Sln4";
 
-        private readonly Guid _cap1Id = Guid.NewGuid();
-        private readonly Guid _cap2Id = Guid.NewGuid();
-
         private const string CapabilityReference1 = "C1";
         private const string CapabilityReference2 = "C2";
+        private const string SupplierId = "Sup 1";
+        private const string SupplierName = "Supplier 1";
 
-        private const string _supplierId = "Sup 1";
-        private readonly string _supplierName = "Supplier 1";
+        private readonly Guid cap1Id = Guid.NewGuid();
+        private readonly Guid cap2Id = Guid.NewGuid();
 
-        private ISolutionListRepository _solutionListRepository;
+        private ISolutionListRepository solutionListRepository;
 
         [SetUp]
         public async Task Setup()
@@ -35,16 +34,30 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
             await Database.ClearAsync();
 
             await SupplierEntityBuilder.Create()
-                .WithId(_supplierId)
-                .WithName(_supplierName)
+                .WithId(SupplierId)
+                .WithName(SupplierName)
                 .Build()
                 .InsertAsync();
 
-            await CapabilityEntityBuilder.Create().WithName("Cap1").WithId(_cap1Id).WithCapabilityRef(CapabilityReference1).WithDescription("Cap1Desc").Build().InsertAsync();
-            await CapabilityEntityBuilder.Create().WithName("Cap2").WithId(_cap2Id).WithCapabilityRef(CapabilityReference2).WithDescription("Cap2Desc").Build().InsertAsync();
+            await CapabilityEntityBuilder
+                .Create()
+                .WithName("Cap1")
+                .WithId(cap1Id)
+                .WithCapabilityRef(CapabilityReference1)
+                .WithDescription("Cap1Desc")
+                .Build()
+                .InsertAsync();
+
+            await CapabilityEntityBuilder.Create()
+                .WithName("Cap2")
+                .WithId(cap2Id)
+                .WithCapabilityRef(CapabilityReference2)
+                .WithDescription("Cap2Desc")
+                .Build()
+                .InsertAsync();
 
             TestContext testContext = new TestContext();
-            _solutionListRepository = testContext.SolutionListRepository;
+            solutionListRepository = testContext.SolutionListRepository;
         }
 
         [Test]
@@ -54,7 +67,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .Create()
                 .WithCatalogueItemId(Solution1Id)
                 .WithName("Solution1")
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(SupplierId)
                 .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync();
@@ -64,7 +77,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .Build()
                 .InsertAsync();
 
-            var solutions = await _solutionListRepository.ListAsync(false, null, new CancellationToken());
+            var solutions = await solutionListRepository.ListAsync(false, null, CancellationToken.None);
 
             solutions.Should().BeEmpty();
         }
@@ -76,7 +89,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .Create()
                 .WithCatalogueItemId(Solution1Id)
                 .WithName("Solution1")
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(SupplierId)
                 .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync();
@@ -89,18 +102,18 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
 
             await SolutionCapabilityEntityBuilder.Create()
                 .WithSolutionId(Solution1Id)
-                .WithCapabilityId(_cap1Id)
+                .WithCapabilityId(cap1Id)
                 .Build()
                 .InsertAsync();
 
-            var solutions = await _solutionListRepository.ListAsync(false, null, new CancellationToken());
+            var solutions = await solutionListRepository.ListAsync(false, null, CancellationToken.None);
 
             var solution = solutions.Should().ContainSingle().Subject;
             solution.SolutionId.Should().Be(Solution1Id);
             solution.SolutionName.Should().Be("Solution1");
             solution.SolutionSummary.Should().Be("Sln1Summary");
-            solution.SupplierId.Should().Be(_supplierId);
-            solution.SupplierName.Should().Be(_supplierName);
+            solution.SupplierId.Should().Be(SupplierId);
+            solution.SupplierName.Should().Be(SupplierName);
             solution.CapabilityReference.Should().Be(CapabilityReference1);
             solution.CapabilityName.Should().Be("Cap1");
             solution.CapabilityDescription.Should().Be("Cap1Desc");
@@ -115,7 +128,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .Create()
                 .WithCatalogueItemId(Solution1Id)
                 .WithName("Solution1")
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(SupplierId)
                 .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync();
@@ -128,7 +141,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
 
             await SolutionCapabilityEntityBuilder.Create()
                 .WithSolutionId(Solution1Id)
-                .WithCapabilityId(_cap1Id)
+                .WithCapabilityId(cap1Id)
                 .Build()
                 .InsertAsync();
 
@@ -137,7 +150,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .WithFoundation(isFoundation)
                 .Build().InsertAsync();
 
-            var solutions = await _solutionListRepository.ListAsync(false, null, new CancellationToken());
+            var solutions = await solutionListRepository.ListAsync(false, null, CancellationToken.None);
 
             var solution = solutions.Should().ContainSingle().Subject;
             solution.SolutionId.Should().Be(Solution1Id);
@@ -151,7 +164,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .Create()
                 .WithCatalogueItemId(Solution1Id)
                 .WithName("Solution1")
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(SupplierId)
                 .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync();
@@ -164,26 +177,25 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
 
             await SolutionCapabilityEntityBuilder.Create()
                 .WithSolutionId(Solution1Id)
-                .WithCapabilityId(_cap1Id)
+                .WithCapabilityId(cap1Id)
                 .Build()
                 .InsertAsync();
 
             await SolutionCapabilityEntityBuilder.Create()
                 .WithSolutionId(Solution1Id)
-                .WithCapabilityId(_cap2Id)
+                .WithCapabilityId(cap2Id)
                 .Build()
                 .InsertAsync();
 
-            var solutions =
-                (await _solutionListRepository.ListAsync(false, null, new CancellationToken())).ToList();
+            var solutions = (await solutionListRepository.ListAsync(false, null, CancellationToken.None)).ToList();
             solutions.Should().HaveCount(2);
 
             var solution = solutions.Should().ContainSingle(s => s.CapabilityReference == CapabilityReference1).Subject;
             solution.SolutionId.Should().Be(Solution1Id);
             solution.SolutionName.Should().Be("Solution1");
             solution.SolutionSummary.Should().Be("Sln1Summary");
-            solution.SupplierId.Should().Be(_supplierId);
-            solution.SupplierName.Should().Be(_supplierName);
+            solution.SupplierId.Should().Be(SupplierId);
+            solution.SupplierName.Should().Be(SupplierName);
             solution.CapabilityReference.Should().Be(CapabilityReference1);
             solution.CapabilityName.Should().Be("Cap1");
             solution.CapabilityDescription.Should().Be("Cap1Desc");
@@ -192,8 +204,8 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
             solution.SolutionId.Should().Be(Solution1Id);
             solution.SolutionName.Should().Be("Solution1");
             solution.SolutionSummary.Should().Be("Sln1Summary");
-            solution.SupplierId.Should().Be(_supplierId);
-            solution.SupplierName.Should().Be(_supplierName);
+            solution.SupplierId.Should().Be(SupplierId);
+            solution.SupplierName.Should().Be(SupplierName);
             solution.CapabilityReference.Should().Be(CapabilityReference2);
             solution.CapabilityName.Should().Be("Cap2");
             solution.CapabilityDescription.Should().Be("Cap2Desc");
@@ -206,7 +218,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .Create()
                 .WithCatalogueItemId(Solution1Id)
                 .WithName("Solution1")
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(SupplierId)
                 .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync();
@@ -221,7 +233,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .Create()
                 .WithCatalogueItemId("Sln2")
                 .WithName("Solution2")
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(SupplierId)
                 .WithPublishedStatusId(3)
                 .Build()
                 .InsertAsync();
@@ -236,7 +248,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .Create()
                 .WithCatalogueItemId("Sln3")
                 .WithName("Solution3")
-                .WithSupplierId(_supplierId)
+                .WithSupplierId(SupplierId)
                 .Build()
                 .InsertAsync();
 
@@ -248,53 +260,58 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
 
             await SolutionCapabilityEntityBuilder.Create()
                 .WithSolutionId(Solution1Id)
-                .WithCapabilityId(_cap1Id)
+                .WithCapabilityId(cap1Id)
                 .Build()
                 .InsertAsync();
 
             await SolutionCapabilityEntityBuilder.Create()
                 .WithSolutionId(Solution1Id)
-                .WithCapabilityId(_cap2Id)
+                .WithCapabilityId(cap2Id)
                 .Build()
                 .InsertAsync();
 
             await SolutionCapabilityEntityBuilder.Create()
                 .WithSolutionId("Sln2")
-                .WithCapabilityId(_cap2Id)
+                .WithCapabilityId(cap2Id)
                 .Build()
                 .InsertAsync();
 
-            var solutions =
-                (await _solutionListRepository.ListAsync(false, null, new CancellationToken())).ToList();
+            var solutions = (await solutionListRepository.ListAsync(false, null, CancellationToken.None)).ToList();
 
             solutions.Should().HaveCount(3);
 
-            var solution = solutions.Should().ContainSingle(s => s.SolutionId == Solution1Id && s.CapabilityReference == CapabilityReference1).Subject;
+            var solution = solutions.Should()
+                .ContainSingle(s => s.SolutionId == Solution1Id && s.CapabilityReference == CapabilityReference1).Subject;
+
             solution.SolutionId.Should().Be(Solution1Id);
             solution.SolutionName.Should().Be("Solution1");
             solution.SolutionSummary.Should().Be("Sln1Summary");
-            solution.SupplierId.Should().Be(_supplierId);
-            solution.SupplierName.Should().Be(_supplierName);
+            solution.SupplierId.Should().Be(SupplierId);
+            solution.SupplierName.Should().Be(SupplierName);
             solution.CapabilityReference.Should().Be(CapabilityReference1);
             solution.CapabilityName.Should().Be("Cap1");
             solution.CapabilityDescription.Should().Be("Cap1Desc");
 
-            solution = solutions.Should().ContainSingle(s => s.SolutionId == Solution1Id && s.CapabilityReference == CapabilityReference2).Subject;
+            solution = solutions.Should()
+                .ContainSingle(s => s.SolutionId == Solution1Id && s.CapabilityReference == CapabilityReference2).Subject;
+
             solution.SolutionId.Should().Be(Solution1Id);
             solution.SolutionName.Should().Be("Solution1");
             solution.SolutionSummary.Should().Be("Sln1Summary");
-            solution.SupplierId.Should().Be(_supplierId);
-            solution.SupplierName.Should().Be(_supplierName);
+            solution.SupplierId.Should().Be(SupplierId);
+            solution.SupplierName.Should().Be(SupplierName);
             solution.CapabilityReference.Should().Be(CapabilityReference2);
             solution.CapabilityName.Should().Be("Cap2");
             solution.CapabilityDescription.Should().Be("Cap2Desc");
 
-            solution = solutions.Should().ContainSingle(s => s.SolutionId == Solution2Id && s.CapabilityReference == CapabilityReference2).Subject;
+            solution = solutions.Should()
+                .ContainSingle(s => s.SolutionId == Solution2Id && s.CapabilityReference == CapabilityReference2).Subject;
+
             solution.SolutionId.Should().Be(Solution2Id);
             solution.SolutionName.Should().Be("Solution2");
             solution.SolutionSummary.Should().Be("Sln2Summary");
-            solution.SupplierId.Should().Be(_supplierId);
-            solution.SupplierName.Should().Be(_supplierName);
+            solution.SupplierId.Should().Be(SupplierId);
+            solution.SupplierName.Should().Be(SupplierName);
             solution.CapabilityReference.Should().Be(CapabilityReference2);
             solution.CapabilityName.Should().Be("Cap2");
             solution.CapabilityDescription.Should().Be("Cap2Desc");
@@ -326,7 +343,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .Build()
                 .InsertAsync();
 
-            var solutions = await _solutionListRepository.ListAsync(true, null, new CancellationToken());
+            var solutions = (await solutionListRepository.ListAsync(true, null, CancellationToken.None)).ToList();
 
             solutions.Should().HaveCount(2);
             var solution = solutions.Should().ContainSingle(s => s.SolutionId == Solution1Id).Subject;
@@ -350,10 +367,10 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
             await CreateSimpleSolutionWithOneCap(Solution3Id);
             await CreateSimpleSolutionWithOneCap(Solution4Id, supId2);
 
-            var solutions = await _solutionListRepository.ListAsync(false, _supplierId, new CancellationToken());
+            var solutions = (await solutionListRepository.ListAsync(false, SupplierId, CancellationToken.None)).ToList();
 
-            solutions.Count().Should().Be(2);
-            solutions.Should().Contain(x => x.SupplierId == _supplierId);
+            solutions.Count.Should().Be(2);
+            solutions.Should().Contain(r => r.SupplierId == SupplierId);
         }
 
         [Test]
@@ -361,12 +378,12 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
         {
             await CreateSimpleSolutionWithOneCap(Solution1Id);
 
-            var solutions = await _solutionListRepository.ListAsync(false, "INVALID", new CancellationToken());
+            var solutions = await solutionListRepository.ListAsync(false, "INVALID", CancellationToken.None);
 
             solutions.Should().BeEmpty();
         }
 
-        private async Task CreateSimpleSolutionWithOneCap(string solutionId, string supplierId = _supplierId)
+        private async Task CreateSimpleSolutionWithOneCap(string solutionId, string supplierId = SupplierId)
         {
             await CatalogueItemEntityBuilder
                 .Create()
@@ -384,7 +401,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
 
             await SolutionCapabilityEntityBuilder.Create()
                 .WithSolutionId(solutionId)
-                .WithCapabilityId(_cap1Id)
+                .WithCapabilityId(cap1Id)
                 .Build()
                 .InsertAsync();
         }

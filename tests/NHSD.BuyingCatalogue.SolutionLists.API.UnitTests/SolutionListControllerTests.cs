@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -17,50 +16,61 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.SolutionLists.API.UnitTests
 {
     [TestFixture]
-    public sealed class SolutionListControllerTests
+    internal sealed class SolutionListControllerTests
     {
-        private Mock<IMediator> _mockMediator;
-
-        private SolutionListController _solutionListController;
-
-        private IEnumerable<ISolutionSummary> _solutions;
+        private Mock<IMediator> mockMediator;
+        private SolutionListController solutionListController;
+        private IEnumerable<ISolutionSummary> solutions;
 
         [SetUp]
         public void Setup()
         {
-            _mockMediator = new Mock<IMediator>();
-            _solutionListController = new SolutionListController(_mockMediator.Object);
+            mockMediator = new Mock<IMediator>();
+            solutionListController = new SolutionListController(mockMediator.Object);
 
-            _solutions = new[]
+            solutions = new[]
             {
                 Mock.Of<ISolutionSummary>(s => s.Id == "Sln1"), Mock.Of<ISolutionSummary>(s => s.Id == "Sln2"),
             };
-            var solutionList = Mock.Of<ISolutionList>(s => s.Solutions == _solutions);
-            _mockMediator.Setup(m => m.Send(It.IsAny<ListSolutionsQuery>(), It.IsAny<CancellationToken>()))
+
+            // ReSharper disable once PossibleUnintendedReferenceComparison
+            var solutionList = Mock.Of<ISolutionList>(s => s.Solutions == solutions);
+
+            mockMediator
+                .Setup(m => m.Send(It.IsAny<ListSolutionsQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(solutionList);
         }
 
         [Test]
         public async Task ShouldListFoundationSolutions()
         {
-            var result = (await _solutionListController.ListFoundationAsync()).Result as ObjectResult;
+            var result = (await solutionListController.ListFoundationAsync()).Result as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            (result.Value as ListSolutionsResult).Solutions.Should().BeEquivalentTo(_solutions);
-            _mockMediator.Verify(
-                m => m.Send(It.Is<ListSolutionsQuery>(q => q.Data.IsFoundation), It.IsAny<CancellationToken>()), Times.Once);
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
+
+            result.Value.Should().BeOfType<ListSolutionsResult>();
+            result.Value.As<ListSolutionsResult>().Solutions.Should().BeEquivalentTo(solutions);
+
+            mockMediator.Verify(m => m.Send(
+                It.Is<ListSolutionsQuery>(q => q.Data.IsFoundation),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task ShouldListSolutions()
         {
-            var result = (await _solutionListController.ListAsync(null)).Result as ObjectResult;
+            var result = (await solutionListController.ListAsync(null)).Result as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            (result.Value as ListSolutionsResult).Solutions.Should().BeEquivalentTo(_solutions);
-            _mockMediator.Verify(
-                m => m.Send(It.Is<ListSolutionsQuery>(q => q.Data.IsFoundation == false), It.IsAny<CancellationToken>()),
-                Times.Once);
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
+
+            result.Value.Should().BeOfType<ListSolutionsResult>();
+            result.Value.As<ListSolutionsResult>().Solutions.Should().BeEquivalentTo(solutions);
+
+            mockMediator.Verify(m => m.Send(
+                It.Is<ListSolutionsQuery>(q => q.Data.IsFoundation == false),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
@@ -68,41 +78,46 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.UnitTests
         {
             const string supplierId = "sup1";
 
-            var result = (await _solutionListController.ListAsync(supplierId)).Result as ObjectResult;
+            var result = (await solutionListController.ListAsync(supplierId)).Result as ObjectResult;
 
+            Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
-            (result.Value as ListSolutionsResult).Solutions.Should().BeEquivalentTo(_solutions);
-            _mockMediator.Verify(
-                m => m.Send(
-                    It.Is<ListSolutionsQuery>(q => q.Data.SupplierId == supplierId && q.Data.IsFoundation == false),
-                    It.IsAny<CancellationToken>()),
-                Times.Once);
+
+            result.Value.Should().BeOfType<ListSolutionsResult>();
+            result.Value.As<ListSolutionsResult>().Solutions.Should().BeEquivalentTo(solutions);
+
+            mockMediator.Verify(m => m.Send(
+                It.Is<ListSolutionsQuery>(q => q.Data.SupplierId == supplierId && q.Data.IsFoundation == false),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public async Task ShouldListSolutionsByFilter()
         {
             var filter = new ListSolutionsFilterViewModel();
-            var result = (await _solutionListController.ListByFilterAsync(filter)).Result as ObjectResult;
+            var result = (await solutionListController.ListByFilterAsync(filter)).Result as ObjectResult;
 
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            (result.Value as ListSolutionsResult).Solutions.Should().BeEquivalentTo(_solutions);
-            _mockMediator.Verify(
-                m => m.Send(
-                    It.Is<ListSolutionsQuery>(q => q.Data.IsSameOrEqualTo(filter)),
-                    It.IsAny<CancellationToken>()), Times.Once);
+            Assert.NotNull(result);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
+
+            result.Value.Should().BeOfType<ListSolutionsResult>();
+            result.Value.As<ListSolutionsResult>().Solutions.Should().BeEquivalentTo(solutions);
+
+            mockMediator.Verify(m => m.Send(
+                It.Is<ListSolutionsQuery>(q => q.Data.IsSameOrEqualTo(filter)),
+                It.IsAny<CancellationToken>()));
         }
 
         [Test]
         public void NullMediatorShouldThrowNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new SolutionListController(null));
+            Assert.Throws<ArgumentNullException>(() => _ = new SolutionListController(null));
         }
 
         [Test]
         public void ListSolutionsResultThrowsIfNull()
         {
-            Assert.Throws<ArgumentNullException>(() => new ListSolutionsResult(null));
+            Assert.Throws<ArgumentNullException>(() => _ = new ListSolutionsResult(null));
         }
     }
 }
