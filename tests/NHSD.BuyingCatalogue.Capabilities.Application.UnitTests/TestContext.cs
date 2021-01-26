@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using AutoMapper;
 using MediatR;
@@ -11,13 +11,9 @@ using NHSD.BuyingCatalogue.Capabilities.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.Capabilities.Application.UnitTests
 {
-    internal class TestContext
+    internal sealed class TestContext
     {
-        public Mock<ICapabilityRepository> MockCapabilityRepository { get; private set; }
-
-        public ListCapabilitiesHandler ListCapabilitiesHandler => (ListCapabilitiesHandler)_scope.ListCapabilitiesHandler;
-
-        private readonly Scope _scope;
+        private readonly Scope scope;
 
         public TestContext()
         {
@@ -28,29 +24,35 @@ namespace NHSD.BuyingCatalogue.Capabilities.Application.UnitTests
             {
                 Assembly.GetAssembly(typeof(CapabilityAutoMapperProfile)),
             };
+
             serviceCollection
                 .AddAutoMapper(myAssemblies)
                 .AddMediatR(myAssemblies);
+
             serviceCollection.RegisterCapabilitiesApplication();
 
             serviceCollection.AddSingleton<Scope>();
-            _scope = serviceCollection.BuildServiceProvider().GetService<Scope>();
+            scope = serviceCollection.BuildServiceProvider().GetService<Scope>();
         }
 
-        private void RegisterDependencies(ServiceCollection serviceCollection)
+        public Mock<ICapabilityRepository> MockCapabilityRepository { get; private set; }
+
+        public ListCapabilitiesHandler ListCapabilitiesHandler => (ListCapabilitiesHandler)scope.ListCapabilitiesHandler;
+
+        private void RegisterDependencies(IServiceCollection serviceCollection)
         {
             MockCapabilityRepository = new Mock<ICapabilityRepository>();
-            serviceCollection.AddSingleton<ICapabilityRepository>(MockCapabilityRepository.Object);
+            serviceCollection.AddSingleton(MockCapabilityRepository.Object);
         }
 
-        private class Scope
+        private sealed class Scope
         {
-            public IRequestHandler<ListCapabilitiesQuery, IEnumerable<ICapability>> ListCapabilitiesHandler { get; }
-
             public Scope(IRequestHandler<ListCapabilitiesQuery, IEnumerable<ICapability>> listCapabilitiesHandler)
             {
                 ListCapabilitiesHandler = listCapabilitiesHandler;
             }
+
+            public IRequestHandler<ListCapabilitiesQuery, IEnumerable<ICapability>> ListCapabilitiesHandler { get; }
         }
     }
 }

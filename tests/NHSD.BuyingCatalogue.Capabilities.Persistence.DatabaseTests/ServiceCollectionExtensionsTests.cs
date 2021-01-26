@@ -1,4 +1,4 @@
-using FluentAssertions;
+﻿using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NHSD.BuyingCatalogue.Capabilities.Contracts.Persistence;
@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
 {
     [TestFixture]
-    public sealed class ServiceCollectionExtensionsTests
+    internal sealed class ServiceCollectionExtensionsTests
     {
         [Test]
         public void ShouldRegisterRepositories()
