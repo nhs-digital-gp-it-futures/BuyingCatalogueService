@@ -109,6 +109,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
             CancellationToken cancellationToken)
         {
             var escapedName = name;
+
+            // ReSharper disable once InvertIf
             if (!string.IsNullOrWhiteSpace(name))
             {
                 var regex = new Regex(@"(\[|%|\+|\&|_|-)");

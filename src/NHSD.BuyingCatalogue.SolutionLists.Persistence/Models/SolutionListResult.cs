@@ -1,25 +1,27 @@
-﻿using NHSD.BuyingCatalogue.SolutionLists.Contracts.Persistence;
+﻿using System.Diagnostics.CodeAnalysis;
+using NHSD.BuyingCatalogue.SolutionLists.Contracts.Persistence;
 
 namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.Models
 {
+    [SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes", Justification = "Instantiated by Dapper")]
     internal sealed class SolutionListResult : ISolutionListResult
     {
-        public string SolutionId { get; set; }
+        public string SolutionId { get; init; }
 
-        public string SolutionName { get; set; }
+        public string SolutionName { get; init; }
 
-        public string SolutionSummary { get; set; }
+        public string SolutionSummary { get; init; }
 
-        public string SupplierId { get; set; }
+        public string SupplierId { get; init; }
 
-        public string SupplierName { get; set; }
+        public string SupplierName { get; init; }
 
-        public string CapabilityReference { get; set; }
+        public string CapabilityReference { get; init; }
 
-        public string CapabilityName { get; set; }
+        public string CapabilityName { get; init; }
 
-        public string CapabilityDescription { get; set; }
+        public string CapabilityDescription { get; init; }
 
-        public bool IsFoundation { get; set; }
+        public bool IsFoundation { get; init; }
     }
 }

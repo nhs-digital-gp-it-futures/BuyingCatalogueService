@@ -15,8 +15,8 @@
       "launchUrl": "http://localhost:5100/swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "CONNECTIONSTRINGS__BUYINGCATALOGUE": "Data Source=127.0.0.1,1430;Initial Catalog=buyingcataloguegpit;MultipleActiveResultSets=True;User Id=NHSD-BAPI;Password=DisruptTheMarket1!",
-        "APICLIENTSETTINGS__DOCUMENTAPI__BASEURL": "http://localhost:5201",
+        "ConnectionStrings__BuyingCatalogue": "Data Source=127.0.0.1,1430;Initial Catalog=buyingcataloguegpit;MultipleActiveResultSets=True;User Id=NHSD-BAPI;Password=DisruptTheMarket1!",
+        "ApiClientSettings__DocumentApi__BaseUrl": "http://localhost:5201",
         "applicationUrl": "http://localhost:5100"
       }
     }
