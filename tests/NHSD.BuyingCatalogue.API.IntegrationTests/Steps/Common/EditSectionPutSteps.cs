@@ -12,9 +12,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
     [Binding]
     internal sealed class EditSectionPutSteps
     {
-        private readonly Response _response;
-
-        private static readonly Dictionary<string, Type> PayloadTypes = new()
+        private static readonly Dictionary<string, Type> PayloadTypes = new(StringComparer.OrdinalIgnoreCase)
         {
             { "client-application-types", typeof(ClientApplicationTypesPayload) },
             { "solution-description", typeof(SolutionDescriptionPayload) },
@@ -29,10 +27,10 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             { "native-mobile-operating-systems", typeof(MobileOperatingSystemsPayload) },
             { "native-mobile-connection-details", typeof(MobileConnectionDetailsPayload) },
             { "native-mobile-first", typeof(NativeMobileFirstPayload) },
-			{ "native-mobile-memory-and-storage", typeof(MemoryAndStoragePayload) },
-			{ "native-mobile-third-party", typeof(MobileThirdPartyPayload) },
-			{ "native-mobile-additional-information", typeof(NativeMobileAdditionalInformationPayload) },
-			{ "native-desktop-connection-details", typeof(NativeDesktopConnectivityDetails) },
+            { "native-mobile-memory-and-storage", typeof(MemoryAndStoragePayload) },
+            { "native-mobile-third-party", typeof(MobileThirdPartyPayload) },
+            { "native-mobile-additional-information", typeof(NativeMobileAdditionalInformationPayload) },
+            { "native-desktop-connection-details", typeof(NativeDesktopConnectivityDetails) },
             { "native-desktop-operating-systems", typeof(NativeDesktopOperatingSystemsPayload) },
             { "native-desktop-memory-and-storage", typeof(NativeDesktopMemoryAndStoragePayload) },
             { "native-desktop-third-party", typeof(NativeDesktopThirdParty) },
@@ -41,20 +39,25 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             { "hosting-type-private-cloud", typeof(HostingPrivateCloudPayload) },
             { "hosting-type-on-premise", typeof(HostingOnPremisePayload) },
             { "hosting-type-hybrid", typeof(HostingHybridHostingTypePayload) },
-            { "roadmap", typeof(RoadmapPayload) },
+            { "roadMap", typeof(RoadMapPayload) },
             { "about-supplier", typeof(SupplierPayload) },
             { "integrations", typeof(IntegrationsPayload) },
-            { "implementation-timescales", typeof(ImplementationTimescalesPayload )},
+            { "implementation-timescales", typeof(ImplementationTimescalesPayload) },
             { "capabilities", typeof(CapabilitiesPayload) },
         };
 
+        private readonly Response response;
+
         public EditSectionPutSteps(Response response)
         {
-            _response = response;
+            this.response = response;
         }
 
         [When(@"a PUT request is made to update the (.*) section for solution (.*)")]
-        public async Task WhenAPUTRequestIsMadeToUpdateSolutionSlnBrowsers_SupportedSection(string section, string solutionId, Table table)
+        public async Task WhenAPutRequestIsMadeToUpdateSolutionSlnBrowsers_SupportedSection(
+            string section,
+            string solutionId,
+            Table table)
         {
             if (!PayloadTypes.ContainsKey(section))
             {
@@ -63,17 +66,18 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
 
             var obj = Activator.CreateInstance(PayloadTypes[section]);
             table.FillInstance(obj);
-            _response.Result = await Client.PutAsJsonAsync($"http://localhost:5200/api/v1/solutions/{solutionId}/sections/{section}", obj)
-                .ConfigureAwait(false);
+            response.Result = await Client.PutAsJsonAsync(
+                $"http://localhost:5200/api/v1/solutions/{solutionId}/sections/{section}",
+                obj);
         }
 
         [When(@"a PUT request is made to update the (.*) section with no solution id")]
-        public async Task WhenAPUTRequestIsMadeToUpdateSolutionBrowsers_SupportedSectionWithNoSolutionId(string section, Table table)
+        public async Task WhenAPutRequestIsMadeToUpdateSolutionBrowsers_SupportedSectionWithNoSolutionId(string section, Table table)
         {
-            await WhenAPUTRequestIsMadeToUpdateSolutionSlnBrowsers_SupportedSection(section, " ", table).ConfigureAwait(false);
+            await WhenAPutRequestIsMadeToUpdateSolutionSlnBrowsers_SupportedSection(section, " ", table);
         }
 
-        private class SupportedBrowserPayload
+        private sealed class SupportedBrowserPayload
         {
             [JsonProperty("supported-browsers")]
             public List<string> BrowsersSupported { get; set; }
@@ -82,37 +86,37 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             public string MobileResponsive { get; set; }
         }
 
-        private class BrowserAdditionalInformationPayload
+        private sealed class BrowserAdditionalInformationPayload
         {
             [JsonProperty("additional-information")]
             public string AdditionalInformation { get; set; }
         }
 
-        private class BrowserHardwareRequirementsPayload
+        private sealed class BrowserHardwareRequirementsPayload
         {
             [JsonProperty("hardware-requirements-description")]
             public string HardwareRequirements { get; set; }
         }
 
-        private class NativeMobileHardwareRequirementsPayload
+        private sealed class NativeMobileHardwareRequirementsPayload
         {
             [JsonProperty("hardware-requirements")]
             public string HardwareRequirements { get; set; }
         }
 
-        private class NativeDesktopHardwareRequirementsPayload
+        private sealed class NativeDesktopHardwareRequirementsPayload
         {
             [JsonProperty("hardware-requirements")]
             public string HardwareRequirements { get; set; }
         }
 
-        private class ClientApplicationTypesPayload
+        private sealed class ClientApplicationTypesPayload
         {
             [JsonProperty("client-application-types")]
             public List<string> ClientApplicationTypes { get; set; }
         }
 
-        private class PluginsPayload
+        private sealed class PluginsPayload
         {
             [JsonProperty("plugins-required")]
             public string PluginsRequired { get; set; }
@@ -121,17 +125,19 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             public string PluginsDetail { get; set; }
         }
 
-        private class SolutionDescriptionPayload
+        private sealed class SolutionDescriptionPayload
         {
             [JsonProperty("summary")]
             public string Summary { get; set; }
+
             [JsonProperty("description")]
             public string Description { get; set; }
+
             [JsonProperty("link")]
             public string Link { get; set; }
         }
 
-        private class ConnectivityAndResolutionPayload
+        private sealed class ConnectivityAndResolutionPayload
         {
             [JsonProperty("minimum-connection-speed")]
             public string MinimumConnectionSpeed { get; set; }
@@ -140,13 +146,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             public string MinimumDesktopResolution { get; set; }
         }
 
-        private class BrowserMobileFirstPayload
+        private sealed class BrowserMobileFirstPayload
         {
             [JsonProperty("mobile-first-design")]
             public string MobileFirstDesign { get; set; }
         }
 
-        private class MobileConnectionDetailsPayload
+        private sealed class MobileConnectionDetailsPayload
         {
             [JsonProperty("minimum-connection-speed")]
             public string MinimumConnectionSpeed { get; set; }
@@ -158,7 +164,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             public List<string> ConnectionType { get; set; }
         }
 
-        private class MobileOperatingSystemsPayload
+        private sealed class MobileOperatingSystemsPayload
         {
             [JsonProperty("operating-systems")]
             public List<string> OperatingSystems { get; set; }
@@ -167,13 +173,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             public string OperatingSystemsDescription { get; set; }
         }
 
-        private class NativeMobileFirstPayload
+        private sealed class NativeMobileFirstPayload
         {
             [JsonProperty("mobile-first-design")]
             public string MobileFirstDesign { get; set; }
         }
 
-        private class MemoryAndStoragePayload
+        private sealed class MemoryAndStoragePayload
         {
             [JsonProperty("minimum-memory-requirement")]
             public string MinimumMemoryRequirement { get; set; }
@@ -182,7 +188,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             public string Description { get; set; }
         }
 
-        private class MobileThirdPartyPayload
+        private sealed class MobileThirdPartyPayload
         {
             [JsonProperty("third-party-components")]
             public string ThirdPartyComponents { get; set; }
@@ -191,19 +197,19 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             public string DeviceCapabilities { get; set; }
         }
 
-        private class NativeDesktopOperatingSystemsPayload
+        private sealed class NativeDesktopOperatingSystemsPayload
         {
             [JsonProperty("operating-systems-description")]
             public string NativeDesktopOperatingSystemsDescription { get; set; }
         }
 
-        private class NativeMobileAdditionalInformationPayload
+        private sealed class NativeMobileAdditionalInformationPayload
         {
             [JsonProperty("additional-information")]
             public string AdditionalInformation { get; set; }
         }
 
-        private class NativeDesktopMemoryAndStoragePayload
+        private sealed class NativeDesktopMemoryAndStoragePayload
         {
             [JsonProperty("minimum-memory-requirement")]
             public string MinimumMemoryRequirement { get; set; }
@@ -218,13 +224,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             public string RecommendedResolution { get; set; }
         }
 
-        private class NativeDesktopConnectivityDetails
+        private sealed class NativeDesktopConnectivityDetails
         {
             [JsonProperty("minimum-connection-speed")]
             public string NativeDesktopMinimumConnectionSpeed { get; set; }
         }
 
-        private class NativeDesktopThirdParty
+        private sealed class NativeDesktopThirdParty
         {
             [JsonProperty("third-party-components")]
             public string ThirdPartyComponents { get; set; }
@@ -233,13 +239,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             public string DeviceCapabilities { get; set; }
         }
 
-        private class NativeDesktopAdditionalInformationPayload
+        private sealed class NativeDesktopAdditionalInformationPayload
         {
             [JsonProperty("additional-information")]
             public string AdditionalInformation { get; set; }
         }
 
-        private class PublicCloudPayload
+        private sealed class PublicCloudPayload
         {
             [JsonProperty("summary")]
             public string Summary { get; set; }
@@ -251,22 +257,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             public List<string> RequiresHSCN { get; set; }
         }
 
-        private class HostingPrivateCloudPayload
-        {
-            [JsonProperty("summary")]
-            public string Summary { get; set; }
-
-            [JsonProperty("link")]
-            public string Link { get; set; }
-
-            [JsonProperty("hosting-model")]
-            public string HostingModel { get; set; }
-
-            [JsonProperty("requires-hscn")]
-            public List<string> RequiresHSCN { get; set; }
-        }
-
-        private class HostingOnPremisePayload
+        private sealed class HostingPrivateCloudPayload
         {
             [JsonProperty("summary")]
             public string Summary { get; set; }
@@ -281,7 +272,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             public List<string> RequiresHSCN { get; set; }
         }
 
-        private class HostingHybridHostingTypePayload
+        private sealed class HostingOnPremisePayload
         {
             [JsonProperty("summary")]
             public string Summary { get; set; }
@@ -296,13 +287,28 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             public List<string> RequiresHSCN { get; set; }
         }
 
-        private class RoadmapPayload
+        private sealed class HostingHybridHostingTypePayload
+        {
+            [JsonProperty("summary")]
+            public string Summary { get; set; }
+
+            [JsonProperty("link")]
+            public string Link { get; set; }
+
+            [JsonProperty("hosting-model")]
+            public string HostingModel { get; set; }
+
+            [JsonProperty("requires-hscn")]
+            public List<string> RequiresHSCN { get; set; }
+        }
+
+        private sealed class RoadMapPayload
         {
             [JsonProperty("summary")]
             public string Summary { get; set; }
         }
 
-        private class SupplierPayload
+        private sealed class SupplierPayload
         {
             [JsonProperty("description")]
             public string Summary { get; set; }
@@ -311,19 +317,19 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             public string SupplierUrl { get; set; }
         }
 
-        private class IntegrationsPayload
+        private sealed class IntegrationsPayload
         {
             [JsonProperty("link")]
             public string IntegrationsUrl { get; set; }
         }
 
-        private class ImplementationTimescalesPayload
+        private sealed class ImplementationTimescalesPayload
         {
             [JsonProperty("description")]
             public string ImplementationTimescales { get; set; }
         }
-        
-        private class CapabilitiesPayload
+
+        private sealed class CapabilitiesPayload
         {
             [JsonProperty("capabilities")]
             public List<string> CapabilityRefs { get; set; }

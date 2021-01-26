@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using JetBrains.Annotations;
 using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
@@ -12,7 +13,7 @@ using TechTalk.SpecFlow.Assist;
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
 {
     [Binding]
-    public sealed class SolutionDetailEntitySteps
+    internal sealed class SolutionDetailEntitySteps
     {
         [Given(@"SolutionDetail exist")]
         public static async Task GivenSolutionDetailExist(Table table)
@@ -46,11 +47,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 Features = string.IsNullOrWhiteSpace(m.Features) ? null : m.Features,
                 Summary = string.IsNullOrWhiteSpace(m.SummaryDescription) ? null : m.SummaryDescription,
                 FullDescription = string.IsNullOrWhiteSpace(m.FullDescription) ? null : m.FullDescription,
-                ClientApplication = string.IsNullOrWhiteSpace(m.ClientApplication) ? null : JToken.Parse(m.ClientApplication).ToString(),
-                Hosting = string.IsNullOrWhiteSpace(m.Hosting) ? null : JToken.Parse(m.Hosting).ToString(),
                 RoadMap = string.IsNullOrWhiteSpace(m.RoadMap) ? null : m.RoadMap,
                 IntegrationsUrl = string.IsNullOrWhiteSpace(m.IntegrationsUrl) ? null : m.IntegrationsUrl,
                 ImplementationDetail = string.IsNullOrWhiteSpace(m.ImplementationDetail) ? null : m.ImplementationDetail,
+                ClientApplication = string.IsNullOrWhiteSpace(m.ClientApplication) ? null : JToken.Parse(m.ClientApplication).ToString(),
+                Hosting = string.IsNullOrWhiteSpace(m.Hosting) ? null : JToken.Parse(m.Hosting).ToString(),
             });
 
             var solutionDetails = await SolutionDetailEntity.FetchAllAsync();
@@ -77,29 +78,30 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             (await solutionDetail.LastUpdated.SecondsFromNow()).Should().BeLessOrEqualTo(5);
         }
 
-        private class SolutionDetailTable
+        [UsedImplicitly(ImplicitUseTargetFlags.Members)]
+        private sealed class SolutionDetailTable
         {
-            public string Solution { get; set; }
+            public string Solution { get; init; }
 
-            public string SummaryDescription { get; set; }
+            public string SummaryDescription { get; init; }
 
-            public string FullDescription { get; set; }
+            public string FullDescription { get; init; }
 
-            public string AboutUrl { get; set; }
+            public string AboutUrl { get; init; }
 
-            public string Features { get; set; }
+            public string Features { get; init; }
 
-            public string ClientApplication { get; set; }
+            public string ClientApplication { get; init; }
 
-            public string Hosting { get; set; }
+            public string Hosting { get; init; }
 
-            public string RoadMap { get; set; }
+            public string RoadMap { get; init; }
 
-            public string IntegrationsUrl { get; set; }
+            public string IntegrationsUrl { get; init; }
 
-            public string ImplementationDetail { get; set; }
+            public string ImplementationDetail { get; init; }
 
-            public DateTime LastUpdated { get; set; }
+            public DateTime LastUpdated { get; init; }
         }
     }
 }

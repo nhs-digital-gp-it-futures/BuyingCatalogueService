@@ -22,7 +22,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 {
                     contact.LastUpdated = DateTime.UtcNow;
                 }
-                await contact.InsertAsync().ConfigureAwait(false);
+
+                await contact.InsertAsync();
             }
         }
 
@@ -30,27 +31,29 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         [Then(@"No contacts exist for solution (.*)")]
         public static async Task NoContactsExist(string solutionId)
         {
-            var contacts = await MarketingContactEntity.FetchForSolutionAsync(solutionId).ConfigureAwait(false);
+            var contacts = await MarketingContactEntity.FetchForSolutionAsync(solutionId);
             contacts.Should().BeEmpty();
         }
 
         [Then(@"Last Updated has updated on the MarketingContact for solution (.*)")]
         public static async Task LastUpdatedHasUpdatedOnMarketingContact(string solutionId)
         {
-            var contacts = (await MarketingContactEntity.FetchForSolutionAsync(solutionId).ConfigureAwait(false)).ToList();
-            
-            contacts.ForEach(async x => (await x.LastUpdated.SecondsFromNow().ConfigureAwait(false)).Should().BeLessOrEqualTo(5));
+            var contacts = (await MarketingContactEntity.FetchForSolutionAsync(solutionId)).ToList();
+
+            contacts.ForEach(async m => (await m.LastUpdated.SecondsFromNow()).Should().BeLessOrEqualTo(5));
         }
 
         [Then(@"MarketingContacts exist for solution (.*)")]
         public static async Task ThenMarketingContactsExist(string solutionId, Table table)
         {
             var expected = table.CreateSet<MarketingContactEntity>().ToList();
-            var contacts = await MarketingContactEntity.FetchForSolutionAsync(solutionId).ConfigureAwait(false);
+            var contacts = await MarketingContactEntity.FetchForSolutionAsync(solutionId);
 
             IEnumerable<MarketingContactEntity> contactList = contacts.ToList();
             contactList.Count().Should().Be(expected.Count);
-            contactList.Should().BeEquivalentTo(expected, config => config.Excluding(c => c.LastUpdated).Excluding(c => c.LastUpdatedBy).Excluding(c => c.SolutionId));
+            contactList.Should().BeEquivalentTo(
+                expected,
+                config => config.Excluding(c => c.LastUpdated).Excluding(c => c.LastUpdatedBy).Excluding(c => c.SolutionId));
         }
     }
 }

@@ -1,14 +1,12 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
 {
-    public static class IntegrationTestEnvironment
+    internal static class IntegrationTestEnvironment
     {
-        public static async Task StartAsync()
+        internal static async Task StartAsync()
         {
-            await Task.WhenAll(BuyingCatalogueService.AwaitApiRunningAsync(),
-                               DocumentService.AwaitApiRunningAsync())
-                .ConfigureAwait(false);
+            await Task.WhenAll(BuyingCatalogueService.AwaitApiRunningAsync(), DocumentService.AwaitApiRunningAsync());
         }
     }
 }

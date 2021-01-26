@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using NHSD.BuyingCatalogue.Testing.Data;
@@ -10,24 +10,28 @@ using StringValueRetriever = NHSD.BuyingCatalogue.API.IntegrationTests.Support.S
 namespace NHSD.BuyingCatalogue.API.IntegrationTests
 {
     [Binding]
-    public static class IntegrationSetupFixture
+    internal static class IntegrationSetupFixture
     {
         [BeforeTestRun]
         public static async Task OneTimeSetUpAsync()
         {
-            await IntegrationTestEnvironment.StartAsync().ConfigureAwait(false);
+            await IntegrationTestEnvironment.StartAsync();
         }
 
-        [BeforeScenario()]
+        [BeforeScenario]
         public static async Task SetUpAsync()
         {
-            var defaultStringValueRetriever = Service.Instance.ValueRetrievers.FirstOrDefault(vr => vr is TechTalk.SpecFlow.Assist.ValueRetrievers.StringValueRetriever);
+            var defaultStringValueRetriever = Service.Instance.ValueRetrievers
+                .FirstOrDefault(vr => vr is TechTalk.SpecFlow.Assist.ValueRetrievers.StringValueRetriever);
+
             if (defaultStringValueRetriever != null)
             {
                 Service.Instance.ValueRetrievers.Unregister(defaultStringValueRetriever);
             }
 
-            var defaultDateTimeValueRetriever = Service.Instance.ValueRetrievers.FirstOrDefault(vr => vr is TechTalk.SpecFlow.Assist.ValueRetrievers.DateTimeValueRetriever);
+            var defaultDateTimeValueRetriever = Service.Instance.ValueRetrievers
+                .FirstOrDefault(vr => vr is TechTalk.SpecFlow.Assist.ValueRetrievers.DateTimeValueRetriever);
+
             if (defaultDateTimeValueRetriever != null)
             {
                 Service.Instance.ValueRetrievers.Unregister(defaultDateTimeValueRetriever);
@@ -35,7 +39,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests
 
             Service.Instance.ValueRetrievers.Register(new DateTimeValueRetriever());
             Service.Instance.ValueRetrievers.Register(new StringValueRetriever());
-            await Database.ClearAsync().ConfigureAwait(false);
+            await Database.ClearAsync();
         }
     }
 }

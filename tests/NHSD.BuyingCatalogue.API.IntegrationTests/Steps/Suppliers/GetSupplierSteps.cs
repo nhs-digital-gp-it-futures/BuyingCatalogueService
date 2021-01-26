@@ -1,7 +1,6 @@
-﻿using System.Globalization;
-using System.Reflection.Metadata.Ecma335;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FluentAssertions;
+using JetBrains.Annotations;
 using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
@@ -15,22 +14,22 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Suppliers
     {
         private const string GetSupplierUrlTemplate = "http://localhost:5200/api/v1/suppliers";
 
-        private readonly Response _response;
+        private readonly Response response;
 
         public GetSupplierSteps(Response response)
         {
-            _response = response;
+            this.response = response;
         }
 
         [When(@"a GET request is made to retrieve a supplier by ID (.*)")]
-        public async Task GetSuppliers(string supplierId) 
-            => _response.Result = await Client.GetAsync(GetSupplierUrl(supplierId));
+        public async Task GetSuppliers(string supplierId) =>
+            response.Result = await Client.GetAsync(GetSupplierUrl(supplierId));
 
         [Then(@"the response contains the following supplier details")]
         public async Task ThenTheResponseContainsTheFollowingSupplierDetails(Table table)
         {
             var expectedSupplier = table.CreateInstance<GetSupplierTable>();
-            var content = await _response.ReadBody();
+            var content = await response.ReadBody();
 
             var actualSupplier = new GetSupplierTable
             {
@@ -44,8 +43,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Suppliers
         [Then(@"the response contains the following supplier address details")]
         public async Task ThenTheResponseContainsTheFollowingSupplierAddressDetails(Table table)
         {
-            var expectedSupplierAddress  = table.CreateInstance<GetSupplierAddressTable>();
-            var content = await _response.ReadBody();
+            var expectedSupplierAddress = table.CreateInstance<GetSupplierAddressTable>();
+            var content = await response.ReadBody();
 
             var addressToken = GetSupplierAddressToken(content);
 
@@ -68,15 +67,15 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Suppliers
         [Then(@"the response does not contain a supplier address")]
         public async Task TheTheResponseDoesNotContainASupplierAddress()
         {
-            var content = await _response.ReadBody();
+            var content = await response.ReadBody();
             GetSupplierAddressToken(content).Should().BeNull();
         }
-        
+
         [Then(@"the response contains the following supplier primary contact details")]
         public async Task ThenTheResponseContainsTheFollowingSupplierPrimaryContactDetails(Table table)
         {
             var expectedSupplierContact = table.CreateInstance<GetSupplierContactTable>();
-            var content = await _response.ReadBody();
+            var content = await response.ReadBody();
 
             var primaryContactToken = GetSupplierPrimaryContact(content);
 
@@ -94,56 +93,56 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Suppliers
         [Then(@"the response does not contain a supplier primary contact")]
         public async Task TheTheResponseDoesNotContainASupplierPrimaryContact()
         {
-            var content = await _response.ReadBody();
+            var content = await response.ReadBody();
             GetSupplierPrimaryContact(content).Should().BeNull();
         }
 
-        private static string GetSupplierUrl(string supplierId) 
-            => $"{GetSupplierUrlTemplate}/{supplierId}";
+        private static string GetSupplierUrl(string supplierId) => $"{GetSupplierUrlTemplate}/{supplierId}";
 
-        private static JToken GetSupplierAddressToken(JToken content) 
-            => content.SelectToken("address");
+        private static JToken GetSupplierAddressToken(JToken content) => content.SelectToken("address");
 
-        private static JToken GetSupplierPrimaryContact(JToken content) 
-            => content.SelectToken("primaryContact");
+        private static JToken GetSupplierPrimaryContact(JToken content) => content.SelectToken("primaryContact");
 
+        [UsedImplicitly(ImplicitUseTargetFlags.Members)]
         private sealed class GetSupplierTable
         {
-            public string SupplierId { get; set; }
+            public string SupplierId { get; init; }
 
-            public string Name { get; set; }
+            public string Name { get; init; }
         }
 
+        [UsedImplicitly(ImplicitUseTargetFlags.Members)]
         private sealed class GetSupplierAddressTable
         {
-            public string Line1 { get; set; }
+            public string Line1 { get; init; }
 
-            public string Line2 { get; set; }
+            public string Line2 { get; init; }
 
-            public string Line3 { get; set; }
+            public string Line3 { get; init; }
 
-            public string Line4 { get; set; }
+            public string Line4 { get; init; }
 
-            public string Line5 { get; set; }
+            public string Line5 { get; init; }
 
-            public string Town { get; set; }
+            public string Town { get; init; }
 
-            public string County { get; set; }
+            public string County { get; init; }
 
-            public string Postcode { get; set; }
+            public string Postcode { get; init; }
 
-            public string Country { get; set; }
+            public string Country { get; init; }
         }
 
+        [UsedImplicitly(ImplicitUseTargetFlags.Members)]
         private sealed class GetSupplierContactTable
         {
-            public string FirstName { get; set; }
+            public string FirstName { get; init; }
 
-            public string LastName { get; set; }
+            public string LastName { get; init; }
 
-            public string EmailAddress { get; set; }
+            public string EmailAddress { get; init; }
 
-            public string TelephoneNumber { get; set; }
+            public string TelephoneNumber { get; init; }
         }
     }
 }

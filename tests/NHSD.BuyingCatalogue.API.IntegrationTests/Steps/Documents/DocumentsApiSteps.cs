@@ -13,22 +13,22 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Documents
     [Binding]
     internal sealed class DocumentsApiSteps
     {
-        private readonly ScenarioContext _context;
         private const string ScenarioContextMappingKey = "DocumentApiMappingGuids";
         private const string WireMockBaseUrl = "http://localhost:5201";
 
+        private readonly ScenarioContext context;
+
         public DocumentsApiSteps(ScenarioContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         [Given(@"a document named ([\w-]*) exists with solutionId ([\w-]*)")]
-        public async Task GivenANamedDocumentForAGivenSolutionIdExists(string documentName,
-            string solutionId)
+        public async Task GivenANamedDocumentForAGivenSolutionIdExists(string documentName, string solutionId)
         {
             var model = CreateMappingModel($"/api/v1/solutions/{solutionId}/documents", 200, $"[\"{documentName}\"]");
 
-            await SendModel(model, _context, ScenarioContextMappingKey).ConfigureAwait(false);
+            await SendModel(model, context, ScenarioContextMappingKey);
         }
 
         [Given(@"the document api fails with solutionId ([\w-]*)")]
@@ -36,7 +36,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Documents
         {
             var model = CreateMappingModel($"/api/v1/solutions/{solutionId}/documents", 500, "Demo Error");
 
-            await SendModel(model, _context, ScenarioContextMappingKey).ConfigureAwait(false);
+            await SendModel(model, context, ScenarioContextMappingKey);
         }
 
         [Given(@"The document api is (up|down)")]
@@ -44,7 +44,17 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Documents
         {
             var model = CreateMappingModel("/health/live", state == "up" ? 200 : 404);
 
-            await SendModel(model, _context, ScenarioContextMappingKey).ConfigureAwait(false);
+            await SendModel(model, context, ScenarioContextMappingKey);
+        }
+
+        [AfterScenario]
+        public async Task CleanMappings()
+        {
+            if (context.ContainsKey(ScenarioContextMappingKey) && context[ScenarioContextMappingKey] is List<Guid> guidList)
+            {
+                var api = RestClient.For<IWireMockAdminApi>(new Uri(WireMockBaseUrl));
+                await Task.WhenAll(guidList.Select(g => api.DeleteMappingAsync(g)).ToArray());
+            }
         }
 
         private static MappingModel CreateMappingModel(string path, int responseStatusCode, string responseBody = null)
@@ -57,14 +67,14 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Documents
                     Path = new PathModel
                     {
                         Matchers = new[]
+                        {
+                            new MatcherModel
                             {
-                                new MatcherModel
-                                {
-                                    Name = "WildcardMatcher",
-                                    Pattern = path,
-                                    IgnoreCase = true,
-                                },
+                                Name = "WildcardMatcher",
+                                Pattern = path,
+                                IgnoreCase = true,
                             },
+                        },
                     },
                     Methods = new[] { "GET" },
                 },
@@ -73,16 +83,18 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Documents
 
         private static async Task SendModel(MappingModel model, ScenarioContext context, string mappingKey)
         {
-            await AddMapping(model).ConfigureAwait(false);
+            await AddMapping(model);
 
             if (!context.ContainsKey(mappingKey))
                 context[mappingKey] = new List<Guid>();
 
             if (context[mappingKey] is List<Guid> guidList)
-                if (model.Guid != null)
+            {
+                if (model.Guid is not null)
                 {
                     guidList.Add(model.Guid.Value);
                 }
+            }
         }
 
         private static async Task AddMapping(MappingModel model)
@@ -90,18 +102,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Documents
             model.Guid = Guid.NewGuid();
             model.Priority = 10;
             var api = RestClient.For<IWireMockAdminApi>(new Uri(WireMockBaseUrl));
-            var result = await api.PostMappingAsync(model).ConfigureAwait(false);
+            var result = await api.PostMappingAsync(model);
             result.Status.Should().Be("Mapping added");
-        }
-
-        [AfterScenario]
-        public async Task CleanMappings()
-        {
-            if (_context.ContainsKey(ScenarioContextMappingKey) && _context[ScenarioContextMappingKey] is List<Guid> guidList)
-            {
-                var api = RestClient.For<IWireMockAdminApi>(new Uri(WireMockBaseUrl));
-                await Task.WhenAll(guidList.Select(g => api.DeleteMappingAsync(g)).ToArray()).ConfigureAwait(false);
-            }
         }
     }
 }

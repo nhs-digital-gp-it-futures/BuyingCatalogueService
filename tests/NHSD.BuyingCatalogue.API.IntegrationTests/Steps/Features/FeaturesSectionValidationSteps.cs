@@ -13,12 +13,12 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Features
     {
         private const string FeaturesUrl = "http://localhost:5200/api/v1/Solutions/{0}/sections/features";
 
-        private readonly List<string> _features = new();
-        private readonly Response _response;
+        private readonly List<string> features = new();
+        private readonly Response response;
 
         public FeaturesSectionValidationSteps(Response response)
         {
-            _response = response;
+            this.response = response;
         }
 
         [Given(@"a request with ten features")]
@@ -26,7 +26,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Features
         {
             for (int i = 0; i < 10; i++)
             {
-                _features.Add($"{i}");
+                features.Add($"{i}");
             }
         }
 
@@ -34,7 +34,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Features
         public void GivenFeatureAtPositionIsAStringOfCharacters(int position, int length)
         {
             // List is zero based, so need to minus one.
-            _features[position - 1] = GenerateStringOfLength(length);
+            features[position - 1] = GenerateStringOfLength(length);
         }
 
         [When(@"the update features request is made for (.*)")]
@@ -42,10 +42,12 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Features
         {
             var content = new
             {
-                listing = _features,
+                listing = features,
             };
 
-            _response.Result = await Client.PutAsJsonAsync(string.Format(CultureInfo.InvariantCulture, FeaturesUrl, featuresId), content).ConfigureAwait(false);
+            response.Result = await Client.PutAsJsonAsync(
+                string.Format(CultureInfo.InvariantCulture, FeaturesUrl, featuresId),
+                content);
         }
 
         private static string GenerateStringOfLength(int length)

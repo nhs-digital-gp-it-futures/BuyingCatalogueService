@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using JetBrains.Annotations;
 using NHSD.BuyingCatalogue.API.IntegrationTests.Support;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
 using TechTalk.SpecFlow;
@@ -7,13 +8,13 @@ using TechTalk.SpecFlow.Assist;
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
 {
     [Binding]
-    internal sealed class CatalougePriceTierSteps
+    internal sealed class CataloguePriceTierSteps
     {
-        private readonly ScenarioContext _context;
+        private readonly ScenarioContext context;
 
-        public CatalougePriceTierSteps(ScenarioContext context)
+        public CataloguePriceTierSteps(ScenarioContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         [Given(@"CataloguePriceTier exists")]
@@ -22,7 +23,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             foreach (var tierTable in table.CreateSet<CataloguePriceTierTable>())
             {
                 int cataloguePriceId =
-                    _context.GetCataloguePriceIdByCatalougePriceTierReference(tierTable.CataloguePriceTierRef);
+                    context.GetCataloguePriceIdByCataloguePriceTierReference(tierTable.CataloguePriceTierRef);
 
                 await CataloguePriceTierEntityBuilder.Create()
                     .WithCataloguePriceId(cataloguePriceId)
@@ -34,12 +35,16 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             }
         }
 
+        [UsedImplicitly(ImplicitUseTargetFlags.Members)]
         private sealed class CataloguePriceTierTable
         {
-            public int CataloguePriceTierRef { get; set; }
-            public int BandStart { get; set; }
-            public int? BandEnd { get; set; }
-            public decimal Price { get; set; }
+            public int CataloguePriceTierRef { get; init; }
+
+            public int BandStart { get; init; }
+
+            public int? BandEnd { get; init; }
+
+            public decimal Price { get; init; }
         }
     }
 }

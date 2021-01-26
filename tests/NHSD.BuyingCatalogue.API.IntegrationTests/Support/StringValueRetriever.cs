@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using TechTalk.SpecFlow.Assist;
 
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
 {
-    public class StringValueRetriever : IValueRetriever
+    internal sealed class StringValueRetriever : IValueRetriever
     {
         public bool CanRetrieve(KeyValuePair<string, string> keyValuePair, Type targetType, Type propertyType)
         {
@@ -16,31 +16,19 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Support
         {
             const string nullString = "NULL";
             const string lengthString = "A string with length of ";
-            if (keyValuePair.Value == nullString)
+
+            var (_, value) = keyValuePair;
+            if (value.Equals(nullString, StringComparison.OrdinalIgnoreCase))
             {
                 return null;
             }
 
-            if (keyValuePair.Value.StartsWith(lengthString, StringComparison.InvariantCulture))
-            {
-                var value = keyValuePair.Value.Replace(lengthString, string.Empty, StringComparison.InvariantCulture);
-                return new string('a', Int32.Parse(value, NumberStyles.Integer, new NumberFormatInfo()));
-            }
+            if (!value.StartsWith(lengthString, StringComparison.OrdinalIgnoreCase))
+                return value.Trim('"');
 
-            return keyValuePair.Value.Trim('"');
-        }
-    }
+            var desiredStringLength = value.Replace(lengthString, string.Empty, StringComparison.InvariantCulture);
 
-    public class DateTimeValueRetriever : IValueRetriever
-    {
-        public bool CanRetrieve(KeyValuePair<string, string> keyValuePair, Type targetType, Type propertyType)
-        {
-            return keyValuePair.Key == "LastUpdated";
-        }
-
-        public object Retrieve(KeyValuePair<string, string> keyValuePair, Type targetType, Type propertyType)
-        {
-            return DateTime.ParseExact(keyValuePair.Value, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            return new string('a', int.Parse(desiredStringLength, NumberStyles.Integer, new NumberFormatInfo()));
         }
     }
 }

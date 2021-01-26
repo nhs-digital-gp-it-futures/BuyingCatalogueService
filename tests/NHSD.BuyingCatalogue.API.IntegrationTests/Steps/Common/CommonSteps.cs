@@ -2,7 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using JetBrains.Annotations;
 using Newtonsoft.Json.Linq;
+using NUnit.Framework;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 
@@ -13,7 +15,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
     {
         private static readonly Dictionary<string, string> Tokens = new()
         {
-            { "learn-more", "sections.learn-more.answers."},
+            { "learn-more", "sections.learn-more.answers." },
             {
                 "native-mobile-third-party",
                 "sections.client-application-types.sections.native-mobile.sections.native-mobile-third-party.answers."
@@ -90,31 +92,33 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
                 "browser-mobile-first",
                 "sections.client-application-types.sections.browser-based.sections.browser-mobile-first.answers."
             },
-            {"hosting-type-public-cloud", "sections.hosting-type-public-cloud.answers."},
-            {"hosting-type-private-cloud", "sections.hosting-type-private-cloud.answers."},
-            {"hosting-type-hybrid", "sections.hosting-type-hybrid.answers."},
-            {"hosting-type-on-premise", "sections.hosting-type-on-premise.answers."},
-            {"solution-description", "sections.solution-description.answers."},
-            {"roadmap", "sections.roadmap.answers."},
-            {"integrations", "sections.integrations.answers."},
-            {"implementation-timescales", "sections.implementation-timescales.answers."},
-            {"features", "sections.features.answers."},
-            {"capabilities", "sections.capabilities.answers."},
-            {"contact-details", "sections.contact-details.answers."},
-            {"about-supplier", "sections.about-supplier.answers."},
+            { "hosting-type-public-cloud", "sections.hosting-type-public-cloud.answers." },
+            { "hosting-type-private-cloud", "sections.hosting-type-private-cloud.answers." },
+            { "hosting-type-hybrid", "sections.hosting-type-hybrid.answers." },
+            { "hosting-type-on-premise", "sections.hosting-type-on-premise.answers." },
+            { "solution-description", "sections.solution-description.answers." },
+
+            // ReSharper disable once StringLiteralTypo
+            { "roadMap", "sections.roadmap.answers." },
+            { "integrations", "sections.integrations.answers." },
+            { "implementation-timescales", "sections.implementation-timescales.answers." },
+            { "features", "sections.features.answers." },
+            { "capabilities", "sections.capabilities.answers." },
+            { "contact-details", "sections.contact-details.answers." },
+            { "about-supplier", "sections.about-supplier.answers." },
         };
 
-        private readonly Response _response;
+        private readonly Response response;
 
         public CommonSteps(Response response)
         {
-            _response = response;
+            this.response = response;
         }
 
         [Then(@"the response contains the following values")]
         public async Task ResponseContainsTableValues(Table table)
         {
-            var context = await _response.ReadBody().ConfigureAwait(false);
+            var context = await response.ReadBody();
             foreach (var row in table.CreateSet<SectionFieldValueTable>())
             {
                 var responseValues = new List<string>();
@@ -122,11 +126,11 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
 
                 var responseToken = context.SelectToken(token);
 
-                responseToken.Should().NotBeNull("token: {0} not found in {1}", token, context);
+                Assert.NotNull(responseToken, "token: {0} not found in {1}", token, context);
 
                 if (responseToken is JValue responseValue)
                 {
-                    responseValues.Add(responseValue.Value.ToString());
+                    responseValues.Add(responseValue.Value?.ToString());
                 }
                 else
                 {
@@ -140,7 +144,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
         [Then(@"the response does not contain the following fields")]
         public async Task ThenTheResponseDoesNotContainTheFollowingFields(Table table)
         {
-            var context = await _response.ReadBody().ConfigureAwait(false);
+            var context = await response.ReadBody();
             foreach (var row in table.CreateSet<SectionFieldValueTable>())
             {
                 var token = $"{Tokens[row.Section]}{row.Field}";
@@ -154,10 +158,9 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
         [Then(@"the response contains lists with the following counts")]
         public async Task ThenTheResponseContainsListsWithTheFollowingLengths(Table table)
         {
-            var context = await _response.ReadBody().ConfigureAwait(false);
+            var context = await response.ReadBody();
             foreach (var row in table.CreateSet<SectionFieldArrayCountTable>())
             {
-                var responseValues = new List<string>();
                 var token = $"{Tokens[row.Section]}{row.Field}";
 
                 var responseToken = context.SelectToken(token);
@@ -175,14 +178,14 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
         [Then(@"the string value of element (.*) is (.*)")]
         public async Task ThenTheStringIs(string token, string requirement)
         {
-            var content = await _response.ReadBody().ConfigureAwait(false);
+            var content = await response.ReadBody();
             content.Value<string>(token).Should().Be(requirement);
         }
 
         [Then(@"the (.*) string does not exist")]
         public async Task ThenTheBrowserHardwareRequirementsValueIsNull(string token)
         {
-            var content = await _response.ReadBody().ConfigureAwait(false);
+            var content = await response.ReadBody();
             content.Value<string>(token).Should().Be(null);
         }
 
@@ -190,29 +193,36 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
         public async Task ThenTheSupportedBrowsersElementContains(string token, Table table)
         {
             var content = table.CreateInstance<ElementContainsStringTable>();
-            var context = await _response.ReadBody().ConfigureAwait(false);
-            context.SelectToken(token)
+            var context = await response.ReadBody();
+            context.SelectToken(token)?
                 .Select(s => s.ToString())
                 .Should().BeEquivalentTo(content.Elements);
         }
 
-        private class ElementContainsStringTable
+        [UsedImplicitly(ImplicitUseTargetFlags.Members)]
+        private sealed class ElementContainsStringTable
         {
-            public List<string> Elements { get; set; }
+            public List<string> Elements { get; init; }
         }
 
-        private class SectionFieldValueTable
+        [UsedImplicitly(ImplicitUseTargetFlags.Members)]
+        private sealed class SectionFieldValueTable
         {
-            public string Section { get; set; }
-            public string Field { get; set; }
-            public List<string> Value { get; set; }
+            public string Section { get; init; }
+
+            public string Field { get; init; }
+
+            public List<string> Value { get; init; }
         }
 
-        private class SectionFieldArrayCountTable
+        [UsedImplicitly(ImplicitUseTargetFlags.Members)]
+        private sealed class SectionFieldArrayCountTable
         {
-            public string Section { get; set; }
-            public string Field { get; set; }
-            public int Count { get; set; }
+            public string Section { get; init; }
+
+            public string Field { get; init; }
+
+            public int Count { get; init; }
         }
     }
 }

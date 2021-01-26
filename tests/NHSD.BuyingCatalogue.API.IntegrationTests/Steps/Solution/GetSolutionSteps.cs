@@ -11,17 +11,17 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
     {
         private const string GetSolutionUrl = "http://localhost:5200/api/v1/Solutions/{0}";
 
-        private readonly Response _response;
+        private readonly Response response;
 
         public GetSolutionSteps(Response response)
         {
-            _response = response;
+            this.response = response;
         }
 
         [When(@"a GET request is made to retrieve a solution by ID '(.*)'")]
         public async Task WhenAGetRequestIsMadeToRetrieveASolutionById(string solutionId)
         {
-            _response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, GetSolutionUrl, solutionId));
+            response.Result = await Client.GetAsync(string.Format(CultureInfo.InvariantCulture, GetSolutionUrl, solutionId));
         }
     }
 }

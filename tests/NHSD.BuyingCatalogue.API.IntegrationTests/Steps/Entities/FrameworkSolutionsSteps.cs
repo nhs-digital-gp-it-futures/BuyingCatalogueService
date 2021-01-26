@@ -1,4 +1,5 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using JetBrains.Annotations;
 using NHSD.BuyingCatalogue.Testing.Data.EntityBuilders;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
@@ -6,14 +7,14 @@ using TechTalk.SpecFlow.Assist;
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
 {
     [Binding]
-    public sealed class FrameworkSolutionsSteps
+    internal sealed class FrameworkSolutionsSteps
     {
         [Given(@"Framework Solutions exist")]
         public static async Task GivenFrameworkSolutionsExist(Table table)
         {
             foreach (var frameworkSolution in table.CreateSet<FrameworkSolutionsTable>())
             {
-                await InsertFrameworkSolutionsAsync(frameworkSolution).ConfigureAwait(false);
+                await InsertFrameworkSolutionsAsync(frameworkSolution);
             }
         }
 
@@ -23,16 +24,15 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 .WithSolutionId(table.SolutionId)
                 .WithFoundation(table.IsFoundation)
                 .Build()
-                .InsertAsync()
-                .ConfigureAwait(false);
+                .InsertAsync();
         }
 
-        private class FrameworkSolutionsTable
+        [UsedImplicitly(ImplicitUseTargetFlags.Members)]
+        private sealed class FrameworkSolutionsTable
         {
-            public string SolutionId { get; set; }
+            public string SolutionId { get; init; }
 
-            public bool IsFoundation { get; set; }
+            public bool IsFoundation { get; init; }
         }
     }
-
 }
