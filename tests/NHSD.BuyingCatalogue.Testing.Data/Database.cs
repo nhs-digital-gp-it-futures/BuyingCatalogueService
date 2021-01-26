@@ -6,7 +6,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data
     {
         public static async Task AwaitDatabaseAsync()
         {
-            await ConnectionAwaiter.AwaitConnectionAsync(ConnectionStrings.ServiceConnectionString());
+            await AwaitConnection.AwaitAsync(ConnectionStrings.ServiceConnectionString());
         }
 
         public static async Task ClearAsync()

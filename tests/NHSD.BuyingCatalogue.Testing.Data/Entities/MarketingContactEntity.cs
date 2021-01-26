@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace NHSD.BuyingCatalogue.Testing.Data.Entities
@@ -17,43 +17,46 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public string Department { get; set; }
 
-        protected override string InsertSql => $@"
-            INSERT INTO [dbo].[MarketingContact]
-            ([SolutionId]
-            ,[FirstName]
-            ,[LastName]
-            ,[Email]
-            ,[PhoneNumber]
-            ,[Department]
-            ,[LastUpdated]
-            ,[LastUpdatedBy])
+        protected override string InsertSql => @"
+            INSERT INTO dbo.MarketingContact
+            (
+                SolutionId,
+                FirstName,
+                LastName,
+                Email,
+                PhoneNumber,
+                Department,
+                LastUpdated,
+                LastUpdatedBy
+            )
             VALUES
-            (@SolutionId
-            ,@FirstName
-            ,@LastName
-            ,@Email
-            ,@PhoneNumber
-            ,@Department
-            ,@LastUpdated
-            ,@LastUpdatedBy
-            )";
+            (
+                @SolutionId,
+                @FirstName,
+                @LastName,
+                @Email,
+                @PhoneNumber,
+                @Department,
+                @LastUpdated,
+                @LastUpdatedBy
+            );";
 
         public static async Task<IEnumerable<MarketingContactEntity>> FetchForSolutionAsync(string solutionId)
         {
-            return await SqlRunner.FetchAllAsync<MarketingContactEntity>($@"SELECT
-             [Id]
-            ,[SolutionId]
-            ,[FirstName]
-            ,[LastName]
-            ,[Email]
-            ,[PhoneNumber]
-            ,[Department]
-            ,[LastUpdated]
-            ,[LastUpdatedBy]
-            FROM MarketingContact
-            Where SolutionId = @solutionId",
-            new { solutionId }
-            ).ConfigureAwait(false);
+            const string selectSql = @"
+                SELECT Id,
+                       SolutionId,
+                       FirstName,
+                       LastName,
+                       Email,
+                       PhoneNumber,
+                       Department,
+                       LastUpdated,
+                       LastUpdatedBy
+                  FROM dbo.MarketingContact
+                 WHERE SolutionId = @solutionId;";
+
+            return await SqlRunner.FetchAllAsync<MarketingContactEntity>(selectSql, new { solutionId });
         }
     }
 }

@@ -11,18 +11,14 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
             LastUpdatedBy = Guid.Empty;
         }
 
-        protected abstract string InsertSql { get; }
-
         public DateTime LastUpdated { get; set; }
 
         public Guid LastUpdatedBy { get; set; }
 
-        public async Task InsertAsync()
-            => await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, InsertSql, this);
+        protected abstract string InsertSql { get; }
 
-        public async Task<T> InsertAsync<T>()
-        {
-            return await SqlRunner.QueryFirstAsync<T>(InsertSql, this);
-        }
+        public async Task InsertAsync() => await SqlRunner.ExecuteAsync(ConnectionStrings.GPitFuturesSetup, InsertSql, this);
+
+        public async Task<T> InsertAsync<T>() => await SqlRunner.QueryFirstAsync<T>(InsertSql, this);
     }
 }

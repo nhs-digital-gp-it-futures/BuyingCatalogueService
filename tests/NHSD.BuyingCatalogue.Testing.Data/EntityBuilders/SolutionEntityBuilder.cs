@@ -5,19 +5,13 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 {
     public sealed class SolutionEntityBuilder
     {
-        private readonly SolutionEntity _solutionEntity;
-
-        public static SolutionEntityBuilder Create()
-        {
-            return new();
-        }
+        private readonly SolutionEntity solutionEntity;
 
         public SolutionEntityBuilder()
         {
-            // Default
             const string id = "SolutionId";
 
-            _solutionEntity = new SolutionEntity
+            solutionEntity = new SolutionEntity
             {
                 Id = id,
                 Version = "1.0.0",
@@ -26,99 +20,74 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             };
         }
 
-        public SolutionEntityBuilder WithId(string id)
+        public static SolutionEntityBuilder Create()
         {
-            _solutionEntity.Id = id;
-            return this;
+            return new();
         }
 
-        public SolutionEntityBuilder WithVersion(string version)
+        public SolutionEntityBuilder WithId(string id)
         {
-            _solutionEntity.Version = version;
+            solutionEntity.Id = id;
             return this;
         }
 
         public SolutionEntityBuilder WithFeatures(string features)
         {
-            _solutionEntity.Features = features;
+            solutionEntity.Features = features;
             return this;
         }
 
         public SolutionEntityBuilder WithClientApplication(string clientApplication)
         {
-            _solutionEntity.ClientApplication = clientApplication;
+            solutionEntity.ClientApplication = clientApplication;
             return this;
         }
 
         public SolutionEntityBuilder WithHosting(string hosting)
         {
-            _solutionEntity.Hosting = hosting;
-            return this;
-        }
-
-        public SolutionEntityBuilder WithImplementationTimescales(string implementationTimescales)
-        {
-            _solutionEntity.ImplementationDetail = implementationTimescales;
+            solutionEntity.Hosting = hosting;
             return this;
         }
 
         public SolutionEntityBuilder WithRoadMap(string roadMap)
         {
-            _solutionEntity.RoadMap = roadMap;
+            solutionEntity.RoadMap = roadMap;
             return this;
         }
 
         public SolutionEntityBuilder WithIntegrationsUrl(string integrationsUrl)
         {
-            _solutionEntity.IntegrationsUrl = integrationsUrl;
+            solutionEntity.IntegrationsUrl = integrationsUrl;
             return this;
         }
 
         public SolutionEntityBuilder WithAboutUrl(string aboutUrl)
         {
-            _solutionEntity.AboutUrl = aboutUrl;
+            solutionEntity.AboutUrl = aboutUrl;
             return this;
         }
 
         public SolutionEntityBuilder WithSummary(string summary)
         {
-            _solutionEntity.Summary = summary;
+            solutionEntity.Summary = summary;
             return this;
         }
 
         public SolutionEntityBuilder WithFullDescription(string fullDescription)
         {
-            _solutionEntity.FullDescription = fullDescription;
-            return this;
-        }
-
-        public SolutionEntityBuilder WithServiceLevelAgreement(string serviceLevelAgreement)
-        {
-            _solutionEntity.ServiceLevelAgreement = serviceLevelAgreement;
-            return this;
-        }
-
-        public SolutionEntityBuilder WithWorkOfPlan(string workOfPlan)
-        {
-            _solutionEntity.WorkOfPlan = workOfPlan;
+            solutionEntity.FullDescription = fullDescription;
             return this;
         }
 
         public SolutionEntityBuilder WithOnLastUpdated(DateTime lastUpdated)
         {
-            _solutionEntity.LastUpdated = lastUpdated;
-            return this;
-        }
-
-        public SolutionEntityBuilder WithLastUpdatedBy(Guid lastUpdatedBy)
-        {
-            _solutionEntity.LastUpdatedBy = lastUpdatedBy;
+            solutionEntity.LastUpdated = lastUpdated;
             return this;
         }
 
         public SolutionEntity Build()
         {
-            return _solutionEntity;
+            return solutionEntity;
         }
     }
 }

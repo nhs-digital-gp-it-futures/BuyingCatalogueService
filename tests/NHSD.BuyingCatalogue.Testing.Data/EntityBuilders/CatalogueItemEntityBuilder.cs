@@ -5,51 +5,46 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 {
     public sealed class CatalogueItemEntityBuilder
     {
-        private string _catalogueItemId = " CatalogueId";
-        private int _catalogueItemTypeId = 1;
-        private DateTime _created = DateTime.UtcNow;
-        private string _name = "SomeName";
-        private int _publishedStatusId = 1;
-        private string _supplierId;
+        private readonly DateTime created = DateTime.UtcNow;
+
+        private string catalogueItemId = " CatalogueId";
+        private int catalogueItemTypeId = 1;
+        private string name = "SomeName";
+        private int publishedStatusId = 1;
+        private string supplierId;
 
         public static CatalogueItemEntityBuilder Create()
         {
             return new();
         }
 
-        public CatalogueItemEntityBuilder WithCatalogueItemId(string catalogueItemId)
+        public CatalogueItemEntityBuilder WithCatalogueItemId(string id)
         {
-            _catalogueItemId = catalogueItemId;
+            catalogueItemId = id;
             return this;
         }
 
-        public CatalogueItemEntityBuilder WithCatalogueItemTypeId(int catalogueItemTypeId)
+        public CatalogueItemEntityBuilder WithCatalogueItemTypeId(int id)
         {
-            _catalogueItemTypeId = catalogueItemTypeId;
+            catalogueItemTypeId = id;
             return this;
         }
 
-        public CatalogueItemEntityBuilder WithCreated(DateTime created)
+        public CatalogueItemEntityBuilder WithName(string itemName)
         {
-            _created = created;
+            name = itemName;
             return this;
         }
 
-        public CatalogueItemEntityBuilder WithName(string name)
+        public CatalogueItemEntityBuilder WithPublishedStatusId(int id)
         {
-            _name = name;
+            publishedStatusId = id;
             return this;
         }
 
-        public CatalogueItemEntityBuilder WithPublishedStatusId(int publishedStatusId)
+        public CatalogueItemEntityBuilder WithSupplierId(string id)
         {
-            _publishedStatusId = publishedStatusId;
-            return this;
-        }
-
-        public CatalogueItemEntityBuilder WithSupplierId(string supplierId)
-        {
-            _supplierId = supplierId;
+            supplierId = id;
             return this;
         }
 
@@ -57,12 +52,12 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
         {
             return new()
             {
-                CatalogueItemId = _catalogueItemId,
-                CatalogueItemTypeId = _catalogueItemTypeId,
-                Created = _created,
-                PublishedStatusId = _publishedStatusId,
-                Name = _name,
-                SupplierId = _supplierId,
+                CatalogueItemId = catalogueItemId,
+                CatalogueItemTypeId = catalogueItemTypeId,
+                Created = created,
+                PublishedStatusId = publishedStatusId,
+                Name = name,
+                SupplierId = supplierId,
             };
         }
     }

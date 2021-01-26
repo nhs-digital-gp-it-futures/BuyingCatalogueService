@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,35 +12,34 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public int StatusId { get; set; }
 
-        protected override string InsertSql => $@"
-        INSERT INTO [dbo].[SolutionCapability]
-        (
-            [SolutionId]
-            ,[CapabilityId]
-            ,[StatusId]
-            ,[LastUpdated]
-            ,[LastUpdatedBy]
-        )
-        VALUES
-        (
-             @SolutionId
-            ,@CapabilityId
-            ,@StatusId
-            ,@LastUpdated
-            ,@LastUpdatedBy
-        )";
+        protected override string InsertSql => @"
+            INSERT INTO dbo.SolutionCapability
+            (
+                SolutionId,
+                CapabilityId,
+                StatusId,
+                LastUpdated,
+                LastUpdatedBy
+            )
+            VALUES
+            (
+                @SolutionId,
+                @CapabilityId,
+                @StatusId,
+                @LastUpdated,
+                @LastUpdatedBy
+            );";
 
         public static async Task<IEnumerable<string>> FetchForSolutionAsync(string solutionId)
         {
-            return await SqlRunner.FetchAllAsync<string>($@"SELECT
-                                   [Capability].[CapabilityRef]
-                                   FROM SolutionCapability
-                                   INNER JOIN Capability ON SolutionCapability.CapabilityId = Capability.Id
-                                   WHERE SolutionId = @solutionId;", new
-            {
-                solutionId,
-            })
-                .ConfigureAwait(false);
+            const string selectSql = @"
+                SELECT c.CapabilityRef
+                  FROM dbo.SolutionCapability AS s
+                       INNER JOIN Capability AS c
+                               ON s.CapabilityId = c.Id
+                 WHERE s.SolutionId = @solutionId;";
+
+            return await SqlRunner.FetchAllAsync<string>(selectSql, new { solutionId });
         }
     }
 }
