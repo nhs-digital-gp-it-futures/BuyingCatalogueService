@@ -21,7 +21,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Execution
                 return validationResult;
             }
 
-            if (verifier != null)
+            if (verifier is not null)
             {
                 var verifierResult = await verifier.VerifyAsync(request);
 

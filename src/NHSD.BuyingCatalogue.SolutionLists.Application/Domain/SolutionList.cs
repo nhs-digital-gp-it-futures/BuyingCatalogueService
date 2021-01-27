@@ -11,7 +11,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Domain
             IEnumerable<ICapabilityReference> capabilityReferences,
             IEnumerable<ISolutionListResult> solutionListResults)
         {
-            var uniqueCapabilityReferences = new HashSet<string>(capabilityReferences.Select(x => x.Reference));
+            var uniqueCapabilityReferences = new HashSet<string>(capabilityReferences.Select(r => r.Reference));
             var solutions = new Dictionary<string, SolutionListItem>();
             foreach (var result in solutionListResults)
             {

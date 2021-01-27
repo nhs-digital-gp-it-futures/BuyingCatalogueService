@@ -73,7 +73,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
                 ? new Hosting()
                 : JsonConvert.DeserializeObject<Hosting>(solutionResult.Hosting);
 
-            Supplier = solutionSupplierResult != null
+            Supplier = solutionSupplierResult is not null
                 ? new SolutionSupplier(solutionSupplierResult)
                 : new SolutionSupplier();
 
@@ -182,7 +182,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
             {
                 solutionResult.LastUpdated,
                 solutionResult.SolutionDetailLastUpdated,
-                contactResult?.Any() == true ? contactResult.Max(x => x.LastUpdated) : DateTime.MinValue,
+                contactResult?.Any() == true ? contactResult.Max(r => r.LastUpdated) : DateTime.MinValue,
             }.Max();
     }
 }

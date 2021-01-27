@@ -64,11 +64,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers
                     Description = cataloguePrice.TimeUnit.Description,
                 },
                 Price = (cataloguePrice as FlatCataloguePriceDto)?.Price,
-                Tiers = (cataloguePrice as TieredCataloguePriceDto)?.TieredPrices.Select(x => new TierResult
+                Tiers = (cataloguePrice as TieredCataloguePriceDto)?.TieredPrices.Select(p => new TierResult
                 {
-                    Start = x.BandStart,
-                    End = x.BandEnd,
-                    Price = x.Price,
+                    Start = p.BandStart,
+                    End = p.BandEnd,
+                    Price = p.Price,
                 }),
             };
         }

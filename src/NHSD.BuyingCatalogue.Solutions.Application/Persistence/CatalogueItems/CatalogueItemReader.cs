@@ -40,7 +40,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence.CatalogueItems
                 publishedStatus,
                 cancellationToken);
 
-            return result.Select(x => new CatalogueItemDto(x.CatalogueItemId, x.Name));
+            return result.Select(r => new CatalogueItemDto(r.CatalogueItemId, r.Name));
         }
     }
 }

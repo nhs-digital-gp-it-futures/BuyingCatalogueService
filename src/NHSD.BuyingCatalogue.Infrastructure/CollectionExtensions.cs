@@ -15,7 +15,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure
 
         public static Dictionary<TKey, T> FilterNulls<TKey, T>(this Dictionary<TKey, T> dictionary) =>
             dictionary
-            .Where(p => p.Value != null)
+            .Where(p => p.Value is not null)
             .ToDictionary(i => i.Key, i => i.Value);
     }
 }

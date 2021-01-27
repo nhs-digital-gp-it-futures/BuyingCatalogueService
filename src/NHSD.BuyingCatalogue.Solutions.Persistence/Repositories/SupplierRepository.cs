@@ -130,7 +130,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 
         public async Task UpdateSupplierAsync(IUpdateSupplierRequest updateSupplierRequest, CancellationToken cancellationToken)
         {
-            if (updateSupplierRequest == null)
+            if (updateSupplierRequest is null)
             {
                 throw new ArgumentNullException(nameof(updateSupplierRequest));
             }

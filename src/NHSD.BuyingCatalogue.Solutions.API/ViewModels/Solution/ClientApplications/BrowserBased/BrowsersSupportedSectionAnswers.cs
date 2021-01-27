@@ -23,6 +23,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.ClientApplicati
         public string MobileResponsive { get; }
 
         [JsonIgnore]
-        public bool HasData => SupportedBrowsers?.Any() == true || MobileResponsive != null;
+        public bool HasData => SupportedBrowsers?.Any() == true || MobileResponsive is not null;
     }
 }

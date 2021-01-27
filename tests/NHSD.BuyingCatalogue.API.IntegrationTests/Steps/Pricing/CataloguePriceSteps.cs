@@ -82,7 +82,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
 
                 var cataloguePriceId = await price.InsertAsync<int>();
 
-                if (cataloguePrice.CataloguePriceTierRef != null)
+                if (cataloguePrice.CataloguePriceTierRef is not null)
                     cataloguePriceDictionary.Add((int)cataloguePrice.CataloguePriceTierRef, cataloguePriceId);
 
                 if (!string.IsNullOrEmpty(cataloguePrice.CataloguePriceIdRef))
@@ -185,7 +185,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Pricing
             var pricesToken = (await response.ReadBody()).SelectToken(PriceToken);
 
             const string tierToken = "tiers";
-            var tierPrices = pricesToken?.Where(t => t.SelectToken(tierToken) != null);
+            var tierPrices = pricesToken?.Where(t => t.SelectToken(tierToken) is not null);
             var content = tierPrices?.Select(t => new
             {
                 Tier = t.SelectToken(tierToken)?.Select(jToken => new

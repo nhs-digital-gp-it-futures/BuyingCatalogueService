@@ -91,7 +91,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hosting
             privateCloudResult.Link.Should().Be(link);
             privateCloudResult.HostingModel.Should().Be(hostingModel);
 
-            if (requiresHscn == null)
+            if (requiresHscn is null)
             {
                 privateCloudResult.RequiredHscn.Should().BeEmpty();
             }

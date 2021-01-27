@@ -57,13 +57,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.CatalogueItems
         {
             var url = new Url("http://localhost:5200/api/v1/catalogue-items");
 
-            if (supplierId != null)
+            if (supplierId is not null)
                 url.QueryParams.Add(nameof(supplierId), supplierId);
 
-            if (catalogueItemType != null)
+            if (catalogueItemType is not null)
                 url.QueryParams.Add(nameof(catalogueItemType), catalogueItemType);
 
-            if (publishedStatus != null)
+            if (publishedStatus is not null)
                 url.QueryParams.Add(nameof(publishedStatus), publishedStatus);
 
             response.Result = await Client.GetAsync(url.ToString());

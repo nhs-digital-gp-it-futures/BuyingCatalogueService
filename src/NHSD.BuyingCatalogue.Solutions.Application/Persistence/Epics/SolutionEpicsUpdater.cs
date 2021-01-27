@@ -18,7 +18,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence.Epics
         {
             await solutionEpicRepository.UpdateSolutionEpicAsync(
                 solutionId,
-                new UpdateClaimedEpicListRequest(epics.Select(x => new ClaimedEpicResult(x.EpicId, x.StatusName))),
+                new UpdateClaimedEpicListRequest(epics.Select(e => new ClaimedEpicResult(e.EpicId, e.StatusName))),
                 cancellationToken);
         }
     }
