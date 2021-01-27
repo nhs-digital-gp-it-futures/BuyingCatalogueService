@@ -24,7 +24,7 @@ Background:
         | 1                     | 11        |         | 500.00 |
 
 @7840
-Scenario: 1. Get a single Flat Price by CatalogugePriceId
+Scenario: Get a single Flat Price by CatalogugePriceId
     When a GET request is made to retrieve a single price using the PriceId associated with CataloguePriceIdRef priceId1
     Then a successful response is returned
     And a Price is returned
@@ -32,7 +32,7 @@ Scenario: 1. Get a single Flat Price by CatalogugePriceId
         | Flat | OnDemand         | £            | 521.34 | consultation    | per consultation       | consultations       | month        | per month           |
 
 @7840
-Scenario: 2. Get a single Flat Price with NULL TimeUnit by CatalogugePriceId
+Scenario: Get a single Flat Price with NULL TimeUnit by CatalogugePriceId
     When a GET request is made to retrieve a single price using the PriceId associated with CataloguePriceIdRef priceId3
     Then a successful response is returned
     And a Price is returned
@@ -40,7 +40,7 @@ Scenario: 2. Get a single Flat Price with NULL TimeUnit by CatalogugePriceId
         | Flat | OnDemand         | £            | 321.34 | consultation    | per consultation       | consultations       | NULL         | NULL                |
 
 @7840
-Scenario: 3. Get a single Tierred Price by CatalogugePriceId
+Scenario: Get a single Tierred Price by CatalogugePriceId
     When a GET request is made to retrieve a single price using the PriceId associated with CataloguePriceIdRef priceId2
     Then a successful response is returned
     And a Price is returned
@@ -53,6 +53,6 @@ Scenario: 3. Get a single Tierred Price by CatalogugePriceId
         | 11    |     | 500.000 |
 
 @7840
-Scenario: 4. Get a single price with an invalid CatalogugePriceId
+Scenario: Get a single price with an invalid CatalogugePriceId
     When a GET request is made to retrieve a single price using the PriceId associated with CataloguePriceIdRef INVALID
     Then a response status of 404 is returned

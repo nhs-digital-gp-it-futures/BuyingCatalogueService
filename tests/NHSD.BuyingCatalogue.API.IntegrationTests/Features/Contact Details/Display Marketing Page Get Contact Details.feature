@@ -15,7 +15,7 @@ Background:
         | Sln1     | UrlSln1  | The best solution  | [ "Appointments", "Prescribing" ] |
 
 @3655
-Scenario: 1. Both contacts are presented when two exist
+Scenario: Both contacts are presented when two exist
     Given MarketingContacts exist
         | SolutionId | FirstName | LastName   | Email         | PhoneNumber  | DepartmentName |
         | Sln1       | Bob       | Bobbington | bob@bob.bob   | 66666 666666 | Sales          |
@@ -30,7 +30,7 @@ Scenario: 1. Both contacts are presented when two exist
         | Betty     | Bobbington | 99999 999999 | betty@bob.bob  | Complaints     |
 
 @3655
-Scenario: 2. Some Contact Details are missing
+Scenario: Some Contact Details are missing
 Given MarketingContacts exist
         | SolutionId | FirstName | LastName   | Email         | PhoneNumber  | DepartmentName |
         | Sln1       | Bob       |            | bob@bob.bob   | 66666 666666 | Sales          |
@@ -45,7 +45,7 @@ Given MarketingContacts exist
         |           | Bobbington | betty@bob.bob | 99999 999999 |                |
 
 @3655
-Scenario: 3. A single contact is presented when there is only one available
+Scenario: A single contact is presented when there is only one available
     Given MarketingContacts exist
         | SolutionId | FirstName | LastName   | EmailAddress  | PhoneNumber  | DepartmentName |
         | Sln1       | Bob       | Bobbington | bob@bob.bob   | 66666 666666 | Sales          |
@@ -57,7 +57,7 @@ Scenario: 3. A single contact is presented when there is only one available
     And there is no contact-2 for the contact-detail
 
 @3655
-Scenario: 4. No contacts are presented when there aren't any available
+Scenario: No contacts are presented when there aren't any available
     Given No contacts exist for solution Sln1
     When a GET request is made for contact-details section for solution Sln1
     Then a successful response is returned
@@ -65,7 +65,7 @@ Scenario: 4. No contacts are presented when there aren't any available
     And there is no contact-2 for the contact-detail
 
 @3655
-Scenario: 5. Two contacts are presented when more than two are available
+Scenario: Two contacts are presented when more than two are available
     Given MarketingContacts exist
         | SolutionId | FirstName | LastName   | Email         | PhoneNumber  | DepartmentName |
         | Sln1       | Bob       | Bobbington | bob@bob.bob   | 66666 666666 | Sales          |
@@ -82,19 +82,18 @@ Scenario: 5. Two contacts are presented when more than two are available
     And there is no contact-3 for the contact-detail
 
 @3655
-Scenario: 6. Solution not found
+Scenario: Solution not found
     Given a Solution Sln2 does not exist
     When a GET request is made for contact-details section for solution Sln2
     Then a response status of 404 is returned
 
 @3655
-Scenario: 7. Service failure
+Scenario: Service failure
     Given the call to the database to set the field will fail
     When a GET request is made for contact-details section for solution Sln2
     Then a response status of 500 is returned
 
 @3655
-Scenario: 8. Solution id not present in request
+Scenario: Solution id not present in request
     When a GET request is made for contact-details section with no solution id
     Then a response status of 400 is returned
-

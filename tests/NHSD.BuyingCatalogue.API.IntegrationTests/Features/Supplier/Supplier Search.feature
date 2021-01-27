@@ -18,7 +18,7 @@ Background:
         | Sln4       | PracticeMg2    | 3                | Sup 4      | Withdrawn       |
 
 @4840
-Scenario: 1. All suppliers are returned when there are no query parameters
+Scenario: All suppliers are returned when there are no query parameters
     When a GET request is made for suppliers
     Then a successful response is returned
     And a list of suppliers is returned with the following values
@@ -29,7 +29,7 @@ Scenario: 1. All suppliers are returned when there are no query parameters
         | Sup 4 | % Su_p[p&l=ie+r- |
 
 @4840
-Scenario: 2. All suppliers are returned when no name is supplied
+Scenario: All suppliers are returned when no name is supplied
     Given the user has searched for suppliers matching ''
     When a GET request is made for suppliers
     Then a successful response is returned
@@ -41,7 +41,7 @@ Scenario: 2. All suppliers are returned when no name is supplied
         | Sup 4 | % Su_p[p&l=ie+r- |
 
 @4840
-Scenario: 3. All suppliers are returned when no solution publication status is supplied
+Scenario: All suppliers are returned when no solution publication status is supplied
     Given the user has searched for suppliers with solutions matching the publication status ''
     When a GET request is made for suppliers
     Then a successful response is returned
@@ -53,7 +53,7 @@ Scenario: 3. All suppliers are returned when no solution publication status is s
         | Sup 4 | % Su_p[p&l=ie+r- |
 
 @4840
-Scenario: 4. All suppliers are returned when no name and solution publication status are supplied
+Scenario: All suppliers are returned when no name and solution publication status are supplied
     Given the user has searched for suppliers matching ''
     And the user has searched for suppliers with solutions matching the publication status ''
     When a GET request is made for suppliers
@@ -66,7 +66,7 @@ Scenario: 4. All suppliers are returned when no name and solution publication st
         | Sup 4 | % Su_p[p&l=ie+r- |
 
 @4840
-Scenario: 5. No suppliers are returned when none match the name supplied
+Scenario: No suppliers are returned when none match the name supplied
     Given the user has searched for suppliers matching 'InvisibleSupplier'
     When a GET request is made for suppliers
     Then a successful response is returned
@@ -74,7 +74,7 @@ Scenario: 5. No suppliers are returned when none match the name supplied
         | Id         | SupplierName |
 
 @4840
-Scenario: 6. Only suppliers matching the full name supplied are returned
+Scenario: Only suppliers matching the full name supplied are returned
     Given the user has searched for suppliers matching 'Supplier A'
     When a GET request is made for suppliers
     Then a successful response is returned
@@ -83,7 +83,7 @@ Scenario: 6. Only suppliers matching the full name supplied are returned
         | Sup 2 | Supplier A   |
 
 @4840
-Scenario: 7. Only suppliers matching the first part of the name supplied are returned
+Scenario: Only suppliers matching the first part of the name supplied are returned
     Given the user has searched for suppliers matching 'Supplier'
     When a GET request is made for suppliers
     Then a successful response is returned
@@ -93,7 +93,7 @@ Scenario: 7. Only suppliers matching the first part of the name supplied are ret
         | Sup 1 | Supplier B   |
 
 @4840
-Scenario: 8. Only suppliers matching the partial name supplied are returned
+Scenario: Only suppliers matching the partial name supplied are returned
     Given the user has searched for suppliers matching 'a'
     When a GET request is made for suppliers
     Then a successful response is returned
@@ -102,7 +102,7 @@ Scenario: 8. Only suppliers matching the partial name supplied are returned
         | Sup 2 | Supplier A   |
 
 @4840
-Scenario: 9. Only suppliers matching solution publication status supplied are returned
+Scenario: Only suppliers matching solution publication status supplied are returned
     Given the user has searched for suppliers with solutions matching the publication status 'Published'
     When a GET request is made for suppliers
     Then a successful response is returned
