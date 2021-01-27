@@ -9,7 +9,6 @@ using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hosting.PublicCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
-using NHSD.BuyingCatalogue.Solutions.Application.Domain;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.HostingTypes;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Commands.Hosting;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
@@ -43,7 +42,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
             dataMock = new Mock<IUpdatePublicCloudData>();
             dataMock.Setup(d => d.Summary).Returns(() => summary);
             dataMock.Setup(d => d.Link).Returns(() => url);
-            dataMock.Setup(d => d.RequiresHSCN).Returns(() => requiresHscn);
+            dataMock.Setup(d => d.RequiresHscn).Returns(() => requiresHscn);
 
             hosting = new Application.Domain.Hosting
             {
@@ -51,7 +50,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                 {
                     Summary = summary,
                     Link = url,
-                    RequiresHSCN = requiresHscn,
+                    RequiresHscn = requiresHscn,
                 },
             };
 
@@ -116,7 +115,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
 
                 newHosting.PublicCloud.Summary.Should().Be(summary);
                 newHosting.PublicCloud.Link.Should().Be(url);
-                newHosting.PublicCloud.RequiresHSCN.Should().Be(requiresHscn);
+                newHosting.PublicCloud.RequiresHscn.Should().Be(requiresHscn);
             }
 
             Context.MockSolutionDetailRepository

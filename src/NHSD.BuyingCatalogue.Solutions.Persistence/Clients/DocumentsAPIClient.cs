@@ -3,9 +3,9 @@
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.Clients
 {
     /// <summary>
-    /// Extends the automatically generated <see cref="DocumentsAPIClient"/> with a base address.
+    /// Extends the automatically generated <see cref="DocumentsApiClient"/> with a base address.
     /// </summary>
-    public partial class DocumentsAPIClient
+    public partial class DocumentsApiClient
     {
         public Uri BaseAddress
         {

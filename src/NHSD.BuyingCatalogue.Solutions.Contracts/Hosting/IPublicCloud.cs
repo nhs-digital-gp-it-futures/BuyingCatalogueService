@@ -1,4 +1,4 @@
-namespace NHSD.BuyingCatalogue.Solutions.Contracts.Hosting
+﻿namespace NHSD.BuyingCatalogue.Solutions.Contracts.Hosting
 {
     public interface IPublicCloud
     {
@@ -6,6 +6,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Hosting
 
         string Link { get; }
 
-        string RequiresHSCN { get; }
+        string RequiresHscn { get; }
     }
 }

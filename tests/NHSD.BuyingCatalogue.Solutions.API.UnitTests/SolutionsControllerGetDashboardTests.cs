@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -457,7 +456,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             Expression<Func<IPublicCloud, bool>> publicCloud = p =>
                 p.Summary == summary
                 && p.Link == link
-                && p.RequiresHSCN == requiresHscn;
+                && p.RequiresHscn == requiresHscn;
 
             Expression<Func<IHosting, bool>> hosting = h => h.PublicCloud == Mock.Of(publicCloud);
             Expression<Func<ISolution, bool>> solution = s => s.Hosting == Mock.Of(hosting);
@@ -492,7 +491,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 p.Summary == summary
                 && p.Link == link
                 && p.HostingModel == hosting
-                && p.RequiresHSCN == requiresHscn;
+                && p.RequiresHscn == requiresHscn;
 
             Expression<Func<IHosting, bool>> hostingExpression = h => h.PrivateCloud == Mock.Of(privateCloud);
             Expression<Func<ISolution, bool>> solution = s => s.Hosting == Mock.Of(hostingExpression);
@@ -527,7 +526,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 p.Summary == summary
                 && p.Link == link
                 && p.HostingModel == hosting
-                && p.RequiresHSCN == requiresHscn;
+                && p.RequiresHscn == requiresHscn;
 
             Expression<Func<IHosting, bool>> hostingExpression = h => h.OnPremise == Mock.Of(onPremise);
             Expression<Func<ISolution, bool>> solution = s => s.Hosting == Mock.Of(hostingExpression);
@@ -562,7 +561,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 p.Summary == summary
                 && p.Link == link
                 && p.HostingModel == hosting
-                && p.RequiresHSCN == requiresHscn;
+                && p.RequiresHscn == requiresHscn;
 
             Expression<Func<IHosting, bool>> hostingExpression = h => h.HybridHostingType == Mock.Of(hybridHostingType);
             Expression<Func<ISolution, bool>> solution = s => s.Hosting == Mock.Of(hostingExpression);

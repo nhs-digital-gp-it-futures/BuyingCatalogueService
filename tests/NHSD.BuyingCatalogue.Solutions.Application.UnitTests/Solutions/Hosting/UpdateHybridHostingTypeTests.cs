@@ -9,7 +9,6 @@ using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Infrastructure.Exceptions;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hosting.HybridHostingType;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
-using NHSD.BuyingCatalogue.Solutions.Application.Domain;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.HostingTypes;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Commands.Hosting;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
@@ -45,7 +44,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                     Summary = "A summary",
                     Link = "A link",
                     HostingModel = "A _initialHosting model",
-                    RequiresHSCN = "A string",
+                    RequiresHscn = "A string",
                 },
             };
 
@@ -60,7 +59,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
             dataMock.Setup(d => d.Summary).Returns(() => updatedSummary);
             dataMock.Setup(d => d.Link).Returns(() => updatedLink);
             dataMock.Setup(d => d.HostingModel).Returns(() => updatedHostingModel);
-            dataMock.Setup(d => d.RequiresHSCN).Returns(() => updatedRequiresHscn);
+            dataMock.Setup(d => d.RequiresHscn).Returns(() => updatedRequiresHscn);
         }
 
         [Test]
@@ -124,7 +123,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                 newHosting.HybridHostingType.Summary.Should().Be(updatedSummary);
                 newHosting.HybridHostingType.Link.Should().Be(updatedLink);
                 newHosting.HybridHostingType.HostingModel.Should().Be(updatedHostingModel);
-                newHosting.HybridHostingType.RequiresHSCN.Should().BeEquivalentTo(updatedRequiresHscn);
+                newHosting.HybridHostingType.RequiresHscn.Should().BeEquivalentTo(updatedRequiresHscn);
             }
 
             Context.MockSolutionDetailRepository

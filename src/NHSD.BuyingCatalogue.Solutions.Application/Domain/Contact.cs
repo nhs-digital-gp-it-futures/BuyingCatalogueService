@@ -53,8 +53,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 
         private string GetName()
         {
-            var concatName = $"{FirstName} {LastName}".Trim();
-            return string.IsNullOrWhiteSpace(concatName) ? null : concatName;
+            var fullName = $"{FirstName} {LastName}".Trim();
+            return string.IsNullOrWhiteSpace(fullName) ? null : fullName;
         }
     }
 }

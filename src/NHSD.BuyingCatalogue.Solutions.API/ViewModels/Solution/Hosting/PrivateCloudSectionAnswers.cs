@@ -10,7 +10,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Hosting
             Summary = privateCloud?.Summary;
             Link = privateCloud?.Link;
             HostingModel = privateCloud?.HostingModel;
-            RequiresHSCN = privateCloud?.RequiresHSCN;
+            RequiresHscn = privateCloud?.RequiresHscn;
         }
 
         [JsonProperty("summary")]
@@ -23,12 +23,12 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Hosting
         public string HostingModel { get; set; }
 
         [JsonProperty("requires-hscn")]
-        public string RequiresHSCN { get; set; }
+        public string RequiresHscn { get; set; }
 
         [JsonIgnore]
         public bool HasData => !string.IsNullOrWhiteSpace(Summary)
             || !string.IsNullOrWhiteSpace(Link)
             || !string.IsNullOrWhiteSpace(HostingModel)
-            || !string.IsNullOrWhiteSpace(RequiresHSCN);
+            || !string.IsNullOrWhiteSpace(RequiresHscn);
     }
 }

@@ -11,8 +11,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Hosting
             Summary = privateCloud?.Summary;
             Link = privateCloud?.Link;
             HostingModel = privateCloud?.HostingModel;
-            RequiredHscn = privateCloud?.RequiresHSCN is not null
-                ? new HashSet<string> { privateCloud.RequiresHSCN }
+            RequiredHscn = privateCloud?.RequiresHscn is not null
+                ? new HashSet<string> { privateCloud.RequiresHscn }
                 : new HashSet<string>();
         }
 

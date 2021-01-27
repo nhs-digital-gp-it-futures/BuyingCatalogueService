@@ -6,6 +6,6 @@
 
         string Link { get; }
 
-        string RequiresHSCN { get; }
+        string RequiresHscn { get; }
     }
 }
