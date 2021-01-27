@@ -85,7 +85,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
 
             publicResult.Id.Should().Be(SolutionId1);
 
-            if (summary == null && description == null && link == null)
+            if (summary is null && description is null && link is null)
             {
                 publicResult.Sections.SolutionDescription.Should().BeNull();
             }

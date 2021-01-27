@@ -65,7 +65,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview
         {
             if (validationResults is not null)
             {
-                errors.AddRange(validationResults.Where(x => x != null && !x.IsValid).SelectMany(x => x.Errors));
+                errors.AddRange(validationResults.Where(r => r is not null && !r.IsValid).SelectMany(r => r.Errors));
             }
 
             return this;

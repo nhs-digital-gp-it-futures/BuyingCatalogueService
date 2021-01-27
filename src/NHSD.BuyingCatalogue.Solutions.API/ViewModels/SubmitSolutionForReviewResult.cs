@@ -27,7 +27,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels
 
         public static SubmitSolutionForReviewResult Create(IReadOnlyCollection<ValidationError> errors)
         {
-            if (errors == null)
+            if (errors is null)
             {
                 throw new ArgumentNullException(nameof(errors));
             }

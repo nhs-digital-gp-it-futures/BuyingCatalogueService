@@ -19,6 +19,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.ClientApplicati
         public string AdditionalInformation { get; }
 
         [JsonIgnore]
-        public bool HasData => Required != null;
+        public bool HasData => Required is not null;
     }
 }

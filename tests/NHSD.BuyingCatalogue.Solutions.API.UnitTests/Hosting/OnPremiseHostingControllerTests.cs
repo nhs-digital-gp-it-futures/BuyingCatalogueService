@@ -91,7 +91,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hosting
             onPremiseResult.Link.Should().Be(link);
             onPremiseResult.HostingModel.Should().Be(hostingModel);
 
-            if (requiredHscn == null)
+            if (requiredHscn is null)
             {
                 onPremiseResult.RequiresHscn.Should().BeEmpty();
             }

@@ -24,7 +24,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateClaimedEpics
             await verifier.ThrowWhenMissingAsync(request.SolutionId, cancellationToken);
             await updater.UpdateAsync(
                 request.SolutionId,
-                request.Data.Select(x => new ClaimedEpic(x.EpicId, x.StatusName)).ToHashSet(),
+                request.Data.Select(e => new ClaimedEpic(e.EpicId, e.StatusName)).ToHashSet(),
                 cancellationToken);
         }
     }

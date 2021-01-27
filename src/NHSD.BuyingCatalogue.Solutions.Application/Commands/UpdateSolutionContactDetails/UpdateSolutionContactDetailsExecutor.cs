@@ -29,7 +29,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateSolutionCont
         }
 
         private static IEnumerable<IContact> MapContacts(IUpdateSolutionContactDetails details) =>
-            new List<IContact> { ToContact(details.Contact1), ToContact(details.Contact2) }.Where(x => x != null);
+            new List<IContact> { ToContact(details.Contact1), ToContact(details.Contact2) }.Where(c => c is not null);
 
         private static IContact ToContact(IUpdateSolutionContact contact) =>
             contact?.HasData() == true

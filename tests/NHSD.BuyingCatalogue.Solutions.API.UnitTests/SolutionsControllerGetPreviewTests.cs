@@ -429,7 +429,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             var mobileFirstSection = publicResult?.Sections?.ClientApplicationTypes?.Sections?.BrowserBased?.Sections
                 ?.BrowserMobileFirstSection;
 
-            if (result == null)
+            if (result is null)
             {
                 mobileFirstSection.Should().BeNull();
                 return;

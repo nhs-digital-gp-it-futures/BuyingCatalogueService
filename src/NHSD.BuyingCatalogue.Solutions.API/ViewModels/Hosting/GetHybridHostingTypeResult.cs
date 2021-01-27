@@ -11,7 +11,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Hosting
             Summary = hybridHostingType?.Summary;
             Link = hybridHostingType?.Link;
             HostingModel = hybridHostingType?.HostingModel;
-            RequiresHscn = hybridHostingType?.RequiresHscn != null
+            RequiresHscn = hybridHostingType?.RequiresHscn is not null
                 ? new HashSet<string> { hybridHostingType.RequiresHscn }
                 : new HashSet<string>();
         }

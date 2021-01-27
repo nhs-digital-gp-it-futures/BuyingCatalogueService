@@ -24,7 +24,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
 
         public static bool CheckNoDuplicateEpicIds(IEnumerable<string> epicIds)
         {
-            return epicIds.GroupBy(x => x).Any(c => c.Count() > 1);
+            return epicIds.GroupBy(s => s).Any(c => c.Count() > 1);
         }
 
         public async Task<ISimpleResult> VerifyAsync(UpdateClaimedEpicsCommand command)
@@ -34,16 +34,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
                 throw new ArgumentNullException(nameof(command));
             }
 
-            var epics = command.Data.Select(x => new ClaimedEpic(x.EpicId, x.StatusName)).ToHashSet();
+            var epics = command.Data.Select(e => new ClaimedEpic(e.EpicId, e.StatusName)).ToHashSet();
 
-            if (CheckNoDuplicateEpicIds(epics.Select(x => x.EpicId)))
+            if (CheckNoDuplicateEpicIds(epics.Select(e => e.EpicId)))
             {
                 verifyEpicsResult.InvalidEpicsList.Add("epics");
                 return verifyEpicsResult;
             }
 
             var result = await CheckEpicsInformationExist(
-                command.Data.Select(x => new ClaimedEpic(x.EpicId, x.StatusName)).ToHashSet(),
+                command.Data.Select(e => new ClaimedEpic(e.EpicId, e.StatusName)).ToHashSet(),
                 CancellationToken.None);
 
             if (!result)
@@ -56,9 +56,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
 
         public async Task<bool> CheckEpicsInformationExist(ISet<ClaimedEpic> epics, CancellationToken cancellationToken)
         {
-            var epicIdsCount = await CheckEpicIdsExist(epics.Select(x => x.EpicId).ToHashSet(), cancellationToken);
+            var epicIdsCount = await CheckEpicIdsExist(epics.Select(e => e.EpicId).ToHashSet(), cancellationToken);
 
-            var doAllStatusExist = await CheckStatusNamesExist(epics.Select(x => x.StatusName).ToHashSet(), cancellationToken);
+            var doAllStatusExist = await CheckStatusNamesExist(epics.Select(e => e.StatusName).ToHashSet(), cancellationToken);
 
             return epicIdsCount == epics.ToList().Count && doAllStatusExist;
         }

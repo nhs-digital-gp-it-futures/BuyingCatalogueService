@@ -79,7 +79,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hosting
             publicCloudData.Summary.Should().Be(summary);
             publicCloudData.Link.Should().Be(link);
 
-            if (requiresHscn == null)
+            if (requiresHscn is null)
             {
                 publicCloudData.RequiredHscn.Should().BeEmpty();
             }

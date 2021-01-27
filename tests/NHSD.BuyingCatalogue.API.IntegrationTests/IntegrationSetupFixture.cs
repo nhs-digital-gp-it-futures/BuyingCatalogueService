@@ -24,7 +24,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests
             var defaultStringValueRetriever = Service.Instance.ValueRetrievers
                 .FirstOrDefault(vr => vr is TechTalk.SpecFlow.Assist.ValueRetrievers.StringValueRetriever);
 
-            if (defaultStringValueRetriever != null)
+            if (defaultStringValueRetriever is not null)
             {
                 Service.Instance.ValueRetrievers.Unregister(defaultStringValueRetriever);
             }
@@ -32,7 +32,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests
             var defaultDateTimeValueRetriever = Service.Instance.ValueRetrievers
                 .FirstOrDefault(vr => vr is TechTalk.SpecFlow.Assist.ValueRetrievers.DateTimeValueRetriever);
 
-            if (defaultDateTimeValueRetriever != null)
+            if (defaultDateTimeValueRetriever is not null)
             {
                 Service.Instance.ValueRetrievers.Unregister(defaultDateTimeValueRetriever);
             }
