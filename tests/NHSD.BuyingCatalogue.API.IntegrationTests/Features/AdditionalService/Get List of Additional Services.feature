@@ -17,7 +17,7 @@ Background:
         | 100000-002A001  | Red Pill Additional Service        | Sup 1               | Addition to Red Pill      | 100000-002 |
 
 @5352
-Scenario: 1. Get a single additional service from a solutionID
+Scenario: Get a single additional service from a solutionID
     When a Get request is made to retrieve the additional services with solutionIds
         | SolutionId |
         | 100000-001 |
@@ -27,7 +27,7 @@ Scenario: 1. Get a single additional service from a solutionID
         | 100000-001A001  | Write on Time Additional Service 1 | Addition to Write on Time | 100000-001 | Write on Time |
 
 @5352
-Scenario: 2. Get multiple additional services from solutionIDs
+Scenario: Get multiple additional services from solutionIDs
     When a Get request is made to retrieve the additional services with solutionIds
         | SolutionId |
         | 100000-001 |
@@ -39,13 +39,13 @@ Scenario: 2. Get multiple additional services from solutionIDs
         | 100000-002A001  | Red Pill Additional Service        | Addition to Red Pill      | 100000-002 | Take the Red Pill |
 
 @5352
-Scenario: 3. Providing no solution IDs returns not found
+Scenario: Providing no solution IDs returns not found
     When a Get request is made to retrieve the additional services with solutionIds
         | SolutionId |
     Then a response status of 404 is returned
 
 @5352
-Scenario: 4. Providing an invalid solution ID, returns an empty list
+Scenario: Providing an invalid solution ID, returns an empty list
     When a Get request is made to retrieve the additional services with solutionIds
         | SolutionId |
         | INVALID    |
@@ -53,7 +53,7 @@ Scenario: 4. Providing an invalid solution ID, returns an empty list
     And no additional services are returned
 
 @5352
-Scenario: 5. Service failure
+Scenario: Service failure
     Given the call to the database to set the field will fail
     When a Get request is made to retrieve the additional services with solutionIds
         | SolutionId |

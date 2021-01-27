@@ -15,7 +15,7 @@ Background:
         | 100000-001A001  | Write on Time Additional Service 1 | Sup 1               | Addition to Write on Time | 100000-001 |
 
 @7264
-Scenario: 1. Get a single catalogue item
+Scenario: Get a single catalogue item
     When a GET request is made to retrieve a catalogue item with ID '<CatalogueItemId>'
     Then a successful response is returned
     And the response contains the catalogue item details
@@ -28,7 +28,7 @@ Scenario: 1. Get a single catalogue item
         | 100000-001A001  | Write on Time Additional Service 1 |
 
 @7264
-Scenario: 2. Get a catalogue item that does not exist
+Scenario: Get a catalogue item that does not exist
     Given a catalogue item with ID '<CatalogueItemId>' does not exist
     When a GET request is made to retrieve a catalogue item with ID '<CatalogueItemId>'
     Then a response status of 404 is returned
@@ -39,7 +39,7 @@ Scenario: 2. Get a catalogue item that does not exist
         | 100000-001A002  |
 
 @7264
-Scenario: 3. Service failure
+Scenario: Service failure
     Given the call to the database to set the field will fail
     When a GET request is made to retrieve a catalogue item with ID '<CatalogueItemId>'
     Then a response status of 500 is returned

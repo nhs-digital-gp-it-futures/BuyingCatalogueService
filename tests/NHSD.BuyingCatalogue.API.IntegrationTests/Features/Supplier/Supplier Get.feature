@@ -14,7 +14,7 @@ Background:
         | 17201621-07A5-47C9-82E9-7F9CD75CB71C | Sup 1      | Bob       | Smith    | bobsmith@email.com | 0123456789  |
 
 @4621
-Scenario: 1. Get a supplier with a primary contact
+Scenario: Get a supplier with a primary contact
     When a GET request is made to retrieve a supplier by ID Sup 1
     Then a successful response is returned
     And the response contains the following supplier details
@@ -28,7 +28,7 @@ Scenario: 1. Get a supplier with a primary contact
         | Bob       | Smith    | bobsmith@email.com | 0123456789      |
 
 @4621
-Scenario: 2. Get a supplier without a primary contact
+Scenario: Get a supplier without a primary contact
     When a GET request is made to retrieve a supplier by ID Sup 2
     Then a successful response is returned
     And the response contains the following supplier details
@@ -40,7 +40,7 @@ Scenario: 2. Get a supplier without a primary contact
     And the response does not contain a supplier primary contact
 
 @4621
-Scenario: 3. Get a supplier without an address
+Scenario: Get a supplier without an address
     When a GET request is made to retrieve a supplier by ID Sup 3
     Then a successful response is returned
     And the response contains the following supplier details
@@ -49,13 +49,13 @@ Scenario: 3. Get a supplier without an address
     And the response does not contain a supplier address
 
 @4621
-Scenario: 4. Get a supplier that does not exist
+Scenario: Get a supplier that does not exist
     Given a Supplier Sup 4 does not exist
     When a GET request is made to retrieve a supplier by ID Sup 4
     Then a response status of 404 is returned
 
 @4621
-Scenario: 4. Service failure
+Scenario: Service failure
     Given the call to the database to set the field will fail
     When a GET request is made to retrieve a supplier by ID Sup 1
     Then a response status of 500 is returned
