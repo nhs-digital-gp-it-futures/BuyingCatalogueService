@@ -1,11 +1,11 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Commands.Hostings;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Hostings
 {
-    public class UpdateHybridHostingTypeViewModel : IUpdateHybridHostingTypeData
+    public sealed class UpdateHybridHostingTypeViewModel : IUpdateHybridHostingTypeData
     {
         [JsonProperty("summary")]
         public string Summary { get; set; }

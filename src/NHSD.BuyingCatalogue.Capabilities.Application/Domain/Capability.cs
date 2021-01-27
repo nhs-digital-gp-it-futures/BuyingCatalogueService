@@ -12,7 +12,7 @@ namespace NHSD.BuyingCatalogue.Capabilities.Application.Domain
     /// Note that a ‘capability’ has a link to zero or one previous ‘capability’.
     /// Generally, we're only interested in current ‘capability’.
     /// </summary>
-    internal class Capability
+    internal sealed class Capability
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Capability"/> class.

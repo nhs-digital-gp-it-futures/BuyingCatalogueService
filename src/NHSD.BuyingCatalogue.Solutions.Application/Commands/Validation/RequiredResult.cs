@@ -1,10 +1,10 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using NHSD.BuyingCatalogue.Infrastructure;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
 {
-    internal class RequiredResult : ISimpleResult
+    internal sealed class RequiredResult : ISimpleResult
     {
         public bool IsValid => !Required.Any();
 

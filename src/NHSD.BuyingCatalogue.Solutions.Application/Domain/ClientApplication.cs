@@ -1,9 +1,9 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.NativeDesktop;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 {
-    internal class ClientApplication
+    internal sealed class ClientApplication
     {
         public HashSet<string> ClientApplicationTypes { get; set; } = new();
 

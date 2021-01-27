@@ -1,8 +1,8 @@
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
+﻿using NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionMobileOperatingSystems
 {
-    internal class UpdateSolutionMobileOperatingSystemsValidator : IValidator<UpdateSolutionMobileOperatingSystemsCommand, ISimpleResult>
+    internal sealed class UpdateSolutionMobileOperatingSystemsValidator : IValidator<UpdateSolutionMobileOperatingSystemsCommand, ISimpleResult>
     {
         public ISimpleResult Validate(UpdateSolutionMobileOperatingSystemsCommand command) =>
             new RequiredMaxLengthResult(

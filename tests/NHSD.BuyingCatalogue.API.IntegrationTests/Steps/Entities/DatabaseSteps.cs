@@ -5,7 +5,7 @@ using TechTalk.SpecFlow;
 namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
 {
     [Binding]
-    internal class DatabaseSteps
+    internal sealed class DatabaseSteps
     {
         [Given(@"the call to the database to set the field will fail")]
         public static async Task GivenTheCallToTheDatabaseToSetTheFieldFails()

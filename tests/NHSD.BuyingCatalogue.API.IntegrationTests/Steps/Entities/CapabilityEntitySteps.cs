@@ -37,7 +37,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         }
 
         [UsedImplicitly(ImplicitUseTargetFlags.Members)]
-        private class CapabilityTable
+        private sealed class CapabilityTable
         {
             public string CapabilityName { get; init; }
 
