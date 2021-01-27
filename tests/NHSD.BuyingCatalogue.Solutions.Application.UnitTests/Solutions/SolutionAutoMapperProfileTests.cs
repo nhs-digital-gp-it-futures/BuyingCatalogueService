@@ -4,7 +4,7 @@ using System.Linq;
 using AutoMapper.Configuration;
 using FluentAssertions;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain;
-using NHSD.BuyingCatalogue.Solutions.Application.Domain.Hostings;
+using NHSD.BuyingCatalogue.Solutions.Application.Domain.HostingTypes;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.Pricing;
 using NHSD.BuyingCatalogue.Solutions.Application.Domain.Suppliers;
@@ -22,7 +22,7 @@ using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSupplierBySolutionId
 using NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSuppliersByName;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Commands;
-using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Hosting;
 using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Pricing;
@@ -44,8 +44,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             yield return new KeyValuePair<Type, Type>(typeof(Solution), typeof(ISolution));
             yield return new KeyValuePair<Type, Type>(typeof(ClientApplication), typeof(ClientApplicationDto));
             yield return new KeyValuePair<Type, Type>(typeof(ClientApplication), typeof(IClientApplication));
-            yield return new KeyValuePair<Type, Type>(typeof(Hosting), typeof(HostingDto));
-            yield return new KeyValuePair<Type, Type>(typeof(Hosting), typeof(IHosting));
+            yield return new KeyValuePair<Type, Type>(typeof(Application.Domain.Hosting), typeof(HostingDto));
+            yield return new KeyValuePair<Type, Type>(typeof(Application.Domain.Hosting), typeof(IHosting));
             yield return new KeyValuePair<Type, Type>(typeof(Plugins), typeof(PluginsDto));
             yield return new KeyValuePair<Type, Type>(typeof(Plugins), typeof(IPlugins));
             yield return new KeyValuePair<Type, Type>(typeof(Contact), typeof(ContactDto));

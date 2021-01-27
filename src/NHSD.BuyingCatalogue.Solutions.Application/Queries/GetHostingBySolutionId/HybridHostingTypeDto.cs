@@ -1,4 +1,4 @@
-using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Hosting;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutionId
 {
