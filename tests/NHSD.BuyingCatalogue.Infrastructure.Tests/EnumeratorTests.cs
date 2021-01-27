@@ -66,6 +66,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
             var exception = Assert.Throws<InvalidOperationException>(
                 () => _ = Enumerator.FromValue<SizeType>(expectedValue));
 
+            // ReSharper disable once PossibleNullReferenceException
             exception.Message.Should().Be($"'{expectedValue}' is not a valid value in {typeof(SizeType)}");
         }
 
@@ -83,6 +84,7 @@ namespace NHSD.BuyingCatalogue.Infrastructure.Tests
             var exception = Assert.Throws<InvalidOperationException>(
                 () => _ = Enumerator.FromName<SizeType>(expectedName));
 
+            // ReSharper disable once PossibleNullReferenceException
             exception.Message.Should().Be($"'{expectedName}' is not a valid name in {typeof(SizeType)}");
         }
 
