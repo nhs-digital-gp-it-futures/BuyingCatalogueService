@@ -18,8 +18,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Pricing
 
         public decimal? Price { get; set; }
 
-        public int? TieringPeriod { get; set; }
-
         public IEnumerable<TierResult> Tiers { get; set; }
     }
 }

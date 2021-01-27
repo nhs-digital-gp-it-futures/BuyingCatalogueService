@@ -39,11 +39,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Validation
             IEnumerable<string> capabilitiesToMatch,
             CancellationToken cancellationToken)
         {
+            var capabilities = capabilitiesToMatch.ToList();
+
             var count = await solutionCapabilityRepository.GetMatchingCapabilitiesCountAsync(
-                capabilitiesToMatch,
+                capabilities,
                 cancellationToken);
 
-            return count == capabilitiesToMatch.ToList().Count;
+            return count == capabilities.Count;
         }
     }
 }

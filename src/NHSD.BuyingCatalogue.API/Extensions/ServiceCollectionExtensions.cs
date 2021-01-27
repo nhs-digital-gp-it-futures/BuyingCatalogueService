@@ -47,26 +47,30 @@ namespace NHSD.BuyingCatalogue.API.Extensions
         /// <returns>The extended service collection instance.</returns>
         public static IServiceCollection AddCustomMvc(this IServiceCollection services)
         {
-            Action<MvcOptions> op = options =>
+            static void ControllerOptions(MvcOptions options)
             {
                 options.Filters.Add(typeof(CustomExceptionFilter));
                 options.Filters.Add<SerilogLoggingActionFilter>();
-            };
+            }
 
-            Action<IMvcBuilder> controllerAction = builder => builder
-                .AddNewtonsoftJson(jsonOptions =>
-                {
-                    jsonOptions.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-                    jsonOptions.SerializerSettings.Converters.Add(new TrimmingConverter());
-                    jsonOptions.SerializerSettings.Converters.Add(new StringEnumConverter());
-                })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            static void ControllerAction(IMvcBuilder builder)
+            {
+                builder
+                    .AddNewtonsoftJson(
+                        jsonOptions =>
+                        {
+                            jsonOptions.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                            jsonOptions.SerializerSettings.Converters.Add(new TrimmingConverter());
+                            jsonOptions.SerializerSettings.Converters.Add(new StringEnumConverter());
+                        })
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            }
 
             services
                 .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
-                .RegisterCapabilityController(op, controllerAction)
-                .RegisterSolutionListController(op, controllerAction)
-                .RegisterSolutionController(op, controllerAction);
+                .RegisterCapabilityController(ControllerOptions, ControllerAction)
+                .RegisterSolutionListController(ControllerOptions, ControllerAction)
+                .RegisterSolutionController(ControllerOptions, ControllerAction);
 
             return services;
         }
@@ -81,17 +85,17 @@ namespace NHSD.BuyingCatalogue.API.Extensions
         {
             services.AddHealthChecks()
                   .AddCheck(
-                      name: "self",
-                      check: () => HealthCheckResult.Healthy(),
-                      tags: new[] { HealthCheckTags.Live })
+                      "self",
+                      () => HealthCheckResult.Healthy(),
+                      new[] { HealthCheckTags.Live })
                   .AddUrlGroup(
-                      uri: new Uri($"{settings?.DocumentApiBaseUrl}/health/live"),
-                      name: "DocumentAPI",
-                      failureStatus: HealthStatus.Degraded,
-                      tags: new[] { HealthCheckTags.Ready },
-                      timeout: TimeSpan.FromSeconds(5))
+                      new Uri($"{settings?.DocumentApiBaseUrl}/health/live"),
+                      "DocumentAPI",
+                      HealthStatus.Degraded,
+                      new[] { HealthCheckTags.Ready },
+                      TimeSpan.FromSeconds(5))
                   .AddSqlServer(
-                      connectionString: settings?.ConnectionString,
+                      settings?.ConnectionString,
                       name: "db",
                       healthQuery: "SELECT 1;",
                       failureStatus: HealthStatus.Unhealthy,

@@ -29,6 +29,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingBySolutio
 
             foreach (var price in prices)
             {
+                // ReSharper disable once ConvertIfStatementToSwitchStatement
                 if (price is CataloguePriceFlat cataloguePriceFlat)
                 {
                     cataloguePrices.Add(new FlatCataloguePriceDto

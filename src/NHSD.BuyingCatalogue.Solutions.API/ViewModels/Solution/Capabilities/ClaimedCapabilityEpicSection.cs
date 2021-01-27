@@ -9,11 +9,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Capabilities
     {
         public ClaimedCapabilityEpicSection(IEnumerable<IClaimedCapabilityEpic> claimedCapabilityEpics)
         {
-            var mustEpics = claimedCapabilityEpics
+            var epics = claimedCapabilityEpics.ToList();
+
+            var mustEpics = epics
                 .Where(e => e.EpicCompliancyLevel.Equals("MUST", StringComparison.OrdinalIgnoreCase))
                 .ToList();
 
-            var mayEpics = claimedCapabilityEpics
+            var mayEpics = epics
                 .Where(e => e.EpicCompliancyLevel.Equals("MAY", StringComparison.OrdinalIgnoreCase))
                 .ToList();
 

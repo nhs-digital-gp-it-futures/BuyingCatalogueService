@@ -1071,6 +1071,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task EmptyContactShouldReturnNoData()
         {
+#pragma warning disable CA1820 // Test for empty strings using string length (mock set-up)
             Expression<Func<IContact, bool>> contact1 = m =>
                 m.Name == null
                 && m.Department == string.Empty
@@ -1082,6 +1083,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 && m.Department == string.Empty
                 && m.Email == string.Empty
                 && m.PhoneNumber == string.Empty;
+#pragma warning restore CA1820 // Test for empty strings using string length
 
             var contacts = new List<IContact>
             {
@@ -1359,6 +1361,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task SingleContactShouldReturnNullForEmptyData()
         {
+#pragma warning disable CA1820 // Test for empty strings using string length (mock set-up)
             Expression<Func<IContact, bool>> contact1 = m =>
                 m.Name == "Hello"
                 && m.Department == string.Empty
@@ -1370,6 +1373,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 && m.Department == string.Empty
                 && m.Email == string.Empty
                 && m.PhoneNumber == string.Empty;
+#pragma warning restore CA1820 // Test for empty strings using string length
 
             var contacts = new List<IContact>
             {

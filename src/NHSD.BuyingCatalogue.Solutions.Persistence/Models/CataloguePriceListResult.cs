@@ -4,32 +4,32 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
 {
     public sealed class CataloguePriceListResult : ICataloguePriceListResult
     {
-        public int CataloguePriceId { get; set; }
+        public int CataloguePriceId { get; init; }
 
-        public string CatalogueItemName { get; set; }
+        public string CatalogueItemName { get; init; }
 
-        public string CatalogueItemId { get; set; }
+        public string CatalogueItemId { get; init; }
 
-        public int CataloguePriceTypeId { get; set; }
+        public int CataloguePriceTypeId { get; init; }
 
-        public string PricingUnitName { get; set; }
+        public string PricingUnitName { get; init; }
 
-        public string PricingUnitDescription { get; set; }
+        public string PricingUnitDescription { get; init; }
 
-        public string PricingUnitTierName { get; set; }
+        public string PricingUnitTierName { get; init; }
 
-        public int ProvisioningTypeId { get; }
+        public int ProvisioningTypeId { get; init; }
 
-        public int? TimeUnitId { get; set; }
+        public int? TimeUnitId { get; init; }
 
-        public string CurrencyCode { get; set; }
+        public string CurrencyCode { get; init; }
 
-        public decimal? FlatPrice { get; set; }
+        public decimal? FlatPrice { get; init; }
 
-        public int? BandStart { get; set; }
+        public int? BandStart { get; init; }
 
-        public int? BandEnd { get; set; }
+        public int? BandEnd { get; init; }
 
-        public decimal? TieredPrice { get; set; }
+        public decimal? TieredPrice { get; init; }
     }
 }

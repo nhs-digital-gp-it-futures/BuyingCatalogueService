@@ -8,7 +8,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands
 {
     internal class Handler<T, TResult> : IRequestHandler<T, TResult>
         where TResult : IResult
-        where T : IRequest<TResult> // Mediatr requires this
+        where T : IRequest<TResult> // MediatR requires this
     {
         private readonly IExecutor<T> executor;
         private readonly IValidator<T, TResult> validator;

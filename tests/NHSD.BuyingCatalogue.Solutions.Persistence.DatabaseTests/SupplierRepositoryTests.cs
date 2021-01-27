@@ -12,7 +12,7 @@ using NUnit.Framework;
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 {
     [TestFixture]
-    public sealed class SupplierRepositoryTests
+    internal sealed class SupplierRepositoryTests
     {
         private const string SupplierId = "Sup 1";
         private const string SolutionId = "Sln1";

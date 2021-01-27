@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -301,9 +302,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
         [Test]
         public async Task ShouldGetDashboardWithEmptyContacts()
         {
+#pragma warning disable CA1820 // Test for empty strings using string length (mock set-up)
             Expression<Func<IContact, bool>> contact = c =>
                 c.Name == string.Empty
                 && c.Department == "            ";
+#pragma warning restore CA1820 // Test for empty strings using string length
 
             var contactMock = new List<IContact>
             {

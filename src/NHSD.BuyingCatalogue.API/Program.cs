@@ -26,14 +26,18 @@ namespace NHSD.BuyingCatalogue.API
             try
             {
                 Log.Information("Starting host");
+
+                // TODO: determine exceptions that might be thrown to avoid catching Exception
                 CreateHostBuilder(args).Build().Run();
                 return 0;
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
             {
                 Log.Fatal(ex, "Host terminated unexpectedly");
                 return 1;
             }
+#pragma warning restore CA1031 // Do not catch general exception types
             finally
             {
                 Log.CloseAndFlush();

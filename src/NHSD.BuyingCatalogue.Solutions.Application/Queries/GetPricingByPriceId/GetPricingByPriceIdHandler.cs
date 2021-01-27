@@ -26,11 +26,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingByPriceId
         {
             var price = await pricingReader.GetByPriceIdAsync(request.PriceId, cancellationToken);
 
-            ICataloguePrice cataloguePrice = null;
-
-            if (price is CataloguePriceFlat cataloguePriceFlat)
+            ICataloguePrice cataloguePrice = price switch
             {
-                cataloguePrice = new FlatCataloguePriceDto
+                CataloguePriceFlat cataloguePriceFlat => new FlatCataloguePriceDto
                 {
                     CataloguePriceId = price.CataloguePriceId,
                     CatalogueItemName = price.CatalogueItemName,
@@ -41,11 +39,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingByPriceId
                     PricingUnit = mapper.Map<IPricingUnit>(price.PricingUnit),
                     TimeUnit = mapper.Map<ITimeUnit>(price.TimeUnit),
                     Price = cataloguePriceFlat.Price,
-                };
-            }
-            else if (price is CataloguePriceTier cataloguePriceTier)
-            {
-                cataloguePrice = new TieredCataloguePriceDto
+                },
+                CataloguePriceTier cataloguePriceTier => new TieredCataloguePriceDto
                 {
                     CatalogueItemId = price.CatalogueItemId,
                     CatalogueItemName = price.CatalogueItemName,
@@ -56,8 +51,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetPricingByPriceId
                     PricingUnit = mapper.Map<IPricingUnit>(price.PricingUnit),
                     TimeUnit = mapper.Map<ITimeUnit>(price.TimeUnit),
                     TieredPrices = mapper.Map<IEnumerable<ITieredPrice>>(cataloguePriceTier.TieredPrices),
-                };
-            }
+                },
+                _ => null,
+            };
 
             return cataloguePrice;
         }
