@@ -858,7 +858,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             Expression<Func<IPublicCloud, bool>> publicCloud = p =>
                 p.Summary == summary
                 && p.Link == url
-                && p.RequiresHSCN == requiresHscn;
+                && p.RequiresHscn == requiresHscn;
 
             Expression<Func<IHosting, bool>> hosting = h =>
                 h.PublicCloud == Mock.Of(publicCloud);
@@ -873,7 +873,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             {
                 publicResult.Sections.PublicCloud.Answers.Summary.Should().Be(summary);
                 publicResult.Sections.PublicCloud.Answers.Link.Should().Be(url);
-                publicResult.Sections.PublicCloud.Answers.RequiresHSCN.Should().Be(requiresHscn);
+                publicResult.Sections.PublicCloud.Answers.RequiresHscn.Should().Be(requiresHscn);
 
                 publicResult.Sections.PublicCloud.Answers.HasData.Should().BeTrue();
             }
@@ -914,7 +914,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 p.Summary == summary
                 && p.Link == link
                 && p.HostingModel == hosting
-                && p.RequiresHSCN == connectivityRequired;
+                && p.RequiresHscn == connectivityRequired;
 
             Expression<Func<IHosting, bool>> hostingExpression = h =>
                 h.PrivateCloud == Mock.Of(privateCloud);
@@ -930,7 +930,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 publicResult.Sections.PrivateCloud.Answers.Summary.Should().Be(summary);
                 publicResult.Sections.PrivateCloud.Answers.Link.Should().Be(link);
                 publicResult.Sections.PrivateCloud.Answers.HostingModel.Should().Be(hosting);
-                publicResult.Sections.PrivateCloud.Answers.RequiresHSCN.Should().Be(connectivityRequired);
+                publicResult.Sections.PrivateCloud.Answers.RequiresHscn.Should().Be(connectivityRequired);
 
                 publicResult.Sections.PrivateCloud.Answers.HasData.Should().BeTrue();
             }
@@ -971,7 +971,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 p.Summary == summary
                 && p.Link == link
                 && p.HostingModel == hosting
-                && p.RequiresHSCN == requiresHscn;
+                && p.RequiresHscn == requiresHscn;
 
             Expression<Func<IHosting, bool>> hostingExpression = h =>
                 h.OnPremise == Mock.Of(onPremise);
@@ -987,7 +987,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 publicResult.Sections.OnPremise.Answers.Summary.Should().Be(summary);
                 publicResult.Sections.OnPremise.Answers.Link.Should().Be(link);
                 publicResult.Sections.OnPremise.Answers.HostingModel.Should().Be(hosting);
-                publicResult.Sections.OnPremise.Answers.RequiresHSCN.Should().Be(requiresHscn);
+                publicResult.Sections.OnPremise.Answers.RequiresHscn.Should().Be(requiresHscn);
 
                 publicResult.Sections.OnPremise.Answers.HasData.Should().BeTrue();
             }
@@ -1028,7 +1028,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 p.Summary == summary
                 && p.Link == link
                 && p.HostingModel == hosting
-                && p.RequiresHSCN == requiresHscn;
+                && p.RequiresHscn == requiresHscn;
 
             Expression<Func<IHosting, bool>> hostingExpression = h =>
                 h.HybridHostingType == Mock.Of(hybridHostingType);
@@ -1044,7 +1044,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
                 publicResult.Sections.HybridHostingType.Answers.Summary.Should().Be(summary);
                 publicResult.Sections.HybridHostingType.Answers.Link.Should().Be(link);
                 publicResult.Sections.HybridHostingType.Answers.HostingModel.Should().Be(hosting);
-                publicResult.Sections.HybridHostingType.Answers.RequiresHSCN.Should().Be(requiresHscn);
+                publicResult.Sections.HybridHostingType.Answers.RequiresHscn.Should().Be(requiresHscn);
 
                 publicResult.Sections.HybridHostingType.Answers.HasData.Should().BeTrue();
             }

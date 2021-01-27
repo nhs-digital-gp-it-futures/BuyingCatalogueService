@@ -70,7 +70,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hosting
                 p.Summary == summary
                 && p.Link == link
                 && p.HostingModel == hostingModel
-                && p.RequiresHSCN == requiresHscn;
+                && p.RequiresHscn == requiresHscn;
 
             mediatorMock
                 .Setup(m => m.Send(

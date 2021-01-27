@@ -11,8 +11,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Hosting
             Summary = hybridHostingType?.Summary;
             Link = hybridHostingType?.Link;
             HostingModel = hybridHostingType?.HostingModel;
-            RequiresHSCN = hybridHostingType?.RequiresHSCN != null
-                ? new HashSet<string> { hybridHostingType.RequiresHSCN }
+            RequiresHscn = hybridHostingType?.RequiresHscn != null
+                ? new HashSet<string> { hybridHostingType.RequiresHscn }
                 : new HashSet<string>();
         }
 
@@ -26,6 +26,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Hosting
         public string HostingModel { get; set; }
 
         [JsonProperty("requires-hscn")]
-        public HashSet<string> RequiresHSCN { get; }
+        public HashSet<string> RequiresHscn { get; }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
+﻿using Newtonsoft.Json;
+
+namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 {
     internal sealed class OnPremise
     {
@@ -8,6 +10,7 @@
 
         public string HostingModel { get; set; }
 
-        public string RequiresHSCN { get; set; }
+        [JsonProperty("RequiresHSCN")]
+        public string RequiresHscn { get; set; }
     }
 }

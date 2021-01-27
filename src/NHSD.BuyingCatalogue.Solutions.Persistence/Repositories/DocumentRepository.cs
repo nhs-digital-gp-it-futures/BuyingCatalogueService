@@ -9,7 +9,6 @@ using NHSD.BuyingCatalogue.Contracts.Infrastructure;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 using NHSD.BuyingCatalogue.Solutions.Persistence.Clients;
 using NHSD.BuyingCatalogue.Solutions.Persistence.Models;
-using IDocumentsAPIClient = NHSD.BuyingCatalogue.Solutions.Persistence.Clients.IDocumentsAPIClient;
 
 namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
 {
@@ -18,11 +17,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
     /// </summary>
     internal sealed class DocumentRepository : IDocumentRepository
     {
-        private readonly IDocumentsAPIClient client;
+        private readonly IDocumentsApiClient client;
         private readonly ILogger<DocumentRepository> logger;
         private readonly ISettings settings;
 
-        public DocumentRepository(IDocumentsAPIClient client, ISettings settings, ILogger<DocumentRepository> logger)
+        public DocumentRepository(IDocumentsApiClient client, ISettings settings, ILogger<DocumentRepository> logger)
         {
             this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));

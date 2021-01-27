@@ -184,7 +184,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             solution.Hosting.PublicCloud.Should().NotBeNull();
             solution.Hosting.PublicCloud.Summary.Should().Be("Some summary");
             solution.Hosting.PublicCloud.Link.Should().Be("some link");
-            solution.Hosting.PublicCloud.RequiresHSCN.Should().Be("It is required");
+            solution.Hosting.PublicCloud.RequiresHscn.Should().Be("It is required");
 
             Expression<Func<IClaimedCapability, bool>> capability1Expression = c =>
                 c.Name == "cap1"

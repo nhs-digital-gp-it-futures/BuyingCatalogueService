@@ -1,4 +1,5 @@
-﻿using NHSD.BuyingCatalogue.Solutions.Contracts.Hosting;
+﻿using Newtonsoft.Json;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Hosting;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Domain.HostingTypes
 {
@@ -10,6 +11,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain.HostingTypes
 
         public string HostingModel { get; set; }
 
-        public string RequiresHSCN { get; set; }
+        [JsonProperty("RequiresHSCN")]
+        public string RequiresHscn { get; set; }
     }
 }

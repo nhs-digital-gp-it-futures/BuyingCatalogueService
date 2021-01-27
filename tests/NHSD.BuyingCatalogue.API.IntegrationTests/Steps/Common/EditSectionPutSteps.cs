@@ -254,7 +254,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             public string Link { get; set; }
 
             [JsonProperty("requires-hscn")]
-            public List<string> RequiresHSCN { get; set; }
+            public List<string> RequiresHscn { get; set; }
         }
 
         private sealed class HostingPrivateCloudPayload
@@ -269,7 +269,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             public string HostingModel { get; set; }
 
             [JsonProperty("requires-hscn")]
-            public List<string> RequiresHSCN { get; set; }
+            public List<string> RequiresHscn { get; set; }
         }
 
         private sealed class HostingOnPremisePayload
@@ -284,7 +284,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             public string HostingModel { get; set; }
 
             [JsonProperty("requires-hscn")]
-            public List<string> RequiresHSCN { get; set; }
+            public List<string> RequiresHscn { get; set; }
         }
 
         private sealed class HostingHybridHostingTypePayload
@@ -299,7 +299,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             public string HostingModel { get; set; }
 
             [JsonProperty("requires-hscn")]
-            public List<string> RequiresHSCN { get; set; }
+            public List<string> RequiresHscn { get; set; }
         }
 
         private sealed class RoadMapPayload

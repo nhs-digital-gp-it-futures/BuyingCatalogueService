@@ -10,8 +10,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Hosting
         {
             Summary = publicCloud?.Summary;
             Link = publicCloud?.Link;
-            RequiredHscn = publicCloud?.RequiresHSCN is not null
-                ? new HashSet<string> { publicCloud.RequiresHSCN }
+            RequiredHscn = publicCloud?.RequiresHscn is not null
+                ? new HashSet<string> { publicCloud.RequiresHscn }
                 : new HashSet<string>();
         }
 

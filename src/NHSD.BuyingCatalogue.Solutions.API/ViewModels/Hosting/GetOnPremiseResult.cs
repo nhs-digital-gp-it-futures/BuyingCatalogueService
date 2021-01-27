@@ -11,8 +11,8 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Hosting
             Summary = premise?.Summary;
             Link = premise?.Link;
             HostingModel = premise?.HostingModel;
-            RequiresHSCN = premise?.RequiresHSCN is not null
-                ? new HashSet<string> { premise.RequiresHSCN }
+            RequiresHscn = premise?.RequiresHscn is not null
+                ? new HashSet<string> { premise.RequiresHscn }
                 : new HashSet<string>();
         }
 
@@ -26,6 +26,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Hosting
         public string HostingModel { get; }
 
         [JsonProperty("requires-hscn")]
-        public HashSet<string> RequiresHSCN { get; }
+        public HashSet<string> RequiresHscn { get; }
     }
 }

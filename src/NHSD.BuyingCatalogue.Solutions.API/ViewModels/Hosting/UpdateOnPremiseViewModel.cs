@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Commands.Hosting;
@@ -17,14 +17,14 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Hosting
         public string HostingModel { get; set; }
 
         [JsonProperty("requires-hscn")]
-        public HashSet<string> RequiresHSCNArray { get; internal set; } = new();
+        public HashSet<string> RequiresHscnArray { get; internal set; } = new();
 
         [JsonIgnore]
-        public string RequiresHSCN
+        public string RequiresHscn
         {
             get
             {
-                return RequiresHSCNArray.FirstOrDefault();
+                return RequiresHscnArray.FirstOrDefault();
             }
         }
     }

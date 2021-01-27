@@ -8,6 +8,6 @@
 
         string HostingModel { get; }
 
-        string RequiresHSCN { get; }
+        string RequiresHscn { get; }
     }
 }

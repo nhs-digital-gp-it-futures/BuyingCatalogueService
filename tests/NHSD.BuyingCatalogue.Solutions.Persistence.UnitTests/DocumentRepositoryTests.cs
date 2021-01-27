@@ -22,7 +22,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.UnitTests
         private const string DocumentSolutionIdentifier = "Solution";
         private const string SolutionId = "Sln1";
 
-        private Mock<IDocumentsAPIClient> apiClientMock;
+        private Mock<IDocumentsApiClient> apiClientMock;
         private CancellationToken cancellationToken;
         private Mock<ILogger<DocumentRepository>> loggerMock;
         private Mock<ISettings> settingsMock;
@@ -30,7 +30,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.UnitTests
         [SetUp]
         public void Setup()
         {
-            apiClientMock = new Mock<IDocumentsAPIClient>();
+            apiClientMock = new Mock<IDocumentsApiClient>();
             apiClientMock.SetupAllProperties();
 
             settingsMock = new Mock<ISettings>();

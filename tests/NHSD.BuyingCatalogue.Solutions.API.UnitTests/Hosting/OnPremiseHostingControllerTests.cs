@@ -70,7 +70,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hosting
                 p.Summary == summary
                 && p.Link == link
                 && p.HostingModel == hostingModel
-                && p.RequiresHSCN == requiredHscn;
+                && p.RequiresHscn == requiredHscn;
 
             mediatorMock
                 .Setup(m => m.Send(
@@ -93,11 +93,11 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hosting
 
             if (requiredHscn == null)
             {
-                onPremiseResult.RequiresHSCN.Should().BeEmpty();
+                onPremiseResult.RequiresHscn.Should().BeEmpty();
             }
             else
             {
-                onPremiseResult.RequiresHSCN.Should().BeEquivalentTo(requiredHscn);
+                onPremiseResult.RequiresHscn.Should().BeEquivalentTo(requiredHscn);
             }
         }
 
@@ -122,7 +122,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hosting
             onPremiseResult.Summary.Should().BeNull();
             onPremiseResult.Link.Should().BeNull();
             onPremiseResult.HostingModel.Should().BeNull();
-            onPremiseResult.RequiresHSCN.Should().BeEmpty();
+            onPremiseResult.RequiresHscn.Should().BeEmpty();
         }
 
         [Test]

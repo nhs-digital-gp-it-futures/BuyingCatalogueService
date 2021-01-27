@@ -21,7 +21,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.Hosting.PublicClou
                     {
                         Summary = request.Data.Summary,
                         Link = request.Data.Link,
-                        RequiresHSCN = request.Data.RequiresHSCN,
+                        RequiresHscn = request.Data.RequiresHscn,
                     };
                 },
                 cancellationToken);

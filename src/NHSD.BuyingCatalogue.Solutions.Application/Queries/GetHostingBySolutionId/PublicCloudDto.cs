@@ -8,6 +8,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetHostingBySolutio
 
         public string Link { get; set; }
 
-        public string RequiresHSCN { get; set; }
+        public string RequiresHscn { get; set; }
     }
 }

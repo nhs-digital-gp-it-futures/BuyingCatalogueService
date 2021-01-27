@@ -44,7 +44,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                     Summary = "A summary",
                     Link = "A link",
                     HostingModel = "A _initialHosting model",
-                    RequiresHSCN = "A string",
+                    RequiresHscn = "A string",
                 },
             };
 
@@ -59,7 +59,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
             dataMock.Setup(d => d.Summary).Returns(() => updatedSummary);
             dataMock.Setup(d => d.Link).Returns(() => updatedLink);
             dataMock.Setup(d => d.HostingModel).Returns(() => updatedHostingModel);
-            dataMock.Setup(d => d.RequiresHSCN).Returns(() => updatedRequiresHscn);
+            dataMock.Setup(d => d.RequiresHscn).Returns(() => updatedRequiresHscn);
         }
 
         [Test]
@@ -124,7 +124,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                 newHosting.PrivateCloud.Summary.Should().Be(updatedSummary);
                 newHosting.PrivateCloud.Link.Should().Be(updatedLink);
                 newHosting.PrivateCloud.HostingModel.Should().Be(updatedHostingModel);
-                newHosting.PrivateCloud.RequiresHSCN.Should().BeEquivalentTo(updatedRequiresHscn);
+                newHosting.PrivateCloud.RequiresHscn.Should().BeEquivalentTo(updatedRequiresHscn);
             }
 
             Context.MockSolutionDetailRepository

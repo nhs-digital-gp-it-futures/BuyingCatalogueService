@@ -1,3 +1,5 @@
+﻿using Newtonsoft.Json;
+
 namespace NHSD.BuyingCatalogue.Solutions.Application.Domain.HostingTypes
 {
     internal sealed class PublicCloud
@@ -6,6 +8,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain.HostingTypes
 
         public string Link { get; set; }
 
-        public string RequiresHSCN { get; set; }
+        [JsonProperty("RequiresHSCN")]
+        public string RequiresHscn { get; set; }
     }
 }

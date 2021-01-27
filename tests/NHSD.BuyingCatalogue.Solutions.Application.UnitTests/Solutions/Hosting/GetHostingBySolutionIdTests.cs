@@ -43,28 +43,28 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                 {
                     Summary = "Some Summary",
                     Link = "www.somelink.com",
-                    RequiresHSCN = "This Solution requires a HSCN/N3 connection",
+                    RequiresHscn = "This Solution requires a HSCN/N3 connection",
                 },
                 PrivateCloud = new PrivateCloud
                 {
                     Summary = "Private Summary",
                     Link = "www.privatelink.com",
                     HostingModel = "Hosting Model",
-                    RequiresHSCN = "How much wood would a woodchuck chuck if a woodchuck could chuck wood?",
+                    RequiresHscn = "How much wood would a woodchuck chuck if a woodchuck could chuck wood?",
                 },
                 HybridHostingType = new HybridHostingType
                 {
                     Summary = "Private Summary",
                     Link = "www.privatelink.com",
                     HostingModel = "Hosting Model",
-                    RequiresHSCN = "This Solution requires a HSCN/N3 connection",
+                    RequiresHscn = "This Solution requires a HSCN/N3 connection",
                 },
                 OnPremise = new OnPremise
                 {
                     Summary = "Private Summary",
                     Link = "www.privatelink.com",
                     HostingModel = "Hosting Model",
-                    RequiresHSCN = "This Solution requires a HSCN/N3 connection",
+                    RequiresHscn = "This Solution requires a HSCN/N3 connection",
                 },
             };
 

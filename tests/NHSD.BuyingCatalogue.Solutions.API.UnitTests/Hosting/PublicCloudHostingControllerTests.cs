@@ -59,7 +59,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hosting
             Expression<Func<IPublicCloud, bool>> publicCloud = p =>
                 p.Summary == summary
                 && p.Link == link
-                && p.RequiresHSCN == requiresHscn;
+                && p.RequiresHscn == requiresHscn;
 
             mediatorMock
                 .Setup(m => m.Send(
@@ -119,7 +119,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hosting
             {
                 Summary = "New Summary",
                 Link = "New URL",
-                RequiresHSCNArray = new HashSet<string> { "New requires HSCN" },
+                RequiresHscnArray = new HashSet<string> { "New requires HSCN" },
             };
 
             var result = await publicCloudHostingController.UpdatePublicCloudHosting(SolutionId, request) as NoContentResult;
@@ -154,7 +154,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests.Hosting
             Expression<Func<UpdatePublicCloudCommand, bool>> match = c =>
                 c.Data.Summary == request.Summary
                 && c.Data.Link == request.Link
-                && c.Data.RequiresHSCN == request.RequiresHSCN
+                && c.Data.RequiresHscn == request.RequiresHscn
                 && c.SolutionId == SolutionId;
 
             mediatorMock.Verify(m => m.Send(It.Is(match), It.IsAny<CancellationToken>()));
