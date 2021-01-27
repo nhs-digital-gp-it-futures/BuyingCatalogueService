@@ -52,11 +52,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Domain
         {
             const int expectedValue = 4;
 
-            var exception = Assert.Throws<InvalidOperationException>(() =>
-            {
-                _ = Enumerator.FromValue<SupplierStatus>(expectedValue);
-            });
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => _ = Enumerator.FromValue<SupplierStatus>(expectedValue));
 
+            // ReSharper disable once PossibleNullReferenceException
             exception.Message.Should().Be($"'{expectedValue}' is not a valid value in {typeof(SupplierStatus)}");
         }
 
@@ -71,11 +70,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Domain
         {
             const string expectedName = "Test";
 
-            var exception = Assert.Throws<InvalidOperationException>(() =>
-            {
-                _ = Enumerator.FromName<SupplierStatus>(expectedName);
-            });
+            var exception = Assert.Throws<InvalidOperationException>(
+                () => _ = Enumerator.FromName<SupplierStatus>(expectedName));
 
+            // ReSharper disable once PossibleNullReferenceException
             exception.Message.Should().Be($"'{expectedName}' is not a valid name in {typeof(SupplierStatus)}");
         }
 
