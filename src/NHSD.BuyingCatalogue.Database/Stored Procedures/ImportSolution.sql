@@ -1,19 +1,19 @@
 ﻿CREATE PROCEDURE import.ImportSolution
-     @SolutionId varchar(14),
-     @SolutionName varchar(255),
+     @SolutionId nvarchar(14),
+     @SolutionName nvarchar(255),
      @IsFoundation bit,
      @Capabilities import.SolutionCapability READONLY
 AS
     SET NOCOUNT ON;
 
-    DECLARE @supplierId AS varchar(6) = import.GetSupplierId(@SolutionId);
+    DECLARE @supplierId AS nvarchar(6) = import.GetSupplierId(@SolutionId);
 
     IF NOT EXISTS (SELECT * FROM dbo.Supplier WHERE Id = @supplierId)
         THROW 51000, 'Supplier record does not exist.', 1;
 
     DECLARE @draftPublicationStatus AS int = (SELECT Id FROM dbo.PublicationStatus WHERE [Name] = 'Draft');
     DECLARE @emptyGuid AS uniqueidentifier = CAST(0x0 AS uniqueidentifier);
-    DECLARE @frameworkId AS varchar(10) = 'NHSDGP001';
+    DECLARE @frameworkId AS nvarchar(10) = 'NHSDGP001';
     DECLARE @now AS datetime = GETUTCDATE();
     DECLARE @passedFull AS int = (SELECT Id FROM dbo.SolutionCapabilityStatus WHERE [Name] = 'Passed - Full');
     DECLARE @solutionCatalogueItemType AS int = (SELECT CatalogueItemTypeId FROM dbo.CatalogueItemType WHERE [Name] = 'Solution');

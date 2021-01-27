@@ -1,7 +1,7 @@
 ﻿DECLARE @capabilityCategories AS TABLE
 (
     Id int NOT NULL,
-    [Name] varchar(50) NOT NULL
+    [Name] nvarchar(50) NOT NULL
 );
 
 INSERT INTO @capabilityCategories(Id, [Name])

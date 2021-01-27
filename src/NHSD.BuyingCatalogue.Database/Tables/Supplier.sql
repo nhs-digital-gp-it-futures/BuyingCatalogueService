@@ -1,12 +1,12 @@
 ﻿CREATE TABLE dbo.Supplier
 (
-     Id varchar(6) NOT NULL,
-     [Name] varchar(255) NOT NULL,
-     LegalName varchar(255) NOT NULL,
-     Summary varchar(1100) NULL,
-     SupplierUrl varchar(1000) NULL,
+     Id nvarchar(6) NOT NULL,
+     [Name] nvarchar(255) NOT NULL,
+     LegalName nvarchar(255) NOT NULL,
+     Summary nvarchar(1100) NULL,
+     SupplierUrl nvarchar(1000) NULL,
      [Address] nvarchar(500) NULL,
-     OdsCode varchar(8) NULL,
+     OdsCode nvarchar(8) NULL,
      CrmRef uniqueidentifier NULL,
      Deleted bit CONSTRAINT DF_Supplier_Deleted DEFAULT 0 NOT NULL,
      LastUpdated datetime2(7) NOT NULL,

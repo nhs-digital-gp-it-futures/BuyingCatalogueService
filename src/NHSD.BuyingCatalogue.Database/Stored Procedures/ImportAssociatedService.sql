@@ -1,13 +1,13 @@
 ﻿CREATE PROCEDURE import.ImportAssociatedService
-     @AssociatedServiceId varchar(14),
-     @ServiceName varchar(255),
-     @ServiceDescription varchar(1000),
-     @OrderGuidance varchar(1000),
+     @AssociatedServiceId nvarchar(14),
+     @ServiceName nvarchar(255),
+     @ServiceDescription nvarchar(1000),
+     @OrderGuidance nvarchar(1000),
      @AssociatedCatalogueItems import.AssociatedCatalogueItems READONLY
 AS
     SET NOCOUNT ON;
 
-    DECLARE @supplierId AS varchar(6) = import.GetSupplierId(@AssociatedServiceId);
+    DECLARE @supplierId AS nvarchar(6) = import.GetSupplierId(@AssociatedServiceId);
 
     IF NOT EXISTS (SELECT * FROM dbo.Supplier WHERE Id = @supplierId)
         THROW 51000, 'Supplier record does not exist.', 1;

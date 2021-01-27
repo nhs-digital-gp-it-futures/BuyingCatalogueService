@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE publish.PublishCatalogueItem
-     @CatalogueItemId varchar(14)
+     @CatalogueItemId nvarchar(14)
 AS
     SET NOCOUNT ON;
 

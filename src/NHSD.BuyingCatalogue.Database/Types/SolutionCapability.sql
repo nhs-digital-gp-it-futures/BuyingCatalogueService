@@ -1,4 +1,4 @@
 ﻿CREATE TYPE import.SolutionCapability AS TABLE
 (
-    CapabilityRef varchar(10) PRIMARY KEY
+    CapabilityRef nvarchar(10) PRIMARY KEY
 );

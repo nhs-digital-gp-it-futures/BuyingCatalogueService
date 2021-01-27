@@ -1,12 +1,12 @@
 ﻿CREATE TABLE dbo.MarketingContact
 (
      Id int IDENTITY(1, 1) NOT NULL,
-     SolutionId varchar(14) NOT NULL,
-     FirstName varchar(35) NULL,
-     LastName varchar(35) NULL,
-     Email varchar(255) NULL,
-     PhoneNumber varchar(35) NULL,
-     Department varchar(50) NULL,
+     SolutionId nvarchar(14) NOT NULL,
+     FirstName nvarchar(35) NULL,
+     LastName nvarchar(35) NULL,
+     Email nvarchar(255) NULL,
+     PhoneNumber nvarchar(35) NULL,
+     Department nvarchar(50) NULL,
      LastUpdated datetime2(7) NOT NULL,
      LastUpdatedBy uniqueidentifier NOT NULL,
      CONSTRAINT PK_MarketingContact PRIMARY KEY CLUSTERED (SolutionId, Id),

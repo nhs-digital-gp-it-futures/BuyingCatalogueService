@@ -20,16 +20,16 @@ DECLARE @sharedCarePlansCapabilityId AS uniqueidentifier = 'd1532ca0-ef0c-457c-9
 DECLARE @unifiedCareRecordCapabilityId AS uniqueidentifier = '59696227-602a-421d-a883-29e88997ac17';
 DECLARE @workflowCapabilityId AS uniqueidentifier = '9d325dec-6e5b-44e4-876b-eacf6cd41b3e';
 
-DECLARE @frameworkId AS varchar(10) = 'NHSDGP001';
+DECLARE @frameworkId AS nvarchar(10) = 'NHSDGP001';
 DECLARE @emptyGuid AS uniqueidentifier = '00000000-0000-0000-0000-000000000000';
 DECLARE @now AS datetime = GETUTCDATE();
 
 DECLARE @publishedStatus AS int = 3;
 DECLARE @solutionItemType AS int = 1;
-DECLARE @version1 AS varchar(10) = '1.0.0';
+DECLARE @version1 AS nvarchar(10) = '1.0.0';
 
 DECLARE @purchaseModelId AS uniqueIdentifier;
-DECLARE @solutionId AS varchar(14);
+DECLARE @solutionId AS nvarchar(14);
 
 IF UPPER('$(INSERT_TEST_DATA)') = 'TRUE' AND NOT EXISTS (SELECT * FROM dbo.Solution)
 BEGIN

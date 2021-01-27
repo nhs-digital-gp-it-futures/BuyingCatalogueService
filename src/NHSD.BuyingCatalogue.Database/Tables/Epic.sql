@@ -1,9 +1,9 @@
 ﻿CREATE TABLE dbo.Epic
 (
-     Id varchar(10) NOT NULL,
-     [Name] varchar(150) NOT NULL,
+     Id nvarchar(10) NOT NULL,
+     [Name] nvarchar(150) NOT NULL,
      CapabilityId uniqueidentifier NOT NULL,
-     SourceUrl varchar(max) NULL,
+     SourceUrl nvarchar(max) NULL,
      CompliancyLevelId int NULL,
      Active bit NOT NULL,
      CONSTRAINT PK_Epic PRIMARY KEY NONCLUSTERED (Id),

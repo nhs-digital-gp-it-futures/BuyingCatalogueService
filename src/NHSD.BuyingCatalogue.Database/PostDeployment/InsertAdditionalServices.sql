@@ -3,9 +3,9 @@ DECLARE @publishedStatus AS int = 3;
 DECLARE @solutionItemType AS int = 1;
 DECLARE @now AS datetime = GETUTCDATE();
 DECLARE @additionalServiceItemType AS int = 2;
-DECLARE @solutionId AS varchar(14);
-DECLARE @additionalServiceId AS varchar(14);
-DECLARE @additionalServiceId2 AS varchar(14);
+DECLARE @solutionId AS nvarchar(14);
+DECLARE @additionalServiceId AS nvarchar(14);
+DECLARE @additionalServiceId2 AS nvarchar(14);
 DECLARE @emptyGuid AS uniqueidentifier = '00000000-0000-0000-0000-000000000000';
 
 IF UPPER('$(INSERT_TEST_DATA)') = 'TRUE' AND EXISTS (SELECT * FROM dbo.Solution)
