@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Capabilities;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.ClientApplications;
-using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Hostings;
+using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution.Hosting;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels.Suppliers;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 

@@ -24,10 +24,10 @@ using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.Nat
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionNativeMobileFirst;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.NativeMobile.UpdateSolutionNativeMobileHardwareRequirements;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.ClientApplications.UpdateSolutionClientApplicationTypes;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.HybridHostingType;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.OnPremise;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PrivateCloud;
-using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hostings.PublicCloud;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hosting.HybridHostingType;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hosting.OnPremise;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hosting.PrivateCloud;
+using NHSD.BuyingCatalogue.Solutions.Application.Commands.Hosting.PublicCloud;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateCapabilities;
 using NHSD.BuyingCatalogue.Solutions.Application.Commands.UpdateClaimedEpics;

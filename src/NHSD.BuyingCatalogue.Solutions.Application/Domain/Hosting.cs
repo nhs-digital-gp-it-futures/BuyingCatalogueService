@@ -1,4 +1,4 @@
-﻿using NHSD.BuyingCatalogue.Solutions.Application.Domain.Hostings;
+﻿using NHSD.BuyingCatalogue.Solutions.Application.Domain.HostingTypes;
 
 namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 {

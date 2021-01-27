@@ -12,7 +12,7 @@ using Moq;
 using NHSD.BuyingCatalogue.Solutions.API.Controllers;
 using NHSD.BuyingCatalogue.Solutions.API.ViewModels;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
-using NHSD.BuyingCatalogue.Solutions.Contracts.Hostings;
+using NHSD.BuyingCatalogue.Solutions.Contracts.Hosting;
 using NHSD.BuyingCatalogue.Solutions.Contracts.NativeDesktop;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Queries;
 using NUnit.Framework;
