@@ -7,13 +7,13 @@
   DTS:CreatorName=""
   DTS:DTSID="{41CBBF9B-528A-4586-9D42-96AB51BD09B0}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="15.0.2000.132"
+  DTS:LastModifiedProductVersion="15.0.2000.152"
   DTS:LocaleID="2057"
   DTS:MaxErrorCount="0"
   DTS:ObjectName="PublishAll"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="68"
-  DTS:VersionGUID="{F9239913-61EE-4E44-B9AC-2C37CA9F6921}">
+  DTS:VersionBuild="75"
+  DTS:VersionGUID="{AADCAF00-2A15-4F14-AB9F-4E4312FEB9DA}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables />
@@ -124,16 +124,14 @@
                   <inputColumns>
                     <inputColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - AdditionalService.Inputs[OLE DB Destination Input].Columns[Summary]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="300"
                       cachedName="Summary"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Destination - AdditionalService.Inputs[OLE DB Destination Input].ExternalColumns[Summary]"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].Columns[Summary]" />
                     <inputColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - AdditionalService.Inputs[OLE DB Destination Input].Columns[FullDescription]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="3000"
                       cachedName="FullDescription"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Destination - AdditionalService.Inputs[OLE DB Destination Input].ExternalColumns[FullDescription]"
@@ -153,16 +151,14 @@
                       lineageId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].Columns[LastUpdatedBy]" />
                     <inputColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - AdditionalService.Inputs[OLE DB Destination Input].Columns[SolutionId]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="14"
                       cachedName="SolutionId"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Destination - AdditionalService.Inputs[OLE DB Destination Input].ExternalColumns[SolutionId]"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].Columns[SolutionId]" />
                     <inputColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - AdditionalService.Inputs[OLE DB Destination Input].Columns[CatalogueItemId]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="14"
                       cachedName="CatalogueItemId"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Destination - AdditionalService.Inputs[OLE DB Destination Input].ExternalColumns[CatalogueItemId]"
@@ -172,14 +168,12 @@
                     isUsed="True">
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - AdditionalService.Inputs[OLE DB Destination Input].ExternalColumns[Summary]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="300"
                       name="Summary" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - AdditionalService.Inputs[OLE DB Destination Input].ExternalColumns[FullDescription]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="3000"
                       name="FullDescription" />
                     <externalMetadataColumn
@@ -193,14 +187,12 @@
                       name="LastUpdatedBy" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - AdditionalService.Inputs[OLE DB Destination Input].ExternalColumns[SolutionId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       name="SolutionId" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - AdditionalService.Inputs[OLE DB Destination Input].ExternalColumns[CatalogueItemId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       name="CatalogueItemId" />
                   </externalMetadataColumns>
@@ -318,16 +310,14 @@
                       lineageId="Package\Synchronize Catalogue Item Details\Source - FrameworkSolutions.Outputs[OLE DB Source Output].Columns[LastUpdatedBy]" />
                     <inputColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - FrameworkSolutions.Inputs[OLE DB Destination Input].Columns[SolutionId]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="14"
                       cachedName="SolutionId"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Destination - FrameworkSolutions.Inputs[OLE DB Destination Input].ExternalColumns[SolutionId]"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - FrameworkSolutions.Outputs[OLE DB Source Output].Columns[SolutionId]" />
                     <inputColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - FrameworkSolutions.Inputs[OLE DB Destination Input].Columns[FrameworkId]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="10"
                       cachedName="FrameworkId"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Destination - FrameworkSolutions.Inputs[OLE DB Destination Input].ExternalColumns[FrameworkId]"
@@ -352,14 +342,12 @@
                       name="LastUpdatedBy" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - FrameworkSolutions.Inputs[OLE DB Destination Input].ExternalColumns[SolutionId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       name="SolutionId" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - FrameworkSolutions.Inputs[OLE DB Destination Input].ExternalColumns[FrameworkId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="10"
                       name="FrameworkId" />
                     <externalMetadataColumn
@@ -481,8 +469,7 @@
                       lineageId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Output].Columns[LastUpdatedBy]" />
                     <inputColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - MarketingContact.Inputs[OLE DB Destination Input].Columns[SolutionId]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="14"
                       cachedName="SolutionId"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Destination - MarketingContact.Inputs[OLE DB Destination Input].ExternalColumns[SolutionId]"
@@ -495,40 +482,35 @@
                       lineageId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Output].Columns[Id]" />
                     <inputColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - MarketingContact.Inputs[OLE DB Destination Input].Columns[FirstName]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="35"
                       cachedName="FirstName"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Destination - MarketingContact.Inputs[OLE DB Destination Input].ExternalColumns[FirstName]"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Output].Columns[FirstName]" />
                     <inputColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - MarketingContact.Inputs[OLE DB Destination Input].Columns[LastName]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="35"
                       cachedName="LastName"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Destination - MarketingContact.Inputs[OLE DB Destination Input].ExternalColumns[LastName]"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Output].Columns[LastName]" />
                     <inputColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - MarketingContact.Inputs[OLE DB Destination Input].Columns[Email]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="255"
                       cachedName="Email"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Destination - MarketingContact.Inputs[OLE DB Destination Input].ExternalColumns[Email]"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Output].Columns[Email]" />
                     <inputColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - MarketingContact.Inputs[OLE DB Destination Input].Columns[PhoneNumber]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="35"
                       cachedName="PhoneNumber"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Destination - MarketingContact.Inputs[OLE DB Destination Input].ExternalColumns[PhoneNumber]"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Output].Columns[PhoneNumber]" />
                     <inputColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - MarketingContact.Inputs[OLE DB Destination Input].Columns[Department]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="50"
                       cachedName="Department"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Destination - MarketingContact.Inputs[OLE DB Destination Input].ExternalColumns[Department]"
@@ -547,8 +529,7 @@
                       name="LastUpdatedBy" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - MarketingContact.Inputs[OLE DB Destination Input].ExternalColumns[SolutionId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       name="SolutionId" />
                     <externalMetadataColumn
@@ -557,32 +538,27 @@
                       name="Id" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - MarketingContact.Inputs[OLE DB Destination Input].ExternalColumns[FirstName]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="35"
                       name="FirstName" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - MarketingContact.Inputs[OLE DB Destination Input].ExternalColumns[LastName]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="35"
                       name="LastName" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - MarketingContact.Inputs[OLE DB Destination Input].ExternalColumns[Email]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="255"
                       name="Email" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - MarketingContact.Inputs[OLE DB Destination Input].ExternalColumns[PhoneNumber]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="35"
                       name="PhoneNumber" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - MarketingContact.Inputs[OLE DB Destination Input].ExternalColumns[Department]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="50"
                       name="Department" />
                   </externalMetadataColumns>
@@ -700,8 +676,7 @@
                       lineageId="Package\Synchronize Catalogue Item Details\Source - SolutionCapability.Outputs[OLE DB Source Output].Columns[LastUpdatedBy]" />
                     <inputColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - SolutionCapability.Inputs[OLE DB Destination Input].Columns[SolutionId]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="14"
                       cachedName="SolutionId"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Destination - SolutionCapability.Inputs[OLE DB Destination Input].ExternalColumns[SolutionId]"
@@ -732,8 +707,7 @@
                       name="LastUpdatedBy" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - SolutionCapability.Inputs[OLE DB Destination Input].ExternalColumns[SolutionId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       name="SolutionId" />
                     <externalMetadataColumn
@@ -859,8 +833,7 @@
                       lineageId="Package\Synchronize Catalogue Item Details\Source - SolutionEpic.Outputs[OLE DB Source Output].Columns[LastUpdatedBy]" />
                     <inputColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - SolutionEpic.Inputs[OLE DB Destination Input].Columns[SolutionId]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="14"
                       cachedName="SolutionId"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Destination - SolutionEpic.Inputs[OLE DB Destination Input].ExternalColumns[SolutionId]"
@@ -879,8 +852,7 @@
                       lineageId="Package\Synchronize Catalogue Item Details\Source - SolutionEpic.Outputs[OLE DB Source Output].Columns[StatusId]" />
                     <inputColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - SolutionEpic.Inputs[OLE DB Destination Input].Columns[EpicId]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="10"
                       cachedName="EpicId"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Destination - SolutionEpic.Inputs[OLE DB Destination Input].ExternalColumns[EpicId]"
@@ -899,8 +871,7 @@
                       name="LastUpdatedBy" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - SolutionEpic.Inputs[OLE DB Destination Input].ExternalColumns[SolutionId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       name="SolutionId" />
                     <externalMetadataColumn
@@ -913,8 +884,7 @@
                       name="StatusId" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - SolutionEpic.Inputs[OLE DB Destination Input].ExternalColumns[EpicId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="10"
                       name="EpicId" />
                   </externalMetadataColumns>
@@ -1019,16 +989,14 @@
                   <inputColumns>
                     <inputColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - SupplierServiceAssociation.Inputs[OLE DB Destination Input].Columns[AssociatedServiceId]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="14"
                       cachedName="AssociatedServiceId"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Destination - SupplierServiceAssociation.Inputs[OLE DB Destination Input].ExternalColumns[AssociatedServiceId]"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - SupplierServiceAssociation.Outputs[OLE DB Source Output].Columns[AssociatedServiceId]" />
                     <inputColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - SupplierServiceAssociation.Inputs[OLE DB Destination Input].Columns[CatalogueItemId]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="14"
                       cachedName="CatalogueItemId"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Destination - SupplierServiceAssociation.Inputs[OLE DB Destination Input].ExternalColumns[CatalogueItemId]"
@@ -1038,14 +1006,12 @@
                     isUsed="True">
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - SupplierServiceAssociation.Inputs[OLE DB Destination Input].ExternalColumns[AssociatedServiceId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       name="AssociatedServiceId" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Destination - SupplierServiceAssociation.Inputs[OLE DB Destination Input].ExternalColumns[CatalogueItemId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       name="CatalogueItemId" />
                   </externalMetadataColumns>
@@ -1139,8 +1105,7 @@
                   <outputColumns>
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].Columns[Summary]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].ExternalColumns[Summary]"
@@ -1150,8 +1115,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].Columns[FullDescription]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].ExternalColumns[FullDescription]"
@@ -1180,8 +1144,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].Columns[SolutionId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].ExternalColumns[SolutionId]"
@@ -1191,8 +1154,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].Columns[CatalogueItemId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].ExternalColumns[CatalogueItemId]"
@@ -1205,14 +1167,12 @@
                     isUsed="True">
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].ExternalColumns[Summary]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="300"
                       name="Summary" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].ExternalColumns[FullDescription]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="3000"
                       name="FullDescription" />
                     <externalMetadataColumn
@@ -1226,14 +1186,12 @@
                       name="LastUpdatedBy" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].ExternalColumns[SolutionId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       name="SolutionId" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Output].ExternalColumns[CatalogueItemId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       name="CatalogueItemId" />
                   </externalMetadataColumns>
@@ -1245,22 +1203,19 @@
                   <outputColumns>
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Error Output].Columns[CatalogueItemId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Error Output].Columns[CatalogueItemId]"
                       name="CatalogueItemId" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Error Output].Columns[Summary]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="300"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Error Output].Columns[Summary]"
                       name="Summary" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Error Output].Columns[FullDescription]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="3000"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Error Output].Columns[FullDescription]"
                       name="FullDescription" />
@@ -1277,8 +1232,7 @@
                       name="LastUpdatedBy" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Error Output].Columns[SolutionId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - AdditionalService.Outputs[OLE DB Source Error Output].Columns[SolutionId]"
                       name="SolutionId" />
@@ -1381,8 +1335,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - FrameworkSolutions.Outputs[OLE DB Source Output].Columns[SolutionId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Source - FrameworkSolutions.Outputs[OLE DB Source Output].ExternalColumns[SolutionId]"
@@ -1392,8 +1345,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - FrameworkSolutions.Outputs[OLE DB Source Output].Columns[FrameworkId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Source - FrameworkSolutions.Outputs[OLE DB Source Output].ExternalColumns[FrameworkId]"
@@ -1424,14 +1376,12 @@
                       name="LastUpdatedBy" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - FrameworkSolutions.Outputs[OLE DB Source Output].ExternalColumns[SolutionId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       name="SolutionId" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - FrameworkSolutions.Outputs[OLE DB Source Output].ExternalColumns[FrameworkId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="10"
                       name="FrameworkId" />
                     <externalMetadataColumn
@@ -1447,15 +1397,13 @@
                   <outputColumns>
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - FrameworkSolutions.Outputs[OLE DB Source Error Output].Columns[FrameworkId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="10"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - FrameworkSolutions.Outputs[OLE DB Source Error Output].Columns[FrameworkId]"
                       name="FrameworkId" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - FrameworkSolutions.Outputs[OLE DB Source Error Output].Columns[SolutionId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - FrameworkSolutions.Outputs[OLE DB Source Error Output].Columns[SolutionId]"
                       name="SolutionId" />
@@ -1574,8 +1522,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Output].Columns[SolutionId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Output].ExternalColumns[SolutionId]"
@@ -1594,8 +1541,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Output].Columns[FirstName]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Output].ExternalColumns[FirstName]"
@@ -1605,8 +1551,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Output].Columns[LastName]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Output].ExternalColumns[LastName]"
@@ -1616,8 +1561,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Output].Columns[Email]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Output].ExternalColumns[Email]"
@@ -1627,8 +1571,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Output].Columns[PhoneNumber]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Output].ExternalColumns[PhoneNumber]"
@@ -1638,8 +1581,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Output].Columns[Department]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Output].ExternalColumns[Department]"
@@ -1661,8 +1603,7 @@
                       name="LastUpdatedBy" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Output].ExternalColumns[SolutionId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       name="SolutionId" />
                     <externalMetadataColumn
@@ -1671,32 +1612,27 @@
                       name="Id" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Output].ExternalColumns[FirstName]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="35"
                       name="FirstName" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Output].ExternalColumns[LastName]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="35"
                       name="LastName" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Output].ExternalColumns[Email]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="255"
                       name="Email" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Output].ExternalColumns[PhoneNumber]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="35"
                       name="PhoneNumber" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Output].ExternalColumns[Department]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="50"
                       name="Department" />
                   </externalMetadataColumns>
@@ -1713,43 +1649,37 @@
                       name="Id" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Error Output].Columns[SolutionId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Error Output].Columns[SolutionId]"
                       name="SolutionId" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Error Output].Columns[FirstName]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="35"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Error Output].Columns[FirstName]"
                       name="FirstName" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Error Output].Columns[LastName]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="35"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Error Output].Columns[LastName]"
                       name="LastName" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Error Output].Columns[Email]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="255"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Error Output].Columns[Email]"
                       name="Email" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Error Output].Columns[PhoneNumber]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="35"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Error Output].Columns[PhoneNumber]"
                       name="PhoneNumber" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Error Output].Columns[Department]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="50"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - MarketingContact.Outputs[OLE DB Source Error Output].Columns[Department]"
                       name="Department" />
@@ -1863,8 +1793,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - SolutionCapability.Outputs[OLE DB Source Output].Columns[SolutionId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Source - SolutionCapability.Outputs[OLE DB Source Output].ExternalColumns[SolutionId]"
@@ -1904,8 +1833,7 @@
                       name="LastUpdatedBy" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - SolutionCapability.Outputs[OLE DB Source Output].ExternalColumns[SolutionId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       name="SolutionId" />
                     <externalMetadataColumn
@@ -1925,8 +1853,7 @@
                   <outputColumns>
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - SolutionCapability.Outputs[OLE DB Source Error Output].Columns[SolutionId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - SolutionCapability.Outputs[OLE DB Source Error Output].Columns[SolutionId]"
                       name="SolutionId" />
@@ -2050,8 +1977,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - SolutionEpic.Outputs[OLE DB Source Output].Columns[SolutionId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Source - SolutionEpic.Outputs[OLE DB Source Output].ExternalColumns[SolutionId]"
@@ -2079,8 +2005,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - SolutionEpic.Outputs[OLE DB Source Output].Columns[EpicId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Source - SolutionEpic.Outputs[OLE DB Source Output].ExternalColumns[EpicId]"
@@ -2102,8 +2027,7 @@
                       name="LastUpdatedBy" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - SolutionEpic.Outputs[OLE DB Source Output].ExternalColumns[SolutionId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       name="SolutionId" />
                     <externalMetadataColumn
@@ -2116,8 +2040,7 @@
                       name="StatusId" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - SolutionEpic.Outputs[OLE DB Source Output].ExternalColumns[EpicId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="10"
                       name="EpicId" />
                   </externalMetadataColumns>
@@ -2129,8 +2052,7 @@
                   <outputColumns>
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - SolutionEpic.Outputs[OLE DB Source Error Output].Columns[SolutionId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - SolutionEpic.Outputs[OLE DB Source Error Output].Columns[SolutionId]"
                       name="SolutionId" />
@@ -2141,8 +2063,7 @@
                       name="CapabilityId" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - SolutionEpic.Outputs[OLE DB Source Error Output].Columns[EpicId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="10"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - SolutionEpic.Outputs[OLE DB Source Error Output].Columns[EpicId]"
                       name="EpicId" />
@@ -2242,8 +2163,7 @@
                   <outputColumns>
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - SupplierServiceAssociation.Outputs[OLE DB Source Output].Columns[AssociatedServiceId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Source - SupplierServiceAssociation.Outputs[OLE DB Source Output].ExternalColumns[AssociatedServiceId]"
@@ -2253,8 +2173,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - SupplierServiceAssociation.Outputs[OLE DB Source Output].Columns[CatalogueItemId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Catalogue Item Details\Source - SupplierServiceAssociation.Outputs[OLE DB Source Output].ExternalColumns[CatalogueItemId]"
@@ -2267,14 +2186,12 @@
                     isUsed="True">
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - SupplierServiceAssociation.Outputs[OLE DB Source Output].ExternalColumns[AssociatedServiceId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       name="AssociatedServiceId" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - SupplierServiceAssociation.Outputs[OLE DB Source Output].ExternalColumns[CatalogueItemId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       name="CatalogueItemId" />
                   </externalMetadataColumns>
@@ -2286,15 +2203,13 @@
                   <outputColumns>
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - SupplierServiceAssociation.Outputs[OLE DB Source Error Output].Columns[AssociatedServiceId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - SupplierServiceAssociation.Outputs[OLE DB Source Error Output].Columns[AssociatedServiceId]"
                       name="AssociatedServiceId" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Item Details\Source - SupplierServiceAssociation.Outputs[OLE DB Source Error Output].Columns[CatalogueItemId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       lineageId="Package\Synchronize Catalogue Item Details\Source - SupplierServiceAssociation.Outputs[OLE DB Source Error Output].Columns[CatalogueItemId]"
                       name="CatalogueItemId" />
@@ -2440,16 +2355,14 @@
                   <inputColumns>
                     <inputColumn
                       refId="Package\Synchronize Catalogue Items\Destination - CatalogueItem.Inputs[OLE DB Destination Input].Columns[CatalogueItemId]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="14"
                       cachedName="CatalogueItemId"
                       externalMetadataColumnId="Package\Synchronize Catalogue Items\Destination - CatalogueItem.Inputs[OLE DB Destination Input].ExternalColumns[CatalogueItemId]"
                       lineageId="Package\Synchronize Catalogue Items\Source - CatalogueItem.Outputs[OLE DB Source Output].Columns[CatalogueItemId]" />
                     <inputColumn
                       refId="Package\Synchronize Catalogue Items\Destination - CatalogueItem.Inputs[OLE DB Destination Input].Columns[Name]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="255"
                       cachedName="Name"
                       externalMetadataColumnId="Package\Synchronize Catalogue Items\Destination - CatalogueItem.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
@@ -2462,8 +2375,7 @@
                       lineageId="Package\Synchronize Catalogue Items\Source - CatalogueItem.Outputs[OLE DB Source Output].Columns[CatalogueItemTypeId]" />
                     <inputColumn
                       refId="Package\Synchronize Catalogue Items\Destination - CatalogueItem.Inputs[OLE DB Destination Input].Columns[SupplierId]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="6"
                       cachedName="SupplierId"
                       externalMetadataColumnId="Package\Synchronize Catalogue Items\Destination - CatalogueItem.Inputs[OLE DB Destination Input].ExternalColumns[SupplierId]"
@@ -2486,14 +2398,12 @@
                     isUsed="True">
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Items\Destination - CatalogueItem.Inputs[OLE DB Destination Input].ExternalColumns[CatalogueItemId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       name="CatalogueItemId" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Items\Destination - CatalogueItem.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="255"
                       name="Name" />
                     <externalMetadataColumn
@@ -2502,8 +2412,7 @@
                       name="CatalogueItemTypeId" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Items\Destination - CatalogueItem.Inputs[OLE DB Destination Input].ExternalColumns[SupplierId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="6"
                       name="SupplierId" />
                     <externalMetadataColumn
@@ -2606,8 +2515,7 @@
                   <outputColumns>
                     <outputColumn
                       refId="Package\Synchronize Catalogue Items\Source - CatalogueItem.Outputs[OLE DB Source Output].Columns[CatalogueItemId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Catalogue Items\Source - CatalogueItem.Outputs[OLE DB Source Output].ExternalColumns[CatalogueItemId]"
@@ -2617,8 +2525,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Items\Source - CatalogueItem.Outputs[OLE DB Source Output].Columns[Name]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Catalogue Items\Source - CatalogueItem.Outputs[OLE DB Source Output].ExternalColumns[Name]"
@@ -2637,8 +2544,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Items\Source - CatalogueItem.Outputs[OLE DB Source Output].Columns[SupplierId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Catalogue Items\Source - CatalogueItem.Outputs[OLE DB Source Output].ExternalColumns[SupplierId]"
@@ -2670,14 +2576,12 @@
                     isUsed="True">
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Items\Source - CatalogueItem.Outputs[OLE DB Source Output].ExternalColumns[CatalogueItemId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       name="CatalogueItemId" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Items\Source - CatalogueItem.Outputs[OLE DB Source Output].ExternalColumns[Name]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="255"
                       name="Name" />
                     <externalMetadataColumn
@@ -2686,8 +2590,7 @@
                       name="CatalogueItemTypeId" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Catalogue Items\Source - CatalogueItem.Outputs[OLE DB Source Output].ExternalColumns[SupplierId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="6"
                       name="SupplierId" />
                     <externalMetadataColumn
@@ -2708,15 +2611,13 @@
                   <outputColumns>
                     <outputColumn
                       refId="Package\Synchronize Catalogue Items\Source - CatalogueItem.Outputs[OLE DB Source Error Output].Columns[CatalogueItemId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       lineageId="Package\Synchronize Catalogue Items\Source - CatalogueItem.Outputs[OLE DB Source Error Output].Columns[CatalogueItemId]"
                       name="CatalogueItemId" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Items\Source - CatalogueItem.Outputs[OLE DB Source Error Output].Columns[Name]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="255"
                       lineageId="Package\Synchronize Catalogue Items\Source - CatalogueItem.Outputs[OLE DB Source Error Output].Columns[Name]"
                       name="Name" />
@@ -2727,8 +2628,7 @@
                       name="CatalogueItemTypeId" />
                     <outputColumn
                       refId="Package\Synchronize Catalogue Items\Source - CatalogueItem.Outputs[OLE DB Source Error Output].Columns[SupplierId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="6"
                       lineageId="Package\Synchronize Catalogue Items\Source - CatalogueItem.Outputs[OLE DB Source Error Output].Columns[SupplierId]"
                       name="SupplierId" />
@@ -2866,8 +2766,7 @@
                       lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[LastUpdated]" />
                     <inputColumn
                       refId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].Columns[CatalogueItemId]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="14"
                       cachedName="CatalogueItemId"
                       externalMetadataColumnId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].ExternalColumns[CatalogueItemId]"
@@ -2904,8 +2803,7 @@
                       lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[TimeUnitId]" />
                     <inputColumn
                       refId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].Columns[CurrencyCode]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="3"
                       cachedName="CurrencyCode"
                       externalMetadataColumnId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].ExternalColumns[CurrencyCode]"
@@ -2928,8 +2826,7 @@
                       scale="7" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].ExternalColumns[CatalogueItemId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       name="CatalogueItemId" />
                     <externalMetadataColumn
@@ -2954,8 +2851,7 @@
                       name="TimeUnitId" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].ExternalColumns[CurrencyCode]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="3"
                       name="CurrencyCode" />
                     <externalMetadataColumn
@@ -3065,8 +2961,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[CatalogueItemId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].ExternalColumns[CatalogueItemId]"
@@ -3121,8 +3016,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[CurrencyCode]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].ExternalColumns[CurrencyCode]"
@@ -3151,8 +3045,7 @@
                       scale="7" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].ExternalColumns[CatalogueItemId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       name="CatalogueItemId" />
                     <externalMetadataColumn
@@ -3177,8 +3070,7 @@
                       name="TimeUnitId" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].ExternalColumns[CurrencyCode]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="3"
                       name="CurrencyCode" />
                     <externalMetadataColumn
@@ -3201,8 +3093,7 @@
                       name="CataloguePriceId" />
                     <outputColumn
                       refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[CatalogueItemId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[CatalogueItemId]"
                       name="CatalogueItemId" />
@@ -3228,8 +3119,7 @@
                       name="TimeUnitId" />
                     <outputColumn
                       refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[CurrencyCode]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="3"
                       lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[CurrencyCode]"
                       name="CurrencyCode" />
@@ -3734,24 +3624,21 @@
                       lineageId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].Columns[PricingUnitId]" />
                     <inputColumn
                       refId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input].Columns[Name]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="20"
                       cachedName="Name"
                       externalMetadataColumnId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
                       lineageId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].Columns[Name]" />
                     <inputColumn
                       refId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input].Columns[TierName]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="30"
                       cachedName="TierName"
                       externalMetadataColumnId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input].ExternalColumns[TierName]"
                       lineageId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].Columns[TierName]" />
                     <inputColumn
                       refId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input].Columns[Description]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="40"
                       cachedName="Description"
                       externalMetadataColumnId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
@@ -3765,20 +3652,17 @@
                       name="PricingUnitId" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="20"
                       name="Name" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input].ExternalColumns[TierName]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="30"
                       name="TierName" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Pricing Units\Destination - Pricing Unit.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="40"
                       name="Description" />
                   </externalMetadataColumns>
@@ -3881,8 +3765,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].Columns[Name]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].ExternalColumns[Name]"
@@ -3892,8 +3775,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].Columns[TierName]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].ExternalColumns[TierName]"
@@ -3903,8 +3785,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].Columns[Description]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].ExternalColumns[Description]"
@@ -3921,20 +3802,17 @@
                       name="PricingUnitId" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].ExternalColumns[Name]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="20"
                       name="Name" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].ExternalColumns[TierName]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="30"
                       name="TierName" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Output].ExternalColumns[Description]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="40"
                       name="Description" />
                   </externalMetadataColumns>
@@ -3951,22 +3829,19 @@
                       name="PricingUnitId" />
                     <outputColumn
                       refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Error Output].Columns[Name]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="20"
                       lineageId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Error Output].Columns[Name]"
                       name="Name" />
                     <outputColumn
                       refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Error Output].Columns[TierName]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="30"
                       lineageId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Error Output].Columns[TierName]"
                       name="TierName" />
                     <outputColumn
                       refId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Error Output].Columns[Description]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="40"
                       lineageId="Package\Synchronize Pricing Units\Source - Pricing Unit.Outputs[OLE DB Source Error Output].Columns[Description]"
                       name="Description" />
@@ -4100,24 +3975,21 @@
                       lineageId="Package\Synchronize Solutions and Associated Services\Source - AssociatedService.Outputs[OLE DB Source Output].Columns[LastUpdatedBy]" />
                     <inputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Destination - AssociatedService.Inputs[OLE DB Destination Input].Columns[AssociatedServiceId]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="14"
                       cachedName="AssociatedServiceId"
                       externalMetadataColumnId="Package\Synchronize Solutions and Associated Services\Destination - AssociatedService.Inputs[OLE DB Destination Input].ExternalColumns[AssociatedServiceId]"
                       lineageId="Package\Synchronize Solutions and Associated Services\Source - AssociatedService.Outputs[OLE DB Source Output].Columns[AssociatedServiceId]" />
                     <inputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Destination - AssociatedService.Inputs[OLE DB Destination Input].Columns[Description]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="1000"
                       cachedName="Description"
                       externalMetadataColumnId="Package\Synchronize Solutions and Associated Services\Destination - AssociatedService.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
                       lineageId="Package\Synchronize Solutions and Associated Services\Source - AssociatedService.Outputs[OLE DB Source Output].Columns[Description]" />
                     <inputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Destination - AssociatedService.Inputs[OLE DB Destination Input].Columns[OrderGuidance]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="1000"
                       cachedName="OrderGuidance"
                       externalMetadataColumnId="Package\Synchronize Solutions and Associated Services\Destination - AssociatedService.Inputs[OLE DB Destination Input].ExternalColumns[OrderGuidance]"
@@ -4136,20 +4008,17 @@
                       name="LastUpdatedBy" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Solutions and Associated Services\Destination - AssociatedService.Inputs[OLE DB Destination Input].ExternalColumns[AssociatedServiceId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       name="AssociatedServiceId" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Solutions and Associated Services\Destination - AssociatedService.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="1000"
                       name="Description" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Solutions and Associated Services\Destination - AssociatedService.Inputs[OLE DB Destination Input].ExternalColumns[OrderGuidance]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="1000"
                       name="OrderGuidance" />
                   </externalMetadataColumns>
@@ -4254,32 +4123,28 @@
                   <inputColumns>
                     <inputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Destination - Solution.Inputs[OLE DB Destination Input].Columns[Id]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="14"
                       cachedName="Id"
                       externalMetadataColumnId="Package\Synchronize Solutions and Associated Services\Destination - Solution.Inputs[OLE DB Destination Input].ExternalColumns[Id]"
                       lineageId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].Columns[Id]" />
                     <inputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Destination - Solution.Inputs[OLE DB Destination Input].Columns[Version]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="10"
                       cachedName="Version"
                       externalMetadataColumnId="Package\Synchronize Solutions and Associated Services\Destination - Solution.Inputs[OLE DB Destination Input].ExternalColumns[Version]"
                       lineageId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].Columns[Version]" />
                     <inputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Destination - Solution.Inputs[OLE DB Destination Input].Columns[Summary]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
-                      cachedLength="300"
+                      cachedDataType="wstr"
+                      cachedLength="350"
                       cachedName="Summary"
                       externalMetadataColumnId="Package\Synchronize Solutions and Associated Services\Destination - Solution.Inputs[OLE DB Destination Input].ExternalColumns[Summary]"
                       lineageId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].Columns[Summary]" />
                     <inputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Destination - Solution.Inputs[OLE DB Destination Input].Columns[FullDescription]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="3000"
                       cachedName="FullDescription"
                       externalMetadataColumnId="Package\Synchronize Solutions and Associated Services\Destination - Solution.Inputs[OLE DB Destination Input].ExternalColumns[FullDescription]"
@@ -4304,32 +4169,28 @@
                       lineageId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].Columns[Hosting]" />
                     <inputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Destination - Solution.Inputs[OLE DB Destination Input].Columns[ImplementationDetail]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
-                      cachedLength="1000"
+                      cachedDataType="wstr"
+                      cachedLength="1100"
                       cachedName="ImplementationDetail"
                       externalMetadataColumnId="Package\Synchronize Solutions and Associated Services\Destination - Solution.Inputs[OLE DB Destination Input].ExternalColumns[ImplementationDetail]"
                       lineageId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].Columns[ImplementationDetail]" />
                     <inputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Destination - Solution.Inputs[OLE DB Destination Input].Columns[RoadMap]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="1000"
                       cachedName="RoadMap"
                       externalMetadataColumnId="Package\Synchronize Solutions and Associated Services\Destination - Solution.Inputs[OLE DB Destination Input].ExternalColumns[RoadMap]"
                       lineageId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].Columns[RoadMap]" />
                     <inputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Destination - Solution.Inputs[OLE DB Destination Input].Columns[IntegrationsUrl]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="1000"
                       cachedName="IntegrationsUrl"
                       externalMetadataColumnId="Package\Synchronize Solutions and Associated Services\Destination - Solution.Inputs[OLE DB Destination Input].ExternalColumns[IntegrationsUrl]"
                       lineageId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].Columns[IntegrationsUrl]" />
                     <inputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Destination - Solution.Inputs[OLE DB Destination Input].Columns[AboutUrl]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      cachedDataType="wstr"
                       cachedLength="1000"
                       cachedName="AboutUrl"
                       externalMetadataColumnId="Package\Synchronize Solutions and Associated Services\Destination - Solution.Inputs[OLE DB Destination Input].ExternalColumns[AboutUrl]"
@@ -4365,26 +4226,22 @@
                     isUsed="True">
                     <externalMetadataColumn
                       refId="Package\Synchronize Solutions and Associated Services\Destination - Solution.Inputs[OLE DB Destination Input].ExternalColumns[Id]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       name="Id" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Solutions and Associated Services\Destination - Solution.Inputs[OLE DB Destination Input].ExternalColumns[Version]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="10"
                       name="Version" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Solutions and Associated Services\Destination - Solution.Inputs[OLE DB Destination Input].ExternalColumns[Summary]"
-                      codePage="1252"
-                      dataType="str"
-                      length="300"
+                      dataType="wstr"
+                      length="350"
                       name="Summary" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Solutions and Associated Services\Destination - Solution.Inputs[OLE DB Destination Input].ExternalColumns[FullDescription]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="3000"
                       name="FullDescription" />
                     <externalMetadataColumn
@@ -4401,26 +4258,22 @@
                       name="Hosting" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Solutions and Associated Services\Destination - Solution.Inputs[OLE DB Destination Input].ExternalColumns[ImplementationDetail]"
-                      codePage="1252"
-                      dataType="str"
-                      length="1000"
+                      dataType="wstr"
+                      length="1100"
                       name="ImplementationDetail" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Solutions and Associated Services\Destination - Solution.Inputs[OLE DB Destination Input].ExternalColumns[RoadMap]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="1000"
                       name="RoadMap" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Solutions and Associated Services\Destination - Solution.Inputs[OLE DB Destination Input].ExternalColumns[IntegrationsUrl]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="1000"
                       name="IntegrationsUrl" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Solutions and Associated Services\Destination - Solution.Inputs[OLE DB Destination Input].ExternalColumns[AboutUrl]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="1000"
                       name="AboutUrl" />
                     <externalMetadataColumn
@@ -4551,8 +4404,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - AssociatedService.Outputs[OLE DB Source Output].Columns[AssociatedServiceId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Solutions and Associated Services\Source - AssociatedService.Outputs[OLE DB Source Output].ExternalColumns[AssociatedServiceId]"
@@ -4562,8 +4414,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - AssociatedService.Outputs[OLE DB Source Output].Columns[Description]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Solutions and Associated Services\Source - AssociatedService.Outputs[OLE DB Source Output].ExternalColumns[Description]"
@@ -4573,8 +4424,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - AssociatedService.Outputs[OLE DB Source Output].Columns[OrderGuidance]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Solutions and Associated Services\Source - AssociatedService.Outputs[OLE DB Source Output].ExternalColumns[OrderGuidance]"
@@ -4596,20 +4446,17 @@
                       name="LastUpdatedBy" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - AssociatedService.Outputs[OLE DB Source Output].ExternalColumns[AssociatedServiceId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       name="AssociatedServiceId" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - AssociatedService.Outputs[OLE DB Source Output].ExternalColumns[Description]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="1000"
                       name="Description" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - AssociatedService.Outputs[OLE DB Source Output].ExternalColumns[OrderGuidance]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="1000"
                       name="OrderGuidance" />
                   </externalMetadataColumns>
@@ -4621,22 +4468,19 @@
                   <outputColumns>
                     <outputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - AssociatedService.Outputs[OLE DB Source Error Output].Columns[AssociatedServiceId]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       lineageId="Package\Synchronize Solutions and Associated Services\Source - AssociatedService.Outputs[OLE DB Source Error Output].Columns[AssociatedServiceId]"
                       name="AssociatedServiceId" />
                     <outputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - AssociatedService.Outputs[OLE DB Source Error Output].Columns[Description]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="1000"
                       lineageId="Package\Synchronize Solutions and Associated Services\Source - AssociatedService.Outputs[OLE DB Source Error Output].Columns[Description]"
                       name="Description" />
                     <outputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - AssociatedService.Outputs[OLE DB Source Error Output].Columns[OrderGuidance]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="1000"
                       lineageId="Package\Synchronize Solutions and Associated Services\Source - AssociatedService.Outputs[OLE DB Source Error Output].Columns[OrderGuidance]"
                       name="OrderGuidance" />
@@ -4731,8 +4575,7 @@
                   <outputColumns>
                     <outputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].Columns[Id]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].ExternalColumns[Id]"
@@ -4742,8 +4585,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].Columns[Version]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].ExternalColumns[Version]"
@@ -4753,19 +4595,17 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].Columns[Summary]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].ExternalColumns[Summary]"
-                      length="300"
+                      length="350"
                       lineageId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].Columns[Summary]"
                       name="Summary"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].Columns[FullDescription]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].ExternalColumns[FullDescription]"
@@ -4802,19 +4642,17 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].Columns[ImplementationDetail]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].ExternalColumns[ImplementationDetail]"
-                      length="1000"
+                      length="1100"
                       lineageId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].Columns[ImplementationDetail]"
                       name="ImplementationDetail"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].Columns[RoadMap]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].ExternalColumns[RoadMap]"
@@ -4824,8 +4662,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].Columns[IntegrationsUrl]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].ExternalColumns[IntegrationsUrl]"
@@ -4835,8 +4672,7 @@
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].Columns[AboutUrl]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].ExternalColumns[AboutUrl]"
@@ -4887,26 +4723,22 @@
                     isUsed="True">
                     <externalMetadataColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].ExternalColumns[Id]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       name="Id" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].ExternalColumns[Version]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="10"
                       name="Version" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].ExternalColumns[Summary]"
-                      codePage="1252"
-                      dataType="str"
-                      length="300"
+                      dataType="wstr"
+                      length="350"
                       name="Summary" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].ExternalColumns[FullDescription]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="3000"
                       name="FullDescription" />
                     <externalMetadataColumn
@@ -4923,26 +4755,22 @@
                       name="Hosting" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].ExternalColumns[ImplementationDetail]"
-                      codePage="1252"
-                      dataType="str"
-                      length="1000"
+                      dataType="wstr"
+                      length="1100"
                       name="ImplementationDetail" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].ExternalColumns[RoadMap]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="1000"
                       name="RoadMap" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].ExternalColumns[IntegrationsUrl]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="1000"
                       name="IntegrationsUrl" />
                     <externalMetadataColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Output].ExternalColumns[AboutUrl]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="1000"
                       name="AboutUrl" />
                     <externalMetadataColumn
@@ -4972,29 +4800,25 @@
                   <outputColumns>
                     <outputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Error Output].Columns[Id]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="14"
                       lineageId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Error Output].Columns[Id]"
                       name="Id" />
                     <outputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Error Output].Columns[Version]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="10"
                       lineageId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Error Output].Columns[Version]"
                       name="Version" />
                     <outputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Error Output].Columns[Summary]"
-                      codePage="1252"
-                      dataType="str"
-                      length="300"
+                      dataType="wstr"
+                      length="350"
                       lineageId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Error Output].Columns[Summary]"
                       name="Summary" />
                     <outputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Error Output].Columns[FullDescription]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="3000"
                       lineageId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Error Output].Columns[FullDescription]"
                       name="FullDescription" />
@@ -5015,29 +4839,25 @@
                       name="Hosting" />
                     <outputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Error Output].Columns[ImplementationDetail]"
-                      codePage="1252"
-                      dataType="str"
-                      length="1000"
+                      dataType="wstr"
+                      length="1100"
                       lineageId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Error Output].Columns[ImplementationDetail]"
                       name="ImplementationDetail" />
                     <outputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Error Output].Columns[RoadMap]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="1000"
                       lineageId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Error Output].Columns[RoadMap]"
                       name="RoadMap" />
                     <outputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Error Output].Columns[IntegrationsUrl]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="1000"
                       lineageId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Error Output].Columns[IntegrationsUrl]"
                       name="IntegrationsUrl" />
                     <outputColumn
                       refId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Error Output].Columns[AboutUrl]"
-                      codePage="1252"
-                      dataType="str"
+                      dataType="wstr"
                       length="1000"
                       lineageId="Package\Synchronize Solutions and Associated Services\Source - Solution.Outputs[OLE DB Source Error Output].Columns[AboutUrl]"
                       name="AboutUrl" />
@@ -5328,37 +5148,21 @@
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="210,42"
-          Id="Package\Synchronize Catalogue Item Details\Source - MarketingContact"
-          TopLeft="878.5,5.49999999999989" />
-        <NodeLayout
-          Size="205,42"
-          Id="Package\Synchronize Catalogue Item Details\Destination - SolutionEpic"
-          TopLeft="298,107.5" />
+          Size="185,42"
+          Id="Package\Synchronize Catalogue Item Details\Source - SolutionEpic"
+          TopLeft="308,5.5" />
         <NodeLayout
           Size="244,42"
           Id="Package\Synchronize Catalogue Item Details\Destination - FrameworkSolutions"
           TopLeft="563.5,107.5" />
         <NodeLayout
-          Size="277,42"
-          Id="Package\Synchronize Catalogue Item Details\Destination - SupplierServiceAssociation"
-          TopLeft="1159,107.5" />
-        <NodeLayout
-          Size="185,42"
-          Id="Package\Synchronize Catalogue Item Details\Source - SolutionEpic"
-          TopLeft="308,5.5" />
+          Size="209,42"
+          Id="Package\Synchronize Catalogue Item Details\Source - AdditionalService"
+          TopLeft="15.5,209.5" />
         <NodeLayout
           Size="230,42"
           Id="Package\Synchronize Catalogue Item Details\Destination - MarketingContact"
           TopLeft="868.5,107.5" />
-        <NodeLayout
-          Size="257,42"
-          Id="Package\Synchronize Catalogue Item Details\Source - SupplierServiceAssociation"
-          TopLeft="1169,5.49999999999989" />
-        <NodeLayout
-          Size="209,42"
-          Id="Package\Synchronize Catalogue Item Details\Source - AdditionalService"
-          TopLeft="15.5,209.5" />
         <NodeLayout
           Size="232,42"
           Id="Package\Synchronize Catalogue Item Details\Destination - SolutionCapability"
@@ -5372,9 +5176,25 @@
           Id="Package\Synchronize Catalogue Item Details\Source - SolutionCapability"
           TopLeft="15.5,5.5" />
         <NodeLayout
+          Size="210,42"
+          Id="Package\Synchronize Catalogue Item Details\Source - MarketingContact"
+          TopLeft="878.5,5.49999999999989" />
+        <NodeLayout
+          Size="205,42"
+          Id="Package\Synchronize Catalogue Item Details\Destination - SolutionEpic"
+          TopLeft="298,107.5" />
+        <NodeLayout
+          Size="257,42"
+          Id="Package\Synchronize Catalogue Item Details\Source - SupplierServiceAssociation"
+          TopLeft="1169,5.49999999999989" />
+        <NodeLayout
           Size="229,42"
           Id="Package\Synchronize Catalogue Item Details\Destination - AdditionalService"
           TopLeft="5.5,311.5" />
+        <NodeLayout
+          Size="277,42"
+          Id="Package\Synchronize Catalogue Item Details\Destination - SupplierServiceAssociation"
+          TopLeft="1159,107.5" />
         <EdgeLayout
           Id="Package\Synchronize Catalogue Item Details.Paths[OLE DB Source Output5]"
           TopLeft="120,251.5">
@@ -5768,6 +5588,32 @@
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Synchronize Pricing\Destination - CataloguePrice">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Synchronize Pricing\Source - CataloguePrice">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <TaskHost
     design-time-name="Package\Synchronize Pricing Tiers">
     <LayoutInfo>
@@ -5870,6 +5716,32 @@
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Synchronize Pricing Units\Destination - Pricing Unit">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Synchronize Pricing Units\Source - Pricing Unit">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <TaskHost
     design-time-name="Package\Synchronize Solutions and Associated Services">
     <LayoutInfo>
