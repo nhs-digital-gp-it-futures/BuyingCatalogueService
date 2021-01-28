@@ -6,7 +6,7 @@ BEGIN
 
     CREATE TABLE #SolutionCapability
     (
-        SolutionId varchar(14) NOT NULL,
+        SolutionId nvarchar(14) NOT NULL,
         CapabilityId uniqueidentifier NOT NULL,
         StatusId int NOT NULL,
         LastUpdated datetime2(7) NOT NULL,

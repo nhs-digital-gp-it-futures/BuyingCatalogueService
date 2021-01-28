@@ -6,12 +6,12 @@ BEGIN
 
     CREATE TABLE #AdditionalService
     (
-        CatalogueItemId varchar(14) NOT NULL,
-        Summary varchar(300) NULL,
-        FullDescription varchar(3000) NULL,
+        CatalogueItemId nvarchar(14) NOT NULL,
+        Summary nvarchar(300) NULL,
+        FullDescription nvarchar(3000) NULL,
         LastUpdated datetime2(7) NULL,
         LastUpdatedBy uniqueidentifier NULL,
-        SolutionId varchar(14) NULL,
+        SolutionId nvarchar(14) NULL,
     );
 
     INSERT INTO #AdditionalService (CatalogueItemId, Summary, FullDescription, LastUpdated, LastUpdatedBy, SolutionId) 

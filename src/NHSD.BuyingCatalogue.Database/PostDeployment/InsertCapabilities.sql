@@ -1,12 +1,12 @@
 ﻿DECLARE @capabilities AS TABLE
 (
     Id uniqueidentifier NOT NULL PRIMARY KEY,
-    CapabilityRef varchar(10) NOT NULL,
-    [Name] varchar(255) NOT NULL,
-    [Description] varchar(500) NOT NULL,
-    SourceUrl varchar(1000) NOT NULL,
+    CapabilityRef nvarchar(10) NOT NULL,
+    [Name] nvarchar(255) NOT NULL,
+    [Description] nvarchar(500) NOT NULL,
+    SourceUrl nvarchar(1000) NOT NULL,
     IsFoundation bit DEFAULT 0 NOT NULL,
-    [Version] varchar(10) DEFAULT '1.0.1' NULL,
+    [Version] nvarchar(10) DEFAULT '1.0.1' NULL,
     EffectiveDate date DEFAULT '2019-12-31' NOT NULL,
     CategoryId int DEFAULT 1 NOT NULL
 );

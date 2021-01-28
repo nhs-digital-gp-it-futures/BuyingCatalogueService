@@ -1,9 +1,9 @@
 ﻿CREATE TABLE dbo.CatalogueItem
 (
-    CatalogueItemId varchar(14) NOT NULL,
-    [Name] varchar(255) NOT NULL,
+    CatalogueItemId nvarchar(14) NOT NULL,
+    [Name] nvarchar(255) NOT NULL,
     CatalogueItemTypeId int NOT NULL,
-    SupplierId varchar(6) NOT NULL,
+    SupplierId nvarchar(6) NOT NULL,
     PublishedStatusId int CONSTRAINT DF_CatalogueItem_PublishedStatus DEFAULT 1 NOT NULL,
     Created datetime2(7) CONSTRAINT DF_CatalogueItem_Created DEFAULT GETUTCDATE() NOT NULL,
     CONSTRAINT PK_CatalogueItem PRIMARY KEY (CatalogueItemId),

@@ -7,9 +7,9 @@ BEGIN
 
     CREATE TABLE #AssociatedService
     (
-        CatalogueItemId varchar(14) NOT NULL,
-        [Description] varchar(1000) NULL,
-        OrderGuidance varchar(1000) NULL,
+        CatalogueItemId nvarchar(14) NOT NULL,
+        [Description] nvarchar(1000) NULL,
+        OrderGuidance nvarchar(1000) NULL,
         LastUpdated datetime2(7) NULL,
         LastUpdatedBy uniqueidentifier NULL,
     );

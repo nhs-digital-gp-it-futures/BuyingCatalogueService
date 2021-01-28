@@ -1,12 +1,12 @@
 ﻿CREATE PROCEDURE import.ImportAdditionalService
-     @CatalogueItemId varchar(14),
-     @ServiceName varchar(255),
-     @ServiceSummary varchar(300),
-     @ServiceDescription varchar(3000)
+     @CatalogueItemId nvarchar(14),
+     @ServiceName nvarchar(255),
+     @ServiceSummary nvarchar(300),
+     @ServiceDescription nvarchar(3000)
 AS
     SET NOCOUNT ON;
 
-    DECLARE @solutionId AS varchar(14) = SUBSTRING(@CatalogueItemId, 1, CHARINDEX('A', @CatalogueItemId) - 1);
+    DECLARE @solutionId AS nvarchar(14) = SUBSTRING(@CatalogueItemId, 1, CHARINDEX('A', @CatalogueItemId) - 1);
 
     IF NOT EXISTS (SELECT * FROM dbo.Solution WHERE Id = @solutionId)
         THROW 51000, 'Parent Solution record does not exist.', 1;
@@ -15,7 +15,7 @@ AS
     DECLARE @draftPublicationStatus AS int = (SELECT Id FROM dbo.PublicationStatus WHERE [Name] = 'Draft');
     DECLARE @emptyGuid AS uniqueidentifier = CAST(0x0 AS uniqueidentifier);
     DECLARE @now AS datetime = GETUTCDATE();
-    DECLARE @supplierId AS varchar(6) = import.GetSupplierId(@CatalogueItemId);
+    DECLARE @supplierId AS nvarchar(6) = import.GetSupplierId(@CatalogueItemId);
 
     BEGIN TRANSACTION;
 

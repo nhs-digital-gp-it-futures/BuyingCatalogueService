@@ -20,6 +20,6 @@ BEGIN
      WHERE LEN([Description]) > 40;
 
      ALTER TABLE dbo.PricingUnit
-    ALTER COLUMN [Description] varchar(40) NOT NULL;
+    ALTER COLUMN [Description] nvarchar(40) NOT NULL;
 END;
 GO

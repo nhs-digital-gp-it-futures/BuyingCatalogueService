@@ -1,12 +1,12 @@
 ﻿CREATE TABLE dbo.CataloguePrice
 (
     CataloguePriceId int IDENTITY(1,1) NOT NULL,
-    CatalogueItemId varchar(14) NOT NULL,
+    CatalogueItemId nvarchar(14) NOT NULL,
     ProvisioningTypeId int NOT NULL,
     CataloguePriceTypeId int NOT NULL,
     PricingUnitId uniqueidentifier NOT NULL,
     TimeUnitId int NULL,
-    CurrencyCode varchar(3) NOT NULL,
+    CurrencyCode nvarchar(3) NOT NULL,
     LastUpdated datetime2(7) NOT NULL,
     Price decimal(18,3) NULL,
     CONSTRAINT PK_CataloguePrice PRIMARY KEY (CataloguePriceId),

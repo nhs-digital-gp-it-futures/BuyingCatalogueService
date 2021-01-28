@@ -16,7 +16,7 @@ DECLARE @publishedStatus AS int = (SELECT Id FROM dbo.PublicationStatus WHERE [N
 
 DECLARE @gbp AS char(3) = 'GBP';
 
-DECLARE @associatedServiceId AS varchar(14);
+DECLARE @associatedServiceId AS nvarchar(14);
 
 IF UPPER('$(INSERT_TEST_DATA)') = 'TRUE' AND NOT EXISTS (SELECT * FROM dbo.AssociatedService)
 BEGIN

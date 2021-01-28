@@ -6,9 +6,9 @@ BEGIN
 
     CREATE TABLE #SolutionEpic
     (
-        SolutionId varchar(14) NOT NULL,
+        SolutionId nvarchar(14) NOT NULL,
         CapabilityId uniqueidentifier NOT NULL,
-        EpicId varchar(10) NOT NULL,
+        EpicId nvarchar(10) NOT NULL,
         StatusId int NOT NULL,
         LastUpdated datetime2(7) NOT NULL,
         LastUpdatedBy uniqueidentifier NOT NULL

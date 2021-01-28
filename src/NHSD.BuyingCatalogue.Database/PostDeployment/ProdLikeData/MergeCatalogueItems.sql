@@ -6,10 +6,10 @@ BEGIN
 
     CREATE TABLE #CatalogueItem
     (
-        CatalogueItemId varchar(14) NOT NULL,
-        [Name] varchar(255) NOT NULL,
+        CatalogueItemId nvarchar(14) NOT NULL,
+        [Name] nvarchar(255) NOT NULL,
         CatalogueItemTypeId int NOT NULL,
-        SupplierId varchar(6) NOT NULL,
+        SupplierId nvarchar(6) NOT NULL,
         PublishedStatusId int NOT NULL,
         Created datetime2(7) NOT NULL
     );
