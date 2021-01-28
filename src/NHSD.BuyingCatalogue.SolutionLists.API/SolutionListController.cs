@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.SolutionLists.API.ViewModels;
@@ -14,8 +14,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API
     /// </summary>
     [Route("api/v1/solutions")]
     [ApiController]
-    [Produces("application/json")]
-    [AllowAnonymous]
+    [Produces(MediaTypeNames.Application.Json)]
     public sealed class SolutionListController : ControllerBase
     {
         private readonly IMediator mediator;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Mime;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Hosting;
@@ -31,7 +32,7 @@ namespace NHSD.BuyingCatalogue.API.Infrastructure.Filters
 
             logger.LogError(new EventId(context.Exception.HResult), exception, exception.Message);
 
-            context.HttpContext.Response.ContentType = "application/json";
+            context.HttpContext.Response.ContentType = MediaTypeNames.Application.Json;
             context.HttpContext.Response.StatusCode = exception.ToStatusCode();
             context.Result = exception.ToJsonMessage(webHostEnvironment.IsDevelopment());
             context.ExceptionHandled = true;
