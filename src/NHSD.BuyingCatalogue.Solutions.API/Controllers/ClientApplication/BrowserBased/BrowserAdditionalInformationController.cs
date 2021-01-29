@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -11,7 +12,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.Controllers.ClientApplication.Brows
 {
     [Route("api/v1/solutions")]
     [ApiController]
-    [Produces("application/json")]
+    [Produces(MediaTypeNames.Application.Json)]
     public sealed class BrowserAdditionalInformationController : ControllerBase
     {
         private readonly IMediator mediator;

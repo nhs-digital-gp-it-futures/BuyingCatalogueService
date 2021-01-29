@@ -1,7 +1,6 @@
 ﻿using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHSD.BuyingCatalogue.Capabilities.API.ViewModels;
@@ -15,7 +14,6 @@ namespace NHSD.BuyingCatalogue.Capabilities.API
     [Route("api/v1/[controller]")]
     [ApiController]
     [Produces(MediaTypeNames.Application.Json)]
-    [AllowAnonymous]
     public sealed class CapabilitiesController : ControllerBase
     {
         private readonly IMediator mediator;
