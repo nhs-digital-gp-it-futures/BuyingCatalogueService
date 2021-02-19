@@ -11,8 +11,8 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                              |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["native-desktop"], "NativeDesktopAdditionalInformation": "Some additional info" } |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                              |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["native-desktop"], "NativeDesktopAdditionalInformation": "Some additional info" } |
 
 @3623
 Scenario: AdditionalInformation exceeds the maxLength

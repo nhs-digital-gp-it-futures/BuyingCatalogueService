@@ -11,8 +11,8 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | RoadMap                     |
-        | Sln1     | An original roadmap summary |
+        | SolutionId | RoadMap                     |
+        | Sln1       | An original roadmap summary |
         
 @3664
 Scenario: Summary is greater than max length (1000 characters)
@@ -22,5 +22,5 @@ Scenario: Summary is greater than max length (1000 characters)
     Then a response status of 400 is returned
     And the summary field value is the validation failure maxLength
     And SolutionDetail exist
-        | Solution | RoadMap                     |
-        | Sln1     | An original roadmap summary |
+        | SolutionId | RoadMap                     |
+        | Sln1       | An original roadmap summary |

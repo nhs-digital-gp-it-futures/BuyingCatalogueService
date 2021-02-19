@@ -12,9 +12,9 @@ Background:
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | RoadMap                          |
-        | Sln1     | An original roadmap summary      |
-        | Sln2     | Another original roadmap summary |
+        | SolutionId | RoadMap                          |
+        | Sln1       | An original roadmap summary      |
+        | Sln2       | Another original roadmap summary |
 
 @3664
 Scenario: Solution roadmap section data is updated
@@ -23,9 +23,9 @@ Scenario: Solution roadmap section data is updated
         | A new full summary |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | RoadMap                          |
-        | Sln1     | A new full summary               |
-        | Sln2     | Another original roadmap summary |
+        | SolutionId | RoadMap                          |
+        | Sln1       | A new full summary               |
+        | Sln2       | Another original roadmap summary |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @3664
@@ -35,9 +35,9 @@ Scenario: Solution roadmap section data is updated with trimmed whitespace
         | "           A new full summary        " |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | RoadMap                          |
-        | Sln1     | A new full summary               |
-        | Sln2     | Another original roadmap summary |
+        | SolutionId | RoadMap                          |
+        | Sln1       | A new full summary               |
+        | Sln2       | Another original roadmap summary |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @3664

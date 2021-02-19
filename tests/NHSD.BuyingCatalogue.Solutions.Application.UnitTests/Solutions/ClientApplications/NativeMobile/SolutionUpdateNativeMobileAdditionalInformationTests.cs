@@ -34,7 +34,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
                 r.SolutionId == SolutionId
                 && JToken.Parse(r.ClientApplication).SelectToken("NativeMobileAdditionalInformation").Value<string>() == "Some info";
 
-            Context.MockSolutionDetailRepository.Verify(
+            Context.MockSolutionRepository.Verify(
                 r => r.UpdateClientApplicationAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
@@ -53,7 +53,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
                 json.SelectToken("NativeMobileAdditionalInformation").Should().BeNullOrEmpty();
             }
 
-            Context.MockSolutionDetailRepository
+            Context.MockSolutionRepository
                 .Setup(r => r.UpdateClientApplicationAsync(
                     It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                     It.IsAny<CancellationToken>()))
@@ -108,7 +108,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
                 json.SelectToken("MobileMemoryAndStorage.MinimumMemoryRequirement")?.Value<string>().Should().Be("1GB");
             }
 
-            Context.MockSolutionDetailRepository
+            Context.MockSolutionRepository
                 .Setup(r => r.UpdateClientApplicationAsync(
                     It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                     It.IsAny<CancellationToken>()))
@@ -141,11 +141,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+            Expression<Func<ISolutionRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
                 It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                 It.IsAny<CancellationToken>());
 
-            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
+            Context.MockSolutionRepository.Verify(expression, Times.Never());
         }
 
         private async Task<ISimpleResult> UpdateNativeMobileAdditionalInformation(string additionalInformation = null)

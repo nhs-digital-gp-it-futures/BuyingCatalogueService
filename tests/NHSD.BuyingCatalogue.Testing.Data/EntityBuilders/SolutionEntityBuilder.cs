@@ -13,10 +13,11 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 
             solutionEntity = new SolutionEntity
             {
-                Id = id,
+                SolutionId = id,
                 Version = "1.0.0",
                 ServiceLevelAgreement = null,
                 WorkOfPlan = null,
+                PublishedStatusId = 1,
             };
         }
 
@@ -27,7 +28,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
 
         public SolutionEntityBuilder WithId(string id)
         {
-            solutionEntity.Id = id;
+            solutionEntity.SolutionId = id;
             return this;
         }
 
@@ -46,6 +47,12 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
         public SolutionEntityBuilder WithHosting(string hosting)
         {
             solutionEntity.Hosting = hosting;
+            return this;
+        }
+
+        public SolutionEntityBuilder WithImplementationTimescales(string implementationTimescales)
+        {
+            solutionEntity.ImplementationDetail = implementationTimescales;
             return this;
         }
 
@@ -80,6 +87,12 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
         }
 
         public SolutionEntityBuilder WithOnLastUpdated(DateTime lastUpdated)
+        {
+            solutionEntity.LastUpdated = lastUpdated;
+            return this;
+        }
+
+        public SolutionEntityBuilder WithLastUpdated(DateTime lastUpdated)
         {
             solutionEntity.LastUpdated = lastUpdated;
             return this;

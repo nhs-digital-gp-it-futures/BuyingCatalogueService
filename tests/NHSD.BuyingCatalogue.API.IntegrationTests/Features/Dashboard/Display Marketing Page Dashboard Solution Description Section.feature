@@ -14,18 +14,18 @@ Background:
         | Sln2       | TakeTheRedPill | 1                | Sup 2      |
         | Sln3       | PracticeMgr    | 1                | Sup 2      |
     And SolutionDetail exist
-        | Solution | AboutUrl| SummaryDescription      | FullDescription      | Features                          |
-        | Sln1     | UrlSln1 |                         | Online medicine 1    | [ "Appointments", "Prescribing" ] |
-        | Sln3     | UrlSln3 | Eye opening experience  | Eye opening6         | [ "Referrals", "Workflow" ]       |
+        | SolutionId | AboutUrl| SummaryDescription      | FullDescription      | Features                          |
+        | Sln1       | UrlSln1 |                         | Online medicine 1    | [ "Appointments", "Prescribing" ] |
+        | Sln3       | UrlSln3 | Eye opening experience  | Eye opening6         | [ "Referrals", "Workflow" ]       |
 
 @1848
 Scenario Outline: Solution description section is mandatory and is reported complete if there is text in the summary
-    When a GET request is made for solution dashboard <Solution>
+    When a GET request is made for solution dashboard <SolutionId>
     Then a successful response is returned
     And the solution solution-description section status is <Status>
     And the solution solution-description section requirement is Mandatory
 Examples:
-    | Solution | Status     |
-    | Sln1     | INCOMPLETE |
-    | Sln2     | INCOMPLETE |
-    | Sln3     | COMPLETE   |
+    | SolutionId | Status     |
+    | Sln1       | INCOMPLETE |
+    | Sln2       | INCOMPLETE |
+    | Sln3       | COMPLETE   |

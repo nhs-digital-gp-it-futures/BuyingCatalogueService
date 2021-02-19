@@ -13,9 +13,9 @@ Background:
         | Sln2       | TakeTheRedPill   | 1                | Sup 1      |
         | Sln3       | TakeTheGreenPill | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription            | FullDescription   | Hosting                                                                                                                                                           |
-        | Sln1     | A full online medicine system | Online medicine 1 | { "OnPremise": { "Summary": "Some summary", "Link": "www.somelink.com", "HostingModel": "AZDO", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
-        | Sln2     | An online medicine system     | Online medicine 2 | { }                                                                                                                                                               |
+        | SolutionId | SummaryDescription            | FullDescription   | Hosting                                                                                                                                                           |
+        | Sln1       | A full online medicine system | Online medicine 1 | { "OnPremise": { "Summary": "Some summary", "Link": "www.somelink.com", "HostingModel": "AZDO", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
+        | Sln2       | An online medicine system     | Online medicine 2 | { }                                                                                                                                                               |
 
 @3651
 Scenario: On Premise is retreived for the solution

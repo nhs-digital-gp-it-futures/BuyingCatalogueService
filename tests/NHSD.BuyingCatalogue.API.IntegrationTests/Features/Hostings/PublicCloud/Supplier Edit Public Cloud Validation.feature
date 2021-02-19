@@ -11,8 +11,8 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | Hosting                                                                                                                                     |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "PublicCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
+        | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                                                     |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "PublicCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
 
 @3639
 Scenario: Summary exceeds its maxLength
@@ -22,8 +22,8 @@ Scenario: Summary exceeds its maxLength
     Then a response status of 400 is returned
     And the summary field value is the validation failure maxLength
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | Hosting                                                                                                                                     |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "PublicCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
+        | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                                                     |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "PublicCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
        
 @3639
 Scenario: URL exceeds its maxLength 
@@ -33,8 +33,8 @@ Scenario: URL exceeds its maxLength
     Then a response status of 400 is returned
     And the link field value is the validation failure maxLength
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | Hosting                                                                                                                                     |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "PublicCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
+        | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                                                     |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "PublicCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
 
 @3639
 Scenario: Summary & URL exceeds their maxLength
@@ -45,5 +45,5 @@ Scenario: Summary & URL exceeds their maxLength
     And the summary field value is the validation failure maxLength
     And the link field value is the validation failure maxLength
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | Hosting                                                                                                                                     |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "PublicCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
+        | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                                                     |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "PublicCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |

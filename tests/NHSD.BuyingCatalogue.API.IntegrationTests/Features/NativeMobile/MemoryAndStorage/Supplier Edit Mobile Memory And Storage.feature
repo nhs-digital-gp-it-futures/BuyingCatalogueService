@@ -11,8 +11,8 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication |
-        | Sln1     | An full online medicine system | Online medicine 1 | {}                |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication |
+        | Sln1       | An full online medicine system | Online medicine 1 | {}                |
 
 @3607
 Scenario: Client Application is updated for the solution
@@ -21,8 +21,8 @@ Scenario: Client Application is updated for the solution
         | 1GB                      | A description |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                           |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "Description": "A description" } } |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                           |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "Description": "A description" } } |
         
 @3607
 Scenario: Client Application is updated for the solution with trimmed whitespace
@@ -31,8 +31,8 @@ Scenario: Client Application is updated for the solution with trimmed whitespace
         | "        1GB             " | "       A description     " |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                           |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "Description": "A description" } } |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                           |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "Description": "A description" } } |
 
 @3607
 Scenario: Solution is not found

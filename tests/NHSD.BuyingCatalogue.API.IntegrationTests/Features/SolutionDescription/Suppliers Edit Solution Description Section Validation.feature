@@ -11,8 +11,8 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
-        | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
+        | SolutionId | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
+        | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
 
 @3319
 Scenario: Summary is not filled out
@@ -25,8 +25,8 @@ Scenario: Summary is not filled out
         | SolutionId | SolutionName |
         | Sln1       | MedicOnline  |
     And SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
-        | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
+        | SolutionId | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
+        | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
 
 @3319
 Scenario: Summary exceeds the character limit
@@ -39,8 +39,8 @@ Scenario: Summary exceeds the character limit
         | SolutionId | SolutionName | 
         | Sln1       | MedicOnline  | 
     And SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
-        | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
+        | SolutionId | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
+        | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
 
 @3319
 Scenario: Description exceeds the character limit
@@ -53,8 +53,8 @@ Scenario: Description exceeds the character limit
         | SolutionId | SolutionName |
         | Sln1       | MedicOnline  |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | AboutUrl | Features                          |
-        | Sln1     | An full online medicine system | Online medicine 1 | UrlSln1  | [ "Appointments", "Prescribing" ] |
+        | SolutionId | SummaryDescription             | FullDescription   | AboutUrl | Features                          |
+        | Sln1       | An full online medicine system | Online medicine 1 | UrlSln1  | [ "Appointments", "Prescribing" ] |
 
 @3319
 Scenario: Link exceeds the character limit
@@ -67,8 +67,8 @@ Scenario: Link exceeds the character limit
         | SolutionId | SolutionName |
         | Sln1       | MedicOnline  |
     And SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
-        | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
+        | SolutionId | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
+        | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
 
 @3319
 Scenario: Summary is not filled out & Description exceeds the character limit
@@ -82,8 +82,8 @@ Scenario: Summary is not filled out & Description exceeds the character limit
         | SolutionId | SolutionName |
         | Sln1       | MedicOnline  |
     And SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
-        | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
+        | SolutionId | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
+        | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
 
 @3319
 Scenario: Summary is not filled out & Link exceeds the character limit
@@ -97,8 +97,8 @@ Scenario: Summary is not filled out & Link exceeds the character limit
         | SolutionId | SolutionName |
         | Sln1       | MedicOnline  |
     And SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
-        | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
+        | SolutionId | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
+        | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
 
 @3319
 Scenario: Summary & Description exceeds the character limit
@@ -112,8 +112,8 @@ Scenario: Summary & Description exceeds the character limit
         | SolutionId | SolutionName | 
         | Sln1       | MedicOnline  | 
     And SolutionDetail exist
-        | Solution | AboutUrl |SummaryDescription             | FullDescription   | Features                          |
-        | Sln1     | UrlSln1  |An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
+        | SolutionId | AboutUrl |SummaryDescription             | FullDescription   | Features                          |
+        | Sln1       | UrlSln1  |An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
 
 @3319
 Scenario: Summary & Link exceeds the character limit
@@ -127,8 +127,8 @@ Scenario: Summary & Link exceeds the character limit
         | SolutionId | SolutionName | 
         | Sln1       | MedicOnline  | 
     And SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
-        | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
+        | SolutionId | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
+        | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
 
 @3319
 Scenario: Description & Link exceeds the character limit
@@ -142,8 +142,8 @@ Scenario: Description & Link exceeds the character limit
         | SolutionId | SolutionName |
         | Sln1       | MedicOnline  |
     And SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
-        | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
+        | SolutionId | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
+        | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
 
 @3319
 Scenario: Summary is not filled out, Description & Link exceeds the character limit
@@ -158,8 +158,8 @@ Scenario: Summary is not filled out, Description & Link exceeds the character li
         | SolutionId | SolutionName | 
         | Sln1       | MedicOnline  | 
     And SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
-        | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
+        | SolutionId | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
+        | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
 
 @3319
 Scenario: Summary, Description & Link exceeds the character limit
@@ -174,6 +174,6 @@ Scenario: Summary, Description & Link exceeds the character limit
         | SolutionId | SolutionName | 
         | Sln1       | MedicOnline  | 
     And SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
-        | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
+        | SolutionId | AboutUrl | SummaryDescription             | FullDescription   | Features                          |
+        | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1 | [ "Appointments", "Prescribing" ] |
 

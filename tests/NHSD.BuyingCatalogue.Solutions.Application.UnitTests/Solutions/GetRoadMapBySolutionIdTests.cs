@@ -28,7 +28,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             query = new GetRoadMapBySolutionIdQuery(SolutionId);
             cancellationToken = CancellationToken.None;
 
-            context.MockSolutionDetailRepository
+            context.MockSolutionRepository
                 .Setup(r => r.GetRoadMapBySolutionIdAsync(SolutionId, cancellationToken))
                 .ReturnsAsync(() => mockResult.Object);
 
@@ -75,7 +75,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             context.MockSolutionRepository.Verify(r => r.CheckExists(SolutionId, cancellationToken));
             context.MockSolutionRepository.VerifyNoOtherCalls();
-            context.MockSolutionDetailRepository.VerifyNoOtherCalls();
         }
     }
 }

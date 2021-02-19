@@ -13,28 +13,28 @@ Background:
 @3600
 Scenario: Native Mobile Hardware Requirements is updated
     Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication |
-        | Sln1     | An full online medicine system | Online medicine 1 | { }               |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication |
+        | Sln1       | An full online medicine system | Online medicine 1 | { }               |
     When a PUT request is made to update the native-mobile-hardware-requirements section for solution Sln1
         | HardwareRequirements |
         | New Hardware         |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                              |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "NativeMobileHardwareRequirements": "New Hardware" } |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                              |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "NativeMobileHardwareRequirements": "New Hardware" } |
         
 @3600
 Scenario: Native Mobile Hardware Requirements is updated with trimmed whitespace
     Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication |
-        | Sln1     | An full online medicine system | Online medicine 1 | { }               |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication |
+        | Sln1       | An full online medicine system | Online medicine 1 | { }               |
     When a PUT request is made to update the native-mobile-hardware-requirements section for solution Sln1
         | HardwareRequirements       |
         | "     New Hardware       " |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                              |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "NativeMobileHardwareRequirements": "New Hardware" } |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                              |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "NativeMobileHardwareRequirements": "New Hardware" } |
 
 @3600
 Scenario: Solution is not found

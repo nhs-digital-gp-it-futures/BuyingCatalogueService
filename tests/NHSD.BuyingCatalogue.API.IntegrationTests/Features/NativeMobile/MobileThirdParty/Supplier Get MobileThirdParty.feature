@@ -14,9 +14,9 @@ Background:
         | Sln2       | TakeTheRedPill | 1                | Sup 2      |
         | Sln3       | Medics         | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                  |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["native-mobile"], "MobileThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": "Capabilities" } } |
-        | Sln2     | Testing System                 | Full System       | { "ClientApplicationTypes": ["native-mobile"] }                                                                                                    |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                  |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["native-mobile"], "MobileThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": "Capabilities" } } |
+        | Sln2       | Testing System                 | Full System       | { "ClientApplicationTypes": ["native-mobile"] }                                                                                                    |
 
 @3608
 Scenario: Native Mobile Third Party is retreived for the solution

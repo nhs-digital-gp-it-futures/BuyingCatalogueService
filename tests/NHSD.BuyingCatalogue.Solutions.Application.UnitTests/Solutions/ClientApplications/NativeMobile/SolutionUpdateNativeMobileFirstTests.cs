@@ -35,7 +35,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
                     .SelectToken("NativeMobileFirstDesign")
                     .Value<bool>();
 
-            Context.MockSolutionDetailRepository.Verify(
+            Context.MockSolutionRepository.Verify(
                 r => r.UpdateClientApplicationAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
@@ -51,11 +51,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
             results["mobile-first-design"].Should().Be("required");
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
 
-            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+            Expression<Func<ISolutionRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
                 It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                 It.IsAny<CancellationToken>());
 
-            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
+            Context.MockSolutionRepository.Verify(expression, Times.Never());
         }
 
         [Test]
@@ -95,7 +95,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
                 json.SelectToken("NativeMobileFirstDesign")?.Value<bool>().Should().BeFalse();
             }
 
-            Context.MockSolutionDetailRepository
+            Context.MockSolutionRepository
                 .Setup(r => r.UpdateClientApplicationAsync(
                     It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                     It.IsAny<CancellationToken>()))
@@ -116,11 +116,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
 
-            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+            Expression<Func<ISolutionRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
                 It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                 It.IsAny<CancellationToken>());
 
-            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
+            Context.MockSolutionRepository.Verify(expression, Times.Never());
         }
 
         private async Task<ISimpleResult> UpdateNativeMobileFirst(string mobileFirstDesign = null)

@@ -68,12 +68,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await SolutionEntityBuilder.Create()
                 .WithId(Solution1Id)
-                .WithOnLastUpdated(lastUpdated)
-                .Build()
-                .InsertAsync();
-
-            await SolutionDetailEntityBuilder.Create()
-                .WithSolutionId(Solution1Id)
                 .WithSummary("Sln1Summary")
                 .WithFullDescription("Sln1Description")
                 .WithAboutUrl("AboutUrl")
@@ -113,11 +107,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             await SolutionEntityBuilder.Create()
                 .WithId(Solution1Id)
-                .Build()
-                .InsertAsync();
-
-            await SolutionDetailEntityBuilder.Create()
-                .WithSolutionId(Solution1Id)
                 .Build()
                 .InsertAndSetCurrentForSolutionAsync();
 

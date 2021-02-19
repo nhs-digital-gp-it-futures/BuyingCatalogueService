@@ -12,8 +12,8 @@ Background:
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | ImplementationDetail   |
-        | Sln1     | some valid description |
+        | SolutionId | ImplementationDetail   |
+        | Sln1       | some valid description |
 
 @3670
 Scenario: Solution Implementation Timescales is retrieved for the solution

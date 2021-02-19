@@ -13,9 +13,9 @@ Background:
         | Sln2       | TakeTheRedPill | 1                | Sup 1      |
         | Sln3       | PracticeMgr    | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                              |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "MobileConnectionDetails" : { "ConnectionType" : [ "3G", "4G", "5G" ], "MinimumConnectionSpeed": "1GBps", "Description": "A description" } } |
-        | Sln3     | Testing System                 | Full System       | {  }                                                                                                                                           |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                              |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "MobileConnectionDetails" : { "ConnectionType" : [ "3G", "4G", "5G" ], "MinimumConnectionSpeed": "1GBps", "Description": "A description" } } |
+        | Sln3       | Testing System                 | Full System       | {  }                                                                                                                                           |
 
 @3606
 Scenario: Mobile Connection Details are retrieved for the solution

@@ -33,7 +33,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
                 r.SolutionId == SolutionId
                 && JToken.Parse(r.ClientApplication).SelectToken("NativeDesktopHardwareRequirements").Value<string>() == "New hardware";
 
-            Context.MockSolutionDetailRepository.Verify(
+            Context.MockSolutionRepository.Verify(
                 r => r.UpdateClientApplicationAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
@@ -52,7 +52,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
                 json.SelectToken("NativeDesktopHardwareRequirements").Should().BeNullOrEmpty();
             }
 
-            Context.MockSolutionDetailRepository
+            Context.MockSolutionRepository
                 .Setup(r => r.UpdateClientApplicationAsync(
                     It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                     It.IsAny<CancellationToken>()))
@@ -94,7 +94,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
                 newClientApplication.NativeDesktopHardwareRequirements.Should().Be("Updated hardware");
             }
 
-            Context.MockSolutionDetailRepository
+            Context.MockSolutionRepository
                 .Setup(r => r.UpdateClientApplicationAsync(
                     It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                     It.IsAny<CancellationToken>()))
@@ -125,11 +125,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+            Expression<Func<ISolutionRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
                 It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                 It.IsAny<CancellationToken>());
 
-            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
+            Context.MockSolutionRepository.Verify(expression, Times.Never());
         }
 
         private async Task<ISimpleResult> UpdateNativeDesktopHardwareRequirements(string hardwareRequirements)

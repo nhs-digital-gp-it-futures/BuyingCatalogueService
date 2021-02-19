@@ -26,7 +26,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
             context = new TestContext();
             solutionId = "Sln1";
             cancellationToken = CancellationToken.None;
-            context.MockSolutionDetailRepository
+            context.MockSolutionRepository
                 .Setup(r => r.GetClientApplicationBySolutionIdAsync(solutionId, cancellationToken))
                 .ReturnsAsync(() => clientApplicationResult);
         }

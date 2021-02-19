@@ -34,7 +34,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
                 && JToken.Parse(r.ClientApplication).Value<string>("MinimumConnectionSpeed") == "New Speed"
                 && JToken.Parse(r.ClientApplication).Value<string>("MinimumDesktopResolution") == "New Resolution";
 
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(
+            Context.MockSolutionRepository.Verify(r => r.UpdateClientApplicationAsync(
                 It.Is(match),
                 It.IsAny<CancellationToken>()));
         }
@@ -53,7 +53,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
                 && JToken.Parse(r.ClientApplication).Value<string>("MinimumConnectionSpeed") == "Speed"
                 && JToken.Parse(r.ClientApplication).Value<string>("MinimumDesktopResolution") == null;
 
-            Context.MockSolutionDetailRepository.Verify(r => r.UpdateClientApplicationAsync(
+            Context.MockSolutionRepository.Verify(r => r.UpdateClientApplicationAsync(
                 It.Is(match),
                 It.IsAny<CancellationToken>()));
         }
@@ -70,11 +70,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
                 r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()),
                 Times.Never());
 
-            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+            Expression<Func<ISolutionRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
                 It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                 It.IsAny<CancellationToken>());
 
-            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
+            Context.MockSolutionRepository.Verify(expression, Times.Never());
         }
 
         [Test]
@@ -84,11 +84,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+            Expression<Func<ISolutionRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
                 It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                 It.IsAny<CancellationToken>());
 
-            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
+            Context.MockSolutionRepository.Verify(expression, Times.Never());
         }
 
         private async Task<ISimpleResult> UpdateConnectivityAndResult(

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using JetBrains.Annotations;
+using Newtonsoft.Json.Linq;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Testing.Data;
 using NHSD.BuyingCatalogue.Testing.Data.Entities;
@@ -43,6 +44,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                     .WithRoadMap(solutionTable.RoadMap)
                     .WithIntegrationsUrl(solutionTable.IntegrationsUrl)
                     .WithOnLastUpdated(solutionTable.LastUpdated != DateTime.MinValue ? solutionTable.LastUpdated : DateTime.UtcNow)
+                    //.WithImplementationTimescales(solutionTable.ImplementationDetail)
                     .Build()
                     .InsertAsync();
             }
@@ -62,7 +64,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 foreach (var capability in solutionCapability.Capability)
                 {
                     await SolutionCapabilityEntityBuilder.Create()
-                        .WithSolutionId(solutions[solutionCapability.Solution].Id)
+                        .WithSolutionId(solutions[solutionCapability.Solution].SolutionId)
                         .WithCapabilityId(capabilities[capability].Id)
                         .WithStatusId(solutionCapability.Pass ? PassedSolutionCapabilityStatusId : FailedSolutionCapabilityStatusId)
                         .Build()
@@ -81,11 +83,18 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             }
         }
 
+        //[Given(@"a Solution (.*) does exist")]
+        //public static async Task GivenASolutionSlnDoesExist(string solutionId)
+        //{
+        //    var solutionList = await SolutionEntity.FetchAllAsync();
+        //    solutionList.Select(s => s.SolutionId).Should().Contain(solutionId);
+        //}
+
         [Given(@"a Solution (.*) does not exist")]
         public static async Task GivenASolutionSlnDoesNotExist(string solutionId)
         {
             var solutionList = await SolutionEntity.FetchAllAsync();
-            solutionList.Select(s => s.Id).Should().NotContain(solutionId);
+            solutionList.Select(s => s.SolutionId).Should().NotContain(solutionId);
         }
 
         [Then(@"Solutions exist")]
@@ -95,7 +104,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             var solutions = await SolutionEntity.FetchAllAsync();
             solutions.Select(s => new
             {
-                SolutionId = s.Id,
+                SolutionId = s.SolutionId,
                 SolutionName = s.Name,
             }).Should().BeEquivalentTo(expectedSolutions);
         }
@@ -106,6 +115,79 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             var contact = await SolutionEntity.GetByIdAsync(solutionId);
             (await contact.LastUpdated.SecondsFromNow()).Should().BeLessOrEqualTo(5);
         }
+
+
+        [Given(@"SolutionDetail exist")]
+        public static async Task GivenSolutionDetailExist(Table table)
+        {
+            foreach (var solutionDetail in table.CreateSet<SolutionTable>())
+            {
+                //await CatalogueItemEntityBuilder.Create()
+                //    .WithCatalogueItemId(solutionDetail.SolutionId)
+                //    .WithName(solutionDetail.SolutionName ?? "SomeName")
+                //    .WithSupplierId(solutionDetail.SupplierId ?? "Sup 1")
+                //    .WithPublishedStatusId((int)solutionDetail.PublishedStatus)
+                //    .Build()
+                //    .InsertAsync();
+
+                await SolutionEntityBuilder.Create()
+                    .WithFeatures(solutionDetail.Features)
+                    .WithSummary(solutionDetail.SummaryDescription)
+                    .WithFullDescription(solutionDetail.FullDescription)
+                    .WithAboutUrl(solutionDetail.AboutUrl)
+                    .WithId(solutionDetail.SolutionId)
+                    .WithClientApplication(solutionDetail.ClientApplication)
+                    .WithHosting(solutionDetail.Hosting)
+                    .WithRoadMap(solutionDetail.RoadMap)
+                    .WithIntegrationsUrl(solutionDetail.IntegrationsUrl)
+                    .WithImplementationTimescales(solutionDetail.ImplementationDetail)
+                    .WithLastUpdated(solutionDetail.LastUpdated != DateTime.MinValue ? solutionDetail.LastUpdated : DateTime.UtcNow)
+                    .Build()
+                    .InsertAndSetCurrentForSolutionAsync();
+            }
+        }
+
+        [Then(@"SolutionDetail exist")]
+        public static async Task ThenSolutionDetailExist(Table table)
+        {
+            var expectedSolutionDetails = table.CreateSet<SolutionTable>().Select(m => new
+            {
+                m.SolutionId,
+                AboutUrl = string.IsNullOrWhiteSpace(m.AboutUrl) ? null : m.AboutUrl,
+                Features = string.IsNullOrWhiteSpace(m.Features) ? null : m.Features,
+                Summary = string.IsNullOrWhiteSpace(m.SummaryDescription) ? null : m.SummaryDescription,
+                FullDescription = string.IsNullOrWhiteSpace(m.FullDescription) ? null : m.FullDescription,
+                RoadMap = string.IsNullOrWhiteSpace(m.RoadMap) ? null : m.RoadMap,
+                IntegrationsUrl = string.IsNullOrWhiteSpace(m.IntegrationsUrl) ? null : m.IntegrationsUrl,
+                ImplementationDetail = string.IsNullOrWhiteSpace(m.ImplementationDetail) ? null : m.ImplementationDetail,
+                ClientApplication = string.IsNullOrWhiteSpace(m.ClientApplication) ? null : JToken.Parse(m.ClientApplication).ToString(),
+                Hosting = string.IsNullOrWhiteSpace(m.Hosting) ? null : JToken.Parse(m.Hosting).ToString(),
+            });
+
+            var solutionDetails = await SolutionEntity.FetchAllAsync();
+
+            solutionDetails.Select(m => new
+            {
+                m.SolutionId,
+                m.AboutUrl,
+                m.Features,
+                m.Summary,
+                m.FullDescription,
+                m.RoadMap,
+                m.IntegrationsUrl,
+                m.ImplementationDetail,
+                ClientApplication = string.IsNullOrWhiteSpace(m.ClientApplication) ? null : JToken.Parse(m.ClientApplication).ToString(),
+                Hosting = string.IsNullOrWhiteSpace(m.Hosting) ? null : JToken.Parse(m.Hosting).ToString(),
+            }).Should().BeEquivalentTo(expectedSolutionDetails);
+        }
+
+        [Then(@"Last Updated has updated on the SolutionDetail for solution (.*)")]
+        public static async Task LastUpdatedHasUpdatedOnSolutionDetail(string solutionId)
+        {
+            var solutionDetail = await SolutionEntity.GetByIdAsync(solutionId);
+            (await solutionDetail.LastUpdated.SecondsFromNow()).Should().BeLessOrEqualTo(5);
+        }
+
 
         [UsedImplicitly(ImplicitUseTargetFlags.Members)]
         private sealed class SolutionTable
@@ -134,6 +216,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             public string IntegrationsUrl { get; init; }
 
             public string AboutUrl { get; init; }
+
+            public string ImplementationDetail { get; init; }
 
             public DateTime LastUpdated { get; init; }
         }

@@ -12,8 +12,8 @@ Background:
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | IntegrationsUrl |
-        | Sln1     | some valid url  |
+        | SolutionId | IntegrationsUrl |
+        | Sln1       | some valid url  |
 
 @3667
 Scenario: Solution Integrations is retrieved for the solution

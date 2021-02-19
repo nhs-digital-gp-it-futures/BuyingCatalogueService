@@ -12,8 +12,8 @@ Background:
         | Sln1       | MedicOnline    | Sup 1      |
         | Sln2       | TakeTheRedPill | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription            |
-        | Sln1     | A full online medicine system |
+        | SolutionId | SummaryDescription            |
+        | Sln1       | A full online medicine system |
 
 @7261
 Scenario: Get a single solution

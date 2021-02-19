@@ -12,8 +12,8 @@ Background:
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | RoadMap          |
-        | Sln1     | Some description |
+        | SolutionId | RoadMap          |
+        | Sln1       | Some description |
 
 @3664
 Scenario: Solution Road Map section presented where Solution Detail exists

@@ -10,13 +10,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
         /// <summary>
         /// Data access layer for the <see cref="Solution"/> entity.
         /// </summary>
-        private readonly ISolutionDetailRepository solutionDetailRepository;
+        private readonly ISolutionRepository solutionRepository;
 
-        public SolutionImplementationTimescalesUpdater(ISolutionDetailRepository solutionDetailRepository) =>
-            this.solutionDetailRepository = solutionDetailRepository;
+        public SolutionImplementationTimescalesUpdater(ISolutionRepository solutionRepository) =>
+            this.solutionRepository = solutionRepository;
 
         public async Task Update(string solutionId, string description, CancellationToken cancellationToken) =>
-            await solutionDetailRepository.UpdateImplementationTimescalesAsync(
+            await solutionRepository.UpdateImplementationTimescalesAsync(
                 new UpdateImplementationTimescalesRequest(solutionId, description),
                 cancellationToken);
     }

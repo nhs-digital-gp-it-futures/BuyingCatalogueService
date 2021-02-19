@@ -53,7 +53,7 @@ Scenario: Browser Supported status incomplete when record not present
 @2782
 Scenario Outline: Browser Supported status based on data in ClientApplication
     Given SolutionDetail exist
-        | Solution | ClientApplication   |
+        | SolutionId | ClientApplication   |
         | Sln1     | <ClientApplication> |
         
     When a GET request is made for browser-based section dashboard for solution Sln1
@@ -85,7 +85,7 @@ Scenario: Plugins status incomplete when record not present
 @2793
 Scenario Outline: Plugins status based on data in ClientApplication
     Given SolutionDetail exist
-        | Solution | ClientApplication   |
+        | SolutionId | ClientApplication   |
         | Sln1     | <ClientApplication> |
         
     When a GET request is made for browser-based section dashboard for solution Sln1
@@ -113,7 +113,7 @@ Scenario: Browser Hardware Requirements incomplete when record is not preset
 @3600
 Scenario Outline: 10. Browser Hardware Requirements Based on data in Client Application
     Given SolutionDetail exist
-        | Solution | ClientApplication   |
+        | SolutionId | ClientApplication   |
         | Sln1     | <ClientApplication> |
     When a GET request is made for browser-based section dashboard for solution Sln1
     Then a successful response is returned
@@ -135,8 +135,8 @@ Examples:
 @3599
 Scenario Outline: 11. Browser Connectivity and Resolution Based on data in Client Application
     Given SolutionDetail exist
-        | Solution | ClientApplication   |
-        | Sln1     | <ClientApplication> |
+        | SolutionId    | ClientApplication   |
+        | Sln1          | <ClientApplication> |
     When a GET request is made for browser-based section dashboard for solution Sln1
     Then a successful response is returned
     And the solution browser-connectivity-and-resolution section status is <Status>
@@ -157,8 +157,8 @@ Scenario: 12. Browser Additional Information incomplete when record is not prese
 @3601
 Scenario Outline: 13 Browser Additional Information Based on data in Client Application
   Given SolutionDetail exist
-        | Solution | ClientApplication   |
-        | Sln1     | <ClientApplication> |
+        | SolutionId    | ClientApplication   |
+        | Sln1          | <ClientApplication> |
     When a GET request is made for browser-based section dashboard for solution Sln1
     Then a successful response is returned
     And the solution browser-additional-information section status is <Status>
@@ -172,8 +172,8 @@ Examples:
 @3602
 Scenario Outline: 14. Browser Mobile Frst Based on data in Client Application
   Given SolutionDetail exist
-        | Solution | ClientApplication   |
-        | Sln1     | <ClientApplication> |
+        | SolutionId    | ClientApplication   |
+        | Sln1          | <ClientApplication> |
     When a GET request is made for browser-based section dashboard for solution Sln1
     Then a successful response is returned
     And the solution browser-mobile-first section status is <Status>

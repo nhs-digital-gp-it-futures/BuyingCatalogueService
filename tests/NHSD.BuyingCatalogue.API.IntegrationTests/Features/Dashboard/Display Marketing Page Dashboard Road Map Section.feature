@@ -14,17 +14,17 @@ Background:
     @3664
 Scenario Outline: Roadmap section is optional and is reported complete if there is text
     Given SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription | FullDescription   | RoadMap   |
-        | Sln1     | UrlSln1  |                    | Online medicine 1 | <RoadMap> |
-    When a GET request is made for solution dashboard <Solution>
+        | SolutionId | AboutUrl | SummaryDescription | FullDescription   | RoadMap   |
+        | Sln1       | UrlSln1  |                    | Online medicine 1 | <RoadMap> |
+    When a GET request is made for solution dashboard <SolutionId>
     Then a successful response is returned
     And the solution roadmap section status is <Status>
     And the solution roadmap section requirement is Optional
 
     Examples:
-        | Solution | Status     | RoadMap           |
-        | Sln1     | INCOMPLETE | ""                |
-        | Sln1     | INCOMPLETE | "   "             |
-        | Sln1     | INCOMPLETE |                   |
-        | Sln1     | COMPLETE   | "Roadmap summary" |
-        | Sln2     | INCOMPLETE |                   |
+        | SolutionId | Status     | RoadMap           |
+        | Sln1       | INCOMPLETE | ""                |
+        | Sln1       | INCOMPLETE | "   "             |
+        | Sln1       | INCOMPLETE |                   |
+        | Sln1       | COMPLETE   | "Roadmap summary" |
+        | Sln2       | INCOMPLETE |                   |

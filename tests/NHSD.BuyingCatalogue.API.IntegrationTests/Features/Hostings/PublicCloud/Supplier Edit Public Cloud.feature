@@ -11,8 +11,8 @@ Background:
         | SolutionId | SolutionName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline  | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | Hosting                                                                                                                                     |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "PublicCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
+        | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                                                     |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "PublicCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
 
 @3639
 Scenario: Public Cloud is updated
@@ -21,8 +21,8 @@ Scenario: Public Cloud is updated
         | New Summary | New Link | New Connectivity |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | Hosting                                                                                                 |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "PublicCloud": { "Summary": "New Summary", "Link": "New Link", "RequiresHSCN": "New Connectivity" } } |
+        | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                 |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "PublicCloud": { "Summary": "New Summary", "Link": "New Link", "RequiresHSCN": "New Connectivity" } } |
 
 @3639
 Scenario: Public Cloud is updated with trimmed whitespace
@@ -31,8 +31,8 @@ Scenario: Public Cloud is updated with trimmed whitespace
         | "     New Summary  " | "   New Link   " | " New Connectivity    " |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | Hosting                                                                                                 |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "PublicCloud": { "Summary": "New Summary", "Link": "New Link", "RequiresHSCN": "New Connectivity" } } |
+        | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                 |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "PublicCloud": { "Summary": "New Summary", "Link": "New Link", "RequiresHSCN": "New Connectivity" } } |
 
 @3639
 Scenario: Public Cloud variables are updated to null or empty
@@ -41,8 +41,8 @@ Scenario: Public Cloud variables are updated to null or empty
         | NULL    | NULL |              |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | Hosting                |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "PublicCloud": { } } |
+        | SolutionId | SummaryDescription             | FullDescription   | Hosting                |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "PublicCloud": { } } |
 
 @3639
 Scenario: Solution is not found

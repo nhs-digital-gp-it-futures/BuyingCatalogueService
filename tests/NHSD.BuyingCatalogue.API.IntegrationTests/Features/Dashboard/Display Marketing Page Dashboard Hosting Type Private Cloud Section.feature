@@ -15,21 +15,21 @@ Background:
 @3641
 Scenario Outline: Private cloud section is optional and is reported complete if there is text in the Private Cloud
     Given SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription | FullDescription   | Hosting   |
-        | Sln1     | UrlSln1  |                    | Online medicine 1 | <Hosting> |
-    When a GET request is made for solution dashboard <Solution>
+        | SolutionId | AboutUrl | SummaryDescription | FullDescription   | Hosting   |
+        | Sln1       | UrlSln1  |                    | Online medicine 1 | <Hosting> |
+    When a GET request is made for solution dashboard <SolutionId>
     Then a successful response is returned
     And the solution hosting-type-private-cloud section status is <Status>
     And the solution hosting-type-private-cloud section requirement is Optional
 
     Examples:
-        | Solution | Status     | Hosting                                                                                                                                                                            |
-        | Sln1     | INCOMPLETE | { }                                                                                                                                                                                |
-        | Sln1     | INCOMPLETE |                                                                                                                                                                                    |
-        | Sln1     | INCOMPLETE | { "PrivateCloud": null }                                                                                                                                                           |
-        | Sln1     | COMPLETE   | { "PrivateCloud": {"Summary": "Some summary" } }                                                                                                                                   |
-        | Sln1     | COMPLETE   | { "PrivateCloud": {"Link": "Some url" } }                                                                                                                                          |
-        | Sln1     | COMPLETE   | { "PrivateCloud": {"HostingModel": "Some hosting model" } }                                                                                                                        |
-        | Sln1     | COMPLETE   | { "PrivateCloud": {"RequiresHSCN": "Some connectivity" } }                                                                                                                         |
-        | Sln1     | COMPLETE   | { "PrivateCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "HostingModel": "Some hosting model", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
-        | Sln2     | INCOMPLETE |                                                                                                                                                                                    |
+        | SolutionId | Status     | Hosting                                                                                                                                                                            |
+        | Sln1       | INCOMPLETE | { }                                                                                                                                                                                |
+        | Sln1       | INCOMPLETE |                                                                                                                                                                                    |
+        | Sln1       | INCOMPLETE | { "PrivateCloud": null }                                                                                                                                                           |
+        | Sln1       | COMPLETE   | { "PrivateCloud": {"Summary": "Some summary" } }                                                                                                                                   |
+        | Sln1       | COMPLETE   | { "PrivateCloud": {"Link": "Some url" } }                                                                                                                                          |
+        | Sln1       | COMPLETE   | { "PrivateCloud": {"HostingModel": "Some hosting model" } }                                                                                                                        |
+        | Sln1       | COMPLETE   | { "PrivateCloud": {"RequiresHSCN": "Some connectivity" } }                                                                                                                         |
+        | Sln1       | COMPLETE   | { "PrivateCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "HostingModel": "Some hosting model", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
+        | Sln2       | INCOMPLETE |                                                                                                                                                                                    |

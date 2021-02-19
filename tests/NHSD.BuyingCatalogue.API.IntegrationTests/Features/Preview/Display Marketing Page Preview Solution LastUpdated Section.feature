@@ -14,8 +14,8 @@ Scenario Outline: Last Updated is the latest of last updated in the solution tab
         | SolutionId | SolutionName | SupplierStatusId | SupplierId | LastUpdated |
         | Sln1       | MedicOnline  | 1                | Sup 1      | <Solution>  |
     And SolutionDetail exist
-        | Solution | LastUpdated      |
-        | Sln1     | <SolutionDetail> |
+        | SolutionId | LastUpdated      |
+        | Sln1       | <SolutionDetail> |
     And MarketingContacts exist
         | SolutionId | LastUpdated |
         | Sln1       | <MarketingContact1> |
@@ -38,7 +38,7 @@ Scenario Outline: No marketing contact exist, Last Updated is the latest of last
         | SolutionId | SolutionName | SupplierStatusId | SupplierId | LastUpdated |
         | Sln1       | MedicOnline  | 1                | Sup 1      | <Solution>  |
     And SolutionDetail exist
-        | Solution | LastUpdated      |
+        | SolutionId | LastUpdated      |
         | Sln1     | <SolutionDetail> |
     When a GET request is made for solution preview Sln1
     Then a successful response is returned

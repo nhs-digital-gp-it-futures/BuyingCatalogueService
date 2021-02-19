@@ -34,7 +34,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
                 && JToken.Parse(r.ClientApplication).SelectToken(ThirdPartyToken).Value<string>() == "component"
                 && JToken.Parse(r.ClientApplication).SelectToken(DeviceToken).Value<string>() == "capabilities";
 
-            Context.MockSolutionDetailRepository.Verify(
+            Context.MockSolutionRepository.Verify(
                 r => r.UpdateClientApplicationAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
@@ -57,7 +57,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
                 json.SelectToken(DeviceToken).Should().BeNullOrEmpty();
             }
 
-            Context.MockSolutionDetailRepository
+            Context.MockSolutionRepository
                 .Setup(r => r.UpdateClientApplicationAsync(
                     It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                     It.IsAny<CancellationToken>()))
@@ -87,11 +87,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
                 r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()),
                 Times.Never());
 
-            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+            Expression<Func<ISolutionRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
                 It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                 It.IsAny<CancellationToken>());
 
-            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
+            Context.MockSolutionRepository.Verify(expression, Times.Never());
         }
 
         [Test]
@@ -109,11 +109,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
                 r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()),
                 Times.Never());
 
-            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+            Expression<Func<ISolutionRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
                 It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                 It.IsAny<CancellationToken>());
 
-            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
+            Context.MockSolutionRepository.Verify(expression, Times.Never());
         }
 
         [Test]
@@ -133,11 +133,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
                 r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()),
                 Times.Never());
 
-            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+            Expression<Func<ISolutionRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
                 It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                 It.IsAny<CancellationToken>());
 
-            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
+            Context.MockSolutionRepository.Verify(expression, Times.Never());
         }
 
         private async Task<ISimpleResult> UpdateMobileThirdParty(

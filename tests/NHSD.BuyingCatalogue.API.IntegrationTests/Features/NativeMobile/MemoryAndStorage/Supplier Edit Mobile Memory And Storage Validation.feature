@@ -11,8 +11,8 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication |
-        | Sln1     | An full online medicine system | Online medicine 1 | {}                |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication |
+        | Sln1       | An full online medicine system | Online medicine 1 | {}                |
 @3607
 Scenario: Mobile StorageRequirementsDescription is updated to be too long
     When a PUT request is made to update the native-mobile-memory-and-storage section for solution Sln1
@@ -21,8 +21,8 @@ Scenario: Mobile StorageRequirementsDescription is updated to be too long
     Then a response status of 400 is returned
     And the storage-requirements-description field value is the validation failure maxLength
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication |
-        | Sln1     | An full online medicine system | Online medicine 1 | {}                |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication |
+        | Sln1       | An full online medicine system | Online medicine 1 | {}                |
         
 @3607
 Scenario: Client Application is updated with no Mobile StorageRequirementsDescription
@@ -32,8 +32,8 @@ Scenario: Client Application is updated with no Mobile StorageRequirementsDescri
     Then a response status of 400 is returned
     And the storage-requirements-description field value is the validation failure required
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication |
-        | Sln1     | An full online medicine system | Online medicine 1 | {}                |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication |
+        | Sln1       | An full online medicine system | Online medicine 1 | {}                |
 
 @3607
 Scenario: Client Application is updated with no Mobile MinimumMemoryRequirement
@@ -43,5 +43,5 @@ Scenario: Client Application is updated with no Mobile MinimumMemoryRequirement
     Then a response status of 400 is returned
     And the minimum-memory-requirement field value is the validation failure required
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication |
-        | Sln1     | An full online medicine system | Online medicine 1 | {}                |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication |
+        | Sln1       | An full online medicine system | Online medicine 1 | {}                |

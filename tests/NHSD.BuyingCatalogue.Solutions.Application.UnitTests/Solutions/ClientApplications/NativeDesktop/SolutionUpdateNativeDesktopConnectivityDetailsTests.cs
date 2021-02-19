@@ -33,7 +33,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
                     .SelectToken("NativeDesktopMinimumConnectionSpeed")
                     .Value<string>() == "2 Mbps";
 
-            Context.MockSolutionDetailRepository.Verify(
+            Context.MockSolutionRepository.Verify(
                 r => r.UpdateClientApplicationAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
@@ -71,7 +71,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
                 newClientApplication.NativeDesktopMinimumConnectionSpeed.Should().Be("6Mbps");
             }
 
-            Context.MockSolutionDetailRepository
+            Context.MockSolutionRepository
                 .Setup(r => r.UpdateClientApplicationAsync(
                     It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                     It.IsAny<CancellationToken>()))
@@ -92,11 +92,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            Expression<Func<ISolutionDetailRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
+            Expression<Func<ISolutionRepository, Task>> expression = r => r.UpdateClientApplicationAsync(
                 It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                 It.IsAny<CancellationToken>());
 
-            Context.MockSolutionDetailRepository.Verify(expression, Times.Never());
+            Context.MockSolutionRepository.Verify(expression, Times.Never());
         }
 
         private async Task<ISimpleResult> UpdateNativeDesktopConnectivityDetails(string connectivityDetails = null)

@@ -9,16 +9,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 {
     internal sealed class HostingReader
     {
-        private readonly ISolutionDetailRepository solutionDetailRepository;
+        private readonly ISolutionRepository solutionRepository;
 
-        public HostingReader(ISolutionDetailRepository solutionDetailRepository)
+        public HostingReader(ISolutionRepository solutionRepository)
         {
-            this.solutionDetailRepository = solutionDetailRepository;
+            this.solutionRepository = solutionRepository;
         }
 
         public async Task<Hosting> BySolutionIdAsync(string id, CancellationToken cancellationToken)
         {
-            var hostingResult = await solutionDetailRepository.GetHostingBySolutionIdAsync(id, cancellationToken)
+            var hostingResult = await solutionRepository.GetHostingBySolutionIdAsync(id, cancellationToken)
                 ?? throw new NotFoundException(nameof(Solution), id);
 
             return string.IsNullOrWhiteSpace(hostingResult.Hosting)

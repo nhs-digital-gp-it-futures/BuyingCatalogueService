@@ -49,7 +49,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 r.SolutionId == ExistingSolutionId
                 && r.Description == expected;
 
-            context.MockSolutionDetailRepository.Verify(
+            context.MockSolutionRepository.Verify(
                 r => r.UpdateRoadMapAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
@@ -66,7 +66,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 r => r.CheckExists(ExistingSolutionId, It.IsAny<CancellationToken>()),
                 Times.Never());
 
-            context.MockSolutionDetailRepository.Verify(
+            context.MockSolutionRepository.Verify(
                 r => r.UpdateRoadMapAsync(It.IsAny<IUpdateRoadMapRequest>(), It.IsAny<CancellationToken>()),
                 Times.Never());
         }

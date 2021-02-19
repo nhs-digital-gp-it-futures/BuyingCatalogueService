@@ -15,20 +15,20 @@ Background:
 @3639
 Scenario Outline: Public cloud section is optional and is reported complete if there is text in the public Cloud
     Given SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription | FullDescription   | Hosting   |
-        | Sln1     | UrlSln1  |                    | Online medicine 1 | <Hosting> |
-    When a GET request is made for solution dashboard <Solution>
+        | SolutionId | AboutUrl | SummaryDescription | FullDescription   | Hosting   |
+        | Sln1       | UrlSln1  |                    | Online medicine 1 | <Hosting> |
+    When a GET request is made for solution dashboard <SolutionId>
     Then a successful response is returned
     And the solution hosting-type-public-cloud section status is <Status>
     And the solution hosting-type-public-cloud section requirement is Optional
 
     Examples:
-        | Solution | Status     | Hosting                                                                                                                                     |
-        | Sln1     | INCOMPLETE | { }                                                                                                                                         |
-        | Sln1     | INCOMPLETE |                                                                                                                                             |
-        | Sln1     | INCOMPLETE | { "PublicCloud": null }                                                                                                                     |
-        | Sln1     | COMPLETE   | { "PublicCloud": {"Summary": "Some summary" } }                                                                                             |
-        | Sln1     | COMPLETE   | { "PublicCloud": {"Link": "Some url" } }                                                                                                    |
-        | Sln1     | COMPLETE   | { "PublicCloud": {"RequiresHSCN": "Some connectivity" } }                                                                                   |
-        | Sln1     | COMPLETE   | { "PublicCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
-        | Sln2     | INCOMPLETE |                                                                                                                                             |
+        | SolutionId | Status     | Hosting                                                                                                                                     |
+        | Sln1       | INCOMPLETE | { }                                                                                                                                         |
+        | Sln1       | INCOMPLETE |                                                                                                                                             |
+        | Sln1       | INCOMPLETE | { "PublicCloud": null }                                                                                                                     |
+        | Sln1       | COMPLETE   | { "PublicCloud": {"Summary": "Some summary" } }                                                                                             |
+        | Sln1       | COMPLETE   | { "PublicCloud": {"Link": "Some url" } }                                                                                                    |
+        | Sln1       | COMPLETE   | { "PublicCloud": {"RequiresHSCN": "Some connectivity" } }                                                                                   |
+        | Sln1       | COMPLETE   | { "PublicCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
+        | Sln2       | INCOMPLETE |                                                                                                                                             |

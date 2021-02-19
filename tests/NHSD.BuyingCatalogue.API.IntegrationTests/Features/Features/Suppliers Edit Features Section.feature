@@ -17,10 +17,10 @@ Background:
 @1828
 Scenario: Marketing Data is updated against the solution
     Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | AboutUrl | Features                          |
-        | Sln1     | An full online medicine system | Online medicine 1   | UrlSln1  | [ "Appointments", "Prescribing" ] |
-        | Sln2     | Eye opening experience         | Eye opening6        | UrlSln2  | [ "Workflow", "Referrals" ]       |
-        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 | UrlSln3  | [ "Dispensing" ]                  |
+        | SolutionId | SummaryDescription             | FullDescription     | AboutUrl | Features                          |
+        | Sln1       | An full online medicine system | Online medicine 1   | UrlSln1  | [ "Appointments", "Prescribing" ] |
+        | Sln2       | Eye opening experience         | Eye opening6        | UrlSln2  | [ "Workflow", "Referrals" ]       |
+        | Sln3       | Fully fledged GP system        | Fully fledged GP 12 | UrlSln3  | [ "Dispensing" ]                  |
     When a PUT request is made to update solution Sln1 features section
         | Features                      |
         | Dispensing,Referrals,Workflow |
@@ -31,19 +31,19 @@ Scenario: Marketing Data is updated against the solution
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | AboutUrl | Features                              |
-        | Sln1     | An full online medicine system | Online medicine 1   | UrlSln1  | ["Dispensing","Referrals","Workflow"] |
-        | Sln2     | Eye opening experience         | Eye opening6        | UrlSln2  | [ "Workflow", "Referrals" ]           |
-        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 | UrlSln3  | [ "Dispensing" ]                      |
+        | SolutionId | SummaryDescription             | FullDescription     | AboutUrl | Features                              |
+        | Sln1       | An full online medicine system | Online medicine 1   | UrlSln1  | ["Dispensing","Referrals","Workflow"] |
+        | Sln2       | Eye opening experience         | Eye opening6        | UrlSln2  | [ "Workflow", "Referrals" ]           |
+        | Sln3       | Fully fledged GP system        | Fully fledged GP 12 | UrlSln3  | [ "Dispensing" ]                      |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @1828
 Scenario: Marketing Data is updated against the solution with trimmed whitespace
     Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | AboutUrl | Features                          |
-        | Sln1     | An full online medicine system | Online medicine 1   | UrlSln1  | [ "Appointments", "Prescribing" ] |
-        | Sln2     | Eye opening experience         | Eye opening6        | UrlSln2  | [ "Workflow", "Referrals" ]       |
-        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 | UrlSln3  | [ "Dispensing" ]                  |
+        | SolutionId | SummaryDescription             | FullDescription     | AboutUrl | Features                          |
+        | Sln1       | An full online medicine system | Online medicine 1   | UrlSln1  | [ "Appointments", "Prescribing" ] |
+        | Sln2       | Eye opening experience         | Eye opening6        | UrlSln2  | [ "Workflow", "Referrals" ]       |
+        | Sln3       | Fully fledged GP system        | Fully fledged GP 12 | UrlSln3  | [ "Dispensing" ]                  |
     When a PUT request is made to update solution Sln1 features section
         | Features                                                     |
         | "      Dispensing     ","      Referrals","Workflow        " |
@@ -54,10 +54,10 @@ Scenario: Marketing Data is updated against the solution with trimmed whitespace
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | AboutUrl | Features                              |
-        | Sln1     | An full online medicine system | Online medicine 1   | UrlSln1  | ["Dispensing","Referrals","Workflow"] |
-        | Sln2     | Eye opening experience         | Eye opening6        | UrlSln2  | [ "Workflow", "Referrals" ]           |
-        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 | UrlSln3  | [ "Dispensing" ]                      |
+        | SolutionId | SummaryDescription             | FullDescription     | AboutUrl | Features                              |
+        | Sln1       | An full online medicine system | Online medicine 1   | UrlSln1  | ["Dispensing","Referrals","Workflow"] |
+        | Sln2       | Eye opening experience         | Eye opening6        | UrlSln2  | [ "Workflow", "Referrals" ]           |
+        | Sln3       | Fully fledged GP system        | Fully fledged GP 12 | UrlSln3  | [ "Dispensing" ]                      |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @1828

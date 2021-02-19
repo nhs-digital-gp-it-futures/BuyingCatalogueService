@@ -46,9 +46,9 @@ Scenario: No selection criteria applied
 @2053
 Scenario: Card Content
     Given SolutionDetail exist
-        | Solution | SummaryDescription     | FullDescription   | AboutUrl | Features                                            |
-        | Sln1     | NULL                   | Online medicine 1 | UrlSln1  | { "customJson" : { "id" : 1, "name" : "feature1" }} |
-        | Sln2     | Eye opening experience | Eye opening6      | UrlSln2  | { "customJson" : { "id" : 2, "name" : "feature2" }} |
+        | SolutionId | SummaryDescription     | FullDescription   | AboutUrl | Features                                            |
+        | Sln1       | NULL                   | Online medicine 1 | UrlSln1  | { "customJson" : { "id" : 1, "name" : "feature1" }} |
+        | Sln2       | Eye opening experience | Eye opening6      | UrlSln2  | { "customJson" : { "id" : 2, "name" : "feature2" }} |
     When a GET request is made containing no selection criteria
     Then a successful response is returned
     And the details of the solutions returned are as follows
@@ -59,10 +59,10 @@ Scenario: Card Content
 
 Scenario: Retrieve all Solutions with Marketing data.
     Given SolutionDetail exist
-        | Solution | SummaryDescription      | FullDescription     | AboutUrl | Features                                            |
-        | Sln1     |                         | Online medicine 1   | UrlSln1  | { "customJson" : { "id" : 1, "name" : "feature1" }} |
-        | Sln2     | Eye opening experience  | Eye opening6        | UrlSln2  | { "customJson" : { "id" : 2, "name" : "feature2" }} |
-        | Sln3     | Fully fledged GP system | Fully fledged GP 12 | UrlSln3  | { "customJson" : { "id" : 3, "name" : "feature3" }} |
+        | SolutionId | SummaryDescription      | FullDescription     | AboutUrl | Features                                            |
+        | Sln1       |                         | Online medicine 1   | UrlSln1  | { "customJson" : { "id" : 1, "name" : "feature1" }} |
+        | Sln2       | Eye opening experience  | Eye opening6        | UrlSln2  | { "customJson" : { "id" : 2, "name" : "feature2" }} |
+        | Sln3       | Fully fledged GP system | Fully fledged GP 12 | UrlSln3  | { "customJson" : { "id" : 3, "name" : "feature3" }} |
     When a GET request is made containing no selection criteria
     Then a successful response is returned
     And the solutions MedicOnline,TakeTheRedPill,PracticeMgr are found in the response
@@ -70,9 +70,9 @@ Scenario: Retrieve all Solutions with Marketing data.
 @5350
 Scenario: List all solutions filtered by SupplierID
     Given SolutionDetail exist
-        | Solution | SummaryDescription     | FullDescription   | AboutUrl | Features                                            |
-        | Sln1     | NULL                   | Online medicine 1 | UrlSln1  | { "customJson" : { "id" : 1, "name" : "feature1" }} |
-        | Sln2     | Eye opening experience | Eye opening6      | UrlSln2  | { "customJson" : { "id" : 2, "name" : "feature2" }} |
+        | SolutionId | SummaryDescription     | FullDescription   | AboutUrl | Features                                            |
+        | Sln1       | NULL                   | Online medicine 1 | UrlSln1  | { "customJson" : { "id" : 1, "name" : "feature1" }} |
+        | Sln2       | Eye opening experience | Eye opening6      | UrlSln2  | { "customJson" : { "id" : 2, "name" : "feature2" }} |
     When a GET request is made containing a filter on supplierID Sup 1
     Then a successful response is returned
     And the details of the solutions returned are as follows
@@ -82,9 +82,9 @@ Scenario: List all solutions filtered by SupplierID
 @5350
 Scenario: List all solutions filtered by an non existant SupplierID
     Given SolutionDetail exist
-        | Solution | SummaryDescription     | FullDescription   | AboutUrl | Features                                            |
-        | Sln1     | NULL                   | Online medicine 1 | UrlSln1  | { "customJson" : { "id" : 1, "name" : "feature1" }} |
-        | Sln2     | Eye opening experience | Eye opening6      | UrlSln2  | { "customJson" : { "id" : 2, "name" : "feature2" }} |
+        | SolutionId | SummaryDescription     | FullDescription   | AboutUrl | Features                                            |
+        | Sln1       | NULL                   | Online medicine 1 | UrlSln1  | { "customJson" : { "id" : 1, "name" : "feature1" }} |
+        | Sln2       | Eye opening experience | Eye opening6      | UrlSln2  | { "customJson" : { "id" : 2, "name" : "feature2" }} |
     When a GET request is made containing a filter on supplierID INVALID
     Then a successful response is returned
     And an empty solution is returned

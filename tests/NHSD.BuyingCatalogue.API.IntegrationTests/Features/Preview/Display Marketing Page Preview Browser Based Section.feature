@@ -11,8 +11,8 @@ Background:
         | SolutionId | SolutionName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline  | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                 |
-        | Sln1     | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ], "BrowsersSupported": ["Google Chrome", "Edge"], "MobileResponsive": false, "Plugins":  { "Required": true, "AdditionalInformation": "Colourful water extension" }, "MinimumConnectionSpeed": "1GBps", "MinimumDesktopResolution": "1x1", "HardwareRequirements": "New Hardware", "AdditionalInformation": "Some Additional Info", "MobileFirstDesign": true } |
+        | SolutionId | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                 |
+        | Sln1       | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ], "BrowsersSupported": ["Google Chrome", "Edge"], "MobileResponsive": false, "Plugins":  { "Required": true, "AdditionalInformation": "Colourful water extension" }, "MinimumConnectionSpeed": "1GBps", "MinimumDesktopResolution": "1x1", "HardwareRequirements": "New Hardware", "AdditionalInformation": "Some Additional Info", "MobileFirstDesign": true } |
 
 @3322
 Scenario: Get Solution Preview contains client application types browser based answers for all data

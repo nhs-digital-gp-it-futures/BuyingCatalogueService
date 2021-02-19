@@ -11,8 +11,8 @@ Background:
         | SolutionId | SolutionName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline  | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                     |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "MinimumConnectionSpeed": "2GBps" } |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                     |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "MinimumConnectionSpeed": "2GBps" } |
 
 @3599
 Scenario: Minimum connection speed is null and Minimum desktop resolution is empty

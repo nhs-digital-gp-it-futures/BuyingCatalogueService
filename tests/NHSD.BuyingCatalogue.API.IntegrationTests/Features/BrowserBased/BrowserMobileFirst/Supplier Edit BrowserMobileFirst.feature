@@ -13,28 +13,28 @@ Background:
 @3602
 Scenario: Browser Mobile First is updated
     Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication              |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "MobileFirstDesign": false } |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication              |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "MobileFirstDesign": false } |
     When a PUT request is made to update the browser-mobile-first section for solution Sln1
         | MobileFirstDesign |
         | YEs               |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                     |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "MobileFirstDesign": true } |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                     |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "MobileFirstDesign": true } |
 
 @3602
 Scenario: Browser Mobile First is updated with trimmed whitespace
     Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication              |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "MobileFirstDesign": false } |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication              |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "MobileFirstDesign": false } |
     When a PUT request is made to update the browser-mobile-first section for solution Sln1
         | MobileFirstDesign  |
         | "    YEs         " |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                     |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "MobileFirstDesign": true } |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                     |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "MobileFirstDesign": true } |
 
 @3602
 Scenario: Solution is not found

@@ -13,9 +13,9 @@ Background:
         | Sln2       | TakeTheRedPill   | 1                | Sup 1      |
         | Sln3       | TakeTheGreenPill | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription            | FullDescription   | ClientApplication                                                                                                |
-        | Sln1     | A full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["native-mobile"], "NativeMobileHardwareRequirements": "New Hardware Requirements" } |
-        | Sln2     | An online medicine system     | Online medicine 2 | { "ClientApplicationTypes": ["native-mobile"] }                                                                  |
+        | SolutionId | SummaryDescription            | FullDescription   | ClientApplication                                                                                                |
+        | Sln1       | A full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["native-mobile"], "NativeMobileHardwareRequirements": "New Hardware Requirements" } |
+        | Sln2       | An online medicine system     | Online medicine 2 | { "ClientApplicationTypes": ["native-mobile"] }                                                                  |
 
 @3609
 Scenario: Native Mobile Hardware Requirements are retreived for the solution

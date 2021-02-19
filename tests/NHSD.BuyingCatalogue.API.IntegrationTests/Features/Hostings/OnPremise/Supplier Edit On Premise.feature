@@ -11,8 +11,8 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | Hosting |
-        | Sln1     | An full online medicine system | Online medicine 1 | { }     |
+        | SolutionId | SummaryDescription             | FullDescription   | Hosting |
+        | Sln1       | An full online medicine system | Online medicine 1 | { }     |
 @3651
 Scenario: On Premise is updated
     When a PUT request is made to update the hosting-type-on-premise section for solution Sln1
@@ -20,8 +20,8 @@ Scenario: On Premise is updated
         | New Summary | a@b.c | AWS          | A string     |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | Hosting                                                                                                           |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "OnPremise": { "Summary": "New Summary", "Link": "a@b.c", "HostingModel": "AWS", "RequiresHSCN": "A string" } } |
+        | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                           |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "OnPremise": { "Summary": "New Summary", "Link": "a@b.c", "HostingModel": "AWS", "RequiresHSCN": "A string" } } |
 
 @3651
 Scenario: On Premise is updated with trimmed whitespace
@@ -30,8 +30,8 @@ Scenario: On Premise is updated with trimmed whitespace
         | "      New Summary     " | "     a@b.c    " | "  AWS     " | "     A string       " |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | Hosting                                                                                                           |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "OnPremise": { "Summary": "New Summary", "Link": "a@b.c", "HostingModel": "AWS", "RequiresHSCN": "A string" } } |
+        | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                           |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "OnPremise": { "Summary": "New Summary", "Link": "a@b.c", "HostingModel": "AWS", "RequiresHSCN": "A string" } } |
 
 @3651
 Scenario: On Premise fields are set to null
@@ -40,8 +40,8 @@ Scenario: On Premise fields are set to null
         | NULL    | NULL | NULL         |              |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | Hosting             |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "OnPremise": {} } |
+        | SolutionId | SummaryDescription             | FullDescription   | Hosting             |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "OnPremise": {} } |
 
 @3651
 Scenario: Solution is not found
