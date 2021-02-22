@@ -76,7 +76,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithHosting("Hosting")
                 .WithLastUpdated(lastUpdated)
                 .Build()
-                .InsertAndSetCurrentForSolutionAsync();
+                .InsertAsync();
 
             var solution = await solutionRepository.ByIdAsync(Solution1Id, CancellationToken.None);
             solution.Id.Should().Be(Solution1Id);
@@ -108,7 +108,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithId(Solution1Id)
                 .Build()
-                .InsertAndSetCurrentForSolutionAsync();
+                .InsertAsync();
 
             await FrameworkSolutionEntityBuilder.Create()
                 .WithSolutionId(Solution1Id)

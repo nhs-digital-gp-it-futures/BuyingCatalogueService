@@ -16,8 +16,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
                 SolutionId = id,
                 Version = "1.0.0",
                 ServiceLevelAgreement = null,
-                WorkOfPlan = null,
-                PublishedStatusId = 1,
+                WorkOfPlan = null
             };
         }
 

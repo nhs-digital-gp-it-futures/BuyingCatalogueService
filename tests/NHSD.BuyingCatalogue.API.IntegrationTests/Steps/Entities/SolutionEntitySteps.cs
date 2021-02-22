@@ -44,7 +44,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                     .WithRoadMap(solutionTable.RoadMap)
                     .WithIntegrationsUrl(solutionTable.IntegrationsUrl)
                     .WithOnLastUpdated(solutionTable.LastUpdated != DateTime.MinValue ? solutionTable.LastUpdated : DateTime.UtcNow)
-                    //.WithImplementationTimescales(solutionTable.ImplementationDetail)
+                    .WithImplementationTimescales(solutionTable.ImplementationDetail)
                     .Build()
                     .InsertAsync();
             }
@@ -83,13 +83,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             }
         }
 
-        //[Given(@"a Solution (.*) does exist")]
-        //public static async Task GivenASolutionSlnDoesExist(string solutionId)
-        //{
-        //    var solutionList = await SolutionEntity.FetchAllAsync();
-        //    solutionList.Select(s => s.SolutionId).Should().Contain(solutionId);
-        //}
-
         [Given(@"a Solution (.*) does not exist")]
         public static async Task GivenASolutionSlnDoesNotExist(string solutionId)
         {
@@ -122,14 +115,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         {
             foreach (var solutionDetail in table.CreateSet<SolutionTable>())
             {
-                //await CatalogueItemEntityBuilder.Create()
-                //    .WithCatalogueItemId(solutionDetail.SolutionId)
-                //    .WithName(solutionDetail.SolutionName ?? "SomeName")
-                //    .WithSupplierId(solutionDetail.SupplierId ?? "Sup 1")
-                //    .WithPublishedStatusId((int)solutionDetail.PublishedStatus)
-                //    .Build()
-                //    .InsertAsync();
-
                 await SolutionEntityBuilder.Create()
                     .WithFeatures(solutionDetail.Features)
                     .WithSummary(solutionDetail.SummaryDescription)
@@ -143,7 +128,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                     .WithImplementationTimescales(solutionDetail.ImplementationDetail)
                     .WithLastUpdated(solutionDetail.LastUpdated != DateTime.MinValue ? solutionDetail.LastUpdated : DateTime.UtcNow)
                     .Build()
-                    .InsertAndSetCurrentForSolutionAsync();
+                    .InsertAsync();
             }
         }
 

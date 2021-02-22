@@ -8,8 +8,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
     {
         public string SolutionId { get; set; }
 
-        public int PublishedStatusId { get; set; }
-
         public string Name { get; set; }
 
         public string Version { get; set; }
@@ -37,69 +35,65 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         public string WorkOfPlan { get; set; }
 
         protected override string InsertSql => @"
-
-        IF EXISTS(select * from dbo.Solution where Id=@SolutionId)
-            update dbo.Solution
-                 
-            SET   Version=@Version,
-                Summary=@Summary,
-                FullDescription=@FullDescription,
-                Features=@Features,
-                ClientApplication=@ClientApplication,
-                Hosting=@Hosting,
-                RoadMap=@RoadMap,
-                IntegrationsUrl=@IntegrationsUrl,
-                AboutUrl=@AboutUrl,
-                ServiceLevelAgreement=@ServiceLevelAgreement,
-                WorkOfPlan=@WorkOfPlan,
-                ImplementationDetail=@ImplementationDetail,
-                LastUpdated=@LastUpdated,
-                LastUpdatedBy=@LastUpdatedBy
-
-                where Id=@SolutionId
-        ELSE
-
-            INSERT INTO dbo.Solution
-            (
-                Id,
-                Version,
-                Summary,
-                FullDescription,
-                Features,
-                ClientApplication,
-                Hosting,
-                RoadMap,
-                IntegrationsUrl,
-                AboutUrl,
-                ServiceLevelAgreement,
-                WorkOfPlan,
-                ImplementationDetail,
-                LastUpdated,
-                LastUpdatedBy
-            )
-            VALUES
-            (
-                @SolutionId,
-                @Version,
-                @Summary,
-                @FullDescription,
-                @Features,
-                @ClientApplication,
-                @Hosting,
-                @RoadMap,
-                @IntegrationsUrl,
-                @AboutUrl,
-                @ServiceLevelAgreement,
-                @WorkOfPlan,
-                @ImplementationDetail,
-                @LastUpdated,
-                @LastUpdatedBy
-            );";
+            IF EXISTS(SELECT * FROM dbo.Solution WHERE Id = @SolutionId)
+                UPDATE dbo.Solution                 
+                    SET [Version] = @Version,
+                        Summary = @Summary,
+                        FullDescription = @FullDescription,
+                        Features = @Features,
+                        ClientApplication = @ClientApplication,
+                        Hosting = @Hosting,
+                        RoadMap = @RoadMap,
+                        IntegrationsUrl = @IntegrationsUrl,
+                        AboutUrl = @AboutUrl,
+                        ServiceLevelAgreement = @ServiceLevelAgreement,
+                        WorkOfPlan = @WorkOfPlan,
+                        ImplementationDetail = @ImplementationDetail,
+                        LastUpdated = @LastUpdated,
+                        LastUpdatedBy = @LastUpdatedBy
+                WHERE Id = @SolutionId
+            ELSE
+                INSERT INTO dbo.Solution
+                (
+                    Id,
+                    [Version],
+                    Summary,
+                    FullDescription,
+                    Features,
+                    ClientApplication,
+                    Hosting,
+                    RoadMap,
+                    IntegrationsUrl,
+                    AboutUrl,
+                    ServiceLevelAgreement,
+                    WorkOfPlan,
+                    ImplementationDetail,
+                    LastUpdated,
+                    LastUpdatedBy
+                )
+                VALUES
+                (
+                    @SolutionId,
+                    @Version,
+                    @Summary,
+                    @FullDescription,
+                    @Features,
+                    @ClientApplication,
+                    @Hosting,
+                    @RoadMap,
+                    @IntegrationsUrl,
+                    @AboutUrl,
+                    @ServiceLevelAgreement,
+                    @WorkOfPlan,
+                    @ImplementationDetail,
+                    @LastUpdated,
+                    @LastUpdatedBy
+                );";
 
         public static async Task<IEnumerable<SolutionEntity>> FetchAllAsync()
         {
             const string selectSql = @"
-                SELECT s.Id as SolutionId,
+                SELECT s.Id AS SolutionId,
                        c.[Name],
                        s.[Version],
                        s.Summary,
@@ -125,11 +119,6 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         public static async Task<SolutionEntity> GetByIdAsync(string solutionId)
         {
             return (await FetchAllAsync()).First(item => solutionId == item.SolutionId);
-        }
-
-        public async Task InsertAndSetCurrentForSolutionAsync()
-        {
-            await InsertAsync();
         }
     }
 }

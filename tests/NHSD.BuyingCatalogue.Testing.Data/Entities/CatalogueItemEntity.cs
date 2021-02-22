@@ -19,27 +19,24 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         public string SupplierId { get; set; }
 
         protected override string InsertSql => @"
-        IF NOT EXISTS(SELECT * FROM dbo.CatalogueItem WHERE CatalogueItemId=@CatalogueItemId)
-            BEGIN
-                INSERT INTO dbo.CatalogueItem
-                (
-                    CatalogueItemId,
-                    [Name],
-                    Created,
-                    CatalogueItemTypeId,
-                    SupplierId,
-                    PublishedStatusId
-                )
-                VALUES
-                (
-                    @CatalogueItemId,
-                    @Name,
-                    @Created,
-                    @CatalogueItemTypeId,
-                    @SupplierId,
-                    @PublishedStatusId
-                );
-            END";
+            INSERT INTO dbo.CatalogueItem
+            (
+                CatalogueItemId,
+                [Name],
+                Created,
+                CatalogueItemTypeId,
+                SupplierId,
+                PublishedStatusId
+            )
+            VALUES
+            (
+                @CatalogueItemId,
+                @Name,
+                @Created,
+                @CatalogueItemTypeId,
+                @SupplierId,
+                @PublishedStatusId
+            );";
 
         public static async Task<IEnumerable<CatalogueItemEntity>> FetchAllAsync()
         {

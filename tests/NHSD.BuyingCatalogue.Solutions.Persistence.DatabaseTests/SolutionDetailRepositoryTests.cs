@@ -54,7 +54,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithAboutUrl("AboutUrl")
                 .WithFeatures("Features")
                 .Build()
-                .InsertAndSetCurrentForSolutionAsync();
+                .InsertAsync();
 
             var mockUpdateSolutionFeaturesRequest = new Mock<IUpdateSolutionFeaturesRequest>();
             mockUpdateSolutionFeaturesRequest.Setup(m => m.SolutionId).Returns(Solution1Id);
@@ -103,7 +103,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithAboutUrl("AboutUrl")
                 .WithClientApplication("Native-Desktop")
                 .Build()
-                .InsertAndSetCurrentForSolutionAsync();
+                .InsertAsync();
 
             var mockUpdateSolutionClientApplicationRequest = new Mock<IUpdateSolutionClientApplicationRequest>();
             mockUpdateSolutionClientApplicationRequest.Setup(m => m.SolutionId).Returns(Solution1Id);
@@ -167,7 +167,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithFeatures("Features")
                 .WithClientApplication("Browser-based")
                 .Build()
-                .InsertAndSetCurrentForSolutionAsync();
+                .InsertAsync();
 
             var mockUpdateSolutionSummaryRequest = new Mock<IUpdateSolutionSummaryRequest>();
             mockUpdateSolutionSummaryRequest.Setup(m => m.SolutionId).Returns(Solution1Id);
@@ -227,7 +227,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithId(Solution1Id)
                 .WithClientApplication(expectedClientApplication)
                 .Build()
-                .InsertAndSetCurrentForSolutionAsync();
+                .InsertAsync();
 
             var result = await solutionRepository.GetClientApplicationBySolutionIdAsync(
                 Solution1Id,
@@ -312,7 +312,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithId(Solution1Id)
                 .WithHosting("{ 'Something': [] }")
                 .Build()
-                .InsertAndSetCurrentForSolutionAsync();
+                .InsertAsync();
 
             var mockUpdateHostingRequest = new Mock<IUpdateSolutionHostingRequest>();
             mockUpdateHostingRequest.Setup(m => m.SolutionId).Returns(Solution1Id);
@@ -349,7 +349,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithId(Solution1Id)
                 .WithHosting(expectedHostingString)
                 .Build()
-                .InsertAndSetCurrentForSolutionAsync();
+                .InsertAsync();
 
             var result = await solutionRepository.GetHostingBySolutionIdAsync(
                 Solution1Id,
@@ -400,7 +400,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithId(Solution1Id)
                 .WithRoadMap(expectedResult)
                 .Build()
-                .InsertAndSetCurrentForSolutionAsync();
+                .InsertAsync();
 
             var mockRequest = new Mock<IUpdateRoadMapRequest>();
             mockRequest.Setup(m => m.SolutionId).Returns(Solution1Id);
@@ -435,7 +435,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithId(Solution1Id)
                 .WithRoadMap(expectedRoadMapString)
                 .Build()
-                .InsertAndSetCurrentForSolutionAsync();
+                .InsertAsync();
 
             var result = await solutionRepository.GetRoadMapBySolutionIdAsync(
                 Solution1Id,
@@ -486,7 +486,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithId(Solution1Id)
                 .WithImplementationTimescales(expectedResult)
                 .Build()
-                .InsertAndSetCurrentForSolutionAsync();
+                .InsertAsync();
 
             var mockRequest = new Mock<IUpdateImplementationTimescalesRequest>();
             mockRequest.Setup(m => m.SolutionId).Returns(Solution1Id);
@@ -523,7 +523,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithId(Solution1Id)
                 .WithImplementationTimescales(expectedImplementationTimescalesString)
                 .Build()
-                .InsertAndSetCurrentForSolutionAsync();
+                .InsertAsync();
 
             var result = await solutionRepository.GetImplementationTimescalesBySolutionIdAsync(
                 Solution1Id,
