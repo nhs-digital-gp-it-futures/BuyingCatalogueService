@@ -11,7 +11,7 @@ Scenario Outline: About supplier section is optional and is reported complete if
     And Solutions exist
         | SolutionId | SolutionName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline  | 1                | Sup 1      |
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | SummaryDescription             | FullDescription   |
         | Sln1       | An full online medicine system | Online medicine 1 |
     When a GET request is made for solution dashboard <SolutionId>

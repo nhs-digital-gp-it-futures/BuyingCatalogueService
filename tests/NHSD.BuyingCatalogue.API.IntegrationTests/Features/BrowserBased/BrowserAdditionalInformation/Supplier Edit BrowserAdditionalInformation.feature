@@ -13,27 +13,27 @@ Background:
 
 @3601
 Scenario: Browser Additional Information is updated
-    Given SolutionDetail exist
+    Given Solution have following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                        |
         | Sln1       | An full online medicine system | Online medicine 1 | { "AdditionalInformation": "Some Info" } |
     When a PUT request is made to update the browser-additional-information section for solution Sln1
         | AdditionalInformation |
         | New Additional Info   |
     Then a successful response is returned
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                          |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "AdditionalInformation": "New Additional Info" } |
 
 @3601
 Scenario: Browser Additional Information is updated with trimmed whitespace
-    Given SolutionDetail exist
+    Given Solution have following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                        |
         | Sln1       | An full online medicine system | Online medicine 1 | { "AdditionalInformation": "Some Info" } |
     When a PUT request is made to update the browser-additional-information section for solution Sln1
         | AdditionalInformation         |
         | "      New Additional Info  " |
     Then a successful response is returned
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                          |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "AdditionalInformation": "New Additional Info" } |
 

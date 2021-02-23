@@ -10,7 +10,7 @@ Background:
     And Solutions exist
         | SolutionId | SolutionName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline  | 1                | Sup 1      |
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                 |
         | Sln1       | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ], "BrowsersSupported": ["Google Chrome", "Edge"], "MobileResponsive": false, "Plugins":  { "Required": true, "AdditionalInformation": "Colourful water extension" }, "MinimumConnectionSpeed": "1GBps", "MinimumDesktopResolution": "1x1", "HardwareRequirements": "New Hardware", "AdditionalInformation": "Some Additional Info", "MobileFirstDesign": true } |
 

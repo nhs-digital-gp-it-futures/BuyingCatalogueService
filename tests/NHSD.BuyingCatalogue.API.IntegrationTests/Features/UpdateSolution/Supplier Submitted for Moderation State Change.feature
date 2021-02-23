@@ -12,7 +12,7 @@ Scenario: Supplier status successfully updated upon Solution submitted for revie
     Given Solutions exist
         | SolutionId | SolutionName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline  | 1                | Sup 1      |
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | SummaryDescription             | ClientApplication                                                                                                                             |
         | Sln1       | An full online medicine system | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true, "Plugins": { "Required": false } } |
     When a request is made to submit Solution Sln1 for review

@@ -14,7 +14,7 @@ Background:
 
 @3644
 Scenario Outline: Hybrid hosting type section is optional and is reported complete if there is text in the Hybrid Hosting Type
-    Given SolutionDetail exist
+    Given Solution have following details
         | SolutionId | AboutUrl | SummaryDescription | FullDescription   | Hosting   |
         | Sln1       | UrlSln1  |                    | Online medicine 1 | <Hosting> |
     When a GET request is made for solution dashboard <SolutionId>

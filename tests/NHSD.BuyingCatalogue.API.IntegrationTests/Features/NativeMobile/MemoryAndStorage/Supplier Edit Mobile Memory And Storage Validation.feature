@@ -10,7 +10,7 @@ Background:
     And Solutions exist
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication |
         | Sln1       | An full online medicine system | Online medicine 1 | {}                |
 @3607
@@ -20,7 +20,7 @@ Scenario: Mobile StorageRequirementsDescription is updated to be too long
         | NULL                     | A string with length of 301 |
     Then a response status of 400 is returned
     And the storage-requirements-description field value is the validation failure maxLength
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication |
         | Sln1       | An full online medicine system | Online medicine 1 | {}                |
         
@@ -31,7 +31,7 @@ Scenario: Client Application is updated with no Mobile StorageRequirementsDescri
         | 1GB                      | NULL        |
     Then a response status of 400 is returned
     And the storage-requirements-description field value is the validation failure required
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication |
         | Sln1       | An full online medicine system | Online medicine 1 | {}                |
 
@@ -42,6 +42,6 @@ Scenario: Client Application is updated with no Mobile MinimumMemoryRequirement
         | NULL                     | A description |
     Then a response status of 400 is returned
     And the minimum-memory-requirement field value is the validation failure required
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication |
         | Sln1       | An full online medicine system | Online medicine 1 | {}                |

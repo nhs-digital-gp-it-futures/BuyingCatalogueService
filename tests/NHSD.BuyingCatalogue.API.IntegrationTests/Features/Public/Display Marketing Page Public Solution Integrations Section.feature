@@ -11,7 +11,7 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 1      |
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | IntegrationsUrl       |
         | Sln1       | Some integrations url |
 

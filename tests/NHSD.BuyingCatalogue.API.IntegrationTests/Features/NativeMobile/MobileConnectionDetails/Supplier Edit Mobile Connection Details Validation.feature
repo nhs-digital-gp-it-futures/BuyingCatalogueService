@@ -12,7 +12,7 @@ Background:
         | Sln1       | MedicOnline    | 1                | Sup 1      |
 @3606
 Scenario: Mobile Connection Requirement Details is updated to be too long
-    Given SolutionDetail exist
+    Given Solution have following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                                |
         | Sln1       | An full online medicine system | Online medicine 1 | {} |
     When a PUT request is made to update the native-mobile-connection-details section for solution Sln1
@@ -20,6 +20,6 @@ Scenario: Mobile Connection Requirement Details is updated to be too long
         | NULL                   | A string with length of 301       | Horse, Moose, Giraffe |
     Then a response status of 400 is returned
     And the connection-requirements-description field value is the validation failure maxLength
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication |
         | Sln1       | An full online medicine system | Online medicine 1 | {}                |

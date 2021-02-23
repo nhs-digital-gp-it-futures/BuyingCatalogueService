@@ -14,7 +14,7 @@ Background:
 
 @3669
 Scenario Outline: Implementation Timescales section is optional and is reported incomplete
-    Given SolutionDetail exist
+    Given Solution have following details
         | SolutionId | AboutUrl | SummaryDescription | FullDescription   | ImplementationDetail       |
         | Sln1       | UrlSln1  |                    | Online medicine 1 | <ImplementationTimescales> |
     When a GET request is made for solution dashboard <SolutionId>

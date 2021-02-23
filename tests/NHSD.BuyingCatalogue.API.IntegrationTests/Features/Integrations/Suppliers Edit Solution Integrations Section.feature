@@ -11,7 +11,7 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 1      |
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | IntegrationsUrl                   |
         | Sln1       | An original integrations url      |
         | Sln2       | Another original integrations url |
@@ -22,7 +22,7 @@ Scenario: Solution integrations section data is updated
         | IntegrationsUrl        |
         | A new integrations url |
     Then a successful response is returned
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | IntegrationsUrl                   |
         | Sln1       | A new integrations url            |
         | Sln2       | Another original integrations url |
@@ -34,7 +34,7 @@ Scenario: Solution integrations section data is updated with trimmed whitespace
         | IntegrationsUrl                             |
         | "           A new integrations url        " |
     Then a successful response is returned
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | IntegrationsUrl                   |
         | Sln1       | A new integrations url            |
         | Sln2       | Another original integrations url |

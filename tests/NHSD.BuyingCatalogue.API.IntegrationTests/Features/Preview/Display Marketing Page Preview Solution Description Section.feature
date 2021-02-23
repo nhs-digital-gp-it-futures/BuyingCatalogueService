@@ -11,7 +11,7 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | PracticeMgr    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 1      |
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | AboutUrl | SummaryDescription      | FullDescription     |
         | Sln1       | UrlSln3  | Fully fledged GP system | Fully fledged GP 12 |
 

@@ -13,7 +13,7 @@ Background:
 
 @3621
 Scenario: Native Desktop Third Party Component exceeds its maxLength
-    Given SolutionDetail exist
+    Given Solution have following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                          |
         | Sln1       | An full online medicine system | Online medicine 1 | { "NativeDesktopThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": "Capability" } } |
     When a PUT request is made to update the native-desktop-third-party section for solution Sln1
@@ -21,13 +21,13 @@ Scenario: Native Desktop Third Party Component exceeds its maxLength
         | A string with length of 501 | New Capability     |
     Then a response status of 400 is returned
     And the third-party-components field value is the validation failure maxLength
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                          |
         | Sln1       | An full online medicine system | Online medicine 1 | { "NativeDesktopThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": "Capability" } } |
 
 @3621
 Scenario: Native Desktop Third Party Capability exceeds its maxLength
-    Given SolutionDetail exist
+    Given Solution have following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                          |
         | Sln1       | An full online medicine system | Online medicine 1 | { "NativeDesktopThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": "Capability" } } |
  When a PUT request is made to update the native-desktop-third-party section for solution Sln1
@@ -35,13 +35,13 @@ Scenario: Native Desktop Third Party Capability exceeds its maxLength
         | Updated Component    | A string with length of 501 |
     Then a response status of 400 is returned
     And the device-capabilities field value is the validation failure maxLength
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                          |
         | Sln1       | An full online medicine system | Online medicine 1 | { "NativeDesktopThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": "Capability" } } |
 
 @3621
 Scenario: Native Desktop Third Party Component & Capability exceeds their maxLength
-    Given SolutionDetail exist
+    Given Solution have following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                          |
         | Sln1       | An full online medicine system | Online medicine 1 | { "NativeDesktopThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": "Capability" } } |
  When a PUT request is made to update the native-desktop-third-party section for solution Sln1
@@ -50,6 +50,6 @@ Scenario: Native Desktop Third Party Component & Capability exceeds their maxLen
     Then a response status of 400 is returned
     And the third-party-components field value is the validation failure maxLength
     And the device-capabilities field value is the validation failure maxLength
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                          |
         | Sln1       | An full online medicine system | Online medicine 1 | { "NativeDesktopThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": "Capability" } } |

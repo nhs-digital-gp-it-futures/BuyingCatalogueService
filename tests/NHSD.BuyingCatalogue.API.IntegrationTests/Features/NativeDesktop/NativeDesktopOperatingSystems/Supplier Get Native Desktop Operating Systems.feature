@@ -12,7 +12,7 @@ Background:
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 1      |
         | Sln3       | PracticeMgr    | 1                | Sup 1      |
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                               |
         | Sln1       | An full online medicine system | Online medicine 1 | { "NativeDesktopOperatingSystemsDescription" : "Works fine on Windows, barely on Mac and blows up on *nix..." } |
         | Sln3       | Testing System                 | Full System       | {  }                                                                                                            |

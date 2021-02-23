@@ -12,7 +12,7 @@ Scenario Outline: Last Updated is the latest of last updated in the solution tab
     Given Solutions exist
         | SolutionId | SolutionName | SupplierStatusId | SupplierId | LastUpdated |
         | Sln1       | MedicOnline  | 1                | Sup 1      | <Solution>  |
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | LastUpdated      |
         | Sln1       | <SolutionDetail> |
     And MarketingContacts exist
@@ -36,7 +36,7 @@ Scenario Outline: No marketing contact exist, Last Updated is the latest of last
     Given Solutions exist
         | SolutionId | SolutionName | SupplierStatusId | SupplierId | LastUpdated |
         | Sln1       | MedicOnline  | 1                | Sup 1      | <Solution>  |
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | LastUpdated      |
         | Sln1       | <SolutionDetail> |
     When a GET request is made for solution public Sln1

@@ -17,7 +17,7 @@ Background:
 
 @2786
 Scenario: Browser Supported is updated
-    Given SolutionDetail exist
+    Given Solution have following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                         |
         | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "IE8", "Opera" ] } |
         | Sln3       | Fully fledged GP system        | Fully fledged GP 12 |                                                                                           |
@@ -26,7 +26,7 @@ Scenario: Browser Supported is updated
         | BrowsersSupported | MobileResponsive |
         | Chrome, Edge      | yeS              |
     Then a successful response is returned
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                                                     |
         | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true } |
         | Sln2       | NULL                           | NULL                | NULL                                                                                                                  |
@@ -36,7 +36,7 @@ Scenario: Browser Supported is updated
 
 @2786
 Scenario: Browser Supported is updated with trimmed whitespace
-    Given SolutionDetail exist
+    Given Solution have following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                         |
         | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "IE8", "Opera" ] } |
         | Sln3       | Fully fledged GP system        | Fully fledged GP 12 |                                                                                           |
@@ -45,7 +45,7 @@ Scenario: Browser Supported is updated with trimmed whitespace
         | BrowsersSupported                 | MobileResponsive |
         | "     Chrome    ", "     Edge   " | "    yeS     "   |
     Then a successful response is returned
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                                                     |
         | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true } |
         | Sln2       | NULL                           | NULL                | NULL                                                                                                                  |
@@ -55,7 +55,7 @@ Scenario: Browser Supported is updated with trimmed whitespace
 
 @2786
 Scenario: Browsers Supported is empty, Mobile Responsive has a result
-    Given SolutionDetail exist
+    Given Solution have following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                         |
         | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "IE8", "Opera" ] } |
         | Sln3       | Fully fledged GP system        | Fully fledged GP 12 |                                                                                           |
@@ -71,7 +71,7 @@ Scenario: Browsers Supported is empty, Mobile Responsive has a result
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |
         | Sln5       | Pills          |
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                         |
         | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "IE8", "Opera" ] } |
         | Sln2       | NULL                           | NULL                | NULL                                                                                      |
@@ -80,7 +80,7 @@ Scenario: Browsers Supported is empty, Mobile Responsive has a result
 
 @2786
 Scenario: Mobile Responsive is empty
-    Given SolutionDetail exist
+    Given Solution have following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                         |
         | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "IE8", "Opera" ] } |
         | Sln3       | Fully fledged GP system        | Fully fledged GP 12 |                                                                                           |
@@ -96,7 +96,7 @@ Scenario: Mobile Responsive is empty
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |
         | Sln5       | Pills          |
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                         |
         | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "IE8", "Opera" ] } |
         | Sln2       | NULL                           | NULL                | NULL                                                                                      |
@@ -105,7 +105,7 @@ Scenario: Mobile Responsive is empty
 
 @2786
 Scenario: Browsers Supported & Mobile Responsive are empty
-    Given SolutionDetail exist
+    Given Solution have following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                         |
         | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "IE8", "Opera" ] } |
         | Sln3       | Fully fledged GP system        | Fully fledged GP 12 |                                                                                           |
@@ -122,7 +122,7 @@ Scenario: Browsers Supported & Mobile Responsive are empty
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |
         | Sln5       | Pills          |
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                         |
         | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"], "BrowsersSupported" : [ "IE8", "Opera" ] } |
         | Sln2       | NULL                           | NULL                | NULL                                                                                      |

@@ -10,7 +10,7 @@ Background:
     And Solutions exist
         | SolutionId | SolutionName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline  | 1                | Sup 1      |
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | Hosting                                                                                                                                     |
         | Sln1       | { "PublicCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
 

@@ -10,7 +10,7 @@ Background:
     And Solutions exist
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication |
         | Sln1       | An full online medicine system | Online medicine 1 | {}                |
 
@@ -20,7 +20,7 @@ Scenario: Client Application is updated for the solution
         | MinimumMemoryRequirement | Description   |
         | 1GB                      | A description |
     Then a successful response is returned
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                           |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "Description": "A description" } } |
         
@@ -30,7 +30,7 @@ Scenario: Client Application is updated for the solution with trimmed whitespace
         | MinimumMemoryRequirement   | Description                 |
         | "        1GB             " | "       A description     " |
     Then a successful response is returned
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                           |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "Description": "A description" } } |
 

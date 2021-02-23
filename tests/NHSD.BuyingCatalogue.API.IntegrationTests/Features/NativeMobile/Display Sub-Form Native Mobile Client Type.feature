@@ -48,7 +48,7 @@ Scenario: Solution id not present in request
 
 @3605
 Scenario Outline: Native Mobile Operating Systems Based on data in Client Application
-  Given SolutionDetail exist
+  Given Solution have following details
         | SolutionId | ClientApplication   |
         | Sln1       | <ClientApplication> |
     When a GET request is made for native-mobile section dashboard for solution Sln1
@@ -65,7 +65,7 @@ Examples:
     
 @3606
 Scenario Outline: Native Mobile Connection Details Based on data in Client Application
-  Given SolutionDetail exist
+  Given Solution have following details
         | SolutionId | ClientApplication   |
         | Sln1       | <ClientApplication> |
     When a GET request is made for native-mobile section dashboard for solution Sln1
@@ -82,7 +82,7 @@ Examples:
         
 @3607
 Scenario Outline: Native Mobile Memory And Storage Based on data in Client Application
-  Given SolutionDetail exist
+  Given Solution have following details
         | SolutionId | ClientApplication   |
         | Sln1       | <ClientApplication> |
     When a GET request is made for native-mobile section dashboard for solution Sln1
@@ -99,7 +99,7 @@ Examples:
 
 @3611
 Scenario Outline: Native Mobile First Based on data in Client Application
-  Given SolutionDetail exist
+  Given Solution have following details
         | SolutionId | ClientApplication   |
         | Sln1       | <ClientApplication> |
     When a GET request is made for native-mobile section dashboard for solution Sln1
@@ -114,7 +114,7 @@ Examples:
 
 @3609
 Scenario Outline: Native Mobile Hardware Requirements based on data in Client Application
-  Given SolutionDetail exist
+  Given Solution have following details
         | SolutionId | ClientApplication   |
         | Sln1       | <ClientApplication> |
     When a GET request is made for native-mobile section dashboard for solution Sln1
@@ -129,7 +129,7 @@ Examples:
 
 @3608
 Scenario Outline: Mobile Third Party based on data in Client Application
-    Given SolutionDetail exist
+    Given Solution have following details
         | SolutionId | ClientApplication   |
         | Sln1       | <ClientApplication> |
     When a GET request is made for native-mobile section dashboard for solution Sln1
@@ -149,7 +149,7 @@ Scenario Outline: Mobile Third Party based on data in Client Application
 
 @3609
 Scenario Outline: Native Mobile Additional Information based on data in Client Application
-    Given SolutionDetail exist
+    Given Solution have following details
         | SolutionId | ClientApplication   |
         | Sln1       | <ClientApplication> |
     When a GET request is made for native-mobile section dashboard for solution Sln1

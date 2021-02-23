@@ -46,7 +46,7 @@ Scenario: Solution id not present in request
     
 @3622
 Scenario Outline: Native Desktop Hardware Requirements based on data in Client Application
-  Given SolutionDetail exist
+  Given Solution have following details
         | SolutionId | ClientApplication   |
         | Sln1       | <ClientApplication> |
     When a GET request is made for native-desktop section dashboard for solution Sln1
@@ -61,7 +61,7 @@ Examples:
 
 @3617
 Scenario Outline: Native Desktop Operating Systems Description based on data in Client Application
-  Given SolutionDetail exist
+  Given Solution have following details
         | SolutionId | ClientApplication   |
         | Sln1       | <ClientApplication> |
     When a GET request is made for native-desktop section dashboard for solution Sln1
@@ -76,7 +76,7 @@ Examples:
 
 @3619
 Scenario Outline: Native Desktop Connectivity Details based on data in Client Application
-  Given SolutionDetail exist
+  Given Solution have following details
         | SolutionId | ClientApplication   |
         | Sln1       | <ClientApplication> |
     When a GET request is made for native-desktop section dashboard for solution Sln1
@@ -91,7 +91,7 @@ Examples:
 
 @3621
 Scenario Outline: Native Desktop Third Party based on data in Client Application
-  Given SolutionDetail exist
+  Given Solution have following details
         | SolutionId | ClientApplication   |
         | Sln1       | <ClientApplication> |
     When a GET request is made for native-desktop section dashboard for solution Sln1
@@ -110,7 +110,7 @@ Examples:
             
 @3620
 Scenario Outline: Native Desktop Memory And Storage Based on data in Client Application
-  Given SolutionDetail exist
+  Given Solution have following details
         | SolutionId | ClientApplication   |
         | Sln1       | <ClientApplication> |
     When a GET request is made for native-desktop section dashboard for solution Sln1
@@ -137,7 +137,7 @@ Examples:
 
 @3623
 Scenario Outline: 10. Native Desktop Additional Information Details based on data in Client Application
-  Given SolutionDetail exist
+  Given Solution have following details
         | SolutionId | ClientApplication   |
         | Sln1       | <ClientApplication> |
     When a GET request is made for native-desktop section dashboard for solution Sln1

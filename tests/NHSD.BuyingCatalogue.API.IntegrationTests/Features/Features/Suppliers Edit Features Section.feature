@@ -16,7 +16,7 @@ Background:
 
 @1828
 Scenario: Marketing Data is updated against the solution
-    Given SolutionDetail exist
+    Given Solution have following details
         | SolutionId | SummaryDescription             | FullDescription     | AboutUrl | Features                          |
         | Sln1       | An full online medicine system | Online medicine 1   | UrlSln1  | [ "Appointments", "Prescribing" ] |
         | Sln2       | Eye opening experience         | Eye opening6        | UrlSln2  | [ "Workflow", "Referrals" ]       |
@@ -30,7 +30,7 @@ Scenario: Marketing Data is updated against the solution
         | Sln1       | MedicOnline    |
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | SummaryDescription             | FullDescription     | AboutUrl | Features                              |
         | Sln1       | An full online medicine system | Online medicine 1   | UrlSln1  | ["Dispensing","Referrals","Workflow"] |
         | Sln2       | Eye opening experience         | Eye opening6        | UrlSln2  | [ "Workflow", "Referrals" ]           |
@@ -39,7 +39,7 @@ Scenario: Marketing Data is updated against the solution
 
 @1828
 Scenario: Marketing Data is updated against the solution with trimmed whitespace
-    Given SolutionDetail exist
+    Given Solution have following details
         | SolutionId | SummaryDescription             | FullDescription     | AboutUrl | Features                          |
         | Sln1       | An full online medicine system | Online medicine 1   | UrlSln1  | [ "Appointments", "Prescribing" ] |
         | Sln2       | Eye opening experience         | Eye opening6        | UrlSln2  | [ "Workflow", "Referrals" ]       |
@@ -53,7 +53,7 @@ Scenario: Marketing Data is updated against the solution with trimmed whitespace
         | Sln1       | MedicOnline    |
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | SummaryDescription             | FullDescription     | AboutUrl | Features                              |
         | Sln1       | An full online medicine system | Online medicine 1   | UrlSln1  | ["Dispensing","Referrals","Workflow"] |
         | Sln2       | Eye opening experience         | Eye opening6        | UrlSln2  | [ "Workflow", "Referrals" ]           |

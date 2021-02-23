@@ -13,7 +13,7 @@ Background:
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 2      |
         | Sln3       | PracticeMgr    | 1                | Sup 2      |
-    And SolutionDetail exist
+    And Solution have following details
         | SolutionId | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
         | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
         | Sln3       | UrlSln3  | Eye opening experience         | Eye opening6        | [ "Referrals", "Workflow" ]       |
