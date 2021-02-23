@@ -11,8 +11,8 @@ Background:
         | SolutionId | SolutionName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline  | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | Hosting                                                                                                                                                                              |
-        | Sln1     | { "HybridHostingType": { "Summary": "Some summary", "Link": "www.somelink.com", "HostingModel": "A hosting model", "RequiresHscn": "This Solution requires a HSCN/N3 connection" } } |
+        | SolutionId | Hosting                                                                                                                                                                              |
+        | Sln1       | { "HybridHostingType": { "Summary": "Some summary", "Link": "www.somelink.com", "HostingModel": "A hosting model", "RequiresHscn": "This Solution requires a HSCN/N3 connection" } } |
 
 @3644
 Scenario: Get Solution Preview contains Hosting for all data regarding Hybrid HostingType

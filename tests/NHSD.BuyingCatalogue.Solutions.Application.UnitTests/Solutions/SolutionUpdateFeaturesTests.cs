@@ -45,7 +45,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 r.SolutionId == SolutionId
                 && r.Features == JsonConvert.SerializeObject(listing);
 
-            context.MockSolutionDetailRepository.Verify(
+            context.MockSolutionRepository.Verify(
                 r => r.UpdateFeaturesAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
@@ -63,7 +63,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()),
                 Times.Never());
 
-            context.MockSolutionDetailRepository.Verify(
+            context.MockSolutionRepository.Verify(
                 r => r.UpdateFeaturesAsync(It.IsAny<IUpdateSolutionFeaturesRequest>(), It.IsAny<CancellationToken>()),
                 Times.Never());
         }
@@ -92,7 +92,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()),
                 Times.Never());
 
-            context.MockSolutionDetailRepository.Verify(
+            context.MockSolutionRepository.Verify(
                 r => r.UpdateFeaturesAsync(It.IsAny<IUpdateSolutionFeaturesRequest>(), It.IsAny<CancellationToken>()),
                 Times.Never());
         }
@@ -113,7 +113,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            context.MockSolutionDetailRepository.Verify(
+            context.MockSolutionRepository.Verify(
                 r => r.UpdateFeaturesAsync(It.IsAny<IUpdateSolutionFeaturesRequest>(), It.IsAny<CancellationToken>()),
                 Times.Never());
         }

@@ -11,8 +11,8 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication |
-        | Sln1     | An full online medicine system | Online medicine 1 | {}                |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication |
+        | Sln1       | An full online medicine system | Online medicine 1 | {}                |
 
 @3606
 Scenario: Client Application is updated for the solution
@@ -21,8 +21,8 @@ Scenario: Client Application is updated for the solution
         | 1GBps                  | A description                     | Horse, Moose, Giraffe |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                              |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileConnectionDetails": { "MinimumConnectionSpeed": "1GBps", "ConnectionType": [ "Horse", "Moose", "Giraffe" ], "Description": "A description" } } |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                              |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileConnectionDetails": { "MinimumConnectionSpeed": "1GBps", "ConnectionType": [ "Horse", "Moose", "Giraffe" ], "Description": "A description" } } |
         
 @3606
 Scenario: Client Application is updated for the solution with trimmed whitespace
@@ -31,8 +31,8 @@ Scenario: Client Application is updated for the solution with trimmed whitespace
         | "          1GBps              " | "       A description        "    | "     Horse", "   Moose    ", "Giraffe     " |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                              |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileConnectionDetails": { "MinimumConnectionSpeed": "1GBps", "ConnectionType": [ "Horse", "Moose", "Giraffe" ], "Description": "A description" } } |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                              |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileConnectionDetails": { "MinimumConnectionSpeed": "1GBps", "ConnectionType": [ "Horse", "Moose", "Giraffe" ], "Description": "A description" } } |
         
 @3606
 Scenario: Client Application is updated with no Minimum Connection Speed
@@ -41,8 +41,8 @@ Scenario: Client Application is updated with no Minimum Connection Speed
         | NULL                   | A description                     | Horse, Moose, Giraffe |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                           |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileConnectionDetails": { "ConnectionType": [ "Horse", "Moose", "Giraffe" ], "Description": "A description" } } |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                           |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileConnectionDetails": { "ConnectionType": [ "Horse", "Moose", "Giraffe" ], "Description": "A description" } } |
         
 @3606
 Scenario: Client Application is updated with no Connection Requirements Description
@@ -51,8 +51,8 @@ Scenario: Client Application is updated with no Connection Requirements Descript
         | 1GBps                  | NULL                              | Horse, Moose, Giraffe |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                              |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileConnectionDetails": { "MinimumConnectionSpeed": "1GBps", "ConnectionType": [ "Horse", "Moose", "Giraffe" ] } } |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                              |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileConnectionDetails": { "MinimumConnectionSpeed": "1GBps", "ConnectionType": [ "Horse", "Moose", "Giraffe" ] } } |
 
 @3606
 Scenario: Client Application is updated with no Connection Type
@@ -61,8 +61,8 @@ Scenario: Client Application is updated with no Connection Type
         | 1GBps                  | A description                     |                |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                 |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileConnectionDetails": { "MinimumConnectionSpeed": "1GBps", "ConnectionType": [], "Description": "A description" } } |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                 |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileConnectionDetails": { "MinimumConnectionSpeed": "1GBps", "ConnectionType": [], "Description": "A description" } } |
 @3606
 Scenario: Solution is not found
     Given a Solution Sln2 does not exist

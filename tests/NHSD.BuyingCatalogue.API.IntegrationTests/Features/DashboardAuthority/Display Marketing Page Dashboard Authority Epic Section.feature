@@ -17,7 +17,7 @@ Background:
        | Id    | SupplierName |
        | Sup 1 | Supplier 1   |
      And Solutions exist
-       | SolutionID | SolutionName   | SupplierStatusId | SupplierId |
+       | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
        | Sln1       | MedicOnline    | 1                | Sup 1      |
 
 @3681
@@ -32,17 +32,17 @@ Scenario Outline: Epics section should be marked as complete when an active clai
         | Solution       | Capability   |
         | <SolutionName> | <Capability> |
     And Solutions are linked to Epics
-        | SolutionId | EpicIds   |
-        | <Solution> | <EpicIds> |
+        | SolutionId   | EpicIds   |
+        | <SolutionId> | <EpicIds> |
     When a GET request is made for solution authority dashboard Sln1
     Then a successful response is returned
     And the solution epics section status is <Status>
     Examples:
-        | Solution | SolutionName | Capability          | EpicIds | Status     |
-        | Sln1     | MedicOnline  |                     |         | INCOMPLETE |
-        | Sln1     | MedicOnline  |                     | E1      | INCOMPLETE |
-        | Sln1     | MedicOnline  | Resource Management |         | INCOMPLETE |
-        | Sln1     | MedicOnline  | Prescribing         | E2      | INCOMPLETE |
-        | Sln1     | MedicOnline  | Prescribing         | E3      | INCOMPLETE |
-        | Sln1     | MedicOnline  | Resource Management | E1      | COMPLETE   |
-        | Sln1     | MedicOnline  | Resource Management | E1,E2   | COMPLETE   |
+        | SolutionId | SolutionName | Capability          | EpicIds | Status     |
+        | Sln1       | MedicOnline  |                     |         | INCOMPLETE |
+        | Sln1       | MedicOnline  |                     | E1      | INCOMPLETE |
+        | Sln1       | MedicOnline  | Resource Management |         | INCOMPLETE |
+        | Sln1       | MedicOnline  | Prescribing         | E2      | INCOMPLETE |
+        | Sln1       | MedicOnline  | Prescribing         | E3      | INCOMPLETE |
+        | Sln1       | MedicOnline  | Resource Management | E1      | COMPLETE   |
+        | Sln1       | MedicOnline  | Resource Management | E1,E2   | COMPLETE   |

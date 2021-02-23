@@ -38,7 +38,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 && r.Description == "Description"
                 && r.Summary == "Summary";
 
-            context.MockSolutionDetailRepository.Verify(
+            context.MockSolutionRepository.Verify(
                 r => r.UpdateSummaryAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
@@ -56,7 +56,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             results["summary"].Should().Be("required");
 
             context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
-            context.MockSolutionDetailRepository.Verify(
+            context.MockSolutionRepository.Verify(
                 r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()),
                 Times.Never());
         }
@@ -72,7 +72,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             results["description"].Should().Be("maxLength");
 
             context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
-            context.MockSolutionDetailRepository.Verify(
+            context.MockSolutionRepository.Verify(
                 r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()),
                 Times.Never());
         }
@@ -88,7 +88,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             results["link"].Should().Be("maxLength");
 
             context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
-            context.MockSolutionDetailRepository.Verify(
+            context.MockSolutionRepository.Verify(
                 r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()),
                 Times.Never());
         }
@@ -104,7 +104,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             results["summary"].Should().Be("maxLength");
 
             context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
-            context.MockSolutionDetailRepository.Verify(
+            context.MockSolutionRepository.Verify(
                 r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()),
                 Times.Never());
         }
@@ -125,7 +125,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             results["link"].Should().Be("maxLength");
 
             context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()), Times.Never());
-            context.MockSolutionDetailRepository.Verify(
+            context.MockSolutionRepository.Verify(
                 r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()),
                 Times.Never());
         }
@@ -140,7 +140,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             results.Count.Should().Be(0);
 
             context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
-            context.MockSolutionDetailRepository.Verify(
+            context.MockSolutionRepository.Verify(
                 r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()));
         }
 
@@ -165,7 +165,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
 
-            context.MockSolutionDetailRepository.Verify(
+            context.MockSolutionRepository.Verify(
                 r => r.UpdateSummaryAsync(It.IsAny<IUpdateSolutionSummaryRequest>(), It.IsAny<CancellationToken>()),
                 Times.Never());
         }

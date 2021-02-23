@@ -14,9 +14,9 @@ Background:
         | Sln2       | TakeTheRedPill | 1                | Sup 2      |
         | Sln3       | PracticeMgr    | 1                | Sup 2      |
     And SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
-        | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
-        | Sln3     | UrlSln3  | Eye opening experience         | Eye opening6        | [ "Referrals", "Workflow" ]       |
+        | SolutionId | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
+        | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
+        | Sln3       | UrlSln3  | Eye opening experience         | Eye opening6        | [ "Referrals", "Workflow" ]       |
 
 @2724
 Scenario: SolutionDescription are retrieved for the solution

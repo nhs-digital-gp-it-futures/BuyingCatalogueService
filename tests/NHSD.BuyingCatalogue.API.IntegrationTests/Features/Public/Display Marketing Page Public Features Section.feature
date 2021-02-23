@@ -12,8 +12,8 @@ Background:
         | Sln1       | TakeTheRedPill | 1                | Sup 1      |
         | Sln2       | PracticeMgr    | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | Features                    |
-        | Sln1     | [ "Referrals", "Workflow" ] |
+        | SolutionId | Features                    |
+        | Sln1       | [ "Referrals", "Workflow" ] |
 
 @3576
 Scenario: Sections presented where SolutionDetail exists

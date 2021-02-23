@@ -11,8 +11,8 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | Hosting                                                                                                                             |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "HybridHostingType": { "Summary": "A Summary", "Link": "A Link", "HostingModel": "A hosting type", "RequiresHSCN": "A string" } } |
+        | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                                             |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "HybridHostingType": { "Summary": "A Summary", "Link": "A Link", "HostingModel": "A hosting type", "RequiresHSCN": "A string" } } |
 
 @3644
 Scenario: Summary exceeds the maxLength
@@ -22,8 +22,8 @@ Scenario: Summary exceeds the maxLength
     Then a response status of 400 is returned
     And the summary field value is the validation failure maxLength
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | Hosting                                                                                                                            |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "HybridHostingType": {"Summary": "A Summary", "Link": "A Link", "HostingModel": "A hosting type", "RequiresHSCN": "A string" } } |
+        | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                                            |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "HybridHostingType": {"Summary": "A Summary", "Link": "A Link", "HostingModel": "A hosting type", "RequiresHSCN": "A string" } } |
 
 @3644
 Scenario: Link exceeds the maxLength
@@ -33,8 +33,8 @@ Scenario: Link exceeds the maxLength
     Then a response status of 400 is returned
     And the link field value is the validation failure maxLength
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | Hosting                                                                                                                            |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "HybridHostingType": {"Summary": "A Summary", "Link": "A Link", "HostingModel": "A hosting type", "RequiresHSCN": "A string" } } |
+        | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                                            |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "HybridHostingType": {"Summary": "A Summary", "Link": "A Link", "HostingModel": "A hosting type", "RequiresHSCN": "A string" } } |
 
 @3644
 Scenario: Hosting model exceeds the maxLength
@@ -44,5 +44,5 @@ Scenario: Hosting model exceeds the maxLength
     Then a response status of 400 is returned
     And the hosting-model field value is the validation failure maxLength
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | Hosting                                                                                                                            |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "HybridHostingType": {"Summary": "A Summary", "Link": "A Link", "HostingModel": "A hosting type", "RequiresHSCN": "A string" } } |
+        | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                                            |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "HybridHostingType": {"Summary": "A Summary", "Link": "A Link", "HostingModel": "A hosting type", "RequiresHSCN": "A string" } } |

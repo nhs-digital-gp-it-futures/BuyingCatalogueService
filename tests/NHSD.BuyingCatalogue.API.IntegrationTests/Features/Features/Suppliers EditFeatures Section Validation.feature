@@ -11,8 +11,8 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
-        | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
+        | SolutionId | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
+        | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
 
 @3319
 Scenario: No features are filled out
@@ -23,8 +23,8 @@ Scenario: No features are filled out
         | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
     And SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription             | FullDescription   | Features                                  |
-        | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1 | ["0","1","2","3","4","5","6","7","8","9"] |
+        | SolutionId | AboutUrl | SummaryDescription             | FullDescription   | Features                                  |
+        | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1 | ["0","1","2","3","4","5","6","7","8","9"] |
 
 @3319
 Scenario: listing-1 exceeds the character limit
@@ -37,8 +37,8 @@ Scenario: listing-1 exceeds the character limit
         | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
     And SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
-        | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
+        | SolutionId | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
+        | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
 
 @3319
 Scenario: listing-1 & listing-3 are within the character limit. listing-5 & listing-8 exceeds the character limit
@@ -55,5 +55,5 @@ Scenario: listing-1 & listing-3 are within the character limit. listing-5 & list
         | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
     And SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
-        | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
+        | SolutionId | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
+        | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |

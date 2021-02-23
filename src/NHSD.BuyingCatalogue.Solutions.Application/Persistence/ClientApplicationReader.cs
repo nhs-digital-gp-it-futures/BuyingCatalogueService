@@ -9,16 +9,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 {
     internal sealed class ClientApplicationReader
     {
-        private readonly ISolutionDetailRepository solutionDetailRepository;
+        private readonly ISolutionRepository solutionRepository;
 
-        public ClientApplicationReader(ISolutionDetailRepository solutionDetailRepository)
+        public ClientApplicationReader(ISolutionRepository solutionRepository)
         {
-            this.solutionDetailRepository = solutionDetailRepository;
+            this.solutionRepository = solutionRepository;
         }
 
         public async Task<ClientApplication> BySolutionIdAsync(string id, CancellationToken cancellationToken)
         {
-            var clientApplicationResult = await solutionDetailRepository.GetClientApplicationBySolutionIdAsync(id, cancellationToken)
+            var clientApplicationResult = await solutionRepository.GetClientApplicationBySolutionIdAsync(id, cancellationToken)
                 ?? throw new NotFoundException(nameof(Solution), id);
 
             return string.IsNullOrWhiteSpace(clientApplicationResult.ClientApplication)

@@ -71,7 +71,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                 && JToken.Parse(r.Hosting).SelectToken(LinkToken).Value<string>() == url
                 && JToken.Parse(r.Hosting).SelectToken(RequiresHscnToken).Value<string>() == requiresHscn;
 
-            Context.MockSolutionDetailRepository.Verify(
+            Context.MockSolutionRepository.Verify(
                 r => r.UpdateHostingAsync(It.Is(match), It.IsAny<CancellationToken>()));
 
             validationResult.IsValid.Should().BeTrue();
@@ -94,7 +94,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                 r.SolutionId == SolutionId
                 && JToken.Parse(r.Hosting).SelectToken("Hosting") == null;
 
-            Context.MockSolutionDetailRepository.Verify(
+            Context.MockSolutionRepository.Verify(
                 r => r.UpdateHostingAsync(It.Is(match), It.IsAny<CancellationToken>()));
 
             validationResult.IsValid.Should().BeTrue();
@@ -118,7 +118,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                 newHosting.PublicCloud.RequiresHscn.Should().Be(requiresHscn);
             }
 
-            Context.MockSolutionDetailRepository
+            Context.MockSolutionRepository
                 .Setup(r => r.UpdateHostingAsync(
                     It.IsAny<IUpdateSolutionHostingRequest>(),
                     It.IsAny<CancellationToken>()))
@@ -149,7 +149,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
                 r => r.ByIdAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
                 Times.Never());
 
-            Context.MockSolutionDetailRepository.Verify(
+            Context.MockSolutionRepository.Verify(
                 r => r.UpdateHostingAsync(It.IsAny<IUpdateSolutionHostingRequest>(), It.IsAny<CancellationToken>()),
                 Times.Never());
 
@@ -169,7 +169,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.Hosting
 
             Context.MockSolutionRepository.Verify(r => r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>()));
 
-            Context.MockSolutionDetailRepository.Verify(
+            Context.MockSolutionRepository.Verify(
                 r => r.UpdateHostingAsync(It.IsAny<IUpdateSolutionHostingRequest>(), It.IsAny<CancellationToken>()),
                 Times.Never());
         }

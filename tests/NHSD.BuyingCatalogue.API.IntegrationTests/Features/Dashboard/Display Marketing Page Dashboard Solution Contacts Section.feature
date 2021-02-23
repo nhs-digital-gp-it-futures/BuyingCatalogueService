@@ -14,10 +14,10 @@ Background:
         | Sln2       | TakeTheRedPill | 1                | Sup 2      |
         | Sln3       | NoContact      | 1                | Sup 2      |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription        | ClientApplication                                                    |
-        | Sln1     | An full online medicine system | Online medicine 1      | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] } |
-        | Sln2     | Fully fledged GP system        | Fully fledged GP 12    |                                                                      |
-        | Sln3     | We cannot be contacted         | Seriously, no contacts |                                                                      |
+        | SolutionId | SummaryDescription             | FullDescription        | ClientApplication                                                    |
+        | Sln1       | An full online medicine system | Online medicine 1      | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] } |
+        | Sln2       | Fully fledged GP system        | Fully fledged GP 12    |                                                                      |
+        | Sln3       | We cannot be contacted         | Seriously, no contacts |                                                                      |
     And MarketingContacts exist
          | SolutionId | FirstName |
          | Sln1       | Bob       |

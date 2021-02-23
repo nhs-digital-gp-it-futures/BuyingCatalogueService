@@ -49,8 +49,8 @@ Scenario: Solution id not present in request
 @3605
 Scenario Outline: Native Mobile Operating Systems Based on data in Client Application
   Given SolutionDetail exist
-        | Solution | ClientApplication   |
-        | Sln1     | <ClientApplication> |
+        | SolutionId | ClientApplication   |
+        | Sln1       | <ClientApplication> |
     When a GET request is made for native-mobile section dashboard for solution Sln1
     Then a successful response is returned
     And the solution native-mobile-operating-systems section status is <Status>
@@ -66,8 +66,8 @@ Examples:
 @3606
 Scenario Outline: Native Mobile Connection Details Based on data in Client Application
   Given SolutionDetail exist
-        | Solution | ClientApplication   |
-        | Sln1     | <ClientApplication> |
+        | SolutionId | ClientApplication   |
+        | Sln1       | <ClientApplication> |
     When a GET request is made for native-mobile section dashboard for solution Sln1
     Then a successful response is returned
     And the solution native-mobile-connection-details section status is <Status>
@@ -83,8 +83,8 @@ Examples:
 @3607
 Scenario Outline: Native Mobile Memory And Storage Based on data in Client Application
   Given SolutionDetail exist
-        | Solution | ClientApplication   |
-        | Sln1     | <ClientApplication> |
+        | SolutionId | ClientApplication   |
+        | Sln1       | <ClientApplication> |
     When a GET request is made for native-mobile section dashboard for solution Sln1
     Then a successful response is returned
     And the solution native-mobile-memory-and-storage section status is <Status>
@@ -100,8 +100,8 @@ Examples:
 @3611
 Scenario Outline: Native Mobile First Based on data in Client Application
   Given SolutionDetail exist
-        | Solution | ClientApplication   |
-        | Sln1     | <ClientApplication> |
+        | SolutionId | ClientApplication   |
+        | Sln1       | <ClientApplication> |
     When a GET request is made for native-mobile section dashboard for solution Sln1
     Then a successful response is returned
     And the solution native-mobile-first section status is <Status>
@@ -115,8 +115,8 @@ Examples:
 @3609
 Scenario Outline: Native Mobile Hardware Requirements based on data in Client Application
   Given SolutionDetail exist
-        | Solution | ClientApplication   |
-        | Sln1     | <ClientApplication> |
+        | SolutionId | ClientApplication   |
+        | Sln1       | <ClientApplication> |
     When a GET request is made for native-mobile section dashboard for solution Sln1
     Then a successful response is returned
     And the solution native-mobile-hardware-requirements section status is <Status>
@@ -130,8 +130,8 @@ Examples:
 @3608
 Scenario Outline: Mobile Third Party based on data in Client Application
     Given SolutionDetail exist
-        | Solution | ClientApplication   |
-        | Sln1     | <ClientApplication> |
+        | SolutionId | ClientApplication   |
+        | Sln1       | <ClientApplication> |
     When a GET request is made for native-mobile section dashboard for solution Sln1
     Then a successful response is returned
     And the solution native-mobile-third-party section status is <Status>
@@ -150,8 +150,8 @@ Scenario Outline: Mobile Third Party based on data in Client Application
 @3609
 Scenario Outline: Native Mobile Additional Information based on data in Client Application
     Given SolutionDetail exist
-        | Solution | ClientApplication   |
-        | Sln1     | <ClientApplication> |
+        | SolutionId | ClientApplication   |
+        | Sln1       | <ClientApplication> |
     When a GET request is made for native-mobile section dashboard for solution Sln1
     Then a successful response is returned
     And the solution native-mobile-additional-information section status is <Status>

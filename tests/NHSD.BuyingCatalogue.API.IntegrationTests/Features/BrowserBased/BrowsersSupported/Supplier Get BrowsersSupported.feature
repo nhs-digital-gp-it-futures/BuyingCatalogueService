@@ -15,10 +15,10 @@ Background:
         | Sln3       | PracticeMgr    | 1                | Sup 2      |
         | Sln5       | SolutionTest   | 1                | Sup 2      |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription     | ClientApplication                                                        |
-        | Sln1     | An full online medicine system | Online medicine 1   | { "BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true } |
-        | Sln3     | Fully fledged GP system        | Fully fledged GP 12 |                                                                          |
-        | Sln5     | Testing System                 | Full System         | {"MobileResponsive": false }                                             |
+        | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                        |
+        | Sln1       | An full online medicine system | Online medicine 1   | { "BrowsersSupported" : [ "Chrome", "Edge" ], "MobileResponsive": true } |
+        | Sln3       | Fully fledged GP system        | Fully fledged GP 12 |                                                                          |
+        | Sln5       | Testing System                 | Full System         | {"MobileResponsive": false }                                             |
 
 @2786
 Scenario: Supported Browsers are retrieved for the solution

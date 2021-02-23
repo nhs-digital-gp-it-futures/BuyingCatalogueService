@@ -58,7 +58,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
                 && JToken.Parse(r.ClientApplication).SelectToken(MinimumCpuToken).Value<string>() == minimumCpu
                 && JToken.Parse(r.ClientApplication).SelectToken(RecommendedResolutionToken).Value<string>() == recommendedResolution;
 
-            Context.MockSolutionDetailRepository.Verify(
+            Context.MockSolutionRepository.Verify(
                 r => r.UpdateClientApplicationAsync(It.Is(match), It.IsAny<CancellationToken>()));
 
             validationResult.IsValid.Should().BeTrue();
@@ -81,13 +81,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
                 It.IsAny<CancellationToken>());
 
             Context.MockSolutionRepository.Verify(solutionRepositoryExpression, Times.Never());
-
-            Expression<Func<ISolutionDetailRepository, Task>> solutionDetailRepositoryExpression = r =>
-                r.UpdateClientApplicationAsync(
-                    It.IsAny<IUpdateSolutionClientApplicationRequest>(),
-                    It.IsAny<CancellationToken>());
-
-            Context.MockSolutionDetailRepository.Verify(solutionDetailRepositoryExpression, Times.Never());
 
             validationResult.IsValid.Should().BeFalse();
             validationResult.Should().BeOfType<RequiredMaxLengthResult>();
@@ -116,13 +109,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             Context.MockSolutionRepository.Verify(solutionRepositoryExpression, Times.Never());
 
-            Expression<Func<ISolutionDetailRepository, Task>> solutionDetailRepositoryExpression = r =>
-                r.UpdateClientApplicationAsync(
-                    It.IsAny<IUpdateSolutionClientApplicationRequest>(),
-                    It.IsAny<CancellationToken>());
-
-            Context.MockSolutionDetailRepository.Verify(solutionDetailRepositoryExpression, Times.Never());
-
             validationResult.IsValid.Should().BeFalse();
             validationResult.Should().BeOfType<RequiredMaxLengthResult>();
 
@@ -145,13 +131,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             Context.MockSolutionRepository.Verify(solutionRepositoryExpression, Times.Never());
 
-            Expression<Func<ISolutionDetailRepository, Task>> solutionDetailRepositoryExpression = r =>
-                r.UpdateClientApplicationAsync(
-                    It.IsAny<IUpdateSolutionClientApplicationRequest>(),
-                    It.IsAny<CancellationToken>());
-
-            Context.MockSolutionDetailRepository.Verify(solutionDetailRepositoryExpression, Times.Never());
-
             validationResult.IsValid.Should().BeFalse();
             validationResult.Should().BeOfType<RequiredMaxLengthResult>();
 
@@ -173,13 +152,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
                 It.IsAny<CancellationToken>());
 
             Context.MockSolutionRepository.Verify(solutionRepositoryExpression, Times.Never());
-
-            Expression<Func<ISolutionDetailRepository, Task>> solutionDetailRepositoryExpression = r =>
-                r.UpdateClientApplicationAsync(
-                    It.IsAny<IUpdateSolutionClientApplicationRequest>(),
-                    It.IsAny<CancellationToken>());
-
-            Context.MockSolutionDetailRepository.Verify(solutionDetailRepositoryExpression, Times.Never());
 
             validationResult.IsValid.Should().BeFalse();
             validationResult.Should().BeOfType<RequiredMaxLengthResult>();
@@ -204,12 +176,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             Context.MockSolutionRepository.Verify(solutionRepositoryExpression, Times.Never());
 
-            Expression<Func<ISolutionDetailRepository, Task>> solutionDetailRepositoryExpression = r =>
+            Expression<Func<ISolutionRepository, Task>> solutionDetailRepositoryExpression = r =>
                 r.UpdateClientApplicationAsync(
                     It.IsAny<IUpdateSolutionClientApplicationRequest>(),
                     It.IsAny<CancellationToken>());
 
-            Context.MockSolutionDetailRepository.Verify(solutionDetailRepositoryExpression, Times.Never());
+            Context.MockSolutionRepository.Verify(solutionDetailRepositoryExpression, Times.Never());
 
             validationResult.IsValid.Should().BeFalse();
             validationResult.Should().BeOfType<RequiredMaxLengthResult>();
@@ -229,13 +201,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
                 r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>());
 
             Context.MockSolutionRepository.Verify(solutionRepositoryExpression);
-
-            Expression<Func<ISolutionDetailRepository, Task>> solutionDetailRepositoryExpression = r =>
-                r.UpdateClientApplicationAsync(
-                    It.IsAny<IUpdateSolutionClientApplicationRequest>(),
-                    It.IsAny<CancellationToken>());
-
-            Context.MockSolutionDetailRepository.Verify(solutionDetailRepositoryExpression, Times.Never());
         }
 
         private async Task<ISimpleResult> UpdateNativeDesktopMemoryAndStorage()

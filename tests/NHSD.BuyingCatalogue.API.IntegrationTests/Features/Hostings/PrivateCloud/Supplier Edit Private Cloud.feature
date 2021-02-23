@@ -11,8 +11,8 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | Hosting |
-        | Sln1     | An full online medicine system | Online medicine 1 | { }     |
+        | SolutionId | SummaryDescription             | FullDescription   | Hosting |
+        | Sln1       | An full online medicine system | Online medicine 1 | { }     |
 @3641
 Scenario: Private Cloud is updated
     When a PUT request is made to update the hosting-type-private-cloud section for solution Sln1
@@ -20,8 +20,8 @@ Scenario: Private Cloud is updated
         | New Summary | a@b.c | AWS          | A string     |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | Hosting                                                                                                              |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "PrivateCloud": { "Summary": "New Summary", "Link": "a@b.c", "HostingModel": "AWS", "RequiresHSCN": "A string" } } |
+        | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                              |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "PrivateCloud": { "Summary": "New Summary", "Link": "a@b.c", "HostingModel": "AWS", "RequiresHSCN": "A string" } } |
         
 @3641
 Scenario: Private Cloud is updated with trimmed whitespace
@@ -30,8 +30,8 @@ Scenario: Private Cloud is updated with trimmed whitespace
         | "      New Summary     " | "     a@b.c    " | "  AWS     " | "     A string       " |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | Hosting                                                                                                              |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "PrivateCloud": { "Summary": "New Summary", "Link": "a@b.c", "HostingModel": "AWS", "RequiresHSCN": "A string" } } |
+        | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                              |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "PrivateCloud": { "Summary": "New Summary", "Link": "a@b.c", "HostingModel": "AWS", "RequiresHSCN": "A string" } } |
         
 @3641
 Scenario: Private Cloud fields are set to null
@@ -40,8 +40,8 @@ Scenario: Private Cloud fields are set to null
         | NULL    | NULL | NULL         |              |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | Hosting                |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "PrivateCloud": {} } |
+        | SolutionId | SummaryDescription             | FullDescription   | Hosting                |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "PrivateCloud": {} } |
 
 @3641
 Scenario: Solution is not found

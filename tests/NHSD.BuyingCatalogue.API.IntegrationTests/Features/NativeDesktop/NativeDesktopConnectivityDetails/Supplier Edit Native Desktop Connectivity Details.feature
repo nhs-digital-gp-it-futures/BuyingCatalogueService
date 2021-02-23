@@ -13,28 +13,28 @@ Background:
 @3619
 Scenario: Native Desktop Hardware Requirements is updated
     Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                  |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "NativeDesktopMinimumConnectionSpeed": "3Mbps" } |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                  |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "NativeDesktopMinimumConnectionSpeed": "3Mbps" } |
     When a PUT request is made to update the native-desktop-connection-details section for solution Sln1
         | NativeDesktopMinimumConnectionSpeed |
         | 6Mbps                               |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                          |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "NativeDesktopMinimumConnectionSpeed": "6Mbps" } |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                          |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "NativeDesktopMinimumConnectionSpeed": "6Mbps" } |
         
 @3619
 Scenario: Native Desktop Hardware Requirements is updated with trimmed whitespace
     Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                  |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "NativeDesktopMinimumConnectionSpeed": "3Mbps" } |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                  |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "NativeDesktopMinimumConnectionSpeed": "3Mbps" } |
     When a PUT request is made to update the native-desktop-connection-details section for solution Sln1
         | NativeDesktopMinimumConnectionSpeed |
         | "            6Mbps               "  |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                                                                          |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "NativeDesktopMinimumConnectionSpeed": "6Mbps" } |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                          |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "NativeDesktopMinimumConnectionSpeed": "6Mbps" } |
 
 @3619
 Scenario: Solution is not found

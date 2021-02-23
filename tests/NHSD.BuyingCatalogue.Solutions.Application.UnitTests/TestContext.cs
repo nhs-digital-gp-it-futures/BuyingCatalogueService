@@ -88,8 +88,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
 
         public Mock<ICatalogueItemRepository> MockCatalogueItemRepository { get; private set; }
 
-        public Mock<ISolutionDetailRepository> MockSolutionDetailRepository { get; private set; }
-
         public Mock<ISolutionCapabilityRepository> MockSolutionCapabilityRepository { get; private set; }
 
         public Mock<IMarketingContactRepository> MockMarketingContactRepository { get; private set; }
@@ -240,8 +238,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests
             serviceCollection.AddSingleton(MockSolutionRepository.Object);
             MockCatalogueItemRepository = new Mock<ICatalogueItemRepository>();
             serviceCollection.AddSingleton(MockCatalogueItemRepository.Object);
-            MockSolutionDetailRepository = new Mock<ISolutionDetailRepository>();
-            serviceCollection.AddSingleton(MockSolutionDetailRepository.Object);
             MockSolutionCapabilityRepository = new Mock<ISolutionCapabilityRepository>();
             serviceCollection.AddSingleton(MockSolutionCapabilityRepository.Object);
             MockMarketingContactRepository = new Mock<IMarketingContactRepository>();

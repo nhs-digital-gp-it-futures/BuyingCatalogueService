@@ -7,12 +7,12 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 {
     internal sealed class SolutionHostingUpdater
     {
-        private readonly ISolutionDetailRepository solutionDetailRepository;
+        private readonly ISolutionRepository solutionRepository;
 
-        public SolutionHostingUpdater(ISolutionDetailRepository solutionDetailRepository) =>
-            this.solutionDetailRepository = solutionDetailRepository;
+        public SolutionHostingUpdater(ISolutionRepository solutionRepository) =>
+            this.solutionRepository = solutionRepository;
 
         public async Task UpdateAsync(Hosting hosting, string solutionId, CancellationToken cancellationToken) =>
-            await solutionDetailRepository.UpdateHostingAsync(new UpdateSolutionHostingRequest(solutionId, hosting), cancellationToken);
+            await solutionRepository.UpdateHostingAsync(new UpdateSolutionHostingRequest(solutionId, hosting), cancellationToken);
     }
 }

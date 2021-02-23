@@ -14,27 +14,27 @@ Background:
 @3617
 Scenario: Native Desktop Operating System Description is updated to be null
     Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                      |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "NativeDesktopOperatingSystemsDescription": "Desc" } |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                      |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "NativeDesktopOperatingSystemsDescription": "Desc" } |
     When a PUT request is made to update the native-desktop-operating-systems section for solution Sln1
         | NativeDesktopOperatingSystemsDescription |
         | NULL                                     |
     Then a response status of 400 is returned
     And the operating-systems-description field value is the validation failure required
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                      |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "NativeDesktopOperatingSystemsDescription": "Desc" } |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                      |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "NativeDesktopOperatingSystemsDescription": "Desc" } |
 
 @3617
 Scenario: Native Desktop Operating System Description exceeds the maxlength 1000
     Given SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                      |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "NativeDesktopOperatingSystemsDescription": "Desc" } |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                      |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "NativeDesktopOperatingSystemsDescription": "Desc" } |
     When a PUT request is made to update the native-desktop-operating-systems section for solution Sln1
         | NativeDesktopOperatingSystemsDescription |
         | A string with length of 1001             |
     Then a response status of 400 is returned
     And the operating-systems-description field value is the validation failure maxLength
     And SolutionDetail exist
-        | Solution | SummaryDescription             | FullDescription   | ClientApplication                                      |
-        | Sln1     | An full online medicine system | Online medicine 1 | { "NativeDesktopOperatingSystemsDescription": "Desc" } |
+        | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                      |
+        | Sln1       | An full online medicine system | Online medicine 1 | { "NativeDesktopOperatingSystemsDescription": "Desc" } |

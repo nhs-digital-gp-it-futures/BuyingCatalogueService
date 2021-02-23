@@ -12,8 +12,8 @@ Background:
         | Sln1       | PracticeMgr    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription      | FullDescription     |
-        | Sln1     | UrlSln3  | Fully fledged GP system | Fully fledged GP 12 |
+        | SolutionId | AboutUrl | SummaryDescription      | FullDescription     |
+        | Sln1       | UrlSln3  | Fully fledged GP system | Fully fledged GP 12 |
 
 @1848
 Scenario: Solution description section presented where Solution Detail exists

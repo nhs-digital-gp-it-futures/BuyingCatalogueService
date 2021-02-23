@@ -12,9 +12,9 @@ Background:
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | IntegrationsUrl                   |
-        | Sln1     | An original integrations url      |
-        | Sln2     | Another original integrations url |
+        | SolutionId | IntegrationsUrl                   |
+        | Sln1       | An original integrations url      |
+        | Sln2       | Another original integrations url |
 
 @3667
 Scenario: Solution integrations section data is updated
@@ -23,9 +23,9 @@ Scenario: Solution integrations section data is updated
         | A new integrations url |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | IntegrationsUrl                   |
-        | Sln1     | A new integrations url            |
-        | Sln2     | Another original integrations url |
+        | SolutionId | IntegrationsUrl                   |
+        | Sln1       | A new integrations url            |
+        | Sln2       | Another original integrations url |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @3667
@@ -35,9 +35,9 @@ Scenario: Solution integrations section data is updated with trimmed whitespace
         | "           A new integrations url        " |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | IntegrationsUrl                   |
-        | Sln1     | A new integrations url            |
-        | Sln2     | Another original integrations url |
+        | SolutionId | IntegrationsUrl                   |
+        | Sln1       | A new integrations url            |
+        | Sln2       | Another original integrations url |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @3667

@@ -20,7 +20,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
 
             var provider = serviceCollection.BuildServiceProvider();
             provider.GetService<ISolutionRepository>().Should().BeOfType<SolutionRepository>();
-            provider.GetService<ISolutionDetailRepository>().Should().BeOfType<SolutionDetailRepository>();
         }
     }
 }

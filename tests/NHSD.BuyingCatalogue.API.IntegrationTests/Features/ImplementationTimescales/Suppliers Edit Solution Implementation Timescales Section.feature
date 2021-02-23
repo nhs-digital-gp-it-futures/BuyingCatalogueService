@@ -12,9 +12,9 @@ Background:
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | ImplementationDetail                                   |
-        | Sln1     | An original implementation timescales description      |
-        | Sln2     | Another original implementation timescales description |
+        | SolutionId | ImplementationDetail                                   |
+        | Sln1       | An original implementation timescales description      |
+        | Sln2       | Another original implementation timescales description |
 
 @3670
 Scenario: Solution implementation timescales section data is updated
@@ -23,9 +23,9 @@ Scenario: Solution implementation timescales section data is updated
         | A new implementation timescales description |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | ImplementationDetail                                   |
-        | Sln1     | A new implementation timescales description            |
-        | Sln2     | Another original implementation timescales description |
+        | SolutionId | ImplementationDetail                                   |
+        | Sln1       | A new implementation timescales description            |
+        | Sln2       | Another original implementation timescales description |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @3670
@@ -35,9 +35,9 @@ Scenario: Solution implementation timescale section data is updated with trimmed
         | "           A new implementation timescales description        " |
     Then a successful response is returned
     And SolutionDetail exist
-        | Solution | ImplementationDetail                                   |
-        | Sln1     | A new implementation timescales description            |
-        | Sln2     | Another original implementation timescales description |
+        | SolutionId | ImplementationDetail                                   |
+        | Sln1       | A new implementation timescales description            |
+        | Sln2       | Another original implementation timescales description |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @3670

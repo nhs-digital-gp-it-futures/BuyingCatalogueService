@@ -11,8 +11,8 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | ImplementationDetail                              |
-        | Sln1     | An original implementation timescales description |
+        | SolutionId | ImplementationDetail                              |
+        | Sln1       | An original implementation timescales description |
 
 @3670
 Scenario: Description is greater than max length (1100 characters)
@@ -22,8 +22,8 @@ Scenario: Description is greater than max length (1100 characters)
     Then a response status of 400 is returned
     And the description field value is the validation failure maxLength
     And SolutionDetail exist
-        | Solution | ImplementationDetail                              |
-        | Sln1     | An original implementation timescales description |
+        | SolutionId | ImplementationDetail                              |
+        | Sln1       | An original implementation timescales description |
 
 @3670
 Scenario: Description is equal to max length (1100 characters)

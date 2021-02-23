@@ -12,8 +12,8 @@ Background:
         | Sol1       | MedicOnline    | 1                | Sup 1      |
         | Sol2       | TakeTheRedPill | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution |
-        | Sol1     |
+        | SolutionId |
+        | Sol1       |
 
 @3507
 Scenario: Both contacts are presented when two exist

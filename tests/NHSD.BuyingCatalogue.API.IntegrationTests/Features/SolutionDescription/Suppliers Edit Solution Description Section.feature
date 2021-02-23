@@ -13,9 +13,9 @@ Background:
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 2      |
     And SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
-        | Sln1     | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
-        | Sln2     | UrlSln2  | Eye opening experience         | Eye opening6        | [ "Workflow", "Referrals" ]       |
+        | SolutionId | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
+        | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
+        | Sln2       | UrlSln2  | Eye opening experience         | Eye opening6        | [ "Workflow", "Referrals" ]       |
 
 @1843
 Scenario: Solution description section data is updated
@@ -28,9 +28,9 @@ Scenario: Solution description section data is updated
         | Sln1       | MedicOnline    |
         | Sln2       | TakeTheRedPill |
     And SolutionDetail exist
-        | Solution | AboutUrl   | SummaryDescription      | FullDescription        | Features                          |
-        | Sln1     | UrlSln1New | New type of medicine 4  | A new full description | [ "Appointments", "Prescribing" ] |
-        | Sln2     | UrlSln2    | Eye opening experience  | Eye opening6           | [ "Workflow", "Referrals" ]       |
+        | SolutionId | AboutUrl   | SummaryDescription      | FullDescription        | Features                          |
+        | Sln1       | UrlSln1New | New type of medicine 4  | A new full description | [ "Appointments", "Prescribing" ] |
+        | Sln2       | UrlSln2    | Eye opening experience  | Eye opening6           | [ "Workflow", "Referrals" ]       |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @1843
@@ -44,9 +44,9 @@ Scenario: Solution description section data is updated with trimmed whitespace
         | Sln1       | MedicOnline    |
         | Sln2       | TakeTheRedPill |
     And SolutionDetail exist
-        | Solution | AboutUrl   | SummaryDescription      | FullDescription        | Features                          |
-        | Sln1     | UrlSln1New | New type of medicine 4  | A new full description | [ "Appointments", "Prescribing" ] |
-        | Sln2     | UrlSln2    | Eye opening experience  | Eye opening6           | [ "Workflow", "Referrals" ]       |
+        | SolutionId | AboutUrl   | SummaryDescription      | FullDescription        | Features                          |
+        | Sln1       | UrlSln1New | New type of medicine 4  | A new full description | [ "Appointments", "Prescribing" ] |
+        | Sln2       | UrlSln2    | Eye opening experience  | Eye opening6           | [ "Workflow", "Referrals" ]       |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @1828

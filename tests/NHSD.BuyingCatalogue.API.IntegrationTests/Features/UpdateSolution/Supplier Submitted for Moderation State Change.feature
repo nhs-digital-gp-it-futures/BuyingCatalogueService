@@ -13,8 +13,8 @@ Scenario: Supplier status successfully updated upon Solution submitted for revie
         | SolutionId | SolutionName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline  | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | SummaryDescription             | ClientApplication                                                                                                                             |
-        | Sln1     | An full online medicine system | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true, "Plugins": { "Required": false } } |
+        | SolutionId | SummaryDescription             | ClientApplication                                                                                                                             |
+        | Sln1       | An full online medicine system | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true, "Plugins": { "Required": false } } |
     When a request is made to submit Solution Sln1 for review
     Then a successful response is returned
     And Last Updated has updated on the SolutionEntity for solution Sln1

@@ -50,7 +50,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 r.SolutionId == ExistingSolutionId
                 && r.Url == expected;
 
-            context.MockSolutionDetailRepository.Verify(
+            context.MockSolutionRepository.Verify(
                 r => r.UpdateIntegrationsAsync(It.Is(match), It.IsAny<CancellationToken>()));
         }
 
@@ -68,7 +68,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 r => r.CheckExists(ExistingSolutionId, It.IsAny<CancellationToken>()),
                 Times.Never());
 
-            context.MockSolutionDetailRepository.Verify(
+            context.MockSolutionRepository.Verify(
                 r => r.UpdateIntegrationsAsync(It.IsAny<IUpdateIntegrationsRequest>(), It.IsAny<CancellationToken>()),
                 Times.Never());
         }

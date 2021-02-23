@@ -15,17 +15,17 @@ Background:
 @3669
 Scenario Outline: Implementation Timescales section is optional and is reported incomplete
     Given SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription | FullDescription   | ImplementationDetail       |
-        | Sln1     | UrlSln1  |                    | Online medicine 1 | <ImplementationTimescales> |
-    When a GET request is made for solution dashboard <Solution>
+        | SolutionId | AboutUrl | SummaryDescription | FullDescription   | ImplementationDetail       |
+        | Sln1       | UrlSln1  |                    | Online medicine 1 | <ImplementationTimescales> |
+    When a GET request is made for solution dashboard <SolutionId>
     Then a successful response is returned
     And the solution implementation-timescales section status is <Status>
     And the solution implementation-timescales section requirement is Optional
 
     Examples:
-        | Solution | Status     | ImplementationTimescales |
-        | Sln1     | INCOMPLETE | ""                       |
-        | Sln1     | INCOMPLETE | "   "                    |
-        | Sln1     | INCOMPLETE |                          |
-        | Sln1     | COMPLETE   | "integrations url"       |
-        | Sln2     | INCOMPLETE |                          |
+        | SolutionId | Status     | ImplementationTimescales |
+        | Sln1       | INCOMPLETE | ""                       |
+        | Sln1       | INCOMPLETE | "   "                    |
+        | Sln1       | INCOMPLETE |                          |
+        | Sln1       | COMPLETE   | "integrations url"       |
+        | Sln2       | INCOMPLETE |                          |

@@ -11,8 +11,8 @@ Background:
         | SolutionId | SolutionName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline  | 1                | Sup 1      |
     And SolutionDetail exist
-        | Solution | AboutUrl | SummaryDescription | Features                          |
-        | Sln1     | UrlSln1  | The best solution  | [ "Appointments", "Prescribing" ] |
+        | SolutionId | AboutUrl | SummaryDescription | Features                          |
+        | Sln1       | UrlSln1  | The best solution  | [ "Appointments", "Prescribing" ] |
 
 @3966
 Scenario: FirstName exceeds the character length

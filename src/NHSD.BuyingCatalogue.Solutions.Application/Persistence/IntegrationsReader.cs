@@ -7,16 +7,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 {
     internal sealed class IntegrationsReader
     {
-        private readonly ISolutionDetailRepository solutionDetailRepository;
+        private readonly ISolutionRepository solutionRepository;
 
-        public IntegrationsReader(ISolutionDetailRepository solutionDetailRepository)
+        public IntegrationsReader(ISolutionRepository solutionRepository)
         {
-            this.solutionDetailRepository = solutionDetailRepository;
+            this.solutionRepository = solutionRepository;
         }
 
         public async Task<Integrations> BySolutionIdAsync(string id, CancellationToken cancellationToken)
         {
-            var integrationsResult = await solutionDetailRepository.GetIntegrationsBySolutionIdAsync(id, cancellationToken);
+            var integrationsResult = await solutionRepository.GetIntegrationsBySolutionIdAsync(id, cancellationToken);
             return new Integrations { Url = integrationsResult.IntegrationsUrl };
         }
     }

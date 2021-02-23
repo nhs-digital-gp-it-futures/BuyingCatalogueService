@@ -7,16 +7,16 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
 {
     internal sealed class RoadMapReader
     {
-        private readonly ISolutionDetailRepository solutionDetailRepository;
+        private readonly ISolutionRepository solutionRepository;
 
-        public RoadMapReader(ISolutionDetailRepository solutionDetailRepository)
+        public RoadMapReader(ISolutionRepository solutionRepository)
         {
-            this.solutionDetailRepository = solutionDetailRepository;
+            this.solutionRepository = solutionRepository;
         }
 
         public async Task<RoadMap> BySolutionIdAsync(string id, CancellationToken cancellationToken)
         {
-            var roadMapResult = await solutionDetailRepository.GetRoadMapBySolutionIdAsync(id, cancellationToken);
+            var roadMapResult = await solutionRepository.GetRoadMapBySolutionIdAsync(id, cancellationToken);
             return new RoadMap { Summary = roadMapResult.Summary };
         }
     }

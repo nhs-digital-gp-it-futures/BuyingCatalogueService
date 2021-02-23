@@ -6,7 +6,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 {
     public sealed class SolutionEntity : EntityBase
     {
-        public string Id { get; set; }
+        public string SolutionId { get; set; }
 
         public string Name { get; set; }
 
@@ -22,6 +22,8 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public string Hosting { get; set; }
 
+        public string ImplementationDetail { get; set; }
+
         public string RoadMap { get; set; }
 
         public string IntegrationsUrl { get; set; }
@@ -33,45 +35,65 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
         public string WorkOfPlan { get; set; }
 
         protected override string InsertSql => @"
-            INSERT INTO dbo.Solution
-            (
-                Id,
-                Version,
-                Summary,
-                FullDescription,
-                Features,
-                ClientApplication,
-                Hosting,
-                RoadMap,
-                IntegrationsUrl,
-                AboutUrl,
-                ServiceLevelAgreement,
-                WorkOfPlan,
-                LastUpdated,
-                LastUpdatedBy
-            )
-            VALUES
-            (
-                @Id,
-                @Version,
-                @Summary,
-                @FullDescription,
-                @Features,
-                @ClientApplication,
-                @Hosting,
-                @RoadMap,
-                @IntegrationsUrl,
-                @AboutUrl,
-                @ServiceLevelAgreement,
-                @WorkOfPlan,
-                @LastUpdated,
-                @LastUpdatedBy
-            );";
+            IF EXISTS(SELECT * FROM dbo.Solution WHERE Id = @SolutionId)
+                UPDATE dbo.Solution                 
+                    SET [Version] = @Version,
+                        Summary = @Summary,
+                        FullDescription = @FullDescription,
+                        Features = @Features,
+                        ClientApplication = @ClientApplication,
+                        Hosting = @Hosting,
+                        RoadMap = @RoadMap,
+                        IntegrationsUrl = @IntegrationsUrl,
+                        AboutUrl = @AboutUrl,
+                        ServiceLevelAgreement = @ServiceLevelAgreement,
+                        WorkOfPlan = @WorkOfPlan,
+                        ImplementationDetail = @ImplementationDetail,
+                        LastUpdated = @LastUpdated,
+                        LastUpdatedBy = @LastUpdatedBy
+                WHERE Id = @SolutionId
+            ELSE
+                INSERT INTO dbo.Solution
+                (
+                    Id,
+                    [Version],
+                    Summary,
+                    FullDescription,
+                    Features,
+                    ClientApplication,
+                    Hosting,
+                    RoadMap,
+                    IntegrationsUrl,
+                    AboutUrl,
+                    ServiceLevelAgreement,
+                    WorkOfPlan,
+                    ImplementationDetail,
+                    LastUpdated,
+                    LastUpdatedBy
+                )
+                VALUES
+                (
+                    @SolutionId,
+                    @Version,
+                    @Summary,
+                    @FullDescription,
+                    @Features,
+                    @ClientApplication,
+                    @Hosting,
+                    @RoadMap,
+                    @IntegrationsUrl,
+                    @AboutUrl,
+                    @ServiceLevelAgreement,
+                    @WorkOfPlan,
+                    @ImplementationDetail,
+                    @LastUpdated,
+                    @LastUpdatedBy
+                );";
 
         public static async Task<IEnumerable<SolutionEntity>> FetchAllAsync()
         {
             const string selectSql = @"
-                SELECT s.Id,
+                SELECT s.Id AS SolutionId,
                        c.[Name],
                        s.[Version],
                        s.Summary,
@@ -96,7 +118,7 @@ namespace NHSD.BuyingCatalogue.Testing.Data.Entities
 
         public static async Task<SolutionEntity> GetByIdAsync(string solutionId)
         {
-            return (await FetchAllAsync()).First(item => solutionId == item.Id);
+            return (await FetchAllAsync()).First(item => solutionId == item.SolutionId);
         }
     }
 }
