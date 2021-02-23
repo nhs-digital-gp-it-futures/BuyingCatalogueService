@@ -199,6 +199,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions.ClientA
 
             Expression<Func<ISolutionRepository, Task>> solutionRepositoryExpression = r =>
                 r.ByIdAsync(SolutionId, It.IsAny<CancellationToken>());
+
             Context.MockSolutionRepository.Verify(solutionRepositoryExpression);
         }
 
