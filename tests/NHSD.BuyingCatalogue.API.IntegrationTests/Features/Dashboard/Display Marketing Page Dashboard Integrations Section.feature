@@ -14,7 +14,7 @@ Background:
 
 @3667
 Scenario Outline: Integrations section is optional and is reported complete if there is text
-    Given SolutionDetail exist
+    Given solutions have the following details
         | SolutionId | AboutUrl | SummaryDescription | FullDescription   | IntegrationsUrl   |
         | Sln1       | UrlSln1  |                    | Online medicine 1 | <IntegrationsUrl> |
     When a GET request is made for solution dashboard <SolutionId>

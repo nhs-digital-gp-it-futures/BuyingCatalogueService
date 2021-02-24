@@ -10,7 +10,7 @@ Background:
     And Solutions exist
         | SolutionId | SolutionName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline  | 1                | Sup 1      |
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                                                     |
         | Sln1       | An full online medicine system | Online medicine 1 | { "PublicCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
 
@@ -20,7 +20,7 @@ Scenario: Public Cloud is updated
         | Summary     | Link     | RequiresHSCN     |
         | New Summary | New Link | New Connectivity |
     Then a successful response is returned
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                 |
         | Sln1       | An full online medicine system | Online medicine 1 | { "PublicCloud": { "Summary": "New Summary", "Link": "New Link", "RequiresHSCN": "New Connectivity" } } |
 
@@ -30,7 +30,7 @@ Scenario: Public Cloud is updated with trimmed whitespace
         | Summary              | Link             | RequiresHSCN            |
         | "     New Summary  " | "   New Link   " | " New Connectivity    " |
     Then a successful response is returned
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                 |
         | Sln1       | An full online medicine system | Online medicine 1 | { "PublicCloud": { "Summary": "New Summary", "Link": "New Link", "RequiresHSCN": "New Connectivity" } } |
 
@@ -40,7 +40,7 @@ Scenario: Public Cloud variables are updated to null or empty
         | Summary | Link | RequiresHSCN |
         | NULL    | NULL |              |
     Then a successful response is returned
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | Hosting                |
         | Sln1       | An full online medicine system | Online medicine 1 | { "PublicCloud": { } } |
 

@@ -12,7 +12,7 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 2      |
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
         | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
         | Sln2       | UrlSln2  | Eye opening experience         | Eye opening6        | [ "Workflow", "Referrals" ]       |
@@ -27,7 +27,7 @@ Scenario: Solution description section data is updated
         | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
         | Sln2       | TakeTheRedPill |
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | AboutUrl   | SummaryDescription      | FullDescription        | Features                          |
         | Sln1       | UrlSln1New | New type of medicine 4  | A new full description | [ "Appointments", "Prescribing" ] |
         | Sln2       | UrlSln2    | Eye opening experience  | Eye opening6           | [ "Workflow", "Referrals" ]       |
@@ -43,7 +43,7 @@ Scenario: Solution description section data is updated with trimmed whitespace
         | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
         | Sln2       | TakeTheRedPill |
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | AboutUrl   | SummaryDescription      | FullDescription        | Features                          |
         | Sln1       | UrlSln1New | New type of medicine 4  | A new full description | [ "Appointments", "Prescribing" ] |
         | Sln2       | UrlSln2    | Eye opening experience  | Eye opening6           | [ "Workflow", "Referrals" ]       |

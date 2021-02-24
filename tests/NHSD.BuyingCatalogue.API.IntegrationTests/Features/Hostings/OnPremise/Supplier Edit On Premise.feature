@@ -10,7 +10,7 @@ Background:
     And Solutions exist
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | Hosting |
         | Sln1       | An full online medicine system | Online medicine 1 | { }     |
 @3651
@@ -19,7 +19,7 @@ Scenario: On Premise is updated
         | Summary     | Link  | HostingModel | RequiresHSCN |
         | New Summary | a@b.c | AWS          | A string     |
     Then a successful response is returned
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                           |
         | Sln1       | An full online medicine system | Online medicine 1 | { "OnPremise": { "Summary": "New Summary", "Link": "a@b.c", "HostingModel": "AWS", "RequiresHSCN": "A string" } } |
 
@@ -29,7 +29,7 @@ Scenario: On Premise is updated with trimmed whitespace
         | Summary                  | Link             | HostingModel | RequiresHSCN           |
         | "      New Summary     " | "     a@b.c    " | "  AWS     " | "     A string       " |
     Then a successful response is returned
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                           |
         | Sln1       | An full online medicine system | Online medicine 1 | { "OnPremise": { "Summary": "New Summary", "Link": "a@b.c", "HostingModel": "AWS", "RequiresHSCN": "A string" } } |
 
@@ -39,7 +39,7 @@ Scenario: On Premise fields are set to null
         | Summary | Link | HostingModel | RequiresHSCN |
         | NULL    | NULL | NULL         |              |
     Then a successful response is returned
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | Hosting             |
         | Sln1       | An full online medicine system | Online medicine 1 | { "OnPremise": {} } |
 

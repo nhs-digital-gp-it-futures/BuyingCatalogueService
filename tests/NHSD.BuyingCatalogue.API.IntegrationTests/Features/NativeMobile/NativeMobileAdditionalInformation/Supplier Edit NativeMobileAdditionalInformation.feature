@@ -13,27 +13,27 @@ Background:
 
 @3610
 Scenario: Native Mobile Additional Information is updated
-    Given SolutionDetail exist
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication |
         | Sln1       | An full online medicine system | Online medicine 1 | { }               |
     When a PUT request is made to update the native-mobile-additional-information section for solution Sln1
         | AdditionalInformation |
         | New Additional Info   |
     Then a successful response is returned
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                     |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "NativeMobileAdditionalInformation": "New Additional Info" } |
         
 @3610
 Scenario: Native Mobile Additional Information is updated with trimmed whitespace
-    Given SolutionDetail exist
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication |
         | Sln1       | An full online medicine system | Online medicine 1 | { }               |
     When a PUT request is made to update the native-mobile-additional-information section for solution Sln1
         | AdditionalInformation        |
         | "     New Additional Info  " |
     Then a successful response is returned
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                     |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "NativeMobileAdditionalInformation": "New Additional Info" } |
 
@@ -62,13 +62,13 @@ Scenario: Solution id is not present in the request
 
 @3610
 Scenario: AdditionalInformation is set to null
-    Given SolutionDetail exist
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                               |
         | Sln1       | An full online medicine system | Online medicine 1 | { "NativeMobileAdditionalInformation": "Some additional info" } |
     When a PUT request is made to update the native-mobile-additional-information section for solution Sln1
         | AdditionalInformation |
         | NULL                  |
     Then a successful response is returned
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                         |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [] } |

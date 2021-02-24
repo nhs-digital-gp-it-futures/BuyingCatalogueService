@@ -16,7 +16,7 @@ Background:
 
 @2726
 Scenario: Client Application Types are updated for the solution
-    Given SolutionDetail exist
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                     |
         | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
         | Sln2       | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                  |
@@ -30,7 +30,7 @@ Scenario: Client Application Types are updated for the solution
         | Sln1       | MedicOnline    |
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                            |
         | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [] } |
         | Sln2       | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                         |
@@ -39,7 +39,7 @@ Scenario: Client Application Types are updated for the solution
 
 @2726
 Scenario: Client Application Types are updated for the solution with trimmed whitespace
-    Given SolutionDetail exist
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                     |
         | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
         | Sln2       | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                  |
@@ -53,7 +53,7 @@ Scenario: Client Application Types are updated for the solution with trimmed whi
         | Sln1       | MedicOnline    |
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                            |
         | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [] } |
         | Sln2       | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                         |
@@ -62,7 +62,7 @@ Scenario: Client Application Types are updated for the solution with trimmed whi
 
 @2726
 Scenario: Client Application Types that we do not understand are ignored
-    Given SolutionDetail exist
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                     |
         | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
         | Sln2       | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                  |
@@ -76,7 +76,7 @@ Scenario: Client Application Types that we do not understand are ignored
         | Sln1       | MedicOnline    |
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                            |
         | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-mobile" ], "BrowsersSupported": [] } |
         | Sln2       | Fully fledged GP system        | Fully fledged GP 12 | { }                                                                                          |
@@ -85,7 +85,7 @@ Scenario: Client Application Types that we do not understand are ignored
 
 @2726
 Scenario: Client Application Types cannot be completely cleared
-    Given SolutionDetail exist
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                     |
         | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
         | Sln2       | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                  |
@@ -100,7 +100,7 @@ Scenario: Client Application Types cannot be completely cleared
         | Sln1       | MedicOnline    |
         | Sln2       | TakeTheRedPill |
         | Sln3       | PracticeMgr    |
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                     |
         | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                  |
         | Sln2       | Fully fledged GP system        | Fully fledged GP 12 | {  }                                                                                  |

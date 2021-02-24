@@ -13,7 +13,7 @@ Background:
 
 @3599
 Scenario: Connection and Resolution details are retrieved for the solution
-    Given SolutionDetail exist
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                     |
         | Sln1       | An full online medicine system | Online medicine 1 | { "MinimumConnectionSpeed": "2GBps", "MinimumDesktopResolution": "1x1" } |
     When a GET request is made for browser-connectivity-and-resolution section for solution Sln1

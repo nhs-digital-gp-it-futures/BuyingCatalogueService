@@ -12,27 +12,27 @@ Background:
         | Sln1       | MedicOnline    | 1                | Sup 1      |
 @3605
 Scenario: Mobile Operating Systems is updated
-    Given SolutionDetail exist
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                          |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [],"BrowsersSupported" : [], "MobileOperatingSystems": { "OperatingSystems": ["Windows"], "OperatingSystemsDescription": "Windows 10 only" } } |
     When a PUT request is made to update the native-mobile-operating-systems section for solution Sln1
         | OperatingSystems | OperatingSystemsDescription |
         | Linux, Windows   | Added Linux                 |
     Then a successful response is returned
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "MobileOperatingSystems": { "OperatingSystems": ["Linux", "Windows"], "OperatingSystemsDescription": "Added Linux" } } |
         
 @3605
 Scenario: Mobile Operating Systems is updated with trimmed whitespace
-    Given SolutionDetail exist
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                          |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [],"BrowsersSupported" : [], "MobileOperatingSystems": { "OperatingSystems": ["Windows"], "OperatingSystemsDescription": "Windows 10 only" } } |
     When a PUT request is made to update the native-mobile-operating-systems section for solution Sln1
         | OperatingSystems                | OperatingSystemsDescription |
         | "    Linux    ", "Windows     " | "      Added Linux       "  |
     Then a successful response is returned
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "MobileOperatingSystems": { "OperatingSystems": ["Linux", "Windows"], "OperatingSystemsDescription": "Added Linux" } } |
 

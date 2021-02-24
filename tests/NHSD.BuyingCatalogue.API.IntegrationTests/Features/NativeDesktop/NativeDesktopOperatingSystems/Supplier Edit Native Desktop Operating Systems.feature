@@ -12,27 +12,27 @@ Background:
         | Sln1       | MedicOnline    | 1                | Sup 1      |
 @3617
 Scenario: Native Desktop Operating Systems is updated
-    Given SolutionDetail exist
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication |
         | Sln1       | An full online medicine system | Online medicine 1 | { }               |
     When a PUT request is made to update the native-desktop-operating-systems section for solution Sln1
         | NativeDesktopOperatingSystemsDescription |
         | New Desc                                 |
     Then a successful response is returned
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                  |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "NativeDesktopOperatingSystemsDescription": "New Desc" } |
         
 @3617
 Scenario: Native Desktop Operating Systems is updated with trimmed whitespace
-    Given SolutionDetail exist
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication |
         | Sln1       | An full online medicine system | Online medicine 1 | { }               |
     When a PUT request is made to update the native-desktop-operating-systems section for solution Sln1
         | NativeDesktopOperatingSystemsDescription |
         | "               New Desc             "   |
     Then a successful response is returned
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                  |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "NativeDesktopOperatingSystemsDescription": "New Desc" } |
 

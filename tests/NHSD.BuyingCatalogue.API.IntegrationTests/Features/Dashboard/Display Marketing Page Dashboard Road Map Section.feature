@@ -13,7 +13,7 @@ Background:
 
     @3664
 Scenario Outline: Roadmap section is optional and is reported complete if there is text
-    Given SolutionDetail exist
+    Given solutions have the following details
         | SolutionId | AboutUrl | SummaryDescription | FullDescription   | RoadMap   |
         | Sln1       | UrlSln1  |                    | Online medicine 1 | <RoadMap> |
     When a GET request is made for solution dashboard <SolutionId>

@@ -13,27 +13,27 @@ Background:
 
 @3623
 Scenario: Native Desktop Additional Information is updated
-    Given SolutionDetail exist
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication |
         | Sln1       | An full online medicine system | Online medicine 1 | { }               |
     When a PUT request is made to update the native-desktop-additional-information section for solution Sln1
         | AdditionalInformation |
         | New Additional Info   |
     Then a successful response is returned
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                      |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "NativeDesktopAdditionalInformation": "New Additional Info" } |
         
 @3623
 Scenario: Native Desktop Additional Information is updated with leading and trailing white space
-    Given SolutionDetail exist
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication |
         | Sln1       | An full online medicine system | Online medicine 1 | { }               |
     When a PUT request is made to update the native-desktop-additional-information section for solution Sln1
         | AdditionalInformation          |
         | "      New Additional Info   " |
     Then a successful response is returned
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                      |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "NativeDesktopAdditionalInformation": "New Additional Info" } |
 
@@ -62,13 +62,13 @@ Scenario: Solution id is not present in the request
 
 @3623
 Scenario: AdditionalInformation is set to null
-    Given SolutionDetail exist
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                |
         | Sln1       | An full online medicine system | Online medicine 1 | { "NativeDesktopAdditionalInformation": "Some additional info" } |
     When a PUT request is made to update the native-desktop-additional-information section for solution Sln1
         | AdditionalInformation |
         | NULL                  |
     Then a successful response is returned
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                         |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [] } |

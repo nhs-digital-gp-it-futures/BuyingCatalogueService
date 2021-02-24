@@ -13,7 +13,7 @@ Background:
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 2      |
         | Sln3       | PracticeMgr    | 1                | Sup 2      |
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                          |
         | Sln1       | An full online medicine system | Online medicine 1 | { "NativeDesktopAdditionalInformation": "Some more info" } |
         | Sln3       | Testing System                 | Full System       | { "ClientApplicationTypes": ["native-desktop"] }           |

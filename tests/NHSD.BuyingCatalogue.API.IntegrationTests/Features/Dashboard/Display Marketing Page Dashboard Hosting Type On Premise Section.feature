@@ -14,7 +14,7 @@ Background:
 
 @3651
 Scenario Outline: On premise section is optional and is reported complete if there is text in the On Premise
-    Given SolutionDetail exist
+    Given solutions have the following details
         | SolutionId | AboutUrl | SummaryDescription | FullDescription   | Hosting   |
         | Sln1       | UrlSln1  |                    | Online medicine 1 | <Hosting> |
     When a GET request is made for solution dashboard <SolutionId>

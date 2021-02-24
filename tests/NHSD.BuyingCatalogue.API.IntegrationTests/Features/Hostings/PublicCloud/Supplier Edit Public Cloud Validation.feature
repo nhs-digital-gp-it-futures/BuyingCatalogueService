@@ -10,7 +10,7 @@ Background:
     And Solutions exist
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                                                     |
         | Sln1       | An full online medicine system | Online medicine 1 | { "PublicCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
 
@@ -21,7 +21,7 @@ Scenario: Summary exceeds its maxLength
         | A string with length of 501 | someLink | It needs another connection |
     Then a response status of 400 is returned
     And the summary field value is the validation failure maxLength
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                                                     |
         | Sln1       | An full online medicine system | Online medicine 1 | { "PublicCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
        
@@ -32,7 +32,7 @@ Scenario: URL exceeds its maxLength
         | Another Summary | A string with length of 1001 | It needs another connection |
     Then a response status of 400 is returned
     And the link field value is the validation failure maxLength
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                                                     |
         | Sln1       | An full online medicine system | Online medicine 1 | { "PublicCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
 
@@ -44,6 +44,6 @@ Scenario: Summary & URL exceeds their maxLength
     Then a response status of 400 is returned
     And the summary field value is the validation failure maxLength
     And the link field value is the validation failure maxLength
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                                                     |
         | Sln1       | An full online medicine system | Online medicine 1 | { "PublicCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |

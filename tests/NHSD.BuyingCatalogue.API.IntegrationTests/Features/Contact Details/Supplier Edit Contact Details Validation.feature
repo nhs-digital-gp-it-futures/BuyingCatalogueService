@@ -10,7 +10,7 @@ Background:
     And Solutions exist
         | SolutionId | SolutionName | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline  | 1                | Sup 1      |
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | AboutUrl | SummaryDescription | Features                          |
         | Sln1       | UrlSln1  | The best solution  | [ "Appointments", "Prescribing" ] |
 

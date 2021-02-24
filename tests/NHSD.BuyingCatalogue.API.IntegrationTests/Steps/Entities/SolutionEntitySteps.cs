@@ -110,8 +110,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         }
 
 
-        [Given(@"SolutionDetail exist")]
-        public static async Task GivenSolutionDetailExist(Table table)
+        [Given(@"solutions have the following details")]
+        public static async Task GivenSolutionsHaveTheFollowingDetails(Table table)
         {
             foreach (var solutionDetail in table.CreateSet<SolutionTable>())
             {
@@ -132,8 +132,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             }
         }
 
-        [Then(@"SolutionDetail exist")]
-        public static async Task ThenSolutionDetailExist(Table table)
+        [Then(@"solutions have the following details")]
+        public static async Task ThenSolutionsHaveTheFollowingDetails(Table table)
         {
             var expectedSolutionDetails = table.CreateSet<SolutionTable>().Select(m => new
             {

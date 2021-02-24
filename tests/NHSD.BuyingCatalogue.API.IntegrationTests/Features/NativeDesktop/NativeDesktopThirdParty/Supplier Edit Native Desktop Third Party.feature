@@ -12,27 +12,27 @@ Background:
         | Sln1       | MedicOnline    | 1                | Sup 1      |
 @3621
 Scenario: Native Desktop Third Party is updated
-    Given SolutionDetail exist
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                          |
         | Sln1       | An full online medicine system | Online medicine 1 | { "NativeDesktopThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": "Capability" } } |
     When a PUT request is made to update the native-desktop-third-party section for solution Sln1
         | ThirdPartyComponents | DeviceCapabilities |
         | New Component        | New Capability     |
     Then a successful response is returned
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                          |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "NativeDesktopThirdParty": { "ThirdPartyComponents": "New Component", "DeviceCapabilities": "New Capability" } } |
         
 @3621
 Scenario: Native Desktop Third Party is updated with trimmed whitespace
-    Given SolutionDetail exist
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                          |
         | Sln1       | An full online medicine system | Online medicine 1 | { "NativeDesktopThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": "Capability" } } |
     When a PUT request is made to update the native-desktop-third-party section for solution Sln1
         | ThirdPartyComponents     | DeviceCapabilities       |
         | "      New Component   " | "     New Capability   " |
     Then a successful response is returned
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                          |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "NativeDesktopThirdParty": { "ThirdPartyComponents": "New Component", "DeviceCapabilities": "New Capability" } } |
 

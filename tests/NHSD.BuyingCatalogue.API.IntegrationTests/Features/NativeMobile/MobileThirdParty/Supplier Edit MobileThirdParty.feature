@@ -13,28 +13,28 @@ Background:
 
 @3608
 Scenario: Mobile Third Party is updated
-    Given SolutionDetail exist
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                        |
         | Sln1       | An full online medicine system | Online medicine 1 | { "MobileThirdParty": { "ThirdPartyComponents": "Party", "DeviceCapabilities": "Device" } } |
     When a PUT request is made to update the native-mobile-third-party section for solution Sln1
         | ThirdPartyComponents | DeviceCapabilities |
         | Component            | Capabilities       |
     Then a successful response is returned
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                            |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": "Capabilities" } } |
     And Last Updated has updated on the SolutionDetail for solution Sln1
                                 
 @3608
 Scenario: Mobile Third Party is updated with trimmed whitespace
-    Given SolutionDetail exist
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                        |
         | Sln1       | An full online medicine system | Online medicine 1 | { "MobileThirdParty": { "ThirdPartyComponents": "Party", "DeviceCapabilities": "Device" } } |
     When a PUT request is made to update the native-mobile-third-party section for solution Sln1
         | ThirdPartyComponents  | DeviceCapabilities     |
         | "       Component   " | "    Capabilities    " |
     Then a successful response is returned
-    And SolutionDetail exist
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                            |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MobileThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": "Capabilities" } } |
     And Last Updated has updated on the SolutionDetail for solution Sln1
