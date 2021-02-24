@@ -18,7 +18,7 @@ Background:
         | Sln7       | TooCoolForSchool | 1                | Sup 1      |
         | Sln8       | MedicsAnonymous  | 1                | Sup 1      |
 
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                                                                                                                                              |
         | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                                                                                                                                                                                                                                           |
         | Sln3       | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                                                                                                                                                                                                                |

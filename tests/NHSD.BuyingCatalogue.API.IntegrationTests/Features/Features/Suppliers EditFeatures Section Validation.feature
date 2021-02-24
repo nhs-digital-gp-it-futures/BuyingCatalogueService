@@ -10,7 +10,7 @@ Background:
     And Solutions exist
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
         | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
 
@@ -22,7 +22,7 @@ Scenario: No features are filled out
     And Solutions exist
         | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | AboutUrl | SummaryDescription             | FullDescription   | Features                                  |
         | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1 | ["0","1","2","3","4","5","6","7","8","9"] |
 
@@ -36,7 +36,7 @@ Scenario: listing-1 exceeds the character limit
     And Solutions exist
         | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
         | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
 
@@ -54,6 +54,6 @@ Scenario: listing-1 & listing-3 are within the character limit. listing-5 & list
     And Solutions exist
         | SolutionId | SolutionName   |
         | Sln1       | MedicOnline    |
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
         | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |

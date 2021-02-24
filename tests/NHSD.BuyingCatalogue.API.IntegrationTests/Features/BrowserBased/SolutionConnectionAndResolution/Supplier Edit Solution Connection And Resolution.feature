@@ -13,7 +13,7 @@ Background:
 
 @3599
 Scenario: Connection and Resolution are updated for the solution
-    Given Solution have following details
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                     |
         | Sln1       | An full online medicine system | Online medicine 1 | { "MinimumConnectionSpeed": "2GBps" } |
     When a PUT request is made to update the browser-connectivity-and-resolution section for solution Sln1
@@ -23,14 +23,14 @@ Scenario: Connection and Resolution are updated for the solution
     And Solutions exist
         | SolutionId | SolutionName |
         | Sln1       | MedicOnline  |
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                   |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MinimumConnectionSpeed": "1GBps", "MinimumDesktopResolution": "800x600" } |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @3599
 Scenario: Connection and Resolution are updated for the solution with trimmed whitespace
-    Given Solution have following details
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                     |
         | Sln1       | An full online medicine system | Online medicine 1 | { "MinimumConnectionSpeed": "2GBps" } |
     When a PUT request is made to update the browser-connectivity-and-resolution section for solution Sln1
@@ -40,14 +40,14 @@ Scenario: Connection and Resolution are updated for the solution with trimmed wh
     And Solutions exist
         | SolutionId | SolutionName |
         | Sln1       | MedicOnline  |
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                   |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MinimumConnectionSpeed": "1GBps", "MinimumDesktopResolution": "800x600" } |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @3599
 Scenario: Connection and Resolution are updated for the solution with empty resolution
-    Given Solution have following details
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                     |
         | Sln1       | An full online medicine system | Online medicine 1 | { "MinimumConnectionSpeed": "2GBps" } |
     When a PUT request is made to update the browser-connectivity-and-resolution section for solution Sln1
@@ -57,7 +57,7 @@ Scenario: Connection and Resolution are updated for the solution with empty reso
     And Solutions exist
         | SolutionId | SolutionName |
         | Sln1       | MedicOnline  |
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                            |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MinimumConnectionSpeed": "1GBps" } |
     And Last Updated has updated on the SolutionDetail for solution Sln1

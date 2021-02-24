@@ -10,7 +10,7 @@ Background:
     And Solutions exist
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                                             |
         | Sln1       | An full online medicine system | Online medicine 1 | { "HybridHostingType": { "Summary": "A Summary", "Link": "A Link", "HostingModel": "A hosting type", "RequiresHSCN": "A string" } } |
 
@@ -21,7 +21,7 @@ Scenario: Summary exceeds the maxLength
         | A string with length of 501 | a@b.c | AZDO         | A new string |
     Then a response status of 400 is returned
     And the summary field value is the validation failure maxLength
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                                            |
         | Sln1       | An full online medicine system | Online medicine 1 | { "HybridHostingType": {"Summary": "A Summary", "Link": "A Link", "HostingModel": "A hosting type", "RequiresHSCN": "A string" } } |
 
@@ -32,7 +32,7 @@ Scenario: Link exceeds the maxLength
         | A summary | A string with length of 1001 | AZDO         | A new string |
     Then a response status of 400 is returned
     And the link field value is the validation failure maxLength
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                                            |
         | Sln1       | An full online medicine system | Online medicine 1 | { "HybridHostingType": {"Summary": "A Summary", "Link": "A Link", "HostingModel": "A hosting type", "RequiresHSCN": "A string" } } |
 
@@ -43,6 +43,6 @@ Scenario: Hosting model exceeds the maxLength
         | A summary | a@b.c | A string with length of 1001 | A new string |
     Then a response status of 400 is returned
     And the hosting-model field value is the validation failure maxLength
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | Hosting                                                                                                                            |
         | Sln1       | An full online medicine system | Online medicine 1 | { "HybridHostingType": {"Summary": "A Summary", "Link": "A Link", "HostingModel": "A hosting type", "RequiresHSCN": "A string" } } |

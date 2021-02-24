@@ -13,28 +13,28 @@ Background:
 
 @2786
 Scenario: Plugins is updated
-    Given Solution have following details
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                             |
         | Sln1       | An full online medicine system | Online medicine 1 | {  "Plugins" : {"Required" : false, "AdditionalInformation": "orem ipsum" } } |
     When a PUT request is made to update the browser-plug-ins-or-extensions section for solution Sln1
         | PluginsRequired | PluginsDetail             |
         | yEs             | This is extra information |
     Then a successful response is returned
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                  |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [],"BrowsersSupported" : [], "Plugins" : { "Required" : true , "AdditionalInformation": "This is extra information"} } |
     And Last Updated has updated on the SolutionDetail for solution Sln1
 
 @2786
 Scenario: Plugins is updated with trimmed whitespace
-    Given Solution have following details
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                             |
         | Sln1      | An full online medicine system | Online medicine 1 | {  "Plugins" : {"Required" : false, "AdditionalInformation": "orem ipsum" } } |
     When a PUT request is made to update the browser-plug-ins-or-extensions section for solution Sln1
         | PluginsRequired | PluginsDetail                        |
         | "     yEs     " | "     This is extra information    " |
     Then a successful response is returned
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                  |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [],"BrowsersSupported" : [], "Plugins" : { "Required" : true , "AdditionalInformation": "This is extra information"} } |
     And Last Updated has updated on the SolutionDetail for solution Sln1

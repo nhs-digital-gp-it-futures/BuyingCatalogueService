@@ -14,7 +14,7 @@ Background:
 
 @3641
 Scenario Outline: Private cloud section is optional and is reported complete if there is text in the Private Cloud
-    Given Solution have following details
+    Given solutions have the following details
         | SolutionId | AboutUrl | SummaryDescription | FullDescription   | Hosting   |
         | Sln1       | UrlSln1  |                    | Online medicine 1 | <Hosting> |
     When a GET request is made for solution dashboard <SolutionId>

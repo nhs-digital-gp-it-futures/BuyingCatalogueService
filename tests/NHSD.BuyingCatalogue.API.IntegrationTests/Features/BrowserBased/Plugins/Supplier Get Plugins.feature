@@ -15,7 +15,7 @@ Background:
         | Sln2       | TakeTheRedPill | 1                | Sup 2      |
         | Sln3       | PracticeMgr    | 1                | Sup 2      |
         | Sln5       | SolutionTest   | 1                | Sup 1      |
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                            |
         | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum" } } |
         | Sln3       | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                                                                                              |

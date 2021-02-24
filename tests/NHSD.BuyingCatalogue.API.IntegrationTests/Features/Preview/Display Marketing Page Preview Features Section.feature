@@ -11,7 +11,7 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | TakeTheRedPill | 1                | Sup 1      |
         | Sln2       | PracticeMgr    | 1                | Sup 1      |
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | Features                    |
         | Sln1       | [ "Referrals", "Workflow" ] |
 

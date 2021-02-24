@@ -11,7 +11,7 @@ Background:
         | SolutionId | SolutionName   | SupplierId |
         | Sln1       | MedicOnline    | Sup 1      |
         | Sln2       | TakeTheRedPill | Sup 1      |
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | SummaryDescription            |
         | Sln1       | A full online medicine system |
 

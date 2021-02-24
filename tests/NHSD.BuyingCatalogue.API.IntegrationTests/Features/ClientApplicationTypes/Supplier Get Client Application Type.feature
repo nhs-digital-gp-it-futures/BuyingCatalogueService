@@ -12,7 +12,7 @@ Background:
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 2      |
         | Sln3       | PracticeMgr    | 1                | Sup 2      |
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                    |
         | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] } |
         | Sln3       | Fully fledged GP system        | Fully fledged GP 12 |                                                                      |

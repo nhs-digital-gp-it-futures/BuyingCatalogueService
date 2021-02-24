@@ -12,7 +12,7 @@ Background:
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 1      |
         | Sln3       | PracticeMgr    | 1                | Sup 1      |
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                          |
         | Sln1       | An full online medicine system | Online medicine 1 | { "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "StorageRequirementsDescription": "A description", "MinimumCpu": "3.5Ghz", "RecommendedResolution": "800x600" } } |
         | Sln3       | Testing System                 | Full System       | {  }                                                                                                                                                                                       |

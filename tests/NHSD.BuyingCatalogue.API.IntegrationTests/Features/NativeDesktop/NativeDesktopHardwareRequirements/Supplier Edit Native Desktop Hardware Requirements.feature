@@ -12,27 +12,27 @@ Background:
         | Sln1       | MedicOnline    | 1                | Sup 1      |
 @3622
 Scenario: Native Desktop Hardware Requirements is updated
-    Given Solution have following details
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication |
         | Sln1       | An full online medicine system | Online medicine 1 | { }               |
     When a PUT request is made to update the native-desktop-hardware-requirements section for solution Sln1
         | HardwareRequirements |
         | New Hardware         |
     Then a successful response is returned
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                               |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "NativeDesktopHardwareRequirements": "New Hardware" } |
         
 @3622
 Scenario: Native Desktop Hardware Requirements is updated with trimmed whitespace
-    Given Solution have following details
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication |
         | Sln1       | An full online medicine system | Online medicine 1 | { }               |
     When a PUT request is made to update the native-desktop-hardware-requirements section for solution Sln1
         | HardwareRequirements             |
         | "         New Hardware         " |
     Then a successful response is returned
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                               |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "NativeDesktopHardwareRequirements": "New Hardware" } |
 

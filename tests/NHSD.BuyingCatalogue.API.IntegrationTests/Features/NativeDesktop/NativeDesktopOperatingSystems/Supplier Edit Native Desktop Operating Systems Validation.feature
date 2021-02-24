@@ -13,7 +13,7 @@ Background:
 
 @3617
 Scenario: Native Desktop Operating System Description is updated to be null
-    Given Solution have following details
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                      |
         | Sln1       | An full online medicine system | Online medicine 1 | { "NativeDesktopOperatingSystemsDescription": "Desc" } |
     When a PUT request is made to update the native-desktop-operating-systems section for solution Sln1
@@ -21,13 +21,13 @@ Scenario: Native Desktop Operating System Description is updated to be null
         | NULL                                     |
     Then a response status of 400 is returned
     And the operating-systems-description field value is the validation failure required
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                      |
         | Sln1       | An full online medicine system | Online medicine 1 | { "NativeDesktopOperatingSystemsDescription": "Desc" } |
 
 @3617
 Scenario: Native Desktop Operating System Description exceeds the maxlength 1000
-    Given Solution have following details
+    Given solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                      |
         | Sln1       | An full online medicine system | Online medicine 1 | { "NativeDesktopOperatingSystemsDescription": "Desc" } |
     When a PUT request is made to update the native-desktop-operating-systems section for solution Sln1
@@ -35,6 +35,6 @@ Scenario: Native Desktop Operating System Description exceeds the maxlength 1000
         | A string with length of 1001             |
     Then a response status of 400 is returned
     And the operating-systems-description field value is the validation failure maxLength
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                      |
         | Sln1       | An full online medicine system | Online medicine 1 | { "NativeDesktopOperatingSystemsDescription": "Desc" } |

@@ -16,7 +16,7 @@ Background:
         | Sln4       | PracticeMgr    | 1                | Sup 2      |
         | Sln5       | Potions        | 1                | Sup 1      |
 
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                               |
         | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based" ], "BrowsersSupported" : [ "Edge", "Chrome" ]  } |
         | Sln3       | Eye opening experience         | Eye opening6        |                                                                                                 |

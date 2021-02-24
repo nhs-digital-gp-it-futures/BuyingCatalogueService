@@ -11,7 +11,7 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 1      |
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | RoadMap                          |
         | Sln1       | An original roadmap summary      |
         | Sln2       | Another original roadmap summary |
@@ -22,7 +22,7 @@ Scenario: Solution roadmap section data is updated
         | Summary            |
         | A new full summary |
     Then a successful response is returned
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | RoadMap                          |
         | Sln1       | A new full summary               |
         | Sln2       | Another original roadmap summary |
@@ -34,7 +34,7 @@ Scenario: Solution roadmap section data is updated with trimmed whitespace
         | Summary                                 |
         | "           A new full summary        " |
     Then a successful response is returned
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | RoadMap                          |
         | Sln1       | A new full summary               |
         | Sln2       | Another original roadmap summary |

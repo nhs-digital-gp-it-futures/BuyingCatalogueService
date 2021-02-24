@@ -11,7 +11,7 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 1      |
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | ImplementationDetail                                   |
         | Sln1       | An original implementation timescales description      |
         | Sln2       | Another original implementation timescales description |
@@ -22,7 +22,7 @@ Scenario: Solution implementation timescales section data is updated
         | ImplementationTimescales                    |
         | A new implementation timescales description |
     Then a successful response is returned
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | ImplementationDetail                                   |
         | Sln1       | A new implementation timescales description            |
         | Sln2       | Another original implementation timescales description |
@@ -34,7 +34,7 @@ Scenario: Solution implementation timescale section data is updated with trimmed
         | ImplementationTimescales                                         |
         | "           A new implementation timescales description        " |
     Then a successful response is returned
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | ImplementationDetail                                   |
         | Sln1       | A new implementation timescales description            |
         | Sln2       | Another original implementation timescales description |

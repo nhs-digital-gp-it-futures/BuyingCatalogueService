@@ -10,7 +10,7 @@ Background:
     And Solutions exist
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | RoadMap                     |
         | Sln1       | An original roadmap summary |
         
@@ -21,6 +21,6 @@ Scenario: Summary is greater than max length (1000 characters)
         | A string with length of 1001 |
     Then a response status of 400 is returned
     And the summary field value is the validation failure maxLength
-    And Solution have following details
+    And solutions have the following details
         | SolutionId | RoadMap                     |
         | Sln1       | An original roadmap summary |

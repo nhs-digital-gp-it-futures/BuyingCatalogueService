@@ -45,7 +45,7 @@ Scenario: No selection criteria applied
 
 @2053
 Scenario: Card Content
-    Given Solution have following details
+    Given solutions have the following details
         | SolutionId | SummaryDescription     | FullDescription   | AboutUrl | Features                                            |
         | Sln1       | NULL                   | Online medicine 1 | UrlSln1  | { "customJson" : { "id" : 1, "name" : "feature1" }} |
         | Sln2       | Eye opening experience | Eye opening6      | UrlSln2  | { "customJson" : { "id" : 2, "name" : "feature2" }} |
@@ -58,7 +58,7 @@ Scenario: Card Content
         | Sln3       | PracticeMgr    |                        | Supplier 2   | Clinical Safety, Prescribing, Workflow             | false        |
 
 Scenario: Retrieve all Solutions with Marketing data.
-    Given Solution have following details
+    Given solutions have the following details
         | SolutionId | SummaryDescription      | FullDescription     | AboutUrl | Features                                            |
         | Sln1       |                         | Online medicine 1   | UrlSln1  | { "customJson" : { "id" : 1, "name" : "feature1" }} |
         | Sln2       | Eye opening experience  | Eye opening6        | UrlSln2  | { "customJson" : { "id" : 2, "name" : "feature2" }} |
@@ -69,7 +69,7 @@ Scenario: Retrieve all Solutions with Marketing data.
 
 @5350
 Scenario: List all solutions filtered by SupplierID
-    Given Solution have following details
+    Given solutions have the following details
         | SolutionId | SummaryDescription     | FullDescription   | AboutUrl | Features                                            |
         | Sln1       | NULL                   | Online medicine 1 | UrlSln1  | { "customJson" : { "id" : 1, "name" : "feature1" }} |
         | Sln2       | Eye opening experience | Eye opening6      | UrlSln2  | { "customJson" : { "id" : 2, "name" : "feature2" }} |
@@ -81,7 +81,7 @@ Scenario: List all solutions filtered by SupplierID
 
 @5350
 Scenario: List all solutions filtered by an non existant SupplierID
-    Given Solution have following details
+    Given solutions have the following details
         | SolutionId | SummaryDescription     | FullDescription   | AboutUrl | Features                                            |
         | Sln1       | NULL                   | Online medicine 1 | UrlSln1  | { "customJson" : { "id" : 1, "name" : "feature1" }} |
         | Sln2       | Eye opening experience | Eye opening6      | UrlSln2  | { "customJson" : { "id" : 2, "name" : "feature2" }} |

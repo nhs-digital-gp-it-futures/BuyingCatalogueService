@@ -52,7 +52,7 @@ Scenario: Browser Supported status incomplete when record not present
 
 @2782
 Scenario Outline: Browser Supported status based on data in ClientApplication
-    Given Solution have following details
+    Given solutions have the following details
         | SolutionId | ClientApplication   |
         | Sln1     | <ClientApplication> |
         
@@ -84,7 +84,7 @@ Scenario: Plugins status incomplete when record not present
 
 @2793
 Scenario Outline: Plugins status based on data in ClientApplication
-    Given Solution have following details
+    Given solutions have the following details
         | SolutionId | ClientApplication   |
         | Sln1     | <ClientApplication> |
         
@@ -112,7 +112,7 @@ Scenario: Browser Hardware Requirements incomplete when record is not preset
 
 @3600
 Scenario Outline: 10. Browser Hardware Requirements Based on data in Client Application
-    Given Solution have following details
+    Given solutions have the following details
         | SolutionId | ClientApplication   |
         | Sln1     | <ClientApplication> |
     When a GET request is made for browser-based section dashboard for solution Sln1
@@ -134,7 +134,7 @@ Examples:
 
 @3599
 Scenario Outline: 11. Browser Connectivity and Resolution Based on data in Client Application
-    Given Solution have following details
+    Given solutions have the following details
         | SolutionId    | ClientApplication   |
         | Sln1          | <ClientApplication> |
     When a GET request is made for browser-based section dashboard for solution Sln1
@@ -156,7 +156,7 @@ Scenario: 12. Browser Additional Information incomplete when record is not prese
 
 @3601
 Scenario Outline: 13 Browser Additional Information Based on data in Client Application
-  Given Solution have following details
+  Given solutions have the following details
         | SolutionId    | ClientApplication   |
         | Sln1          | <ClientApplication> |
     When a GET request is made for browser-based section dashboard for solution Sln1
@@ -171,7 +171,7 @@ Examples:
 
 @3602
 Scenario Outline: 14. Browser Mobile Frst Based on data in Client Application
-  Given Solution have following details
+  Given solutions have the following details
         | SolutionId    | ClientApplication   |
         | Sln1          | <ClientApplication> |
     When a GET request is made for browser-based section dashboard for solution Sln1
