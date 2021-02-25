@@ -26,14 +26,14 @@ Scenario: Native Mobile Third Party is retreived for the solution
     And the string value of element device-capabilities is Capabilities
 
 @3608
-Scenario: SolutionDetail does not have a Mobile Third Party
+Scenario: Solution does not have a Mobile Third Party
     When a GET request is made for native-mobile-third-party section for solution Sln2
     Then a successful response is returned
     And the third-party-components string does not exist
     And the device-capabilities string does not exist
 
 @3608
-Scenario: Native Mobile Third Party is retrieved for the solution where no solutiondetail exists
+Scenario: Native Mobile Third Party is retrieved empty for the solution
     When a GET request is made for native-mobile-third-party section for solution Sln3
     Then a successful response is returned
     And the third-party-components string does not exist

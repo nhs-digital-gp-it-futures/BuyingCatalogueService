@@ -22,7 +22,7 @@ Scenario: Solution RoadMap is retrieved for the solution
     And the string value of element summary is some valid summary 
  
 @3664
-Scenario: Solution RoadMap is retrieved empty for the solution where no solution detail exists
+Scenario: Solution RoadMap is retrieved empty for the solution where no solution RoadMap exists
     When a GET request is made for roadmap section for solution Sln2
     Then a successful response is returned
     And the summary string does not exist

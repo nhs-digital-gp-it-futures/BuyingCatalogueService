@@ -26,7 +26,7 @@ Scenario: Solution integrations section data is updated
         | SolutionId | IntegrationsUrl                   |
         | Sln1       | A new integrations url            |
         | Sln2       | Another original integrations url |
-    And Last Updated has updated on the SolutionDetail for solution Sln1
+    And Last Updated has been updated for solution Sln1
 
 @3667
 Scenario: Solution integrations section data is updated with trimmed whitespace
@@ -38,7 +38,7 @@ Scenario: Solution integrations section data is updated with trimmed whitespace
         | SolutionId | IntegrationsUrl                   |
         | Sln1       | A new integrations url            |
         | Sln2       | Another original integrations url |
-    And Last Updated has updated on the SolutionDetail for solution Sln1
+    And Last Updated has been updated for solution Sln1
 
 @3667
 Scenario: Solution not found

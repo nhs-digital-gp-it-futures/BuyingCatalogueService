@@ -25,7 +25,7 @@ Scenario: Native Desktop Additional Information are retreived for the solution
     And the string value of element additional-information is Some more info
 
 @3623
-Scenario: Native Desktop Additional Information are retrieved for the solution where no solutiondetail exists
+Scenario: Native Desktop Additional Information are retrieved empty for the solution
     When a GET request is made for native-desktop-additional-information section for solution Sln2
     Then a successful response is returned
     And the additional-information string does not exist

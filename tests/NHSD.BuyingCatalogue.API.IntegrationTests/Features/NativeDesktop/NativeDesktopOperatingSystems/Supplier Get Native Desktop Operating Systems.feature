@@ -11,11 +11,10 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 1      |
-        | Sln3       | PracticeMgr    | 1                | Sup 1      |
     And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                               |
         | Sln1       | An full online medicine system | Online medicine 1 | { "NativeDesktopOperatingSystemsDescription" : "Works fine on Windows, barely on Mac and blows up on *nix..." } |
-        | Sln3       | Testing System                 | Full System       | {  }                                                                                                            |
+        | Sln2       | Testing System                 | Full System       | {  }                                                                                                            |
 
 @3617
 Scenario: Desktop Operating Systems Description is retrieved for the solution
@@ -24,7 +23,7 @@ Scenario: Desktop Operating Systems Description is retrieved for the solution
     And the string value of element operating-systems-description is Works fine on Windows, barely on Mac and blows up on *nix...
   
 @3617
-Scenario: Desktop Operating Systems Description is retrieved for the solution where no solution detail exists
+Scenario: Desktop Operating Systems Description is retrieved as empty if it does not exist yet
     When a GET request is made for native-desktop-operating-systems section for solution Sln2
     Then a successful response is returned
     And the operating-systems-description string does not exist
@@ -46,8 +45,3 @@ Scenario: Solution id not present in request
     When a GET request is made for native-desktop-operating-systems section with no solution id
     Then a response status of 400 is returned
     
-@3617
-Scenario: Desktop Operating Systems Description is retrieved as empty if it does not exist yet
-    When a GET request is made for native-desktop-operating-systems section for solution Sln3
-    Then a successful response is returned
-    And the  operating-systems-description string does not exist

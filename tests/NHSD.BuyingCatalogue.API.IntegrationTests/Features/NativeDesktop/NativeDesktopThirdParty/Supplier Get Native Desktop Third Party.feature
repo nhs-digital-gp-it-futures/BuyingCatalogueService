@@ -32,7 +32,7 @@ Scenario: Native Desktop Third Party is retrieved for the solution where no nati
     And the device-capabilities string does not exist
 
 @3621
-Scenario: Native Desktop Third Party is retrieved for the solution where no solution detail exists
+Scenario: Native Desktop Third Party is retrieved empty for the solution
     When a GET request is made for native-desktop-third-party section for solution Sln3
     Then a successful response is returned
     And the third-party-components string does not exist

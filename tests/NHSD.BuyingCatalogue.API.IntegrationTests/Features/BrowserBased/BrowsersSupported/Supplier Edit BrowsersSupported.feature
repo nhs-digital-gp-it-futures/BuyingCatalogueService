@@ -32,7 +32,7 @@ Scenario: Browser Supported is updated
         | Sln2       | NULL                           | NULL                | NULL                                                                                                                  |
         | Sln3       | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                       |
         | Sln5       | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                          |
-    And Last Updated has updated on the SolutionDetail for solution Sln1
+    And Last Updated has been updated for solution Sln1
 
 @2786
 Scenario: Browser Supported is updated with trimmed whitespace
@@ -51,7 +51,7 @@ Scenario: Browser Supported is updated with trimmed whitespace
         | Sln2       | NULL                           | NULL                | NULL                                                                                                                  |
         | Sln3       | Fully fledged GP system        | Fully fledged GP 12 |                                                                                                                       |
         | Sln5       | Thrills                        | Bellyaches          | {"MobileResponsive": false }                                                                                          |
-    And Last Updated has updated on the SolutionDetail for solution Sln1
+    And Last Updated has been updated for solution Sln1
 
 @2786
 Scenario: Browsers Supported is empty, Mobile Responsive has a result

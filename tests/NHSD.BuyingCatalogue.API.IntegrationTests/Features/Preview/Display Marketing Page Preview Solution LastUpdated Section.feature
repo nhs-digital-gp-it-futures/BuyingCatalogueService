@@ -32,21 +32,3 @@ Examples:
     | 07/12/2019 | 03/12/2019     | 02/01/2020        | 01/01/2020        | 02/01/2020          |
     | 23/02/2022 | 03/10/2019     | 05/12/2024        | 28/09/2025        | 28/09/2025          |
 
-@3520
-Scenario Outline: No marketing contact exist, Last Updated is the latest of last updated in the solution tables
-    Given Solutions exist
-        | SolutionId | SolutionName | SupplierStatusId | SupplierId | LastUpdated |
-        | Sln1       | MedicOnline  | 1                | Sup 1      | <Solution>  |
-    And solutions have the following details
-        | SolutionId | LastUpdated      |
-        | Sln1     | <SolutionDetail> |
-    When a GET request is made for solution preview Sln1
-    Then a successful response is returned
-    And the last updated date in the solution is <LastUpdatedSolution>
-Examples:
-    | Solution   | SolutionDetail | LastUpdatedSolution |
-    | 01/01/1753 | 01/01/1753     | 01/01/1753          |
-    | 31/12/9999 | 31/12/9999     | 31/12/9999          |
-    | 01/01/1753 | 31/12/9999     | 31/12/9999          |
-    | 31/12/2019 | 01/01/2020     | 01/01/2020          |
-    | 15/12/2022 | 14/01/2023     | 14/01/2023          |

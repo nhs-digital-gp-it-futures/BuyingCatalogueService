@@ -24,7 +24,7 @@ Scenario: Native Mobile First is retreived for the solution
     And the string value of element mobile-first-design is Yes
 
 @3611
-Scenario: Native Mobile First is retrieved for the solution where no solutiondetail exists
+Scenario: Native Mobile First design is retrieved empty for the solution
     When a GET request is made for native-mobile-first section for solution Sln2
     Then a successful response is returned
     And the mobile-first-design string does not exist

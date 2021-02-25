@@ -11,7 +11,6 @@ Background:
     And Solutions exist
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill | 1                | Sup 2      |
         | Sln3       | PracticeMgr    | 1                | Sup 2      |
         | Sln4       | PracticeMgr    | 1                | Sup 2      |
         | Sln5       | Potions        | 1                | Sup 1      |
@@ -31,17 +30,16 @@ Scenario: When a client application type is selected and it contains data, clien
     And the client-application-types section contains subsection browser-based
 
 @2724
-Scenario Outline: When SolutionDetail record does not exist, client application types should not show
+Scenario Outline: When Solution client application types does not exist
     When a GET request is made for solution public <SolutionId>
     Then a successful response is returned
     And the client-application-types section is missing
 Examples:
     | SolutionId |
-    | Sln2       |
     | Sln3       |
 
 @2724
-Scenario: When SolutionDetail.ClientApplicationTypes is empty, client application types should not show
+Scenario: When Solution.ClientApplicationTypes is empty, client application types should not show
     When a GET request is made for solution public Sln4
     Then a successful response is returned
     And the client-application-types section is missing

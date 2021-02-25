@@ -35,7 +35,7 @@ Scenario: Marketing Data is updated against the solution
         | Sln1       | An full online medicine system | Online medicine 1   | UrlSln1  | ["Dispensing","Referrals","Workflow"] |
         | Sln2       | Eye opening experience         | Eye opening6        | UrlSln2  | [ "Workflow", "Referrals" ]           |
         | Sln3       | Fully fledged GP system        | Fully fledged GP 12 | UrlSln3  | [ "Dispensing" ]                      |
-    And Last Updated has updated on the SolutionDetail for solution Sln1
+    And Last Updated has been updated for solution Sln1
 
 @1828
 Scenario: Marketing Data is updated against the solution with trimmed whitespace
@@ -58,7 +58,7 @@ Scenario: Marketing Data is updated against the solution with trimmed whitespace
         | Sln1       | An full online medicine system | Online medicine 1   | UrlSln1  | ["Dispensing","Referrals","Workflow"] |
         | Sln2       | Eye opening experience         | Eye opening6        | UrlSln2  | [ "Workflow", "Referrals" ]           |
         | Sln3       | Fully fledged GP system        | Fully fledged GP 12 | UrlSln3  | [ "Dispensing" ]                      |
-    And Last Updated has updated on the SolutionDetail for solution Sln1
+    And Last Updated has been updated for solution Sln1
 
 @1828
 Scenario: Solution not found

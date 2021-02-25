@@ -11,7 +11,6 @@ Background:
         | SolutionId | SolutionName     | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline      | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill   | 1                | Sup 1      |
-        | Sln3       | TakeTheGreenPill | 1                | Sup 1      |
     And solutions have the following details
         | SolutionId | SummaryDescription            | FullDescription   | ClientApplication                                                                                                  |
         | Sln1       | A full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["native-desktop"], "NativeDesktopHardwareRequirements": "New Hardware Requirements" } |
@@ -26,12 +25,6 @@ Scenario: Native Desktop Hardware Requirements are retreived for the solution
 @3622
 Scenario: Native Desktop Hardware Requirements are retrieved for the solution where no hardware requirements exist
     When a GET request is made for native-desktop-hardware-requirements section for solution Sln2
-    Then a successful response is returned
-    And the hardware-requirements string does not exist
-
-@3622
-Scenario: Native Desktop Hardware Requirements are retrieved for the solution where no solution detail exists
-    When a GET request is made for native-desktop-hardware-requirements section for solution Sln3
     Then a successful response is returned
     And the hardware-requirements string does not exist
 

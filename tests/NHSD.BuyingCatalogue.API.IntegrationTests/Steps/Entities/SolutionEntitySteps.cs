@@ -102,8 +102,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             }).Should().BeEquivalentTo(expectedSolutions);
         }
 
-        [Then(@"Last Updated has updated on the SolutionEntity for solution (.*)")]
-        public static async Task LastUpdatedHasUpdatedOnMarketingContact(string solutionId)
+        [Then(@"Last Updated has been updated for solution (.*)")]
+        public static async Task LastUpdatedHasBeenUpdatedOnMarketingContact(string solutionId)
         {
             var contact = await SolutionEntity.GetByIdAsync(solutionId);
             (await contact.LastUpdated.SecondsFromNow()).Should().BeLessOrEqualTo(5);
@@ -165,14 +165,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 Hosting = string.IsNullOrWhiteSpace(m.Hosting) ? null : JToken.Parse(m.Hosting).ToString(),
             }).Should().BeEquivalentTo(expectedSolutionDetails);
         }
-
-        [Then(@"Last Updated has updated on the SolutionDetail for solution (.*)")]
-        public static async Task LastUpdatedHasUpdatedOnSolutionDetail(string solutionId)
-        {
-            var solutionDetail = await SolutionEntity.GetByIdAsync(solutionId);
-            (await solutionDetail.LastUpdated.SecondsFromNow()).Should().BeLessOrEqualTo(5);
-        }
-
 
         [UsedImplicitly(ImplicitUseTargetFlags.Members)]
         private sealed class SolutionTable
