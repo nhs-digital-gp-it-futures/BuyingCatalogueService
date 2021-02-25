@@ -11,6 +11,7 @@ Background:
         | SolutionId | SolutionName     | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline      | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill   | 1                | Sup 1      |
+
     And solutions have the following details
         | SolutionId | SummaryDescription            | FullDescription   | ClientApplication                                                                                |
         | Sln1       | A full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["native-desktop"], "NativeDesktopMinimumConnectionSpeed": "6Mbps" } |
