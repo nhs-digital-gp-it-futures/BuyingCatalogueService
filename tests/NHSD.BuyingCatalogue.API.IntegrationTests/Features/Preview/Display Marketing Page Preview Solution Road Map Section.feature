@@ -24,7 +24,7 @@ Scenario: Solution Road Map section presented where Solution RoadMap exists
         | roadMap | summary | Some description |
 
 @3664
-Scenario: Solution Road Map section presented where no Solution RoadMap exists
+Scenario: Solution Road Map section is not presented where no Solution RoadMap exists
     When a GET request is made for solution preview Sln2
     Then a successful response is returned
     And the solutions roadmap section is not returned

@@ -25,7 +25,7 @@ Scenario: Native Desktop Additional Information are retreived for the solution
     And the string value of element additional-information is Some more info
 
 @3623
-Scenario: Native Desktop Additional Information are retrieved empty for the solution
+Scenario: Native Desktop Additional Information is retrieved empty for the solution where no Client Application details exist
     When a GET request is made for native-desktop-additional-information section for solution Sln2
     Then a successful response is returned
     And the additional-information string does not exist
@@ -52,4 +52,3 @@ Scenario: Service failure
 Scenario: Solution id not present in request
     When a GET request is made for native-desktop-additional-information section with no solution id
     Then a response status of 400 is returned
-

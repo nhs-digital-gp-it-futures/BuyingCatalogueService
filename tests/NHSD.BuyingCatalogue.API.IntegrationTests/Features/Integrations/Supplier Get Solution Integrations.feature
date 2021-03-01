@@ -22,7 +22,7 @@ Scenario: Solution Integrations is retrieved for the solution
     And the string value of element link is some valid url
 
 @3667
-Scenario: Solution Integrations is retrieved empty for the solution
+Scenario: Integrations is retrieved empty for the solution where no Integrations URL exists
     When a GET request is made for integrations section for solution Sln2
     Then a successful response is returned
     And the link string does not exist

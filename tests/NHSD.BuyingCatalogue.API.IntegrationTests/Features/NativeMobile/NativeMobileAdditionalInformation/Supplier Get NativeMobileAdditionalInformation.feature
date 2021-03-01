@@ -24,7 +24,7 @@ Scenario: Native Mobile Additional Information are retreived for the solution
     And the string value of element additional-information is Some more info
 
 @3610
-Scenario: Native Mobile Additional Information are retrieved empty for the solution
+Scenario: Native Mobile Additional Information is not retrieved when no Additional Information exists
     When a GET request is made for native-mobile-additional-information section for solution Sln2
     Then a successful response is returned
     And the additional-information string does not exist
@@ -45,4 +45,3 @@ Scenario: Service failure
 Scenario: Solution id not present in request
     When a GET request is made for native-mobile-additional-information section with no solution id
     Then a response status of 400 is returned
-

@@ -29,7 +29,6 @@ Scenario: Native Desktop Connectivity Details are retrieved for the solution whe
     Then a successful response is returned
     And the minimum-connection-speed string does not exist
 
-
 @3619
 Scenario: Solution not found
     Given a Solution Sln4 does not exist

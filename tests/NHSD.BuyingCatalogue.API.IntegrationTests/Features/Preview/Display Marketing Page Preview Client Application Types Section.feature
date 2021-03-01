@@ -11,16 +11,16 @@ Background:
     And Solutions exist
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
+        | Sln2       | PracticeMgr    | 1                | Sup 2      |
         | Sln3       | PracticeMgr    | 1                | Sup 2      |
-        | Sln4       | PracticeMgr    | 1                | Sup 2      |
-        | Sln5       | Potions        | 1                | Sup 1      |
+        | Sln4       | Potions        | 1                | Sup 1      |
 
     And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                               |
         | Sln1       | An full online medicine system | Online medicine 1   | { "ClientApplicationTypes" : [ "browser-based" ], "BrowsersSupported" : [ "Edge", "Chrome" ]  } |
-        | Sln3       | Eye opening experience         | Eye opening6        |                                                                                                 |
-        | Sln4       | Fully fledged GP system        | Fully fledged GP 12 | { "ClientApplicationTypes" : [] }                                                               |
-        | Sln5       | Fully fledged GP system        | Fully fledged GP 12 | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                            |
+        | Sln2       | Eye opening experience         | Eye opening6        |                                                                                                 |
+        | Sln3       | Fully fledged GP system        | Fully fledged GP 12 | { "ClientApplicationTypes" : [] }                                                               |
+        | Sln4       | Fully fledged GP system        | Fully fledged GP 12 | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ] }                            |
 
 @2724
 Scenario: When a client application type is selected and it contains data, client application types should show
@@ -36,16 +36,16 @@ Scenario Outline: When client application types does not exist for the solution
     And the client-application-types section is missing
 Examples:
     | SolutionId |
-    | Sln3       |
+    | Sln2       |
 
 @2724
 Scenario: When Solution.ClientApplicationTypes is empty, client application types should not show
-    When a GET request is made for solution preview Sln4
+    When a GET request is made for solution preview Sln3
     Then a successful response is returned
     And the client-application-types section is missing
     
 @2724
 Scenario: When ClientApplicationTypes is selected but there is no subsection data, client application types should not show
-    When a GET request is made for solution preview Sln5
+    When a GET request is made for solution preview Sln4
     Then a successful response is returned
     And the client-application-types section is missing

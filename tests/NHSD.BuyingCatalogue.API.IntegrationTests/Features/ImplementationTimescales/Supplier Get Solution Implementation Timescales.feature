@@ -22,7 +22,7 @@ Scenario: Solution Implementation Timescales is retrieved for the solution
     And the string value of element description is some valid description
 
 @3670
-Scenario: Solution Implementation Timescales is retrieved empty for the solution
+Scenario: Implementation Timescales is retrieved empty for the solution where no Implementation Details exist
     When a GET request is made for implementation-timescales section for solution Sln2
     Then a successful response is returned
     And the description string does not exist

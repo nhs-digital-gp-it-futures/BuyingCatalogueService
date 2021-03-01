@@ -46,4 +46,3 @@ Scenario: Service failure
 Scenario: Solution id not present in request
     When a GET request is made for native-mobile-memory-and-storage section with no solution id
     Then a response status of 400 is returned
-    

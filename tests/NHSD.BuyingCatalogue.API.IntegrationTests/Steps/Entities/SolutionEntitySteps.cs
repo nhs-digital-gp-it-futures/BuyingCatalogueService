@@ -103,7 +103,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
         }
 
         [Then(@"Last Updated has been updated for solution (.*)")]
-        public static async Task LastUpdatedHasBeenUpdatedOnMarketingContact(string solutionId)
+        public static async Task LastUpdatedHasBeenUpdatedForSolution(string solutionId)
         {
             var contact = await SolutionEntity.GetByIdAsync(solutionId);
             (await contact.LastUpdated.SecondsFromNow()).Should().BeLessOrEqualTo(5);
