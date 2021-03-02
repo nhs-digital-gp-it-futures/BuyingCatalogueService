@@ -8,9 +8,9 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill | 1                | Sup 1      |
+        | SolutionId | SolutionName   | SupplierId |
+        | Sln1       | MedicOnline    | Sup 1      |
+        | Sln2       | TakeTheRedPill | Sup 1      |
     And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                              |
         | Sln1       | An full online medicine system | Online medicine 1 | { "MobileConnectionDetails" : { "ConnectionType" : [ "3G", "4G", "5G" ], "MinimumConnectionSpeed": "1GBps", "Description": "A description" } } |

@@ -16,11 +16,11 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId | PublishedStatus |
-        | Sln1       | MedicOnline    | 1                | Sup 1      | Published       |
-        | Sln2       | TakeTheRedPill | 1                | Sup 2      | Published       |
-        | Sln3       | PracticeMgr    | 1                | Sup 2      | Published       |
-        | Sln4       | Unpublished    | 1                | Sup 2      | Draft           |
+        | SolutionId | SolutionName   | SupplierId | PublishedStatus |
+        | Sln1       | MedicOnline    | Sup 1      | Published       |
+        | Sln2       | TakeTheRedPill | Sup 2      | Published       |
+        | Sln3       | PracticeMgr    | Sup 2      | Published       |
+        | Sln4       | Unpublished    | Sup 2      | Draft           |
     And Solutions are linked to Capabilities
         | Solution       | Capability              |
         | MedicOnline    | Appointments Management |

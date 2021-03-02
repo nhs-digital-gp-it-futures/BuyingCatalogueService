@@ -47,13 +47,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
 
-            Expression<Func<IUpdateSolutionSupplierStatusRequest, bool>> match = r =>
-                r.Id == "Sln1"
-                && r.SupplierStatusId == 2;
-
-            context.MockSolutionRepository.Verify(r => r.UpdateSupplierStatusAsync(
-                It.Is(match),
-                It.IsAny<CancellationToken>()));
         }
 
         [TestCase(null, new[] { "SolutionSummaryIsRequired" })]
@@ -195,11 +188,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
 
             context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
 
-            Expression<Func<ISolutionRepository, Task>> expression = r => r.UpdateSupplierStatusAsync(
-                It.IsAny<IUpdateSolutionSupplierStatusRequest>(),
-                It.IsAny<CancellationToken>());
-
-            context.MockSolutionRepository.Verify(expression, Times.Never());
+            /////Expression<Func<ISolutionRepository, Task>> expression = r => r.UpdateSupplierStatusAsync(
+            /////    It.IsAny<IUpdateSolutionSupplierStatusRequest>(),
+            /////    It.IsAny<CancellationToken>());
+            /////
+            /////context.MockSolutionRepository.Verify(expression, Times.Never());
         }
 
         [TestCase("")]

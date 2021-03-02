@@ -53,11 +53,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         public string AboutUrl { get; set; }
 
         /// <summary>
-        /// Gets or sets the status of this instance in relation to the supplier.
-        /// </summary>
-        public SupplierStatus SupplierStatus { get; set; }
-
-        /// <summary>
         /// Gets or sets the marketing information related to the clients application.
         /// </summary>
         public IClientApplication ClientApplication { get; set; }

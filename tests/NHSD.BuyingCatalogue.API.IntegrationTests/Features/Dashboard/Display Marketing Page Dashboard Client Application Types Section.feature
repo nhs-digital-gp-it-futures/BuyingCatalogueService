@@ -8,15 +8,15 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SolutionName     | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline      | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill   | 1                | Sup 1      |
-        | Sln3       | PracticeMgr      | 1                | Sup 1      |
-        | Sln4       | PracticeMgr      | 1                | Sup 1      |
-        | Sln5       | Integral         | 1                | Sup 1      |
-        | Sln6       | Medical Stuff    | 1                | Sup 1      |
-        | Sln7       | TooCoolForSchool | 1                | Sup 1      |
-        | Sln8       | MedicsAnonymous  | 1                | Sup 1      |
+        | SolutionId | SolutionName     | SupplierId |
+        | Sln1       | MedicOnline      | Sup 1      |
+        | Sln2       | TakeTheRedPill   | Sup 1      |
+        | Sln3       | PracticeMgr      | Sup 1      |
+        | Sln4       | PracticeMgr      | Sup 1      |
+        | Sln5       | Integral         | Sup 1      |
+        | Sln6       | Medical Stuff    | Sup 1      |
+        | Sln7       | TooCoolForSchool | Sup 1      |
+        | Sln8       | MedicsAnonymous  | Sup 1      |
 
     And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                                                                                                                                              |

@@ -8,8 +8,8 @@ Background:
         | Id    | SupplierName | Summary      | SupplierUrl |
         | Sup 1 | Supplier 1   | Some Summary | www.url.com |
     And Solutions exist
-        | SolutionId | SolutionName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline  | 1                | Sup 1      |
+        | SolutionId | SolutionName | SupplierId |
+        | Sln1       | MedicOnline  | Sup 1      |
 
 @3653
 Scenario: Summary is greater than max length (1100 characters)

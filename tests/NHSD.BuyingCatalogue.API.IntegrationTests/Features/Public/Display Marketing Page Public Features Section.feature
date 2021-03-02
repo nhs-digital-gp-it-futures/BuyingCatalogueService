@@ -8,9 +8,9 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
-        | Sln1       | TakeTheRedPill | 1                | Sup 1      |
-        | Sln2       | PracticeMgr    | 1                | Sup 1      |
+        | SolutionId | SolutionName   | SupplierId |
+        | Sln1       | TakeTheRedPill | Sup 1      |
+        | Sln2       | PracticeMgr    | Sup 1      |
     And solutions have the following details
         | SolutionId | Features                    |
         | Sln1       | [ "Referrals", "Workflow" ] |
