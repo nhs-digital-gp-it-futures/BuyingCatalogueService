@@ -26,7 +26,7 @@ Scenario: Connection and Resolution are updated for the solution
     And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                   |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MinimumConnectionSpeed": "1GBps", "MinimumDesktopResolution": "800x600" } |
-    And Last Updated has updated on the SolutionDetail for solution Sln1
+    And Last Updated has been updated for solution Sln1
 
 @3599
 Scenario: Connection and Resolution are updated for the solution with trimmed whitespace
@@ -43,7 +43,7 @@ Scenario: Connection and Resolution are updated for the solution with trimmed wh
     And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                   |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MinimumConnectionSpeed": "1GBps", "MinimumDesktopResolution": "800x600" } |
-    And Last Updated has updated on the SolutionDetail for solution Sln1
+    And Last Updated has been updated for solution Sln1
 
 @3599
 Scenario: Connection and Resolution are updated for the solution with empty resolution
@@ -60,7 +60,7 @@ Scenario: Connection and Resolution are updated for the solution with empty reso
     And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                            |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "MinimumConnectionSpeed": "1GBps" } |
-    And Last Updated has updated on the SolutionDetail for solution Sln1
+    And Last Updated has been updated for solution Sln1
 
 @3599
 Scenario: Solution not found

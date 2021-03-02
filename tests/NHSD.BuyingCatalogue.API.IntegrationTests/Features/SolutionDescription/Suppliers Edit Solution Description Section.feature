@@ -31,7 +31,7 @@ Scenario: Solution description section data is updated
         | SolutionId | AboutUrl   | SummaryDescription      | FullDescription        | Features                          |
         | Sln1       | UrlSln1New | New type of medicine 4  | A new full description | [ "Appointments", "Prescribing" ] |
         | Sln2       | UrlSln2    | Eye opening experience  | Eye opening6           | [ "Workflow", "Referrals" ]       |
-    And Last Updated has updated on the SolutionDetail for solution Sln1
+    And Last Updated has been updated for solution Sln1
 
 @1843
 Scenario: Solution description section data is updated with trimmed whitespace
@@ -47,7 +47,7 @@ Scenario: Solution description section data is updated with trimmed whitespace
         | SolutionId | AboutUrl   | SummaryDescription      | FullDescription        | Features                          |
         | Sln1       | UrlSln1New | New type of medicine 4  | A new full description | [ "Appointments", "Prescribing" ] |
         | Sln2       | UrlSln2    | Eye opening experience  | Eye opening6           | [ "Workflow", "Referrals" ]       |
-    And Last Updated has updated on the SolutionDetail for solution Sln1
+    And Last Updated has been updated for solution Sln1
 
 @1828
 Scenario: Solution not found

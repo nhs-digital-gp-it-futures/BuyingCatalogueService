@@ -16,7 +16,7 @@ Background:
         | Sln1       | Some description |    
 
 @3664
-Scenario: Solution Road Map section presented where Solution Detail exists
+Scenario: Road Map section presented where Road Map exists
     When a GET request is made for solution public Sln1
     Then a successful response is returned
     And the response contains the following values
@@ -24,13 +24,13 @@ Scenario: Solution Road Map section presented where Solution Detail exists
         | roadMap | summary | Some description |
 
 @3664
-Scenario: Solution Road Map section presented where no Solution Detail exists
+Scenario: Road Map section not presented where no Road Map exists
     When a GET request is made for solution public Sln2
     Then a successful response is returned
     And the solutions roadmap section is not returned
 
 @3657
-Scenario: Solution Road Map section presented where Document exists
+Scenario: Road Map section presented where Document exists
     Given a document named roadmap exists with solutionId Sln1
     When a GET request is made for solution public Sln1    
     Then a successful response is returned
@@ -40,7 +40,7 @@ Scenario: Solution Road Map section presented where Document exists
         | roadMap | summary       | Some description |
 
 @3657
-Scenario: Solution Road Map section presented where Document API Fails
+Scenario: Road Map section presented where Document API Fails
     Given the document api fails with solutionId Sln1
     When a GET request is made for solution public Sln1    
     Then a successful response is returned

@@ -11,7 +11,7 @@ Background:
         | SolutionId | SolutionName     | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline      | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill   | 1                | Sup 1      |
-        | Sln3       | TakeTheGreenPill | 1                | Sup 1      |
+
     And solutions have the following details
         | SolutionId | SummaryDescription            | FullDescription   | ClientApplication                                                                                |
         | Sln1       | A full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["native-desktop"], "NativeDesktopMinimumConnectionSpeed": "6Mbps" } |
@@ -26,12 +26,6 @@ Scenario: Native Mobile Desktop Connectivity Details are retreived for the solut
 @3619
 Scenario: Native Desktop Connectivity Details are retrieved for the solution where no hardware requirements exist
     When a GET request is made for native-desktop-connection-details section for solution Sln2
-    Then a successful response is returned
-    And the minimum-connection-speed string does not exist
-
-@3619
-Scenario: Native Desktop Connectivity Details are retrieved for the solution where no solution detail exists
-    When a GET request is made for native-desktop-connection-details section for solution Sln3
     Then a successful response is returned
     And the minimum-connection-speed string does not exist
 

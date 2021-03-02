@@ -12,11 +12,10 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 2      |
-        | Sln3       | PracticeMgr    | 1                | Sup 2      |
     And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                                                                                                                                                                                                                                                                  |
         | Sln1       | An full online medicine system | Online medicine 1   | { "MobileOperatingSystems": { "OperatingSystems": ["Windows", "Linux"], "OperatingSystemsDescription": "For windows only version 10" }, "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": false, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum" } } |
-        | Sln3       | Testing System                 | Full System         | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Chrome" ], "MobileResponsive": false, "Plugins" : {"Required" : null, "AdditionalInformation": null } }                                                                                                                                              |
+        | Sln2       | Testing System                 | Full System         | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Chrome" ], "MobileResponsive": false, "Plugins" : {"Required" : null, "AdditionalInformation": null } }                                                                                                                                              |
 
 @3605
 Scenario: Mobile Operating Systems are retrieved for the solution
@@ -26,15 +25,6 @@ Scenario: Mobile Operating Systems are retrieved for the solution
         | Elements       |
         | Windows, Linux |
     And the string value of element operating-systems-description is For windows only version 10
-
-@3605
-Scenario: Mobile Operating Systems are retrieved for the solution where no solution detail exists
-    When a GET request is made for native-mobile-operating-systems section for solution Sln2
-    Then a successful response is returned
-    And the operating-systems element contains
-        | Elements |
-        |          |
-    And the operating-systems-description string does not exist
 
 @3605
 Scenario: Solution not found
@@ -55,7 +45,7 @@ Scenario: Solution id not present in request
     
 @3605
 Scenario: Mobile Operating Systems are retrieved for the solution where no mobile-operating-systems
-    When a GET request is made for native-mobile-operating-systems section for solution Sln3
+    When a GET request is made for native-mobile-operating-systems section for solution Sln2
     Then a successful response is returned
     And the operating-systems element contains
         | Elements |

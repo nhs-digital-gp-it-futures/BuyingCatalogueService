@@ -26,7 +26,7 @@ Scenario: Solution roadmap section data is updated
         | SolutionId | RoadMap                          |
         | Sln1       | A new full summary               |
         | Sln2       | Another original roadmap summary |
-    And Last Updated has updated on the SolutionDetail for solution Sln1
+    And Last Updated has been updated for solution Sln1
 
 @3664
 Scenario: Solution roadmap section data is updated with trimmed whitespace
@@ -38,7 +38,7 @@ Scenario: Solution roadmap section data is updated with trimmed whitespace
         | SolutionId | RoadMap                          |
         | Sln1       | A new full summary               |
         | Sln2       | Another original roadmap summary |
-    And Last Updated has updated on the SolutionDetail for solution Sln1
+    And Last Updated has been updated for solution Sln1
 
 @3664
 Scenario: Solution not found

@@ -12,7 +12,6 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 2      |
-        | Sln3       | Medics         | 1                | Sup 1      |
     And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                  |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["native-mobile"], "MobileThirdParty": { "ThirdPartyComponents": "Component", "DeviceCapabilities": "Capabilities" } } |
@@ -26,15 +25,8 @@ Scenario: Native Mobile Third Party is retreived for the solution
     And the string value of element device-capabilities is Capabilities
 
 @3608
-Scenario: SolutionDetail does not have a Mobile Third Party
+Scenario: Solution does not have a Mobile Third Party
     When a GET request is made for native-mobile-third-party section for solution Sln2
-    Then a successful response is returned
-    And the third-party-components string does not exist
-    And the device-capabilities string does not exist
-
-@3608
-Scenario: Native Mobile Third Party is retrieved for the solution where no solutiondetail exists
-    When a GET request is made for native-mobile-third-party section for solution Sln3
     Then a successful response is returned
     And the third-party-components string does not exist
     And the device-capabilities string does not exist
@@ -55,4 +47,3 @@ Scenario: Service failure
 Scenario: Solution id not present in request
     When a GET request is made for native-mobile-third-party section with no solution id
     Then a response status of 400 is returned
-

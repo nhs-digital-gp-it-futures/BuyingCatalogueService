@@ -11,11 +11,10 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 1      |
-        | Sln3       | PracticeMgr    | 1                | Sup 1      |
     And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                    |
         | Sln1       | An full online medicine system | Online medicine 1 | { "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "Description": "A description" } } |
-        | Sln3       | Testing System                 | Full System       | {  }                                                                                                 |
+        | Sln2       | Testing System                 | Full System       | {  }                                                                                                 |
 
 @3607
 Scenario: Mobile Memory And Storage are retrieved for the solution
@@ -23,9 +22,9 @@ Scenario: Mobile Memory And Storage are retrieved for the solution
     Then a successful response is returned
     And the string value of element minimum-memory-requirement is 1GB
     And the string value of element storage-requirements-description is A description
-
+    
 @3607
-Scenario: Mobile Memory And Storage are retrieved for the solution where no solution detail exists
+Scenario: Mobile Memory And Storage are retrieved as empty if they do not exist yet
     When a GET request is made for native-mobile-memory-and-storage section for solution Sln2
     Then a successful response is returned
     And the minimum-memory-requirement string does not exist
@@ -47,10 +46,3 @@ Scenario: Service failure
 Scenario: Solution id not present in request
     When a GET request is made for native-mobile-memory-and-storage section with no solution id
     Then a response status of 400 is returned
-    
-@3607
-Scenario: Mobile Memory And Storage are retrieved as empty if they do not exist yet
-    When a GET request is made for native-mobile-memory-and-storage section for solution Sln3
-    Then a successful response is returned
-    And the minimum-memory-requirement string does not exist
-    And the storage-requirements-description string does not exist

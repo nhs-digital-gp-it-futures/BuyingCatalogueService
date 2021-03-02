@@ -11,11 +11,10 @@ Background:
         | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
         | Sln1       | MedicOnline    | 1                | Sup 1      |
         | Sln2       | TakeTheRedPill | 1                | Sup 1      |
-        | Sln3       | PracticeMgr    | 1                | Sup 1      |
     And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                              |
         | Sln1       | An full online medicine system | Online medicine 1 | { "MobileConnectionDetails" : { "ConnectionType" : [ "3G", "4G", "5G" ], "MinimumConnectionSpeed": "1GBps", "Description": "A description" } } |
-        | Sln3       | Testing System                 | Full System       | {  }                                                                                                                                           |
+        | Sln2       | Testing System                 | Full System       | {  }                                                                                                                                           |
 
 @3606
 Scenario: Mobile Connection Details are retrieved for the solution
@@ -26,16 +25,6 @@ Scenario: Mobile Connection Details are retrieved for the solution
         | 3G,4G,5G |
     And the string value of element minimum-connection-speed is 1GBps
     And the string value of element connection-requirements-description is A description
-
-@3606
-Scenario: Mobile Operating Systems are retrieved for the solution where no solution detail exists
-    When a GET request is made for native-mobile-connection-details section for solution Sln2
-    Then a successful response is returned
-    And the connection-types element contains
-        | Elements |
-        |          |
-    And the minimum-connection-speed string does not exist
-    And the connection-requirements-description string does not exist
 
 @3606
 Scenario: Solution not found
@@ -56,7 +45,7 @@ Scenario: Solution id not present in request
     
 @3606
 Scenario: Mobile Connection Details are retrieved as empty if they do not exist yet
-    When a GET request is made for native-mobile-connection-details section for solution Sln3
+    When a GET request is made for native-mobile-connection-details section for solution Sln2
     Then a successful response is returned
     And the connection-types element contains
         | Elements |

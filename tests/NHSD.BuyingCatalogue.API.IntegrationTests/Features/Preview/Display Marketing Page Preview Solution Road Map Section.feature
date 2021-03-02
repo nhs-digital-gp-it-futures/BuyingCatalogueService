@@ -16,7 +16,7 @@ Background:
         | Sln1       | Some description |
 
 @3664
-Scenario: Solution Road Map section presented where Solution Detail exists
+Scenario: Solution Road Map section presented where Solution RoadMap exists
     When a GET request is made for solution preview Sln1
     Then a successful response is returned
     And the response contains the following values
@@ -24,7 +24,7 @@ Scenario: Solution Road Map section presented where Solution Detail exists
         | roadMap | summary | Some description |
 
 @3664
-Scenario: Solution Road Map section presented where no Solution Detail exists
+Scenario: Solution Road Map section is not presented where no Solution RoadMap exists
     When a GET request is made for solution preview Sln2
     Then a successful response is returned
     And the solutions roadmap section is not returned

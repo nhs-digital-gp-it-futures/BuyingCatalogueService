@@ -26,7 +26,7 @@ Scenario: Solution implementation timescales section data is updated
         | SolutionId | ImplementationDetail                                   |
         | Sln1       | A new implementation timescales description            |
         | Sln2       | Another original implementation timescales description |
-    And Last Updated has updated on the SolutionDetail for solution Sln1
+    And Last Updated has been updated for solution Sln1
 
 @3670
 Scenario: Solution implementation timescale section data is updated with trimmed whitespace
@@ -38,7 +38,7 @@ Scenario: Solution implementation timescale section data is updated with trimmed
         | SolutionId | ImplementationDetail                                   |
         | Sln1       | A new implementation timescales description            |
         | Sln2       | Another original implementation timescales description |
-    And Last Updated has updated on the SolutionDetail for solution Sln1
+    And Last Updated has been updated for solution Sln1
 
 @3670
 Scenario: Solution not found

@@ -16,7 +16,7 @@ Background:
         | Sln1       | [ "Referrals", "Workflow" ] |
 
 @3576
-Scenario: Sections presented where SolutionDetail exists
+Scenario: Sections presented where features exist
     When a GET request is made for solution public Sln1
     Then a successful response is returned
     And the response contains the following values
@@ -24,7 +24,7 @@ Scenario: Sections presented where SolutionDetail exists
         | features | listing | Referrals, Workflow |
 
 @3576
-Scenario: Sections not presented where no Solution Detail exists
+Scenario: Sections not presented where no features exist
     When a GET request is made for solution public Sln2
     Then a successful response is returned
     And the solution features section contains no features

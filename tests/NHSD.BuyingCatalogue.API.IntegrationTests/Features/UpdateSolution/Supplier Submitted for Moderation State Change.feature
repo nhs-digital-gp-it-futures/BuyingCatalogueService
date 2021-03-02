@@ -17,7 +17,7 @@ Scenario: Supplier status successfully updated upon Solution submitted for revie
         | Sln1       | An full online medicine system | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true, "Plugins": { "Required": false } } |
     When a request is made to submit Solution Sln1 for review
     Then a successful response is returned
-    And Last Updated has updated on the SolutionEntity for solution Sln1
+    And Last Updated has been updated for solution Sln1
 
 @3012
 Scenario: Supplier status not updated due to missing Solution summary
