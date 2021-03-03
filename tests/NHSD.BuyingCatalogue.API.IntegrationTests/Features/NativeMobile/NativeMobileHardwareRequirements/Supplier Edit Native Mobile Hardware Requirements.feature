@@ -8,8 +8,8 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | 1                | Sup 1      |
+        | SolutionId | SolutionName | SupplierId |
+        | Sln1       | MedicOnline  | Sup 1      |
 @3600
 Scenario: Native Mobile Hardware Requirements is updated
     Given solutions have the following details

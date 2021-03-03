@@ -52,11 +52,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         string AboutUrl { get; }
 
         /// <summary>
-        /// Gets the status of this instance in relation to the supplier.
-        /// </summary>
-        SupplierStatus SupplierStatus { get; }
-
-        /// <summary>
         /// Gets the marketing information related to the clients application.
         /// </summary>
         IClientApplication ClientApplication { get; }

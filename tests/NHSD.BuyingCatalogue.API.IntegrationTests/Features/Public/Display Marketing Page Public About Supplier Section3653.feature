@@ -11,11 +11,11 @@ Background:
         | Sup 3 | Supplier 3   | Supplier summary 3 | NULL          |
         | Sup 4 | Supplier 4   | Supplier summary 4 | supplier-url4 |
     And Solutions exist
-        | SolutionId | SolutionName    | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline     | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill  | 1                | Sup 2      |
-        | Sln3       | PracticeMgr     | 1                | Sup 3      |
-        | Sln4       | AnotherSolution | 1                | Sup 4      |
+        | SolutionId | SolutionName    | SupplierId |
+        | Sln1       | MedicOnline     | Sup 1      |
+        | Sln2       | TakeTheRedPill  | Sup 2      |
+        | Sln3       | PracticeMgr     | Sup 3      |
+        | Sln4       | AnotherSolution | Sup 4      |
 
 @3653
 Scenario: About supplier section presented where description and link exists

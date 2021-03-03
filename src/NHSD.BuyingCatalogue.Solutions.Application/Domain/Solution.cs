@@ -15,7 +15,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
     {
         public Solution()
         {
-            SupplierStatus = SupplierStatus.Draft;
             PublishedStatus = PublishedStatus.Draft;
         }
 
@@ -124,11 +123,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         /// Gets or sets a link to provide more information about a solution.
         /// </summary>
         public string AboutUrl { get; set; }
-
-        /// <summary>
-        /// Gets the status of this instance in relation to the supplier.
-        /// </summary>
-        public SupplierStatus SupplierStatus { get; }
 
         /// <summary>
         /// Gets or sets the marketing information related to the clients application.

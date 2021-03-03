@@ -8,9 +8,9 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill | 1                | Sup 1      |
+        | SolutionId | SolutionName   | SupplierId |
+        | Sln1       | MedicOnline    | Sup 1      |
+        | Sln2       | TakeTheRedPill | Sup 1      |
 
 @3644
 Scenario Outline: Hybrid hosting type section is optional and is reported complete if there is text in the Hybrid Hosting Type

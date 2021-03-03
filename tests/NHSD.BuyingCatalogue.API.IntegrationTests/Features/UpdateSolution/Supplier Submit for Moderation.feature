@@ -11,8 +11,8 @@ Background:
 @2836
 Scenario: Solution successfully submitted for review
     Given Solutions exist
-        | SolutionId | SolutionName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline  | 1                | Sup 1      |
+        | SolutionId | SolutionName | SupplierId |
+        | Sln1       | MedicOnline  | Sup 1      |
     And solutions have the following details
         | SolutionId | SummaryDescription             | ClientApplication                                                                                                                             |
         | Sln1       | An full online medicine system | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true, "Plugins": { "Required": false } } |
@@ -29,8 +29,8 @@ Scenario: Solution not found
 @2836
 Scenario: Service failure
     Given Solutions exist
-        | SolutionId | SolutionName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline  | 1                | Sup 1      |
+        | SolutionId | SolutionName | SupplierId |
+        | Sln1       | MedicOnline  | Sup 1      |
     And the call to the database to set the field will fail
     When a request is made to submit Solution Sln1 for review
     Then a response status of 500 is returned
@@ -42,8 +42,8 @@ Scenario: Solution id not present in request
 
 Scenario: Solution failed on submit for review due to missing Solution summary
     Given Solutions exist
-        | SolutionId | SolutionName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline  | 1                | Sup 1      |
+        | SolutionId | SolutionName | SupplierId |
+        | Sln1       | MedicOnline  | Sup 1      |
     And solutions have the following details
         | SolutionId | SummaryDescription | ClientApplication                                                                                                                             |
         | Sln1       |                    | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true, "Plugins": { "Required": false } } |
@@ -55,8 +55,8 @@ Scenario: Solution failed on submit for review due to missing Solution summary
 
 Scenario: Solution failed on submit for review due to missing client application type
     Given Solutions exist
-        | SolutionId | SolutionName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline  | 1                | Sup 1      |
+        | SolutionId | SolutionName | SupplierId |
+        | Sln1       | MedicOnline  | Sup 1      |
     And solutions have the following details
         | SolutionId | SummaryDescription             | ClientApplication |
         | Sln1       | An full online medicine system |                   |
@@ -68,8 +68,8 @@ Scenario: Solution failed on submit for review due to missing client application
 
 Scenario: Solution failed on submit for review due to missing browsers supported
     Given Solutions exist
-        | SolutionId | SolutionName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline  | 1                | Sup 1      |
+        | SolutionId | SolutionName | SupplierId |
+        | Sln1       | MedicOnline  | Sup 1      |
     And solutions have the following details
         | SolutionId | SummaryDescription             | ClientApplication                                                                                  |
         | Sln1       | An full online medicine system | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [], "MobileResponsive": true, "Plugins": { "Required": false } } |
@@ -81,8 +81,8 @@ Scenario: Solution failed on submit for review due to missing browsers supported
 
 Scenario: Solution failed on submit for review due to missing mobile responsive
     Given Solutions exist
-        | SolutionId | SolutionName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline  | 1                | Sup 1      |
+        | SolutionId | SolutionName | SupplierId |
+        | Sln1       | MedicOnline  | Sup 1      |
     And solutions have the following details
          | SolutionId | SummaryDescription             | ClientApplication                                                                                                   |
          | Sln1       | An full online medicine system | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "Plugins": { "Required": false } } |
@@ -94,8 +94,8 @@ Scenario: Solution failed on submit for review due to missing mobile responsive
 
 Scenario: Solution failed on submit for review due to missing plugin requirement
     Given Solutions exist
-        | SolutionId | SolutionName | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline  | 1                | Sup 1      |
+        | SolutionId | SolutionName | SupplierId |
+        | Sln1       | MedicOnline  | Sup 1      |
     And solutions have the following details
          | SolutionId | SummaryDescription             | ClientApplication                                                                                           |
          | Sln1       | An full online medicine system | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true } |

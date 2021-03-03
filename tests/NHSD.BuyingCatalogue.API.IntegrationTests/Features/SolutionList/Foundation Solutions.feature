@@ -16,12 +16,12 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
    And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId | PublishedStatus |
-        | Sln1       | MedicOnline    | 1                | Sup 1      | Published       |
-        | Sln2       | TakeTheRedPill | 1                | Sup 2      | Published       |
-        | Sln3       | PracticeMgr    | 1                | Sup 2      | Published       |
-        | Sln4       | GPSurgery      | 1                | Sup 1      | Published       |
-        | Sln5       | Unpublished    | 1                | Sup 1      | Draft           |
+        | SolutionId | SolutionName   | SupplierId | PublishedStatus |
+        | Sln1       | MedicOnline    | Sup 1      | Published       |
+        | Sln2       | TakeTheRedPill | Sup 2      | Published       |
+        | Sln3       | PracticeMgr    | Sup 2      | Published       |
+        | Sln4       | GPSurgery      | Sup 1      | Published       |
+        | Sln5       | Unpublished    | Sup 1      | Draft           |
    And Framework Solutions exist
         | SolutionId | IsFoundation |
         | Sln1       | true         |

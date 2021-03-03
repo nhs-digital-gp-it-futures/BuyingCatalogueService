@@ -8,8 +8,8 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | 1                | Sup 1      |
+        | SolutionId | SolutionName | SupplierId |
+        | Sln1       | MedicOnline  | Sup 1      |
 @3611
 Scenario: Native Mobile First is updated to be empty
     Given solutions have the following details

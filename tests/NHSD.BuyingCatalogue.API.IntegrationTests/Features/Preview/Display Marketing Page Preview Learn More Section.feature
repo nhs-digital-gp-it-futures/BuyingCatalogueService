@@ -8,8 +8,8 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | 1                | Sup 1      |
+        | SolutionId | SolutionName | SupplierId |
+        | Sln1       | MedicOnline  | Sup 1      |
 
 Scenario: Solution Learn More section is presented when the document exists
     Given a document named solution exists with solutionId Sln1

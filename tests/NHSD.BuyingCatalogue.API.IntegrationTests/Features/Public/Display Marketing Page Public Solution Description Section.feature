@@ -8,9 +8,9 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
-        | Sln1       | PracticeMgr    | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill | 1                | Sup 1      |
+        | SolutionId | SolutionName   | SupplierId |
+        | Sln1       | PracticeMgr    | Sup 1      |
+        | Sln2       | TakeTheRedPill | Sup 1      |
     And solutions have the following details
         | SolutionId | AboutUrl | SummaryDescription      | FullDescription     |
         | Sln1       | UrlSln3  | Fully fledged GP system | Fully fledged GP 12 |

@@ -8,9 +8,9 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill | 1                | Sup 1      |
+        | SolutionId | SolutionName   | SupplierId |
+        | Sln1       | MedicOnline    | Sup 1      |
+        | Sln2       | TakeTheRedPill | Sup 1      |
 
 @3651
 Scenario Outline: On premise section is optional and is reported complete if there is text in the On Premise

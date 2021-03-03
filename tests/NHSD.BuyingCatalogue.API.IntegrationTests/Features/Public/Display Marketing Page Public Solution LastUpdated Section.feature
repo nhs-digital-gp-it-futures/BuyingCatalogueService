@@ -10,8 +10,8 @@ Background:
 @3520
 Scenario Outline: Last Updated is the latest of last updated in the solution tables
     Given Solutions exist
-        | SolutionId | SolutionName | SupplierStatusId | SupplierId | LastUpdated |
-        | Sln1       | MedicOnline  | 1                | Sup 1      | <Solution>  |
+        | SolutionId | SolutionName | SupplierId | LastUpdated |
+        | Sln1       | MedicOnline  | Sup 1      | <Solution>  |
     And solutions have the following details
         | SolutionId | LastUpdated      |
         | Sln1       | <SolutionDetail> |

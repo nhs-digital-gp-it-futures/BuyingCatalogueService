@@ -34,13 +34,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Commands.SubmitForReview
             ValidationResult validationResult = new SubmitSolutionForReviewValidator(solution).Validate();
 
             SubmitSolutionForReviewCommandResult result = new SubmitSolutionForReviewCommandResult(validationResult.Errors);
-            if (result.IsSuccess)
-            {
-                await solutionRepository.UpdateSupplierStatusAsync(
-                    new UpdateSolutionSupplierStatusRequest(solution.Id, SupplierStatus.AuthorityReview.Id),
-                    cancellationToken);
-            }
-
             return result;
         }
     }

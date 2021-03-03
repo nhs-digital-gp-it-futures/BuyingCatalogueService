@@ -9,9 +9,9 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill | 1                | Sup 2      |
+        | SolutionId | SolutionName   | SupplierId |
+        | Sln1       | MedicOnline    | Sup 1      |
+        | Sln2       | TakeTheRedPill | Sup 2      |
     And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                                                                                            |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": ["native-mobile"], "MobileOperatingSystems": null, "NativeMobileFirstDesign": null, "MobileConnectionDetails": null, "MobileMemoryAndStorage": null, "NativeMobileHardwareRequirements": null, "MobileThirdParty": null, "NativeMobileAdditionalInformation": "Some more info" } |

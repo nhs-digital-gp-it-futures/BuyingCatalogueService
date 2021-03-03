@@ -13,9 +13,9 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionID | SolutionName   | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | 1                | Sup 1      |
-        | Sln2       | TakeTheRedPill | 1                | Sup 1      |
+        | SolutionID | SolutionName   | SupplierId |
+        | Sln1       | MedicOnline    | Sup 1      |
+        | Sln2       | TakeTheRedPill | Sup 1      |
     And Epics exist
         | Id    | CapabilityRef |
         | Epic1 | C1            |

@@ -9,11 +9,11 @@ Background:
         | Sup 1 | Supplier 1   |
         | Sup 2 | Supplier 2   |
     And Solutions exist
-        | SolutionId | SolutionName   | SupplierStatusId | SupplierId |
-        | Sln1       | MedicOnline    | 1                | Sup 1      |
-        | Sln2       | PracticeMgr    | 1                | Sup 2      |
-        | Sln3       | PracticeMgr    | 1                | Sup 2      |
-        | Sln4       | Potions        | 1                | Sup 1      |
+        | SolutionId | SolutionName | SupplierId |
+        | Sln1       | MedicOnline  | Sup 1      |
+        | Sln2       | PracticeMgr  | Sup 2      |
+        | Sln3       | PracticeMgr  | Sup 2      |
+        | Sln4       | Potions      | Sup 1      |
 
     And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription     | ClientApplication                                                                               |

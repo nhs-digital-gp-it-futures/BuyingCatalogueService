@@ -8,11 +8,11 @@ Background:
         | Id    | SupplierName |
         | Sup 1 | Supplier 1   |
     And Solutions exist
-        | SolutionId | SolutionName      | LastUpdated | SupplierStatusId | SupplierId | PublishedStatusId |
-        | Sln1       | MedicOnline       | 19/11/2019  | 1                | Sup 1      | 1                 |
-        | Sln2       | TakeTheRedPill    | 15/11/2019  | 1                | Sup 1      | 2                 |
-        | Sln3       | TakeTheBluePill   | 15/11/2019  | 1                | Sup 1      | 3                 |
-        | Sln4       | TakeThePurplePill | 15/11/2019  | 1                | Sup 1      | 4                 |
+        | SolutionId | SolutionName      | LastUpdated | SupplierId | PublishedStatusId |
+        | Sln1       | MedicOnline       | 19/11/2019  | Sup 1      | 1                 |
+        | Sln2       | TakeTheRedPill    | 15/11/2019  | Sup 1      | 2                 |
+        | Sln3       | TakeTheBluePill   | 15/11/2019  | Sup 1      | 3                 |
+        | Sln4       | TakeThePurplePill | 15/11/2019  | Sup 1      | 4                 |
 
 @3776
 Scenario: Solution section is presented where the solution is Drafted

@@ -92,20 +92,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
             (await dbConnector.QueryAsync<SolutionResult>(ByIdSql, cancellationToken, new { id })).SingleOrDefault();
 
         /// <summary>
-        /// Updates the supplier status of the specified updateSolutionRequest in the data store.
-        /// </summary>
-        /// <param name="updateSolutionSupplierStatusRequest">The update solution supplier status details.</param>
-        /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
-        /// <returns>A task representing an operation to update the supplier status of the specified
-        /// <paramref name="updateSolutionSupplierStatusRequest"/> in the data store.</returns>
-        public Task UpdateSupplierStatusAsync(
-            IUpdateSolutionSupplierStatusRequest updateSolutionSupplierStatusRequest,
-            CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
-
-        /// <summary>
         /// Checks if the solution exists.
         /// </summary>
         /// <param name="id">The ID of the solution.</param>
