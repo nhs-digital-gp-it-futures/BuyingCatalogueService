@@ -187,12 +187,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 CancellationToken.None));
 
             context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
-
-            /////Expression<Func<ISolutionRepository, Task>> expression = r => r.UpdateSupplierStatusAsync(
-            /////    It.IsAny<IUpdateSolutionSupplierStatusRequest>(),
-            /////    It.IsAny<CancellationToken>());
-            /////
-            /////context.MockSolutionRepository.Verify(expression, Times.Never());
         }
 
         [TestCase("")]
