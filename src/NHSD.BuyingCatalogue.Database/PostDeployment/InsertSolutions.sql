@@ -20,7 +20,8 @@ DECLARE @sharedCarePlansCapabilityId AS uniqueidentifier = 'd1532ca0-ef0c-457c-9
 DECLARE @unifiedCareRecordCapabilityId AS uniqueidentifier = '59696227-602a-421d-a883-29e88997ac17';
 DECLARE @workflowCapabilityId AS uniqueidentifier = '9d325dec-6e5b-44e4-876b-eacf6cd41b3e';
 
-DECLARE @frameworkId AS nvarchar(10) = 'NHSDGP001';
+DECLARE @gpitframeworkId AS nvarchar(10) = 'NHSDGP001';
+DECLARE @dfocvcframeworkId AS nvarchar(10) = 'DFOCVC001';
 DECLARE @emptyGuid AS uniqueidentifier = '00000000-0000-0000-0000-000000000000';
 DECLARE @now AS datetime = GETUTCDATE();
 
@@ -61,7 +62,7 @@ BEGIN
               WHERE CapabilityRef = 'C1';
 
         INSERT INTO dbo.FrameworkSolutions(FrameworkId ,SolutionId ,IsFoundation, LastUpdated, LastUpdatedBy)
-             VALUES (@frameworkId, @solutionId , 1, @now, @emptyGuid);
+             VALUES (@gpitframeworkId, @solutionId , 1, @now, @emptyGuid);
     END;
 
     /*************************************************************************************************************************************************************/
@@ -94,7 +95,7 @@ BEGIN
               WHERE CapabilityRef IN ('C1', 'C5');
 
         INSERT INTO dbo.FrameworkSolutions(FrameworkId,SolutionId, IsFoundation, LastUpdated, LastUpdatedBy)
-             VALUES (@frameworkId, @solutionId, 1, @now, @emptyGuid);
+             VALUES (@gpitframeworkId, @solutionId, 1, @now, @emptyGuid);
     END;
 
     /*************************************************************************************************************************************************************/
@@ -187,7 +188,7 @@ BEGIN
               WHERE CapabilityRef = 'C8';
 
         INSERT INTO dbo.FrameworkSolutions(FrameworkId ,SolutionId ,IsFoundation, LastUpdated, LastUpdatedBy)
-             VALUES (@frameworkId, @solutionId , 1, @now, @emptyGuid);
+             VALUES (@gpitframeworkId, @solutionId , 1, @now, @emptyGuid);
     END;
 
     /*************************************************************************************************************************************************************/
@@ -383,7 +384,7 @@ Using EMIS Web, healthcare professionals can provide the best possible patient c
         (@solutionId, @workflowCapabilityId, 1, @now, @emptyGuid);
 
         INSERT INTO dbo.FrameworkSolutions(FrameworkId ,SolutionId ,IsFoundation, LastUpdated ,LastUpdatedBy)
-             VALUES (@frameworkId, @solutionId , 1, @now, @emptyGuid);
+             VALUES (@gpitframeworkId, @solutionId , 1, @now, @emptyGuid);
 
         INSERT INTO dbo.SolutionEpic (SolutionId, CapabilityId, EpicId, StatusId, LastUpdated, LastUpdatedBy)
         VALUES
@@ -550,7 +551,74 @@ TPP maintain close contact with staff at the unit throughout these phases to ens
         (@solutionId, @citizenViewRecordCapabilityId, 1, @now, @emptyGuid);
 
         INSERT INTO dbo.FrameworkSolutions(FrameworkId ,SolutionId ,IsFoundation, LastUpdated, LastUpdatedBy)
-             VALUES (@frameworkId, @solutionId , 1, @now, @emptyGuid);
+             VALUES (@gpitframeworkId, @solutionId , 1, @now, @emptyGuid);
+    END;
+
+    /*************************************************************************************************************************************************************/
+
+    SET @solutionId = '100008-001';
+
+    IF NOT EXISTS (SELECT * FROM dbo.CatalogueItem WHERE CatalogueItemId = @solutionId)
+    BEGIN
+        INSERT INTO dbo.CatalogueItem(CatalogueItemId, CatalogueItemTypeId, [Name], SupplierId, PublishedStatusId, Created)
+             VALUES (@solutionId, @solutionItemType, 'DFOCVC Gateway', '100001', @publishedStatus, @now);
+
+        INSERT INTO dbo.Solution(Id, [Version], Features, Hosting, AboutUrl, Summary, FullDescription, LastUpdated, LastUpdatedBy)
+        VALUES (
+            @solutionId,
+            @version1,
+            '["Digital Online Consultation","Video Consultation", "Fully interopable with all major GP IT solutions", "Compliant with all relevant ISO standards"]',
+            '{"PublicCloud":{"Summary":"Summary description","Link":"External URL link","RequiresHSCN":"Link to HSCN or N3 network required to access service"},"PrivateCloud":{"Summary":"Summary description","Link":"External URL link","HostingModel":"Hosting environment description","RequiresHSCN":"Link to HSCN or N3 network required to access service"},"HybridHostingType":{"Summary":"Summary description","Link":"External URL link","HostingModel":"Hosting environment description","RequiresHSCN":"Link to HSCN or N3 network required to access service"},"OnPremise":{"Summary":"Summary description","Link":"External URL link","HostingModel":"Hosting environment description","RequiresHSCN":"Link to HSCN or N3 network required to access service"}}',
+            'http://www.dfocvctest.com/about',
+            'Summary - DFOCVC.',
+            'FULL DESCRIPTION – Digital First, Online Consultation and Video Consultation Solution.',
+            @now,
+            @emptyGuid);
+
+        INSERT INTO dbo.MarketingContact(SolutionId, FirstName, LastName, PhoneNumber, Email, Department, LastUpdated, LastUpdatedBy)
+             VALUES (@solutionId, 'Sam', 'Thomas', '012345767890', 'Sales@test.com', 'Sales', @now, @emptyGuid);
+
+        INSERT INTO dbo.SolutionCapability(SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
+             SELECT @solutionId, Id, 1, @now, @emptyGuid
+               FROM dbo.Capability
+              WHERE CapabilityRef IN ('C1');
+
+        INSERT INTO dbo.FrameworkSolutions(FrameworkId,SolutionId, IsFoundation, LastUpdated, LastUpdatedBy)
+             VALUES (@dfocvcframeworkId, @solutionId, 1, @now, @emptyGuid);
+    END;
+    
+    /*************************************************************************************************************************************************************/
+
+    SET @solutionId = '100009-001';
+
+    IF NOT EXISTS (SELECT * FROM dbo.CatalogueItem WHERE CatalogueItemId = @solutionId)
+    BEGIN
+        INSERT INTO dbo.CatalogueItem(CatalogueItemId, CatalogueItemTypeId, [Name], SupplierId, PublishedStatusId, Created)
+             VALUES (@solutionId, @solutionItemType, 'GPIT DFOCVC Gateway', '100001', @publishedStatus, @now);
+
+        INSERT INTO dbo.Solution(Id, [Version], Features, Hosting, AboutUrl, Summary, FullDescription, LastUpdated, LastUpdatedBy)
+        VALUES (
+            @solutionId,
+            @version1,
+            '["Digital Online Consultation","Video Consultation", "Fully interopable with all major GP IT solutions", "Compliant with all relevant ISO standards"]',
+            '{"PublicCloud":{"Summary":"Summary description","Link":"External URL link","RequiresHSCN":"Link to HSCN or N3 network required to access service"},"PrivateCloud":{"Summary":"Summary description","Link":"External URL link","HostingModel":"Hosting environment description","RequiresHSCN":"Link to HSCN or N3 network required to access service"},"HybridHostingType":{"Summary":"Summary description","Link":"External URL link","HostingModel":"Hosting environment description","RequiresHSCN":"Link to HSCN or N3 network required to access service"},"OnPremise":{"Summary":"Summary description","Link":"External URL link","HostingModel":"Hosting environment description","RequiresHSCN":"Link to HSCN or N3 network required to access service"}}',
+            'http://www.gpitdfocvctest.com/about',
+            'Summary - GPIT DFOCVC.',
+            'FULL DESCRIPTION – GPIT Futures, Digital First Online Consultation and Video Consultation Solution.',
+            @now,
+            @emptyGuid);
+
+        INSERT INTO dbo.MarketingContact(SolutionId, FirstName, LastName, PhoneNumber, Email, Department, LastUpdated, LastUpdatedBy)
+             VALUES (@solutionId, 'Sam', 'Thomas', '012345767880', 'Sales@gpittest.com', 'Sales', @now, @emptyGuid);
+
+        INSERT INTO dbo.SolutionCapability(SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
+             SELECT @solutionId, Id, 1, @now, @emptyGuid
+               FROM dbo.Capability
+              WHERE CapabilityRef IN ('C1');
+
+        INSERT INTO dbo.FrameworkSolutions(FrameworkId,SolutionId, IsFoundation, LastUpdated, LastUpdatedBy)
+             VALUES (@gpitframeworkId, @solutionId, 1, @now, @emptyGuid),
+                    (@dfocvcframeworkId, @solutionId, 1, @now, @emptyGuid);
     END;
 
     /* insert prices */
@@ -572,8 +640,8 @@ TPP maintain close contact with staff at the unit throughout these phases to ens
                  ('100000-001', 3, 1, '774E5A1D-D15C-4A37-9990-81861BEAE42B', NULL, 'GBP', @now, 1001.010),
                  ('100003-001', 2, 1, 'D43C661A-0587-45E1-B315-5E5091D6E9D0', 1, 'GBP', @now, 19.987),
                  ('100007-001', 3, 1, '90119522-D381-4296-82EE-8FE630593B56', NULL, 'GBP', @now, 0.15),
-                 ('100007-002', 3, 2, '90119522-D381-4296-82EE-8FE630593B56', NULL, 'GBP', @now, NULL);
-
+                 ('100007-002', 3, 2, '90119522-D381-4296-82EE-8FE630593B56', NULL, 'GBP', @now, NULL);  
+                 
           DECLARE @priceId1000072 AS int = (SELECT CataloguePriceId from dbo.CataloguePrice WHERE CatalogueItemId = '100007-002');
 
           INSERT INTO dbo.CataloguePriceTier(CataloguePriceId, BandStart, BandEnd, Price)
