@@ -21,5 +21,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.ViewModels
         public bool IsFoundation { get; set; }
 
         public string SupplierId { get; set; }
-    }
+
+        public string FrameworkId { get; set; }
+}
 }

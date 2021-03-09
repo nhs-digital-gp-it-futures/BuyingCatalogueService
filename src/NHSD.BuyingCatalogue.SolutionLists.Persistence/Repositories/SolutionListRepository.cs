@@ -16,7 +16,8 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.Repositories
             SELECT ci.CatalogueItemId AS SolutionId, ci.[Name] AS SolutionName, sol.Summary AS SolutionSummary,
                    sup.Id AS SupplierId, sup.[Name] AS SupplierName,
                    cap.CapabilityRef AS CapabilityReference, cap.[Name] AS CapabilityName, cap.[Description] as CapabilityDescription,
-                   fs.IsFoundation AS IsFoundation
+                   fs.IsFoundation AS IsFoundation,
+                   fs.FrameworkId AS FrameworkId
               FROM dbo.CatalogueItem AS ci
                    INNER JOIN dbo.Solution AS sol
                            ON sol.Id = ci.CatalogueItemId
@@ -29,10 +30,12 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.Repositories
                    INNER JOIN dbo.Capability AS cap
                            ON cap.Id = sc.CapabilityId
               LEFT OUTER JOIN dbo.FrameworkSolutions AS fs
-                           ON sol.Id = fs.SolutionId
+                           ON sol.Id = fs.SolutionId 
+                            
              WHERE ps.[Name] = 'Published'
                AND ISNULL(fs.IsFoundation, 0) = COALESCE(@foundationOnly, fs.IsFoundation, 0)
-               AND ci.SupplierId = ISNULL(@supplierId, ci.SupplierId);";
+               AND ci.SupplierId = ISNULL(@supplierId, ci.SupplierId)
+               AND ISNULL(fs.FrameworkId, '') = COALESCE(@frameworkId, fs.FrameworkId, '');";
 
         private readonly IDbConnector dbConnector;
 
@@ -43,12 +46,14 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.Repositories
         /// </summary>
         /// <param name="foundationOnly">Specify <see langword="true"/> to include foundation solutions only.</param>
         /// <param name="supplierId">The ID of the supplier.</param>
+        /// <param name="frameworkId">The ID of the framework.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the
         /// task to complete.</param>
         /// <returns>A list of <see cref="ISolutionListResult"/> objects.</returns>
         public async Task<IEnumerable<ISolutionListResult>> ListAsync(
             bool foundationOnly,
             string supplierId,
+            string frameworkId,
             CancellationToken cancellationToken)
         {
             supplierId = string.IsNullOrWhiteSpace(supplierId) ? null : supplierId;
@@ -56,7 +61,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.Repositories
             return await dbConnector.QueryAsync<SolutionListResult>(
                 Sql,
                 cancellationToken,
-                new { foundationOnly = foundationOnly ? (bool?)true : null, supplierId });
+                new { foundationOnly = foundationOnly ? (bool?)true : null, supplierId, frameworkId });
         }
     }
 }

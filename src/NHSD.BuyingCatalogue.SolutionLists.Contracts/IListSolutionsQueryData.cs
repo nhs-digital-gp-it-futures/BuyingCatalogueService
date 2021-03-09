@@ -9,5 +9,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Contracts
         bool IsFoundation { get; }
 
         string SupplierId { get; }
+
+        string FrameworkId { get; }
     }
 }

@@ -60,7 +60,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.UnitTests
         [Test]
         public async Task ShouldListSolutions()
         {
-            var result = (await solutionListController.ListAsync(null)).Result as ObjectResult;
+            var result = (await solutionListController.ListAsync(null, null)).Result as ObjectResult;
 
             Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
@@ -78,7 +78,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.UnitTests
         {
             const string supplierId = "sup1";
 
-            var result = (await solutionListController.ListAsync(supplierId)).Result as ObjectResult;
+            var result = (await solutionListController.ListAsync(supplierId, null)).Result as ObjectResult;
 
             Assert.NotNull(result);
             result.StatusCode.Should().Be(StatusCodes.Status200OK);

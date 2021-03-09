@@ -28,15 +28,16 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API
         /// Gets a list of solutions that includes information about the supplier and the associated capabilities.
         /// </summary>
         /// <param name="supplierId">The ID of the supplier.</param>
+        /// <param name="frameworkId">The ID of the framework.</param>
         /// <returns>A task representing an operation to retrieve a list of solutions that includes information
         /// about the supplier and the associated capabilities.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ListSolutionsResult>> ListAsync(string supplierId)
+        public async Task<ActionResult<ListSolutionsResult>> ListAsync(string supplierId, string frameworkId)
         {
             return Ok(new ListSolutionsResult(
-                await mediator.Send(new ListSolutionsQuery(new ListSolutionsFilterViewModel { SupplierId = supplierId }))));
+                await mediator.Send(new ListSolutionsQuery(new ListSolutionsFilterViewModel { SupplierId = supplierId, FrameworkId = frameworkId }))));
         }
 
         /// <summary>

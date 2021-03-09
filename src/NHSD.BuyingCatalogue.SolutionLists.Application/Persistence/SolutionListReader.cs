@@ -22,6 +22,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Persistence
             IEnumerable<ICapabilityReference> capabilityReferences,
             bool foundationOnly,
             string supplierId,
+            string frameworkId,
             CancellationToken cancellationToken)
         {
             if (capabilityReferences is null)
@@ -31,7 +32,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Persistence
 
             return new SolutionList(
                 capabilityReferences,
-                await solutionListRepository.ListAsync(foundationOnly, supplierId, cancellationToken));
+                await solutionListRepository.ListAsync(foundationOnly, supplierId, frameworkId, cancellationToken));
         }
     }
 }
