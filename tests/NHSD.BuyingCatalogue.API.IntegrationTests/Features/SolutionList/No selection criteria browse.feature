@@ -35,6 +35,8 @@ Background:
         | SolutionId | IsFoundation | FrameworkId |
         | Sln1       | true         | NHSDGP001   |
         | Sln2       | false        | DFOCVC001   |
+        | Sln3       | false        | DFOCVC001   |
+        | Sln4       | false        | DFOCVC001   |
 
 @2053
 Scenario: No selection criteria applied

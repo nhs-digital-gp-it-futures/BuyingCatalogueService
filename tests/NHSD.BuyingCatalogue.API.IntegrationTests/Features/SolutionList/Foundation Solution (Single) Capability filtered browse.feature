@@ -28,6 +28,11 @@ Background:
         | TakeTheRedPill | Appointments Management |
         | TakeTheRedPill | Workflow                |
         | PracticeMgr    | Clinical Safety         |
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
+        | Sln2       | false        | DFOCVC001   |
+        | Sln3       | false        | NHSDGP001   |
 
 @2649
 Scenario: All the Foundation Capabilities and no other Capabilities are selected, only Solutions (Single) that deliver all the Foundation Capabilities are included

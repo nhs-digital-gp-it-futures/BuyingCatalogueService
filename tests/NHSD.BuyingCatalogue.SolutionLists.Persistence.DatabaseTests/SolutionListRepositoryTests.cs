@@ -106,6 +106,13 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .Build()
                 .InsertAsync();
 
+            await FrameworkSolutionEntityBuilder.Create()
+                .WithSolutionId(Solution1Id)
+                .WithFoundation(false)
+                .WithFrameworkId("NHSDGP001")
+                .Build()
+                .InsertAsync();
+
             var solutions = await solutionListRepository.ListAsync(false, null, null, CancellationToken.None);
 
             var solution = solutions.Should().ContainSingle().Subject;
@@ -187,6 +194,12 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .Build()
                 .InsertAsync();
 
+            await FrameworkSolutionEntityBuilder.Create()
+                .WithSolutionId(Solution1Id)
+                .WithFrameworkId("NHSDGP001")
+                .Build()
+                .InsertAsync();
+
             var solutions = (await solutionListRepository.ListAsync(false, null, null, CancellationToken.None)).ToList();
             solutions.Should().HaveCount(2);
 
@@ -229,6 +242,13 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .Build()
                 .InsertAsync();
 
+            await FrameworkSolutionEntityBuilder.Create()
+                .WithSolutionId(Solution1Id)
+                .WithFoundation(true)
+                .WithFrameworkId("NHSDGP001")
+                .Build()
+                .InsertAsync();
+
             await CatalogueItemEntityBuilder
                 .Create()
                 .WithCatalogueItemId("Sln2")
@@ -244,6 +264,13 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
                 .Build()
                 .InsertAsync();
 
+            await FrameworkSolutionEntityBuilder.Create()
+                .WithSolutionId("Sln2")
+                .WithFoundation(false)
+                .WithFrameworkId("NHSDGP001")
+                .Build()
+                .InsertAsync();
+
             await CatalogueItemEntityBuilder
                 .Create()
                 .WithCatalogueItemId("Sln3")
@@ -255,6 +282,13 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
             await SolutionEntityBuilder.Create()
                 .WithId("Sln3")
                 .WithSummary("Sln3Summary")
+                .Build()
+                .InsertAsync();
+
+            await FrameworkSolutionEntityBuilder.Create()
+                .WithSolutionId("Sln3")
+                .WithFoundation(true)
+                .WithFrameworkId("NHSDGP001")
                 .Build()
                 .InsertAsync();
 
@@ -328,18 +362,21 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
             await FrameworkSolutionEntityBuilder.Create()
                 .WithSolutionId(Solution1Id)
                 .WithFoundation(true)
+                .WithFrameworkId("NHSDGP001")
                 .Build()
                 .InsertAsync();
 
             await FrameworkSolutionEntityBuilder.Create()
                 .WithSolutionId(Solution2Id)
                 .WithFoundation(false)
+                .WithFrameworkId("NHSDGP001")
                 .Build()
                 .InsertAsync();
 
             await FrameworkSolutionEntityBuilder.Create()
                 .WithSolutionId(Solution4Id)
                 .WithFoundation(true)
+                .WithFrameworkId("NHSDGP001")
                 .Build()
                 .InsertAsync();
 
@@ -400,6 +437,18 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.DatabaseTests
             await CreateSimpleSolutionWithOneCap(Solution2Id, supId2);
             await CreateSimpleSolutionWithOneCap(Solution3Id);
             await CreateSimpleSolutionWithOneCap(Solution4Id, supId2);
+
+            await FrameworkSolutionEntityBuilder.Create()
+                .WithSolutionId(Solution1Id)
+                .WithFrameworkId("NHSDGP001")
+                .Build()
+                .InsertAsync();
+
+            await FrameworkSolutionEntityBuilder.Create()
+                .WithSolutionId(Solution3Id)
+                .WithFrameworkId("NHSDGP001")
+                .Build()
+                .InsertAsync();
 
             var solutions = (await solutionListRepository.ListAsync(false, SupplierId, null, CancellationToken.None)).ToList();
 

@@ -27,6 +27,7 @@ Background:
         | Sln1       | true         | NHSDGP001   |
         | Sln2       | false        | NHSDGP001   |
         | Sln3       | true         | NHSDGP001   |
+        | Sln4       | false        | NHSDGP001   |
         | Sln5       | true         | NHSDGP001   |
    And Solutions are linked to Capabilities
         | Solution       | Capability              |

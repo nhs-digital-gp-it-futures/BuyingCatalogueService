@@ -13,7 +13,8 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.Repositories
     public sealed class SolutionListRepository : ISolutionListRepository
     {
         private const string Sql = @"
-            SELECT ci.CatalogueItemId AS SolutionId, ci.[Name] AS SolutionName, sol.Summary AS SolutionSummary,
+            SELECT DISTINCT 
+                   ci.CatalogueItemId AS SolutionId, ci.[Name] AS SolutionName, sol.Summary AS SolutionSummary,
                    sup.Id AS SupplierId, sup.[Name] AS SupplierName,
                    cap.CapabilityRef AS CapabilityReference, cap.[Name] AS CapabilityName, cap.[Description] as CapabilityDescription,
                    fs.IsFoundation AS IsFoundation,
@@ -29,13 +30,13 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.Repositories
                            ON sol.Id = sc.SolutionId
                    INNER JOIN dbo.Capability AS cap
                            ON cap.Id = sc.CapabilityId
-              LEFT OUTER JOIN dbo.FrameworkSolutions AS fs
+                   INNER JOIN dbo.FrameworkSolutions AS fs
                            ON sol.Id = fs.SolutionId 
                             
              WHERE ps.[Name] = 'Published'
-               AND ISNULL(fs.IsFoundation, 0) = COALESCE(@foundationOnly, fs.IsFoundation, 0)
+               AND fs.IsFoundation = ISNULL(@foundationOnly, fs.IsFoundation)
                AND ci.SupplierId = ISNULL(@supplierId, ci.SupplierId)
-               AND ISNULL(fs.FrameworkId, '') = COALESCE(@frameworkId, fs.FrameworkId, '');";
+               AND fs.FrameworkId = ISNULL(@frameworkId, fs.FrameworkId);";
 
         private readonly IDbConnector dbConnector;
 
