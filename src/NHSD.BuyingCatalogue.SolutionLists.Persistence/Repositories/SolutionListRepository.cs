@@ -31,8 +31,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.Repositories
                    INNER JOIN dbo.Capability AS cap
                            ON cap.Id = sc.CapabilityId
                    INNER JOIN dbo.FrameworkSolutions AS fs
-                           ON sol.Id = fs.SolutionId 
-                            
+                           ON sol.Id = fs.SolutionId                             
              WHERE ps.[Name] = 'Published'
                AND fs.IsFoundation = ISNULL(@foundationOnly, fs.IsFoundation)
                AND ci.SupplierId = ISNULL(@supplierId, ci.SupplierId)
