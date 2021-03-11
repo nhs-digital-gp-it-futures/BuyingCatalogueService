@@ -75,7 +75,13 @@ VALUES
     ('d29a3db3-5426-44f4-9dc6-4569f4561958', 'session'             , 'sessions'                     , 'per session'),
     ('11ecd056-e2ac-45a7-bbf8-a274e0ca8320', 'system'              , 'systems'                      , 'per system'),
     ('fb3b6d1b-78fb-4733-a6cb-6d18582e273e', 'keystoneCapability'  , 'Keystone capabilities'        , 'per Keystone capability'),
-    ('8a7683b3-e39a-4f44-b387-1f2f0e33f0d7', 'clinicalUser'        , 'concurrent clinical users'    , 'per concurrent clinical user');
+    ('8a7683b3-e39a-4f44-b387-1f2f0e33f0d7', 'clinicalUser'        , 'concurrent clinical users'    , 'per concurrent clinical user'),        
+    ('aef635b7-1f26-4c4d-b99c-bcf97bae5b55', 'letter'             , 'letters'                      , 'per letter'),
+    ('aa6499fd-755c-4872-b1ff-f3db8deb1e14', 'agentPhoneCall'     , 'agent phone calls'            , 'per agent phone call'),
+    ('8a8ee619-9980-458c-979d-9f6d968e8806', 'email'              , 'e-mails'                      , 'per e-mail'),
+    ('12b53ce9-fdc0-48b5-a07d-d95bdd7220c7', 'smsWebEmail_500'     , 'responses per site'           , '500 SMS/web/email responses per site'),
+    ('02438278-ab93-4689-b123-7ac4e78f59fe', 'smsWebEmail_1000'    , 'responses per site'           , '1000 SMS/web/email responses per site'),
+    ('67e1c174-8443-4883-b51f-43c297fa9c08', 'smsWebEmail_1500'    , 'responses per site'           , '1500 SMS/web/email responses per site');
 
 MERGE INTO dbo.PricingUnit AS TARGET
 USING #PricingUnit AS SOURCE
