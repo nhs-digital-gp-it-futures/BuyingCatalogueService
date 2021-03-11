@@ -23,5 +23,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Persistence.Models
         public string CapabilityDescription { get; init; }
 
         public bool IsFoundation { get; init; }
+
+        public string FrameworkId { get; set; }
     }
 }

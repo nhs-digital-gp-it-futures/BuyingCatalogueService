@@ -32,9 +32,11 @@ Background:
         | PracticeMgr    | Prescribing             |
         | PracticeMgr    | Workflow                |
     And Framework Solutions exist
-        | SolutionId | IsFoundation |
-        | Sln1       | true         |
-        | Sln2       | false        |
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
+        | Sln2       | false        | DFOCVC001   |
+        | Sln3       | false        | DFOCVC001   |
+        | Sln4       | false        | DFOCVC001   |
 
 @2053
 Scenario: No selection criteria applied
@@ -88,3 +90,15 @@ Scenario: List all solutions filtered by an non existant SupplierID
     When a GET request is made containing a filter on supplierID INVALID
     Then a successful response is returned
     And an empty solution is returned
+
+@5350
+Scenario: List all solutions filtered by FrameworkID
+    Given solutions have the following details
+        | SolutionId | SummaryDescription     | FullDescription   | AboutUrl | Features                                            |
+        | Sln1       | NULL                   | Online medicine 1 | UrlSln1  | { "customJson" : { "id" : 1, "name" : "feature1" }} |
+        | Sln2       | Eye opening experience | Eye opening6      | UrlSln2  | { "customJson" : { "id" : 2, "name" : "feature2" }} |
+    When a GET request is made containing a filter on frameworkID NHSDGP001
+    Then a successful response is returned
+    And the details of the solutions returned are as follows
+        | SolutionId | SolutionName | SummaryDescription | SupplierName | Capabilities                                       | IsFoundation |
+        | Sln1       | MedicOnline  |                    | Supplier 1   | Appointments Management, Clinical Safety, Workflow | true         |

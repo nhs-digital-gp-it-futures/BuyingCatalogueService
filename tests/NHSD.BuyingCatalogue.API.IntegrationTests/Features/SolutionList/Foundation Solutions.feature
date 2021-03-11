@@ -23,11 +23,12 @@ Background:
         | Sln4       | GPSurgery      | Sup 1      | Published       |
         | Sln5       | Unpublished    | Sup 1      | Draft           |
    And Framework Solutions exist
-        | SolutionId | IsFoundation |
-        | Sln1       | true         |
-        | Sln2       | false        |
-        | Sln3       | true         |
-        | Sln5       | true         |
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
+        | Sln2       | false        | NHSDGP001   |
+        | Sln3       | true         | NHSDGP001   |
+        | Sln4       | false        | NHSDGP001   |
+        | Sln5       | true         | NHSDGP001   |
    And Solutions are linked to Capabilities
         | Solution       | Capability              |
         | MedicOnline    | Appointments Management |

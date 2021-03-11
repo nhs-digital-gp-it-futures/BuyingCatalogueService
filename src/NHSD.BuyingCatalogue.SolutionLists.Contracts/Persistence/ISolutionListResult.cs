@@ -19,5 +19,7 @@
         string CapabilityDescription { get; }
 
         bool IsFoundation { get; }
+
+        string FrameworkId { get; }
     }
 }

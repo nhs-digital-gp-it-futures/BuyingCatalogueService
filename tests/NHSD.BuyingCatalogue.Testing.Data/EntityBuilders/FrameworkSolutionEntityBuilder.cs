@@ -34,6 +34,12 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             return this;
         }
 
+        public FrameworkSolutionEntityBuilder WithFrameworkId(string frameworkId)
+        {
+            frameworkSolutionEntity.FrameworkId = frameworkId;
+            return this;
+        }
+
         public FrameworkSolutionEntity Build()
         {
             return frameworkSolutionEntity;

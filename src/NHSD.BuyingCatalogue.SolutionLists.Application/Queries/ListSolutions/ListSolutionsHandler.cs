@@ -38,6 +38,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.Queries.ListSolutions
                 request.Data.CapabilityReferences,
                 request.Data.IsFoundation,
                 request.Data.SupplierId,
+                request.Data.FrameworkId,
                 cancellationToken);
 
             return mapper.Map<SolutionListDto>(solutionList);

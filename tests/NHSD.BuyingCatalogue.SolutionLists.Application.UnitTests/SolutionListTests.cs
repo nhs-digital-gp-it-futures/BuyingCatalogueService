@@ -48,7 +48,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup1", false, "C2", "C3"));
 
             context.MockSolutionListRepository
-                .Setup(r => r.ListAsync(false, null, It.IsAny<CancellationToken>()))
+                .Setup(r => r.ListAsync(false, null, null, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(repositorySolutions);
 
             var solutions = GetSolutionsWithEmptyCapabilityReferencesFilterAsync();
@@ -68,7 +68,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", supplierId, false, "C2", "C3"));
 
             context.MockSolutionListRepository
-                .Setup(r => r.ListAsync(false, supplierId, It.IsAny<CancellationToken>()))
+                .Setup(r => r.ListAsync(false, supplierId, null, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(repositorySolutions);
 
             var solutions = GetSolutionsWithEmptyCapabilityReferencesFilterAsync(false, supplierId);
@@ -86,7 +86,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup2", false, "C1", "C2"));
 
             context.MockSolutionListRepository
-                .Setup(r => r.ListAsync(false, null, It.IsAny<CancellationToken>()))
+                .Setup(r => r.ListAsync(false, null, null, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(repositorySolutions);
 
             var solutions = GetSolutionsWithEmptyCapabilityReferencesFilterAsync();
@@ -104,7 +104,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, "C1", "C2"));
 
             context.MockSolutionListRepository
-                .Setup(r => r.ListAsync(false, null, It.IsAny<CancellationToken>()))
+                .Setup(r => r.ListAsync(false, null, null, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(repositorySolutions);
 
             var solutions = GetSolutionsWithEmptyCapabilityReferencesFilterAsync();
@@ -121,7 +121,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup1", false, "C2", "C3"));
 
             context.MockSolutionListRepository
-                .Setup(r => r.ListAsync(false, null, It.IsAny<CancellationToken>()))
+                .Setup(r => r.ListAsync(false, null, null, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(repositorySolutions);
 
             var solutions = GetSolutionsWithEmptyCapabilityReferencesFilterAsync();
@@ -142,7 +142,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
 
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S4", "Sup2", false, "C2", "C3"));
             context.MockSolutionListRepository
-                .Setup(r => r.ListAsync(false, null, It.IsAny<CancellationToken>()))
+                .Setup(r => r.ListAsync(false, null, null, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(repositorySolutions);
 
             var solutions = GetSolutionsWithEmptyCapabilityReferencesFilterAsync();
@@ -158,7 +158,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
         public void ShouldListSolutionsEmptyWithNoCapabilityFilter()
         {
             context.MockSolutionListRepository
-                .Setup(r => r.ListAsync(false, null, It.IsAny<CancellationToken>()))
+                .Setup(r => r.ListAsync(false, null, null, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Array.Empty<ISolutionListResult>());
 
             var solutions = GetSolutionsWithEmptyCapabilityReferencesFilterAsync();
@@ -175,7 +175,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup1", false, "C3", "C4"));
 
             context.MockSolutionListRepository
-                .Setup(r => r.ListAsync(false, null, It.IsAny<CancellationToken>()))
+                .Setup(r => r.ListAsync(false, null, null, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(repositorySolutions);
 
             var solutions = context.ListSolutionsHandler.Handle(
@@ -197,7 +197,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup2", false, "C3", "C4"));
 
             context.MockSolutionListRepository
-                .Setup(r => r.ListAsync(false, null, It.IsAny<CancellationToken>()))
+                .Setup(r => r.ListAsync(false, null, null, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(repositorySolutions);
 
             var solutions = context.ListSolutionsHandler.Handle(
@@ -218,7 +218,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S1", "Sup1", false, "C3", "C4"));
 
             context.MockSolutionListRepository
-                .Setup(r => r.ListAsync(false, null, It.IsAny<CancellationToken>()))
+                .Setup(r => r.ListAsync(false, null, null, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(repositorySolutions);
 
             var solutions = context.ListSolutionsHandler.Handle(
@@ -238,7 +238,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S3", "Sup1", false, "C3", "C4"));
 
             context.MockSolutionListRepository
-                .Setup(r => r.ListAsync(false, null, It.IsAny<CancellationToken>()))
+                .Setup(r => r.ListAsync(false, null, null, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(repositorySolutions);
 
             var solutions = context.ListSolutionsHandler.Handle(
@@ -262,7 +262,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S6", "Sup2", false, "C4", "C3"));
 
             context.MockSolutionListRepository
-                .Setup(r => r.ListAsync(false, null, It.IsAny<CancellationToken>()))
+                .Setup(r => r.ListAsync(false, null, null, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(repositorySolutions);
 
             var solutions = context.ListSolutionsHandler.Handle(
@@ -280,7 +280,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
         public void ShouldListSolutionsEmptyWithCapabilityFilter()
         {
             context.MockSolutionListRepository
-                .Setup(r => r.ListAsync(false, null, It.IsAny<CancellationToken>()))
+                .Setup(r => r.ListAsync(false, null, null, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Array.Empty<ISolutionListResult>());
 
             var solutions = context.ListSolutionsHandler.Handle(
@@ -307,7 +307,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S13", "Sup1", false, "C1", "C3"));
 
             context.MockSolutionListRepository
-                .Setup(r => r.ListAsync(false, null, It.IsAny<CancellationToken>()))
+                .Setup(r => r.ListAsync(false, null, null, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(repositorySolutions);
 
             if (filterCapabilityReferences is null)
@@ -341,7 +341,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S13", "Sup2", false, "C1", "C3"));
 
             context.MockSolutionListRepository
-                .Setup(r => r.ListAsync(false, null, It.IsAny<CancellationToken>()))
+                .Setup(r => r.ListAsync(false, null, null, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(repositorySolutions);
 
             if (filterCapabilityReferences is null)
@@ -364,7 +364,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
             repositorySolutions.AddRange(GetSolutionWithCapabilities("S2", "Sup2", true, "C2"));
 
             context.MockSolutionListRepository
-                .Setup(r => r.ListAsync(false, null, It.IsAny<CancellationToken>()))
+                .Setup(r => r.ListAsync(false, null, null, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(repositorySolutions);
 
             var solutions = GetSolutionsWithEmptyCapabilityReferencesFilterAsync();
@@ -409,13 +409,13 @@ namespace NHSD.BuyingCatalogue.SolutionLists.Application.UnitTests
         public void ShouldRequestFoundationSolutions()
         {
             context.MockSolutionListRepository
-                .Setup(r => r.ListAsync(true, null, It.IsAny<CancellationToken>()))
+                .Setup(r => r.ListAsync(true, null, null, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Array.Empty<ISolutionListResult>());
 
             var solutions = GetSolutionsWithEmptyCapabilityReferencesFilterAsync(true);
 
             solutions.Result.Solutions.Should().HaveCount(0);
-            context.MockSolutionListRepository.Verify(r => r.ListAsync(true, null, It.IsAny<CancellationToken>()));
+            context.MockSolutionListRepository.Verify(r => r.ListAsync(true, null, null, It.IsAny<CancellationToken>()));
         }
 
         [Test]

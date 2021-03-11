@@ -23,6 +23,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             await FrameworkSolutionEntityBuilder.Create()
                 .WithSolutionId(table.SolutionId)
                 .WithFoundation(table.IsFoundation)
+                .WithFrameworkId(table.FrameworkId)
                 .Build()
                 .InsertAsync();
         }
@@ -33,6 +34,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             public string SolutionId { get; init; }
 
             public bool IsFoundation { get; init; }
+
+            public string FrameworkId { get; init; }
         }
     }
 }

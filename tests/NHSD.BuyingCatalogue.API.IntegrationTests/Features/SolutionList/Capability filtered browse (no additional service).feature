@@ -29,7 +29,12 @@ Background:
         | TakeTheRedPill | Resource Management     |
         | PracticeMgr    | Clinical Safety         |
         | PracticeMgr    | Prescribing             |
-        | PracticeMgr    | Workflow                |
+        | PracticeMgr    | Workflow                |    
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
+        | Sln2       | false        | DFOCVC001   |
+        | Sln3       | false        | NHSDGP001   |
 
 @2048
 Scenario: No Capability selected, all solutions are returned

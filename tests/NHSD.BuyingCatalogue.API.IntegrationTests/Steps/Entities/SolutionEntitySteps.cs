@@ -109,7 +109,6 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             (await contact.LastUpdated.SecondsFromNow()).Should().BeLessOrEqualTo(5);
         }
 
-
         [Given(@"solutions have the following details")]
         public static async Task GivenSolutionsHaveTheFollowingDetails(Table table)
         {

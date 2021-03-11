@@ -37,6 +37,12 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Solution
             response.Result = await Client.GetAsync($"{ListSolutionsUrl}?supplierId={supplierId}");
         }
 
+        [When(@"a GET request is made containing a filter on frameworkID (.*)")]
+        public async Task WhenAGetRequestIsMadeContainingNoSelectionCriteriaWithFilterOnFrameworkId(string frameworkId)
+        {
+            response.Result = await Client.GetAsync($"{ListSolutionsUrl}?frameworkId={frameworkId}");
+        }
+
         [When(@"a POST request is made containing no selection criteria")]
         public async Task WhenAPostRequestIsMadeContainingNoSelectionCriteria()
         {
