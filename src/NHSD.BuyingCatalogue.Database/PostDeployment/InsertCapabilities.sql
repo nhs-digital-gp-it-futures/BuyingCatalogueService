@@ -68,10 +68,10 @@ VALUES
 
 INSERT INTO @capabilities(Id, CapabilityRef, [Name], [Description], SourceUrl, [Version], EffectiveDate, CategoryId, FrameworkId)
 VALUES
-('EE71409B-F570-4581-B082-2B13DAC6CE6D', 'C43',	'Online Consultation',	'The Online Consultation Capability allows Patients/Service Users/Proxies to request and receive support relating to healthcare concerns, at a time and place convenient for them.', 'https://gpitbjss.atlassian.net/wiki/spaces/DFOCVC/pages/2519925022/Online+Consultation',	'0.5.0', '2021-03-11',	3, 'DFOCVC001'),
-('4E07C901-1DA1-43EB-BE45-C89B7DBD9D66', 'C44',	'Video Consultation',  'The Video Consultation Capability allows Health or Care Professionals to conduct secure live remote video consultations with individual or groups of Patients/Service Users/Proxies ensuring they can receive support relating to healthcare concerns when a Video Consultation is most appropriate.', 'https://gpitbjss.atlassian.net/wiki/spaces/DFOCVC/pages/2519925030/Video+Consultation', '0.5.0', '2021-03-11', 3, 'DFOCVC001');
+('EE71409B-F570-4581-B082-2B13DAC6CE6D', 'C43', 'Online Consultation', 'The Online Consultation Capability allows Patients/Service Users/Proxies to request and receive support relating to healthcare concerns, at a time and place convenient for them.', 'https://gpitbjss.atlassian.net/wiki/spaces/DFOCVC/pages/2519925022/Online+Consultation', '0.5.0', '2021-03-11', 3, 'DFOCVC001'),
+('4E07C901-1DA1-43EB-BE45-C89B7DBD9D66', 'C44', 'Video Consultation', 'The Video Consultation Capability allows Health or Care Professionals to conduct secure live remote video consultations with individual or groups of Patients/Service Users/Proxies ensuring they can receive support relating to healthcare concerns when a Video Consultation is most appropriate.', 'https://gpitbjss.atlassian.net/wiki/spaces/DFOCVC/pages/2519925030/Video+Consultation', '0.5.0', '2021-03-11', 3, 'DFOCVC001');
 
--- It's unlikely that the code below will need to change unless/until there is more than one framework
+-- The code below should not need to be changed
 
 MERGE INTO dbo.Capability AS TARGET
      USING @capabilities AS SOURCE
