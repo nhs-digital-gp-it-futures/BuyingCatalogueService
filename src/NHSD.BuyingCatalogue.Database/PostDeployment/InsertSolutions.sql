@@ -561,7 +561,7 @@ TPP maintain close contact with staff at the unit throughout these phases to ens
     IF NOT EXISTS (SELECT * FROM dbo.CatalogueItem WHERE CatalogueItemId = @solutionId)
     BEGIN
         INSERT INTO dbo.CatalogueItem(CatalogueItemId, CatalogueItemTypeId, [Name], SupplierId, PublishedStatusId, Created)
-             VALUES (@solutionId, @solutionItemType, 'DFOCVC Gateway', '100001', @publishedStatus, @now);
+             VALUES (@solutionId, @solutionItemType, 'DFOCVC Online Consultation', '100001', @publishedStatus, @now);
 
         INSERT INTO dbo.Solution(Id, [Version], Features, Hosting, AboutUrl, Summary, FullDescription, LastUpdated, LastUpdatedBy)
         VALUES (
@@ -581,7 +581,7 @@ TPP maintain close contact with staff at the unit throughout these phases to ens
         INSERT INTO dbo.SolutionCapability(SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
              SELECT @solutionId, Id, 1, @now, @emptyGuid
                FROM dbo.Capability
-              WHERE CapabilityRef IN ('C1');
+              WHERE CapabilityRef IN ('C43');
 
         INSERT INTO dbo.FrameworkSolutions(FrameworkId,SolutionId, IsFoundation, LastUpdated, LastUpdatedBy)
              VALUES (@dfocvcframeworkId, @solutionId, 1, @now, @emptyGuid);
@@ -594,7 +594,7 @@ TPP maintain close contact with staff at the unit throughout these phases to ens
     IF NOT EXISTS (SELECT * FROM dbo.CatalogueItem WHERE CatalogueItemId = @solutionId)
     BEGIN
         INSERT INTO dbo.CatalogueItem(CatalogueItemId, CatalogueItemTypeId, [Name], SupplierId, PublishedStatusId, Created)
-             VALUES (@solutionId, @solutionItemType, 'GPIT DFOCVC Gateway', '100001', @publishedStatus, @now);
+             VALUES (@solutionId, @solutionItemType, 'GPIT DFOCVC Online Consultation', '100001', @publishedStatus, @now);
 
         INSERT INTO dbo.Solution(Id, [Version], Features, Hosting, AboutUrl, Summary, FullDescription, LastUpdated, LastUpdatedBy)
         VALUES (
@@ -614,7 +614,7 @@ TPP maintain close contact with staff at the unit throughout these phases to ens
         INSERT INTO dbo.SolutionCapability(SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
              SELECT @solutionId, Id, 1, @now, @emptyGuid
                FROM dbo.Capability
-              WHERE CapabilityRef IN ('C1');
+              WHERE CapabilityRef IN ('C44');
 
         INSERT INTO dbo.FrameworkSolutions(FrameworkId,SolutionId, IsFoundation, LastUpdated, LastUpdatedBy)
              VALUES (@gpitframeworkId, @solutionId, 1, @now, @emptyGuid),
