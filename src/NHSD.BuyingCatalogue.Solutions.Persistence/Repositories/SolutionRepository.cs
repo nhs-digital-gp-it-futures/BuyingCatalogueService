@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,12 +29,15 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                    s.ClientApplication,
                    s.Hosting,
                    s.LastUpdated AS SolutionDetailLastUpdated,
-                   f.IsFoundation
+                   fs.IsFoundation,
+                   f.ShortName AS FrameworkShortName
               FROM dbo.Solution AS s
                    INNER JOIN dbo.CatalogueItem AS ci
                            ON s.Id = ci.CatalogueItemId
-                   LEFT OUTER JOIN dbo.FrameworkSolutions AS f
-                           ON s.Id = f.SolutionId
+                   LEFT OUTER JOIN dbo.FrameworkSolutions AS fs
+                           ON s.Id = fs.SolutionId
+                   LEFT OUTER JOIN dbo.Framework AS f
+                           ON fs.FrameworkId = f.Id
              WHERE s.Id = @id;";
 
         private const string DoesSolutionExist = @"
@@ -88,8 +92,18 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         /// <param name="id">The ID of a <see cref="ISolutionResult"/>.</param>
         /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
         /// <returns>A task representing an operation to retrieve a <see cref="ISolutionResult"/> matching the specified ID.</returns>
-        public async Task<ISolutionResult> ByIdAsync(string id, CancellationToken cancellationToken) =>
-            (await dbConnector.QueryAsync<SolutionResult>(ByIdSql, cancellationToken, new { id })).SingleOrDefault();
+        public async Task<ISolutionResult> ByIdAsync(string id, CancellationToken cancellationToken)
+        {
+            var solutions = (await dbConnector.QueryAsync<SolutionResult>(ByIdSql, cancellationToken, new { id })).ToList();
+            ISolutionResult solution = solutions.FirstOrDefault();
+            if (solutions.Count > 0)
+            {
+                solution.FrameworkShortNames = new List<string>();
+                solution.FrameworkShortNames = solutions.Select(x => x.FrameworkShortName).ToList();
+            }
+
+            return solution;
+        }
 
         /// <summary>
         /// Checks if the solution exists.

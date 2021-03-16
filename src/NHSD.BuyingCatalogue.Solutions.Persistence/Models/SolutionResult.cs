@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 using NHSD.BuyingCatalogue.Solutions.Contracts.Persistence;
 
@@ -37,5 +38,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
         public DateTime SolutionDetailLastUpdated { get; set; }
 
         public PublishedStatus PublishedStatus { get; set; }
+
+        public string FrameworkShortName { get; set; }
+
+        public IEnumerable<string> FrameworkShortNames { get; set; }
     }
 }

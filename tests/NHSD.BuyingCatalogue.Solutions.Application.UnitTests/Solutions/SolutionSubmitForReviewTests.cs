@@ -46,7 +46,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 CancellationToken.None);
 
             context.MockSolutionRepository.Verify(r => r.ByIdAsync("Sln1", It.IsAny<CancellationToken>()));
-
         }
 
         [TestCase(null, new[] { "SolutionSummaryIsRequired" })]

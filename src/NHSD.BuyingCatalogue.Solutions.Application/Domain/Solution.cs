@@ -67,7 +67,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 
             Contacts = contactResultList.Select(c => new Contact(c));
             PublishedStatus = solutionResult.PublishedStatus;
-
+            FrameworkShortNames = solutionResult.FrameworkShortNames;
             Hosting = string.IsNullOrWhiteSpace(solutionResult.Hosting)
                 ? new Hosting()
                 : JsonConvert.DeserializeObject<Hosting>(solutionResult.Hosting);
@@ -168,6 +168,11 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         /// Gets or sets the solution document for the solution.
         /// </summary>
         public SolutionDocument SolutionDocument { get; set; }
+
+        /// <summary>
+        /// Gets or sets the solution framework short names.
+        /// </summary>
+        public IEnumerable<string> FrameworkShortNames { get; set; }
 
         private static DateTime GetLatestLastUpdated(
             ISolutionResult solutionResult,
