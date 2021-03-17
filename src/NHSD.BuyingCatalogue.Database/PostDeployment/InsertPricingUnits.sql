@@ -82,7 +82,7 @@ VALUES
     ('12b53ce9-fdc0-48b5-a07d-d95bdd7220c7', 'smsWebEmail_500'     , 'responses per site'           , '500 SMS/web/email responses per site'),
     ('02438278-ab93-4689-b123-7ac4e78f59fe', 'smsWebEmail_1000'    , 'responses per site'           , '1000 SMS/web/email responses per site'),
     ('67e1c174-8443-4883-b51f-43c297fa9c08', 'smsWebEmail_1500'    , 'responses per site'           , '1500 SMS/web/email responses per site'),
-    ('1a36f980-76a4-4b3d-b36d-46afc6655124', 'dataMigration'       , 'data Migrations'              , 'per data migration');
+    ('1a36f980-76a4-4b3d-b36d-46afc6655124', 'dataMigration'       , 'data migrations'              , 'per data migration');
 
 MERGE INTO dbo.PricingUnit AS TARGET
 USING #PricingUnit AS SOURCE
