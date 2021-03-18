@@ -16,6 +16,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
         private readonly ISolutionRepository solutionRepository;
 
         private readonly ISupplierRepository supplierRepository;
+        private readonly ISolutionFrameworkRepository frameworkRepository;
 
         public SolutionReader(
             ISolutionRepository solutionRepository,
@@ -23,7 +24,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
             IMarketingContactRepository contactRepository,
             ISupplierRepository supplierRepository,
             IDocumentRepository documentRepository,
-            ISolutionEpicRepository epicRepository)
+            ISolutionEpicRepository epicRepository,
+            ISolutionFrameworkRepository frameworkRepository)
         {
             this.solutionRepository = solutionRepository;
             this.solutionCapabilityRepository = solutionCapabilityRepository;
@@ -31,6 +33,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
             this.supplierRepository = supplierRepository;
             this.documentRepository = documentRepository;
             this.epicRepository = epicRepository;
+            this.frameworkRepository = frameworkRepository;
         }
 
         public async Task<Solution> ByIdAsync(string id, CancellationToken cancellationToken) =>
@@ -40,6 +43,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Persistence
                 await contactRepository.BySolutionIdAsync(id, cancellationToken),
                 await supplierRepository.GetSupplierBySolutionIdAsync(id, cancellationToken),
                 await documentRepository.GetDocumentResultBySolutionIdAsync(id, cancellationToken),
-                await epicRepository.ListSolutionEpicsAsync(id, cancellationToken));
+                await epicRepository.ListSolutionEpicsAsync(id, cancellationToken),
+                await frameworkRepository.GetFrameworkBySolutionIdAsync(id, cancellationToken));
     }
 }

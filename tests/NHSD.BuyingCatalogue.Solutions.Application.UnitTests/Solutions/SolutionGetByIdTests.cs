@@ -462,7 +462,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 existingMarketingContactResult,
                 existingSupplier,
                 null,
-                null);
+                null,
+                new List<ISolutionFrameworkListResult>());
 
             solution.LastUpdated.Should().Be(dateTimeExpected);
         }
@@ -487,7 +488,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
                 new List<IMarketingContactResult>(),
                 existingSupplier,
                 null,
-                null);
+                null,
+                new List<ISolutionFrameworkListResult>());
 
             solution.LastUpdated.Should().Be(dateTimeExpected);
         }

@@ -16,6 +16,12 @@ Background:
         | Sln2       | TakeTheRedPill  | Sup 2      |
         | Sln3       | PracticeMgr     | Sup 3      |
         | Sln4       | AnotherSolution | Sup 4      |
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
+        | Sln2       | false        | DFOCVC001   |
+        | Sln3       | false        | NHSDGP001   |
+        | Sln4       | false        | NHSDGP001   |
 
 @3653
 Scenario: About supplier section presented where description and link exists

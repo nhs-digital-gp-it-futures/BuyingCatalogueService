@@ -13,6 +13,9 @@ Background:
     And solutions have the following details
         | SolutionId | SummaryDescription            | FullDescription   | Hosting                                                                                                                                                                         |
         | Sln1       | A full online medicine system | Online medicine 1 | { "PrivateCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "HostingModel": "A hosting model", "RequiresHscn": "This Solution requires a HSCN/N3 connection" } } |
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
 
 @3641
 Scenario: Get Solution Preview contains Hosting for all data

@@ -14,6 +14,12 @@ Background:
         | Sln2       | TakeTheRedPill | Sup 2      |
         | Sln3       | PracticeMgr    | Sup 2      |
         | Sln5       | Pills          | Sup 2      |
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
+        | Sln2       | false        | DFOCVC001   |
+        | Sln3       | false        | NHSDGP001   |
+        | Sln5       | false        | NHSDGP001   |
 
 @2786
 Scenario: Browser Supported is updated

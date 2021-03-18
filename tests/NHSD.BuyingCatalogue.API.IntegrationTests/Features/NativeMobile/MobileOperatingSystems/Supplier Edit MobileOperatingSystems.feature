@@ -10,6 +10,10 @@ Background:
     And Solutions exist
         | SolutionId | SolutionName | SupplierId |
         | Sln1       | MedicOnline  | Sup 1      |
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
+
 @3605
 Scenario: Mobile Operating Systems is updated
     Given solutions have the following details

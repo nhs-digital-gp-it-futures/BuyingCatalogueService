@@ -13,6 +13,11 @@ Background:
         | Sln1       | MedicOnline    | Sup 1      |
         | Sln2       | TakeTheRedPill | Sup 2      |
         | Sln3       | PracticeMgr    | Sup 2      |
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
+        | Sln2       | false        | DFOCVC001   |
+        | Sln3       | false        | NHSDGP001   |
 
 @1828
 Scenario: Marketing Data is updated against the solution

@@ -14,6 +14,10 @@ Background:
     And solutions have the following details
         | SolutionId |
         | Sol1       |
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sol1       | true         | NHSDGP001   |
+        | Sol2       | true         | NHSDGP001   |
 
 @3507
 Scenario: Both contacts are presented when two exist

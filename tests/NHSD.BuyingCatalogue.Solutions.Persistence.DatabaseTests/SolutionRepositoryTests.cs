@@ -78,6 +78,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .Build()
                 .InsertAsync();
 
+            await FrameworkSolutionEntityBuilder.Create()
+                .WithSolutionId(Solution1Id)
+                .WithFrameworkId("NHSDGP001")
+                .WithFoundation(false)
+                .Build()
+                .InsertAsync();
+
             var solution = await solutionRepository.ByIdAsync(Solution1Id, CancellationToken.None);
             solution.Id.Should().Be(Solution1Id);
             solution.Name.Should().Be("Solution1");
@@ -145,6 +152,13 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 .WithOnLastUpdated(lastUpdated)
                 .Build()
                 .InsertAsync();
+
+            await FrameworkSolutionEntityBuilder.Create()
+               .WithSolutionId(Solution1Id)
+               .WithFrameworkId("NHSDGP001")
+               .WithFoundation(false)
+               .Build()
+               .InsertAsync();
 
             var solution = await solutionRepository.ByIdAsync(Solution1Id, CancellationToken.None);
             solution.Id.Should().Be(Solution1Id);

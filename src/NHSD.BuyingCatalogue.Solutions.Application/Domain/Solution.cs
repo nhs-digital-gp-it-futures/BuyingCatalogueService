@@ -24,7 +24,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
             IEnumerable<IMarketingContactResult> contactResult,
             ISolutionSupplierResult solutionSupplierResult,
             IDocumentResult documentResult,
-            IEnumerable<ISolutionEpicListResult> solutionEpicListResults)
+            IEnumerable<ISolutionEpicListResult> solutionEpicListResults,
+            IEnumerable<ISolutionFrameworkListResult> solutionFrameworkResult)
         {
             var contactResultList = contactResult.ToList();
             var solutionEpicsByCapability = solutionEpicListResults?.ToLookup(e => e.CapabilityId);
@@ -67,7 +68,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 
             Contacts = contactResultList.Select(c => new Contact(c));
             PublishedStatus = solutionResult.PublishedStatus;
-            FrameworkShortNames = solutionResult.FrameworkShortNames;
+            Frameworks = solutionFrameworkResult.Select(x => x.FrameworkName);
             Hosting = string.IsNullOrWhiteSpace(solutionResult.Hosting)
                 ? new Hosting()
                 : JsonConvert.DeserializeObject<Hosting>(solutionResult.Hosting);
@@ -170,9 +171,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public SolutionDocument SolutionDocument { get; set; }
 
         /// <summary>
-        /// Gets or sets the solution framework short names.
+        /// Gets or sets the solution framework names.
         /// </summary>
-        public IEnumerable<string> FrameworkShortNames { get; set; }
+        public IEnumerable<string> Frameworks { get; set; }
 
         private static DateTime GetLatestLastUpdated(
             ISolutionResult solutionResult,

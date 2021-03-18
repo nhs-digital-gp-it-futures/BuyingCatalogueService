@@ -14,6 +14,10 @@ Background:
     And solutions have the following details
         | SolutionId | RoadMap          |
         | Sln1       | Some description |
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
+        | Sln2       | true         | NHSDGP001   |
 
 @3664
 Scenario: Solution Road Map section presented where Solution RoadMap exists

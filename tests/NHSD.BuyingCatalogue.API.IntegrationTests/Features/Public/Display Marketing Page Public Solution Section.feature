@@ -17,6 +17,7 @@ Background:
         | SolutionId | IsFoundation | FrameworkId |
         | Sln1       | true         | NHSDGP001   |
         | Sln2       | false        | NHSDGP001   |
+        | Sln3       | false        | NHSDGP001   |
 
 @3507
 Scenario: Solution section is presented where the solution isFoundation is true

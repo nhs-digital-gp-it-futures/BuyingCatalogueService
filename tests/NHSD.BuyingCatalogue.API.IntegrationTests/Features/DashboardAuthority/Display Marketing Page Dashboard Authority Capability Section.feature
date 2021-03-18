@@ -15,6 +15,9 @@ Background:
      And Solutions exist
        | SolutionId | SolutionName | SupplierId |
        | Sln1       | MedicOnline  | Sup 1      |
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
 
 @3678
 Scenario Outline: Capabilities section is mandatory and is reported complete if there are any capabilities for that solution

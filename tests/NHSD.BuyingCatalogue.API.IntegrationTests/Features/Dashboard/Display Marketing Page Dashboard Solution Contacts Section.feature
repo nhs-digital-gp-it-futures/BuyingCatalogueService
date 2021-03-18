@@ -22,6 +22,11 @@ Background:
          | SolutionId | FirstName |
          | Sln1       | Bob       |
          | Sln3       |           |
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
+        | Sln2       | false        | DFOCVC001   |
+        | Sln3       | false        | NHSDGP001   |
         
 @3654
 Scenario: Sections presented where the Solution exists

@@ -16,7 +16,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
             SupplierName = solution.SupplierName;
             LastUpdated = solution.LastUpdated;
             IsFoundation = solution.IsFoundation;
-            FrameworkShortNames = solution.FrameworkShortNames;
+            Frameworks = solution.Frameworks;
 
             Sections = new Sections(solution);
         }
@@ -33,6 +33,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 
         public Sections Sections { get; }
 
-        public IEnumerable<string> FrameworkShortNames { get; }
+        public IEnumerable<string> Frameworks { get; }
     }
 }

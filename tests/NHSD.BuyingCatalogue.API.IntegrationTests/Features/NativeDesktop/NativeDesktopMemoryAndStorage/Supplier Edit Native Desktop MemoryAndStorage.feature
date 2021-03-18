@@ -10,6 +10,9 @@ Background:
     And Solutions exist
         | SolutionId | SolutionName | SupplierId |
         | Sln1       | MedicOnline  | Sup 1      |
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
 
 @3620
 Scenario: Native Desktop Memory, Storage, Processing and Resolution is updated
@@ -23,6 +26,9 @@ Scenario: Native Desktop Memory, Storage, Processing and Resolution is updated
     And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                                                                                                                                                              |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported": [], "NativeDesktopMemoryAndStorage": { "MinimumMemoryRequirement": "512", "StorageRequirementsDescription": "SSD > HDD", "MinimumCpu": "1337 Ghz", "RecommendedResolution" : "1x1 px" } } |
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
 
 @3620
 Scenario: 2 Native Desktop Memory, Storage, Processing and Resolution is updated with trimmed whitespace

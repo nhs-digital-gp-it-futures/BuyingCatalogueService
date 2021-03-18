@@ -13,6 +13,12 @@ Background:
         | Sln2       | TakeTheRedPill    | 15/11/2019  | Sup 1      | Unpublished     |
         | Sln3       | TakeTheBluePill   | 15/11/2019  | Sup 1      | Published       |
         | Sln4       | TakeThePurplePill | 15/11/2019  | Sup 1      | Withdrawn       |
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
+        | Sln2       | false        | DFOCVC001   |
+        | Sln3       | false        | NHSDGP001   |
+        | Sln4       | false        | NHSDGP001   |
         
 @3776
 Scenario: Solution section is not presented where the solution is Drafted

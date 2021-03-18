@@ -103,8 +103,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         public ISolutionDocument SolutionDocument { get; set; }
 
         /// <summary>
-        /// Gets or sets the solution framework short names.
+        /// Gets or sets the solution framework names.
         /// </summary>
-        public IEnumerable<string> FrameworkShortNames { get; set; }
+        public IEnumerable<string> Frameworks { get; set; }
     }
 }

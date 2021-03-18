@@ -13,6 +13,9 @@ Background:
     And solutions have the following details
         | SolutionId | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                 |
         | Sln1       | { "ClientApplicationTypes" : [ "browser-based", "native-desktop" ], "BrowsersSupported": ["Google Chrome", "Edge"], "MobileResponsive": false, "Plugins":  { "Required": true, "AdditionalInformation": "Colourful water extension" }, "MinimumConnectionSpeed": "1GBps", "MinimumDesktopResolution": "1x1", "HardwareRequirements": "New Hardware", "AdditionalInformation": "Some Additional Info", "MobileFirstDesign": true } |
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
 
 @3576
 Scenario: Get Solution Public contains client application types browser based answers for all data

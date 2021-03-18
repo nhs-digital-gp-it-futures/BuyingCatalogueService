@@ -13,7 +13,11 @@ Background:
         | Sln2       | TakeTheRedPill | Sup 1      |
     And solutions have the following details
         | SolutionId | SummaryDescription            |
-        | Sln1       | A full online medicine system |
+        | Sln1       | A full online medicine system |        
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
+        | Sln2       | false        | DFOCVC001   |
 
 @7261
 Scenario: Get a single solution

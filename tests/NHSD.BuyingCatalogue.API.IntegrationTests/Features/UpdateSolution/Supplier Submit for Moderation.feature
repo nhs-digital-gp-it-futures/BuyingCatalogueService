@@ -16,6 +16,9 @@ Scenario: Solution successfully submitted for review
     And solutions have the following details
         | SolutionId | SummaryDescription             | ClientApplication                                                                                                                             |
         | Sln1       | An full online medicine system | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true, "Plugins": { "Required": false } } |
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
     When a request is made to submit Solution Sln1 for review
     Then a response status of 204 is returned
     And Last Updated has been updated for solution Sln1
@@ -47,6 +50,9 @@ Scenario: Solution failed on submit for review due to missing Solution summary
     And solutions have the following details
         | SolutionId | SummaryDescription | ClientApplication                                                                                                                             |
         | Sln1       |                    | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true, "Plugins": { "Required": false } } |
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
     When a request is made to submit Solution Sln1 for review
     Then a response status of 400 is returned
     And the response details of the submit Solution for review request are as follows
@@ -60,6 +66,9 @@ Scenario: Solution failed on submit for review due to missing client application
     And solutions have the following details
         | SolutionId | SummaryDescription             | ClientApplication |
         | Sln1       | An full online medicine system |                   |
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
     When a request is made to submit Solution Sln1 for review
     Then a response status of 400 is returned
     And the response details of the submit Solution for review request are as follows
@@ -73,6 +82,9 @@ Scenario: Solution failed on submit for review due to missing browsers supported
     And solutions have the following details
         | SolutionId | SummaryDescription             | ClientApplication                                                                                  |
         | Sln1       | An full online medicine system | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [], "MobileResponsive": true, "Plugins": { "Required": false } } |
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
     When a request is made to submit Solution Sln1 for review
     Then a response status of 400 is returned
     And the response details of the submit Solution for review request are as follows
@@ -86,6 +98,9 @@ Scenario: Solution failed on submit for review due to missing mobile responsive
     And solutions have the following details
          | SolutionId | SummaryDescription             | ClientApplication                                                                                                   |
          | Sln1       | An full online medicine system | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "Plugins": { "Required": false } } |
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
     When a request is made to submit Solution Sln1 for review
     Then a response status of 400 is returned
     And the response details of the submit Solution for review request are as follows
@@ -99,6 +114,9 @@ Scenario: Solution failed on submit for review due to missing plugin requirement
     And solutions have the following details
          | SolutionId | SummaryDescription             | ClientApplication                                                                                           |
          | Sln1       | An full online medicine system | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : ["Firefox"], "MobileResponsive": true } |
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
     When a request is made to submit Solution Sln1 for review
     Then a response status of 400 is returned
     And the response details of the submit Solution for review request are as follows

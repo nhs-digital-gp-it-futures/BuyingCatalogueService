@@ -13,6 +13,9 @@ Background:
     And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                  |
         | Sln1       | An full online medicine system | Online medicine 1 | { "HardwareRequirements": "Hardware Information" } |
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
 
 @3600
 Scenario: HardwareRequirements exceeds the maxLength

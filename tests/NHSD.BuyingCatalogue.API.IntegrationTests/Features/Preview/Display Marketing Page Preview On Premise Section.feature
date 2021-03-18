@@ -13,6 +13,9 @@ Background:
     And solutions have the following details
         | SolutionId | Hosting                                                                                                                                                                      |
         | Sln1       | { "OnPremise": { "Summary": "Some summary", "Link": "www.somelink.com", "HostingModel": "A hosting model", "RequiresHscn": "This Solution requires a HSCN/N3 connection" } } |
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
 
 @3651
 Scenario: Get Solution Preview for On Premise contains Hosting for all data

@@ -10,6 +10,9 @@ Background:
     And Solutions exist
         | SolutionId | SolutionName | SupplierId |
         | Sln1       | MedicOnline  | Sup 1      |
+    And Framework Solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
 
 Scenario: Solution Learn More section is presented when the document exists
     Given a document named solution exists with solutionId Sln1
