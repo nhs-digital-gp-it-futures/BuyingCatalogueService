@@ -13,7 +13,7 @@ Background:
     And solutions have the following details
         | SolutionId | Hosting                                                                                                                                     |
         | Sln1       | { "PublicCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
-    And Framework Solutions exist
+    And framework solutions exist
         | SolutionId | IsFoundation | FrameworkId |
         | Sln1       | true         | NHSDGP001   |
 

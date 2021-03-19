@@ -7,6 +7,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
     {
         public string Id { get; set; }
 
-        public string FrameworkName { get; set; }
+        public string ShortName { get; set; }
     }
 }

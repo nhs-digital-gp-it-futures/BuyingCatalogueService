@@ -13,7 +13,7 @@ Background:
         | Sln1       | MedicOnline    | Sup 1      |
         | Sln2       | TakeTheRedPill | Sup 2      |
         | Sln3       | PracticeMgr    | Sup 2      |
-    And Framework Solutions exist
+    And framework solutions exist
         | SolutionId | IsFoundation | FrameworkId |
         | Sln1       | true         | NHSDGP001   |
         | Sln2       | false        | DFOCVC001   |

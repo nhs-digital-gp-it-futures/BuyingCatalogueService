@@ -15,21 +15,21 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
     public sealed class SolutionRepository : ISolutionRepository
     {
         private const string ByIdSql = @"
-            SELECT s.Id,
-                   ci.[Name],
-                   s.LastUpdated,
-                   ci.PublishedStatusId AS PublishedStatus,
-                   s.Summary,
-                   s.FullDescription AS [Description],
-                   s.AboutUrl,
-                   s.Features,
-                   s.RoadMap,
-                   s.IntegrationsUrl,
-                   s.ImplementationDetail AS ImplementationTimescales,
-                   s.ClientApplication,
-                   s.Hosting,
-                   s.LastUpdated AS SolutionDetailLastUpdated,
-                   f.IsFoundation
+            SELECT DISTINCT s.Id,
+                            ci.[Name],
+                            s.LastUpdated,
+                            ci.PublishedStatusId AS PublishedStatus,
+                            s.Summary,
+                            s.FullDescription AS [Description],
+                            s.AboutUrl,
+                            s.Features,
+                            s.RoadMap,
+                            s.IntegrationsUrl,
+                            s.ImplementationDetail AS ImplementationTimescales,
+                            s.ClientApplication,
+                            s.Hosting,
+                            s.LastUpdated AS SolutionDetailLastUpdated,
+                            f.IsFoundation
               FROM dbo.Solution AS s
                    INNER JOIN dbo.CatalogueItem AS ci
                            ON s.Id = ci.CatalogueItemId
@@ -90,7 +90,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
         /// <param name="cancellationToken">A token to notify if the task operation should be cancelled.</param>
         /// <returns>A task representing an operation to retrieve a <see cref="ISolutionResult"/> matching the specified ID.</returns>
         public async Task<ISolutionResult> ByIdAsync(string id, CancellationToken cancellationToken) =>
-            (await dbConnector.QueryAsync<SolutionResult>(ByIdSql, cancellationToken, new { id })).FirstOrDefault();
+            (await dbConnector.QueryAsync<SolutionResult>(ByIdSql, cancellationToken, new { id })).SingleOrDefault();
 
         /// <summary>
         /// Checks if the solution exists.

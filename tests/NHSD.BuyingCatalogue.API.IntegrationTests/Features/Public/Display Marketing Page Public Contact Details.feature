@@ -14,7 +14,7 @@ Background:
     And solutions have the following details
         | SolutionId |
         | Sol1       |
-    And Framework Solutions exist
+    And framework solutions exist
         | SolutionId | IsFoundation | FrameworkId |
         | Sol1       | true         | NHSDGP001   |
         | Sol2       | false        | DFOCVC001   |

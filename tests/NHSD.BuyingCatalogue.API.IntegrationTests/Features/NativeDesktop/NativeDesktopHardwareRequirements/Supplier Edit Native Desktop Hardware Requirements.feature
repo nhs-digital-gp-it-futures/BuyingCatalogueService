@@ -10,7 +10,7 @@ Background:
     And Solutions exist
         | SolutionId | SolutionName | SupplierId |
         | Sln1       | MedicOnline  | Sup 1      |
-    And Framework Solutions exist
+    And framework solutions exist
         | SolutionId | IsFoundation | FrameworkId |
         | Sln1       | true         | NHSDGP001   |
 @3622
@@ -25,10 +25,7 @@ Scenario: Native Desktop Hardware Requirements is updated
     And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                                               |
         | Sln1       | An full online medicine system | Online medicine 1 | { "ClientApplicationTypes": [], "BrowsersSupported" : [], "NativeDesktopHardwareRequirements": "New Hardware" } |
-    And Framework Solutions exist
-        | SolutionId | IsFoundation | FrameworkId |
-        | Sln1       | true         | NHSDGP001   |
-        
+
 @3622
 Scenario: Native Desktop Hardware Requirements is updated with trimmed whitespace
     Given solutions have the following details

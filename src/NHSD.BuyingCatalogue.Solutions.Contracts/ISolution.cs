@@ -102,8 +102,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts
         ISolutionDocument SolutionDocument { get; }
 
         /// <summary>
-        /// Gets the solution framework short names.
+        /// Gets the solution framework.
         /// </summary>
-        IEnumerable<string> Frameworks { get; }
+        IEnumerable<ISolutionFramework> Frameworks { get; }
     }
 }

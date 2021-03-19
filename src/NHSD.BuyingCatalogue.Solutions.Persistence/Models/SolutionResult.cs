@@ -39,8 +39,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Models
 
         public PublishedStatus PublishedStatus { get; set; }
 
-        public string FrameworkShortName { get; set; }
-
-        public IEnumerable<string> FrameworkShortNames { get; set; }
+        public IEnumerable<ISolutionFrameworkListResult> Frameworks { get; set; }
     }
 }

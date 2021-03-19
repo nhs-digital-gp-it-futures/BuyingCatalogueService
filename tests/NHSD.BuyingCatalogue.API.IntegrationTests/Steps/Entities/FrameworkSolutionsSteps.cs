@@ -9,7 +9,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
     [Binding]
     internal sealed class FrameworkSolutionsSteps
     {
-        [Given(@"Framework Solutions exist")]
+        [Given(@"framework solutions exist")]
         public static async Task GivenFrameworkSolutionsExist(Table table)
         {
             foreach (var frameworkSolution in table.CreateSet<FrameworkSolutionsTable>())

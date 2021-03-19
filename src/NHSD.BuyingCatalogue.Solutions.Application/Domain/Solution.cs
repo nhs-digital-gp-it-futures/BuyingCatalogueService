@@ -68,7 +68,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
 
             Contacts = contactResultList.Select(c => new Contact(c));
             PublishedStatus = solutionResult.PublishedStatus;
-            Frameworks = solutionFrameworkResult.Select(x => x.FrameworkName);
+            Frameworks = solutionFrameworkResult.Select(f => new SolutionFramework(f));
             Hosting = string.IsNullOrWhiteSpace(solutionResult.Hosting)
                 ? new Hosting()
                 : JsonConvert.DeserializeObject<Hosting>(solutionResult.Hosting);
@@ -171,9 +171,9 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Domain
         public SolutionDocument SolutionDocument { get; set; }
 
         /// <summary>
-        /// Gets or sets the solution framework names.
+        /// Gets or sets the solution frameworks.
         /// </summary>
-        public IEnumerable<string> Frameworks { get; set; }
+        public IEnumerable<SolutionFramework> Frameworks { get; set; }
 
         private static DateTime GetLatestLastUpdated(
             ISolutionResult solutionResult,

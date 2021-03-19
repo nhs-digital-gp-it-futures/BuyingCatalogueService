@@ -33,6 +33,6 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
 
         public Sections Sections { get; }
 
-        public IEnumerable<string> Frameworks { get; }
+        public IEnumerable<ISolutionFramework> Frameworks { get; }
     }
 }

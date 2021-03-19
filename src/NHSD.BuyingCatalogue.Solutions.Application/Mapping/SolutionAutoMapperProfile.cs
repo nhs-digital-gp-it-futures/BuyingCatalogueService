@@ -95,6 +95,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Mapping
             CreateMap<TieredPrice, ITieredPrice>().As<TieredPriceDto>();
             CreateMap<AdditionalService, AdditionalServiceDto>();
             CreateMap<AdditionalService, IAdditionalService>().As<AdditionalServiceDto>();
+            CreateMap<SolutionFramework, SolutionFrameworkDto>();
+            CreateMap<SolutionFramework, ISolutionFramework>().As<SolutionFrameworkDto>();
         }
     }
 }

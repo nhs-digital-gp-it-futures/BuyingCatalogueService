@@ -26,7 +26,7 @@ Background:
         | Sln6       | More Summaries                 | Online System       | { "ClientApplicationTypes": ["browser-based"],"BrowsersSupported" : [ "IE8", "Opera" ], "MobileResponsive": true, "Plugins" : {"Required" : true, "AdditionalInformation": "orem ipsum"}, "MobileFirstDesign": true, "MinimumConnectionSpeed": "Connection Speed" }                                            |
         | Sln7       | More Summaries                 | Online System       | { "ClientApplicationTypes": ["native-mobile"], "MobileOperatingSystems": { "OperatingSystems": ["Windows"] }, "NativeMobileFirstDesign": false, "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "Description": "A description" }}                                                              |
         | Sln8       | More Summaries                 | Online System       | { "ClientApplicationTypes": ["native-desktop"], "NativeDesktopOperatingSystemsDescription": "Some Description", "NativeDesktopMinimumConnectionSpeed": "2Mbps", "NativeDesktopMemoryAndStorage": { "MinimumMemoryRequirement": "512MB", "StorageRequirementsDescription": "Some Desc", "MinimumCpu": "min" } } |
-    And Framework Solutions exist
+    And framework solutions exist
         | SolutionId | IsFoundation | FrameworkId |
         | Sln1       | true         | NHSDGP001   |
         | Sln2       | false        | DFOCVC001   |

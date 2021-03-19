@@ -13,7 +13,7 @@ Background:
     And solutions have the following details
         | SolutionId | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
         | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
-    And Framework Solutions exist
+    And framework solutions exist
         | SolutionId | IsFoundation | FrameworkId |
         | Sln1       | true         | NHSDGP001   |
 

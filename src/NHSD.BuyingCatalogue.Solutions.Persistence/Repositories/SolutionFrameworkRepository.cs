@@ -12,10 +12,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
     {
         private const string GetFrameworkBySolutionIdSql = @"
             SELECT f.Id,
-                   f.ShortName as FrameworkName
+                   f.ShortName
             FROM dbo.FrameworkSolutions AS fs
                  INNER JOIN dbo.Framework AS f 
-                    ON fs.FrameworkId=f.Id
+                    ON fs.FrameworkId = f.Id
             WHERE fs.SolutionId = @solutionId;";
 
         private readonly IDbConnector dbConnector;

@@ -6,6 +6,6 @@ namespace NHSD.BuyingCatalogue.Solutions.Contracts.Persistence
     {
         public string Id { get; }
 
-        public string FrameworkName { get; }
+        public string ShortName { get; }
     }
 }

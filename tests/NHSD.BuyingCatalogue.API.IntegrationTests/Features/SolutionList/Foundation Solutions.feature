@@ -22,7 +22,7 @@ Background:
         | Sln3       | PracticeMgr    | Sup 2      | Published       |
         | Sln4       | GPSurgery      | Sup 1      | Published       |
         | Sln5       | Unpublished    | Sup 1      | Draft           |
-   And Framework Solutions exist
+   And framework solutions exist
         | SolutionId | IsFoundation | FrameworkId |
         | Sln1       | true         | NHSDGP001   |
         | Sln2       | false        | NHSDGP001   |

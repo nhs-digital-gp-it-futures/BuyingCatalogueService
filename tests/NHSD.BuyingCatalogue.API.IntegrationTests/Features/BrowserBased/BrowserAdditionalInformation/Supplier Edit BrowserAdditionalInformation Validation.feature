@@ -13,7 +13,7 @@ Background:
     And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication                                                                               |
         | Sln1       | An full online medicine system | Online medicine 1 | { "AdditionalInformation": "Some Info", "ClientApplicationTypes": [], "BrowsersSupported": [] } |        
-    And Framework Solutions exist
+    And framework solutions exist
         | SolutionId | IsFoundation | FrameworkId |
         | Sln1       | true         | NHSDGP001   |
 

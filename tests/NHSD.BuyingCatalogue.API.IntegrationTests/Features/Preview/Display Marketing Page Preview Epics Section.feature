@@ -30,7 +30,7 @@ Background:
         | Sln1       | C1E1,C1E3,C1E5 | Passed       |
         | Sln1       | C1E2,C1E4      | NotEvidenced |
         | Sln2       | C1E5           | NotEvidenced |
-    And Framework Solutions exist
+    And framework solutions exist
         | SolutionId | IsFoundation | FrameworkId |
         | Sln1       | true         | NHSDGP001   |
         | Sln2       | false        | DFOCVC001   |

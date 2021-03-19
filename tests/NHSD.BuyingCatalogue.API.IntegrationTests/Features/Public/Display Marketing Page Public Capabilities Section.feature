@@ -23,7 +23,7 @@ Background:
         | MedicOnline | Clinical Safety         | True  |
         | MedicOnline | Workflow                | True  |
         | MedicOnline | Prescribing             | False |
-    And Framework Solutions exist
+    And framework solutions exist
         | SolutionId | IsFoundation | FrameworkId |
         | Sln1       | true         | NHSDGP001   |
         | Sln2       | false        | DFOCVC001   |
