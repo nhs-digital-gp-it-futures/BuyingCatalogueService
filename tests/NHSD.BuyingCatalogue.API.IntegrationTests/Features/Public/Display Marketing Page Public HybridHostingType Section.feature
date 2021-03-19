@@ -13,6 +13,9 @@ Background:
     And solutions have the following details
         | SolutionId | Hosting                                                                                                                                                                              |
         | Sln1       | { "HybridHostingType": { "Summary": "Some summary", "Link": "www.somelink.com", "HostingModel": "A hosting model", "RequiresHscn": "This Solution requires a HSCN/N3 connection" } } |
+    And framework solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
 
 @3644
 Scenario: Get Solution Public contains Hosting for all data regarding Hybrid HostingType

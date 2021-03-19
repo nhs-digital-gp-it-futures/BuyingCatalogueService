@@ -17,6 +17,11 @@ Background:
         | SolutionId | SummaryDescription             | FullDescription     | AboutUrl | Features                          |
         | Sln1       | An full online medicine system | Online medicine 1   | UrlSln1  | [ "Appointments", "Prescribing" ] |
         | Sln3       | Fully fledged GP system        | Fully fledged GP 12 | UrlSln3  | [ "Referrals", "Workflow" ]       |
+    And framework solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
+        | Sln2       | false        | DFOCVC001   |
+        | Sln3       | false        | NHSDGP001   |
 
 @1793
 Scenario: Sections presented where SolutionDetail exists

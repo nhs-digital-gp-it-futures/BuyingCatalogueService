@@ -10,6 +10,9 @@ Background:
     And Solutions exist
         | SolutionId | SolutionName | SupplierId |
         | Sln1       | MedicOnline  | Sup 1      |
+    And framework solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
 
 @3623
 Scenario: Native Desktop Additional Information is updated

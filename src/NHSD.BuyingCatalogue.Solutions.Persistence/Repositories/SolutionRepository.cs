@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,25 +15,25 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
     public sealed class SolutionRepository : ISolutionRepository
     {
         private const string ByIdSql = @"
-            SELECT s.Id,
-                   ci.[Name],
-                   s.LastUpdated,
-                   ci.PublishedStatusId AS PublishedStatus,
-                   s.Summary,
-                   s.FullDescription AS [Description],
-                   s.AboutUrl,
-                   s.Features,
-                   s.RoadMap,
-                   s.IntegrationsUrl,
-                   s.ImplementationDetail AS ImplementationTimescales,
-                   s.ClientApplication,
-                   s.Hosting,
-                   s.LastUpdated AS SolutionDetailLastUpdated,
-                   f.IsFoundation
+            SELECT DISTINCT s.Id,
+                            ci.[Name],
+                            s.LastUpdated,
+                            ci.PublishedStatusId AS PublishedStatus,
+                            s.Summary,
+                            s.FullDescription AS [Description],
+                            s.AboutUrl,
+                            s.Features,
+                            s.RoadMap,
+                            s.IntegrationsUrl,
+                            s.ImplementationDetail AS ImplementationTimescales,
+                            s.ClientApplication,
+                            s.Hosting,
+                            s.LastUpdated AS SolutionDetailLastUpdated,
+                            f.IsFoundation
               FROM dbo.Solution AS s
                    INNER JOIN dbo.CatalogueItem AS ci
                            ON s.Id = ci.CatalogueItemId
-                   LEFT OUTER JOIN dbo.FrameworkSolutions AS f
+                   INNER JOIN dbo.FrameworkSolutions AS f
                            ON s.Id = f.SolutionId
              WHERE s.Id = @id;";
 

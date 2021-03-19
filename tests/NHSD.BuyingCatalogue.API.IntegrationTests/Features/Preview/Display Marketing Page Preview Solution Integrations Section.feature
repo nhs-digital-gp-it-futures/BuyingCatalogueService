@@ -14,6 +14,10 @@ Background:
     And solutions have the following details
         | SolutionId | IntegrationsUrl       |
         | Sln1       | Some integrations url |
+    And framework solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
+        | Sln2       | false        | DFOCVC001   |
 
 @3667
 Scenario: Solution integrations section presented where Solution Detail exists

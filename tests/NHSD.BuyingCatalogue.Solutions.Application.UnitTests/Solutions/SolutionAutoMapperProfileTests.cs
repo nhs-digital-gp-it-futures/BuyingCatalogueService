@@ -97,6 +97,8 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.UnitTests.Solutions
             yield return new KeyValuePair<Type, Type>(typeof(TieredPrice), typeof(ITieredPrice));
             yield return new KeyValuePair<Type, Type>(typeof(AdditionalService), typeof(AdditionalServiceDto));
             yield return new KeyValuePair<Type, Type>(typeof(AdditionalService), typeof(IAdditionalService));
+            yield return new KeyValuePair<Type, Type>(typeof(SolutionFramework), typeof(SolutionFrameworkDto));
+            yield return new KeyValuePair<Type, Type>(typeof(SolutionFramework), typeof(ISolutionFramework));
         }
 
         [SetUp]

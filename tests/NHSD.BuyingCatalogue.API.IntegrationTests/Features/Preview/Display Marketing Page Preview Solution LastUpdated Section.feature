@@ -20,6 +20,9 @@ Scenario Outline: Last Updated is the latest of last updated in the solution tab
         | SolutionId | LastUpdated |
         | Sln1       | <MarketingContact1> |
         | Sln1       | <MarketingContact2> |
+    And framework solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
     When a GET request is made for solution preview Sln1
     Then a successful response is returned
     And the last updated date in the solution is <LastUpdatedSolution>

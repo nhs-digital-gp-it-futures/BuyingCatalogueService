@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NHSD.BuyingCatalogue.Solutions.Contracts;
 
 namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
@@ -15,6 +16,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
             SupplierName = solution.SupplierName;
             LastUpdated = solution.LastUpdated;
             IsFoundation = solution.IsFoundation;
+            Frameworks = solution.Frameworks;
 
             Sections = new Sections(solution);
         }
@@ -30,5 +32,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         public DateTime? LastUpdated { get; }
 
         public Sections Sections { get; }
+
+        public IEnumerable<ISolutionFramework> Frameworks { get; }
     }
 }

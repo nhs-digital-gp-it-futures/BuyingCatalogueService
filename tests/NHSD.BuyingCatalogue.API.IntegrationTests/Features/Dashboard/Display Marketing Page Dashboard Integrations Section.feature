@@ -11,6 +11,10 @@ Background:
         | SolutionId | SolutionName   | SupplierId |
         | Sln1       | MedicOnline    | Sup 1      |
         | Sln2       | TakeTheRedPill | Sup 1      |
+    And framework solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
+        | Sln2       | false        | DFOCVC001   |
 
 @3667
 Scenario Outline: Integrations section is optional and is reported complete if there is text

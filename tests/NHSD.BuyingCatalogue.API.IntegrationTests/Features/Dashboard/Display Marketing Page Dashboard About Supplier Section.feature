@@ -14,6 +14,9 @@ Scenario Outline: About supplier section is optional and is reported complete if
     And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   |
         | Sln1       | An full online medicine system | Online medicine 1 |
+    And framework solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
     When a GET request is made for solution dashboard <SolutionId>
     Then a successful response is returned
     And the solution about-supplier section status is <Status>

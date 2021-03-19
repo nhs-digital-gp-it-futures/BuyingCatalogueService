@@ -13,6 +13,9 @@ Background:
     And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | ClientApplication |
         | Sln1       | An full online medicine system | Online medicine 1 | {}                |
+    And framework solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
 
 @3607
 Scenario: Client Application is updated for the solution

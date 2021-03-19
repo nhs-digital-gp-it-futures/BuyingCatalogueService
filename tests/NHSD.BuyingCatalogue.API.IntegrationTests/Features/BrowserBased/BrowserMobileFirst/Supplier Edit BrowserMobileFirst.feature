@@ -10,6 +10,10 @@ Background:
     And Solutions exist
         | SolutionId | SolutionName | SupplierId |
         | Sln1       | MedicOnline  | Sup 1      |
+    And framework solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
+
 @3602
 Scenario: Browser Mobile First is updated
     Given solutions have the following details

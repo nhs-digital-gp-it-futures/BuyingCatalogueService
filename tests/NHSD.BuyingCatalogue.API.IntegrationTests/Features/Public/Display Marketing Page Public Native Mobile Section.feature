@@ -13,6 +13,9 @@ Background:
     And solutions have the following details
         | SolutionId | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
         | Sln1       | { "ClientApplicationTypes" : [ "native-mobile"], "MobileOperatingSystems": { "OperatingSystems": ["Windows", "Linux"], "OperatingSystemsDescription": "For windows only version 10" }, "NativeMobileFirstDesign": true, "MobileConnectionDetails": { "ConnectionType": [ "3G", "4G" ], "MinimumConnectionSpeed": "1GBps", "Description": "A connecton detail description" }, "MobileMemoryAndStorage" : { "MinimumMemoryRequirement": "500MB", "Description": "Storage Description" }, "NativeMobileHardwareRequirements": "A native mobile hardware requirement", "MobileThirdParty": { "ThirdPartyComponents": "Components", "DeviceCapabilities": "Cap" }, "NativeMobileAdditionalInformation": "native mobile additional info" } |
+    And framework solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
 
 @3605
 Scenario: Get Solution Public contains client application types native-mobile answers for all data

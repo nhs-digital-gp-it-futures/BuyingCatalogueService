@@ -14,6 +14,10 @@ Background:
     And solutions have the following details
         | SolutionId | ImplementationDetail |
         | Sln1       | Some description     |
+    And framework solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
+        | Sln2       | false        | DFOCVC001   |
 
 @3670
 Scenario: Solution Implementation Timescales section presented where Solution Detail exists

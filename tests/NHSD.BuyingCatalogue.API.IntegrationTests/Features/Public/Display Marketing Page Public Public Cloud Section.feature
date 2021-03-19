@@ -13,6 +13,9 @@ Background:
     And solutions have the following details
         | SolutionId | Hosting                                                                                                                                     |
         | Sln1       | { "PublicCloud": { "Summary": "Some summary", "Link": "www.somelink.com", "RequiresHSCN": "This Solution requires a HSCN/N3 connection" } } |
+    And framework solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
 
 @3639
 Scenario: Get Solution Public contains Hosting for all data

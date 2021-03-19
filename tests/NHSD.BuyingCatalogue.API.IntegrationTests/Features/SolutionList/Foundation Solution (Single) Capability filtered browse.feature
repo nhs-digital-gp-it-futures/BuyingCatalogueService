@@ -28,7 +28,7 @@ Background:
         | TakeTheRedPill | Appointments Management |
         | TakeTheRedPill | Workflow                |
         | PracticeMgr    | Clinical Safety         |
-    And Framework Solutions exist
+    And framework solutions exist
         | SolutionId | IsFoundation | FrameworkId |
         | Sln1       | true         | NHSDGP001   |
         | Sln2       | false        | DFOCVC001   |

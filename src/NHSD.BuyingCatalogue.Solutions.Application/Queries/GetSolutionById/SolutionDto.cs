@@ -101,5 +101,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Application.Queries.GetSolutionById
         /// Gets or sets the solution document for the solution.
         /// </summary>
         public ISolutionDocument SolutionDocument { get; set; }
+
+        /// <summary>
+        /// Gets or sets the solution framework.
+        /// </summary>
+        public IEnumerable<ISolutionFramework> Frameworks { get; set; }
     }
 }

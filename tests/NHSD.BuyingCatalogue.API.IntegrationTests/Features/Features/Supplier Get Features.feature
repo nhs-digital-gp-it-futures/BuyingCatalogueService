@@ -17,6 +17,11 @@ Background:
         | SolutionId | SummaryDescription             | FullDescription     | Features                          |
         | Sln1       | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
         | Sln3       | Eye opening experience         | Eye opening6        |                                   |
+    And framework solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
+        | Sln2       | false        | DFOCVC001   |
+        | Sln3       | false        | NHSDGP001   |
 
 @2724
 Scenario: Features are retrieved for the solution

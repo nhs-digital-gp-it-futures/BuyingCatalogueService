@@ -13,6 +13,10 @@ Background:
     And solutions have the following details
         | SolutionId | SummaryDescription             | FullDescription   | Hosting |
         | Sln1       | An full online medicine system | Online medicine 1 | { }     |
+    And framework solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
+
 @3641
 Scenario: Private Cloud is updated
     When a PUT request is made to update the hosting-type-private-cloud section for solution Sln1

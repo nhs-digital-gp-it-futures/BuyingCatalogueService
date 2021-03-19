@@ -13,7 +13,11 @@ Background:
         | Sln2       | TakeTheRedPill | Sup 1      |
     And solutions have the following details
         | SolutionId | RoadMap          |
-        | Sln1       | Some description |    
+        | Sln1       | Some description |   
+    And framework solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
+        | Sln2       | false        | DFOCVC001   | 
 
 @3664
 Scenario: Road Map section presented where Road Map exists

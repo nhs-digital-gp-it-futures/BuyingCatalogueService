@@ -13,10 +13,11 @@ Background:
         | Sln1       | MedicOnline    | 19/11/2019  | Sup 1      |
         | Sln2       | TakeTheRedPill | 15/11/2019  | Sup 2      |
         | Sln3       | PracticeMgr    | 20/11/2019  | Sup 2      |
-    And Framework Solutions exist
+    And framework solutions exist
         | SolutionId | IsFoundation | FrameworkId |
         | Sln1       | true         | NHSDGP001   |
         | Sln2       | false        | NHSDGP001   |
+        | Sln3       | false        | NHSDGP001   |
 
 @3507
 Scenario: Solution section is presented where the solution isFoundation is true

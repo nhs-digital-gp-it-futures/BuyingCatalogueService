@@ -10,6 +10,9 @@ Background:
     And Solutions exist
         | SolutionId | SolutionName | SupplierId |
         | Sln1       | MedicOnline  | Sup 1      |
+    And framework solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
 
 @2786
 Scenario: Plugins is updated

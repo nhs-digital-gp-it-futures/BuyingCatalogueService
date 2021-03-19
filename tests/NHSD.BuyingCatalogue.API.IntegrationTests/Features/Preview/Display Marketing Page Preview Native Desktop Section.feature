@@ -13,6 +13,9 @@ Background:
     And solutions have the following details
         | SolutionId | ClientApplication                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
         | Sln1       | { "ClientApplicationTypes" : [ "native-desktop"], "NativeDesktopHardwareRequirements": "A native desktop hardware requirement","NativeDesktopOperatingSystemsDescription": "A native desktop OS description", "NativeDesktopMinimumConnectionSpeed": "2Mbps", "NativeDesktopThirdParty": { "ThirdPartyComponents": "Components", "DeviceCapabilities": "Capabilities" }, "NativeDesktopMemoryAndStorage" : { "MinimumMemoryRequirement": "1GB", "StorageRequirementsDescription": "A description", "MinimumCpu": "3.5Ghz", "RecommendedResolution": "800x600" }, "NativeDesktopAdditionalInformation": "some additional information" } |
+    And framework solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
 
 @3605
 Scenario: Get Solution Preview contains client application types native-desktop answers for all data

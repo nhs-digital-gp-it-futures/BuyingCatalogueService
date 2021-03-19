@@ -17,6 +17,11 @@ Background:
         | SolutionId | AboutUrl| SummaryDescription      | FullDescription      | Features                          |
         | Sln1       | UrlSln1 |                         | Online medicine 1    | [ "Appointments", "Prescribing" ] |
         | Sln3       | UrlSln3 | Eye opening experience  | Eye opening6         | [ "Referrals", "Workflow" ]       |
+    And framework solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
+        | Sln2       | false        | DFOCVC001   |
+        | Sln3       | false        | NHSDGP001   |
 
 @1848
 Scenario Outline: Solution description section is mandatory and is reported complete if there is text in the summary

@@ -17,6 +17,11 @@ Background:
         | SolutionId | AboutUrl | SummaryDescription             | FullDescription     | Features                          |
         | Sln1       | UrlSln1  | An full online medicine system | Online medicine 1   | [ "Appointments", "Prescribing" ] |
         | Sln3       | UrlSln3  | Eye opening experience         | Eye opening6        | [ "Referrals", "Workflow" ]       |
+    And framework solutions exist
+        | SolutionId | IsFoundation | FrameworkId |
+        | Sln1       | true         | NHSDGP001   |
+        | Sln2       | false        | DFOCVC001   |
+        | Sln3       | false        | NHSDGP001   |
 
 @2724
 Scenario: SolutionDescription are retrieved for the solution
