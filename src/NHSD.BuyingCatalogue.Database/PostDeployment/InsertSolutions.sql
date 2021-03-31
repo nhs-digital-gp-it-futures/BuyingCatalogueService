@@ -621,44 +621,59 @@ TPP maintain close contact with staff at the unit throughout these phases to ens
                     (@dfocvcframeworkId, @solutionId, 0, @now, @emptyGuid);
     END;
 
+    DECLARE @flatPriceType AS int = 1;
+    DECLARE @tieredPriceType AS int = 2;
+
+    DECLARE @patientProvisioningType AS int = 1;
+    DECLARE @declarativeProvisioningType AS int = 2;
+    DECLARE @onDemandProvisioningType AS int = 3;
+
+    DECLARE @monthTimeUnit AS int = 1;
+    DECLARE @yearTimeUnit AS int = 2;
+
     /* Insert prices */
     IF NOT EXISTS (SELECT * FROM dbo.CataloguePrice)
     BEGIN
      INSERT INTO dbo.CataloguePrice(CatalogueItemId, ProvisioningTypeId, CataloguePriceTypeId, PricingUnitId, TimeUnitId, CurrencyCode, LastUpdated, Price)
-          VALUES ('100000-001', 1, 1, 'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP', @now, 99.99),
-                 ('100000-001', 1, 2, 'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 2, 'GBP', @now, NULL),
-                 ('100000-001', 3, 1, '774E5A1D-D15C-4A37-9990-81861BEAE42B', NULL, 'GBP', @now, 1001.010),
-                 ('100001-001', 3, 1, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', NULL, 'GBP', @now, 3.142),
-                 ('100002-001', 2, 1, 'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 1, 'GBP', @now, 4.85),
-                 ('100002-001', 2, 2, 'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 1, 'GBP', @now, NULL),
-                 ('100003-001', 2, 1, 'D43C661A-0587-45E1-B315-5E5091D6E9D0', 1, 'GBP', @now, 19.987),
-                 ('100004-001', 2, 1, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', 1, 'GBP', @now, 10101.65),
-                 ('100005-001', 3, 1, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', NULL, 'GBP', @now, 456),
-                 ('100006-001', 2, 1, '90119522-D381-4296-82EE-8FE630593B56', 1, 'GBP', @now, 7),
-                 ('100007-001', 3, 1, '90119522-D381-4296-82EE-8FE630593B56', NULL, 'GBP', @now, 0.15),
-                 ('100007-002', 3, 2, '90119522-D381-4296-82EE-8FE630593B56', NULL, 'GBP', @now, NULL),
-                 ('99998-98', 1, 1, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', 2, 'GBP', @now, 30000),
-                 ('99998-98', 1, 2, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', 2, 'GBP', @now, NULL),
-                 ('99999-01', 1, 1, 'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 1, 'GBP', @now, 1.25),
-                 ('99999-02', 1, 1, 'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', 1, 'GBP', @now, 1.55),
-                 ('99999-89', 1, 2, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', 2, 'GBP', @now, NULL),
-                 ('99999-89', 1, 1, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', 2, 'GBP', @now, 500.49);
+          VALUES ('100000-001', @patientProvisioningType, @flatPriceType, 'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', @yearTimeUnit, 'GBP', @now, 99.99),
+                 ('100000-001', @patientProvisioningType, @tieredPriceType, 'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', @yearTimeUnit, 'GBP', @now, NULL),
+                 ('100000-001', @onDemandProvisioningType, @flatPriceType, '774E5A1D-D15C-4A37-9990-81861BEAE42B', NULL, 'GBP', @now, 1001.010),
+                 ('100001-001', @onDemandProvisioningType, @flatPriceType, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', NULL, 'GBP', @now, 3.142),
+                 ('100002-001', @declarativeProvisioningType, @flatPriceType, 'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', @monthTimeUnit, 'GBP', @now, 4.85),
+                 ('100002-001', @declarativeProvisioningType, @tieredPriceType, 'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', @monthTimeUnit, 'GBP', @now, NULL),
+                 ('100003-001', @declarativeProvisioningType, @flatPriceType, 'D43C661A-0587-45E1-B315-5E5091D6E9D0', @monthTimeUnit, 'GBP', @now, 19.987),
+                 ('100004-001', @declarativeProvisioningType, @flatPriceType, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', @monthTimeUnit, 'GBP', @now, 10101.65),
+                 ('100005-001', @onDemandProvisioningType, @flatPriceType, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', NULL, 'GBP', @now, 456),
+                 ('100006-001', @declarativeProvisioningType, @flatPriceType, '90119522-D381-4296-82EE-8FE630593B56', @monthTimeUnit, 'GBP', @now, 7),
+                 ('100007-001', @onDemandProvisioningType, @flatPriceType, '90119522-D381-4296-82EE-8FE630593B56', NULL, 'GBP', @now, 0.15),
+                 ('100007-002', @onDemandProvisioningType, @tieredPriceType, '90119522-D381-4296-82EE-8FE630593B56', NULL, 'GBP', @now, NULL),
+                 ('99998-98', @patientProvisioningType, @flatPriceType, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', @yearTimeUnit, 'GBP', @now, 30000),
+                 ('99998-98', @patientProvisioningType, @tieredPriceType, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', @yearTimeUnit, 'GBP', @now, NULL),
+                 ('99999-01', @patientProvisioningType, @flatPriceType, 'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', @monthTimeUnit, 'GBP', @now, 1.25),
+                 ('99999-02', @patientProvisioningType, @flatPriceType, 'F8D06518-1A20-4FBA-B369-AB583F9FA8C0', @monthTimeUnit, 'GBP', @now, 1.55),
+                 ('99999-89', @patientProvisioningType, @flatPriceType, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', @yearTimeUnit, 'GBP', @now, 500.49),
+                 ('99999-89', @patientProvisioningType, @tieredPriceType, '8BF9C2F9-2FD7-4A29-8406-3C6B7B2E5D65', @yearTimeUnit, 'GBP', @now, NULL);
 
-          DECLARE @priceId1000072 AS int = (SELECT CataloguePriceId from dbo.CataloguePrice WHERE CatalogueItemId = '100007-002');
+          -- Tiered price IDs
+          DECLARE @priceId1000001 AS int = (SELECT CataloguePriceId from dbo.CataloguePrice WHERE CatalogueItemId = '100000-001' AND CataloguePriceTypeId = @tieredPriceType);
+          DECLARE @priceId1000021 AS int = (SELECT CataloguePriceId from dbo.CataloguePrice WHERE CatalogueItemId = '100002-001' AND CataloguePriceTypeId = @tieredPriceType);
+          DECLARE @priceId1000072 AS int = (SELECT CataloguePriceId from dbo.CataloguePrice WHERE CatalogueItemId = '100007-002' AND CataloguePriceTypeId = @tieredPriceType);
+          DECLARE @priceId9999898 AS int = (SELECT CataloguePriceId from dbo.CataloguePrice WHERE CatalogueItemId = '99998-98' AND CataloguePriceTypeId = @tieredPriceType);
+          DECLARE @priceId9999989 AS int = (SELECT CataloguePriceId from dbo.CataloguePrice WHERE CatalogueItemId = '99999-89' AND CataloguePriceTypeId = @tieredPriceType);
 
           INSERT INTO dbo.CataloguePriceTier(CataloguePriceId, BandStart, BandEnd, Price)
-               VALUES (2, 1, 999, 123.45),
-                      (2, 1000, 1999, 49.99),
-                      (2, 2000, NULL, 19.99),
-                      (10, 1, 10, 200),
-                      (10, 11, 99, 150.15),
-                      (10, 100, NULL, 99.99),
-                      (11, 1, 10000, 500),
-                      (11, 10001, NULL, 499.99),
-                      (12, 1, 8, 42.42),
-                      (12, 9, 33,33.33),
-                      (12, 34, 1004, 50),
-                      (12, 1005, NULL, 0.02),
+               VALUES (@priceId1000001, 1, 999, 123.45),
+                      (@priceId1000001, 1000, 1999, 49.99),
+                      (@priceId1000001, 2000, NULL, 19.99),
+                      (@priceId1000021, 1, 10, 200),
+                      (@priceId1000021, 11, 99, 150.15),
+                      (@priceId1000021, 100, NULL, 99.99),
+                      (@priceId9999898, 1, 10000, 500),
+                      (@priceId9999898, 10001, NULL, 499.99),
+                      (@priceId9999989, 1, 8, 42.42),
+                      (@priceId9999989, 9, 33,33.33),
+                      (@priceId9999989, 34, 1004, 50),
+                      (@priceId9999989, 1005, NULL, 0.02),
                       (@priceId1000072, 1, 10, 20),
                       (@priceId1000072, 11, 99, 30.15),
                       (@priceId1000072, 100, NULL, 40.99);
