@@ -182,6 +182,13 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Common
             content.Value<string>(token).Should().Be(requirement);
         }
 
+        [Then(@"the boolean value of element (.*) is (.*)")]
+        public async Task ThenTheBooleanIs(string token, bool requirement)
+        {
+            var content = await response.ReadBody();
+            content.Value<bool>(token).Should().Be(requirement);
+        }
+
         [Then(@"the (.*) string does not exist")]
         public async Task ThenTheBrowserHardwareRequirementsValueIsNull(string token)
         {

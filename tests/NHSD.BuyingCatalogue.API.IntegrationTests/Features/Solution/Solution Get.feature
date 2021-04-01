@@ -17,6 +17,7 @@ Background:
     And framework solutions exist
         | SolutionId | IsFoundation | FrameworkId |
         | Sln1       | true         | NHSDGP001   |
+        | Sln1       | false        | DFOCVC001   |
         | Sln2       | false        | DFOCVC001   |
 
 @7261
@@ -25,6 +26,18 @@ Scenario: Get a single solution
     Then a successful response is returned
     And the string value of element name is MedicOnline
     And the string value of element summary is A full online medicine system
+    
+@7261
+Scenario: Get a solution present in multiple framework
+    When a GET request is made to retrieve a solution by ID 'Sln1'
+    Then a successful response is returned
+    And the boolean value of element isFoundation is true
+        
+@7261
+Scenario: Get a solution present in one framework
+    When a GET request is made to retrieve a solution by ID 'Sln2'
+    Then a successful response is returned
+    And the boolean value of element isFoundation is false
 
 @7261
 Scenario: Get a single solution with only a name
