@@ -29,7 +29,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                             s.ClientApplication,
                             s.Hosting,
                             s.LastUpdated AS SolutionDetailLastUpdated,
-                            f.IsFoundation
+                            (SELECT MAX(CONVERT(int,IsFoundation)) FROM dbo.FrameworkSolutions WHERE SolutionId = @id GROUP BY SolutionId) AS IsFoundation
               FROM dbo.Solution AS s
                    INNER JOIN dbo.CatalogueItem AS ci
                            ON s.Id = ci.CatalogueItemId
