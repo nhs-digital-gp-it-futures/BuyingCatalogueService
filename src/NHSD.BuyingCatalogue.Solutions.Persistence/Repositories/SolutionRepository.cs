@@ -29,12 +29,10 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.Repositories
                             s.ClientApplication,
                             s.Hosting,
                             s.LastUpdated AS SolutionDetailLastUpdated,
-                            f.IsFoundation
+                            (SELECT MAX(CAST(f.IsFoundation AS int)) FROM dbo.FrameworkSolutions AS f WHERE f.SolutionId = @id GROUP BY f.SolutionId) AS IsFoundation
               FROM dbo.Solution AS s
                    INNER JOIN dbo.CatalogueItem AS ci
                            ON s.Id = ci.CatalogueItemId
-                   INNER JOIN dbo.FrameworkSolutions AS f
-                           ON s.Id = f.SolutionId
              WHERE s.Id = @id;";
 
         private const string DoesSolutionExist = @"

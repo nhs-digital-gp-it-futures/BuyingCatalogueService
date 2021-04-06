@@ -50,6 +50,7 @@ namespace NHSD.BuyingCatalogue.Solutions.API.UnitTests
             {
                 Name = solution.Name,
                 Summary = solution.Summary,
+                IsFoundation = solution.IsFoundation,
             });
 
             result.Should().BeEquivalentTo(expected);

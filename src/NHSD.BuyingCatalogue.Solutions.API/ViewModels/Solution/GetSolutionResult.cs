@@ -8,10 +8,13 @@ namespace NHSD.BuyingCatalogue.Solutions.API.ViewModels.Solution
         {
             Name = result?.Name;
             Summary = result?.Summary;
+            IsFoundation = result?.IsFoundation;
         }
 
         public string Name { get; set; }
 
         public string Summary { get; set; }
+
+        public bool? IsFoundation { get; set; }
     }
 }
