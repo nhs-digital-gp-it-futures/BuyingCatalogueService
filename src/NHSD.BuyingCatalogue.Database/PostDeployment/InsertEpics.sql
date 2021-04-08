@@ -572,11 +572,16 @@ VALUES
 ('C47E8', 'View information from the GP Patient Record using GP Connect Access Record HTML', @capabilityId, 3, 1),
 ('C47E9', 'View information from the GP Patient Record held by the same Solution', @capabilityId, 3, 1),
 ('C47E10', 'View Summary Care Record (SCR) for a Patient', @capabilityId, 3, 1),
-('C47E11', 'Scanning of a GS1 barcode when recording vaccination data', @capabilityId, 1, 1),
+('C47E11', 'Scanning of a GS1 barcode when recording vaccination data', @capabilityId, 3, 1),
 ('C47E12', 'Record structured COVID-19 vaccination data at the point of care directly into GP Patient Record', @capabilityId, 3, 1),
 ('C47E13', 'Record structured COVID-19 adverse reaction data at the point of care directly into GP Patient Record', @capabilityId, 3, 1),
 ('C47E14', 'Verify Patient information using Personal Demographics Service (PDS)', @capabilityId, 1, 1),
-('C47E15', 'Latest COVID-19 Clinical Screening Questions at the point of care for Patients registered at different GP Practices', @capabilityId, 1, 1);
+('C47E15', 'Latest COVID-19 Clinical Screening Questions at the point of care for Patients registered at different GP Practices', @capabilityId, 1, 1),
+('C47E16', 'Record structured COVID-19 vaccination data at the point of care for Patients using pre-configured vaccine batches', @capabilityId, 1, 1),
+('C47E17', 'View vaccination information for a Patient held by the National Immunisation Management Service (NIMS) at point of care', @capabilityId, 1, 1),
+('C47E18', 'Update previously recorded structured COVID-19 vaccination and adverse reaction data for Patients', @capabilityId, 1, 1),
+('C47E19', 'Extract COVID-19 Extended Attributes data for NHS Digital Extended Attributes Extract', @capabilityId, 1, 1),
+('C47E20', 'View reports on COVID-19 vaccination data', @capabilityId, 1, 1);
 
 SET @capabilityId = (SELECT Id FROM Capability WHERE CapabilityRef = 'C43');
 
