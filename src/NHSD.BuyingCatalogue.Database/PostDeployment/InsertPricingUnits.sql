@@ -3,7 +3,7 @@
     PricingUnitId uniqueidentifier NOT NULL,
     [Name] nvarchar(20) NOT NULL,
     TierName nvarchar(30) NOT NULL,
-    [Description] nvarchar(100) NOT NULL
+    [Description] nvarchar(40) NOT NULL
 );
 
 INSERT INTO #PricingUnit(PricingUnitId, [Name], TierName, [Description])
