@@ -102,7 +102,10 @@ VALUES
     ('088655c4-83cb-40b6-a996-1f3eb9056fcd', 'call_1min'           , 'calls'                        , 'per 1 minute/part of a 1 min of call'),
     ('4c791800-02a4-4e34-a6a5-575c08f37ad2', 'trainingSession_90'  , 'training sessions'            , 'per 90 min online training session'),
     ('d88a3485-e2bc-4dc5-bb75-1ffb6df8a31d', 'smsSent'             , 'sms'                          , 'per SMS sent'),
-    ('4a202b19-2cd0-4650-b4f7-b89e00762168', 'smsText'             , 'sms'                          , 'per SMS text');
+    ('4a202b19-2cd0-4650-b4f7-b89e00762168', 'smsText'             , 'sms'                          , 'per SMS text'),
+    ('ccd04c97-e688-4a3b-804b-1a1dbbb4f343', 'practiceSite'        , 'practices/sites'              , 'per practice/site'),
+    ('caaa4d47-58fe-4a82-8cfd-fa90a5f7dc30', 'patients_50–150k'    , 'patients'                     , 'per patient for 50,000–149,999 patients'),
+    ('03259d19-4ccf-4bfe-8c90-884d32f351bb', 'patients_150–500k'   , 'patients'                     , 'per patient for 150,000–499,999 patients');
 
 MERGE INTO dbo.PricingUnit AS TARGET
 USING #PricingUnit AS SOURCE
