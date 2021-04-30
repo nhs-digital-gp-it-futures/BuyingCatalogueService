@@ -26,6 +26,7 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
                 .WithVersion(capabilityTable.Version)
                 .WithDescription(capabilityTable.Description)
                 .WithSourceUrl(capabilityTable.SourceUrl)
+                .WithCategoryId(capabilityTable.CategoryId)
                 .Build();
             await capability.InsertAsync();
 
@@ -46,6 +47,8 @@ namespace NHSD.BuyingCatalogue.API.IntegrationTests.Steps.Entities
             public bool IsFoundation { get; init; }
 
             public string Version { get; init; } = "1.0";
+
+            public int CategoryId { get; set; }
 
             public string Description { get; init; } = "Capability Description";
 
