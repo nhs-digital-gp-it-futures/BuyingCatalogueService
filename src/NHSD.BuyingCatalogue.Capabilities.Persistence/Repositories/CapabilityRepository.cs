@@ -20,6 +20,7 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.Repositories
               FROM dbo.Capability AS c
               LEFT OUTER JOIN dbo.FrameworkCapabilities AS f
                    ON c.Id = f.CapabilityId
+              WHERE c.CategoryId = 1
           ORDER BY UPPER(c.[Name]);";
 
         private readonly IDbConnector dbConnector;

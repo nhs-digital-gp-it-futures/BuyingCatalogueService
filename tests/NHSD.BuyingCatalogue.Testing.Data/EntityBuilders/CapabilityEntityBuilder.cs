@@ -63,6 +63,12 @@ namespace NHSD.BuyingCatalogue.Testing.Data.EntityBuilders
             return this;
         }
 
+        public CapabilityEntityBuilder WithCategoryId(int categoryId)
+        {
+            capabilityEntity.CategoryId = categoryId;
+            return this;
+        }
+
         public CapabilityEntity Build()
         {
             return capabilityEntity;

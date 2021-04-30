@@ -34,17 +34,26 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
         }
 
         [Test]
-        public async Task ShouldReadCapabilitiesNoFrameworks()
+        public async Task ShouldReadGPITFuturesCapabilitiesNoFrameworks()
         {
             var capabilityEntities = new List<CapabilityEntity>
             {
-                CapabilityEntityBuilder.Create().WithName("Cap1").Build(),
-                CapabilityEntityBuilder.Create().WithName("Cap2").Build(),
+                CapabilityEntityBuilder.Create().WithName("Cap1").WithCategoryId(1).Build(),
+                CapabilityEntityBuilder.Create().WithName("Cap2").WithCategoryId(1).Build(),
             };
 
             foreach (var capabilityEntity in capabilityEntities)
             {
                 await capabilityEntity.InsertAsync();
+            }
+
+            foreach (var entity in new List<CapabilityEntity>()
+            {
+                CapabilityEntityBuilder.Create().WithName("Cap3").WithCategoryId(2).Build(),
+                CapabilityEntityBuilder.Create().WithName("Cap4").WithCategoryId(3).Build(),
+            })
+            {
+                await entity.InsertAsync();
             }
 
             var capabilities = await capabilityRepository.ListAsync(CancellationToken.None);
@@ -63,9 +72,9 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
         {
             var capabilityEntities = new List<CapabilityEntity>
             {
-                CapabilityEntityBuilder.Create().WithName("Cap1").Build(),
-                CapabilityEntityBuilder.Create().WithName("Cap2").Build(),
-                CapabilityEntityBuilder.Create().WithName("Cap3").Build(),
+                CapabilityEntityBuilder.Create().WithName("Cap1").WithCategoryId(1).Build(),
+                CapabilityEntityBuilder.Create().WithName("Cap2").WithCategoryId(1).Build(),
+                CapabilityEntityBuilder.Create().WithName("Cap3").WithCategoryId(1).Build(),
             };
 
             foreach (var capabilityEntity in capabilityEntities)
@@ -97,19 +106,29 @@ namespace NHSD.BuyingCatalogue.Capabilities.Persistence.DatabaseTests
         }
 
         [Test]
-        public async Task ShouldReadCapabilitiesWithFrameworksCorrectlyOrderedByName()
+        public async Task ShouldReadGPITFuturesCapabilitiesWithFrameworksCorrectlyOrderedByName()
         {
             var capabilityEntities = new List<CapabilityEntity>
             {
-                CapabilityEntityBuilder.Create().WithName("Bravo").Build(),
-                CapabilityEntityBuilder.Create().WithName("Alpha").Build(),
-                CapabilityEntityBuilder.Create().WithName("Delta").Build(),
-                CapabilityEntityBuilder.Create().WithName("Charlie").Build(),
+                CapabilityEntityBuilder.Create().WithName("Bravo").WithCategoryId(1).Build(),
+                CapabilityEntityBuilder.Create().WithName("Alpha").WithCategoryId(1).Build(),
+                CapabilityEntityBuilder.Create().WithName("Delta").WithCategoryId(1).Build(),
+                CapabilityEntityBuilder.Create().WithName("Charlie").WithCategoryId(1).Build(),
             };
 
             foreach (var capabilityEntity in capabilityEntities)
             {
                 await capabilityEntity.InsertAsync();
+            }
+
+            foreach (var entity in new List<CapabilityEntity>
+            {
+                CapabilityEntityBuilder.Create().WithName("Echo").WithCategoryId(3).Build(),
+                CapabilityEntityBuilder.Create().WithName("FoxTrot").WithCategoryId(0).Build(),
+                CapabilityEntityBuilder.Create().WithName("Golf").WithCategoryId(2).Build(),
+            })
+            {
+                await entity.InsertAsync();
             }
 
             await FrameworkCapabilitiesEntityBuilder.Create()
