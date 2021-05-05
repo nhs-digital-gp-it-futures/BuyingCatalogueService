@@ -105,7 +105,13 @@ VALUES
     ('4a202b19-2cd0-4650-b4f7-b89e00762168', 'smsText'             , 'sms'                          , 'per SMS text'),
     ('ccd04c97-e688-4a3b-804b-1a1dbbb4f343', 'practiceSite'        , 'practices/sites'              , 'per practice/site'),
     ('caaa4d47-58fe-4a82-8cfd-fa90a5f7dc30', 'patients_50–150k'    , 'patients'                     , 'per patient for 50,000–149,999 patients'),
-    ('03259d19-4ccf-4bfe-8c90-884d32f351bb', 'patients_150–500k'   , 'patients'                     , 'per patient for 150,000–499,999 patients');
+    ('03259d19-4ccf-4bfe-8c90-884d32f351bb', 'patients_150–500k'   , 'patients'                     , 'per patient for 150,000–499,999 patients'),
+    ('53ed1ded-6a01-4e84-a02a-d90608948082', 'patients_1–90k'      , 'patients'                     , 'per patient for 1–89,999 patients'),
+    ('bbb6622c-fd88-459f-9015-34c8bbca76ba', 'patients_90–900k'    , 'patients'                     , 'per patient 90,000–899,999 patients'),
+    ('0d592388-3d61-4f9d-9e11-6b0f5858acc0', 'patients_899k'       , 'patients'                     , 'per patient 899,000 patients and above'),
+    ('2891ed7e-64bb-4ed6-8108-95c1fad9e2ee', 'patientUser'         , 'patient users'                , 'per patient user'),
+    ('a10ae1df-b8a1-4f8d-aeb2-cd636e24d966', 'minuteUser'          , 'minutes/users'                , 'per minute per end user'),
+    ('8175143c-3350-4186-954c-d98172a7dfb0', 'gigabyte'            , 'gigabytes'                    , 'per gigabyte');
 
 MERGE INTO dbo.PricingUnit AS TARGET
 USING #PricingUnit AS SOURCE
