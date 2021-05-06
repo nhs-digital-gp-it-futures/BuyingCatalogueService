@@ -7,13 +7,13 @@
   DTS:CreatorName=""
   DTS:DTSID="{41CBBF9B-528A-4586-9D42-96AB51BD09B0}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="15.0.2000.152"
+  DTS:LastModifiedProductVersion="15.0.2000.166"
   DTS:LocaleID="2057"
   DTS:MaxErrorCount="0"
   DTS:ObjectName="PublishAll"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="75"
-  DTS:VersionGUID="{AADCAF00-2A15-4F14-AB9F-4E4312FEB9DA}">
+  DTS:VersionBuild="81"
+  DTS:VersionGUID="{22C6AF8E-DFCE-479C-B5C3-3CCBF2BF3352}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables />
@@ -32,7 +32,7 @@
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{BE465BA3-7D38-4E77-96CB-0F8CB74E98F4}"
-          SQLTask:SqlStatementSource="DELETE FROM dbo.CatalogueItem;&#xA;DELETE FROM dbo.PricingUnit;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="DELETE FROM dbo.CatalogueItem;&#xA;DELETE FROM dbo.PricingUnit;&#xA;DELETE FROM dbo.Supplier;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -2813,7 +2813,7 @@
                       cachedDataType="numeric"
                       cachedName="Price"
                       cachedPrecision="18"
-                      cachedScale="3"
+                      cachedScale="4"
                       externalMetadataColumnId="Package\Synchronize Pricing\Destination - CataloguePrice.Inputs[OLE DB Destination Input].ExternalColumns[Price]"
                       lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[Price]" />
                   </inputColumns>
@@ -2859,7 +2859,7 @@
                       dataType="numeric"
                       name="Price"
                       precision="18"
-                      scale="3" />
+                      scale="4" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -3033,7 +3033,7 @@
                       lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Output].Columns[Price]"
                       name="Price"
                       precision="18"
-                      scale="3"
+                      scale="4"
                       truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
@@ -3078,7 +3078,7 @@
                       dataType="numeric"
                       name="Price"
                       precision="18"
-                      scale="3" />
+                      scale="4" />
                   </externalMetadataColumns>
                 </output>
                 <output
@@ -3135,7 +3135,7 @@
                       lineageId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[Price]"
                       name="Price"
                       precision="18"
-                      scale="3" />
+                      scale="4" />
                     <outputColumn
                       refId="Package\Synchronize Pricing\Source - CataloguePrice.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
@@ -4916,16 +4916,1050 @@
         </pipeline>
       </DTS:ObjectData>
     </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Synchronize Supplier Contacts"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{fd4854b5-b7fe-4de7-bf27-55d880d347b0}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Synchronize Supplier Contacts"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Destination – Supplier Contacts"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[SupplierContact]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Connections[OleDbConnection]"
+                  connectionManagerID="{BE465BA3-7D38-4E77-96CB-0F8CB74E98F4}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[OleDbConnection_Destination_BuyingCatalogue]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input].Columns[Id]"
+                      cachedDataType="guid"
+                      cachedName="Id"
+                      externalMetadataColumnId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input].ExternalColumns[Id]"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].Columns[Id]" />
+                    <inputColumn
+                      refId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input].Columns[SupplierId]"
+                      cachedDataType="wstr"
+                      cachedLength="6"
+                      cachedName="SupplierId"
+                      externalMetadataColumnId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input].ExternalColumns[SupplierId]"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].Columns[SupplierId]" />
+                    <inputColumn
+                      refId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input].Columns[FirstName]"
+                      cachedDataType="wstr"
+                      cachedLength="35"
+                      cachedName="FirstName"
+                      externalMetadataColumnId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input].ExternalColumns[FirstName]"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].Columns[FirstName]" />
+                    <inputColumn
+                      refId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input].Columns[LastName]"
+                      cachedDataType="wstr"
+                      cachedLength="35"
+                      cachedName="LastName"
+                      externalMetadataColumnId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input].ExternalColumns[LastName]"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].Columns[LastName]" />
+                    <inputColumn
+                      refId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input].Columns[Email]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Email"
+                      externalMetadataColumnId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input].ExternalColumns[Email]"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].Columns[Email]" />
+                    <inputColumn
+                      refId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input].Columns[PhoneNumber]"
+                      cachedDataType="wstr"
+                      cachedLength="35"
+                      cachedName="PhoneNumber"
+                      externalMetadataColumnId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input].ExternalColumns[PhoneNumber]"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].Columns[PhoneNumber]" />
+                    <inputColumn
+                      refId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input].Columns[LastUpdated]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="LastUpdated"
+                      cachedScale="7"
+                      externalMetadataColumnId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input].ExternalColumns[LastUpdated]"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].Columns[LastUpdated]" />
+                    <inputColumn
+                      refId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input].Columns[LastUpdatedBy]"
+                      cachedDataType="guid"
+                      cachedName="LastUpdatedBy"
+                      externalMetadataColumnId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input].ExternalColumns[LastUpdatedBy]"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].Columns[LastUpdatedBy]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input].ExternalColumns[Id]"
+                      dataType="guid"
+                      name="Id" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input].ExternalColumns[SupplierId]"
+                      dataType="wstr"
+                      length="6"
+                      name="SupplierId" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input].ExternalColumns[FirstName]"
+                      dataType="wstr"
+                      length="35"
+                      name="FirstName" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input].ExternalColumns[LastName]"
+                      dataType="wstr"
+                      length="35"
+                      name="LastName" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input].ExternalColumns[Email]"
+                      dataType="wstr"
+                      length="255"
+                      name="Email" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input].ExternalColumns[PhoneNumber]"
+                      dataType="wstr"
+                      length="35"
+                      name="PhoneNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input].ExternalColumns[LastUpdated]"
+                      dataType="dbTimeStamp2"
+                      name="LastUpdated"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input].ExternalColumns[LastUpdatedBy]"
+                      dataType="guid"
+                      name="LastUpdatedBy" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Source – Supplier Contacts"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[SupplierContact]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Connections[OleDbConnection]"
+                  connectionManagerID="{15801389-7BF2-4283-8BAB-06CFF3322C46}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[OleDbConnection_Source_BuyingCatalogue]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].Columns[Id]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].ExternalColumns[Id]"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].Columns[Id]"
+                      name="Id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].Columns[SupplierId]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].ExternalColumns[SupplierId]"
+                      length="6"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].Columns[SupplierId]"
+                      name="SupplierId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].Columns[FirstName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].ExternalColumns[FirstName]"
+                      length="35"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].Columns[FirstName]"
+                      name="FirstName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].Columns[LastName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].ExternalColumns[LastName]"
+                      length="35"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].Columns[LastName]"
+                      name="LastName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].Columns[Email]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].ExternalColumns[Email]"
+                      length="255"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].Columns[Email]"
+                      name="Email"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].Columns[PhoneNumber]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].ExternalColumns[PhoneNumber]"
+                      length="35"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].Columns[PhoneNumber]"
+                      name="PhoneNumber"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].Columns[LastUpdated]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].ExternalColumns[LastUpdated]"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].Columns[LastUpdated]"
+                      name="LastUpdated"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].Columns[LastUpdatedBy]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].ExternalColumns[LastUpdatedBy]"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].Columns[LastUpdatedBy]"
+                      name="LastUpdatedBy"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].ExternalColumns[Id]"
+                      dataType="guid"
+                      name="Id" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].ExternalColumns[SupplierId]"
+                      dataType="wstr"
+                      length="6"
+                      name="SupplierId" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].ExternalColumns[FirstName]"
+                      dataType="wstr"
+                      length="35"
+                      name="FirstName" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].ExternalColumns[LastName]"
+                      dataType="wstr"
+                      length="35"
+                      name="LastName" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].ExternalColumns[Email]"
+                      dataType="wstr"
+                      length="255"
+                      name="Email" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].ExternalColumns[PhoneNumber]"
+                      dataType="wstr"
+                      length="35"
+                      name="PhoneNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].ExternalColumns[LastUpdated]"
+                      dataType="dbTimeStamp2"
+                      name="LastUpdated"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output].ExternalColumns[LastUpdatedBy]"
+                      dataType="guid"
+                      name="LastUpdatedBy" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Error Output].Columns[Id]"
+                      dataType="guid"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Error Output].Columns[Id]"
+                      name="Id" />
+                    <outputColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Error Output].Columns[SupplierId]"
+                      dataType="wstr"
+                      length="6"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Error Output].Columns[SupplierId]"
+                      name="SupplierId" />
+                    <outputColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Error Output].Columns[FirstName]"
+                      dataType="wstr"
+                      length="35"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Error Output].Columns[FirstName]"
+                      name="FirstName" />
+                    <outputColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Error Output].Columns[LastName]"
+                      dataType="wstr"
+                      length="35"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Error Output].Columns[LastName]"
+                      name="LastName" />
+                    <outputColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Error Output].Columns[Email]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Error Output].Columns[Email]"
+                      name="Email" />
+                    <outputColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Error Output].Columns[PhoneNumber]"
+                      dataType="wstr"
+                      length="35"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Error Output].Columns[PhoneNumber]"
+                      name="PhoneNumber" />
+                    <outputColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Error Output].Columns[LastUpdated]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Error Output].Columns[LastUpdated]"
+                      name="LastUpdated"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Error Output].Columns[LastUpdatedBy]"
+                      dataType="guid"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Error Output].Columns[LastUpdatedBy]"
+                      name="LastUpdatedBy" />
+                    <outputColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Synchronize Supplier Contacts.Paths[OLE DB Source Output]"
+              endId="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Synchronize Supplier Contacts\Source – Supplier Contacts.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Synchronize Suppliers"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{D5BD4655-DF77-4160-9962-C1076AC19B89}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Synchronize Suppliers"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Synchronize Suppliers\Destination – Suppliers"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Destination – Suppliers"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Supplier]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Synchronize Suppliers\Destination – Suppliers.Connections[OleDbConnection]"
+                  connectionManagerID="{BE465BA3-7D38-4E77-96CB-0F8CB74E98F4}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[OleDbConnection_Destination_BuyingCatalogue]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].Columns[Id]"
+                      cachedDataType="wstr"
+                      cachedLength="6"
+                      cachedName="Id"
+                      externalMetadataColumnId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].ExternalColumns[Id]"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[Id]" />
+                    <inputColumn
+                      refId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].Columns[Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Name"
+                      externalMetadataColumnId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[Name]" />
+                    <inputColumn
+                      refId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].Columns[LegalName]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="LegalName"
+                      externalMetadataColumnId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].ExternalColumns[LegalName]"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[LegalName]" />
+                    <inputColumn
+                      refId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].Columns[Summary]"
+                      cachedDataType="wstr"
+                      cachedLength="1100"
+                      cachedName="Summary"
+                      externalMetadataColumnId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].ExternalColumns[Summary]"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[Summary]" />
+                    <inputColumn
+                      refId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].Columns[SupplierUrl]"
+                      cachedDataType="wstr"
+                      cachedLength="1000"
+                      cachedName="SupplierUrl"
+                      externalMetadataColumnId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].ExternalColumns[SupplierUrl]"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[SupplierUrl]" />
+                    <inputColumn
+                      refId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].Columns[Address]"
+                      cachedDataType="wstr"
+                      cachedLength="500"
+                      cachedName="Address"
+                      externalMetadataColumnId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].ExternalColumns[Address]"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[Address]" />
+                    <inputColumn
+                      refId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].Columns[OdsCode]"
+                      cachedDataType="wstr"
+                      cachedLength="8"
+                      cachedName="OdsCode"
+                      externalMetadataColumnId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].ExternalColumns[OdsCode]"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[OdsCode]" />
+                    <inputColumn
+                      refId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].Columns[CrmRef]"
+                      cachedDataType="guid"
+                      cachedName="CrmRef"
+                      externalMetadataColumnId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].ExternalColumns[CrmRef]"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[CrmRef]" />
+                    <inputColumn
+                      refId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].Columns[Deleted]"
+                      cachedDataType="bool"
+                      cachedName="Deleted"
+                      externalMetadataColumnId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].ExternalColumns[Deleted]"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[Deleted]" />
+                    <inputColumn
+                      refId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].Columns[LastUpdated]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="LastUpdated"
+                      cachedScale="7"
+                      externalMetadataColumnId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].ExternalColumns[LastUpdated]"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[LastUpdated]" />
+                    <inputColumn
+                      refId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].Columns[LastUpdatedBy]"
+                      cachedDataType="guid"
+                      cachedName="LastUpdatedBy"
+                      externalMetadataColumnId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].ExternalColumns[LastUpdatedBy]"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[LastUpdatedBy]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].ExternalColumns[Id]"
+                      dataType="wstr"
+                      length="6"
+                      name="Id" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].ExternalColumns[LegalName]"
+                      dataType="wstr"
+                      length="255"
+                      name="LegalName" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].ExternalColumns[Summary]"
+                      dataType="wstr"
+                      length="1100"
+                      name="Summary" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].ExternalColumns[SupplierUrl]"
+                      dataType="wstr"
+                      length="1000"
+                      name="SupplierUrl" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].ExternalColumns[Address]"
+                      dataType="wstr"
+                      length="500"
+                      name="Address" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].ExternalColumns[OdsCode]"
+                      dataType="wstr"
+                      length="8"
+                      name="OdsCode" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].ExternalColumns[CrmRef]"
+                      dataType="guid"
+                      name="CrmRef" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].ExternalColumns[Deleted]"
+                      dataType="bool"
+                      name="Deleted" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].ExternalColumns[LastUpdated]"
+                      dataType="dbTimeStamp2"
+                      name="LastUpdated"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input].ExternalColumns[LastUpdatedBy]"
+                      dataType="guid"
+                      name="LastUpdatedBy" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Synchronize Suppliers\Destination – Suppliers.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Destination – Suppliers.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Suppliers\Destination – Suppliers.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Destination – Suppliers.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Suppliers\Destination – Suppliers.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Synchronize Suppliers\Source – Suppliers"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Source – Suppliers"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Supplier]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Synchronize Suppliers\Source – Suppliers.Connections[OleDbConnection]"
+                  connectionManagerID="{15801389-7BF2-4283-8BAB-06CFF3322C46}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[OleDbConnection_Source_BuyingCatalogue]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[Id]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].ExternalColumns[Id]"
+                      length="6"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[Id]"
+                      name="Id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      length="255"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[Name]"
+                      name="Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[LegalName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].ExternalColumns[LegalName]"
+                      length="255"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[LegalName]"
+                      name="LegalName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[Summary]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].ExternalColumns[Summary]"
+                      length="1100"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[Summary]"
+                      name="Summary"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[SupplierUrl]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].ExternalColumns[SupplierUrl]"
+                      length="1000"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[SupplierUrl]"
+                      name="SupplierUrl"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[Address]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].ExternalColumns[Address]"
+                      length="500"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[Address]"
+                      name="Address"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[OdsCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].ExternalColumns[OdsCode]"
+                      length="8"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[OdsCode]"
+                      name="OdsCode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[CrmRef]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].ExternalColumns[CrmRef]"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[CrmRef]"
+                      name="CrmRef"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[Deleted]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].ExternalColumns[Deleted]"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[Deleted]"
+                      name="Deleted"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[LastUpdated]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].ExternalColumns[LastUpdated]"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[LastUpdated]"
+                      name="LastUpdated"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[LastUpdatedBy]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].ExternalColumns[LastUpdatedBy]"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].Columns[LastUpdatedBy]"
+                      name="LastUpdatedBy"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].ExternalColumns[Id]"
+                      dataType="wstr"
+                      length="6"
+                      name="Id" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].ExternalColumns[LegalName]"
+                      dataType="wstr"
+                      length="255"
+                      name="LegalName" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].ExternalColumns[Summary]"
+                      dataType="wstr"
+                      length="1100"
+                      name="Summary" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].ExternalColumns[SupplierUrl]"
+                      dataType="wstr"
+                      length="1000"
+                      name="SupplierUrl" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].ExternalColumns[Address]"
+                      dataType="wstr"
+                      length="500"
+                      name="Address" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].ExternalColumns[OdsCode]"
+                      dataType="wstr"
+                      length="8"
+                      name="OdsCode" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].ExternalColumns[CrmRef]"
+                      dataType="guid"
+                      name="CrmRef" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].ExternalColumns[Deleted]"
+                      dataType="bool"
+                      name="Deleted" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].ExternalColumns[LastUpdated]"
+                      dataType="dbTimeStamp2"
+                      name="LastUpdated"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output].ExternalColumns[LastUpdatedBy]"
+                      dataType="guid"
+                      name="LastUpdatedBy" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[Id]"
+                      dataType="wstr"
+                      length="6"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[Id]"
+                      name="Id" />
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      name="Name" />
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[LegalName]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[LegalName]"
+                      name="LegalName" />
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[Summary]"
+                      dataType="wstr"
+                      length="1100"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[Summary]"
+                      name="Summary" />
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[SupplierUrl]"
+                      dataType="wstr"
+                      length="1000"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[SupplierUrl]"
+                      name="SupplierUrl" />
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[Address]"
+                      dataType="wstr"
+                      length="500"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[Address]"
+                      name="Address" />
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[OdsCode]"
+                      dataType="wstr"
+                      length="8"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[OdsCode]"
+                      name="OdsCode" />
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[CrmRef]"
+                      dataType="guid"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[CrmRef]"
+                      name="CrmRef" />
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[Deleted]"
+                      dataType="bool"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[Deleted]"
+                      name="Deleted" />
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[LastUpdated]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[LastUpdated]"
+                      name="LastUpdated"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[LastUpdatedBy]"
+                      dataType="guid"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[LastUpdatedBy]"
+                      name="LastUpdatedBy" />
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Synchronize Suppliers.Paths[OLE DB Source Output]"
+              endId="Package\Synchronize Suppliers\Destination – Suppliers.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Synchronize Suppliers\Source – Suppliers.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
   </DTS:Executables>
   <DTS:PrecedenceConstraints>
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint]"
       DTS:CreationName=""
-      DTS:DTSID="{0E93160A-DAAB-4398-B25F-55D434E5AB67}"
+      DTS:DTSID="{F347511E-BF43-4FDB-890C-C29D9B63EE73}"
       DTS:From="Package\Delete Existing Data"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint"
-      DTS:To="Package\Synchronize Catalogue Items" />
+      DTS:To="Package\Synchronize Suppliers" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
       DTS:CreationName=""
@@ -4966,6 +6000,22 @@
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 5"
       DTS:To="Package\Synchronize Pricing" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{B1F591E9-FA17-4FE5-BF91-14685FA39871}"
+      DTS:From="Package\Synchronize Suppliers"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\Synchronize Supplier Contacts" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 7]"
+      DTS:CreationName=""
+      DTS:DTSID="{398B84CE-D70F-42B4-94B0-7957D1B55345}"
+      DTS:From="Package\Synchronize Supplier Contacts"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 7"
+      DTS:To="Package\Synchronize Catalogue Items" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -4978,7 +6028,7 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="211,42"
           Id="Package\Delete Existing Data"
@@ -4986,27 +6036,141 @@
         <NodeLayout
           Size="254,42"
           Id="Package\Synchronize Catalogue Item Details"
-          TopLeft="34,311.5" />
+          TopLeft="34.0000000000001,515.5" />
         <NodeLayout
           Size="223,42"
           Id="Package\Synchronize Catalogue Items"
-          TopLeft="49.5,107.5" />
+          TopLeft="49.5000000000001,311.5" />
         <NodeLayout
           Size="176,42"
           Id="Package\Synchronize Pricing"
-          TopLeft="73.0000000000001,515.5" />
+          TopLeft="73.0000000000001,719.5" />
         <NodeLayout
           Size="204,42"
           Id="Package\Synchronize Pricing Tiers"
-          TopLeft="59.0000000000001,617.5" />
+          TopLeft="59.0000000000001,821.5" />
         <NodeLayout
           Size="204,42"
           Id="Package\Synchronize Pricing Units"
-          TopLeft="59.0000000000001,413.5" />
+          TopLeft="59.0000000000001,617.5" />
         <NodeLayout
           Size="311,42"
           Id="Package\Synchronize Solutions and Associated Services"
-          TopLeft="5.50000000000003,209.5" />
+          TopLeft="5.50000000000006,413.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="161,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="161,455.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="161,557.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="161,761.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="161,659.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="188,42"
+          Id="Package\Synchronize Suppliers"
+          TopLeft="67,107.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="161,47.5">
@@ -5029,8 +6193,12 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <NodeLayout
+          Size="229,42"
+          Id="Package\Synchronize Supplier Contacts"
+          TopLeft="46.5,209.5" />
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 1]"
+          Id="Package.PrecedenceConstraints[Constraint 6]"
           TopLeft="161,149.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -5052,74 +6220,8 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 2]"
+          Id="Package.PrecedenceConstraints[Constraint 7]"
           TopLeft="161,251.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="161,353.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 4]"
-          TopLeft="161,557.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 5]"
-          TopLeft="161,455.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -5851,6 +6953,134 @@
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Synchronize Solutions and Associated Services\Destination - Solution">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Synchronize Suppliers">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="169,42"
+          Id="Package\Synchronize Suppliers\Source – Suppliers"
+          TopLeft="15.5,5.5" />
+        <NodeLayout
+          Size="189,42"
+          Id="Package\Synchronize Suppliers\Destination – Suppliers"
+          TopLeft="5.50000000000001,107.5" />
+        <EdgeLayout
+          Id="Package\Synchronize Suppliers.Paths[OLE DB Source Output]"
+          TopLeft="100,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Synchronize Suppliers\Source – Suppliers">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Synchronize Suppliers\Destination – Suppliers">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Synchronize Supplier Contacts">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="210,42"
+          Id="Package\Synchronize Supplier Contacts\Source – Supplier Contacts"
+          TopLeft="15.5,5.5" />
+        <NodeLayout
+          Size="230,42"
+          Id="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts"
+          TopLeft="5.50000000000001,107.5" />
+        <EdgeLayout
+          Id="Package\Synchronize Supplier Contacts.Paths[OLE DB Source Output]"
+          TopLeft="120.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Synchronize Supplier Contacts\Source – Supplier Contacts">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Synchronize Supplier Contacts\Destination – Supplier Contacts">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
