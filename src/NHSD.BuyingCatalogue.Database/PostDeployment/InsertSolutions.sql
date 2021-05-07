@@ -54,7 +54,7 @@ BEGIN
             @emptyGuid);
 
         INSERT INTO dbo.MarketingContact(SolutionId, FirstName, LastName, PhoneNumber, Email, Department, LastUpdated, LastUpdatedBy)
-             VALUES (@solutionId, 'Patsy', 'Delgado', '07451593188', 'Sales@remedical.co.uk', 'Sales', @now, @emptyGuid);
+             VALUES (@solutionId, 'Pat', 'Butcher', '01234 567891', 'sales@test.test', 'Sales', @now, @emptyGuid);
 
         INSERT INTO dbo.SolutionCapability(SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
              SELECT @solutionId, Id, 1, @now, @emptyGuid
@@ -87,7 +87,7 @@ BEGIN
             @emptyGuid);
 
         INSERT INTO dbo.MarketingContact(SolutionId, FirstName, LastName, PhoneNumber, Email, Department, LastUpdated, LastUpdatedBy)
-             VALUES (@solutionId, 'Sam', 'Thomas', '07255920626', 'Sales@CareShare.com', 'Sales', @now, @emptyGuid);
+             VALUES (@solutionId, 'Sam', 'Samosa', '01234 567891', 'sales@test.test', 'Sales', @now, @emptyGuid);
 
         INSERT INTO dbo.SolutionCapability(SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
              SELECT @solutionId, Id, 1, @now, @emptyGuid
@@ -120,7 +120,7 @@ BEGIN
             @emptyGuid);
 
         INSERT INTO dbo.MarketingContact(SolutionId, FirstName, LastName, PhoneNumber, Email, Department, LastUpdated, LastUpdatedBy)
-             VALUES (@solutionId, 'Virginia', 'Wilson', '07810401180', 'Sales@Zen.com', 'Sales', @now, @emptyGuid);
+             VALUES (@solutionId, 'Victoria', 'Sponge', '01234 567891', 'sales@test.test', 'Sales', @now, @emptyGuid);
 
         INSERT INTO dbo.SolutionCapability (SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
              SELECT @solutionId, Id, 1, @now, @emptyGuid
@@ -150,7 +150,7 @@ BEGIN
             @emptyGuid);
 
         INSERT INTO dbo.MarketingContact(SolutionId, FirstName, LastName, PhoneNumber, Email, Department, LastUpdated, LastUpdatedBy)
-             VALUES (@solutionId, 'Richard', 'Perez', '07882055950', 'Sales@CatterpillarMedworks.com', 'Sales', @now, @emptyGuid);
+             VALUES (@solutionId, 'Richard', 'Burton', '01234 567891', 'sales@test.test', 'Sales', @now, @emptyGuid);
 
         INSERT INTO dbo.SolutionCapability(SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
              SELECT @solutionId, Id, 1, @now, @emptyGuid
@@ -180,7 +180,7 @@ BEGIN
             @emptyGuid);
 
         INSERT INTO dbo.MarketingContact(SolutionId, FirstName, LastName, PhoneNumber, Email, Department, LastUpdated, LastUpdatedBy)
-             VALUES (@solutionId, 'Harry', 'nzales', '07219884068', 'Sales@CurtisSystems.com', 'Sales', @now, @emptyGuid);
+             VALUES (@solutionId, 'Harry', 'Houdini', '01234 567891', 'sales@test.test', 'Sales', @now, @emptyGuid);
 
         INSERT INTO dbo.SolutionCapability(SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
              SELECT @solutionId, Id, 1, @now, @emptyGuid
@@ -213,7 +213,7 @@ BEGIN
             @emptyGuid);
 
         INSERT INTO dbo.MarketingContact(SolutionId, FirstName, LastName, PhoneNumber, Email, Department, LastUpdated, LastUpdatedBy)
-             VALUES (@solutionId, 'Michelle', 'Moore', '07849662065', 'Sales@ClinicalRaptor.com', 'Sales', @now, @emptyGuid);
+             VALUES (@solutionId, 'Agent', 'M', '01234 567891', 'm@test.test', 'Sales', @now, @emptyGuid);
 
         INSERT INTO dbo.SolutionCapability(SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
              SELECT @solutionId, Id, 1, @now, @emptyGuid
@@ -243,7 +243,7 @@ BEGIN
             @emptyGuid);
 
         INSERT INTO dbo.MarketingContact(SolutionId, FirstName, LastName, PhoneNumber, Email, Department, LastUpdated, LastUpdatedBy)
-             VALUES ('100006-001', 'Timothy', 'Campbell', '07107924358', 'Sales@DocLightning.com', 'Sales', @now, @emptyGuid);
+             VALUES ('100006-001', 'Timothy', 'Teabag', '01234 567891', 'sales@test.test', 'Sales', @now, @emptyGuid);
 
         INSERT INTO dbo.SolutionCapability(SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
              SELECT '100006-001', Id, 1, @now, @emptyGuid
@@ -273,7 +273,7 @@ BEGIN
             @emptyGuid);
 
         INSERT INTO dbo.MarketingContact(SolutionId, FirstName, LastName, PhoneNumber, Email, Department, LastUpdated, LastUpdatedBy)
-             VALUES (@solutionId, 'Cheryl', 'White', '07295044295', 'Sales@DocabilitySoftware.com', 'Sales', @now, @emptyGuid);
+             VALUES (@solutionId, 'Betty', 'Banjo', '01234 567891', 'sales@test.test', 'Sales', @now, @emptyGuid);
 
         INSERT INTO dbo.SolutionCapability(SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
              SELECT @solutionId, Id, 1, @now, @emptyGuid
@@ -302,7 +302,7 @@ BEGIN
             @emptyGuid);
 
         INSERT INTO dbo.MarketingContact(SolutionId, FirstName, LastName, PhoneNumber, Email, Department, LastUpdated, LastUpdatedBy)
-             VALUES (@solutionId, 'Boston', 'Rob', '07295044295', 'Sales@DocabilitySoftware.com', 'Sales', @now, @emptyGuid);
+             VALUES (@solutionId, 'Boston', 'Rocks', '01234 567891', 'sales@test.test', 'Sales', @now, @emptyGuid);
 
         INSERT INTO dbo.SolutionCapability(SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
              SELECT @solutionId, Id, 1, @now, @emptyGuid
@@ -365,7 +365,7 @@ Using EMIS Web, healthcare professionals can provide the best possible patient c
             @emptyGuid);
 
         INSERT INTO dbo.MarketingContact(SolutionId, FirstName, LastName, Email, PhoneNumber, Department, LastUpdated, LastUpdatedBy)
-             VALUES (@solutionId, 'Eduardo', 'Eggbert', 'info@egton.net', '0845 1245 245 and select Option 1', 'Internal Sales Team', @now, @emptyGuid);
+             VALUES (@solutionId, 'Eduardo', 'Eggbert', 'eddie@eggs.test', '01234 567891', 'Internal Sales Team', @now, @emptyGuid);
 
         INSERT INTO dbo.SolutionCapability (SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
         VALUES
@@ -576,7 +576,7 @@ TPP maintain close contact with staff at the unit throughout these phases to ens
             @emptyGuid);
 
         INSERT INTO dbo.MarketingContact(SolutionId, FirstName, LastName, PhoneNumber, Email, Department, LastUpdated, LastUpdatedBy)
-             VALUES (@solutionId, 'Sam', 'Thomas', '012345767890', 'Sales@test.com', 'Sales', @now, @emptyGuid);
+             VALUES (@solutionId, 'Sam', 'Samosa', '01234 567891', 'sales@test.test', 'Sales', @now, @emptyGuid);
 
         INSERT INTO dbo.SolutionCapability(SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
              SELECT @solutionId, Id, 1, @now, @emptyGuid
@@ -609,7 +609,7 @@ TPP maintain close contact with staff at the unit throughout these phases to ens
             @emptyGuid);
 
         INSERT INTO dbo.MarketingContact(SolutionId, FirstName, LastName, PhoneNumber, Email, Department, LastUpdated, LastUpdatedBy)
-             VALUES (@solutionId, 'Sam', 'Thomas', '012345767880', 'Sales@gpittest.com', 'Sales', @now, @emptyGuid);
+             VALUES (@solutionId, 'Sam', 'Samosa', '01234 567891', 'sales@test.test', 'Sales', @now, @emptyGuid);
 
         INSERT INTO dbo.SolutionCapability(SolutionId, CapabilityId, StatusId, LastUpdated, LastUpdatedBy)
              SELECT @solutionId, Id, 1, @now, @emptyGuid
