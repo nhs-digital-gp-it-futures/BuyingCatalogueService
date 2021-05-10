@@ -334,19 +334,6 @@ VALUES
 ('C27E8', 'Reports', @capabilityId, 3, 1),
 ('C27E9', 'Nominated individuals to view Domiciliary Care schedule', @capabilityId, 3, 1);
 
-SET @capabilityId = (SELECT Id FROM Capability WHERE CapabilityRef = 'C28');
-
-INSERT INTO #Epics(Id, [Name], CapabilityId, CompliancyLevelId, Active)
-VALUES
-('C28E1', 'Patient/Service User requests support', @capabilityId, 1, 1),
-('C28E2', 'Respond to request for support from Patient/Service User', @capabilityId, 1, 1),
-('C28E3', 'Patient/Service User makes administrative request', @capabilityId, 3, 1),
-('C28E4', 'Link requests and responses to Patient/Service User Record', @capabilityId, 3, 1),
-('C28E5', 'Self-help and signposting', @capabilityId, 3, 1),
-('C28E6', 'Live Consultation: Patient/Service User and Health and Care Professionals', @capabilityId, 3, 1),
-('C28E7', 'Group e-Consultations', @capabilityId, 3, 1),
-('C28E8', 'Reports', @capabilityId, 3, 1);
-
 SET @capabilityId = (SELECT Id FROM Capability WHERE CapabilityRef = 'C29');
 
 INSERT INTO #Epics(Id, [Name], CapabilityId, CompliancyLevelId, Active)
