@@ -112,7 +112,7 @@ VALUES
     ('2891ed7e-64bb-4ed6-8108-95c1fad9e2ee', 'patientUser'         , 'patient users'                , 'per patient user'),
     ('a10ae1df-b8a1-4f8d-aeb2-cd636e24d966', 'minuteUser'          , 'minutes/users'                , 'per minute per end user'),
     ('8175143c-3350-4186-954c-d98172a7dfb0', 'gigabyte'            , 'gigabytes'                    , 'per gigabyte'),
-    ('d9a7efe6-11a6-474a-99a1-03cd5909408c', 'pack_10k'            , 'packs'                        , 'Per Pack (10,000 mins/texts)'),
+    ('d9a7efe6-11a6-474a-99a1-03cd5909408c', 'pack_10k'            , 'packs'                        , 'per pack (10,000 mins/texts)'),
     ('a55a2ce5-a5a9-4ddf-a4a0-2cfa3d89d021', 'patients_oc'         , 'patients'                     , 'per patient for OC'),
     ('87bb2f80-6b4c-412b-996e-77ac04c2abbf', 'patients_vc'         , 'patients'                     , 'per patient for VC'),
     ('62803784-227c-442b-8e90-2d47034de45e', 'singleCharge_1'      , 'single charges'               , 'single charge for band 1'),
