@@ -111,7 +111,20 @@ VALUES
     ('0d592388-3d61-4f9d-9e11-6b0f5858acc0', 'patients_899k'       , 'patients'                     , 'per patient 899,000 patients and above'),
     ('2891ed7e-64bb-4ed6-8108-95c1fad9e2ee', 'patientUser'         , 'patient users'                , 'per patient user'),
     ('a10ae1df-b8a1-4f8d-aeb2-cd636e24d966', 'minuteUser'          , 'minutes/users'                , 'per minute per end user'),
-    ('8175143c-3350-4186-954c-d98172a7dfb0', 'gigabyte'            , 'gigabytes'                    , 'per gigabyte');
+    ('8175143c-3350-4186-954c-d98172a7dfb0', 'gigabyte'            , 'gigabytes'                    , 'per gigabyte'),
+    ('d9a7efe6-11a6-474a-99a1-03cd5909408c', 'pack_10k'            , 'packs'                        , 'Per Pack (10,000 mins/texts)'),
+    ('a55a2ce5-a5a9-4ddf-a4a0-2cfa3d89d021', 'patients_oc'         , 'patients'                     , 'per patient for OC'),
+    ('87bb2f80-6b4c-412b-996e-77ac04c2abbf', 'patients_vc'         , 'patients'                     , 'per patient for VC'),
+    ('62803784-227c-442b-8e90-2d47034de45e', 'singleCharge_1'      , 'single charges'               , 'single charge for band 1'),
+    ('ada6a7c3-2989-4cb1-b413-6232aff92e99', 'singleCharge_2'      , 'single charges'               , 'single charge for band 2'),
+    ('2945185f-9a30-42c9-a2e6-d61f8ade1cc0', 'singleCharge_3'      , 'single charges'               , 'single charge for band 3'),
+    ('163f1b70-f45d-4b2f-ad89-575bc1def629', 'singleCharge_4'      , 'single charges'               , 'single charge for band 4'),
+    ('8e360df0-deed-4546-a022-c101e7f31a2b', 'singleCharge_5'      , 'single charges'               , 'single charge for band 5'),
+    ('7ae52815-8697-4c5c-8d0a-dd8e18b71dfc', 'activeUsers_100'     , 'active users'                 , 'Up to 100 active users'),
+    ('99f37c97-0add-488f-8a24-8f5f97389c91', 'activeUsers_250'     , 'active users'                 , 'Up to 250 active users'),
+    ('701d3650-1334-4c61-b4db-03d351b6a49c', 'activeUsers_500'     , 'active users'                 , 'Up to 500 active users'),
+    ('644bbe2f-9ce6-4f8f-a53b-e1ea43096f88', 'activeUsers_1k'      , 'active users'                 , 'Up to 1000 active users'),
+    ('5a7098f5-db63-4d95-82b1-570035251c18', 'activeUsers_2k'      , 'active users'                 , 'Up to 2000 active users');
 
 MERGE INTO dbo.PricingUnit AS TARGET
 USING #PricingUnit AS SOURCE
