@@ -35,7 +35,7 @@ VALUES
     ('7d709183-90ad-4b35-b399-010014bb1b9b', 'transaction'        , 'transactions'   , 'per transaction'),
     ('c74e980c-bb59-4b5a-96ce-1e616bdf827c', 'nurseReview'        , 'nurse reviews'  , 'per nurse review'),
     ('34acc3bf-c036-4125-9eab-23fbe39f6352', 'review'             , 'reviews'        , 'per review'),
-    --Units in the data that may be amended / consolidated
+    --Units in the data that may be amended / consolidatedper patient for 25,000-74,999 patients
     ('4b39590d-3f35-4963-83ba-bc7d0bfe988b', 'videoConsultation', 'consultations', 'per video consultation initiated'),
     ('372787ad-041f-4176-93e9-e4a303c39014', 'digitalFirstConsult', 'consultations', 'per digital first consultation'),
     ('a4012e6c-caf3-430c-b8d3-9c45ab9fd0de', 'unitMerge', 'unit merges', 'per unit merge'),
@@ -124,7 +124,16 @@ VALUES
     ('99f37c97-0add-488f-8a24-8f5f97389c91', 'activeUsers_250'     , 'active users'                 , 'Up to 250 active users'),
     ('701d3650-1334-4c61-b4db-03d351b6a49c', 'activeUsers_500'     , 'active users'                 , 'Up to 500 active users'),
     ('644bbe2f-9ce6-4f8f-a53b-e1ea43096f88', 'activeUsers_1k'      , 'active users'                 , 'Up to 1000 active users'),
-    ('5a7098f5-db63-4d95-82b1-570035251c18', 'activeUsers_2k'      , 'active users'                 , 'Up to 2000 active users');
+    ('5a7098f5-db63-4d95-82b1-570035251c18', 'activeUsers_2k'      , 'active users'                 , 'Up to 2000 active users'),
+    ('17d62c58-350b-45db-876b-99355002e115', 'patients_1–25k'      , 'patients'                     , 'per patient for 1–24,999 patients'),
+    ('b4193d2a-27d9-4d01-b828-51b495aae05f', 'patients_25–75k'     , 'patients'                     , 'per patient for 25,000–74,999 patients'),
+    ('51fbdea2-b593-4a63-a4ae-272b415467dc', 'patients_75–150k'    , 'patients'                     , 'per patient for 75,000–149,999 patients'),
+    ('cec18aee-d3aa-40d1-8bfc-3ccb64faea51', 'patients_150–250k'   , 'patients'                     , 'per patient for 150,000–249,999 patients'),
+    ('577d7379-1b2f-4111-a4bb-6e9f25ad35c9', 'patients_250–500k'   , 'patients'                     , 'per patient for 250,000–449,999 patients'),
+    ('23db7d7a-a3cf-4491-b350-4b0761acfcb8', 'patients_500k'       , 'patients'                     , 'per patient for 500,000 patients & above'),
+    ('5c133136-f5ee-483d-8a3f-40379362988e', 'users_1–99'          , 'users'                        , 'per user for 1–99 users'),
+    ('f5fc3ee5-3470-453d-9ea5-ac96f13f760d', 'users_100–150'       , 'users'                        , 'per user for 100–499 users'),
+    ('fb6a3fe2-37b5-4418-93eb-811667408eeb', 'users_500'           , 'users'                        , 'per user for 500 and more users');
 
 MERGE INTO dbo.PricingUnit AS TARGET
 USING #PricingUnit AS SOURCE
