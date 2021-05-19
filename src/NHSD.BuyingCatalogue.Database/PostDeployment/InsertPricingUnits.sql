@@ -35,7 +35,7 @@ VALUES
     ('7d709183-90ad-4b35-b399-010014bb1b9b', 'transaction'        , 'transactions'   , 'per transaction'),
     ('c74e980c-bb59-4b5a-96ce-1e616bdf827c', 'nurseReview'        , 'nurse reviews'  , 'per nurse review'),
     ('34acc3bf-c036-4125-9eab-23fbe39f6352', 'review'             , 'reviews'        , 'per review'),
-    --Units in the data that may be amended / consolidatedper patient for 25,000-74,999 patients
+    --Units in the data that may be amended / consolidated
     ('4b39590d-3f35-4963-83ba-bc7d0bfe988b', 'videoConsultation', 'consultations', 'per video consultation initiated'),
     ('372787ad-041f-4176-93e9-e4a303c39014', 'digitalFirstConsult', 'consultations', 'per digital first consultation'),
     ('a4012e6c-caf3-430c-b8d3-9c45ab9fd0de', 'unitMerge', 'unit merges', 'per unit merge'),
