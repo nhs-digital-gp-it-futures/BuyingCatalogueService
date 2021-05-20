@@ -574,8 +574,8 @@ SET @capabilityId = (SELECT Id FROM Capability WHERE CapabilityRef = 'C43');
 
 INSERT INTO #Epics(Id, [Name], CapabilityId, CompliancyLevelId, Active)
 VALUES
-('E00001', 'conduct Online Consultation', @CapabilityId, 1, 1),
-('E00002', 'conduct Online Consultation with a Proxy', @CapabilityId, 3, 1),
+('E00001', 'Online Consultation', @CapabilityId, 1, 1),
+('E00002', 'Online Consultation with a Proxy', @CapabilityId, 3, 1),
 ('E00003', 'Patient/Service User requests for Online Consultation support and provides information', @CapabilityId, 3, 1),
 ('E00004', 'Proxy requests for Online Consultation support and provides information', @CapabilityId, 3, 1),
 ('E00005', 'respond to Online Consultation requests for support from Patients/Service Users', @CapabilityId, 3, 1),
@@ -636,7 +636,7 @@ INSERT INTO #Epics(Id, [Name], CapabilityId, CompliancyLevelId, Active)
 VALUES
 ('E00039', 'conduct Video Consultation', @CapabilityId, 1, 1),
 ('E00040', 'conduct Video Consultation with a Proxy', @CapabilityId, 3, 1),
-('E00041', 'conduct Video Consultation with the Patient/Service User without registration', @CapabilityId, 3, 1),
+('E00041', 'conduct a Video Consultation with the Patient/Service User without registration', @CapabilityId, 3, 1),
 ('E00042', 'conduct Video Consultation with a Proxy without registration', @CapabilityId, 3, 1),
 ('E00043', 'end Video Consultation with a Patient/Service User', @CapabilityId, 3, 1),
 ('E00045', 'Direct Messaging during a Video Consultation', @CapabilityId, 3, 1),
@@ -647,7 +647,7 @@ VALUES
 ('E00055', 'record Video Consultation outcome to the Patient record ', @CapabilityId, 3, 1),
 ('E00059', 'Health or Care Professional can record a Video Consultation', @CapabilityId, 3, 1),
 ('E00060', 'Patient/Service User can record a Video Consultation', @CapabilityId, 3, 1),
-('E00061', 'accessibility options', @CapabilityId, 3, 1),
+('E00061', 'accessibility options for Video Consultation', @CapabilityId, 3, 1),
 ('E00062', 'waiting room', @CapabilityId, 3, 1),
 ('E00063', 'disable and enable Direct Messaging during a Video Consultation for the Patient/Service User', @CapabilityId, 3, 1),
 ('E00064', 'record Direct Messages to the Patient Record', @CapabilityId, 3, 1),
