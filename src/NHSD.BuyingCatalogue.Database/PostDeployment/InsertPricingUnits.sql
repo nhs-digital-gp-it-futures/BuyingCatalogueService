@@ -137,7 +137,10 @@ VALUES
     ('6c0e88b9-6efb-4c81-9ed2-a87cca40bd1a', 'training session'    , 'training sessions'            , 'per training session'),
     ('137d42ab-f2ce-4709-9e04-5d66ec8a266a', 'setup'               , 'setups'                       , 'per setup'),
     ('8bd6142f-75ac-4d28-9728-1e7bea410ae1', 'change'              , 'changes'                      , 'per change'),
-    ('cb2599a7-26fb-4580-9df0-a2ee0087a8b7', 'buildHour'           , 'build hours'                  , 'per hour of bespoke build');
+    ('cb2599a7-26fb-4580-9df0-a2ee0087a8b7', 'buildHour'           , 'build hours'                  , 'per hour of bespoke build'),
+    ('52b6be1d-67a9-414d-ae49-4f560e7d68c4', 'patients_6'          , 'patients'                     , 'per pt. up to 6 connected care settings'),
+    ('e320b074-4596-4697-86a7-2cdf08fab228', 'patients_7–12'       , 'patients'                     , 'per pt. for 7–12 connected care settings'),
+    ('3515df5d-01e0-42bf-bf7d-bb0ee2d6c35f', 'patients_13+'        , 'patients'                     , 'per pt. for 13+ connected care settings');
 
 MERGE INTO dbo.PricingUnit AS TARGET
 USING #PricingUnit AS SOURCE
