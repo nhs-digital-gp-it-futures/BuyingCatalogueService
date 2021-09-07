@@ -151,7 +151,7 @@ namespace NHSD.BuyingCatalogue.Solutions.Persistence.DatabaseTests
                 catalogueItemType,
                 CancellationToken.None);
 
-            suppliers.Should().BeEquivalentTo(new { Id = SupplierId, Name = SupplierName });
+            suppliers.Should().BeEquivalentTo(new[] { new { Id = SupplierId, Name = SupplierName } });
         }
 
         [TestCase("Supplier", PublishedStatus.Draft, null)]
