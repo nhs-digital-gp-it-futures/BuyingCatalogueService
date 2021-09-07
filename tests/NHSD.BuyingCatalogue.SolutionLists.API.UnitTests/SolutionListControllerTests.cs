@@ -104,7 +104,7 @@ namespace NHSD.BuyingCatalogue.SolutionLists.API.UnitTests
             result.Value.As<ListSolutionsResult>().Solutions.Should().BeEquivalentTo(solutions);
 
             mockMediator.Verify(m => m.Send(
-                It.Is<ListSolutionsQuery>(q => q.Data.IsSameOrEqualTo(filter)),
+                It.Is<ListSolutionsQuery>(q => q.Data.Equals(filter)),
                 It.IsAny<CancellationToken>()));
         }
 
